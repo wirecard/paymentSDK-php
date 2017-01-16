@@ -15,5 +15,15 @@
     "cs-fix": "phpcbf",
     "test": "phpunit --colors=always",
     "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
+  },
+  "autoload": {
+    "psr-4": {
+      "Wirecard\\PaymentSdk\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "WirecardTest\\PaymentSdk\\": "test/"
+    }
   }
 }

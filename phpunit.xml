@@ -1,7 +1,8 @@
 <phpunit bootstrap="./vendor/autoload.php" colors="true">
     <testsuites>
-        <testsuite name="Wirecard\\PaymentSDK">
-            <directory>./test</directory>
+        <testsuite name="Wirecard\\PaymentSdk">
+            <directory suffix="UTest.php">./test</directory>
+            <directory suffix="ITest.php">./test</directory>
         </testsuite>
     </testsuites>
 
