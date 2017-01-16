@@ -1,0 +1,5 @@
+# IntelliJ project files
+.idea/
+
+# PHP vendor directory
+vendor
