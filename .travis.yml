@@ -9,9 +9,6 @@ addons:
     token:
       secure: "hKcQzHpVXNNI3pxvlIotHq8ACASUfbs7OLK6ypoUG+XMbPuwUM30Ys2YKbwy52spLifkj10U7PDgXCo6X5oCgTSMHz5bk1WyhBHvoernulcehETDsSFj1ez1dsqkjAjtQk/bazYsfH9lXUVWL/DkkCgkufPSzu0utjPVPP8v8zMa/I9287yCqisJ4gojzNfqxzf5f348UXKuhj1pAgNKHw+Q/4O3noYImmoJurQe05pfzvcFVeEvTsUH0nxWAHKZrhT8KqJvHpCuNeuk4vsq3bq7luko79NG80EwrGia/5WaqhJV0c6vtflPn98LAm8lvJWRUGkZ419Ol7M9ub7eKpGSaQ8kjdEVfzJsdpHWWlIfnEcSZkrYDLuYR2mkdZkWuzM1kdV3Or53x4FddVe5+TXQ+aCqmUanQ2B9Sw9RIrY7vhdM7DLacavlRtwihcZtE8QXF5LTa+8gMEvpaFQsDstk//80xPqdgOow2x95gTDjrirEqILrEPESJKg9NuTNDVP5rxwSSNjoFOSC+36/5cOs/jn8oFMfsnjHkjBn1HNeAnxUj5LPP6Z5ejq6nMdkar7QZqEV4JYqXNEMccMhxTslo0RFPkfFWREzhuf5G3cyzlhJS0HQgjnawv4oRYkDoRH4iUUJJvtLgOq89vaH1Hs6Facth8L5liVPvSnN3X0="
 
-jdk:
-  - oraclejdk8
-
 cache:
   directories:
     - $HOME/.composer/cache
@@ -45,7 +42,7 @@ install:
 script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then composer test-coverage ; else composer test ; fi
   - if [[ $CHECK_CS == 'true' ]]; then composer cs-check ; fi
-  - if [[ $SONAR_SCAN == 'true' ]]; then sonar-scanner
+  - if [[ $SONAR_SCAN == 'true' ]]; then sonar-scanner ; fi
 
 after_script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer upload-coverage ; fi
