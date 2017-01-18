@@ -10,7 +10,8 @@ class FrameworkUTest extends \PHPUnit_Framework_TestCase
      */
     protected $framework;
 
-    public function setUp() {
+    public function setUp()
+    {
         $this->framework = new Framework();
     }
 
