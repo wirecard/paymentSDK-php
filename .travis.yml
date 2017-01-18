@@ -35,7 +35,7 @@ before_install:
   - travis_retry composer self-update
 
 install:
-  - if [[ $TEST_COVERAGE == 'true ]]; then travis_retry composer require --dev $COMPOSER_ARGS satooshi/php-coveralls:^1.0 ; fi
+  - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer require --dev $COMPOSER_ARGS satooshi/php-coveralls:^1.0 ; fi
   - travis_retry composer install $COMPOSER_ARGS
   - composer show
 
