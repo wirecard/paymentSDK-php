@@ -29,7 +29,6 @@ matrix:
     - php: 7.1
       env:
         - TEST_COVERAGE=true
-        - SONAR_SCAN=true
     - php: hhvm
 
 before_install:
@@ -41,7 +40,7 @@ install:
   - composer show
 
 script:
-  - if [[ $TEST_COVERAGE == 'true' ]]; then composer test-coverage ; else composer test ; fi
+  - if [[ $TEST_COVERAGE == 'true' || $SONAR_SCAN == 'true' ]]; then composer test-coverage ; else composer test ; fi
   - if [[ $CHECK_CS == 'true' ]]; then composer cs-check ; fi
   - if [[ $SONAR_SCAN == 'true' ]]; then sonar-scanner ; fi
 
