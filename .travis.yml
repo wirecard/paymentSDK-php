@@ -28,6 +28,7 @@ matrix:
         - CHECK_CS=true
     - php: 7.1
       env:
+        - TEST_COVERAGE=true
         - SONAR_SCAN=true
     - php: hhvm
 
