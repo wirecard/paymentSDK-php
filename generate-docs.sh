@@ -12,7 +12,7 @@ SHA=`git rev-parse --verify HEAD`
 
 # Clone the existing gh-pages for this repo into ${UPLOAD_DIRECTORY}/
 # Create a new empty branch if gh-pages doesn't exist yet (should only happen on first deploy)
-git clone -q $REPO ${UPLOAD_DIRECTORY}
+git clone -q ${REPO} ${UPLOAD_DIRECTORY}
 cd ${UPLOAD_DIRECTORY}
 git checkout ${TARGET_BRANCH} || git checkout --orphan ${TARGET_BRANCH}
 cd ..
@@ -21,30 +21,30 @@ cd ..
 rm -rf ${UPLOAD_DIRECTORY}/**/* || exit 0
 
 ## Compile the docs
-# Apigen: Download
+# ApiGen: Download
 wget -q http://apigen.org/apigen.phar
 
-# Apigen: generate the reference
+# ApiGen: generate the reference
 php -f apigen.phar -- generate -s src -d ${UPLOAD_DIRECTORY}/docs --template-theme="bootstrap"
 
-# Groc: install
-npm install -g groc
+# groc: install
+npm install -q groc
 
-# Groc: generate
+# groc: generate the examples
 groc -o ${UPLOAD_DIRECTORY}/ examples/*/*
 
 # Copy the main pages to UPLOAD_DIRECTORY
 cp docs/* ${UPLOAD_DIRECTORY}/
 cp examples/*.html examples/*.css ${UPLOAD_DIRECTORY}/examples/
 
-# Now let's go have some fun with the cloned repo
+# Prepare the cloned repository for push
 cd ${UPLOAD_DIRECTORY}
 git config user.name "Travis CI"
 git config user.email "wirecard@travis-ci.org"
 
 # If there are no changes to the compiled ${UPLOAD_DIRECTORY} (e.g. this is a README update) then just bail.
 if [[ -z "$(git status --porcelain)" ]]; then
-    echo "No changes to the output on this push; exiting."
+    echo "No changes to the documentation on this build. Exiting."
     exit 0
 fi
 
@@ -54,10 +54,10 @@ git add --all .
 git commit -m "Deploy documentation to GitHub Pages: ${SHA}"
 
 # Get the deploy key by using Travis's stored variables to decrypt deploy_key.enc
-openssl aes-256-cbc -K $encrypted_5b57bcef90c0_key -iv $encrypted_5b57bcef90c0_iv -in ../deploy_key.enc -out deploy_key -d
+openssl aes-256-cbc -K ${encrypted_5b57bcef90c0_key} -iv ${encrypted_5b57bcef90c0_iv} -in ../deploy_key.enc -out deploy_key -d
 chmod 600 deploy_key
 eval `ssh-agent -s`
 ssh-add deploy_key
 
 # Now that we're all set up, we can push.
-git push $SSH_REPO $TARGET_BRANCH
+git push ${SSH_REPO} ${TARGET_BRANCH}
