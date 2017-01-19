@@ -22,7 +22,7 @@ rm -rf ${UPLOAD_DIRECTORY}/**/* || exit 0
 
 ## Compile the docs
 # Download apigen
-wget –q http://apigen.org/apigen.phar
+wget -q http://apigen.org/apigen.phar
 
 # generate the reference
 php -f apigen.phar -- generate -s src -d ${UPLOAD_DIRECTORY}/docs --template-theme="bootstrap"
