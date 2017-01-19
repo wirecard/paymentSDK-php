@@ -43,7 +43,7 @@ git config user.name "Travis CI"
 git config user.email "wirecard@travis-ci.org"
 
 # If there are no changes to the compiled ${UPLOAD_DIRECTORY} (e.g. this is a README update) then just bail.
-if [[ `git status --porcelain` ]]; then
+if [[ -n "$(git status --porcelain)" ]]; then
     echo "No changes to the output on this push; exiting."
     exit 0
 fi
