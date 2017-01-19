@@ -12,7 +12,7 @@ SHA=`git rev-parse --verify HEAD`
 
 # Clone the existing gh-pages for this repo into ${UPLOAD_DIRECTORY}/
 # Create a new empty branch if gh-pages doesn't exist yet (should only happen on first deploy)
-git clone $REPO ${UPLOAD_DIRECTORY}
+git clone -q $REPO ${UPLOAD_DIRECTORY}
 cd ${UPLOAD_DIRECTORY}
 git checkout ${TARGET_BRANCH} || git checkout --orphan ${TARGET_BRANCH}
 cd ..
@@ -22,7 +22,7 @@ rm -rf ${UPLOAD_DIRECTORY}/**/* || exit 0
 
 ## Compile the docs
 # Download apigen
-wget http://apigen.org/apigen.phar
+wget –q http://apigen.org/apigen.phar
 
 # generate the reference
 php -f apigen.phar -- generate -s src -d ${UPLOAD_DIRECTORY}/docs --template-theme="bootstrap"
@@ -33,11 +33,10 @@ git config user.name "Travis CI"
 git config user.email "wirecard@travis-ci.org"
 
 # If there are no changes to the compiled ${UPLOAD_DIRECTORY} (e.g. this is a README update) then just bail.
-git diff --exit-code --quiet
-if [ -z $? ]; then
+!(git diff --exit-code --quiet) || {
     echo "No changes to the output on this push; exiting."
     exit 0
-fi
+}
 
 # Commit the "changes", i.e. the new version.
 # The delta will show diffs between new and old versions.
