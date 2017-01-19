@@ -20,6 +20,9 @@ cd ..
 # Clean UPLOAD_DIRECTORY existing contents
 rm -rf ${UPLOAD_DIRECTORY}/**/* || exit 0
 
+# Copy the home page to UPLOAD_DIRECTORY
+cp docs/* ${UPLOAD_DIRECTORY}/
+
 ## Compile the docs
 # Download apigen
 wget -q http://apigen.org/apigen.phar
