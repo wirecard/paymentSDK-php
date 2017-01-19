@@ -43,10 +43,10 @@ git config user.name "Travis CI"
 git config user.email "wirecard@travis-ci.org"
 
 # If there are no changes to the compiled ${UPLOAD_DIRECTORY} (e.g. this is a README update) then just bail.
-!(git diff --exit-code --quiet HEAD) || {
+if [[ `git status --porcelain` ]]; then
     echo "No changes to the output on this push; exiting."
     exit 0
-}
+fi
 
 # Commit the "changes", i.e. the new version.
 # The delta will show diffs between new and old versions.
