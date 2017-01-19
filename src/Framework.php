@@ -7,9 +7,4 @@ class Framework
     {
         return 'Hello ' . $world;
     }
-
-    public function untested()
-    {
-        return 'no';
-    }
 }
