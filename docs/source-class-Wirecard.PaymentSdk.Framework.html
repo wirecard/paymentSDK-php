@@ -2,8 +2,9 @@
 <html>
 <head>
 	<meta charset="utf-8">
+	<meta name="robots" content="noindex">
 
-	<title>Overview</title>
+	<title>File Framework.php</title>
 
 	<link rel="stylesheet" href="resources/bootstrap.min.css?973e37a8502921d56bc02bb55321f45b072b6f71">
 	<link rel="stylesheet" href="resources/style.css?49f43d3208c5d7e33fa16d36107a345bf11cc00d">
@@ -22,7 +23,7 @@
                     <input type="hidden" name="cx" value="">
                     <input type="hidden" name="ie" value="UTF-8">
                     <div class="form-group">
-                        <input type="text" name="q" class="search-query form-control" placeholder="Search" autofocus>
+                        <input type="text" name="q" class="search-query form-control" placeholder="Search">
 					</div>
 				</form>
 
@@ -79,24 +80,17 @@
 
 <div id="right">
 	<div id="rightInner">
-<div id="content">
-	<h1>Overview</h1>
-
-
-		<div class="panel panel-default">
-            <div class="panel-heading"><h2>Namespaces summary</h2></div>
-			<table class="summary table table-bordered table-striped" id="namespaces">
-					<tr>
-						<td class="name"><a href="namespace-Wirecard.html">Wirecard</a></td>
-					</tr>
-					<tr>
-						<td class="name"><a href="namespace-Wirecard.PaymentSdk.html">Wirecard\PaymentSdk</a></td>
-					</tr>
-			</table>
-		</div>
-
-
-</div>
+<pre id="source"><code><span id="1" class="l"><a href="#1"> 1 </a><span class="xlang">&lt;?php</span>
+</span><span id="2" class="l"><a href="#2"> 2 </a><span class="php-keyword1">namespace</span> Wirecard\PaymentSdk;
+</span><span id="3" class="l"><a href="#3"> 3 </a>
+</span><span id="4" class="l"><a href="#4"> 4 </a><span class="php-keyword1">class</span> Framework
+</span><span id="5" class="l"><a href="#5"> 5 </a>{
+</span><span id="6" class="l"><a href="#6"> 6 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> hello(<span class="php-var">$world</span>)
+</span><span id="7" class="l"><a href="#7"> 7 </a>    {
+</span><span id="8" class="l"><a href="#8"> 8 </a>        <span class="php-keyword1">return</span> <span class="php-quote">'Hello '</span> . <span class="php-var">$world</span>;
+</span><span id="9" class="l"><a href="#9"> 9 </a>    }
+</span><span id="10" class="l"><a href="#10">10 </a>}
+</span><span id="11" class="l"><a href="#11">11 </a></span></code></pre>
 	</div>
 
 	<div id="footer">
