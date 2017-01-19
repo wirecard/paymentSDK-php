@@ -1,7 +1,6 @@
 <?php
 namespace Wirecard\PaymentSdk;
 
-
 /**
  * Class Framework
  *
