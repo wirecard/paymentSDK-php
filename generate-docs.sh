@@ -20,15 +20,22 @@ cd ..
 # Clean UPLOAD_DIRECTORY existing contents
 rm -rf ${UPLOAD_DIRECTORY}/**/* || exit 0
 
-# Copy the home page to UPLOAD_DIRECTORY
-cp docs/* ${UPLOAD_DIRECTORY}/
-
 ## Compile the docs
-# Download apigen
+# Apigen: Download
 wget -q http://apigen.org/apigen.phar
 
-# generate the reference
+# Apigen: generate the reference
 php -f apigen.phar -- generate -s src -d ${UPLOAD_DIRECTORY}/docs --template-theme="bootstrap"
+
+# Groc: install
+npm install -g groc
+
+# Groc: generate
+groc -o ${UPLOAD_DIRECTORY}/ examples/*/*
+
+# Copy the main pages to UPLOAD_DIRECTORY
+cp docs/* ${UPLOAD_DIRECTORY}/
+cp examples/*.html examples/*.css ${UPLOAD_DIRECTORY}/examples/
 
 # Now let's go have some fun with the cloned repo
 cd ${UPLOAD_DIRECTORY}
