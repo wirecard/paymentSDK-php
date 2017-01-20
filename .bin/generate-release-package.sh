@@ -14,4 +14,4 @@ shopt -u extglob
 cd $TARGET_DIRECTORY
 
 composer install --no-dev
-zip -r wirecard-paymentSDK-php-${TARGET_VERSION}.zip
+zip -r wirecard-paymentSDK-php-${TARGET_VERSION}.zip .
