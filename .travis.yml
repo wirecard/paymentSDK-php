@@ -27,23 +27,21 @@ matrix:
     - SONAR_SCAN=true
   - php: hhvm
 before_install:
-- travis_retry composer self-update
+  - travis_retry composer self-update
 install:
-- if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer require --dev $COMPOSER_ARGS
-  satooshi/php-coveralls:^1.0 ; fi
-- travis_retry composer install $COMPOSER_ARGS
-- composer show
+  - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer require --dev $COMPOSER_ARGS satooshi/php-coveralls:^1.0 ; fi
+  - travis_retry composer install $COMPOSER_ARGS
+  - composer show
 script:
-- if [[ $TEST_COVERAGE == 'true' || ($SONAR_SCAN == 'true' && $TRAVIS_BRANCH == 'master')
-  ]]; then composer test-coverage ; else composer test ; fi
-- if [[ $CHECK_CS == 'true' ]]; then composer cs-check ; fi
+  - if [[ $TEST_COVERAGE == 'true' || ($SONAR_SCAN == 'true' && $TRAVIS_BRANCH == 'master')]]; then composer test-coverage ; else composer test ; fi
+  - if [[ $CHECK_CS == 'true' ]]; then composer cs-check ; fi
   - if [[ $SONAR_SCAN == 'true' && $TRAVIS_BRANCH == 'master' ]]; then sonar-scanner ; fi
 
 after_script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer upload-coverage ; fi
 
 after_success:
-- if [ $TRAVIS_PHP_VERSION = '5.6' ] && [ $TRAVIS_BRANCH = 'master' ] && [ $TRAVIS_PULL_REQUEST = 'false' ]; then bash generate-docs.sh; fi
+  - if [ $TRAVIS_PHP_VERSION = '5.6' ] && [ $TRAVIS_BRANCH = 'master' ] && [ $TRAVIS_PULL_REQUEST = 'false' ]; then bash generate-docs.sh; fi
 
 deploy:
   provider: releases
