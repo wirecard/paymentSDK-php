@@ -42,10 +42,10 @@ after_script:
 
 after_success:
   - if [ $TRAVIS_PHP_VERSION = '5.6' ] && [ $TRAVIS_BRANCH = 'master' ] && [ $TRAVIS_PULL_REQUEST = 'false' ]; then bash .bin/generate-docs.sh; fi
-  - ls -lah
 
 before_deploy:
   - bash .bin/generate-release-package.sh $TRAVIS_TAG
+  - ls -lah target
 
 deploy:
   provider: releases
@@ -54,5 +54,4 @@ deploy:
   file: target/wirecard-paymentSDK-php-$TRAVIS_TAG.zip
   skip_cleanup: true
   on:
-    repo: wirecard/paymentSDK-php
     tags: true
