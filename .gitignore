@@ -1,9 +1,13 @@
 # IntelliJ project files
 .idea/
 
-# PHP vendor directory
+# dependency directories
 vendor
+node_modules
 
 # Coverage and linting reports
 clover.xml
 .sonar
+
+# Target directory
+target
