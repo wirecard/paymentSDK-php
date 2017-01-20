@@ -3,4 +3,7 @@
 
 # PHP vendor directory
 vendor
+
+# Coverage and linting reports
 clover.xml
+.sonar
