@@ -41,13 +41,16 @@ after_script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer upload-coverage ; fi
 
 after_success:
-  - if [ $TRAVIS_PHP_VERSION = '5.6' ] && [ $TRAVIS_BRANCH = 'master' ] && [ $TRAVIS_PULL_REQUEST = 'false' ]; then bash generate-docs.sh; fi
+  - if [ $TRAVIS_PHP_VERSION = '5.6' ] && [ $TRAVIS_BRANCH = 'master' ] && [ $TRAVIS_PULL_REQUEST = 'false' ]; then bash .bin/generate-docs.sh; fi
+
+before_deploy:
+  - bash .bin/generate-release-package.sh $TRAVIS_TAG
 
 deploy:
   provider: releases
   api_key:
     secure: "L/tjXkmvzV4UxiukwcbgaKj7LQacUEKX7hnHV4/FlPnAcalKMikkye25XwxiAAZKXoV1iGMh1kI8QtANsp6HuwH10GzGqOMU5zUXO12AlYfZSEXxaCXAd1qqLEAfR/GtJ/VOcP62TXoxUbWYqMVPEwnZOy+z4W7wwNk5XFbTlY1bCC7HLup5ePWzYgSnZwq37/z0/6OKWMlfLrhIoPMMTV7IwcQK8zZQGO4qDTfqBe9uyZWInaAplHjmI0SsBiWh/9qVVFUyM81lfmgGl6Wdko2nXXS5vR5ia6oQE5NTk6Gz3Z+NCRR9/MFCx5EnIDW5+CYM9f2ti8Kv3y9H/b1kP7C7xiv9NQWQ8M8vuuxDrFqj6kuytSJgBKhCYZXb1EpKeo99Uy8hN6Cm+6OVHRlZQbpOEwkJMBYJ8qliOTAQsgYXDcxCyqIIEy2In1zjN60F2yJYyFLH1Cy8qooWCSbiRgR6u4VwpN/hxDlUkoBXVxV0FJkImso9wWzwWn7krjxCYQ9J0weGi1BkgLC7Xm9RZl6ecy6MfJuyVLMNZTbqwEINfhCJQ9A/Pt+X6PrYzrAjn6hGu64VzsIBuxsg6fyboz1GSUggyVAKInHQXCclBPkXrDzxwQbC5cqSwsqf2IaReIy2bDe/4w2MjIlJMH4DXhsqtMZhVaTRP4LjhJiW3/8="
-  file: wirecard-paymentSDK-php-$TRAVIS_TAG.zip
+  file: target/wirecard-paymentSDK-php-$TRAVIS_TAG.zip
   skip_cleanup: true
   on:
     repo: wirecard/paymentSDK-php
