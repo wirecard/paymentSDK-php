@@ -2,7 +2,7 @@
 set -e # Exit with nonzero exit code if anything fails
 TARGET_DIRECTORY="target"
 TARGET_VERSION=$1
-COPY_PATTERN="!(.*|vendor|clover.xml|deploy_key.enc|target)"
+COPY_PATTERN="!(.*|vendor|clover.xml|deploy_key.enc|target|apigen.phar|node_modules|gh-pages-upload-tmp)"
 
 rm -rf $TARGET_DIRECTORY
 echo "copying files to target directory ${TARGET_DIRECTORY}"
