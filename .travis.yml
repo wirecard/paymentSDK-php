@@ -5,6 +5,8 @@ addons:
   sonarqube:
     token:
       secure: "hKcQzHpVXNNI3pxvlIotHq8ACASUfbs7OLK6ypoUG+XMbPuwUM30Ys2YKbwy52spLifkj10U7PDgXCo6X5oCgTSMHz5bk1WyhBHvoernulcehETDsSFj1ez1dsqkjAjtQk/bazYsfH9lXUVWL/DkkCgkufPSzu0utjPVPP8v8zMa/I9287yCqisJ4gojzNfqxzf5f348UXKuhj1pAgNKHw+Q/4O3noYImmoJurQe05pfzvcFVeEvTsUH0nxWAHKZrhT8KqJvHpCuNeuk4vsq3bq7luko79NG80EwrGia/5WaqhJV0c6vtflPn98LAm8lvJWRUGkZ419Ol7M9ub7eKpGSaQ8kjdEVfzJsdpHWWlIfnEcSZkrYDLuYR2mkdZkWuzM1kdV3Or53x4FddVe5+TXQ+aCqmUanQ2B9Sw9RIrY7vhdM7DLacavlRtwihcZtE8QXF5LTa+8gMEvpaFQsDstk//80xPqdgOow2x95gTDjrirEqILrEPESJKg9NuTNDVP5rxwSSNjoFOSC+36/5cOs/jn8oFMfsnjHkjBn1HNeAnxUj5LPP6Z5ejq6nMdkar7QZqEV4JYqXNEMccMhxTslo0RFPkfFWREzhuf5G3cyzlhJS0HQgjnawv4oRYkDoRH4iUUJJvtLgOq89vaH1Hs6Facth8L5liVPvSnN3X0="
+    github_token:
+      secure: "PDqe9CZLDdUkGfyIx29Mc4AD9X1sKwiNxUK2IQWkvWNIQHD0v87obZRXxWqisbJ7KLEui9Gee14bPvYJYc03oMlzOp1HMr87TENMEsuFPIzh5OG13TtdyvRnVYTKo24vBQ27F2UWvJvZlo0wfR2RBVILtdsCErYaF+2Ryd7EocFR8JcVeLQchtD+z1pyM5876tfqBZ8XpVe2Uf3sl49yR6yJkgCiGyLbNFWYl3fcSbSZy8kwatlH0SovkkPoYWvVRJJT+dzRVMUO4uCO3TZs48QSnn8x7bqR7GhMLdE9WS94UaK9zTNhH3VTJsUdVVY4phW7SbgAHu4rfPoe4pp2TFnlF5CDyHXPq7LnR9gzEwjFUiYMv4d5i73/xUZw002aOGnikLp2KO+lN445+1HMiHZrn4rV/grWBhPTuAMKM351X2wHF56HX8dUdXYPvJwi4B78hDn1FoTOBgcuq14GHEnLqjkDb/LFdZ4PHtfKsvYtOUhEjMf8RkGQWHeN/2dPqzxJiOW+nOrDS2AADY7K6faeG4ZM0EsaClTmzPHz+AiAC6R5Lv+kcRYRguRg+rdpL0UlWm36uY7TJxCl5sZQLPpwRxE3S7GdRzsfh1JP0p0i36AC8sXdKXjT6BCo7lluOI29Z8IcpvNDcnltlmY18+WSdBRrzGVPLl0XUipADFA="
 
 cache:
   directories:
@@ -35,8 +37,7 @@ install:
 script:
   - if [[ $TEST_COVERAGE == 'true' || ($SONAR_SCAN == 'true' && $TRAVIS_BRANCH == 'master')]]; then composer test-coverage ; else composer test ; fi
   - if [[ $CHECK_CS == 'true' ]]; then composer cs-check ; fi
-  - if [[ $SONAR_SCAN == 'true' && $TRAVIS_BRANCH == 'master' ]]; then sonar-scanner ; fi
-  - if [[ $SONAR_SCAN == 'true' && $TRAVIS_PULL_REQUEST != 'false' ]]; then sonar-scanner -Dsonar.analysis.mode=preview -Dsonar.github.pullRequest=$TRAVIS_PULL_REQUEST -Dsonar.github.oauth=$GITHUB_TOKEN -Dsource.skip=false ; fi
+  - if [[ $SONAR_SCAN == 'true' ]]; then sonar-scanner ; fi
 
 after_script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer upload-coverage ; fi
