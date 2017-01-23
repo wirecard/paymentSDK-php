@@ -4,6 +4,6 @@
 [![Coverage Status](https://coveralls.io/repos/github/wirecard/paymentSDK-php/badge.svg?branch=master)](https://coveralls.io/github/wirecard/paymentSDK-php?branch=master)
 [![Quality Gate](https://sonarqube.com/api/badges/gate?key=wirecard-paymentSDK-php)](https://sonarqube.com/dashboard/index/wirecard-paymentSDK-php)
 
-This SDK will abstract the complexity of Wirecards payment processing (ReST) API for online shops using PHP as there programing language.
+This SDK will abstract the complexity of Wirecard's payment processing (ReST) API for online shops using PHP as their programing language.
 
 <b style="color: red">The SDK is currently under development and should not be used yet.</b>
