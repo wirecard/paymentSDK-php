@@ -1,13 +1,8 @@
 <?php
+
+
 namespace Wirecard\PaymentSdk;
 
-/**
- * Class Framework
- *
- * Framework class for basic structure
- *
- * @package Wirecard\PaymentSdk
- */
 class Framework
 {
     /**
