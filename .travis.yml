@@ -41,12 +41,10 @@ script:
 after_script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer upload-coverage ; fi
 
-after_success:
-  - if [ $TRAVIS_PHP_VERSION = '5.6' ] && [ $TRAVIS_BRANCH = 'master' ] && [ $TRAVIS_PULL_REQUEST = 'false' ]; then bash .bin/generate-docs.sh; fi
-
 before_deploy:
   - bash .bin/generate-release-package.sh $TRAVIS_TAG
   - ls -lah target
+  - bash .bin/generate-docs.sh
 
 deploy:
   provider: releases
