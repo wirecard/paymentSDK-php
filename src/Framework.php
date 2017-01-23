@@ -20,4 +20,15 @@ class Framework
     {
         return 'Hello ' . $world;
     }
+
+    /**
+     * Return the given world string
+     *
+     * @param $world
+     * @return string
+     */
+    public function hello2($world)
+    {
+        return 'Hello ' . $world;
+    }
 }
