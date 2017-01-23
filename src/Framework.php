@@ -1,13 +1,8 @@
 <?php
+
+
 namespace Wirecard\PaymentSdk;
 
-/**
- * Class Framework
- *
- * Framework class for basic structure
- *
- * @package Wirecard\PaymentSdk
- */
 class Framework
 {
     /**
@@ -18,6 +13,7 @@ class Framework
      */
     public function hello($world)
     {
+        return true;
         return 'Hello ' . $world;
     }
 
@@ -25,10 +21,10 @@ class Framework
      * Return the given world string
      *
      * @param $world
-     * @return string
      */
     public function hello2($world)
     {
+        return;
         return 'Hello ' . $world;
     }
 }
