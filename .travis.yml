@@ -36,7 +36,7 @@ script:
   - if [[ $TEST_COVERAGE == 'true' || ($SONAR_SCAN == 'true' && $TRAVIS_BRANCH == 'master')]]; then composer test-coverage ; else composer test ; fi
   - if [[ $CHECK_CS == 'true' ]]; then composer cs-check ; fi
   - if [[ $SONAR_SCAN == 'true' && $TRAVIS_BRANCH == 'master' ]]; then sonar-scanner ; fi
-  - if [[ $SONAR_SCAN == 'true' && $TRAVIS_PULL_REQUEST != 'false' ]]; then sonar-scanner -Dsonar.analysis.mode=preview -Dsonar.github.pullRequest=$TRAVIS_PULL_REQUEST -Dsonar.github.oauth=$GITHUB_TOKEN -Dsource.skip=true ; fi
+  - if [[ $SONAR_SCAN == 'true' && $TRAVIS_PULL_REQUEST != 'false' ]]; then sonar-scanner -Dsonar.analysis.mode=preview -Dsonar.github.pullRequest=$TRAVIS_PULL_REQUEST -Dsonar.github.oauth=$GITHUB_TOKEN -Dsource.skip=false ; fi
 
 after_script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer upload-coverage ; fi
