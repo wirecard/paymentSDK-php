@@ -18,7 +18,7 @@ class PayPalTransaction
     private $amount;
 
     /**
-     * @var currency
+     * @var string
      */
     private $currency;
 
@@ -33,7 +33,7 @@ class PayPalTransaction
      * @param currency $currency
      * @param string $notificationUrl
      */
-    public function __construct($amount, currency $currency, $notificationUrl)
+    public function __construct($amount, $currency, $notificationUrl)
     {
         $this->amount = $amount;
         $this->currency = $currency;
@@ -49,7 +49,7 @@ class PayPalTransaction
     }
 
     /**
-     * @return currency
+     * @return string
      */
     public function getCurrency()
     {
