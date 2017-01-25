@@ -35,5 +35,3 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(self::NOTIFICATION_URL, $this->payPalTransaction->getNotificationUrl());
     }
 }
-
-   
