@@ -63,5 +63,4 @@ class PayPalTransaction
     {
         return $this->notificationUrl;
     }
-
 }
