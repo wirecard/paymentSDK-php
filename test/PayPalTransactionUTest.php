@@ -27,22 +27,24 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->amount = new Money(42.21, 'EUR');
+    }
+
+    public function testConstructorWithRedirect()
+    {
         $this->redirect = new Redirect('http://www.example.com/success', 'http://www.example.com/cancel');
         $this->payPalTransaction = new PayPalTransaction($this->amount, self::NOTIFICATION_URL, $this->redirect);
-    }
 
-    public function testGetAmount()
-    {
         $this->assertEquals($this->amount, $this->payPalTransaction->getAmount());
-    }
-
-    public function testGetNotificationUrl()
-    {
         $this->assertEquals(self::NOTIFICATION_URL, $this->payPalTransaction->getNotificationUrl());
+        $this->assertEquals($this->redirect, $this->payPalTransaction->getRedirect());
     }
 
-    public function testGetRedirect()
+    public function testConstructorWithoutRedirect()
     {
-        $this->assertEquals($this->redirect, $this->payPalTransaction->getRedirect());
+        $this->payPalTransaction = new PayPalTransaction($this->amount, self::NOTIFICATION_URL);
+
+        $this->assertEquals($this->amount, $this->payPalTransaction->getAmount());
+        $this->assertEquals(self::NOTIFICATION_URL, $this->payPalTransaction->getNotificationUrl());
+        $this->assertEquals(null, $this->payPalTransaction->getRedirect());
     }
 }

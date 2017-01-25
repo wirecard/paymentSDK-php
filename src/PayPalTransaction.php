@@ -33,7 +33,7 @@ class PayPalTransaction
      * @param string $notificationUrl
      * @param Redirect $redirect
      */
-    public function __construct(Money $amount, $notificationUrl, Redirect $redirect)
+    public function __construct(Money $amount, $notificationUrl, Redirect $redirect = null)
     {
         $this->amount = $amount;
         $this->notificationUrl = $notificationUrl;
