@@ -6,21 +6,16 @@ namespace Wirecard\PaymentSdk;
  * Class PayPalTransaction
  * @package Wirecard\PaymentSdk
  *
- * An entity representing a payment with Paypal.
+ * An immutable entity representing a payment with Paypal.
  * It does not contain logic.
  * Use the TransactionService to initiate the payment.
  */
 class PayPalTransaction
 {
     /**
-     * @var float
+     * @var Money
      */
     private $amount;
-
-    /**
-     * @var string
-     */
-    private $currency;
 
     /**
      * @var string
@@ -28,20 +23,25 @@ class PayPalTransaction
     private $notificationUrl;
 
     /**
-     * PayPalTransaction constructor.
-     * @param float $amount
-     * @param currency $currency
-     * @param string $notificationUrl
+     * @var Redirect
      */
-    public function __construct($amount, $currency, $notificationUrl)
+    private $redirect;
+
+    /**
+     * PayPalTransaction constructor.
+     * @param Money $amount
+     * @param string $notificationUrl
+     * @param Redirect $redirect
+     */
+    public function __construct(Money $amount, $notificationUrl, Redirect $redirect)
     {
         $this->amount = $amount;
-        $this->currency = $currency;
         $this->notificationUrl = $notificationUrl;
+        $this->redirect = $redirect;
     }
 
     /**
-     * @return float
+     * @return Money
      */
     public function getAmount()
     {
@@ -51,16 +51,16 @@ class PayPalTransaction
     /**
      * @return string
      */
-    public function getCurrency()
-    {
-        return $this->currency;
-    }
-
-    /**
-     * @return string
-     */
     public function getNotificationUrl()
     {
         return $this->notificationUrl;
+    }
+
+    /**
+     * @return Redirect
+     */
+    public function getRedirect()
+    {
+        return $this->redirect;
     }
 }
