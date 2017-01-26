@@ -7,6 +7,12 @@ use Monolog\Handler\ErrorLogHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Class TransactionService
+ *
+ * This service manages communication  to the elastic engine
+ * @package Wirecard\PaymentSdk
+ */
 class TransactionService
 {
     /**
