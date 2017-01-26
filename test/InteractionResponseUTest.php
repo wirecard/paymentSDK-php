@@ -2,6 +2,7 @@
 namespace WirecardTest\PaymentSdk;
 
 use Wirecard\PaymentSdk\InteractionResponse;
+use Wirecard\PaymentSdk\StatusCollection;
 
 class InteractionResponseUTest extends \PHPUnit_Framework_TestCase
 {
@@ -10,6 +11,7 @@ class InteractionResponseUTest extends \PHPUnit_Framework_TestCase
     private $rawData = '{\'raw\': \'data\'}';
 
     private $transactionId = '42';
+    private $statusCollection;
 
     /**
      * @var InteractionResponse
@@ -18,17 +20,28 @@ class InteractionResponseUTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->response = new InteractionResponse($this->transactionId, $this->rawData, $this->redirectUrl);
-    }
-
-    public function testGetRedirectUrl()
-    {
-        $this->assertEquals($this->redirectUrl, $this->response->getRedirectUrl());
+        $this->statusCollection = new StatusCollection();
+        $this->response = new InteractionResponse(
+            $this->rawData,
+            $this->statusCollection,
+            $this->transactionId,
+            $this->redirectUrl
+        );
     }
 
     public function testGetRawResponse()
     {
         $this->assertEquals($this->rawData, $this->response->getRawData());
+    }
+
+    public function testGetStatusCollection()
+    {
+        $this->assertEquals($this->statusCollection, $this->response->getStatusCollection());
+    }
+
+    public function testGetRedirectUrl()
+    {
+        $this->assertEquals($this->redirectUrl, $this->response->getRedirectUrl());
     }
 
     public function testGetTransactionId()
