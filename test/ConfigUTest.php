@@ -11,7 +11,8 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
      */
     private $instance;
 
-    public function setUp() {
+    public function setUp()
+    {
         $this->instance = new Config('httpUser', 'httpPassword', 'merchantAccountId', 'secretKey');
     }
 
