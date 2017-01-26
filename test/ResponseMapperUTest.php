@@ -5,7 +5,6 @@ use Wirecard\PaymentSdk\FailureResponse;
 use Wirecard\PaymentSdk\InteractionResponse;
 use Wirecard\PaymentSdk\ResponseMapper;
 
-
 class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 {
     const STATUS_CODE = 'code';
@@ -28,8 +27,16 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
             'payment' => [
                 'transaction-state' => 'failed',
                 'statuses' => [
-                    [self::STATUS_CODE => '200', self::STATUS_DESCRIPTION => 'UnitTest', self::STATUS_SEVERITY => 'information'],
-                    [self::STATUS_CODE => '500', self::STATUS_DESCRIPTION => 'UnitTest Error', self::STATUS_SEVERITY => 'error'],
+                    [
+                        self::STATUS_CODE => '200',
+                        self::STATUS_DESCRIPTION => 'UnitTest',
+                        self::STATUS_SEVERITY => 'information'
+                    ],
+                    [
+                        self::STATUS_CODE => '500',
+                        self::STATUS_DESCRIPTION => 'UnitTest Error',
+                        self::STATUS_SEVERITY => 'error'
+                    ],
                 ]
             ]
         ]);
@@ -49,7 +56,11 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                 'transaction-id' => '12345',
                 'transaction-state' => 'success',
                 'statuses' => [
-                    [self::STATUS_CODE => '200', self::STATUS_DESCRIPTION => 'UnitTest', self::STATUS_SEVERITY => 'information'],
+                    [
+                        self::STATUS_CODE => '200',
+                        self::STATUS_DESCRIPTION => 'UnitTest',
+                        self::STATUS_SEVERITY => 'information'
+                    ],
                 ],
                 'payment-methods' => [
                     'payment-method' => [

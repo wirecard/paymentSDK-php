@@ -8,7 +8,6 @@
 
 namespace Wirecard\PaymentSdk;
 
-
 class ResponseMapper
 {
     public function map($jsonResponse)
@@ -36,7 +35,7 @@ class ResponseMapper
         $collection = new StatusCollection();
 
         if (array_key_exists('statuses', $payment)) {
-            foreach ($payment['statuses'] AS $status) {
+            foreach ($payment['statuses'] as $status) {
                 $code = array_key_exists('code', $status) ?: 0;
                 $description = array_key_exists('description', $status) ?: '';
                 $severity = array_key_exists('severity', $status) ?: '';
