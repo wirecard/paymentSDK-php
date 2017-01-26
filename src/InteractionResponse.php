@@ -9,7 +9,7 @@ namespace Wirecard\PaymentSdk;
  * and an interaction with the consumer browser is required in order to continue it.
  * @package Wirecard\PaymentSdk
  */
-class InteractionResponse
+class InteractionResponse extends Response
 {
     /**
      * @var string
@@ -19,23 +19,19 @@ class InteractionResponse
     /**
      * @var string
      */
-    private $rawData;
-
-    /**
-     * @var string
-     */
     private $redirectUrl;
 
     /**
      * InteractionResponse constructor.
-     * @param string $transactionId - unique transaction id for followups
      * @param string $rawData - JSON string holding the raw response data
+     * @param StatusCollection $statusCollection
+     * @param string $transactionId - unique transaction id for followups
      * @param string $redirectUrl - Redirect url of the external service provider
      */
-    public function __construct($transactionId, $rawData, $redirectUrl)
+    public function __construct($rawData, $statusCollection, $transactionId, $redirectUrl)
     {
+        parent::__construct($rawData, $statusCollection);
         $this->transactionId = $transactionId;
-        $this->rawData = $rawData;
         $this->redirectUrl = $redirectUrl;
     }
 
@@ -48,17 +44,6 @@ class InteractionResponse
     {
         return $this->transactionId;
     }
-
-    /**
-     * get the raw response data of the called interface
-     *
-     * @return string
-     */
-    public function getRawData()
-    {
-        return $this->rawData;
-    }
-
 
     /**
      * get the redirect url used for external service provider redirects
