@@ -1,11 +1,10 @@
 <?php
 namespace Wirecard\PaymentSdk;
 
-
 /**
  * Class InteractionResponse
  *
- * If this object is returned an interaction with the consumer browser is required in order to continue the payment process
+ * This object is returned if interaction with the consumer browser is required in order to continue the payment process
  * @package Wirecard\PaymentSdk
  */
 class InteractionResponse

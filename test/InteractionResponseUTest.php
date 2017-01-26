@@ -1,17 +1,15 @@
 <?php
 namespace WirecardTest\PaymentSdk;
 
-
 use Wirecard\PaymentSdk\InteractionResponse;
-
 
 class InteractionResponseUTest extends \PHPUnit_Framework_TestCase
 {
-    private $redirectUrlToTest = 'http://www.example.com/redirect';
+    private $redirectUrl = 'http://www.example.com/redirect';
 
-    private $rawDataToTest = '{\'raw\': \'data\'}';
+    private $rawData = '{\'raw\': \'data\'}';
 
-    private $transactionIdToTest = '42';
+    private $transactionId = '42';
 
     /**
      * @var InteractionResponse
@@ -20,21 +18,21 @@ class InteractionResponseUTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->response = new InteractionResponse($this->transactionIdToTest, $this->rawDataToTest, $this->redirectUrlToTest);
+        $this->response = new InteractionResponse($this->transactionId, $this->rawData, $this->redirectUrl);
     }
 
     public function testGetRedirectUrl()
     {
-        $this->assertEquals($this->redirectUrlToTest, $this->response->getRedirectUrl());
+        $this->assertEquals($this->redirectUrl, $this->response->getRedirectUrl());
     }
 
     public function testGetRawResponse()
     {
-        $this->assertEquals($this->rawDataToTest, $this->response->getRawData());
+        $this->assertEquals($this->rawData, $this->response->getRawData());
     }
 
     public function testGetTransactionId()
     {
-        $this->assertEquals($this->transactionIdToTest, $this->response->getTransactionId());
+        $this->assertEquals($this->transactionId, $this->response->getTransactionId());
     }
 }
