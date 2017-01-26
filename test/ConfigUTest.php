@@ -18,21 +18,21 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
 
     public function testGetHttpUser()
     {
-        $this->assertEquals($this->instance->getHttpUser(), 'httpUser');
+        $this->assertEquals('httpUser', $this->instance->getHttpUser());
     }
 
     public function testGetHttpPassword()
     {
-        $this->assertEquals($this->instance->getHttpPassword(), 'httpPassword');
+        $this->assertEquals('httpPassword', $this->instance->getHttpPassword());
     }
 
     public function testGetMerchantAccountId()
     {
-        $this->assertEquals($this->instance->getMerchantAccountId(), 'merchantAccountId');
+        $this->assertEquals('merchantAccountId', $this->instance->getMerchantAccountId());
     }
 
     public function testGetSecretKey()
     {
-        $this->assertEquals($this->instance->getSecretKey(), 'secretKey');
+        $this->assertEquals('secretKey', $this->instance->getSecretKey());
     }
 }
