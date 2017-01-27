@@ -74,7 +74,10 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                 ],
                 self::PAYMENT_METHODS => [
                     self::PAYMENT_METHOD => [
-                        [self::PAYMENT_METHOD_NAME => 'paypal', self::PAYMENT_METHOD_URL => 'http://www.example.com/redirect-url']
+                        [
+                            self::PAYMENT_METHOD_NAME => 'paypal',
+                            self::PAYMENT_METHOD_URL => 'http://www.example.com/redirect-url'
+                        ]
                     ]
                 ]
             ]
@@ -135,13 +138,13 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
             ['']
         ];
 
-        foreach ($cases AS $case) {
+        foreach ($cases as $case) {
             $providerData[] = [json_encode($this->removeResponseKey($fullData, $case))];
         }
         return $providerData;
     }
 
-    private function removeResponseKey($response, Array $key)
+    private function removeResponseKey($response, array $key)
     {
         if (count($key) > 1) {
             $mainKey = array_shift($key);
