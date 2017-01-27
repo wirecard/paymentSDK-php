@@ -43,7 +43,9 @@ class RequestMapper
             'request-id' => $requestId,
             'transaction-type' => 'debit',
             'payment-methods' => [$onlyPaymentMethod],
-            'requested-amount' => $amount
+            'requested-amount' => $amount,
+            'success-redirect-url' => $transaction->getRedirect()->getSuccessUrl(),
+            'cancel-redirect-url' => $transaction->getRedirect()->getCancelUrl()
         ]];
         return json_encode($result);
     }

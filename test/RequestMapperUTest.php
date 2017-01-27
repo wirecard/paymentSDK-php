@@ -5,57 +5,36 @@ namespace WirecardTest\PaymentSdk;
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Money;
 use Wirecard\PaymentSdk\PayPalTransaction;
-use Wirecard\PaymentSdk\RequestIdGenerator;
+use Wirecard\PaymentSdk\Redirect;
 use Wirecard\PaymentSdk\RequestMapper;
 
 class RequestMapperUTest extends \PHPUnit_Framework_TestCase
 {
     const MAID = 'B612';
-    /**
-     * @var RequestMapper
-     */
-    private $mapper;
 
-    /**
-     * @var RequestIdGenerator
-     */
-    private $requestIdGeneratorMock;
-
-    public function setUp()
+    public function testRedirectInfoInTransaction()
     {
         $config = new Config('dummyUser', 'dummyPassword', self::MAID, 'secret');
-        $this->requestIdGeneratorMock = $this->createMock('Wirecard\PaymentSdk\RequestIdGenerator');
-        $this->mapper = new RequestMapper($config, $this->requestIdGeneratorMock);
-    }
+        $requestIdGeneratorMock = $this->createMock('Wirecard\PaymentSdk\RequestIdGenerator');
+        $mapper = new RequestMapper($config, $requestIdGeneratorMock);
 
-    public function testSample()
-    {
-        $this->requestIdGeneratorMock->method('generate')
+        $requestIdGeneratorMock->method('generate')
             ->willReturn('5B-dummy-id');
 
         $expectedResult = ['payment' => [
-            "merchant-account-id" => "B612",
-            "request-id" => "5B-dummy-id",
-            "transaction-type" => "debit",
-            "payment-methods" => [["payment-method" => ["name" => "paypal"]]],
-            "requested-amount" => ["currency" => "EUR", "value" => 24]
+            'merchant-account-id' => 'B612',
+            'request-id' => '5B-dummy-id',
+            'transaction-type' => 'debit',
+            'payment-methods' => [['payment-method' => ['name' => 'paypal']]],
+            'requested-amount' => ['currency' => 'EUR', 'value' => 24],
+            'success-redirect-url' => 'http://www.example.com/success',
+            'cancel-redirect-url' => 'http://www.example.com/cancel'
         ]];
 
-        $transaction = new PayPalTransaction(new Money(24, 'EUR'), 'http://www.example.com');
-        $result = $this->mapper->map($transaction);
+        $redirect = new Redirect('http://www.example.com/success', 'http://www.example.com/cancel');
+        $transaction = new PayPalTransaction(new Money(24, 'EUR'), 'http://www.example.com', $redirect);
+        $result = $mapper->map($transaction);
 
         $this->assertEquals(json_encode($expectedResult), $result);
-
-        /*
-         * expected result (as JSON):
-        {
-        "payment":
-        {"merchant-account-id":"B612",
-        "request-id":"5B-dummy-id","
-        transaction-type":"debit",
-        "payment-methods":[{"payment-method":{"name":"paypal"}}],
-        "requested-amount":{"currency":"EUR","value":24}
-        }}
-        */
     }
 }
