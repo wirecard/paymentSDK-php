@@ -35,10 +35,10 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
 
         $expectedResult = ['payment' => [
             "merchant-account-id" => "B612",
-        "request-id" => "5B-dummy-id",
+            "request-id" => "5B-dummy-id",
             "transaction-type" => "debit",
-            "payment-methods" => [["payment-method"=>["name"=>"paypal"]]],
-            "requested-amount"=>["currency"=>"EUR","value"=>24]
+            "payment-methods" => [["payment-method" => ["name" => "paypal"]]],
+            "requested-amount" => ["currency" => "EUR", "value" => 24]
         ]];
 
         $transaction = new PayPalTransaction(new Money(24, 'EUR'), 'http://www.example.com');
