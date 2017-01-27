@@ -1,11 +1,25 @@
 <?php
 namespace Wirecard\PaymentSdk;
 
+/**
+ * Class ResponseMapper
+ * @package Wirecard\PaymentSdk
+ */
 class ResponseMapper
 {
+    /**
+     * map the jsonResponse from engine to ResponseObjects
+     *
+     * @param $jsonResponse
+     * @return FailureResponse|InteractionResponse
+     * @throws MalformedResponseException
+     */
     public function map($jsonResponse)
     {
         $response = json_decode($jsonResponse, true);
+        if (!is_array($response)) {
+            throw new MalformedResponseException('Response is not a valid json string.');
+        }
         if (array_key_exists('payment', $response)) {
             $payment = $response['payment'];
         } else {

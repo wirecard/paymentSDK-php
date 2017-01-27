@@ -1,7 +1,7 @@
 <?php
 namespace Wirecard\PaymentSdk;
 
-use Doctrine\Instantiator\Exception\UnexpectedValueException;
+use UnexpectedValueException;
 
 /**
  * Class MalformedResponseException
