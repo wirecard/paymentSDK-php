@@ -81,4 +81,6 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $mapped->getStatusCollection());
         $this->assertEquals($response, $mapped->getRawData());
     }
+
+
 }
