@@ -42,10 +42,10 @@ class RequestMapper
             'merchant-account-id' => ['value' => $this->config->getMerchantAccountId()],
             'request-id' => $requestId,
             'transaction-type' => 'debit',
-            'payment-methods' => $onlyPaymentMethod,
             'requested-amount' => $amount,
-            'success-redirect-url' => $transaction->getRedirect()->getSuccessUrl(),
-            'cancel-redirect-url' => $transaction->getRedirect()->getCancelUrl()
+            'payment-methods' => $onlyPaymentMethod,
+            'cancel-redirect-url' => $transaction->getRedirect()->getCancelUrl(),
+            'success-redirect-url' => $transaction->getRedirect()->getSuccessUrl()
         ]];
         return json_encode($result);
     }
