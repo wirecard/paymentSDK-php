@@ -53,6 +53,7 @@ class TransactionService
      * @param LoggerInterface|null $logger
      * @param Client|null $httpClient
      * @param RequestMapper|null $requestMapper
+     * @param ResponseMapper|null $responseMapper
      * @param RequestIdGenerator|null $requestIdGenerator
      */
     public function __construct(
@@ -98,7 +99,7 @@ class TransactionService
     protected function getHttpClient()
     {
         if ($this->httpClient === null) {
-            $this->httpClient = new Client();
+            $this->httpClient = new Client(['http_errors' => false]);
         }
 
         return $this->httpClient;
@@ -143,7 +144,7 @@ class TransactionService
     /**
      * @param PayPalTransaction $transaction
      * @throws RequestException|MalformedResponseException
-     * @return Response
+     * @return InteractionResponse|FailureResponse
      */
     public function pay(PayPalTransaction $transaction)
     {
