@@ -38,13 +38,4 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(self::NOTIFICATION_URL, $this->payPalTransaction->getNotificationUrl());
         $this->assertEquals($this->redirect, $this->payPalTransaction->getRedirect());
     }
-
-    public function testConstructorWithoutRedirect()
-    {
-        $this->payPalTransaction = new PayPalTransaction($this->amount, self::NOTIFICATION_URL);
-
-        $this->assertEquals($this->amount, $this->payPalTransaction->getAmount());
-        $this->assertEquals(self::NOTIFICATION_URL, $this->payPalTransaction->getNotificationUrl());
-        $this->assertEquals(null, $this->payPalTransaction->getRedirect());
-    }
 }
