@@ -40,8 +40,14 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $responseMapper = $this->createMock('\Wirecard\PaymentSdk\ResponseMapper');
         $requestIdGenerator = $this->createMock('\Wirecard\PaymentSdk\RequestIdGenerator');
 
-        $instance = new TransactionService($this->config, $logger, $httpClient, $requestMapper, $responseMapper,
-            $requestIdGenerator);
+        $instance = new TransactionService(
+            $this->config,
+            $logger,
+            $httpClient,
+            $requestMapper,
+            $responseMapper,
+            $requestIdGenerator
+        );
 
         $this->assertAttributeEquals($this->config, 'config', $instance);
         $this->assertAttributeEquals($logger, 'logger', $instance);
