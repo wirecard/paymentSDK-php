@@ -31,7 +31,7 @@ class RequestMapper
      */
     public function map(PayPalTransaction $transaction)
     {
-        $onlyPaymentMethod = ['payment-method' => ['name' => 'paypal']];
+        $onlyPaymentMethod = ['payment-method' => [['name' => 'paypal']]];
         $amount = [
             'currency' => $transaction->getAmount()->getCurrency(),
             'value' => $transaction->getAmount()->getAmount()
@@ -42,7 +42,7 @@ class RequestMapper
             'merchant-account-id' => ['value' => $this->config->getMerchantAccountId()],
             'request-id' => $requestId,
             'transaction-type' => 'debit',
-            'payment-methods' => [$onlyPaymentMethod],
+            'payment-methods' => $onlyPaymentMethod,
             'requested-amount' => $amount,
             'success-redirect-url' => $transaction->getRedirect()->getSuccessUrl(),
             'cancel-redirect-url' => $transaction->getRedirect()->getCancelUrl()
