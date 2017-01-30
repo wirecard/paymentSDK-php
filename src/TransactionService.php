@@ -157,7 +157,7 @@ class TransactionService
                     $this->getConfig()->getHttpPassword()
                 ],
                 'headers' => [
-                    'content-type' => 'application/json',
+                    'Content-Type' => 'application/json',
                     'Accept'       => 'application/json'
                 ],
                 'body' => $this->getRequestMapper()->map($transaction)
