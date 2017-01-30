@@ -14,6 +14,11 @@ class Config
     /**
      * @var string
      */
+    private $url;
+
+    /**
+     * @var string
+     */
     private $httpUser;
 
     /**
@@ -33,17 +38,27 @@ class Config
 
     /**
      * Config constructor.
+     * @param string $url
      * @param string $httpUser
      * @param string $httpPassword
      * @param string $merchantAccountId
      * @param string $secretKey
      */
-    public function __construct($httpUser, $httpPassword, $merchantAccountId, $secretKey)
+    public function __construct($url, $httpUser, $httpPassword, $merchantAccountId, $secretKey)
     {
+        $this->url = $url;
         $this->httpUser = $httpUser;
         $this->httpPassword = $httpPassword;
         $this->merchantAccountId = $merchantAccountId;
         $this->secretKey = $secretKey;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
     }
 
     /**
