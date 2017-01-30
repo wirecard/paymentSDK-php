@@ -22,7 +22,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
             ->willReturn('5B-dummy-id');
 
         $expectedResult = ['payment' => [
-            'merchant-account-id' => 'B612',
+            'merchant-account-id' => ['value' => 'B612'],
             'request-id' => '5B-dummy-id',
             'transaction-type' => 'debit',
             'payment-methods' => [['payment-method' => ['name' => 'paypal']]],

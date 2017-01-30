@@ -39,7 +39,7 @@ class RequestMapper
         $requestId = $this->requestIdGenerator->generate();
 
         $result = ['payment' => [
-            'merchant-account-id' => $this->config->getMerchantAccountId(),
+            'merchant-account-id' => ['value' => $this->config->getMerchantAccountId()],
             'request-id' => $requestId,
             'transaction-type' => 'debit',
             'payment-methods' => [$onlyPaymentMethod],
