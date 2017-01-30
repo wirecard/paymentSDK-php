@@ -143,7 +143,7 @@ class TransactionService
 
     /**
      * @param PayPalTransaction $transaction
-     * @throws RequestException|MalformedResponseException
+     * @throws RequestException|MalformedResponseException|\RuntimeException
      * @return InteractionResponse|FailureResponse
      */
     public function pay(PayPalTransaction $transaction)
@@ -160,6 +160,6 @@ class TransactionService
             $this->getRequestMapper()->map($transaction)
         ));
 
-        return $this->getResponseMapper()->map($response->getBody());
+        return $this->getResponseMapper()->map($response->getBody()->getContents());
     }
 }
