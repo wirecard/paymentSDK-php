@@ -13,7 +13,13 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->instance = new Config('http://www.example.com', 'httpUser', 'httpPassword', 'merchantAccountId', 'secretKey');
+        $this->instance = new Config(
+            'http://www.example.com',
+            'httpUser',
+            'httpPassword',
+            'merchantAccountId',
+            'secretKey'
+        );
     }
 
     public function testGetUrl()
