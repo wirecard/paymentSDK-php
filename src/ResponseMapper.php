@@ -11,7 +11,7 @@ class ResponseMapper
      * map the jsonResponse from engine to ResponseObjects
      *
      * @param $jsonResponse
-     * @return FailureResponse|InteractionResponse
+     * @return FailureResponse|InteractionResponse|SuccessResponse
      * @throws MalformedResponseException
      */
     public function map($jsonResponse)
@@ -32,23 +32,33 @@ class ResponseMapper
             throw new MalformedResponseException('Missing transaction state in response.');
         }
 
-
+        
         $statusCollection = $this->getStatusCollection($payment);
         if ($state === 'success') {
-            //using isset, because array_key_exists only goes 1 layer deep
-            if (isset($payment['payment-methods']['payment-method'][0]['url'])) {
-                $redirectUrl = $payment['payment-methods']['payment-method'][0]['url'];
-            } else {
-                throw new MalformedResponseException('Missing url for redirect in response.');
-            }
-
             if (array_key_exists('transaction-id', $payment)) {
                 $transactionId = $payment['transaction-id'];
             } else {
                 throw new MalformedResponseException('Missing transaction-id in response.');
             }
 
-            $responseObject = new InteractionResponse($jsonResponse, $statusCollection, $transactionId, $redirectUrl);
+            //using isset, because array_key_exists only goes 1 layer deep
+            if (isset($payment['payment-methods']['payment-method'][0]['url'])) {
+                $redirectUrl = $payment['payment-methods']['payment-method'][0]['url'];
+                $responseObject = new InteractionResponse(
+                    $jsonResponse,
+                    $statusCollection,
+                    $transactionId,
+                    $redirectUrl
+                );
+            } else {
+                $providerTransactionId = $payment['statuses'][0]['status']['provider-transaction-id'];
+                $responseObject = new SuccessResponse(
+                    $jsonResponse,
+                    $statusCollection,
+                    $transactionId,
+                    $providerTransactionId
+                );
+            }
         } else {
             $responseObject = new FailureResponse($jsonResponse, $statusCollection);
         }
@@ -66,7 +76,8 @@ class ResponseMapper
         $collection = new StatusCollection();
 
         if (array_key_exists('statuses', $payment)) {
-            foreach ($payment['statuses'] as $status) {
+            foreach ($payment['statuses'] as $statusWrapped) {
+                $status = $statusWrapped['status'];
                 if (array_key_exists('code', $status)) {
                     $code = $status['code'];
                 } else {
@@ -82,8 +93,8 @@ class ResponseMapper
                 } else {
                     throw new MalformedResponseException('Missing status severity in response.');
                 }
-                $status = new Status($code, $description, $severity);
-                $collection->add($status);
+                $st = new Status($code, $description, $severity);
+                $collection->add($st);
             }
         }
 

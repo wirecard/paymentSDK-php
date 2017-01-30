@@ -4,6 +4,7 @@ namespace WirecardTest\PaymentSdk;
 use Wirecard\PaymentSdk\FailureResponse;
 use Wirecard\PaymentSdk\InteractionResponse;
 use Wirecard\PaymentSdk\ResponseMapper;
+use Wirecard\PaymentSdk\SuccessResponse;
 
 class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,6 +12,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
     const STATUS_CODE = 'code';
     const STATUS_DESCRIPTION = 'description';
     const STATUS_SEVERITY = 'severity';
+    const PROVIDER_TRANSACTION_ID = 'provider-transaction-id';
 
     const PAYMENT = 'payment';
     const PAYMENT_METHODS = 'payment-methods';
@@ -37,17 +39,19 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
             self::PAYMENT => [
                 self::TRANSACTION_STATE => 'failed',
                 self::STATUSES => [
-                    [
-                        self::STATUS_CODE => '200',
-                        self::STATUS_DESCRIPTION => 'UnitTest',
-                        self::STATUS_SEVERITY => 'warning'
-                    ],
-                    [
-                        self::STATUS_CODE => '500',
-                        self::STATUS_DESCRIPTION => 'UnitTest Error',
-                        self::STATUS_SEVERITY => 'error'
-                    ],
-                ]
+                    ['status' =>
+                        [
+                            self::STATUS_CODE => '200',
+                            self::STATUS_DESCRIPTION => 'UnitTest',
+                            self::STATUS_SEVERITY => 'warning'
+                        ]],
+                    ['status' =>
+                        [
+                            self::STATUS_CODE => '500',
+                            self::STATUS_DESCRIPTION => 'UnitTest Error',
+                            self::STATUS_SEVERITY => 'error'
+                        ],
+                    ]]
             ]
         ]);
         /**
@@ -65,13 +69,13 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
             self::PAYMENT => [
                 self::TRANSACTION_ID => '12345',
                 self::TRANSACTION_STATE => 'success',
-                self::STATUSES => [
+                self::STATUSES => [['status' =>
                     [
                         self::STATUS_CODE => '200',
                         self::STATUS_DESCRIPTION => 'UnitTest',
                         self::STATUS_SEVERITY => 'information'
                     ],
-                ],
+                ]],
                 self::PAYMENT_METHODS => [
                     self::PAYMENT_METHOD => [
                         [
@@ -115,13 +119,13 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         [self::PAYMENT_METHOD_URL => 'http://www.example.com/redirect'],
                     ],
                 ],
-                self::STATUSES => [
+                self::STATUSES => [['status' =>
                     [
                         self::STATUS_CODE => 200,
                         self::STATUS_DESCRIPTION => 'PHPUnit description',
                         self::STATUS_SEVERITY => 'information'
                     ]
-                ]
+                ]]
             ]
         ];
         $cases = [
@@ -142,6 +146,40 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
             $providerData[] = [json_encode($this->removeResponseKey($fullData, $case))];
         }
         return $providerData;
+    }
+
+    public function testTransactionStateSuccessReturnsSuccessResponseObject()
+    {
+        $response = json_encode([
+            self::PAYMENT => [
+                self::TRANSACTION_ID => '12345',
+                self::TRANSACTION_STATE => 'success',
+                self::STATUSES => [['status' =>
+                    [
+                        self::STATUS_CODE => '201',
+                        self::STATUS_DESCRIPTION => 'UnitTest: The resource was successfully created.',
+                        self::PROVIDER_TRANSACTION_ID => '55',
+                        self::STATUS_SEVERITY => 'information'
+                    ],
+                ]],
+                self::PAYMENT_METHODS => [
+                    self::PAYMENT_METHOD => [
+                        [
+                            self::PAYMENT_METHOD_NAME => 'paypal'
+                        ]
+                    ]
+                ]
+            ]
+        ]);
+
+        $result = $this->mapper->map($response);
+
+        $this->assertInstanceOf(SuccessResponse::class, $result);
+
+        $this->assertEquals('12345', $result->getTransactionId());
+        $this->assertCount(1, $result->getStatusCollection());
+        $this->assertEquals($response, $result->getRawData());
+        $this->assertEquals('55', $result->getProviderTransactionId());
     }
 
     private function removeResponseKey($response, array $key)
