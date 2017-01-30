@@ -148,17 +148,21 @@ class TransactionService
      */
     public function pay(PayPalTransaction $transaction)
     {
-        $response = $this->getHttpClient()->send(new Request(
+        $response = $this->getHttpClient()->request(
             'POST',
             $this->getConfig()->getUrl(),
-            array(
-                'auth' => array(
+            [
+                'auth' => [
                     $this->getConfig()->getHttpUser(),
                     $this->getConfig()->getHttpPassword()
-                )
-            ),
-            $this->getRequestMapper()->map($transaction)
-        ));
+                ],
+                'headers' => [
+                    'content-type' => 'application/json',
+                    'Accept'       => 'application/json'
+                ],
+                'body' => $this->getRequestMapper()->map($transaction)
+            ]
+        );
 
         return $this->getResponseMapper()->map($response->getBody()->getContents());
     }
