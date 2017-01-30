@@ -165,13 +165,11 @@ class TransactionService
     }
 
     /**
-     * @param ResponseInterface $httpResponse
-     * @throws MalformedResponseException|\RuntimeException
+     * @param string $jsonResponse
      * @return FailureResponse|InteractionResponse
      */
-    public function handleNotification(ResponseInterface $httpResponse)
+    public function handleNotification($jsonResponse)
     {
-        $contents = $httpResponse->getBody()->getContents();
-        return $this->getResponseMapper()->map($contents);
+        return $this->getResponseMapper()->map($jsonResponse);
     }
 }
