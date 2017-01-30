@@ -7,6 +7,7 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;
 use Monolog\Handler\ErrorLogHandler;
 use Monolog\Logger;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -161,5 +162,16 @@ class TransactionService
         ));
 
         return $this->getResponseMapper()->map($response->getBody());
+    }
+
+    /**
+     * @param ResponseInterface $httpResponse
+     * @throws MalformedResponseException|\RuntimeException
+     * @return FailureResponse|InteractionResponse
+     */
+    public function handleNotification(ResponseInterface $httpResponse)
+    {
+        $contents = $httpResponse->getBody()->getContents();
+        return $this->getResponseMapper()->map($contents);
     }
 }

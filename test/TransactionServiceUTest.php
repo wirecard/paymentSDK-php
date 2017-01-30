@@ -7,6 +7,9 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Wirecard\PaymentSdk\Config;
+use Wirecard\PaymentSdk\InteractionResponse;
+use Wirecard\PaymentSdk\MalformedResponseException;
+use Wirecard\PaymentSdk\StatusCollection;
 use Wirecard\PaymentSdk\TransactionService;
 
 class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
@@ -209,6 +212,59 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->instance = new TransactionService($this->config, null, $client);
 
         $this->instance->pay($this->getTransactionMock());
+    }
+
+    public function testHandleNotificationHappyPath()
+    {
+        $response = $this->createMock('Psr\Http\Message\ResponseInterface');
+        $body = $this->createMock('Psr\Http\Message\StreamInterface');
+        $response->method('getBody')->willReturn($body);
+        $validJsonContent = '{dummy-field: "dummy-value"}';
+        $body->method('getContents')->willReturn($validJsonContent);
+
+        $responseMapper = $this->createMock('Wirecard\PaymentSdk\ResponseMapper');
+        $interactionResponse = new InteractionResponse('dummy', new StatusCollection(), 'x', 'y');
+        $responseMapper->method('map')->with($validJsonContent)->willReturn($interactionResponse);
+
+        $this->instance = new TransactionService($this->config, null, null, null, $responseMapper);
+
+        $result = $this->instance->handleNotification($response);
+
+        $this->assertEquals($interactionResponse, $result);
+    }
+
+    /**
+     * @expectedException \RuntimeException
+     */
+    public function testHandleNotificationRuntimeException()
+    {
+        $response = $this->createMock('Psr\Http\Message\ResponseInterface');
+        $body = $this->createMock('Psr\Http\Message\StreamInterface');
+        $response->method('getBody')->willReturn($body);
+        $body->method('getContents')->willThrowException(new \RuntimeException());
+
+        $this->instance = new TransactionService($this->config, null, null, null);
+
+        $this->instance->handleNotification($response);
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
+     */
+    public function testHandleNotificationMalformedResponseException()
+    {
+        $response = $this->createMock('Psr\Http\Message\ResponseInterface');
+        $body = $this->createMock('Psr\Http\Message\StreamInterface');
+        $response->method('getBody')->willReturn($body);
+        $validJsonContent = '{dummy-field: "dummy-value"}';
+        $body->method('getContents')->willReturn($validJsonContent);
+
+        $responseMapper = $this->createMock('Wirecard\PaymentSdk\ResponseMapper');
+        $responseMapper->method('map')->with($validJsonContent)->willThrowException(new MalformedResponseException());
+
+        $this->instance = new TransactionService($this->config, null, null, null, $responseMapper);
+
+        $this->instance->handleNotification($response);
     }
 
     protected function getTransactionMock()
