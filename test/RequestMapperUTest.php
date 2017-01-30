@@ -14,7 +14,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
 
     public function testRedirectInfoInTransaction()
     {
-        $config = new Config('dummyUser', 'dummyPassword', self::MAID, 'secret');
+        $config = new Config('http://www.example.com', 'dummyUser', 'dummyPassword', self::MAID, 'secret');
         $requestIdGeneratorMock = $this->createMock('Wirecard\PaymentSdk\RequestIdGenerator');
         $mapper = new RequestMapper($config, $requestIdGeneratorMock);
 
