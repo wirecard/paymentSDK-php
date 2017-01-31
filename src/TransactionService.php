@@ -4,7 +4,6 @@ namespace Wirecard\PaymentSdk;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7\Request;
 use Monolog\Handler\ErrorLogHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
@@ -73,75 +72,6 @@ class TransactionService
     }
 
     /**
-     * @return Config
-     */
-    protected function getConfig()
-    {
-        return $this->config;
-    }
-
-    /**
-     * @return LoggerInterface
-     */
-    protected function getLogger()
-    {
-        if ($this->logger === null) {
-            $this->logger = new Logger('wirecard_payment_sdk');
-            $this->logger->pushHandler(new ErrorLogHandler());
-        }
-
-        return $this->logger;
-    }
-
-    /**
-     * @return Client
-     */
-    protected function getHttpClient()
-    {
-        if ($this->httpClient === null) {
-            $this->httpClient = new Client(['http_errors' => false]);
-        }
-
-        return $this->httpClient;
-    }
-
-    /**
-     * @return RequestMapper
-     */
-    protected function getRequestMapper()
-    {
-        if ($this->requestMapper === null) {
-            $this->requestMapper = new RequestMapper($this->getConfig(), $this->getRequestIdGenerator());
-        }
-
-        return $this->requestMapper;
-    }
-
-    /**
-     * @return ResponseMapper
-     */
-    protected function getResponseMapper()
-    {
-        if ($this->responseMapper === null) {
-            $this->responseMapper = new ResponseMapper();
-        }
-
-        return $this->responseMapper;
-    }
-
-    /**
-     * @return RequestIdGenerator
-     */
-    protected function getRequestIdGenerator()
-    {
-        if ($this->requestIdGenerator === null) {
-            $this->requestIdGenerator = new RequestIdGenerator();
-        }
-
-        return $this->requestIdGenerator;
-    }
-
-    /**
      * @param PayPalTransaction $transaction
      * @throws RequestException|MalformedResponseException|\RuntimeException
      * @return InteractionResponse|FailureResponse
@@ -158,12 +88,81 @@ class TransactionService
                 ],
                 'headers' => [
                     'Content-Type' => 'application/json',
-                    'Accept'       => 'application/json'
+                    'Accept' => 'application/xml'
                 ],
                 'body' => $this->getRequestMapper()->map($transaction)
             ]
         );
 
         return $this->getResponseMapper()->map($response->getBody()->getContents());
+    }
+
+    /**
+     * @return Client
+     */
+    protected function getHttpClient()
+    {
+        if ($this->httpClient === null) {
+            $this->httpClient = new Client(['http_errors' => false]);
+        }
+
+        return $this->httpClient;
+    }
+
+    /**
+     * @return Config
+     */
+    protected function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
+     * @return RequestMapper
+     */
+    protected function getRequestMapper()
+    {
+        if ($this->requestMapper === null) {
+            $this->requestMapper = new RequestMapper($this->getConfig(), $this->getRequestIdGenerator());
+        }
+
+        return $this->requestMapper;
+    }
+
+    /**
+     * @return RequestIdGenerator
+     */
+    protected function getRequestIdGenerator()
+    {
+        if ($this->requestIdGenerator === null) {
+            $this->requestIdGenerator = new RequestIdGenerator();
+        }
+
+        return $this->requestIdGenerator;
+    }
+
+    /**
+     * @return ResponseMapper
+     */
+    protected function getResponseMapper()
+    {
+        if ($this->responseMapper === null) {
+            $this->responseMapper = new ResponseMapper();
+        }
+
+        return $this->responseMapper;
+    }
+
+    /**
+     * @return LoggerInterface
+     */
+    protected function getLogger()
+    {
+        if ($this->logger === null) {
+            $this->logger = new Logger('wirecard_payment_sdk');
+            $this->logger->pushHandler(new ErrorLogHandler());
+        }
+
+        return $this->logger;
     }
 }

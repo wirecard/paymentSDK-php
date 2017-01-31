@@ -11,6 +11,7 @@ use Wirecard\PaymentSdk\TransactionService;
 
 class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 {
+    const HANDLER = 'handler';
     /**
      * @var TransactionService
      */
@@ -40,7 +41,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $responseMapper = $this->createMock('\Wirecard\PaymentSdk\ResponseMapper');
         $requestIdGenerator = $this->createMock('\Wirecard\PaymentSdk\RequestIdGenerator');
 
-        $instance = new TransactionService(
+        $service = new TransactionService(
             $this->config,
             $logger,
             $httpClient,
@@ -49,11 +50,11 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
             $requestIdGenerator
         );
 
-        $this->assertAttributeEquals($this->config, 'config', $instance);
-        $this->assertAttributeEquals($logger, 'logger', $instance);
-        $this->assertAttributeEquals($requestMapper, 'requestMapper', $instance);
-        $this->assertAttributeEquals($responseMapper, 'responseMapper', $instance);
-        $this->assertAttributeEquals($requestIdGenerator, 'requestIdGenerator', $instance);
+        $this->assertAttributeEquals($this->config, 'config', $service);
+        $this->assertAttributeEquals($logger, 'logger', $service);
+        $this->assertAttributeEquals($requestMapper, 'requestMapper', $service);
+        $this->assertAttributeEquals($responseMapper, 'responseMapper', $service);
+        $this->assertAttributeEquals($requestIdGenerator, 'requestIdGenerator', $service);
     }
 
     public function testGetConfig()
@@ -134,81 +135,11 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler, 'http_errors' => false]);
+        $client = new Client([self::HANDLER => $handler, 'http_errors' => false]);
 
-        $instance = new TransactionService($this->config, null, $client);
+        $service = new TransactionService($this->config, null, $client);
 
-        $this->assertInstanceOf($class, $instance->pay($this->getTransactionMock()));
-    }
-
-    public function testPayProvider()
-    {
-        return [
-            [
-                new Response(200, [], json_encode([
-                    'payment' => [
-                        'transaction-state' => 'success',
-                        'transaction-id' => 'myid',
-                        'payment-methods' => [
-                            'payment-method' => [
-                                ['url' => 'http://paypal.test']
-                            ]
-                        ]
-                    ]
-                ])),
-                '\Wirecard\PaymentSdk\InteractionResponse'
-            ],
-            [
-                new Response(400, [], json_encode([
-                    'payment' => [
-                        'transaction-state' => 'failure'
-                    ]
-                ])),
-                '\Wirecard\PaymentSdk\FailureResponse'
-            ]
-        ];
-    }
-
-    /**
-     * @expectedException \GuzzleHttp\Exception\RequestException
-     */
-    public function testPayRequestException()
-    {
-        $mock = new MockHandler([
-            new Response(500, [], json_encode([
-                'payment' => [
-                    'transaction-state' => 'success',
-                ]
-            ]))
-        ]);
-
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $this->instance = new TransactionService($this->config, null, $client);
-
-        $this->instance->pay($this->getTransactionMock());
-    }
-
-    /**
-     * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
-     */
-    public function testPayMalformedResponseException()
-    {
-        $mock = new MockHandler([
-            new Response(200, [], json_encode([
-                'payment' => [
-                    'transaction-state' => 'success',
-                ]
-            ]))
-        ]);
-
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-
-        $this->instance = new TransactionService($this->config, null, $client);
-
-        $this->instance->pay($this->getTransactionMock());
+        $this->assertInstanceOf($class, $service->pay($this->getTransactionMock()));
     }
 
     protected function getTransactionMock()
@@ -228,5 +159,80 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $transaction->method('getRedirect')->willReturn($redirect);
 
         return $transaction;
+    }
+
+    public function testPayProvider()
+    {
+        return [
+            [
+                new Response(
+                    200,
+                    [],
+                    '<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>myid</transaction-id>
+                        <payment-methods>
+                            <payment-method name="paypal" url="http://www.example.com" />
+                        </payment-methods>
+                    </payment>'
+                ),
+                '\Wirecard\PaymentSdk\InteractionResponse'
+            ],
+            [
+                new Response(
+                    400,
+                    [],
+                    '<payment>
+                        <transaction-state>failure</transaction-state>
+                        <statuses>
+                            <status code="42" description="my test" severity="information"/>
+                        </statuses>
+                    </payment>'
+                ),
+                '\Wirecard\PaymentSdk\FailureResponse'
+            ]
+        ];
+    }
+
+    /**
+     * @expectedException \GuzzleHttp\Exception\RequestException
+     */
+    public function testPayRequestException()
+    {
+        $mock = new MockHandler([
+            new Response(500, [], json_encode([
+                'payment' => [
+                    'transaction-state' => 'success',
+                ]
+            ]))
+        ]);
+
+        $handler = HandlerStack::create($mock);
+        $client = new Client([self::HANDLER => $handler]);
+
+        $this->instance = new TransactionService($this->config, null, $client);
+
+        $this->instance->pay($this->getTransactionMock());
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
+     */
+    public function testPayMalformedResponseException()
+    {
+        $mock = new MockHandler([
+            new Response(
+                200,
+                [],
+                '<payment><transaction-state>success</transaction-state></payment>'
+            )
+        ]);
+
+        $handler = HandlerStack::create($mock);
+        $client = new Client([self::HANDLER => $handler]);
+
+        $this->instance = new TransactionService($this->config, null, $client);
+
+        $this->instance->pay($this->getTransactionMock());
     }
 }

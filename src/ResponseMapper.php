@@ -10,47 +10,43 @@ class ResponseMapper
     /**
      * map the jsonResponse from engine to ResponseObjects
      *
-     * @param $jsonResponse
+     * @param $xmlResponse
      * @return FailureResponse|InteractionResponse
      * @throws MalformedResponseException
      */
-    public function map($jsonResponse)
+    public function map($xmlResponse)
     {
-        $response = json_decode($jsonResponse, true);
-        if (!is_array($response)) {
-            throw new MalformedResponseException('Response is not a valid json string.');
-        }
-        if (array_key_exists('payment', $response)) {
-            $payment = $response['payment'];
-        } else {
-            throw new MalformedResponseException('Missing payment in response.');
+        $oldErrorHandling = libxml_use_internal_errors(true);
+        $response = simplexml_load_string($xmlResponse);
+        libxml_use_internal_errors($oldErrorHandling);
+        if (!$response instanceof \SimpleXMLElement) {
+            throw new MalformedResponseException('Response is not a valid xml string.');
         }
 
-        if (array_key_exists('transaction-state', $payment)) {
-            $state = $payment['transaction-state'];
+        if ($response->{'transaction-state'}) {
+            $state = (string)$response->{'transaction-state'};
         } else {
             throw new MalformedResponseException('Missing transaction state in response.');
         }
 
-
-        $statusCollection = $this->getStatusCollection($payment);
+        $statusCollection = $this->getStatusCollection($response);
         if ($state === 'success') {
             //using isset, because array_key_exists only goes 1 layer deep
-            if (isset($payment['payment-methods']['payment-method'][0]['url'])) {
-                $redirectUrl = $payment['payment-methods']['payment-method'][0]['url'];
+            if ($response->{'payment-methods'}->{'payment-method'}) {
+                $redirectUrl = (string)$response->{'payment-methods'}->{'payment-method'}['url'];
             } else {
                 throw new MalformedResponseException('Missing url for redirect in response.');
             }
 
-            if (array_key_exists('transaction-id', $payment)) {
-                $transactionId = $payment['transaction-id'];
+            if ($response->{'transaction-id'}) {
+                $transactionId = (string)$response->{'transaction-id'};
             } else {
                 throw new MalformedResponseException('Missing transaction-id in response.');
             }
 
-            $responseObject = new InteractionResponse($jsonResponse, $statusCollection, $transactionId, $redirectUrl);
+            $responseObject = new InteractionResponse($xmlResponse, $statusCollection, $transactionId, $redirectUrl);
         } else {
-            $responseObject = new FailureResponse($jsonResponse, $statusCollection);
+            $responseObject = new FailureResponse($xmlResponse, $statusCollection);
         }
 
         return $responseObject;
@@ -58,27 +54,36 @@ class ResponseMapper
 
     /**
      * get the collection of status returned by elastic engine
-     * @param $payment
+     * @param \SimpleXMLElement $payment
      * @return StatusCollection
      */
     private function getStatusCollection($payment)
     {
         $collection = new StatusCollection();
 
-        if (array_key_exists('statuses', $payment)) {
-            foreach ($payment['statuses'] as $status) {
-                if (array_key_exists('code', $status)) {
-                    $code = $status['code'];
+        /**
+         * @var $statuses \SimpleXMLElement
+         */
+        $statuses = $payment->statuses;
+        if (count($statuses->status) > 0) {
+            foreach ($statuses->status as $statusNode) {
+                /**
+                 * @var $statusNode \SimpleXMLElement
+                 */
+                $attributes = $statusNode->attributes();
+
+                if ((string)$attributes['code'] !== '') {
+                    $code = (string)$attributes['code'];
                 } else {
                     throw new MalformedResponseException('Missing status code in response.');
                 }
-                if (array_key_exists('description', $status)) {
-                    $description = $status['description'];
+                if ((string)$attributes['description'] !== '') {
+                    $description = (string)$attributes['description'];
                 } else {
                     throw new MalformedResponseException('Missing status description in response.');
                 }
-                if (array_key_exists('severity', $status)) {
-                    $severity = $status['severity'];
+                if ((string)$attributes['severity'] !== '') {
+                    $severity = (string)$attributes['severity'];
                 } else {
                     throw new MalformedResponseException('Missing status severity in response.');
                 }
