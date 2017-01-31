@@ -32,43 +32,43 @@ class ResponseMapper
             throw new MalformedResponseException('Missing transaction state in response.');
         }
 
-        
+
         $statusCollection = $this->getStatusCollection($payment);
-        if ($state === 'success') {
-            if (array_key_exists('transaction-id', $payment)) {
-                $transactionId = $payment['transaction-id'];
-            } else {
-                throw new MalformedResponseException('Missing transaction-id in response.');
-            }
+        if ($state !== 'success') {
+            return new FailureResponse($jsonResponse, $statusCollection);
+        }
 
-            if (!array_key_exists('payment-methods', $payment)) {
-                throw new MalformedResponseException('Missing payment method in response.');
-            }
-
-            if (!array_key_exists('payment-method', $payment['payment-methods'])) {
-                throw new MalformedResponseException('Missing payment method in response.');
-            }
-
-            //using isset, because array_key_exists only goes 1 layer deep
-            if (isset($payment['payment-methods']['payment-method'][0]['url'])) {
-                $redirectUrl = $payment['payment-methods']['payment-method'][0]['url'];
-                $responseObject = new InteractionResponse(
-                    $jsonResponse,
-                    $statusCollection,
-                    $transactionId,
-                    $redirectUrl
-                );
-            } else {
-                $providerTransactionId = $this->retrieveProviderTransactionId($payment);
-                $responseObject = new SuccessResponse(
-                    $jsonResponse,
-                    $statusCollection,
-                    $transactionId,
-                    $providerTransactionId
-                );
-            }
+        if (array_key_exists('transaction-id', $payment)) {
+            $transactionId = $payment['transaction-id'];
         } else {
-            $responseObject = new FailureResponse($jsonResponse, $statusCollection);
+            throw new MalformedResponseException('Missing transaction-id in response.');
+        }
+
+        if (!array_key_exists('payment-methods', $payment)) {
+            throw new MalformedResponseException('Missing payment method in response.');
+        }
+
+        if (!array_key_exists('payment-method', $payment['payment-methods'])) {
+            throw new MalformedResponseException('Missing payment method in response.');
+        }
+
+        //using isset, because array_key_exists only goes 1 layer deep
+        if (isset($payment['payment-methods']['payment-method'][0]['url'])) {
+            $redirectUrl = $payment['payment-methods']['payment-method'][0]['url'];
+            $responseObject = new InteractionResponse(
+                $jsonResponse,
+                $statusCollection,
+                $transactionId,
+                $redirectUrl
+            );
+        } else {
+            $providerTransactionId = $this->retrieveProviderTransactionId($payment);
+            $responseObject = new SuccessResponse(
+                $jsonResponse,
+                $statusCollection,
+                $transactionId,
+                $providerTransactionId
+            );
         }
 
         return $responseObject;
@@ -120,7 +120,7 @@ class ResponseMapper
         foreach ($statuses as $st) {
             if (isset($st['status']['provider-transaction-id'])) {
                 if ($result !== null) {
-
+                    // Add check
                 }
                 $result = $st['status']['provider-transaction-id'];
             }

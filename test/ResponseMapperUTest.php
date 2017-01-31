@@ -237,12 +237,12 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                 self::TRANSACTION_STATE => 'success',
                 self::STATUSES => [
                     ['status' =>
-                    [
-                        self::STATUS_CODE => '500',
-                        self::STATUS_DESCRIPTION => 'UnitTest: Earlier error.',
-                        self::STATUS_SEVERITY => 'error'
+                        [
+                            self::STATUS_CODE => '500',
+                            self::STATUS_DESCRIPTION => 'UnitTest: Earlier error.',
+                            self::STATUS_SEVERITY => 'error'
+                        ],
                     ],
-                ],
                     ['status' =>
                         [
                             self::STATUS_CODE => '201',
@@ -250,7 +250,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                             self::PROVIDER_TRANSACTION_ID => '55',
                             self::STATUS_SEVERITY => 'information'
                         ]
-    ]
+                    ]
                 ],
                 self::PAYMENT_METHODS => [
                     self::PAYMENT_METHOD => [
@@ -271,7 +271,6 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($response, $result->getRawData());
         $this->assertEquals('55', $result->getProviderTransactionId());
     }
-
 
 
     private function removeResponseKey($response, array $key)
