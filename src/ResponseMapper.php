@@ -11,7 +11,7 @@ class ResponseMapper
      * map the jsonResponse from engine to ResponseObjects
      *
      * @param $jsonResponse
-     * @return FailureResponse|InteractionResponse
+     * @return FailureResponse|InteractionResponse|SuccessResponse
      * @throws MalformedResponseException
      */
     public function map($jsonResponse)
@@ -34,23 +34,41 @@ class ResponseMapper
 
 
         $statusCollection = $this->getStatusCollection($payment);
-        if ($state === 'success') {
-            //using isset, because array_key_exists only goes 1 layer deep
-            if (isset($payment['payment-methods']['payment-method'][0]['url'])) {
-                $redirectUrl = $payment['payment-methods']['payment-method'][0]['url'];
-            } else {
-                throw new MalformedResponseException('Missing url for redirect in response.');
-            }
+        if ($state !== 'success') {
+            return new FailureResponse($jsonResponse, $statusCollection);
+        }
 
-            if (array_key_exists('transaction-id', $payment)) {
-                $transactionId = $payment['transaction-id'];
-            } else {
-                throw new MalformedResponseException('Missing transaction-id in response.');
-            }
-
-            $responseObject = new InteractionResponse($jsonResponse, $statusCollection, $transactionId, $redirectUrl);
+        if (array_key_exists('transaction-id', $payment)) {
+            $transactionId = $payment['transaction-id'];
         } else {
-            $responseObject = new FailureResponse($jsonResponse, $statusCollection);
+            throw new MalformedResponseException('Missing transaction-id in response.');
+        }
+
+        if (!array_key_exists('payment-methods', $payment)) {
+            throw new MalformedResponseException('Missing payment method in response.');
+        }
+
+        if (!array_key_exists('payment-method', $payment['payment-methods'])) {
+            throw new MalformedResponseException('Missing payment method in response.');
+        }
+
+        //using isset, because array_key_exists only goes 1 layer deep
+        if (isset($payment['payment-methods']['payment-method'][0]['url'])) {
+            $redirectUrl = $payment['payment-methods']['payment-method'][0]['url'];
+            $responseObject = new InteractionResponse(
+                $jsonResponse,
+                $statusCollection,
+                $transactionId,
+                $redirectUrl
+            );
+        } else {
+            $providerTransactionId = $this->retrieveProviderTransactionId($payment);
+            $responseObject = new SuccessResponse(
+                $jsonResponse,
+                $statusCollection,
+                $transactionId,
+                $providerTransactionId
+            );
         }
 
         return $responseObject;
@@ -66,7 +84,8 @@ class ResponseMapper
         $collection = new StatusCollection();
 
         if (array_key_exists('statuses', $payment)) {
-            foreach ($payment['statuses'] as $status) {
+            foreach ($payment['statuses'] as $statusWrapped) {
+                $status = $statusWrapped['status'];
                 if (array_key_exists('code', $status)) {
                     $code = $status['code'];
                 } else {
@@ -82,11 +101,31 @@ class ResponseMapper
                 } else {
                     throw new MalformedResponseException('Missing status severity in response.');
                 }
-                $status = new Status($code, $description, $severity);
-                $collection->add($status);
+                $st = new Status($code, $description, $severity);
+                $collection->add($st);
             }
         }
 
         return $collection;
+    }
+
+    /**
+     * @param $payment
+     * @return mixed
+     */
+    private function retrieveProviderTransactionId($payment)
+    {
+        $result = null;
+        $statuses = $payment['statuses'];
+        foreach ($statuses as $st) {
+            if (isset($st['status']['provider-transaction-id'])) {
+                if ($result !== null) {
+                    // Add check
+                }
+                $result = $st['status']['provider-transaction-id'];
+            }
+        }
+
+        return $result;
     }
 }

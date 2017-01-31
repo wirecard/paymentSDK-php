@@ -7,6 +7,7 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;
 use Monolog\Handler\ErrorLogHandler;
 use Monolog\Logger;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -165,5 +166,14 @@ class TransactionService
         );
 
         return $this->getResponseMapper()->map($response->getBody()->getContents());
+    }
+
+    /**
+     * @param string $jsonResponse
+     * @return FailureResponse|InteractionResponse
+     */
+    public function handleNotification($jsonResponse)
+    {
+        return $this->getResponseMapper()->map($jsonResponse);
     }
 }

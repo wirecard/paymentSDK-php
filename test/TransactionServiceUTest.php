@@ -7,6 +7,9 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Wirecard\PaymentSdk\Config;
+use Wirecard\PaymentSdk\InteractionResponse;
+use Wirecard\PaymentSdk\MalformedResponseException;
+use Wirecard\PaymentSdk\StatusCollection;
 use Wirecard\PaymentSdk\TransactionService;
 
 class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
@@ -209,6 +212,36 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->instance = new TransactionService($this->config, null, $client);
 
         $this->instance->pay($this->getTransactionMock());
+    }
+
+    public function testHandleNotificationHappyPath()
+    {
+        $validJsonContent = '{dummy-field: "dummy-value"}';
+
+        $responseMapper = $this->createMock('Wirecard\PaymentSdk\ResponseMapper');
+        $interactionResponse = new InteractionResponse('dummy', new StatusCollection(), 'x', 'y');
+        $responseMapper->method('map')->with($validJsonContent)->willReturn($interactionResponse);
+
+        $this->instance = new TransactionService($this->config, null, null, null, $responseMapper);
+
+        $result = $this->instance->handleNotification($validJsonContent);
+
+        $this->assertEquals($interactionResponse, $result);
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
+     */
+    public function testHandleNotificationMalformedResponseException()
+    {
+        $validJsonContent = '{dummy-field: "dummy-value"}';
+
+        $responseMapper = $this->createMock('Wirecard\PaymentSdk\ResponseMapper');
+        $responseMapper->method('map')->with($validJsonContent)->willThrowException(new MalformedResponseException());
+
+        $this->instance = new TransactionService($this->config, null, null, null, $responseMapper);
+
+        $this->instance->handleNotification($validJsonContent);
     }
 
     protected function getTransactionMock()
