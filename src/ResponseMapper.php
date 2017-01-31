@@ -41,6 +41,14 @@ class ResponseMapper
                 throw new MalformedResponseException('Missing transaction-id in response.');
             }
 
+            if (!array_key_exists('payment-methods', $payment)) {
+                throw new MalformedResponseException('Missing payment method in response.');
+            }
+
+            if (!array_key_exists('payment-method', $payment['payment-methods'])) {
+                throw new MalformedResponseException('Missing payment method in response.');
+            }
+
             //using isset, because array_key_exists only goes 1 layer deep
             if (isset($payment['payment-methods']['payment-method'][0]['url'])) {
                 $redirectUrl = $payment['payment-methods']['payment-method'][0]['url'];

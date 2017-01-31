@@ -3,6 +3,7 @@ namespace WirecardTest\PaymentSdk;
 
 use Wirecard\PaymentSdk\FailureResponse;
 use Wirecard\PaymentSdk\InteractionResponse;
+use Wirecard\PaymentSdk\MalformedResponseException;
 use Wirecard\PaymentSdk\ResponseMapper;
 use Wirecard\PaymentSdk\SuccessResponse;
 
@@ -61,6 +62,52 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(FailureResponse::class, $mapped);
 
         $this->assertCount(2, $mapped->getStatusCollection());
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
+     */
+    public function testTransactionStateSuccessNoPaymentMethodThrowsMalformedResponseException()
+    {
+        $response = json_encode([
+            self::PAYMENT => [
+                self::TRANSACTION_ID => '12345',
+                self::TRANSACTION_STATE => 'success',
+                self::STATUSES => [['status' =>
+                    [
+                        self::STATUS_CODE => '200',
+                        self::STATUS_DESCRIPTION => 'UnitTest',
+                        self::STATUS_SEVERITY => 'information'
+                    ],
+                ]]
+            ]
+        ]);
+
+        $this->mapper->map($response);
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
+     */
+    public function testTransactionStateSuccessNoSinglePaymentMethodThrowsMalformedResponseException()
+    {
+        $response = json_encode([
+            self::PAYMENT => [
+                self::TRANSACTION_ID => '12345',
+                self::TRANSACTION_STATE => 'success',
+                self::STATUSES => [['status' =>
+                    [
+                        self::STATUS_CODE => '200',
+                        self::STATUS_DESCRIPTION => 'UnitTest',
+                        self::STATUS_SEVERITY => 'information'
+                    ],
+                ]],
+                self::PAYMENT_METHODS => [
+                ]
+            ]
+        ]);
+
+        $this->mapper->map($response);
     }
 
     public function testTransactionStateSuccessReturnsFilledInteractionResponseObject()
