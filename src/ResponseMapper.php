@@ -8,7 +8,7 @@ namespace Wirecard\PaymentSdk;
 class ResponseMapper
 {
     /**
-     * map the jsonResponse from engine to ResponseObjects
+     * map the xml Response from engine to ResponseObjects
      *
      * @param $xmlResponse
      * @return FailureResponse|InteractionResponse
@@ -16,14 +16,18 @@ class ResponseMapper
      */
     public function map($xmlResponse)
     {
+        //we need to use internal_errors, because we don't want to throw errors on invalid xml responses
         $oldErrorHandling = libxml_use_internal_errors(true);
         $response = simplexml_load_string($xmlResponse);
+        //reset to old value after string is loaded
         libxml_use_internal_errors($oldErrorHandling);
         if (!$response instanceof \SimpleXMLElement) {
             throw new MalformedResponseException('Response is not a valid xml string.');
         }
 
-        if ($response->{'transaction-state'}) {
+        //we have to string cast all fields, otherwise the contain SimpleXMLElements
+
+        if (isset($response->{'transaction-state'})) {
             $state = (string)$response->{'transaction-state'};
         } else {
             throw new MalformedResponseException('Missing transaction state in response.');
@@ -31,14 +35,13 @@ class ResponseMapper
 
         $statusCollection = $this->getStatusCollection($response);
         if ($state === 'success') {
-            //using isset, because array_key_exists only goes 1 layer deep
-            if ($response->{'payment-methods'}->{'payment-method'}) {
+            if (isset($response->{'payment-methods'}->{'payment-method'}['url'])) {
                 $redirectUrl = (string)$response->{'payment-methods'}->{'payment-method'}['url'];
             } else {
                 throw new MalformedResponseException('Missing url for redirect in response.');
             }
 
-            if ($response->{'transaction-id'}) {
+            if (isset($response->{'transaction-id'})) {
                 $transactionId = (string)$response->{'transaction-id'};
             } else {
                 throw new MalformedResponseException('Missing transaction-id in response.');
