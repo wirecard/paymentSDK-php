@@ -51,7 +51,7 @@ class ResponseMapper
                     $redirectUrl
                 );
             } else {
-                $providerTransactionId = $payment['statuses'][0]['status']['provider-transaction-id'];
+                $providerTransactionId = $this->retrieveProviderTransactionId($payment);
                 $responseObject = new SuccessResponse(
                     $jsonResponse,
                     $statusCollection,
@@ -99,5 +99,25 @@ class ResponseMapper
         }
 
         return $collection;
+    }
+
+    /**
+     * @param $payment
+     * @return mixed
+     */
+    private function retrieveProviderTransactionId($payment)
+    {
+        $result = null;
+        $statuses = $payment['statuses'];
+        foreach ($statuses as $st) {
+            if (isset($st['status']['provider-transaction-id'])) {
+                if ($result !== null) {
+
+                }
+                $result = $st['status']['provider-transaction-id'];
+            }
+        }
+
+        return $result;
     }
 }
