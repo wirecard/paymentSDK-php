@@ -32,6 +32,7 @@ class RequestMapper
     public function map(PayPalTransaction $transaction)
     {
         $onlyPaymentMethod = ['payment-method' => [['name' => 'paypal']]];
+        $onlyNotificationUrl = ['notification' => [['url' => $transaction->getNotificationUrl()]]];
         $amount = [
             'currency' => $transaction->getAmount()->getCurrency(),
             'value' => $transaction->getAmount()->getAmount()
@@ -45,7 +46,8 @@ class RequestMapper
             'requested-amount' => $amount,
             'payment-methods' => $onlyPaymentMethod,
             'cancel-redirect-url' => $transaction->getRedirect()->getCancelUrl(),
-            'success-redirect-url' => $transaction->getRedirect()->getSuccessUrl()
+            'success-redirect-url' => $transaction->getRedirect()->getSuccessUrl(),
+            'notifications' => $onlyNotificationUrl
         ]];
         return json_encode($result);
     }

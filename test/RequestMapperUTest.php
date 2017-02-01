@@ -28,7 +28,8 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
             'requested-amount' => ['currency' => 'EUR', 'value' => 24],
             'payment-methods' => ['payment-method' => [['name' => 'paypal']]],
             'cancel-redirect-url' => 'http://www.example.com/cancel',
-            'success-redirect-url' => 'http://www.example.com/success'
+            'success-redirect-url' => 'http://www.example.com/success',
+            'notifications' => ['notification' => [['url' => 'http://www.example.com']]]
         ]];
 
         $redirect = new Redirect('http://www.example.com/success', 'http://www.example.com/cancel');
