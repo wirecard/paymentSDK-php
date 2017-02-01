@@ -62,7 +62,8 @@ class TransactionService
         RequestMapper $requestMapper = null,
         ResponseMapper $responseMapper = null,
         RequestIdGenerator $requestIdGenerator = null
-    ) {
+    )
+    {
         $this->config = $config;
         $this->logger = $logger;
         $this->httpClient = $httpClient;
@@ -95,6 +96,16 @@ class TransactionService
         );
 
         return $this->getResponseMapper()->map($response->getBody()->getContents());
+    }
+
+    /**
+     * @param string $xmlResponse
+     * @return FailureResponse|InteractionResponse
+     * @throws \Wirecard\PaymentSdk\MalformedResponseException
+     */
+    public function handleNotification($xmlResponse)
+    {
+        return $this->getResponseMapper()->map($xmlResponse);
     }
 
     /**
