@@ -119,8 +119,6 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                             provider-transaction-id="W0RWI653B31MAU649" 
                             severity="information"/>
                         </statuses>
-                        <payment-methods>
-                        </payment-methods>
                     </payment>';
 
         $this->mapper->map($response);
@@ -141,6 +139,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                             provider-transaction-id="W0RWI653B31MAU649" 
                             severity="information"/>
                         </statuses>
+                        <payment-methods>
+                        </payment-methods>
                     </payment>';
 
         $this->mapper->map($response);
