@@ -16,6 +16,8 @@ class ResponseMapper
      */
     public function map($xmlResponse)
     {
+        $decodedResponse = base64_decode($xmlResponse);
+        $xmlResponse = (base64_encode($decodedResponse) === $xmlResponse) ? $decodedResponse : $xmlResponse;
         //we need to use internal_errors, because we don't want to throw errors on invalid xml responses
         $oldErrorHandling = libxml_use_internal_errors(true);
         $response = simplexml_load_string($xmlResponse);
@@ -100,31 +102,6 @@ class ResponseMapper
     }
 
     /**
-     * @param $xmlResponse
-     * @return mixed
-     * @throws \Wirecard\PaymentSdk\MalformedResponseException
-     */
-    private function retrieveProviderTransactionId($xmlResponse)
-    {
-        $result = null;
-        foreach ($xmlResponse->{'statuses'}->{'status'} as $status) {
-            if ($result === null) {
-                $result = $status['provider-transaction-id'];
-            }
-
-            if (strcmp($result, $status['provider-transaction-id']) !== 0) {
-                throw new MalformedResponseException('More different provider transaction ID-s in response.');
-            }
-        }
-
-        if ($result === null) {
-            throw new MalformedResponseException('No provider transaction ID in response.');
-        }
-
-        return $result;
-    }
-
-    /**
      * @param $response
      * @throws \Wirecard\PaymentSdk\MalformedResponseException
      */
@@ -153,5 +130,30 @@ class ResponseMapper
         if (!isset($response->{'statuses'}->{'status'})) {
             throw new MalformedResponseException('Statuses is empty in response.');
         }
+    }
+
+    /**
+     * @param $xmlResponse
+     * @return string
+     * @throws \Wirecard\PaymentSdk\MalformedResponseException
+     */
+    private function retrieveProviderTransactionId($xmlResponse)
+    {
+        $result = null;
+        foreach ($xmlResponse->{'statuses'}->{'status'} as $status) {
+            if ($result === null) {
+                $result = $status['provider-transaction-id'];
+            }
+
+            if (strcmp($result, $status['provider-transaction-id']) !== 0) {
+                throw new MalformedResponseException('More different provider transaction ID-s in response.');
+            }
+        }
+
+        if ($result === null) {
+            throw new MalformedResponseException('No provider transaction ID in response.');
+        }
+
+        return (string)$result;
     }
 }

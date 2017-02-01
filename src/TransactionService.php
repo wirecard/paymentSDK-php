@@ -62,7 +62,8 @@ class TransactionService
         RequestMapper $requestMapper = null,
         ResponseMapper $responseMapper = null,
         RequestIdGenerator $requestIdGenerator = null
-    ) {
+    )
+    {
         $this->config = $config;
         $this->logger = $logger;
         $this->httpClient = $httpClient;
@@ -95,16 +96,6 @@ class TransactionService
         );
 
         return $this->getResponseMapper()->map($response->getBody()->getContents());
-    }
-
-    /**
-     * @param $xmlResponse
-     * @return FailureResponse|InteractionResponse|SuccessResponse
-     * @throws \Wirecard\PaymentSdk\MalformedResponseException
-     */
-    public function handleNotification($xmlResponse)
-    {
-        return $this->getResponseMapper()->map($xmlResponse);
     }
 
     /**
@@ -161,6 +152,30 @@ class TransactionService
         }
 
         return $this->responseMapper;
+    }
+
+    /**
+     * @param $xmlResponse
+     * @return FailureResponse|InteractionResponse|SuccessResponse
+     * @throws \Wirecard\PaymentSdk\MalformedResponseException
+     */
+    public function handleNotification($xmlResponse)
+    {
+        return $this->getResponseMapper()->map($xmlResponse);
+    }
+
+    /**
+     * @param array $payload
+     * @return FailureResponse|InteractionResponse|SuccessResponse
+     * @throws MalformedResponseException
+     */
+    public function handleResponse(Array $payload)
+    {
+        if (array_key_exists('eppresponse', $payload)) {
+            return $this->getResponseMapper()->map($payload['eppresponse']);
+        } else {
+            throw new MalformedResponseException('Missing response in payload');
+        }
     }
 
     /**
