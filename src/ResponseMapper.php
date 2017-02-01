@@ -34,29 +34,26 @@ class ResponseMapper
         }
 
         $statusCollection = $this->getStatusCollection($response);
-        if ($state === 'success') {
-            if (isset($response->{'transaction-id'})) {
-                $transactionId = (string)$response->{'transaction-id'};
-            } else {
-                throw new MalformedResponseException('Missing transaction-id in response.');
-            }
+        if ($state !== 'success') {
+            return new FailureResponse($xmlResponse, $statusCollection);
+        }
 
+        if (!isset($response->{'transaction-id'})) {
+            throw new MalformedResponseException('Missing transaction-id in response.');
+        }
+        $transactionId = (string)$response->{'transaction-id'};
 
-            if (isset($response->{'payment-methods'}->{'payment-method'}['url'])) {
-                $redirectUrl = (string)$response->{'payment-methods'}->{'payment-method'}['url'];
-                $responseObject = new InteractionResponse($xmlResponse, $statusCollection, $transactionId, $redirectUrl);
-            } else {
-                $providerTransactionId = $response->{'statuses'}->{'status'}['provider-transaction-id'];
-                $responseObject = new SuccessResponse(
-                    $xmlResponse,
-                    $statusCollection,
-                    $transactionId,
-                    $providerTransactionId
-                );
-            }
-
+        if (isset($response->{'payment-methods'}->{'payment-method'}['url'])) {
+            $redirectUrl = (string)$response->{'payment-methods'}->{'payment-method'}['url'];
+            $responseObject = new InteractionResponse($xmlResponse, $statusCollection, $transactionId, $redirectUrl);
         } else {
-            $responseObject = new FailureResponse($xmlResponse, $statusCollection);
+            $providerTransactionId = $response->{'statuses'}->{'status'}['provider-transaction-id'];
+            $responseObject = new SuccessResponse(
+                $xmlResponse,
+                $statusCollection,
+                $transactionId,
+                $providerTransactionId
+            );
         }
 
         return $responseObject;
