@@ -271,4 +271,35 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         $this->instance->handleNotification($invalidXmlContent);
     }
+
+    public function testHandleResponseHappyPath()
+    {
+        $validContent = [
+            'eppresponse' => base64_encode('<xml><payment></payment></xml>')
+        ];
+
+        $responseMapper = $this->createMock('Wirecard\PaymentSdk\ResponseMapper');
+        $interactionResponse = new InteractionResponse('dummy', new StatusCollection(), 'x', 'y');
+        $responseMapper->method('map')->with($validContent['eppresponse'])->willReturn($interactionResponse);
+
+        $this->instance = new TransactionService($this->config, null, null, null, $responseMapper);
+
+        $result = $this->instance->handleResponse($validContent);
+
+        $this->assertEquals($interactionResponse, $result);
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
+     */
+    public function testHandleResponseMalformedResponseException()
+    {
+        $invalidXmlContent = [];
+
+        $responseMapper = $this->createMock('Wirecard\PaymentSdk\ResponseMapper');
+
+        $this->instance = new TransactionService($this->config, null, null, null, $responseMapper);
+
+        $this->instance->handleResponse($invalidXmlContent);
+    }
 }
