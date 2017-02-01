@@ -4,6 +4,7 @@ namespace WirecardTest\PaymentSdk;
 use Wirecard\PaymentSdk\FailureResponse;
 use Wirecard\PaymentSdk\InteractionResponse;
 use Wirecard\PaymentSdk\ResponseMapper;
+use Wirecard\PaymentSdk\SuccessResponse;
 
 class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 {
@@ -74,6 +75,216 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('12345', $mapped->getTransactionId());
         $this->assertEquals('http://www.example.com/redirect-url', $mapped->getRedirectUrl());
         $this->assertCount(1, $mapped->getStatusCollection());
+        $this->assertEquals($response, $mapped->getRawData());
+    }
+
+    public function testTransactionStateSuccessReturnsFilledSuccessResponseObject()
+    {
+        $response = '<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <statuses>
+                            <status 
+                            code="201.0000" 
+                            description="paypal:The resource was successfully created." 
+                            provider-transaction-id="W0RWI653B31MAU649" 
+                            severity="information"/>
+                        </statuses>
+                        <payment-methods>
+                            <payment-method name="paypal"></payment-method>
+                        </payment-methods>
+                    </payment>';
+
+        $mapped = $this->mapper->map($response);
+        $this->assertInstanceOf(SuccessResponse::class, $mapped);
+
+        $this->assertEquals('12345', $mapped->getTransactionId());
+        $this->assertEquals('W0RWI653B31MAU649', $mapped->getProviderTransactionId());
+        $this->assertCount(1, $mapped->getStatusCollection());
+        $this->assertEquals($response, $mapped->getRawData());
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
+     * @dataProvider invalidResponseProvider
+     * @param $xmlResponse
+     */
+    public function testInvalidResponseThrowsException($xmlResponse)
+    {
+        $this->mapper->map($xmlResponse);
+    }
+
+    public function invalidResponseProvider()
+    {
+        return [
+            ['<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <statuses>
+                            <status 
+                            code="201.0000" 
+                            description="paypal:The resource was successfully created." 
+                            provider-transaction-id="W0RWI653B31MAU649" 
+                            severity="information"/>
+                        </statuses>
+                    </payment>'],
+            ['<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <statuses>
+                            <status 
+                            code="201.0000" 
+                            description="paypal:The resource was successfully created." 
+                            provider-transaction-id="W0RWI653B31MAU649" 
+                            severity="information"/>
+                        </statuses>
+                        <payment-methods>
+                        </payment-methods>
+                    </payment>'],
+            ['<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <statuses>
+                            <status 
+                            code="201.0000" 
+                            description="paypal:The resource was successfully created." 
+                            provider-transaction-id="W0RWI653B31MAU649" 
+                            severity="information"/>
+                        </statuses>
+                        <payment-methods>
+                            <payment-method name="paypal"></payment-method>
+                            <payment-method name="eft"></payment-method>
+                        </payment-methods>
+                    </payment>'],
+
+            ['<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <payment-methods>
+                            <payment-method name="paypal"></payment-method>
+                        </payment-methods>
+                    </payment>'],
+
+            ['<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <statuses></statuses>
+                        <payment-methods>
+                            <payment-method name="paypal"></payment-method>
+                        </payment-methods>
+                    </payment>'],
+
+            ['<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <statuses>
+                            <status 
+                            code="201.0000" 
+                            description="paypal:The resource was successfully created."                             
+                            severity="information"/>
+                        </statuses>
+                        <payment-methods>
+                            <payment-method name="paypal"></payment-method>
+                        </payment-methods>
+                    </payment>'],
+
+            ['<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <statuses>
+                            <status 
+                            code="302.0000" 
+                            description="paypal:A funny status."                             
+                            severity="information"/>
+                            <status 
+                            code="201.0000" 
+                            description="paypal:The resource was successfully created."                             
+                            severity="information"/>
+                        </statuses>
+                        <payment-methods>
+                            <payment-method name="paypal"></payment-method>
+                        </payment-methods>
+                    </payment>'],
+            ['<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <statuses>
+                            <status 
+                            code="305.0000" 
+                            description="paypal:Status before." 
+                            provider-transaction-id="xxx" 
+                            severity="information"/>
+                            <status 
+                            code="201.0000" 
+                            description="paypal:The resource was successfully created." 
+                            provider-transaction-id="W0RWI653B31MAU649" 
+                            severity="information"/>
+                        </statuses>
+                        <payment-methods>
+                            <payment-method name="paypal"></payment-method>
+                        </payment-methods>
+                    </payment>']
+        ];
+    }
+
+    public function testMoreStatusesWithTheSameProviderTransactionIdReturnsSuccess()
+    {
+        $response = '<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <statuses>
+                            <status 
+                            code="305.0000" 
+                            description="paypal:Status before." 
+                            provider-transaction-id="xxx" 
+                            severity="information"/>
+                            <status 
+                            code="201.0000" 
+                            description="paypal:The resource was successfully created." 
+                            provider-transaction-id="xxx" 
+                            severity="information"/>
+                        </statuses>
+                        <payment-methods>
+                            <payment-method name="paypal"></payment-method>
+                        </payment-methods>
+                    </payment>';
+
+        $mapped = $this->mapper->map($response);
+        $this->assertInstanceOf(SuccessResponse::class, $mapped);
+
+        $this->assertEquals('12345', $mapped->getTransactionId());
+        $this->assertEquals('xxx', $mapped->getProviderTransactionId());
+        $this->assertCount(2, $mapped->getStatusCollection());
+        $this->assertEquals($response, $mapped->getRawData());
+    }
+
+    public function testMoreStatusesOnlyOneHasProviderTransactionIdReturnsSuccess()
+    {
+        $response = '<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <statuses>
+                            <status 
+                            code="305.0000" 
+                            description="paypal:Status before." 
+                            severity="information"/>
+                            <status 
+                            code="201.0000" 
+                            description="paypal:The resource was successfully created." 
+                            provider-transaction-id="xxx" 
+                            severity="information"/>
+                        </statuses>
+                        <payment-methods>
+                            <payment-method name="paypal"></payment-method>
+                        </payment-methods>
+                    </payment>';
+
+        $mapped = $this->mapper->map($response);
+        $this->assertInstanceOf(SuccessResponse::class, $mapped);
+
+        $this->assertEquals('12345', $mapped->getTransactionId());
+        $this->assertEquals('xxx', $mapped->getProviderTransactionId());
+        $this->assertCount(2, $mapped->getStatusCollection());
         $this->assertEquals($response, $mapped->getRawData());
     }
 
