@@ -7,8 +7,10 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\TransactionService;
+use Monolog\Logger;
+use \Monolog\Handler\StreamHandler;
 use Wirecard\PaymentSdk\SuccessResponse;
-use Wirecard\PaymentSDK\FailureResponse;
+use Wirecard\PaymentSdk\FailureResponse;
 
 // ### Config
 // The `Config` object holds all interface configuration options.
@@ -18,14 +20,17 @@ $config = new Config('https://api-test.wirecard.com/engine/rest/paymentmethods/'
 // The `TransactionService` is used to determine the response from the service provider.
 $service = new TransactionService($config);
 
-$response = $service->handleResponse($_POST);
+// ### Notification status
+$response = $service->handleNotification($_POST);
 
-// ### Payment results
-// The response from the service can be used for disambiguation.
-// In case of a successful transaction, a `SuccessResponse` object is returned.
-if($response instanceof SuccessResponse) {
-    echo sprintf('Payment with id %s successfully completed.<br>', $response->getTransactionId());
-    // In case of a failed transaction, a `FailureResponse` object is returned.
-} elseif ($response instanceof FailureResponse) {
-    echo sprintf('Payment with id %s failed.<br>', $response->getTransactionId());
+// We use Monolog as logger. Set up a logger for the notifications.
+$log = new Logger('Wirecard notifications');
+$log->pushHandler(new StreamHandler(__DIR__.'/logs/notify.log', Logger::INFO));
+
+// Log the notification for a successful transaction.
+if ($response instanceof SuccessResponse ) {
+    $log->info(sprintf('Transaction with id %s was successful.', $response->getTransactionId()));
+// Log the notification for a falied transaction.
+} elseif($response instanceof FailureResponse) {
+    $log->warning(sprintf('Transaction with id %s failed.', $response->getTransactionId()));
 }

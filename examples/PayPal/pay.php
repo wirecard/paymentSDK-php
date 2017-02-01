@@ -1,9 +1,9 @@
 <?php
 
 // # PayPal payment transaction
-// This example displays the usage payments for payment method PayPal
+// This example displays the usage payments for payment method PayPal.
 
-// we are using psr-4 autoloading through composer
+// PSR-4 autoloading is used through composer.
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
@@ -22,7 +22,7 @@ function getUrl($path)
 {
     $protocol = 'http';
 
-    if ($_SERVER['SERVER_PORT'] == 443 || (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) === 'on')) {
+    if ($_SERVER['SERVER_PORT'] === 443 || (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) === 'on')) {
         $protocol .= 's';
     }
 
@@ -31,20 +31,21 @@ function getUrl($path)
     return dirname(sprintf('%s://%s%s', $protocol, $host, $request)) . '/' . $path;
 }
 
+
 // ### Money object
-// Use the money object as amount which has to be payed by the consumer
+// Use the money object as amount which has to be payed by the consumer.
 $amount = new Money(12.59, 'EUR');
 
-// ### Redirect urls
-// The redirect urls determine where the consumer should be redirected by PayPal after approval/cancellation.
+// ### Redirect URLs
+// The redirect URLs determine where the consumer should be redirected by PayPal after approval/cancellation.
 $redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
 
 // ### Notification url
-// As soon as the transaction status changes a server-to-server notification will get delivered to this url
-$notificationUrl = 'https://requestb.in/uno8hnun';
+// As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
+$notificationUrl = 'notify.php';
 
 // ### Transaction
-// The PayPal transaction holds all transaction relevant data for the payment process
+// The PayPal transaction holds all transaction relevant data for the payment process.
 $transaction = new PayPalTransaction($amount, $notificationUrl, $redirectUrls);
 
 // ### Config
@@ -58,14 +59,14 @@ $response = $transactionService->pay($transaction);
 
 // ### Response handling
 // The response of the service must be handled depending on it's class
-// In case of an InteractionResponse browserinteraction by the consumer is required in order to continue the payment process
-// In this example we proceed with a header redirect to the given redirectUrl. IFrame integration using this url is also possible
+// In case of an `InteractionResponse`, a browser interaction by the consumer is required in order to continue the payment process.
+// In this example we proceed with a header redirect to the given _redirectUrl_. IFrame integration using this URL is also possible.
 if ($response instanceof InteractionResponse) {
     header('location: ' . $response->getRedirectUrl());
     exit;
-// The failure state is represented by a FailureResponse object. In this case the returned errors should be stored in your system
+// The failure state is represented by a FailureResponse object. In this case the returned errors should be stored in your system.
 } else if ($response instanceof FailureResponse) {
-// In our example we iterate over all errors and echo them out. You should display them as error, warning or information based on the given severity
+// In our example we iterate over all errors and echo them out. You should display them as error, warning or information based on the given severity.
     foreach ($response->getStatusCollection() AS $status) {
         /**
          * @var $status \Wirecard\PaymentSdk\Status
