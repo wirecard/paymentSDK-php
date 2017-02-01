@@ -11,7 +11,7 @@ class ResponseMapper
      * map the xml Response from engine to ResponseObjects
      *
      * @param $xmlResponse
-     * @return FailureResponse|InteractionResponse
+     * @return FailureResponse|InteractionResponse|SuccessResponse
      * @throws MalformedResponseException
      */
     public function map($xmlResponse)
@@ -35,19 +35,26 @@ class ResponseMapper
 
         $statusCollection = $this->getStatusCollection($response);
         if ($state === 'success') {
-            if (isset($response->{'payment-methods'}->{'payment-method'}['url'])) {
-                $redirectUrl = (string)$response->{'payment-methods'}->{'payment-method'}['url'];
-            } else {
-                throw new MalformedResponseException('Missing url for redirect in response.');
-            }
-
             if (isset($response->{'transaction-id'})) {
                 $transactionId = (string)$response->{'transaction-id'};
             } else {
                 throw new MalformedResponseException('Missing transaction-id in response.');
             }
 
-            $responseObject = new InteractionResponse($xmlResponse, $statusCollection, $transactionId, $redirectUrl);
+
+            if (isset($response->{'payment-methods'}->{'payment-method'}['url'])) {
+                $redirectUrl = (string)$response->{'payment-methods'}->{'payment-method'}['url'];
+                $responseObject = new InteractionResponse($xmlResponse, $statusCollection, $transactionId, $redirectUrl);
+            } else {
+                $providerTransactionId = $response->{'statuses'}->{'status'}['provider-transaction-id'];
+                $responseObject = new SuccessResponse(
+                    $xmlResponse,
+                    $statusCollection,
+                    $transactionId,
+                    $providerTransactionId
+                );
+            }
+
         } else {
             $responseObject = new FailureResponse($xmlResponse, $statusCollection);
         }

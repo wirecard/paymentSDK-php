@@ -99,8 +99,8 @@ class TransactionService
     }
 
     /**
-     * @param string $xmlResponse
-     * @return FailureResponse|InteractionResponse
+     * @param $xmlResponse
+     * @return FailureResponse|InteractionResponse|SuccessResponse
      * @throws \Wirecard\PaymentSdk\MalformedResponseException
      */
     public function handleNotification($xmlResponse)
