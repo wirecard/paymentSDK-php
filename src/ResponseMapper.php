@@ -43,6 +43,18 @@ class ResponseMapper
         }
         $transactionId = (string)$response->{'transaction-id'};
 
+        if (!isset($response->{'payment-methods'})) {
+            throw new MalformedResponseException('Missing payment methods in response.');
+        }
+
+        if (!isset($response->{'payment-methods'}->{'payment-method'})) {
+            throw new MalformedResponseException('Payment methods is empty in response.');
+        }
+
+        if (count($response->{'payment-methods'}->{'payment-method'}) > 1) {
+            throw new MalformedResponseException('More payment methods in response.');
+        }
+
         if (isset($response->{'payment-methods'}->{'payment-method'}['url'])) {
             $redirectUrl = (string)$response->{'payment-methods'}->{'payment-method'}['url'];
             $responseObject = new InteractionResponse($xmlResponse, $statusCollection, $transactionId, $redirectUrl);

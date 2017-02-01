@@ -106,6 +106,72 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
+     */
+    public function testNoPaymentMethodsThrowsMalformedResponseException()
+    {
+        $response = '<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <statuses>
+                            <status 
+                            code="201.0000" 
+                            description="paypal:The resource was successfully created." 
+                            provider-transaction-id="W0RWI653B31MAU649" 
+                            severity="information"/>
+                        </statuses>
+                        <payment-methods>
+                        </payment-methods>
+                    </payment>';
+
+        $this->mapper->map($response);
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
+     */
+    public function testPaymentMethodsIsEmptyThrowsMalformedResponseException()
+    {
+        $response = '<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <statuses>
+                            <status 
+                            code="201.0000" 
+                            description="paypal:The resource was successfully created." 
+                            provider-transaction-id="W0RWI653B31MAU649" 
+                            severity="information"/>
+                        </statuses>
+                    </payment>';
+
+        $this->mapper->map($response);
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
+     */
+    public function testMorePaymentMethodsThrowsMalformedResponseException()
+    {
+        $response = '<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <statuses>
+                            <status 
+                            code="201.0000" 
+                            description="paypal:The resource was successfully created." 
+                            provider-transaction-id="W0RWI653B31MAU649" 
+                            severity="information"/>
+                        </statuses>
+                        <payment-methods>
+                            <payment-method name="paypal"></payment-method>
+                            <payment-method name="eft"></payment-method>
+                        </payment-methods>
+                    </payment>';
+
+        $mapped = $this->mapper->map($response);
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
      * @dataProvider malformedResponseProvider
      * @param $jsonResponse
      */
