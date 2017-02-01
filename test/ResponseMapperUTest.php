@@ -167,7 +167,147 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         </payment-methods>
                     </payment>';
 
+        $this->mapper->map($response);
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
+     */
+    public function testNoStatusesThrowsMalformedResponseException()
+    {
+        $response = '<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <payment-methods>
+                            <payment-method name="paypal"></payment-method>
+                        </payment-methods>
+                    </payment>';
+
+        $this->mapper->map($response);
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
+     */
+    public function testEmptyStatusesThrowsMalformedResponseException()
+    {
+        $response = '<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <statuses></statuses>
+                        <payment-methods>
+                            <payment-method name="paypal"></payment-method>
+                        </payment-methods>
+                    </payment>';
+
+        $this->mapper->map($response);
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
+     */
+    public function testOneStatusWithoutProviderTransactionIdThrowsMalformedResponseException()
+    {
+        $response = '<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <statuses>
+                            <status 
+                            code="201.0000" 
+                            description="paypal:The resource was successfully created."                             
+                            severity="information"/>
+                        </statuses>
+                        <payment-methods>
+                            <payment-method name="paypal"></payment-method>
+                        </payment-methods>
+                    </payment>';
+
+        $this->mapper->map($response);
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
+     */
+    public function testMoreStatusesAllWithoutProviderTransactionIdThrowsMalformedResponseException()
+    {
+        $response = '<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <statuses>
+                            <status 
+                            code="302.0000" 
+                            description="paypal:A funny status."                             
+                            severity="information"/>
+                            <status 
+                            code="201.0000" 
+                            description="paypal:The resource was successfully created."                             
+                            severity="information"/>
+                        </statuses>
+                        <payment-methods>
+                            <payment-method name="paypal"></payment-method>
+                        </payment-methods>
+                    </payment>';
+
+        $this->mapper->map($response);
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
+     */
+    public function testMoreStatusesWithDifferentProviderTransactionIdsThrowsMalformedResponseException()
+    {
+        $response = '<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <statuses>
+                            <status 
+                            code="305.0000" 
+                            description="paypal:Status before." 
+                            provider-transaction-id="xxx" 
+                            severity="information"/>
+                            <status 
+                            code="201.0000" 
+                            description="paypal:The resource was successfully created." 
+                            provider-transaction-id="W0RWI653B31MAU649" 
+                            severity="information"/>
+                        </statuses>
+                        <payment-methods>
+                            <payment-method name="paypal"></payment-method>
+                        </payment-methods>
+                    </payment>';
+
+        $this->mapper->map($response);
+    }
+
+    public function testMoreStatusesWithTheSameProviderTransactionIdReturnsSuccess()
+    {
+        $response = '<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <statuses>
+                            <status 
+                            code="305.0000" 
+                            description="paypal:Status before." 
+                            provider-transaction-id="xxx" 
+                            severity="information"/>
+                            <status 
+                            code="201.0000" 
+                            description="paypal:The resource was successfully created." 
+                            provider-transaction-id="xxx" 
+                            severity="information"/>
+                        </statuses>
+                        <payment-methods>
+                            <payment-method name="paypal"></payment-method>
+                        </payment-methods>
+                    </payment>';
+
         $mapped = $this->mapper->map($response);
+        $this->assertInstanceOf(SuccessResponse::class, $mapped);
+
+        $this->assertEquals('12345', $mapped->getTransactionId());
+        $this->assertEquals('xxx', $mapped->getProviderTransactionId());
+        $this->assertCount(2, $mapped->getStatusCollection());
+        $this->assertEquals($response, $mapped->getRawData());
     }
 
     /**
