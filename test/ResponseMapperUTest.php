@@ -106,10 +106,18 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
+     * @dataProvider invalidResponseProvider
+     * @param $xmlResponse
      */
-    public function testNoPaymentMethodsThrowsMalformedResponseException()
+    public function testInvalidResponseThrowsException($xmlResponse)
     {
-        $response = '<payment>
+        $this->mapper->map($xmlResponse);
+    }
+
+    public function invalidResponseProvider()
+    {
+        return [
+            ['<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
                         <statuses>
@@ -119,17 +127,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                             provider-transaction-id="W0RWI653B31MAU649" 
                             severity="information"/>
                         </statuses>
-                    </payment>';
-
-        $this->mapper->map($response);
-    }
-
-    /**
-     * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
-     */
-    public function testPaymentMethodsIsEmptyThrowsMalformedResponseException()
-    {
-        $response = '<payment>
+                    </payment>'],
+            ['<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
                         <statuses>
@@ -141,17 +140,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         </statuses>
                         <payment-methods>
                         </payment-methods>
-                    </payment>';
-
-        $this->mapper->map($response);
-    }
-
-    /**
-     * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
-     */
-    public function testMorePaymentMethodsThrowsMalformedResponseException()
-    {
-        $response = '<payment>
+                    </payment>'],
+            ['<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
                         <statuses>
@@ -165,50 +155,26 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                             <payment-method name="paypal"></payment-method>
                             <payment-method name="eft"></payment-method>
                         </payment-methods>
-                    </payment>';
+                    </payment>'],
 
-        $this->mapper->map($response);
-    }
-
-    /**
-     * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
-     */
-    public function testNoStatusesThrowsMalformedResponseException()
-    {
-        $response = '<payment>
+            ['<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
                         <payment-methods>
                             <payment-method name="paypal"></payment-method>
                         </payment-methods>
-                    </payment>';
+                    </payment>'],
 
-        $this->mapper->map($response);
-    }
-
-    /**
-     * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
-     */
-    public function testEmptyStatusesThrowsMalformedResponseException()
-    {
-        $response = '<payment>
+            ['<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
                         <statuses></statuses>
                         <payment-methods>
                             <payment-method name="paypal"></payment-method>
                         </payment-methods>
-                    </payment>';
+                    </payment>'],
 
-        $this->mapper->map($response);
-    }
-
-    /**
-     * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
-     */
-    public function testOneStatusWithoutProviderTransactionIdThrowsMalformedResponseException()
-    {
-        $response = '<payment>
+            ['<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
                         <statuses>
@@ -220,17 +186,9 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         <payment-methods>
                             <payment-method name="paypal"></payment-method>
                         </payment-methods>
-                    </payment>';
+                    </payment>'],
 
-        $this->mapper->map($response);
-    }
-
-    /**
-     * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
-     */
-    public function testMoreStatusesAllWithoutProviderTransactionIdThrowsMalformedResponseException()
-    {
-        $response = '<payment>
+            ['<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
                         <statuses>
@@ -246,17 +204,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         <payment-methods>
                             <payment-method name="paypal"></payment-method>
                         </payment-methods>
-                    </payment>';
-
-        $this->mapper->map($response);
-    }
-
-    /**
-     * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
-     */
-    public function testMoreStatusesWithDifferentProviderTransactionIdsThrowsMalformedResponseException()
-    {
-        $response = '<payment>
+                    </payment>'],
+            ['<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
                         <statuses>
@@ -274,9 +223,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         <payment-methods>
                             <payment-method name="paypal"></payment-method>
                         </payment-methods>
-                    </payment>';
-
-        $this->mapper->map($response);
+                    </payment>']
+        ];
     }
 
     public function testMoreStatusesWithTheSameProviderTransactionIdReturnsSuccess()
