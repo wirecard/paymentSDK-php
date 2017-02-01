@@ -310,6 +310,36 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($response, $mapped->getRawData());
     }
 
+    public function testMoreStatusesOnlyOneHasProviderTransactionIdReturnsSuccess()
+    {
+        $response = '<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <statuses>
+                            <status 
+                            code="305.0000" 
+                            description="paypal:Status before." 
+                            severity="information"/>
+                            <status 
+                            code="201.0000" 
+                            description="paypal:The resource was successfully created." 
+                            provider-transaction-id="xxx" 
+                            severity="information"/>
+                        </statuses>
+                        <payment-methods>
+                            <payment-method name="paypal"></payment-method>
+                        </payment-methods>
+                    </payment>';
+
+        $mapped = $this->mapper->map($response);
+        $this->assertInstanceOf(SuccessResponse::class, $mapped);
+
+        $this->assertEquals('12345', $mapped->getTransactionId());
+        $this->assertEquals('xxx', $mapped->getProviderTransactionId());
+        $this->assertCount(2, $mapped->getStatusCollection());
+        $this->assertEquals($response, $mapped->getRawData());
+    }
+
     /**
      * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
      * @dataProvider malformedResponseProvider
