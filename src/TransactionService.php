@@ -98,16 +98,6 @@ class TransactionService
     }
 
     /**
-     * @param $xmlResponse
-     * @return FailureResponse|InteractionResponse|SuccessResponse
-     * @throws \Wirecard\PaymentSdk\MalformedResponseException
-     */
-    public function handleNotification($xmlResponse)
-    {
-        return $this->getResponseMapper()->map($xmlResponse);
-    }
-
-    /**
      * @return Client
      */
     protected function getHttpClient()
@@ -161,6 +151,30 @@ class TransactionService
         }
 
         return $this->responseMapper;
+    }
+
+    /**
+     * @param $xmlResponse
+     * @return FailureResponse|InteractionResponse|SuccessResponse
+     * @throws \Wirecard\PaymentSdk\MalformedResponseException
+     */
+    public function handleNotification($xmlResponse)
+    {
+        return $this->getResponseMapper()->map($xmlResponse);
+    }
+
+    /**
+     * @param array $payload
+     * @return FailureResponse|InteractionResponse|SuccessResponse
+     * @throws MalformedResponseException
+     */
+    public function handleResponse(array $payload)
+    {
+        if (array_key_exists('eppresponse', $payload)) {
+            return $this->getResponseMapper()->map($payload['eppresponse']);
+        } else {
+            throw new MalformedResponseException('Missing response in payload');
+        }
     }
 
     /**
