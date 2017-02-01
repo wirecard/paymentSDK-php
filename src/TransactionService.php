@@ -98,6 +98,16 @@ class TransactionService
     }
 
     /**
+     * @param $xmlResponse
+     * @return FailureResponse|InteractionResponse|SuccessResponse
+     * @throws \Wirecard\PaymentSdk\MalformedResponseException
+     */
+    public function handleNotification($xmlResponse)
+    {
+        return $this->getResponseMapper()->map($xmlResponse);
+    }
+
+    /**
      * @return Client
      */
     protected function getHttpClient()

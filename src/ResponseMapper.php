@@ -11,7 +11,7 @@ class ResponseMapper
      * map the xml Response from engine to ResponseObjects
      *
      * @param $xmlResponse
-     * @return FailureResponse|InteractionResponse
+     * @return FailureResponse|InteractionResponse|SuccessResponse
      * @throws MalformedResponseException
      */
     public function map($xmlResponse)
@@ -34,25 +34,26 @@ class ResponseMapper
         }
 
         $statusCollection = $this->getStatusCollection($response);
-        if ($state === 'success') {
-            if (isset($response->{'payment-methods'}->{'payment-method'}['url'])) {
-                $redirectUrl = (string)$response->{'payment-methods'}->{'payment-method'}['url'];
-            } else {
-                throw new MalformedResponseException('Missing url for redirect in response.');
-            }
-
-            if (isset($response->{'transaction-id'})) {
-                $transactionId = (string)$response->{'transaction-id'};
-            } else {
-                throw new MalformedResponseException('Missing transaction-id in response.');
-            }
-
-            $responseObject = new InteractionResponse($xmlResponse, $statusCollection, $transactionId, $redirectUrl);
-        } else {
-            $responseObject = new FailureResponse($xmlResponse, $statusCollection);
+        if ($state !== 'success') {
+            return new FailureResponse($xmlResponse, $statusCollection);
         }
 
-        return $responseObject;
+        $this->validateResponse($response);
+
+        $transactionId = (string)$response->{'transaction-id'};
+
+        if (isset($response->{'payment-methods'}->{'payment-method'}['url'])) {
+            $redirectUrl = (string)$response->{'payment-methods'}->{'payment-method'}['url'];
+            return new InteractionResponse($xmlResponse, $statusCollection, $transactionId, $redirectUrl);
+        } else {
+            $providerTransactionId = $this->retrieveProviderTransactionId($response);
+            return new SuccessResponse(
+                $xmlResponse,
+                $statusCollection,
+                $transactionId,
+                $providerTransactionId
+            );
+        }
     }
 
     /**
@@ -96,5 +97,61 @@ class ResponseMapper
         }
 
         return $collection;
+    }
+
+    /**
+     * @param $xmlResponse
+     * @return mixed
+     * @throws \Wirecard\PaymentSdk\MalformedResponseException
+     */
+    private function retrieveProviderTransactionId($xmlResponse)
+    {
+        $result = null;
+        foreach ($xmlResponse->{'statuses'}->{'status'} as $status) {
+            if ($result === null) {
+                $result = $status['provider-transaction-id'];
+            }
+
+            if (strcmp($result, $status['provider-transaction-id']) !== 0) {
+                throw new MalformedResponseException('More different provider transaction ID-s in response.');
+            }
+        }
+
+        if ($result === null) {
+            throw new MalformedResponseException('No provider transaction ID in response.');
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param $response
+     * @throws \Wirecard\PaymentSdk\MalformedResponseException
+     */
+    private function validateResponse($response)
+    {
+        if (!isset($response->{'transaction-id'})) {
+            throw new MalformedResponseException('Missing transaction-id in response.');
+        }
+
+        if (!isset($response->{'payment-methods'})) {
+            throw new MalformedResponseException('Missing payment methods in response.');
+        }
+
+        if (!isset($response->{'payment-methods'}->{'payment-method'})) {
+            throw new MalformedResponseException('Payment methods is empty in response.');
+        }
+
+        if (count($response->{'payment-methods'}->{'payment-method'}) > 1) {
+            throw new MalformedResponseException('More payment methods in response.');
+        }
+
+        if (!isset($response->{'statuses'})) {
+            throw new MalformedResponseException('Missing statuses in response.');
+        }
+
+        if (!isset($response->{'statuses'}->{'status'})) {
+            throw new MalformedResponseException('Statuses is empty in response.');
+        }
     }
 }

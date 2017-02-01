@@ -7,6 +7,9 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Wirecard\PaymentSdk\Config;
+use Wirecard\PaymentSdk\InteractionResponse;
+use Wirecard\PaymentSdk\MalformedResponseException;
+use Wirecard\PaymentSdk\StatusCollection;
 use Wirecard\PaymentSdk\TransactionService;
 
 class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
@@ -171,6 +174,9 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
                     '<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>myid</transaction-id>
+                        <statuses>
+                            <status code="200" description="test: payment OK" severity="information"/>
+                        </statuses>
                         <payment-methods>
                             <payment-method name="paypal" url="http://www.example.com" />
                         </payment-methods>
@@ -234,5 +240,35 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->instance = new TransactionService($this->config, null, $client);
 
         $this->instance->pay($this->getTransactionMock());
+    }
+
+    public function testHandleNotificationHappyPath()
+    {
+        $validXmlContent = '<xml><payment></payment></xml>';
+
+        $responseMapper = $this->createMock('Wirecard\PaymentSdk\ResponseMapper');
+        $interactionResponse = new InteractionResponse('dummy', new StatusCollection(), 'x', 'y');
+        $responseMapper->method('map')->with($validXmlContent)->willReturn($interactionResponse);
+
+        $this->instance = new TransactionService($this->config, null, null, null, $responseMapper);
+
+        $result = $this->instance->handleNotification($validXmlContent);
+
+        $this->assertEquals($interactionResponse, $result);
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
+     */
+    public function testHandleNotificationMalformedResponseException()
+    {
+        $invalidXmlContent = '<xml><payment></payment></xml>';
+
+        $responseMapper = $this->createMock('Wirecard\PaymentSdk\ResponseMapper');
+        $responseMapper->method('map')->with($invalidXmlContent)->willThrowException(new MalformedResponseException());
+
+        $this->instance = new TransactionService($this->config, null, null, null, $responseMapper);
+
+        $this->instance->handleNotification($invalidXmlContent);
     }
 }
