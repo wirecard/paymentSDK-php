@@ -41,7 +41,7 @@ $redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return
 
 // ### Notification url
 // As soon as the transaction status changes a server-to-server notification will get delivered to this url
-$notificationUrl = 'https://www.example.com/paypal/notify';
+$notificationUrl = 'https://requestb.in/uno8hnun';
 
 // ### Transaction
 // The PayPal transaction holds all transaction relevant data for the payment process
