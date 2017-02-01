@@ -8,6 +8,7 @@ use Wirecard\PaymentSdk\ResponseMapper;
 class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 {
     const STATUSES = 'statuses';
+    const STATUS = 'status';
     const STATUS_CODE = 'code';
     const STATUS_DESCRIPTION = 'description';
     const STATUS_SEVERITY = 'severity';
@@ -21,6 +22,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
     const TRANSACTION_STATE = 'transaction-state';
     const TRANSACTION_ID = 'transaction-id';
 
+    const ATTRIBUTES = '@attributes';
+
     /**
      * @var ResponseMapper
      */
@@ -33,23 +36,13 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 
     public function testTransactionStateFailedReturnsFailureResponseObject()
     {
-        $response = json_encode([
-            self::PAYMENT => [
-                self::TRANSACTION_STATE => 'failed',
-                self::STATUSES => [
-                    [
-                        self::STATUS_CODE => '200',
-                        self::STATUS_DESCRIPTION => 'UnitTest',
-                        self::STATUS_SEVERITY => 'warning'
-                    ],
-                    [
-                        self::STATUS_CODE => '500',
-                        self::STATUS_DESCRIPTION => 'UnitTest Error',
-                        self::STATUS_SEVERITY => 'error'
-                    ],
-                ]
-            ]
-        ]);
+        $response = '<payment>
+                        <transaction-state>failed</transaction-state>
+                        <statuses>
+                            <status code="200" description="UnitTest" severity="warning" />
+                            <status code="500" description="UnitTest Error" severity="error" />
+                        </statuses>
+                    </payment>';
         /**
          * @var $mapped FailureResponse
          */
@@ -61,27 +54,16 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 
     public function testTransactionStateSuccessReturnsFilledInteractionResponseObject()
     {
-        $response = json_encode([
-            self::PAYMENT => [
-                self::TRANSACTION_ID => '12345',
-                self::TRANSACTION_STATE => 'success',
-                self::STATUSES => [
-                    [
-                        self::STATUS_CODE => '200',
-                        self::STATUS_DESCRIPTION => 'UnitTest',
-                        self::STATUS_SEVERITY => 'information'
-                    ],
-                ],
-                self::PAYMENT_METHODS => [
-                    self::PAYMENT_METHOD => [
-                        [
-                            self::PAYMENT_METHOD_NAME => 'paypal',
-                            self::PAYMENT_METHOD_URL => 'http://www.example.com/redirect-url'
-                        ]
-                    ]
-                ]
-            ]
-        ]);
+        $response = '<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <statuses>
+                            <status code="200" description="UnitTest" severity="warning" />
+                        </statuses>
+                        <payment-methods>
+                            <payment-method name="paypal" url="http://www.example.com/redirect-url"></payment-method>
+                        </payment-methods>
+                    </payment>';
 
         /**
          * @var $mapped InteractionResponse
@@ -108,15 +90,17 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
     public function malformedResponseProvider()
     {
         $fullData = [
-            self::PAYMENT => [
-                self::TRANSACTION_STATE => 'success',
-                self::PAYMENT_METHODS => [
-                    self::PAYMENT_METHOD => [
-                        [self::PAYMENT_METHOD_URL => 'http://www.example.com/redirect'],
+            self::TRANSACTION_STATE => 'success',
+            self::PAYMENT_METHODS => [
+                self::PAYMENT_METHOD => [
+                    self::ATTRIBUTES => [
+                        self::PAYMENT_METHOD_URL => 'http://www.example.com/redirect'
                     ],
                 ],
-                self::STATUSES => [
-                    [
+            ],
+            self::STATUSES => [
+                self::STATUS => [
+                    self::ATTRIBUTES => [
                         self::STATUS_CODE => 200,
                         self::STATUS_DESCRIPTION => 'PHPUnit description',
                         self::STATUS_SEVERITY => 'information'
@@ -125,13 +109,12 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
             ]
         ];
         $cases = [
-            [self::PAYMENT],
-            [self::PAYMENT, self::TRANSACTION_STATE],
-            [self::PAYMENT, self::TRANSACTION_ID],
-            [self::PAYMENT, self::STATUSES, 0, self::STATUS_CODE],
-            [self::PAYMENT, self::STATUSES, 0, self::STATUS_DESCRIPTION],
-            [self::PAYMENT, self::STATUSES, 0, self::STATUS_SEVERITY],
-            [self::PAYMENT, self::PAYMENT_METHODS, self::PAYMENT_METHOD, 0, self::PAYMENT_METHOD_URL]
+            [self::TRANSACTION_STATE],
+            [self::TRANSACTION_ID],
+            [self::STATUSES, self::STATUS, self::ATTRIBUTES, self::STATUS_CODE],
+            [self::STATUSES, self::STATUS, self::ATTRIBUTES, self::STATUS_DESCRIPTION],
+            [self::STATUSES, self::STATUS, self::ATTRIBUTES, self::STATUS_SEVERITY],
+            [self::PAYMENT_METHODS, self::PAYMENT_METHOD, self::ATTRIBUTES]
         ];
 
         $providerData = [
@@ -139,9 +122,30 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         ];
 
         foreach ($cases as $case) {
-            $providerData[] = [json_encode($this->removeResponseKey($fullData, $case))];
+            $value = $this->arrayToXml($this->removeResponseKey($fullData, $case));
+            $providerData[] = [$value];
         }
         return $providerData;
+    }
+
+    private function arrayToXml($data, &$xmlData = null)
+    {
+        if ($xmlData === null) {
+            $xmlData = new \SimpleXMLElement('<payment></payment>');
+        }
+        foreach ($data as $key => $value) {
+            if ($key === self::ATTRIBUTES) {
+                foreach ($value as $attribute => $content) {
+                    $xmlData->addAttribute($attribute, $content);
+                }
+            } elseif (is_array($value)) {
+                $subnode = $xmlData->addChild($key);
+                $this->arrayToXml($value, $subnode);
+            } else {
+                $xmlData->addChild("$key", htmlspecialchars("$value"));
+            }
+        }
+        return $xmlData->asXML();
     }
 
     private function removeResponseKey($response, array $key)

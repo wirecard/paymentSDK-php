@@ -27,7 +27,7 @@ class RequestMapper
 
     /**
      * @param PayPalTransaction $transaction
-     * @return The transaction in JSON format.
+     * @return string The transaction in JSON format.
      */
     public function map(PayPalTransaction $transaction)
     {
