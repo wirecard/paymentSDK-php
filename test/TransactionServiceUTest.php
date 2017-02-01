@@ -174,6 +174,9 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
                     '<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>myid</transaction-id>
+                        <statuses>
+                            <status code="200" description="test: payment OK" severity="information"/>
+                        </statuses>
                         <payment-methods>
                             <payment-method name="paypal" url="http://www.example.com" />
                         </payment-methods>

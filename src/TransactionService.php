@@ -62,8 +62,7 @@ class TransactionService
         RequestMapper $requestMapper = null,
         ResponseMapper $responseMapper = null,
         RequestIdGenerator $requestIdGenerator = null
-    )
-    {
+    ) {
         $this->config = $config;
         $this->logger = $logger;
         $this->httpClient = $httpClient;

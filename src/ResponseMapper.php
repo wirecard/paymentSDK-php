@@ -115,7 +115,6 @@ class ResponseMapper
             if (strcmp($result, $status['provider-transaction-id']) !== 0) {
                 throw new MalformedResponseException('More different provider transaction ID-s in response.');
             }
-
         }
 
         if ($result === null) {
