@@ -64,6 +64,7 @@ class TransactionService
         RequestIdGenerator $requestIdGenerator = null
     )
     {
+
         $this->config = $config;
         $this->logger = $logger;
         $this->httpClient = $httpClient;
@@ -169,7 +170,7 @@ class TransactionService
      * @return FailureResponse|InteractionResponse|SuccessResponse
      * @throws MalformedResponseException
      */
-    public function handleResponse(Array $payload)
+    public function handleResponse(array $payload)
     {
         if (array_key_exists('eppresponse', $payload)) {
             return $this->getResponseMapper()->map($payload['eppresponse']);
