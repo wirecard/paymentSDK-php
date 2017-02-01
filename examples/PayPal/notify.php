@@ -1,16 +1,16 @@
 <?php
-// # PayPal return after transaction
-// The consumer gets redirected to this page after a PayPal transaction.
+// # PayPal notification
+// Wirecard sends a server-to-server request regarding any changes in the transaction status.
 
-// PSR-4 autoloading is used through composer.
+// To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\TransactionService;
-use Monolog\Logger;
-use \Monolog\Handler\StreamHandler;
 use Wirecard\PaymentSdk\SuccessResponse;
 use Wirecard\PaymentSdk\FailureResponse;
+use Monolog\Logger;
+use \Monolog\Handler\StreamHandler;
 
 // ### Config
 // The `Config` object holds all interface configuration options.
@@ -20,17 +20,18 @@ $config = new Config('https://api-test.wirecard.com/engine/rest/paymentmethods/'
 // The `TransactionService` is used to determine the response from the service provider.
 $service = new TransactionService($config);
 
-// ### Notification status
-$response = $service->handleNotification($_POST);
-
 // We use Monolog as logger. Set up a logger for the notifications.
 $log = new Logger('Wirecard notifications');
-$log->pushHandler(new StreamHandler(__DIR__.'/logs/notify.log', Logger::INFO));
+$log->pushHandler(new StreamHandler(__DIR__ . '/../../logs/notify.log', Logger::INFO));
+
+// ### Notification status
+// The notification are transmitted as _POST_ request and is handled via the `handleNotification` method.
+$notification = $service->handleNotification(file_get_contents('php://input'));
 
 // Log the notification for a successful transaction.
-if ($response instanceof SuccessResponse ) {
-    $log->info(sprintf('Transaction with id %s was successful.', $response->getTransactionId()));
-// Log the notification for a falied transaction.
-} elseif($response instanceof FailureResponse) {
-    $log->warning(sprintf('Transaction with id %s failed.', $response->getTransactionId()));
+if ($notification instanceof SuccessResponse) {
+    $log->info(sprintf('Transaction with id %s was successful.', $notification->getTransactionId()));
+// Log the notification for a failed transaction.
+} elseif ($notification instanceof FailureResponse) {
+    $log->warning(sprintf('Transaction with id %s failed.', $notification->getTransactionId()));
 }

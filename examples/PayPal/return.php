@@ -2,7 +2,7 @@
 // # PayPal return after transaction
 // The consumer gets redirected to this page after a PayPal transaction.
 
-// PSR-4 autoloading is used through composer.
+// To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;

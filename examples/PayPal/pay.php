@@ -3,7 +3,7 @@
 // # PayPal payment transaction
 // This example displays the usage payments for payment method PayPal.
 
-// PSR-4 autoloading is used through composer.
+// To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
@@ -40,9 +40,9 @@ $amount = new Money(12.59, 'EUR');
 // The redirect URLs determine where the consumer should be redirected by PayPal after approval/cancellation.
 $redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
 
-// ### Notification url
+// ### Notification URL
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
-$notificationUrl = 'notify.php';
+$notificationUrl = getUrl('notify.php');
 
 // ### Transaction
 // The PayPal transaction holds all transaction relevant data for the payment process.
