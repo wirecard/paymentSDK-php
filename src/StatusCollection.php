@@ -13,7 +13,7 @@ class StatusCollection implements \IteratorAggregate
     /**
      * @var array
      */
-    private $statuses;
+    private $statuses = [];
 
     /**
      * Retrieve an external iterator

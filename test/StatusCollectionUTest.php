@@ -25,6 +25,9 @@ class StatusCollectionUTest extends \PHPUnit_Framework_TestCase
         $foundStatusCode = 0;
 
         foreach ($this->statusCollection as $st) {
+            /**
+             * @var $st Status
+             */
             $foundStatusCode = $st->getCode();
         }
 
