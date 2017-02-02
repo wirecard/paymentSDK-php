@@ -12,9 +12,11 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
 {
     const MAID = 'B612';
 
+    const EXAMPLE_URL = 'http://www.example.com';
+
     public function testRedirectInfoInTransaction()
     {
-        $config = new Config('http://www.example.com', 'dummyUser', 'dummyPassword', self::MAID, 'secret');
+        $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', self::MAID, 'secret');
         $requestIdGeneratorMock = $this->createMock('Wirecard\PaymentSdk\RequestIdGenerator');
         $mapper = new RequestMapper($config, $requestIdGeneratorMock);
 
@@ -29,11 +31,11 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
             'payment-methods' => ['payment-method' => [['name' => 'paypal']]],
             'cancel-redirect-url' => 'http://www.example.com/cancel',
             'success-redirect-url' => 'http://www.example.com/success',
-            'notifications' => ['notification' => [['url' => 'http://www.example.com']]]
+            'notifications' => ['notification' => [['url' => self::EXAMPLE_URL]]]
         ]];
 
         $redirect = new Redirect('http://www.example.com/success', 'http://www.example.com/cancel');
-        $transaction = new PayPalTransaction(new Money(24, 'EUR'), 'http://www.example.com', $redirect);
+        $transaction = new PayPalTransaction(new Money(24, 'EUR'), self::EXAMPLE_URL, $redirect);
         $result = $mapper->map($transaction);
 
         $this->assertEquals(json_encode($expectedResult), $result);
