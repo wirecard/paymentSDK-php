@@ -40,15 +40,14 @@ class ResponseMapper
             return new FailureResponse($xmlResponse, $statusCollection);
         }
 
-        $this->validateResponse($response);
+        $transactionId = $this->getTransactionId($response);
 
-        $transactionId = (string)$response->{'transaction-id'};
-
-        if (isset($response->{'payment-methods'}->{'payment-method'}['url'])) {
-            $redirectUrl = (string)$response->{'payment-methods'}->{'payment-method'}['url'];
+        $paymentMethod = $this->getPaymentMethod($response);
+        $redirectUrl = $this->getRedirectUrl($paymentMethod);
+        if ($redirectUrl !== null) {
             return new InteractionResponse($xmlResponse, $statusCollection, $transactionId, $redirectUrl);
         } else {
-            $providerTransactionId = $this->retrieveProviderTransactionId($response);
+            $providerTransactionId = $this->getProviderTransactionId($response);
             return new SuccessResponse(
                 $xmlResponse,
                 $statusCollection,
@@ -62,6 +61,7 @@ class ResponseMapper
      * get the collection of status returned by elastic engine
      * @param \SimpleXMLElement $payment
      * @return StatusCollection
+     * @throws MalformedResponseException
      */
     private function getStatusCollection($payment)
     {
@@ -96,48 +96,72 @@ class ResponseMapper
                 $status = new Status($code, $description, $severity);
                 $collection->add($status);
             }
+        } else {
+            throw new MalformedResponseException('Statuses is empty in response.');
         }
 
         return $collection;
     }
 
     /**
-     * @param $response
-     * @throws \Wirecard\PaymentSdk\MalformedResponseException
+     * @param \SimpleXMLElement $response
+     * @return string
+     * @throws MalformedResponseException
      */
-    private function validateResponse($response)
+    private function getTransactionId(\SimpleXMLElement $response)
     {
-        if (!isset($response->{'transaction-id'})) {
-            throw new MalformedResponseException('Missing transaction-id in response.');
+        if (isset($response->{'transaction-id'})) {
+            return (string)$response->{'transaction-id'};
+        } else {
+            throw new MalformedResponseException('Missing transaction-id in response');
+        }
+    }
+
+    /**
+     * @param \SimpleXMLElement $response
+     * @return mixed
+     * @throws MalformedResponseException
+     */
+    private function getPaymentMethod(\SimpleXMLElement $response)
+    {
+        if (isset($response->{'payment-methods'})) {
+            $paymentMethods = $response->{'payment-methods'};
+        } else {
+            throw new MalformedResponseException('Missing payment methods in response');
         }
 
-        if (!isset($response->{'payment-methods'})) {
-            throw new MalformedResponseException('Missing payment methods in response.');
-        }
-
-        if (!isset($response->{'payment-methods'}->{'payment-method'})) {
+        if (isset($paymentMethods->{'payment-method'})) {
+            $paymentMethod = $paymentMethods->{'payment-method'};
+        } else {
             throw new MalformedResponseException('Payment methods is empty in response.');
         }
 
-        if (count($response->{'payment-methods'}->{'payment-method'}) > 1) {
+        if (count($paymentMethod) === 1) {
+            return $paymentMethod[0];
+        } else {
             throw new MalformedResponseException('More payment methods in response.');
         }
+    }
 
-        if (!isset($response->{'statuses'})) {
-            throw new MalformedResponseException('Missing statuses in response.');
-        }
-
-        if (!isset($response->{'statuses'}->{'status'})) {
-            throw new MalformedResponseException('Statuses is empty in response.');
+    /**
+     * @param \SimpleXMLElement $paymentMethod
+     * @return string|null
+     */
+    private function getRedirectUrl(\SimpleXMLElement $paymentMethod)
+    {
+        if (isset($paymentMethod['url'])) {
+            return (string)$paymentMethod['url'];
+        } else {
+            return null;
         }
     }
 
     /**
      * @param $xmlResponse
      * @return string
-     * @throws \Wirecard\PaymentSdk\MalformedResponseException
+     * @throws MalformedResponseException
      */
-    private function retrieveProviderTransactionId($xmlResponse)
+    private function getProviderTransactionId($xmlResponse)
     {
         $result = null;
         foreach ($xmlResponse->{'statuses'}->{'status'} as $status) {
