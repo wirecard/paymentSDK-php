@@ -47,7 +47,7 @@ class ResponseMapper
         if ($redirectUrl !== null) {
             return new InteractionResponse($xmlResponse, $statusCollection, $transactionId, $redirectUrl);
         } else {
-            $providerTransactionId = $this->retrieveProviderTransactionId($response);
+            $providerTransactionId = $this->getProviderTransactionId($response);
             return new SuccessResponse(
                 $xmlResponse,
                 $statusCollection,
@@ -161,7 +161,7 @@ class ResponseMapper
      * @return string
      * @throws MalformedResponseException
      */
-    private function retrieveProviderTransactionId($xmlResponse)
+    private function getProviderTransactionId($xmlResponse)
     {
         $result = null;
         foreach ($xmlResponse->{'statuses'}->{'status'} as $status) {
