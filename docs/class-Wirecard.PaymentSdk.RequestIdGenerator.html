@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 
-	<title>Class Wirecard\PaymentSdk\Framework</title>
+	<title>Class Wirecard\PaymentSdk\RequestIdGenerator</title>
 
 	<link rel="stylesheet" href="resources/bootstrap.min.css?973e37a8502921d56bc02bb55321f45b072b6f71">
 	<link rel="stylesheet" href="resources/style.css?49f43d3208c5d7e33fa16d36107a345bf11cc00d">
@@ -65,11 +65,28 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
-				<li class="active"><a href="class-Wirecard.PaymentSdk.Framework.html">Framework</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Config.html">Config</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.FailureResponse.html">FailureResponse</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.InteractionResponse.html">InteractionResponse</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Money.html">Money</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.PayPalTransaction.html">PayPalTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Redirect.html">Redirect</a></li>
+				<li class="active"><a href="class-Wirecard.PaymentSdk.RequestIdGenerator.html">RequestIdGenerator</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.RequestMapper.html">RequestMapper</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Response.html">Response</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.ResponseMapper.html">ResponseMapper</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Status.html">Status</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.StatusCollection.html">StatusCollection</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.SuccessResponse.html">SuccessResponse</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.TransactionService.html">TransactionService</a></li>
 			</ul>
 
 
 
+			<h3>Exceptions</h3>
+			<ul>
+				<li><a href="class-Wirecard.PaymentSdk.MalformedResponseException.html">MalformedResponseException</a></li>
+			</ul>
 
 
 		</div>
@@ -81,14 +98,9 @@
 <div id="right">
 	<div id="rightInner">
 <div id="content" class="class">
-	<h1>Class Framework</h1>
+	<h1>Class RequestIdGenerator</h1>
 
 
-	<div class="description">
-	<p>Class Framework</p>
-
-<p>Framework class for basic structure</p>
-	</div>
 
 
 
@@ -102,9 +114,9 @@
 		
 		
 		<b>Namespace:</b> <a href="namespace-Wirecard.html">Wirecard</a>\<a href="namespace-Wirecard.PaymentSdk.html">PaymentSdk</a><br>
-		<b>Package:</b> Wirecard\PaymentSdk<br>
+		
 
-			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.Framework.html#4-23" title="Go to source code">Framework.php</a>
+			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.RequestIdGenerator.html#35-45" title="Go to source code">RequestIdGenerator.php</a>
 		<br>
 	</div>
 
@@ -113,7 +125,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading"><h2>Methods summary</h2></div>
 			<table class="summary table table-bordered table-striped methods" id="methods">
-		<tr data-order="hello" id="_hello">
+		<tr data-order="generate" id="_generate">
 
 			<td class="attributes"><code>
 				 public 
@@ -123,26 +135,26 @@
 			</td>
 
 			<td class="name"><div>
-			<a class="anchor" href="#_hello">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Framework.html#13-22" title="Go to source code">hello</a>( <span> <var>$world</var></span> )</code>
+			<a class="anchor" href="#_generate">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.RequestIdGenerator.html#37-44" title="Go to source code">generate</a>( <span>integer <var>$length</var> = <span class="php-num">32</span></span> )</code>
 
 			<div class="description short">
-				<p>Return the given world string</p>
+				
 			</div>
 
 			<div class="description detailed hidden">
-				<p>Return the given world string</p>
+				
 
 
 					<h4>Parameters</h4>
 					<div class="list"><dl>
-						<dt><var>$world</var></dt>
-						<dd></dd>
+						<dt><var>$length</var></dt>
+						<dd>The length of the generated ID.</dd>
 					</dl></div>
 
 					<h4>Returns</h4>
 					<div class="list">
-						string
+						string<br>A random, unique ID for the request.
 					</div>
 
 

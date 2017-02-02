@@ -16,8 +16,8 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         {
           "type": "folder",
           "data": {
-            "path": "examples/Framework",
-            "title": "Framework"
+            "path": "examples/PayPal",
+            "title": "PayPal"
           },
           "depth": 2,
           "children": [
@@ -32,11 +32,11 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "foldPrefix": "^",
                   "name": "PHP"
                 },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Framework/framework.php",
-                "projectPath": "examples/Framework/framework.php",
-                "targetPath": "examples/Framework/framework",
-                "pageTitle": "examples/Framework/framework",
-                "title": "framework"
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/PayPal/notify.php",
+                "projectPath": "examples/PayPal/notify.php",
+                "targetPath": "examples/PayPal/notify",
+                "pageTitle": "examples/PayPal/notify",
+                "title": "notify"
               },
               "depth": 3,
               "outline": [
@@ -44,19 +44,179 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "type": "heading",
                   "data": {
                     "level": 1,
-                    "title": "Framework example",
-                    "slug": "framework-example"
+                    "title": "PayPal notification",
+                    "slug": "paypal-notification"
                   },
                   "depth": 1,
                   "children": [
                     {
                       "type": "heading",
                       "data": {
-                        "level": 2,
-                        "title": "Hello world using the framework",
-                        "slug": "hello-world-using-the-framework"
+                        "level": 3,
+                        "title": "Config",
+                        "slug": "config"
                       },
-                      "depth": 2
+                      "depth": 3
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 3,
+                        "title": "Transaction Service",
+                        "slug": "transaction-service"
+                      },
+                      "depth": 3
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 3,
+                        "title": "Notification status",
+                        "slug": "notification-status"
+                      },
+                      "depth": 3
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/PayPal/pay.php",
+                "projectPath": "examples/PayPal/pay.php",
+                "targetPath": "examples/PayPal/pay",
+                "pageTitle": "examples/PayPal/pay",
+                "title": "pay"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "PayPal payment transaction",
+                    "slug": "paypal-payment-transaction"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 3,
+                        "title": "Money object",
+                        "slug": "money-object"
+                      },
+                      "depth": 3
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 3,
+                        "title": "Redirect URLs",
+                        "slug": "redirect-urls"
+                      },
+                      "depth": 3
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 3,
+                        "title": "Notification URL",
+                        "slug": "notification-url"
+                      },
+                      "depth": 3
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 3,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 3
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 3,
+                        "title": "Config",
+                        "slug": "config"
+                      },
+                      "depth": 3
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 3,
+                        "title": "Transaction Service",
+                        "slug": "transaction-service"
+                      },
+                      "depth": 3
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 3,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 3
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/PayPal/return.php",
+                "projectPath": "examples/PayPal/return.php",
+                "targetPath": "examples/PayPal/return",
+                "pageTitle": "examples/PayPal/return",
+                "title": "return"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "PayPal return after transaction",
+                    "slug": "paypal-return-after-transaction"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 3,
+                        "title": "Config",
+                        "slug": "config"
+                      },
+                      "depth": 3
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 3,
+                        "title": "Transaction Service",
+                        "slug": "transaction-service"
+                      },
+                      "depth": 3
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 3,
+                        "title": "Payment results",
+                        "slug": "payment-results"
+                      },
+                      "depth": 3
                     }
                   ]
                 }
