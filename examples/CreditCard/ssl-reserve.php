@@ -17,7 +17,13 @@ use Wirecard\PaymentSdk\TransactionService;
 // Use the money object as amount which has to be payed by the consumer.
 $amount = new Money(12.59, 'EUR');
 
-$transactionId = '6d447de0-3aa5-4018-85c3-92abc4cc976a';
+// ### TransactionId
+// Ids from previous transactions or seamlessRenderForm success callback can be used to execute reservations
+if(array_key_exists('transactionId', $_POST)) {
+    $transactionId = $_POST['transactionId'];
+} else {
+    $transactionId = '98a33878-a3f8-40fd-9548-1ad2cbb21fd9';
+}
 
 // ### Transaction
 // The PayPal transaction holds all transaction relevant data for the payment process.
@@ -40,5 +46,14 @@ if($response instanceof SuccessResponse) {
     echo sprintf('Payment with id %s successfully completed.<br>', $response->getTransactionId());
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
-    echo sprintf('Payment with id %s failed.<br>', $response->getTransactionId());
+    // In our example we iterate over all errors and echo them out. You should display them as error, warning or information based on the given severity.
+    foreach ($response->getStatusCollection() AS $status) {
+        /**
+         * @var $status \Wirecard\PaymentSdk\Status
+         */
+        $severity = ucfirst($status->getSeverity());
+        $code = $status->getCode();
+        $description = $status->getDescription();
+        echo sprintf('%s with code %s and message "%s" occured.<br>', $severity, $code, $description);
+    }
 }
