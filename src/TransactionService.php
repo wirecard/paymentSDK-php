@@ -230,6 +230,34 @@ class TransactionService
     }
 
     /**
+     * @return string
+     */
+    public function getDataForCreditCardUi()
+    {
+        $requestData = array(
+            'request_time_stamp'        => gmdate('YmdHis'),
+            'request_id'                => $this->getRequestIdGenerator()->generate(64),
+            'merchant_account_id'       => $this->getConfig()->getMerchantAccountId(),
+            'transaction_type'          => 'authorization-only',
+            'requested_amount'          => 0,
+            'requested_amount_currency' => $this->getConfig()->getDefaultCurrency(),
+            'payment_method'            => 'creditcard',
+        );
+
+        $requestData['request_signature'] = hash('sha256', trim(
+            $requestData['request_time_stamp'] .
+            $requestData['request_id'] .
+            $requestData['merchant_account_id'] .
+            $requestData['transaction_type'] .
+            $requestData['requested_amount'] .
+            $requestData['requested_amount_currency'] .
+            $this->getConfig()->getSecretKey()
+        ));
+
+        return json_encode($requestData);
+    }
+
+    /**
      * @return LoggerInterface
      */
     protected function getLogger()

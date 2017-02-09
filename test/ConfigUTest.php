@@ -76,4 +76,15 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals('secretKey', $this->instance->getSecretKey());
     }
+
+    public function testGetDefaultCurrency()
+    {
+        $this->assertEquals('EUR', $this->instance->getDefaultCurrency());
+    }
+
+    public function testSetDefaultCurrency()
+    {
+        $this->instance->setDefaultCurrency('USD');
+        $this->assertAttributeEquals('USD', 'defaultCurrency', $this->instance);
+    }
 }
