@@ -57,8 +57,8 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $expectedResult = ['payment' => [
             'merchant-account-id' => ['value' => 'B612'],
             'request-id' => '5B-dummy-id',
-            'transaction-type' => 'debit',
             'requested-amount' => ['currency' => 'EUR', 'value' => 24],
+            'transaction-type' => 'debit',
             'payment-methods' => ['payment-method' => [['name' => 'paypal']]],
             'cancel-redirect-url' => 'http://www.example.com/cancel',
             'success-redirect-url' => 'http://www.example.com/success',
@@ -85,9 +85,9 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $expectedResult = ['payment' => [
             'merchant-account-id' => ['value' => 'B612'],
             'request-id' => '5B-dummy-id',
+            'requested-amount' => ['currency' => 'EUR', 'value' => 24],
             'transaction-type' => 'referenced-authorization',
             'parent-transaction-id' => '21',
-            'requested-amount' => ['currency' => 'EUR', 'value' => 24],
             'ip-address' => 'test IP'
         ]];
 
