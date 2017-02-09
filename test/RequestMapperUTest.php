@@ -44,7 +44,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
 
     const EXAMPLE_URL = 'http://www.example.com';
 
-    public function testRedirectInfoInTransaction()
+    public function testPayPalTransaction()
     {
         $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', self::MAID, 'secret');
         $requestIdGeneratorMock = $this->createMock('Wirecard\PaymentSdk\RequestIdGenerator');

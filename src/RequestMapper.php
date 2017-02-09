@@ -56,29 +56,33 @@ class RequestMapper
     }
 
     /**
-     * @param PayPalTransaction $transaction
+     * @param Transaction $transaction
      * @return string The transaction in JSON format.
      */
-    public function map(PayPalTransaction $transaction)
+    public function map(Transaction $transaction)
     {
-        $onlyPaymentMethod = ['payment-method' => [['name' => 'paypal']]];
-        $onlyNotificationUrl = ['notification' => [['url' => $transaction->getNotificationUrl()]]];
-        $amount = [
-            'currency' => $transaction->getAmount()->getCurrency(),
-            'value' => $transaction->getAmount()->getAmount()
-        ];
-        $requestId = $this->requestIdGenerator->generate();
+        if ($transaction instanceof PayPalTransaction) {
+            $onlyPaymentMethod = ['payment-method' => [['name' => 'paypal']]];
+            $onlyNotificationUrl = ['notification' => [['url' => $transaction->getNotificationUrl()]]];
+            $amount = [
+                'currency' => $transaction->getAmount()->getCurrency(),
+                'value' => $transaction->getAmount()->getAmount()
+            ];
+            $requestId = $this->requestIdGenerator->generate();
 
-        $result = ['payment' => [
-            'merchant-account-id' => ['value' => $this->config->getMerchantAccountId()],
-            'request-id' => $requestId,
-            'transaction-type' => 'debit',
-            'requested-amount' => $amount,
-            'payment-methods' => $onlyPaymentMethod,
-            'cancel-redirect-url' => $transaction->getRedirect()->getCancelUrl(),
-            'success-redirect-url' => $transaction->getRedirect()->getSuccessUrl(),
-            'notifications' => $onlyNotificationUrl
-        ]];
-        return json_encode($result);
+            $result = ['payment' => [
+                'merchant-account-id' => ['value' => $this->config->getMerchantAccountId()],
+                'request-id' => $requestId,
+                'transaction-type' => 'debit',
+                'requested-amount' => $amount,
+                'payment-methods' => $onlyPaymentMethod,
+                'cancel-redirect-url' => $transaction->getRedirect()->getCancelUrl(),
+                'success-redirect-url' => $transaction->getRedirect()->getSuccessUrl(),
+                'notifications' => $onlyNotificationUrl
+            ]];
+            return json_encode($result);
+        }
+
+
     }
 }
