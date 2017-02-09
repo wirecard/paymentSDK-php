@@ -349,7 +349,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
             'request_time_stamp'        => gmdate('YmdHis'),
             'request_id'                => 'abc123',
             'merchant_account_id'       => $this->config->getMerchantAccountId(),
-            'transaction_type'          => 'tokenize',
+            'transaction_type'          => 'authorization-only',
             'requested_amount'          => 0,
             'requested_amount_currency' => $this->config->getDefaultCurrency(),
             'payment_method'            => 'creditcard',
