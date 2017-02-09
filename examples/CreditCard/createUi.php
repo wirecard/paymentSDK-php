@@ -30,7 +30,7 @@ $transactionService = new TransactionService($config);
     <script src="https://api-test.wirecard.com/engine/hpp/paymentPageLoader.js" type="text/javascript"></script>
 </head>
 <body>
-<form id="payment-form" method="post">
+<form id="payment-form" method="post" action="ssl-reserve.php">
     <?php
     // ### Form field transactionId
     // The transaction id which is returned from the credit card ui needs to be send with all other fields from your shop.
@@ -74,7 +74,7 @@ $transactionService = new TransactionService($config);
                 onError: logCallback
             })
         } else {
-            console.log('Sending the following request to your server..')
+            console.log('Sending the following request to your server..');
             console.log($(event.target).serialize());
         }
     }

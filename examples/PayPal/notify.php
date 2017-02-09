@@ -5,12 +5,12 @@
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 
-use Wirecard\PaymentSdk\Config;
-use Wirecard\PaymentSdk\TransactionService;
-use Wirecard\PaymentSdk\SuccessResponse;
-use Wirecard\PaymentSdk\FailureResponse;
+use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
-use \Monolog\Handler\StreamHandler;
+use Wirecard\PaymentSdk\Config;
+use Wirecard\PaymentSdk\FailureResponse;
+use Wirecard\PaymentSdk\SuccessResponse;
+use Wirecard\PaymentSdk\TransactionService;
 
 // ### Config
 // The `Config` object holds all interface configuration options.
@@ -33,5 +33,14 @@ if ($notification instanceof SuccessResponse) {
     $log->info(sprintf('Transaction with id %s was successful.', $notification->getTransactionId()));
 // Log the notification for a failed transaction.
 } elseif ($notification instanceof FailureResponse) {
-    $log->warning(sprintf('Transaction with id %s failed.', $notification->getTransactionId()));
+    // In our example we iterate over all errors and echo them out. You should display them as error, warning or information based on the given severity.
+    foreach ($notification->getStatusCollection() AS $status) {
+        /**
+         * @var $status \Wirecard\PaymentSdk\Status
+         */
+        $severity = ucfirst($status->getSeverity());
+        $code = $status->getCode();
+        $description = $status->getDescription();
+        $log->warning(sprintf('%s with code %s and message "%s" occured.<br>', $severity, $code, $description));
+    }
 }
