@@ -108,45 +108,17 @@ class TransactionService
      */
     public function pay(Transaction $transaction)
     {
-        $response = $this->getHttpClient()->request(
-            'POST',
-            $this->getConfig()->getUrl(),
-            [
-                'auth' => [
-                    $this->getConfig()->getHttpUser(),
-                    $this->getConfig()->getHttpPassword()
-                ],
-                'headers' => [
-                    'Content-Type' => 'application/json',
-                    'Accept' => 'application/xml'
-                ],
-                'body' => $this->getRequestMapper()->map($transaction)
-            ]
-        );
-
-        return $this->getResponseMapper()->map($response->getBody()->getContents());
+        $this->process($transaction);
     }
 
+    /**
+     * @param Transaction $transaction
+     * @throws RequestException|MalformedResponseException|\RuntimeException
+     * @return FailureResponse|InteractionResponse|SuccessResponse
+     */
     public function reserve(Transaction $transaction)
     {
-        $requestBody = $this->getRequestMapper()->map($transaction);
-        $response = $this->getHttpClient()->request(
-            'POST',
-            $this->getConfig()->getUrl(),
-            [
-                'auth' => [
-                    $this->getConfig()->getHttpUser(),
-                    $this->getConfig()->getHttpPassword()
-                ],
-                'headers' => [
-                    'Content-Type' => 'application/json',
-                    'Accept' => 'application/xml'
-                ],
-                'body' => $requestBody
-            ]
-        );
-
-        return $this->getResponseMapper()->map($response->getBody()->getContents());
+        return $this->process($transaction);
     }
 
     /**
@@ -268,5 +240,31 @@ class TransactionService
         }
 
         return $this->logger;
+    }
+
+    /**
+     * @param Transaction $transaction
+     * @return FailureResponse|InteractionResponse|SuccessResponse
+     */
+    private function process(Transaction $transaction)
+    {
+        $requestBody = $this->getRequestMapper()->map($transaction);
+        $response = $this->getHttpClient()->request(
+            'POST',
+            $this->getConfig()->getUrl(),
+            [
+                'auth' => [
+                    $this->getConfig()->getHttpUser(),
+                    $this->getConfig()->getHttpPassword()
+                ],
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'Accept' => 'application/xml'
+                ],
+                'body' => $requestBody
+            ]
+        );
+
+        return $this->getResponseMapper()->map($response->getBody()->getContents());
     }
 }
