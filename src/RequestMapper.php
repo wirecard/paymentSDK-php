@@ -64,17 +64,13 @@ class RequestMapper
         if ($transaction instanceof PayPalTransaction) {
             $onlyPaymentMethod = ['payment-method' => [['name' => 'paypal']]];
             $onlyNotificationUrl = ['notification' => [['url' => $transaction->getNotificationUrl()]]];
-            $amount = [
-                'currency' => $transaction->getAmount()->getCurrency(),
-                'value' => $transaction->getAmount()->getAmount()
-            ];
             $requestId = $this->requestIdGenerator->generate();
 
             $result = ['payment' => [
                 'merchant-account-id' => ['value' => $this->config->getMerchantAccountId()],
                 'request-id' => $requestId,
                 'transaction-type' => 'debit',
-                'requested-amount' => $amount,
+                'requested-amount' => $this->getAmountOfTransaction($transaction),
                 'payment-methods' => $onlyPaymentMethod,
                 'cancel-redirect-url' => $transaction->getRedirect()->getCancelUrl(),
                 'success-redirect-url' => $transaction->getRedirect()->getSuccessUrl(),
@@ -84,10 +80,6 @@ class RequestMapper
         }
 
         if ($transaction instanceof CreditCardTransaction) {
-            $amount = [
-                'currency' => $transaction->getAmount()->getCurrency(),
-                'value' => $transaction->getAmount()->getAmount()
-            ];
             $requestId = $this->requestIdGenerator->generate();
 
             $result = ['payment' => [
@@ -95,10 +87,22 @@ class RequestMapper
                 'request-id' => $requestId,
                 'transaction-type' => 'referenced-authorization',
                 'parent-transaction-id' => $transaction->getTransactionId(),
-                'requested-amount' => $amount,
+                'requested-amount' => $this->getAmountOfTransaction($transaction),
                 'ip-address' => $_SERVER['REMOTE_ADDR']
             ]];
             return json_encode($result);
         }
+    }
+
+    /**
+     * @param Transaction $transaction
+     * @return array
+     */
+    private function getAmountOfTransaction(Transaction $transaction)
+    {
+        return [
+            'currency' => $transaction->getAmount()->getCurrency(),
+            'value' => $transaction->getAmount()->getAmount()
+        ];
     }
 }
