@@ -1,7 +1,7 @@
 <?php
 
-// # CreditCard amount reservation transaction (authorization
-// This example displays the usage of  for payment method PayPal.
+// # credit card amount reservation transaction (authorization)
+// This example displays the usage of for payment method credit card.
 
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
@@ -26,7 +26,7 @@ if(array_key_exists('transactionId', $_POST)) {
 }
 
 // ### Transaction
-// The PayPal transaction holds all transaction relevant data for the payment process.
+// The credit card transaction holds all transaction relevant data for the payment process.
 $transaction = new CreditCardTransaction($amount, $transactionId);
 
 // ### Config
@@ -35,7 +35,7 @@ $config = new Config('https://api-test.wirecard.com/engine/rest/payments/', '700
     '9105bb4f-ae68-4768-9c3b-3eda968f57ea', 'd1efed51-4cb9-46a5-ba7b-0fdc87a66544');
 
 // ### Transaction Service
-// The service is used to execute the payment operation itself. A response object is returned.
+// The service is used to execute the reservation (authorization) operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
 $response = $transactionService->reserve($transaction);
 

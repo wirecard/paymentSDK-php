@@ -27,5 +27,14 @@ if($response instanceof SuccessResponse) {
     echo sprintf('Payment with id %s successfully completed.<br>', $response->getTransactionId());
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
-    echo sprintf('Payment with id %s failed.<br>', $response->getTransactionId());
+    // In our example we iterate over all errors and echo them out. You should display them as error, warning or information based on the given severity.
+    foreach ($response->getStatusCollection() AS $status) {
+        /**
+         * @var $status \Wirecard\PaymentSdk\Status
+         */
+        $severity = ucfirst($status->getSeverity());
+        $code = $status->getCode();
+        $description = $status->getDescription();
+        echo sprintf('%s with code %s and message "%s" occured.<br>', $severity, $code, $description);
+    }
 }
