@@ -67,6 +67,11 @@ class Config
     private $secretKey;
 
     /**
+     * @var string
+     */
+    private $defaultCurrency = 'EUR';
+
+    /**
      * Config constructor.
      * @param string $url
      * @param string $httpUser
@@ -121,5 +126,23 @@ class Config
     public function getSecretKey()
     {
         return $this->secretKey;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultCurrency()
+    {
+        return $this->defaultCurrency;
+    }
+
+    /**
+     * @param string $defaultCurrency
+     * @return Config
+     */
+    public function setDefaultCurrency($defaultCurrency)
+    {
+        $this->defaultCurrency = $defaultCurrency;
+        return $this;
     }
 }

@@ -62,6 +62,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->config->method('getHttpPassword')->willReturn('password');
         $this->config->method('getMerchantAccountId')->willReturn('maid');
         $this->config->method('getUrl')->willReturn('http://engine.ok');
+        $this->config->method('getDefaultCurrency')->willReturn('EUR');
 
         $this->instance = new TransactionService($this->config);
     }
@@ -331,5 +332,27 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->instance = new TransactionService($this->config, null, null, null, $responseMapper);
 
         $this->instance->handleResponse($invalidXmlContent);
+    }
+
+    public function testGetDataForCreditCardUi()
+    {
+        $requestIdGenerator = $this->createMock('\Wirecard\PaymentSdk\RequestIdGenerator');
+        $requestIdGenerator->method('generate')->willReturn('abc123');
+
+        $this->instance = new TransactionService($this->config, null, null, null, null, $requestIdGenerator);
+        $data = json_decode($this->instance->getDataForCreditCardUi(), true);
+
+        $this->assertArrayHasKey('request_signature', $data);
+        unset($data['request_signature']);
+
+        $this->assertEquals(array(
+            'request_time_stamp'        => gmdate('YmdHis'),
+            'request_id'                => 'abc123',
+            'merchant_account_id'       => $this->config->getMerchantAccountId(),
+            'transaction_type'          => 'tokenize',
+            'requested_amount'          => 0,
+            'requested_amount_currency' => $this->config->getDefaultCurrency(),
+            'payment_method'            => 'creditcard',
+        ), $data);
     }
 }
