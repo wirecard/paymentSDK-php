@@ -40,13 +40,8 @@ namespace Wirecard\PaymentSdk;
  * It does not contain logic.
  * Use the TransactionService to initiate the payment.
  */
-class PayPalTransaction
+class PayPalTransaction extends Transaction
 {
-    /**
-     * @var Money
-     */
-    private $amount;
-
     /**
      * @var string
      */
@@ -65,17 +60,9 @@ class PayPalTransaction
      */
     public function __construct(Money $amount, $notificationUrl, Redirect $redirect)
     {
-        $this->amount = $amount;
+        parent::__construct($amount);
         $this->notificationUrl = $notificationUrl;
         $this->redirect = $redirect;
-    }
-
-    /**
-     * @return Money
-     */
-    public function getAmount()
-    {
-        return $this->amount;
     }
 
     /**
