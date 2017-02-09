@@ -23,25 +23,24 @@ $transactionService = new TransactionService($config);
 <head>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" type="application/javascript"></script>
 
-    <!--
-    ### Javascript library for credit card ui
-    This library is needed to generate the credit card ui and to get a valid transaction id containing the card information
-    -->
+    <?php
+    // ### Javascript library for credit card ui
+    // This library is needed to generate the credit card ui and to get a valid transaction id containing the card information
+    ?>
     <script src="https://api-test.wirecard.com/engine/hpp/paymentPageLoader.js" type="text/javascript"></script>
 </head>
 <body>
 <form id="payment-form" method="post">
-    <!--
-    ### Form field transactionId
-    The transaction id which is returned from the credit card ui needs to be send with all other fields from your shop.
-    This is done in this example by filling a hidden form field
-    -->
+    <?php
+    // ### Form field transactionId
+    // The transaction id which is returned from the credit card ui needs to be send with all other fields from your shop.
+    // This is done in this example by filling a hidden form field
+    ?>
     <input type="hidden" name="transactionId" id="transactionId" value="">
-
-    <!--
-    ### Credit card form div
-    The javascript library needs a div which it can fill with all credit card related fields
-    -->
+    <?php
+    // ### Credit card form div
+    // The javascript library needs a div which it can fill with all credit card related fields
+    ?>
     <div id="creditcard-form-div"></div>
     <input type="submit" value="Save">
 </form>
@@ -49,7 +48,7 @@ $transactionService = new TransactionService($config);
     // ### Render Form
     // This function will render the credit card ui in the div of your choice
     WirecardPaymentPage.seamlessRenderForm({
-        // We fill the requestData with the return value from the `getDataForCreditCardUi` method of the transactionService
+        // We fill the requestData with the return value from the `getDataForCreditCardUi` method of the `transactionService`
         requestData: <?= $transactionService->getDataForCreditCardUi(); ?>,
         wrappingDivId: "creditcard-form-div",
         onSuccess: logCallback,
@@ -67,7 +66,7 @@ $transactionService = new TransactionService($config);
     function submit(event) {
         // We check if the transactionId field already got a value
         if ($('#transactionId').val() == '') {
-            //If not, we will prevent the form submit and do a credit card ui form submit instead
+            // If not, we will prevent the form submit and do a credit card ui form submit instead
             event.preventDefault();
 
             WirecardPaymentPage.seamlessSubmitForm({
