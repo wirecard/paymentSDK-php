@@ -83,6 +83,22 @@ class RequestMapper
             return json_encode($result);
         }
 
+        if ($transaction instanceof CreditCardTransaction) {
+            $amount = [
+                'currency' => $transaction->getAmount()->getCurrency(),
+                'value' => $transaction->getAmount()->getAmount()
+            ];
+            $requestId = $this->requestIdGenerator->generate();
 
+            $result = ['payment' => [
+                'merchant-account-id' => ['value' => $this->config->getMerchantAccountId()],
+                'request-id' => $requestId,
+                'transaction-type' => 'referenced-authorization',
+                'parent-transaction-id' => $transaction->getTransactionId(),
+                'requested-amount' => $amount,
+                'ip-address' => $_SERVER['REMOTE_ADDR']
+            ]];
+            return json_encode($result);
+        }
     }
 }
