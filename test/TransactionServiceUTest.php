@@ -184,9 +184,9 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $mappedRequest = '{"mocked": "json", "response": "object"}';
         $requestMapper = $this->createMock('\Wirecard\PaymentSdk\RequestMapper');
         $requestMapper->expects($this->once())
-                      ->method('map')
-                      ->with($this->equalTo($transaction))
-                      ->willReturn($mappedRequest);
+            ->method('map')
+            ->with($this->equalTo($transaction))
+            ->willReturn($mappedRequest);
 
         //prepare Guzzle
         $responseToMap = '<payment><xml-response></xml-response></payment>';
@@ -200,9 +200,9 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $responseMapper = $this->createMock('\Wirecard\PaymentSdk\ResponseMapper');
         $response = $this->createMock('\Wirecard\PaymentSdk\Response');
         $responseMapper->expects($this->once())
-                       ->method('map')
-                       ->with($this->equalTo($responseToMap))
-                       ->willReturn($response);
+            ->method('map')
+            ->with($this->equalTo($responseToMap))
+            ->willReturn($response);
 
         $service = new TransactionService($this->config, null, $client, $requestMapper, $responseMapper);
         $this->assertEquals($response, $service->reserve($transaction));
@@ -378,13 +378,13 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         unset($data['request_signature']);
 
         $this->assertEquals(array(
-            'request_time_stamp'        => gmdate('YmdHis'),
-            'request_id'                => 'abc123',
-            'merchant_account_id'       => $this->config->getMerchantAccountId(),
-            'transaction_type'          => 'authorization-only',
-            'requested_amount'          => 0,
+            'request_time_stamp' => gmdate('YmdHis'),
+            'request_id' => 'abc123',
+            'merchant_account_id' => $this->config->getMerchantAccountId(),
+            'transaction_type' => 'authorization-only',
+            'requested_amount' => 0,
             'requested_amount_currency' => $this->config->getDefaultCurrency(),
-            'payment_method'            => 'creditcard',
+            'payment_method' => 'creditcard',
         ), $data);
     }
 }

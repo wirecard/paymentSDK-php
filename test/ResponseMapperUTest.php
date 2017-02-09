@@ -236,37 +236,6 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         <transaction-id>12345</transaction-id>
                         <statuses>
                             <status 
-                            code="201.0000" 
-                            description="paypal:The resource was successfully created."                             
-                            severity="information"/>
-                        </statuses>
-                        <payment-methods>
-                            <payment-method name="paypal"></payment-method>
-                        </payment-methods>
-                    </payment>'],
-
-            ['<payment>
-                        <transaction-state>success</transaction-state>
-                        <transaction-id>12345</transaction-id>
-                        <statuses>
-                            <status 
-                            code="302.0000" 
-                            description="paypal:A funny status."                             
-                            severity="information"/>
-                            <status 
-                            code="201.0000" 
-                            description="paypal:The resource was successfully created."                             
-                            severity="information"/>
-                        </statuses>
-                        <payment-methods>
-                            <payment-method name="paypal"></payment-method>
-                        </payment-methods>
-                    </payment>'],
-            ['<payment>
-                        <transaction-state>success</transaction-state>
-                        <transaction-id>12345</transaction-id>
-                        <statuses>
-                            <status 
                             code="305.0000" 
                             description="paypal:Status before." 
                             provider-transaction-id="xxx" 
