@@ -74,7 +74,7 @@ $transactionService = new TransactionService($config);
                 onError: logCallback
             })
         } else {
-            console.log('Sending the following request to your server..');;;;;;;
+            console.log('Sending the following request to your server..');
             console.log($(event.target).serialize());
         }
     }
