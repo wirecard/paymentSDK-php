@@ -30,53 +30,45 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk;
+namespace WirecardTest\PaymentSdk;
 
-/**
- * Class CreditCard3DTransaction
- * @package Wirecard\PaymentSdk
- *
- * An immutable entity representing a 3D payment with a credit card.
- */
-// @codingStandardsIgnoreStart
-class _3DCreditCardTransaction extends CreditCardTransaction
-// @codingStandardsIgnoreEnd
+use Wirecard\PaymentSdk\ThreeDCreditCardTransaction;
+use Wirecard\PaymentSdk\Money;
+
+class ThreeDCreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
 {
+    const NOTIFICATION_TEST_URL = 'test URL';
+    const TERM_TEST_URL = 'term test URL';
     /**
-     * @var string
+     * @var ThreeDCreditCardTransaction
      */
-    private $notificationUrl;
+    private $transaction;
 
     /**
-     * @var string
+     * @var Money
      */
-    private $termUrl;
+    private $amount;
 
-    /**
-     * _3DCreditCardTransaction constructor.
-     * @param string $notificationUrl
-     * @param string $termUrl
-     */
-    public function __construct($money, $transactionId, $notificationUrl, $termUrl)
+    const SAMPLE_TRANSACTION_ID = '542';
+
+    public function setUp()
     {
-        parent::__construct($money, $transactionId);
-        $this->notificationUrl = $notificationUrl;
-        $this->termUrl = $termUrl;
+        $this->amount = new Money(8.5, 'EUR');
+        $this->transaction = new ThreeDCreditCardTransaction(
+            $this->amount,
+            self::SAMPLE_TRANSACTION_ID,
+            self::NOTIFICATION_TEST_URL,
+            self::TERM_TEST_URL
+        );
     }
 
-    /**
-     * @return string
-     */
-    public function getNotificationUrl()
+    public function testGetNotificationUrl()
     {
-        return $this->notificationUrl;
+        $this->assertEquals(self::NOTIFICATION_TEST_URL, $this->transaction->getNotificationUrl());
     }
 
-    /**
-     * @return string
-     */
-    public function getTermUrl()
+    public function testGetTermUrl()
     {
-        return $this->termUrl;
+        $this->assertEquals(self::TERM_TEST_URL, $this->transaction->getTermUrl());
     }
 }
