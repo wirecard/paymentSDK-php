@@ -108,7 +108,7 @@ class TransactionService
      */
     public function pay(Transaction $transaction)
     {
-        $this->process($transaction);
+        return $this->process($transaction);
     }
 
     /**
@@ -245,6 +245,7 @@ class TransactionService
     /**
      * @param Transaction $transaction
      * @return FailureResponse|InteractionResponse|SuccessResponse
+     * @throws RequestException|MalformedResponseException|\RuntimeException
      */
     private function process(Transaction $transaction)
     {
