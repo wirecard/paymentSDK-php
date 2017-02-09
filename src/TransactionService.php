@@ -102,11 +102,11 @@ class TransactionService
     }
 
     /**
-     * @param PayPalTransaction $transaction
+     * @param Transaction $transaction
      * @throws RequestException|MalformedResponseException|\RuntimeException
      * @return InteractionResponse|FailureResponse
      */
-    public function pay(PayPalTransaction $transaction)
+    public function pay(Transaction $transaction)
     {
         $response = $this->getHttpClient()->request(
             'POST',
@@ -121,6 +121,28 @@ class TransactionService
                     'Accept' => 'application/xml'
                 ],
                 'body' => $this->getRequestMapper()->map($transaction)
+            ]
+        );
+
+        return $this->getResponseMapper()->map($response->getBody()->getContents());
+    }
+
+    public function reserve(Transaction $transaction)
+    {
+        $requestBody = $this->getRequestMapper()->map($transaction);
+        $response = $this->getHttpClient()->request(
+            'POST',
+            $this->getConfig()->getUrl(),
+            [
+                'auth' => [
+                    $this->getConfig()->getHttpUser(),
+                    $this->getConfig()->getHttpPassword()
+                ],
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'Accept' => 'application/xml'
+                ],
+                'body' => $requestBody
             ]
         );
 

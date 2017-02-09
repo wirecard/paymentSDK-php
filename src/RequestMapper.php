@@ -56,10 +56,10 @@ class RequestMapper
     }
 
     /**
-     * @param PayPalTransaction $transaction
+     * @param Transaction $transaction
      * @return string The transaction in JSON format.
      */
-    public function map(PayPalTransaction $transaction)
+    public function map(Transaction $transaction)
     {
         $onlyPaymentMethod = ['payment-method' => [['name' => 'paypal']]];
         $onlyNotificationUrl = ['notification' => [['url' => $transaction->getNotificationUrl()]]];
