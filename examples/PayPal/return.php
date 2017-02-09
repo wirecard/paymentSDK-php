@@ -6,9 +6,9 @@
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
-use Wirecard\PaymentSdk\TransactionService;
-use Wirecard\PaymentSdk\SuccessResponse;
 use Wirecard\PaymentSDK\FailureResponse;
+use Wirecard\PaymentSdk\SuccessResponse;
+use Wirecard\PaymentSdk\TransactionService;
 
 // ### Config
 // The `Config` object holds all interface configuration options.
@@ -25,7 +25,7 @@ $response = $service->handleResponse($_POST);
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if($response instanceof SuccessResponse) {
     echo sprintf('Payment with id %s successfully completed.<br>', $response->getTransactionId());
-    // In case of a failed transaction, a `FailureResponse` object is returned.
+// In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
     echo sprintf('Payment with id %s failed.<br>', $response->getTransactionId());
 }
