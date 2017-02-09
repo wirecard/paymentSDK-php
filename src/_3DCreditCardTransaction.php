@@ -30,38 +30,53 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk;
+namespace Wirecard\PaymentSdk;
 
-use Wirecard\PaymentSdk\CreditCardTransaction;
-use Wirecard\PaymentSdk\Money;
-
-class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
+/**
+ * Class CreditCard3DTransaction
+ * @package Wirecard\PaymentSdk
+ *
+ * An immutable entity representing a 3D payment with a credit card.
+ */
+// @codingStandardsIgnoreStart
+class _3DCreditCardTransaction extends CreditCardTransaction
+// @codingStandardsIgnoreEnd
 {
     /**
-     * @var CreditCardTransaction
+     * @var string
      */
-    private $ccTransaction;
+    private $notificationUrl;
 
     /**
-     * @var Money
+     * @var string
      */
-    private $amount;
+    private $termUrl;
 
-    const SAMPLE_TRANSACTION_ID = '542';
-
-    public function setUp()
+    /**
+     * _3DCreditCardTransaction constructor.
+     * @param string $notificationUrl
+     * @param string $termUrl
+     */
+    public function __construct($money, $transactionId, $notificationUrl, $termUrl)
     {
-        $this->amount = new Money(8.5, 'EUR');
-        $this->ccTransaction = new CreditCardTransaction($this->amount, self::SAMPLE_TRANSACTION_ID);
+        parent::__construct($money, $transactionId);
+        $this->notificationUrl = $notificationUrl;
+        $this->termUrl = $termUrl;
     }
 
-    public function testGetAmount()
+    /**
+     * @return string
+     */
+    public function getNotificationUrl()
     {
-        $this->assertEquals($this->amount, $this->ccTransaction->getAmount());
+        return $this->notificationUrl;
     }
 
-    public function testGetTransactionId()
+    /**
+     * @return string
+     */
+    public function getTermUrl()
     {
-        $this->assertEquals(self::SAMPLE_TRANSACTION_ID, $this->ccTransaction->getTransactionId());
+        return $this->termUrl;
     }
 }
