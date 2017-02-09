@@ -56,29 +56,74 @@ class RequestMapper
     }
 
     /**
-     * @param PayPalTransaction $transaction
+     * @param Transaction $transaction
      * @return string The transaction in JSON format.
      */
-    public function map(PayPalTransaction $transaction)
+    public function map(Transaction $transaction)
     {
-        $onlyPaymentMethod = ['payment-method' => [['name' => 'paypal']]];
-        $onlyNotificationUrl = ['notification' => [['url' => $transaction->getNotificationUrl()]]];
-        $amount = [
+        $requestId = $this->requestIdGenerator->generate();
+        $commonProperties =  [
+            'merchant-account-id' => ['value' => $this->config->getMerchantAccountId()],
+            'request-id' => $requestId,
+            'requested-amount' => $this->getAmountOfTransaction($transaction),
+        ];
+
+        if ($transaction instanceof PayPalTransaction) {
+            $specificProperties = $this->getSpecificPropertiesForPayPal($transaction);
+        }
+
+        if ($transaction instanceof CreditCardTransaction) {
+            $specificProperties = $this->getSpecificPropertiesForCreditCard($transaction);
+        }
+
+        $allProperties = array_merge($commonProperties, $specificProperties);
+        $result = [ 'payment' => $allProperties ];
+
+        return json_encode($result);
+    }
+
+    /**
+     * @param Transaction $transaction
+     * @return array
+     */
+    private function getAmountOfTransaction(Transaction $transaction)
+    {
+        return [
             'currency' => $transaction->getAmount()->getCurrency(),
             'value' => $transaction->getAmount()->getAmount()
         ];
-        $requestId = $this->requestIdGenerator->generate();
+    }
 
-        $result = ['payment' => [
-            'merchant-account-id' => ['value' => $this->config->getMerchantAccountId()],
-            'request-id' => $requestId,
+    /**
+     * @param Transaction $transaction
+     * @return array
+     */
+    private function getSpecificPropertiesForPayPal(Transaction $transaction)
+    {
+        $onlyPaymentMethod = ['payment-method' => [['name' => 'paypal']]];
+        $onlyNotificationUrl = ['notification' => [['url' => $transaction->getNotificationUrl()]]];
+
+        $specificProperties = [
             'transaction-type' => 'debit',
-            'requested-amount' => $amount,
             'payment-methods' => $onlyPaymentMethod,
             'cancel-redirect-url' => $transaction->getRedirect()->getCancelUrl(),
             'success-redirect-url' => $transaction->getRedirect()->getSuccessUrl(),
             'notifications' => $onlyNotificationUrl
-        ]];
-        return json_encode($result);
+        ];
+        return $specificProperties;
+    }
+
+    /**
+     * @param Transaction $transaction
+     * @return array
+     */
+    private function getSpecificPropertiesForCreditCard(Transaction $transaction)
+    {
+        $specificProperties = [
+            'transaction-type' => 'referenced-authorization',
+            'parent-transaction-id' => $transaction->getTransactionId(),
+            'ip-address' => $_SERVER['REMOTE_ADDR']
+        ];
+        return $specificProperties;
     }
 }

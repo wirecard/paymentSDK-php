@@ -30,54 +30,32 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk;
+namespace WirecardTest\PaymentSdk;
 
-/**
- * Class PayPalTransaction
- * @package Wirecard\PaymentSdk
- *
- * An immutable entity representing a payment with Paypal.
- * It does not contain logic.
- * Use the TransactionService to initiate the payment.
- */
-class PayPalTransaction extends Transaction
+use Wirecard\PaymentSdk\CreditCardTransaction;
+use Wirecard\PaymentSdk\Money;
+
+class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var string
-     */
-    private $notificationUrl;
+    private $ccTransaction;
 
-    /**
-     * @var Redirect
-     */
-    private $redirect;
+    private $amount;
 
-    /**
-     * PayPalTransaction constructor.
-     * @param Money $amount
-     * @param string $notificationUrl
-     * @param Redirect $redirect
-     */
-    public function __construct(Money $amount, $notificationUrl, Redirect $redirect)
+    const SAMPLE_TRANSACTION_ID = '542';
+
+    public function setUp()
     {
-        parent::__construct($amount);
-        $this->notificationUrl = $notificationUrl;
-        $this->redirect = $redirect;
+        $this->amount = new Money(8.5, 'EUR');
+        $this->ccTransaction = new CreditCardTransaction($this->amount, self::SAMPLE_TRANSACTION_ID);
     }
 
-    /**
-     * @return string
-     */
-    public function getNotificationUrl()
+    public function testGetAmount()
     {
-        return $this->notificationUrl;
+        $this->assertEquals($this->amount, $this->ccTransaction->getAmount());
     }
 
-    /**
-     * @return Redirect
-     */
-    public function getRedirect()
+    public function testGetTransactionId()
     {
-        return $this->redirect;
+        $this->assertEquals(self::SAMPLE_TRANSACTION_ID, $this->ccTransaction->getTransactionId());
     }
 }

@@ -205,10 +205,6 @@ class ResponseMapper
             }
         }
 
-        if ($result === null) {
-            throw new MalformedResponseException('No provider transaction ID in response.');
-        }
-
         return (string)$result;
     }
 }

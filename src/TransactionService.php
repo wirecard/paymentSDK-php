@@ -102,29 +102,23 @@ class TransactionService
     }
 
     /**
-     * @param PayPalTransaction $transaction
+     * @param Transaction $transaction
      * @throws RequestException|MalformedResponseException|\RuntimeException
      * @return InteractionResponse|FailureResponse
      */
-    public function pay(PayPalTransaction $transaction)
+    public function pay(Transaction $transaction)
     {
-        $response = $this->getHttpClient()->request(
-            'POST',
-            $this->getConfig()->getUrl(),
-            [
-                'auth' => [
-                    $this->getConfig()->getHttpUser(),
-                    $this->getConfig()->getHttpPassword()
-                ],
-                'headers' => [
-                    'Content-Type' => 'application/json',
-                    'Accept' => 'application/xml'
-                ],
-                'body' => $this->getRequestMapper()->map($transaction)
-            ]
-        );
+        return $this->process($transaction);
+    }
 
-        return $this->getResponseMapper()->map($response->getBody()->getContents());
+    /**
+     * @param Transaction $transaction
+     * @throws RequestException|MalformedResponseException|\RuntimeException
+     * @return FailureResponse|InteractionResponse|SuccessResponse
+     */
+    public function reserve(Transaction $transaction)
+    {
+        return $this->process($transaction);
     }
 
     /**
@@ -208,6 +202,34 @@ class TransactionService
     }
 
     /**
+     * @return string
+     */
+    public function getDataForCreditCardUi()
+    {
+        $requestData = array(
+            'request_time_stamp'        => gmdate('YmdHis'),
+            'request_id'                => $this->getRequestIdGenerator()->generate(64),
+            'merchant_account_id'       => $this->getConfig()->getMerchantAccountId(),
+            'transaction_type'          => 'authorization-only',
+            'requested_amount'          => 0,
+            'requested_amount_currency' => $this->getConfig()->getDefaultCurrency(),
+            'payment_method'            => 'creditcard',
+        );
+
+        $requestData['request_signature'] = hash('sha256', trim(
+            $requestData['request_time_stamp'] .
+            $requestData['request_id'] .
+            $requestData['merchant_account_id'] .
+            $requestData['transaction_type'] .
+            $requestData['requested_amount'] .
+            $requestData['requested_amount_currency'] .
+            $this->getConfig()->getSecretKey()
+        ));
+
+        return json_encode($requestData);
+    }
+
+    /**
      * @return LoggerInterface
      */
     protected function getLogger()
@@ -218,5 +240,32 @@ class TransactionService
         }
 
         return $this->logger;
+    }
+
+    /**
+     * @param Transaction $transaction
+     * @return FailureResponse|InteractionResponse|SuccessResponse
+     * @throws RequestException|MalformedResponseException|\RuntimeException
+     */
+    private function process(Transaction $transaction)
+    {
+        $requestBody = $this->getRequestMapper()->map($transaction);
+        $response = $this->getHttpClient()->request(
+            'POST',
+            $this->getConfig()->getUrl(),
+            [
+                'auth' => [
+                    $this->getConfig()->getHttpUser(),
+                    $this->getConfig()->getHttpPassword()
+                ],
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'Accept' => 'application/xml'
+                ],
+                'body' => $requestBody
+            ]
+        );
+
+        return $this->getResponseMapper()->map($response->getBody()->getContents());
     }
 }
