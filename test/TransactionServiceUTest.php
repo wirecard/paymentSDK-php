@@ -345,8 +345,10 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('request_signature', $data);
         unset($data['request_signature']);
 
+        $this->assertArrayHasKey('request_time_stamp', $data);
+        unset($data['request_time_stamp']);
+
         $this->assertEquals(array(
-            'request_time_stamp'        => gmdate('YmdHis'),
             'request_id'                => 'abc123',
             'merchant_account_id'       => $this->config->getMerchantAccountId(),
             'transaction_type'          => 'authorization-only',
