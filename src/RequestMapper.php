@@ -95,35 +95,43 @@ class RequestMapper
     }
 
     /**
-     * @param Transaction $transaction
+     * @param PayPalTransaction $transaction
      * @return array
      */
-    private function getSpecificPropertiesForPayPal(Transaction $transaction)
+    private function getSpecificPropertiesForPayPal(PayPalTransaction $transaction)
     {
         $onlyPaymentMethod = ['payment-method' => [['name' => 'paypal']]];
         $onlyNotificationUrl = ['notification' => [['url' => $transaction->getNotificationUrl()]]];
 
-        $specificProperties = [
+        return [
             'transaction-type' => 'debit',
             'payment-methods' => $onlyPaymentMethod,
             'cancel-redirect-url' => $transaction->getRedirect()->getCancelUrl(),
             'success-redirect-url' => $transaction->getRedirect()->getSuccessUrl(),
             'notifications' => $onlyNotificationUrl
         ];
-        return $specificProperties;
     }
 
     /**
-     * @param Transaction $transaction
+     * @param CreditCardTransaction $transaction
      * @return array
      */
-    private function getSpecificPropertiesForCreditCard(Transaction $transaction)
+    private function getSpecificPropertiesForCreditCard(CreditCardTransaction $transaction)
     {
         $specificProperties = [
-            'transaction-type' => 'referenced-authorization',
-            'parent-transaction-id' => $transaction->getTransactionId(),
+            'transaction-type' => 'authorization',
+            'card-token' => [
+                'token-id' => $transaction->getTokenId(),
+            ],
             'ip-address' => $_SERVER['REMOTE_ADDR']
         ];
+
+        if ($transaction instanceof ThreeDCreditCardTransaction) {
+            $threeDProperties = [
+                'transaction-type' => 'check-enrollment',
+            ];
+            $specificProperties = array_merge($specificProperties, $threeDProperties);
+        }
         return $specificProperties;
     }
 }

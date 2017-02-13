@@ -8,7 +8,7 @@
  *
  * They have been tested and approved for full functionality in the standard configuration
  * (status on delivery) of the corresponding shop system. They are under General Public
- * License Version 3 (GPLv3) and can be used, developed and passed on to third parties under
+ * License Version 2 (GPLv2) and can be used, developed and passed on to third parties under
  * the same terms.
  *
  * However, Wirecard CEE does not provide any guarantee or accept any liability for any errors
@@ -32,49 +32,38 @@
 
 namespace Wirecard\PaymentSdk;
 
-/**
- * Class CreditCard3DTransaction
- * @package Wirecard\PaymentSdk
- *
- * An immutable entity representing a 3D payment with a credit card.
- */
-class ThreeDCreditCardTransaction extends CreditCardTransaction
+class FormInteractionResponse extends Response
 {
-    /**
-     * @var string
-     */
-    private $notificationUrl;
+    private $url;
+
+    private $formFields;
 
     /**
-     * @var string
+     * FormInteractionResponse constructor.
+     * @param string $rawData
+     * @param StatusCollection $statusCollection
+     * @param $url
+     * @param FormFieldMap $formFields
      */
-    private $termUrl;
-
-    /**
-     * _3DCreditCardTransaction constructor.
-     * @param string $notificationUrl
-     * @param string $termUrl
-     */
-    public function __construct($money, $tokenId, $notificationUrl, $termUrl)
+    public function __construct($rawData, StatusCollection $statusCollection, $url, FormFieldMap $formFields)
     {
-        parent::__construct($money, $tokenId);
-        $this->notificationUrl = $notificationUrl;
-        $this->termUrl = $termUrl;
+        $this->formFields = $formFields;
+        $this->url = $url;
+        parent::__construct($rawData, $statusCollection);
     }
 
-    /**
-     * @return string
-     */
-    public function getNotificationUrl()
+    public function getMethod()
     {
-        return $this->notificationUrl;
+        return 'POST';
     }
 
-    /**
-     * @return string
-     */
-    public function getTermUrl()
+    public function getUrl()
     {
-        return $this->termUrl;
+        return $this->url;
+    }
+
+    public function getFormFields()
+    {
+        return $this->formFields;
     }
 }

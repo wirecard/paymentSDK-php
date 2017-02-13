@@ -8,7 +8,7 @@
  *
  * They have been tested and approved for full functionality in the standard configuration
  * (status on delivery) of the corresponding shop system. They are under General Public
- * License Version 3 (GPLv3) and can be used, developed and passed on to third parties under
+ * License Version 2 (GPLv2) and can be used, developed and passed on to third parties under
  * the same terms.
  *
  * However, Wirecard CEE does not provide any guarantee or accept any liability for any errors
@@ -32,49 +32,21 @@
 
 namespace Wirecard\PaymentSdk;
 
-/**
- * Class CreditCard3DTransaction
- * @package Wirecard\PaymentSdk
- *
- * An immutable entity representing a 3D payment with a credit card.
- */
-class ThreeDCreditCardTransaction extends CreditCardTransaction
+class FormFieldMap implements \IteratorAggregate
 {
-    /**
-     * @var string
-     */
-    private $notificationUrl;
+    private $formFields = [];
 
-    /**
-     * @var string
-     */
-    private $termUrl;
-
-    /**
-     * _3DCreditCardTransaction constructor.
-     * @param string $notificationUrl
-     * @param string $termUrl
-     */
-    public function __construct($money, $tokenId, $notificationUrl, $termUrl)
+    public function getIterator()
     {
-        parent::__construct($money, $tokenId);
-        $this->notificationUrl = $notificationUrl;
-        $this->termUrl = $termUrl;
+        return new \ArrayIterator($this->formFields);
     }
 
     /**
-     * @return string
+     * @param string $key
+     * @param string $value
      */
-    public function getNotificationUrl()
+    public function add($key, $value)
     {
-        return $this->notificationUrl;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTermUrl()
-    {
-        return $this->termUrl;
+        $this->formFields[$key] = $value;
     }
 }

@@ -42,10 +42,11 @@ class ResponseMapper
      * map the xml Response from engine to ResponseObjects
      *
      * @param $xmlResponse
-     * @return FailureResponse|InteractionResponse|SuccessResponse
+     * @param Transaction $transaction
+     * @return Response
      * @throws MalformedResponseException
      */
-    public function map($xmlResponse)
+    public function map($xmlResponse, Transaction $transaction = null)
     {
         $decodedResponse = base64_decode($xmlResponse);
         $xmlResponse = (base64_encode($decodedResponse) === $xmlResponse) ? $decodedResponse : $xmlResponse;
@@ -70,6 +71,12 @@ class ResponseMapper
         if ($state !== 'success') {
             return new FailureResponse($xmlResponse, $statusCollection);
         }
+
+
+        if ($transaction instanceof ThreeDCreditCardTransaction) {
+            return $this->mapThreeDResponse($xmlResponse, $response, $statusCollection, $transaction);
+        }
+
 
         $transactionId = $this->getTransactionId($response);
 
@@ -157,6 +164,10 @@ class ResponseMapper
     {
         if (isset($response->{'payment-methods'})) {
             $paymentMethods = $response->{'payment-methods'};
+        } elseif (isset($response->{'card-token'})) {
+            return new \SimpleXMLElement('<payment-methods>
+                                              <payment-method name="creditcard"></payment-method>
+                                          </payment-methods>');
         } else {
             throw new MalformedResponseException('Missing payment methods in response');
         }
@@ -206,5 +217,33 @@ class ResponseMapper
         }
 
         return (string)$result;
+    }
+
+    private function mapThreeDResponse($payload, $response, $status, ThreeDCreditCardTransaction $transaction)
+    {
+        if (!isset($response->{'three-d'})) {
+            throw new MalformedResponseException('Missing three-d element in enrollment-check response.');
+        } else {
+            $threeD = $response->{'three-d'};
+        }
+        if (!isset($threeD->{'acs-url'})) {
+            throw new MalformedResponseException('Missing acs redirect url in enrollment-check response.');
+        } else {
+            $redirectUrl = (string)$threeD->{'acs-url'};
+        }
+        $fields = new FormFieldMap();
+        $fields->add('TermUrl', $transaction->getTermUrl());
+        if (!isset($threeD->{'pareq'})) {
+            throw new MalformedResponseException('Missing pareq in enrollment-check response.');
+        } else {
+            $fields->add('PaReq', (string)$threeD->{'pareq'});
+        }
+        if (isset($threeD->md)) {
+            $fields->add('MD', (string)$threeD->md);
+        } else {
+            $fields->add('MD', '');
+        }
+
+        return new FormInteractionResponse($payload, $status, $redirectUrl, $fields);
     }
 }

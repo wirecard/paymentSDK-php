@@ -30,18 +30,18 @@ $transactionService = new TransactionService($config);
     <script src="https://api-test.wirecard.com/engine/hpp/paymentPageLoader.js" type="text/javascript"></script>
 </head>
 <body>
-<form id="payment-form" method="post" action="ssl-reserve.php">
+<form id="payment-form" method="post" action="3d-reserve.php">
     <?php
     // ### Form field transactionId
     // The transaction id which is returned from the credit card ui needs to be send with all other fields from your shop.
     // This is done in this example by filling a hidden form field
     ?>
-    <input type="hidden" name="transactionId" id="transactionId" value="">
+    <input type="hidden" name="tokenId" id="tokenId" value="">
     <?php
     // ### Credit card form div
     // The javascript library needs a div which it can fill with all credit card related fields
     ?>
-    <div id="creditcard-form-div"></div>
+    <div id="creditcard-form-div" style="height: 300px"></div>
     <input type="submit" value="Save">
 </form>
 <script type="application/javascript">
@@ -65,7 +65,7 @@ $transactionService = new TransactionService($config);
 
     function submit(event) {
         // We check if the transactionId field already got a value
-        if ($('#transactionId').val() == '') {
+        if ($('#tokenId').val() == '') {
             // If not, we will prevent the form submit and do a credit card ui form submit instead
             event.preventDefault();
 
@@ -81,7 +81,8 @@ $transactionService = new TransactionService($config);
 
     // This onSuccess handler for `seamlessSubmitForm` will set the transactionId in your own form and do again a form submit which will be send to your server
     function setParentTransactionId(response) {
-        $('#transactionId').val(response.transaction_id);
+        console.log(response);
+        $('#tokenId').val(response.token_id);
         $('#payment-form').submit();
     }
 
