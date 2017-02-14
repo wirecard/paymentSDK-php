@@ -383,7 +383,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(
             'request_id'                => 'abc123',
             'merchant_account_id'       => $this->config->getMerchantAccountId(),
-            'transaction_type'          => 'authorization-only',
+            'transaction_type'          => 'tokenize',
             'requested_amount'          => 0,
             'requested_amount_currency' => $this->config->getDefaultCurrency(),
             'payment_method'            => 'creditcard',

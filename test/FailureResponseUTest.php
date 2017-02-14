@@ -8,7 +8,7 @@
  *
  * They have been tested and approved for full functionality in the standard configuration
  * (status on delivery) of the corresponding shop system. They are under General Public
- * License Version 3 (GPLv3) and can be used, developed and passed on to third parties under
+ * License Version 2 (GPLv2) and can be used, developed and passed on to third parties under
  * the same terms.
  *
  * However, Wirecard CEE does not provide any guarantee or accept any liability for any errors
@@ -30,51 +30,28 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk;
+namespace WirecardTest\PaymentSdk;
 
-/**
- * Class CreditCard3DTransaction
- * @package Wirecard\PaymentSdk
- *
- * An immutable entity representing a 3D payment with a credit card.
- */
-class ThreeDCreditCardTransaction extends CreditCardTransaction
+use Wirecard\PaymentSdk\FailureResponse;
+use Wirecard\PaymentSdk\Response;
+use Wirecard\PaymentSdk\StatusCollection;
+
+class FailureResponseUTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var string
+     * @var FailureResponse
      */
-    private $notificationUrl;
+    private $response;
 
-    /**
-     * @var string
-     */
-    private $termUrl;
-
-    /**
-     * _3DCreditCardTransaction constructor.
-     * @param string $notificationUrl
-     * @param string $termUrl
-     */
-    public function __construct($money, $tokenId, $notificationUrl, $termUrl)
+    public function setUp()
     {
-        parent::__construct($money, $tokenId);
-        $this->notificationUrl = $notificationUrl;
-        $this->termUrl = $termUrl;
+        $rawData = '<raw></raw>';
+        $status = $this->createMock(StatusCollection::class);
+        $this->response = new FailureResponse($rawData, $status);
     }
 
-    /**
-     * @return string
-     */
-    public function getNotificationUrl()
+    public function testFailureResponseIsResponse()
     {
-        return $this->notificationUrl;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTermUrl()
-    {
-        return $this->termUrl;
+        $this->assertInstanceOf(Response::class, $this->response);
     }
 }

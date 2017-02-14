@@ -210,7 +210,7 @@ class TransactionService
             'request_time_stamp'        => gmdate('YmdHis'),
             'request_id'                => $this->getRequestIdGenerator()->generate(64),
             'merchant_account_id'       => $this->getConfig()->getMerchantAccountId(),
-            'transaction_type'          => 'authorization-only',
+            'transaction_type'          => 'tokenize',
             'requested_amount'          => 0,
             'requested_amount_currency' => $this->getConfig()->getDefaultCurrency(),
             'payment_method'            => 'creditcard',
@@ -265,7 +265,6 @@ class TransactionService
                 'body' => $requestBody
             ]
         );
-
-        return $this->getResponseMapper()->map($response->getBody()->getContents());
+        return $this->getResponseMapper()->map($response->getBody()->getContents(), $transaction);
     }
 }

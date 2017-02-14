@@ -42,24 +42,24 @@ namespace Wirecard\PaymentSdk;
  */
 class CreditCardTransaction extends Transaction
 {
-    private $transactionId;
+    private $tokenId;
 
     /**
      * CreditCardTransaction constructor.
      * @param Money $money
-     * @param $transactionId
+     * @param $tokenId
      */
-    public function __construct($money, $transactionId)
+    public function __construct($money, $tokenId)
     {
         parent::__construct($money);
-        $this->transactionId = $transactionId;
+        $this->tokenId = $tokenId;
     }
 
     /**
      * @return mixed
      */
-    public function getTransactionId()
+    public function getTokenId()
     {
-        return $this->transactionId;
+        return $this->tokenId;
     }
 }
