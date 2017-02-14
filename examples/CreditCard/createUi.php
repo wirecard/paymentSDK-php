@@ -28,9 +28,14 @@ $transactionService = new TransactionService($config);
     // This library is needed to generate the credit card ui and to get a valid transaction id containing the card information
     ?>
     <script src="https://api-test.wirecard.com/engine/hpp/paymentPageLoader.js" type="text/javascript"></script>
+    <style>
+        #creditcard-form-div {
+            height: 300px;
+        }
+    </style>
 </head>
 <body>
-<form id="payment-form" method="post" action="3d-reserve.php">
+<form id="payment-form" method="post" action="">
     <?php
     // ### Form field transactionId
     // The transaction id which is returned from the credit card ui needs to be send with all other fields from your shop.
@@ -41,7 +46,12 @@ $transactionService = new TransactionService($config);
     // ### Credit card form div
     // The javascript library needs a div which it can fill with all credit card related fields
     ?>
-    <div id="creditcard-form-div" style="height: 300px"></div>
+    <div id="creditcard-form-div"></div>
+    <select id="followup-transaction">
+        <option value="logging">No transaction</option>
+        <option value="ssl">SSL transaction</option>
+        <option value="3d">3-D Secure transaction</option>
+    </select>
     <input type="submit" value="Save">
 </form>
 <script type="application/javascript">
@@ -62,6 +72,20 @@ $transactionService = new TransactionService($config);
     // ### Submit handler for the form
     // Before your own shop form is submitted, you should submit the credit card ui form, so that you get a transaction id which you need for the actual payment
     $('#payment-form').submit(submit);
+
+    $('#followup-transaction').on('change', function (event) {
+        var action = '';
+        console.log(event.target.value);
+        switch(event.target.value) {
+            case 'ssl':
+                action = 'ssl-reserve.php';
+                break;
+            case '3d':
+                action = '3d-reserve.php';
+                break;
+        }
+        $('#payment-form').attr('action', action);
+    });
 
     function submit(event) {
         // We check if the transactionId field already got a value
