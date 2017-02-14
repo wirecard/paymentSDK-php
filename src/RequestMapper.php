@@ -34,6 +34,7 @@ namespace Wirecard\PaymentSdk;
 
 class RequestMapper
 {
+    const PARAM_TRANSACTION_TYPE = 'transaction-type';
     /**
      * @var Config
      */
@@ -104,7 +105,7 @@ class RequestMapper
         $onlyNotificationUrl = ['notification' => [['url' => $transaction->getNotificationUrl()]]];
 
         return [
-            'transaction-type' => 'debit',
+            self::PARAM_TRANSACTION_TYPE => 'debit',
             'payment-methods' => $onlyPaymentMethod,
             'cancel-redirect-url' => $transaction->getRedirect()->getCancelUrl(),
             'success-redirect-url' => $transaction->getRedirect()->getSuccessUrl(),
@@ -119,7 +120,7 @@ class RequestMapper
     private function getSpecificPropertiesForCreditCard(CreditCardTransaction $transaction)
     {
         $specificProperties = [
-            'transaction-type' => 'authorization',
+            self::PARAM_TRANSACTION_TYPE => 'authorization',
             'card-token' => [
                 'token-id' => $transaction->getTokenId(),
             ],
@@ -128,7 +129,7 @@ class RequestMapper
 
         if ($transaction instanceof ThreeDCreditCardTransaction) {
             $threeDProperties = [
-                'transaction-type' => 'check-enrollment',
+                self::PARAM_TRANSACTION_TYPE => 'check-enrollment',
             ];
             $specificProperties = array_merge($specificProperties, $threeDProperties);
         }
