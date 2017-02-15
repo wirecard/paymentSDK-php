@@ -35,6 +35,7 @@ namespace Wirecard\PaymentSdk;
 class RequestMapper
 {
     const PARAM_TRANSACTION_TYPE = 'transaction-type';
+    const CCARD_AUTHORIZATION = 'authorization';
     /**
      * @var Config
      */
@@ -120,7 +121,7 @@ class RequestMapper
     private function getSpecificPropertiesForCreditCard(CreditCardTransaction $transaction)
     {
         $specificProperties = [
-            self::PARAM_TRANSACTION_TYPE => 'authorization',
+            self::PARAM_TRANSACTION_TYPE => self::CCARD_AUTHORIZATION,
             'card-token' => [
                 'token-id' => $transaction->getTokenId(),
             ],

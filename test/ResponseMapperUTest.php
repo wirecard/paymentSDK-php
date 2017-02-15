@@ -209,7 +209,6 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         <three-d>
                             <acs-url>https://www.example.com/acs</acs-url>
                             <pareq>request</pareq>
-                            <md>testMd</md>
                         </three-d>
                     </payment>';
         $transaction = $this->createMock(ThreeDCreditCardTransaction::class);
@@ -221,6 +220,10 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(FormInteractionResponse::class, $mapped);
         $this->assertEquals($payload, $mapped->getRawData());
+        $this->assertEquals(
+            '{ enrollment-check-transaction-id:12345, operation-type:authorization }',
+            $mapped->getFormFields()->getIterator()['MD']
+        );
     }
 
     public function testWithValidResponseCreditCardTransactionReturnsSuccessResponse()
