@@ -1,6 +1,6 @@
 <?php
 
-// # 3-d secure credit card amount reservation transaction (authorization)
+// # 3-D secure credit card amount reservation transaction (authorization)
 // This example displays the usage of for payment method credit card.
 
 // To include the necessary files, we use the composer for PSR-4 autoloading.
@@ -39,7 +39,7 @@ $amount = new Money(12.59, 'EUR');
 $tokenId = array_key_exists('tokenId', $_POST) ? $_POST['tokenId'] : '5168216323601006';
 
 // ### Redirect URL
-// The redirect URL determines where the consumer should be redirected after approval/cancellation on the issuers ACS page.
+// The redirect URL determines where the consumer should be redirected after an approval/cancellation on the issuer's ACS page.
 $redirectUrl = getUrl('return.php?status=success');
 
 // ### Notification URL
