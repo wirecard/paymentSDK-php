@@ -70,28 +70,8 @@ class ResponseMapper
         $statusCollection = $this->getStatusCollection($response);
         if ($state !== 'success') {
             return new FailureResponse($xmlResponse, $statusCollection);
-        }
-
-
-        if ($transaction instanceof ThreeDCreditCardTransaction) {
-            return $this->mapThreeDResponse($xmlResponse, $response, $statusCollection, $transaction);
-        }
-
-
-        $transactionId = $this->getTransactionId($response);
-
-        $paymentMethod = $this->getPaymentMethod($response);
-        $redirectUrl = $this->getRedirectUrl($paymentMethod);
-        if ($redirectUrl !== null) {
-            return new InteractionResponse($xmlResponse, $statusCollection, $transactionId, $redirectUrl);
         } else {
-            $providerTransactionId = $this->getProviderTransactionId($response);
-            return new SuccessResponse(
-                $xmlResponse,
-                $statusCollection,
-                $transactionId,
-                $providerTransactionId
-            );
+            return $this->mapSuccessResponse($xmlResponse, $response, $statusCollection, $transaction);
         }
     }
 
@@ -245,5 +225,36 @@ class ResponseMapper
         }
 
         return new FormInteractionResponse($payload, $status, $redirectUrl, $fields);
+    }
+
+    /**
+     * @param $xmlResponse
+     * @param $response
+     * @param $statusCollection
+     * @param Transaction $transaction
+     * @return FormInteractionResponse|InteractionResponse|SuccessResponse
+     * @throws MalformedResponseException
+     */
+    private function mapSuccessResponse($xmlResponse, $response, $statusCollection, Transaction $transaction = null)
+    {
+        if ($transaction instanceof ThreeDCreditCardTransaction) {
+            return $this->mapThreeDResponse($xmlResponse, $response, $statusCollection, $transaction);
+        }
+
+        $transactionId = $this->getTransactionId($response);
+
+        $paymentMethod = $this->getPaymentMethod($response);
+        $redirectUrl = $this->getRedirectUrl($paymentMethod);
+        if ($redirectUrl !== null) {
+            return new InteractionResponse($xmlResponse, $statusCollection, $transactionId, $redirectUrl);
+        } else {
+            $providerTransactionId = $this->getProviderTransactionId($response);
+            return new SuccessResponse(
+                $xmlResponse,
+                $statusCollection,
+                $transactionId,
+                $providerTransactionId
+            );
+        }
     }
 }

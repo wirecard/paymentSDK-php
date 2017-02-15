@@ -17,13 +17,9 @@ use Wirecard\PaymentSdk\TransactionService;
 // Use the money object as amount which has to be payed by the consumer.
 $amount = new Money(12.59, 'EUR');
 
-// ### TransactionId
-// Ids from previous transactions or seamlessRenderForm success callback can be used to execute reservations
-if(array_key_exists('tokenId', $_POST)) {
-    $tokenId = $_POST['tokenId'];
-} else {
-    $tokenId = '5168216323601006';
-}
+// ### TokenId
+// tokens from seamlessRenderForm success callback can be used to execute reservations
+$tokenId = array_key_exists('tokenId', $_POST) ? $_POST['tokenId'] : '5168216323601006';
 
 // ### Transaction
 // The credit card transaction holds all transaction relevant data for the payment process.
