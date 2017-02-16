@@ -37,12 +37,7 @@ class ReferenceTransaction implements Transaction
     /**
      * @var string
      */
-    private $parentTransactionId;
-
-    /**
-     * @var string
-     */
-    private $paRes;
+    private $payload;
 
     /**
      * ReferenceTransaction constructor.
@@ -50,24 +45,14 @@ class ReferenceTransaction implements Transaction
      */
     public function __construct($payload)
     {
-        $md = json_decode(base64_decode($payload['MD']), true);
-        $this->parentTransactionId = $md['enrollment-check-transaction-id'];
-        $this->paRes = $payload['PaRes'];
+        $this->payload = $payload;
     }
 
     /**
      * @return string
      */
-    public function getParentTransactionId()
+    public function getPayload()
     {
-        return $this->parentTransactionId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPaRes()
-    {
-        return $this->paRes;
+        return $this->payload;
     }
 }

@@ -146,15 +146,21 @@ class RequestMapper
     }
 
     /**
-     * @param ReferenceTransaction $transaction
+     * @param $transaction
+     * @return array
      */
     private function getSpecificPropertiesForReference($transaction)
     {
+        $payload = $transaction->getPayload();
+        $md = json_decode(base64_decode($payload['MD']), true);
+        $parentTransactionId = $md['enrollment-check-transaction-id'];
+        $paRes = $payload['PaRes'];
+
         return [
             self::PARAM_TRANSACTION_TYPE => self::CCARD_AUTHORIZATION,
-            'parent-transaction-id' => $transaction->getParentTransactionId(),
+            'parent-transaction-id' => $parentTransactionId,
             'three-d' => [
-                'pares' => $transaction->getPaRes()
+                'pares' => $paRes
             ],
         ];
     }
