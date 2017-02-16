@@ -218,11 +218,12 @@ class ResponseMapper
         } else {
             $fields->add('PaReq', (string)$threeD->{'pareq'});
         }
-        if (isset($threeD->md)) {
-            $fields->add('MD', (string)$threeD->md);
-        } else {
-            $fields->add('MD', '');
-        }
+
+        $fields->add(
+            'MD',
+            '{ enrollment-check-transaction-id:' . $response->{'transaction-id'}
+            .  ', operation-type:' . RequestMapper::CCARD_AUTHORIZATION . ' }'
+        );
 
         return new FormInteractionResponse($payload, $status, $redirectUrl, $fields);
     }
