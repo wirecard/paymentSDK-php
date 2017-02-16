@@ -102,21 +102,21 @@ class TransactionService
     }
 
     /**
-     * @param Transaction $transaction
+     * @param InitialTransaction $transaction
      * @throws RequestException|MalformedResponseException|\RuntimeException
      * @return InteractionResponse|FailureResponse
      */
-    public function pay(Transaction $transaction)
+    public function pay(InitialTransaction $transaction)
     {
         return $this->process($transaction);
     }
 
     /**
-     * @param Transaction $transaction
+     * @param InitialTransaction $transaction
      * @throws RequestException|MalformedResponseException|\RuntimeException
      * @return FailureResponse|InteractionResponse|SuccessResponse
      */
-    public function reserve(Transaction $transaction)
+    public function reserve(InitialTransaction $transaction)
     {
         return $this->process($transaction);
     }
@@ -194,6 +194,10 @@ class TransactionService
      */
     public function handleResponse(array $payload)
     {
+        if (array_key_exists('MD', $payload) && array_key_exists('PaRes', $payload)) {
+            return $this->processAuthFrom3DResponse($payload);
+        }
+
         if (array_key_exists('eppresponse', $payload)) {
             return $this->getResponseMapper()->map($payload['eppresponse']);
         } else {
@@ -266,5 +270,11 @@ class TransactionService
             ]
         );
         return $this->getResponseMapper()->map($response->getBody()->getContents(), $transaction);
+    }
+
+    private function processAuthFrom3DResponse($payload)
+    {
+        $refTransaction = new ReferenceTransaction($payload);
+        return $this->process($refTransaction);
     }
 }

@@ -32,52 +32,42 @@
 
 namespace Wirecard\PaymentSdk;
 
-/**
- * Class PayPalTransaction
- * @package Wirecard\PaymentSdk
- *
- * An immutable entity representing a payment with Paypal.
- * It does not contain logic.
- * Use the TransactionService to initiate the payment.
- */
-class PayPalTransaction extends InitialTransaction
+class ReferenceTransaction implements Transaction
 {
     /**
      * @var string
      */
-    private $notificationUrl;
+    private $parentTransactionId;
 
     /**
-     * @var Redirect
+     * @var string
      */
-    private $redirect;
+    private $paRes;
 
     /**
-     * PayPalTransaction constructor.
-     * @param Money $amount
-     * @param string $notificationUrl
-     * @param Redirect $redirect
+     * ReferenceTransaction constructor.
+     * @param $payload
      */
-    public function __construct(Money $amount, $notificationUrl, Redirect $redirect)
+    public function __construct($payload)
     {
-        parent::__construct($amount);
-        $this->notificationUrl = $notificationUrl;
-        $this->redirect = $redirect;
+        $md = json_decode(base64_decode($payload['MD']), true);
+        $this->parentTransactionId = $md['enrollment-check-transaction-id'];
+        $this->paRes = $payload['PaRes'];
     }
 
     /**
      * @return string
      */
-    public function getNotificationUrl()
+    public function getParentTransactionId()
     {
-        return $this->notificationUrl;
+        return $this->parentTransactionId;
     }
 
     /**
-     * @return Redirect
+     * @return string
      */
-    public function getRedirect()
+    public function getPaRes()
     {
-        return $this->redirect;
+        return $this->paRes;
     }
 }

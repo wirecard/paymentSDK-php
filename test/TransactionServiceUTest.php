@@ -178,7 +178,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
     public function testReserveCreditCardTransaction()
     {
-        $transaction = $this->createMock('\Wirecard\PaymentSdk\Transaction');
+        $transaction = $this->createMock('\Wirecard\PaymentSdk\InitialTransaction');
 
         //prepare RequestMapper
         $mappedRequest = '{"mocked": "json", "response": "object"}';
