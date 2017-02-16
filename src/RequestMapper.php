@@ -36,6 +36,7 @@ class RequestMapper
 {
     const PARAM_TRANSACTION_TYPE = 'transaction-type';
     const CCARD_AUTHORIZATION = 'authorization';
+
     /**
      * @var Config
      */
@@ -66,9 +67,12 @@ class RequestMapper
         $requestId = $this->requestIdGenerator->generate();
         $commonProperties =  [
             'merchant-account-id' => ['value' => $this->config->getMerchantAccountId()],
-            'request-id' => $requestId,
-            'requested-amount' => $this->getAmountOfTransaction($transaction),
+            'request-id' => $requestId
         ];
+
+        if ($transaction instanceof InitialTransaction) {
+            $commonProperties['requested-amount'] = $this->getAmountOfTransaction($transaction);
+        }
 
         if ($transaction instanceof PayPalTransaction) {
             $specificProperties = $this->getSpecificPropertiesForPayPal($transaction);
@@ -78,6 +82,10 @@ class RequestMapper
             $specificProperties = $this->getSpecificPropertiesForCreditCard($transaction);
         }
 
+        if ($transaction instanceof ReferenceTransaction) {
+            $specificProperties = $this->getSpecificPropertiesForReference($transaction);
+        }
+
         $allProperties = array_merge($commonProperties, $specificProperties);
         $result = [ 'payment' => $allProperties ];
 
@@ -85,10 +93,10 @@ class RequestMapper
     }
 
     /**
-     * @param Transaction $transaction
+     * @param InitialTransaction $transaction
      * @return array
      */
-    private function getAmountOfTransaction(Transaction $transaction)
+    private function getAmountOfTransaction(InitialTransaction $transaction)
     {
         return [
             'currency' => $transaction->getAmount()->getCurrency(),
@@ -135,5 +143,25 @@ class RequestMapper
             $specificProperties = array_merge($specificProperties, $threeDProperties);
         }
         return $specificProperties;
+    }
+
+    /**
+     * @param $transaction
+     * @return array
+     */
+    private function getSpecificPropertiesForReference($transaction)
+    {
+        $payload = $transaction->getPayload();
+        $md = json_decode(base64_decode($payload['MD']), true);
+        $parentTransactionId = $md['enrollment-check-transaction-id'];
+        $paRes = $payload['PaRes'];
+
+        return [
+            self::PARAM_TRANSACTION_TYPE => self::CCARD_AUTHORIZATION,
+            'parent-transaction-id' => $parentTransactionId,
+            'three-d' => [
+                'pares' => $paRes
+            ],
+        ];
     }
 }

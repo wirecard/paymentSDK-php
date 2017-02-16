@@ -37,6 +37,7 @@ use Wirecard\PaymentSdk\CreditCardTransaction;
 use Wirecard\PaymentSdk\Money;
 use Wirecard\PaymentSdk\PayPalTransaction;
 use Wirecard\PaymentSdk\Redirect;
+use Wirecard\PaymentSdk\ReferenceTransaction;
 use Wirecard\PaymentSdk\RequestMapper;
 use Wirecard\PaymentSdk\ThreeDCreditCardTransaction;
 
@@ -124,6 +125,38 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $money = new Money(24, 'EUR');
         $transaction = new ThreeDCreditCardTransaction($money, '21', 'https://example.com/n', 'https://example.com/r');
         $result = $mapper->map($transaction);
+
+        $this->assertEquals(json_encode($expectedResult), $result);
+    }
+
+    public function testReferenceTransaction()
+    {
+        $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', self::MAID, 'secret');
+        $requestIdGeneratorMock = $this->createMock('Wirecard\PaymentSdk\RequestIdGenerator');
+        $mapper = new RequestMapper($config, $requestIdGeneratorMock);
+
+        $requestIdGeneratorMock->method('generate')
+            ->willReturn('5B-dummy-id');
+
+        $payload = [
+            'PaRes' => 'sth',
+            'MD' => base64_encode(json_encode([
+                'enrollment-check-transaction-id' => '642'
+            ]))
+        ];
+
+        $refTransaction = new ReferenceTransaction($payload);
+        $result = $mapper->map($refTransaction);
+
+        $expectedResult = ['payment' => [
+            'merchant-account-id' => ['value' => 'B612'],
+            'request-id' => '5B-dummy-id',
+            'transaction-type' => 'authorization',
+            'parent-transaction-id' => '642',
+            'three-d' => [
+                'pares' => 'sth'
+            ]
+        ]];
 
         $this->assertEquals(json_encode($expectedResult), $result);
     }

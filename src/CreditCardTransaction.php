@@ -40,7 +40,7 @@ namespace Wirecard\PaymentSdk;
  * Use it for SSL payments.
  * For the 3D payments use the specific subclass.
  */
-class CreditCardTransaction extends Transaction
+class CreditCardTransaction extends InitialTransaction
 {
     private $tokenId;
 
