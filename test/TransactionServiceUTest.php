@@ -413,7 +413,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $httpResponseContent = 'content';
         $httpResponseBody->method('getContents')->willReturn($httpResponseContent);
 
-        $successResponse = new SuccessResponse('dummy', new StatusCollection(), 'x', 'y');;
+        $successResponse = new SuccessResponse('dummy', new StatusCollection(), 'x', 'y');
         $responseMapper = $this->createMock('Wirecard\PaymentSdk\ResponseMapper');
         $responseMapper->method('map')->with($httpResponseContent)->willReturn($successResponse);
 
@@ -422,6 +422,5 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $result = $this->instance->handleResponse($validContent);
 
         $this->assertEquals($successResponse, $result);
-
     }
 }

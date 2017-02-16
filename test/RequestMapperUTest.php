@@ -159,6 +159,5 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         ]];
 
         $this->assertEquals(json_encode($expectedResult), $result);
-
     }
 }
