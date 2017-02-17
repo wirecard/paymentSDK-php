@@ -86,6 +86,10 @@ class RequestMapper
             $specificProperties = $this->getSpecificPropertiesForReference($transaction);
         }
 
+        if ($transaction instanceof FollowupTransaction) {
+            $specificProperties = $this->getSpecificPropertiesForFollowup($transaction);
+        }
+
         $allProperties = array_merge($commonProperties, $specificProperties);
         $result = [ 'payment' => $allProperties ];
 
@@ -162,6 +166,18 @@ class RequestMapper
             'three-d' => [
                 'pares' => $paRes
             ],
+        ];
+    }
+
+    /**
+     * @param FollowupTransaction $transaction
+     * @return array
+     */
+    private function getSpecificPropertiesForFollowup($transaction)
+    {
+        return [
+            self::PARAM_TRANSACTION_TYPE => 'cancel',
+            'parent-transaction-id' => $transaction->getParentTransactionId()
         ];
     }
 }
