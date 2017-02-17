@@ -14,7 +14,7 @@ $config = new Config('https://api-test.wirecard.com/engine/rest/payments/', '700
 // ### Transaction Service
 // The service is used to execute the reservation (authorization) operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
-$tx = new FollowupTransaction('91b88123-1fd9-489b-bec7-8ac5ccb500d7');
+$tx = new FollowupTransaction($_POST['parentTransactionId']);
 $response = $transactionService->cancel($tx);
 
 var_dump($response);
