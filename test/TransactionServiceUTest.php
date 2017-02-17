@@ -37,6 +37,7 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Wirecard\PaymentSdk\Config;
+use Wirecard\PaymentSdk\FollowupTransaction;
 use Wirecard\PaymentSdk\InteractionResponse;
 use Wirecard\PaymentSdk\MalformedResponseException;
 use Wirecard\PaymentSdk\ReferenceTransaction;
@@ -420,6 +421,33 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->instance = new TransactionService($this->config, null, $client, $requestMapper, $responseMapper);
 
         $result = $this->instance->handleResponse($validContent);
+
+        $this->assertEquals($successResponse, $result);
+    }
+
+    public function testCancel()
+    {
+        $cancelTrans = new FollowupTransaction('parent-id');
+
+        $requestMapper = $this->createMock('Wirecard\PaymentSdk\RequestMapper');
+        $authRequestObject = "dummy_request_payload";
+        $requestMapper->method('map')->with($cancelTrans)->willReturn($authRequestObject);
+
+        $httpResponse = $this->createMock('\Psr\Http\Message\ResponseInterface');
+        $client = $this->createMock('\GuzzleHttp\Client');
+        $client->method('request')->willReturn($httpResponse);
+        $httpResponseBody = $this->createMock('\Psr\Http\Message\StreamInterface');
+        $httpResponse->method('getBody')->willReturn($httpResponseBody);
+        $httpResponseContent = 'content';
+        $httpResponseBody->method('getContents')->willReturn($httpResponseContent);
+
+        $successResponse = new SuccessResponse('dummy', new StatusCollection(), 'x', 'y');
+        $responseMapper = $this->createMock('Wirecard\PaymentSdk\ResponseMapper');
+        $responseMapper->method('map')->with($httpResponseContent)->willReturn($successResponse);
+
+        $this->instance = new TransactionService($this->config, null, $client, $requestMapper, $responseMapper);
+
+        $result = $this->instance->cancel($cancelTrans);
 
         $this->assertEquals($successResponse, $result);
     }
