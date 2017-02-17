@@ -399,26 +399,9 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
             'MD' => 'arbitrary MD',
             'PaRes' => 'arbitrary PaRes'
         ];
-
         $refTrans = new ReferenceTransaction($validContent);
 
-        $requestMapper = $this->createMock('Wirecard\PaymentSdk\RequestMapper');
-        $authRequestObject = "dummy_request_payload";
-        $requestMapper->method('map')->with($refTrans)->willReturn($authRequestObject);
-
-        $httpResponse = $this->createMock('\Psr\Http\Message\ResponseInterface');
-        $client = $this->createMock('\GuzzleHttp\Client');
-        $client->method('request')->willReturn($httpResponse);
-        $httpResponseBody = $this->createMock('\Psr\Http\Message\StreamInterface');
-        $httpResponse->method('getBody')->willReturn($httpResponseBody);
-        $httpResponseContent = 'content';
-        $httpResponseBody->method('getContents')->willReturn($httpResponseContent);
-
-        $successResponse = new SuccessResponse('dummy', new StatusCollection(), 'x', 'y');
-        $responseMapper = $this->createMock('Wirecard\PaymentSdk\ResponseMapper');
-        $responseMapper->method('map')->with($httpResponseContent)->willReturn($successResponse);
-
-        $this->instance = new TransactionService($this->config, null, $client, $requestMapper, $responseMapper);
+        $successResponse = $this->mockProcessingRequest($refTrans);
 
         $result = $this->instance->handleResponse($validContent);
 
@@ -429,9 +412,22 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
     {
         $cancelTrans = new FollowupTransaction('parent-id');
 
+        $successResponse = $this->mockProcessingRequest($cancelTrans);
+
+        $result = $this->instance->cancel($cancelTrans);
+
+        $this->assertEquals($successResponse, $result);
+    }
+
+    /**
+     * @param $tx
+     * @return SuccessResponse
+     */
+    private function mockProcessingRequest($tx)
+    {
         $requestMapper = $this->createMock('Wirecard\PaymentSdk\RequestMapper');
         $authRequestObject = "dummy_request_payload";
-        $requestMapper->method('map')->with($cancelTrans)->willReturn($authRequestObject);
+        $requestMapper->method('map')->with($tx)->willReturn($authRequestObject);
 
         $httpResponse = $this->createMock('\Psr\Http\Message\ResponseInterface');
         $client = $this->createMock('\GuzzleHttp\Client');
@@ -446,9 +442,6 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $responseMapper->method('map')->with($httpResponseContent)->willReturn($successResponse);
 
         $this->instance = new TransactionService($this->config, null, $client, $requestMapper, $responseMapper);
-
-        $result = $this->instance->cancel($cancelTrans);
-
-        $this->assertEquals($successResponse, $result);
+        return $successResponse;
     }
 }
