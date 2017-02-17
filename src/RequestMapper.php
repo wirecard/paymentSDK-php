@@ -176,7 +176,7 @@ class RequestMapper
     private function getSpecificPropertiesForFollowup($transaction)
     {
         return [
-            self::PARAM_TRANSACTION_TYPE => 'cancel',
+            self::PARAM_TRANSACTION_TYPE => 'void-authorization',
             'parent-transaction-id' => $transaction->getParentTransactionId()
         ];
     }
