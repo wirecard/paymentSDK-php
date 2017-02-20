@@ -36,30 +36,51 @@ namespace Wirecard\PaymentSdk;
  * Class CreditCardTransaction
  * @package Wirecard\PaymentSdk
  *
- * An immutable entity representing a payment with credit card.
+ * An entity representing a payment with credit card.
  * Use it for SSL payments.
  * For the 3D payments use the specific subclass.
  */
 class CreditCardTransaction extends InitialTransaction
 {
+    /**
+     * @var string
+     */
     private $tokenId;
 
     /**
-     * CreditCardTransaction constructor.
-     * @param Money $money
-     * @param $tokenId
+     * @var string
      */
-    public function __construct($money, $tokenId)
-    {
-        parent::__construct($money);
-        $this->tokenId = $tokenId;
-    }
+    private $parentTransactionId;
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getTokenId()
     {
         return $this->tokenId;
+    }
+
+    /**
+     * @param string $tokenId
+     */
+    public function setTokenId($tokenId)
+    {
+        $this->tokenId = $tokenId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getParentTransactionId()
+    {
+        return $this->parentTransactionId;
+    }
+
+    /**
+     * @param string $parentTransactionId
+     */
+    public function setParentTransactionId($parentTransactionId)
+    {
+        $this->parentTransactionId = $parentTransactionId;
     }
 }

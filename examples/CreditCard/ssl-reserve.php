@@ -23,7 +23,8 @@ $tokenId = array_key_exists('tokenId', $_POST) ? $_POST['tokenId'] : '5168216323
 
 // ### Transaction
 // The credit card transaction holds all transaction relevant data for the payment process.
-$transaction = new CreditCardTransaction($amount, $tokenId);
+$transaction = new CreditCardTransaction($amount);
+$transaction->setTokenId($tokenId);
 
 // ### Config
 // The config object holds all interface configuration options

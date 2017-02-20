@@ -96,7 +96,8 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
             'ip-address' => 'test IP'
         ]];
 
-        $transaction = new CreditCardTransaction(new Money(24, 'EUR'), '21');
+        $transaction = new CreditCardTransaction(new Money(24, 'EUR'));
+        $transaction->setTokenId('21');
         $result = $mapper->map($transaction);
 
         $this->assertEquals(json_encode($expectedResult), $result);
