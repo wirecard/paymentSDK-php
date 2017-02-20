@@ -41,6 +41,7 @@ $response = $transactionService->reserve($transaction);
 if($response instanceof SuccessResponse) {
     echo sprintf('Payment with id %s successfully completed.<br>', $response->getTransactionId());
 ?>
+    <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>" />
         <input type="submit" value="cancel the payment">
