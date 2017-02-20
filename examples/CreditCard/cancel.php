@@ -2,7 +2,9 @@
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
+use Wirecard\PaymentSdk\FailureResponse;
 use Wirecard\PaymentSdk\FollowupTransaction;
+use Wirecard\PaymentSdk\SuccessResponse;
 use Wirecard\PaymentSdk\TransactionService;
 
 // ### Config
@@ -17,4 +19,24 @@ $transactionService = new TransactionService($config);
 $tx = new FollowupTransaction($_POST['parentTransactionId']);
 $response = $transactionService->cancel($tx);
 
-var_dump($response);
+// ### Response handling
+// The response from the service can be used for disambiguation.
+// In case of a successful transaction, a `SuccessResponse` object is returned.
+if($response instanceof SuccessResponse) {
+    echo sprintf('Payment successfully cancelled.<br> Transaction ID: %s<br>', $response->getTransactionId());
+    ?>
+
+    <?php
+// In case of a failed transaction, a `FailureResponse` object is returned.
+} elseif ($response instanceof FailureResponse) {
+    // In our example we iterate over all errors and echo them out. You should display them as error, warning or information based on the given severity.
+    foreach ($response->getStatusCollection() AS $status) {
+        /**
+         * @var $status \Wirecard\PaymentSdk\Status
+         */
+        $severity = ucfirst($status->getSeverity());
+        $code = $status->getCode();
+        $description = $status->getDescription();
+        echo sprintf('%s with code %s and message "%s" occured.<br>', $severity, $code, $description);
+    }
+}
