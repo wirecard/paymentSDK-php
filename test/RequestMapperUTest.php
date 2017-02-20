@@ -75,7 +75,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(json_encode($expectedResult), $result);
     }
 
-    public function testSslCreditCardTransaction()
+    public function testSslCreditCardTransactionWithTokenId()
     {
         $_SERVER['REMOTE_ADDR'] = 'test IP';
         $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', self::MAID, 'secret');
@@ -131,7 +131,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(json_encode($expectedResult), $result);
     }
 
-    public function testReferenceTransaction()
+    public function testThreeDAuthorizationTransaction()
     {
         $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', self::MAID, 'secret');
         $requestIdGeneratorMock = $this->createMock('Wirecard\PaymentSdk\RequestIdGenerator');
