@@ -147,6 +147,36 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $mapper->map($transaction);
     }
 
+    public function testSslCreditCardTransactionWithBothTokenIdAndParentTransactionId()
+    {
+        $_SERVER['REMOTE_ADDR'] = 'test IP';
+        $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', self::MAID, 'secret');
+        $requestIdGeneratorMock = $this->createMock('Wirecard\PaymentSdk\RequestIdGenerator');
+        $mapper = new RequestMapper($config, $requestIdGeneratorMock);
+
+        $requestIdGeneratorMock->method('generate')
+            ->willReturn('5B-dummy-id');
+
+        $expectedResult = ['payment' => [
+            'merchant-account-id' => ['value' => 'B612'],
+            'request-id' => '5B-dummy-id',
+            'requested-amount' => ['currency' => 'EUR', 'value' => 24],
+            'transaction-type' => 'referenced-authorization',
+            'parent-transaction-id' => 'parent5',
+            'card-token' => [
+                'token-id' => '33'
+            ],
+            'ip-address' => 'test IP'
+        ]];
+
+        $transaction = new CreditCardTransaction(new Money(24, 'EUR'));
+        $transaction->setTokenId('33');
+        $transaction->setParentTransactionId('parent5');
+        $result = $mapper->map($transaction);
+
+        $this->assertEquals(json_encode($expectedResult), $result);
+    }
+
     public function testThreeDCreditCardTransaction()
     {
         $_SERVER['REMOTE_ADDR'] = 'test IP';
