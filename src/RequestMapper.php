@@ -82,7 +82,7 @@ class RequestMapper
             $specificProperties = $this->getSpecificPropertiesForCreditCard($transaction);
         }
 
-        if ($transaction instanceof ReferenceTransaction) {
+        if ($transaction instanceof ThreeDAuthorizationTransaction) {
             $specificProperties = $this->getSpecificPropertiesForReference($transaction);
         }
 

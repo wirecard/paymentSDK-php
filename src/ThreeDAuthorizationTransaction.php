@@ -32,7 +32,14 @@
 
 namespace Wirecard\PaymentSdk;
 
-class ReferenceTransaction implements Transaction
+/**
+ * Class ReferenceTransaction
+ * @package Wirecard\PaymentSdk
+ *
+ * This class is instantiated during the 3D process,
+ * and it should not be instantiated by the merchant.
+ */
+class ThreeDAuthorizationTransaction implements Transaction
 {
     /**
      * @var string

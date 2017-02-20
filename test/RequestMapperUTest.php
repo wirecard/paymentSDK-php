@@ -38,7 +38,7 @@ use Wirecard\PaymentSdk\FollowupTransaction;
 use Wirecard\PaymentSdk\Money;
 use Wirecard\PaymentSdk\PayPalTransaction;
 use Wirecard\PaymentSdk\Redirect;
-use Wirecard\PaymentSdk\ReferenceTransaction;
+use Wirecard\PaymentSdk\ThreeDAuthorizationTransaction;
 use Wirecard\PaymentSdk\RequestMapper;
 use Wirecard\PaymentSdk\ThreeDCreditCardTransaction;
 
@@ -146,7 +146,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
             ]))
         ];
 
-        $refTransaction = new ReferenceTransaction($payload);
+        $refTransaction = new ThreeDAuthorizationTransaction($payload);
         $result = $mapper->map($refTransaction);
 
         $expectedResult = ['payment' => [

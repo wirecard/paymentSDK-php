@@ -40,7 +40,7 @@ use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\FollowupTransaction;
 use Wirecard\PaymentSdk\InteractionResponse;
 use Wirecard\PaymentSdk\MalformedResponseException;
-use Wirecard\PaymentSdk\ReferenceTransaction;
+use Wirecard\PaymentSdk\ThreeDAuthorizationTransaction;
 use Wirecard\PaymentSdk\StatusCollection;
 use Wirecard\PaymentSdk\SuccessResponse;
 use Wirecard\PaymentSdk\TransactionService;
@@ -399,7 +399,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
             'MD' => 'arbitrary MD',
             'PaRes' => 'arbitrary PaRes'
         ];
-        $refTrans = new ReferenceTransaction($validContent);
+        $refTrans = new ThreeDAuthorizationTransaction($validContent);
 
         $successResponse = $this->mockProcessingRequest($refTrans);
 
