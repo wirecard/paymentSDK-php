@@ -37,6 +37,7 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Wirecard\PaymentSdk\Config;
+use Wirecard\PaymentSdk\FollowupTransaction;
 use Wirecard\PaymentSdk\InteractionResponse;
 use Wirecard\PaymentSdk\MalformedResponseException;
 use Wirecard\PaymentSdk\ReferenceTransaction;
@@ -398,12 +399,35 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
             'MD' => 'arbitrary MD',
             'PaRes' => 'arbitrary PaRes'
         ];
-
         $refTrans = new ReferenceTransaction($validContent);
 
+        $successResponse = $this->mockProcessingRequest($refTrans);
+
+        $result = $this->instance->handleResponse($validContent);
+
+        $this->assertEquals($successResponse, $result);
+    }
+
+    public function testCancel()
+    {
+        $cancelTrans = new FollowupTransaction('parent-id');
+
+        $successResponse = $this->mockProcessingRequest($cancelTrans);
+
+        $result = $this->instance->cancel($cancelTrans);
+
+        $this->assertEquals($successResponse, $result);
+    }
+
+    /**
+     * @param $tx
+     * @return SuccessResponse
+     */
+    private function mockProcessingRequest($tx)
+    {
         $requestMapper = $this->createMock('Wirecard\PaymentSdk\RequestMapper');
         $authRequestObject = "dummy_request_payload";
-        $requestMapper->method('map')->with($refTrans)->willReturn($authRequestObject);
+        $requestMapper->method('map')->with($tx)->willReturn($authRequestObject);
 
         $httpResponse = $this->createMock('\Psr\Http\Message\ResponseInterface');
         $client = $this->createMock('\GuzzleHttp\Client');
@@ -418,9 +442,6 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $responseMapper->method('map')->with($httpResponseContent)->willReturn($successResponse);
 
         $this->instance = new TransactionService($this->config, null, $client, $requestMapper, $responseMapper);
-
-        $result = $this->instance->handleResponse($validContent);
-
-        $this->assertEquals($successResponse, $result);
+        return $successResponse;
     }
 }

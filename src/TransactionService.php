@@ -112,6 +112,18 @@ class TransactionService
     }
 
     /**
+     * @param FollowupTransaction $transaction
+     * @return FailureResponse|InteractionResponse|SuccessResponse
+     * @throws \Wirecard\PaymentSdk\MalformedResponseException
+     * @throws \RuntimeException
+     * @throws \GuzzleHttp\Exception\RequestException
+     */
+    public function cancel(FollowupTransaction $transaction)
+    {
+        return $this->process($transaction);
+    }
+
+    /**
      * @param InitialTransaction $transaction
      * @throws RequestException|MalformedResponseException|\RuntimeException
      * @return FailureResponse|InteractionResponse|SuccessResponse
