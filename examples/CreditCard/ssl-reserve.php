@@ -1,9 +1,11 @@
 <?php
 
-// # credit card amount reservation transaction (authorization)
-// This example displays the usage of for payment method credit card.
+// # Credit card amount reservation
+// The method `reserve` of the _transactionService_ provides the means to reserve an amount (also known as authorization).
 
-// To include the necessary files, we use the composer for PSR-4 autoloading.
+// ## Required objects
+
+// To include the necessary files, use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
@@ -13,29 +15,28 @@ use Wirecard\PaymentSdk\Money;
 use Wirecard\PaymentSdk\SuccessResponse;
 use Wirecard\PaymentSdk\TransactionService;
 
-// ### Money object
-// Use the money object as amount which has to be payed by the consumer.
+// Create a money object as amount which has to be payed by the consumer.
 $amount = new Money(12.59, 'EUR');
 
-// ### TokenId
-// tokens from seamlessRenderForm success callback can be used to execute reservations
+// Tokens from a successful _seamlessRenderForm_ callback can be used to execute reservations.
 $tokenId = array_key_exists('tokenId', $_POST) ? $_POST['tokenId'] : '5168216323601006';
 
-// ### Transaction
-// The credit card transaction holds all transaction relevant data for the payment process.
-$transaction = new CreditCardTransaction($amount, $tokenId);
-
-// ### Config
-// The config object holds all interface configuration options
+// An object containing the data regarding the options of the interface is needed.
 $config = new Config('https://api-test.wirecard.com/engine/rest/payments/', '70000-APILUHN-CARD', '8mhwavKVb91T',
     '9105bb4f-ae68-4768-9c3b-3eda968f57ea', 'd1efed51-4cb9-46a5-ba7b-0fdc87a66544');
 
-// ### Transaction Service
+// ## Transaction
+
+// Create an `CreditCardTransaction` object, which contains all relevant data for the payment process.
+$transaction = new CreditCardTransaction($amount, $tokenId);
+
 // The service is used to execute the reservation (authorization) operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
 $response = $transactionService->reserve($transaction);
 
-// ### Response handling
+
+// ## Response handling
+
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if($response instanceof SuccessResponse) {
@@ -50,7 +51,8 @@ if($response instanceof SuccessResponse) {
 <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
-    // In our example we iterate over all errors and echo them out. You should display them as error, warning or information based on the given severity.
+    // In our example we iterate over all errors and display them in a raw state.
+    // You should handle them based on the given severity as error, warning or information.
     foreach ($response->getStatusCollection() AS $status) {
         /**
          * @var $status \Wirecard\PaymentSdk\Status
@@ -61,3 +63,4 @@ if($response instanceof SuccessResponse) {
         echo sprintf('%s with code %s and message "%s" occured.<br>', $severity, $code, $description);
     }
 }
+
