@@ -61,6 +61,7 @@ class RequestMapper
     /**
      * @param Transaction $transaction
      * @return string The transaction in JSON format.
+     * @throws \Wirecard\PaymentSdk\MandatoryFieldMissingException
      */
     public function map(Transaction $transaction)
     {
@@ -129,16 +130,33 @@ class RequestMapper
     /**
      * @param CreditCardTransaction $transaction
      * @return array
+     * @throws \Wirecard\PaymentSdk\MandatoryFieldMissingException
      */
     private function getSpecificPropertiesForCreditCard(CreditCardTransaction $transaction)
     {
-        $specificProperties = [
-            self::PARAM_TRANSACTION_TYPE => self::CCARD_AUTHORIZATION,
-            'card-token' => [
-                'token-id' => $transaction->getTokenId(),
-            ],
-            'ip-address' => $_SERVER['REMOTE_ADDR']
-        ];
+        $tokenId = $transaction->getTokenId();
+        $parentTransactionId = $transaction->getParentTransactionId();
+        if ($tokenId === null && $parentTransactionId === null) {
+            throw new MandatoryFieldMissingException(
+                "At least one of these two parameters has to be provided: token ID, parent transaction ID."
+            );
+        }
+
+        if (null !== $tokenId) {
+            $specificProperties = [
+                self::PARAM_TRANSACTION_TYPE => self::CCARD_AUTHORIZATION,
+                'card-token' => [
+                    'token-id' => $transaction->getTokenId(),
+                ]
+            ];
+        } else {
+            $specificProperties = [
+                self::PARAM_TRANSACTION_TYPE => 'referenced-authorization',
+                'parent-transaction-id' => $transaction->getParentTransactionId()
+            ];
+        }
+
+        $specificProperties['ip-address'] = $_SERVER['REMOTE_ADDR'];
 
         if ($transaction instanceof ThreeDCreditCardTransaction) {
             $threeDProperties = [

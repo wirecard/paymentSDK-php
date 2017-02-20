@@ -35,6 +35,7 @@ namespace WirecardTest\PaymentSdk;
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\CreditCardTransaction;
 use Wirecard\PaymentSdk\FollowupTransaction;
+use Wirecard\PaymentSdk\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Money;
 use Wirecard\PaymentSdk\PayPalTransaction;
 use Wirecard\PaymentSdk\Redirect;
@@ -101,6 +102,49 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $result = $mapper->map($transaction);
 
         $this->assertEquals(json_encode($expectedResult), $result);
+    }
+
+    public function testSslCreditCardTransactionWithParentTransactionId()
+    {
+        $_SERVER['REMOTE_ADDR'] = 'test IP';
+        $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', self::MAID, 'secret');
+        $requestIdGeneratorMock = $this->createMock('Wirecard\PaymentSdk\RequestIdGenerator');
+        $mapper = new RequestMapper($config, $requestIdGeneratorMock);
+
+        $requestIdGeneratorMock->method('generate')
+            ->willReturn('5B-dummy-id');
+
+        $expectedResult = ['payment' => [
+            'merchant-account-id' => ['value' => 'B612'],
+            'request-id' => '5B-dummy-id',
+            'requested-amount' => ['currency' => 'EUR', 'value' => 24],
+            'transaction-type' => 'referenced-authorization',
+            'parent-transaction-id' => 'parent5',
+            'ip-address' => 'test IP'
+        ]];
+
+        $transaction = new CreditCardTransaction(new Money(24, 'EUR'));
+        $transaction->setParentTransactionId('parent5');
+        $result = $mapper->map($transaction);
+
+        $this->assertEquals(json_encode($expectedResult), $result);
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\MandatoryFieldMissingException
+     */
+    public function testSslCreditCardTransactionWithoutTokenIdAndParentTransactionId()
+    {
+        $_SERVER['REMOTE_ADDR'] = 'test IP';
+        $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', self::MAID, 'secret');
+        $requestIdGeneratorMock = $this->createMock('Wirecard\PaymentSdk\RequestIdGenerator');
+        $mapper = new RequestMapper($config, $requestIdGeneratorMock);
+
+        $requestIdGeneratorMock->method('generate')
+            ->willReturn('5B-dummy-id');
+
+        $transaction = new CreditCardTransaction(new Money(24, 'EUR'));
+        $mapper->map($transaction);
     }
 
     public function testThreeDCreditCardTransaction()
