@@ -30,54 +30,45 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk;
+namespace WirecardTest\PaymentSdk;
 
-/**
- * Class PayPalTransaction
- * @package Wirecard\PaymentSdk
- *
- * An immutable entity representing a payment with Paypal.
- * It does not contain logic.
- * Use the TransactionService to initiate the payment.
- */
-class PayPalTransaction extends InitialTransaction
+use Wirecard\PaymentSdk\Money;
+use Wirecard\PaymentSdk\ThreeDCreditCardTransaction;
+
+class ThreeDCreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
 {
+    const NOTIFICATION_TEST_URL = 'test URL';
+    const TERM_TEST_URL = 'term test URL';
     /**
-     * @var string
+     * @var ThreeDCreditCardTransaction
      */
-    private $notificationUrl;
+    private $transaction;
 
     /**
-     * @var Redirect
+     * @var Money
      */
-    private $redirect;
+    private $amount;
 
-    /**
-     * PayPalTransaction constructor.
-     * @param Money $amount
-     * @param string $notificationUrl
-     * @param Redirect $redirect
-     */
-    public function __construct(Money $amount, $notificationUrl, Redirect $redirect)
+    const SAMPLE_TRANSACTION_ID = '542';
+
+    public function setUp()
     {
-        parent::__construct($amount);
-        $this->notificationUrl = $notificationUrl;
-        $this->redirect = $redirect;
+        $this->amount = new Money(8.5, 'EUR');
+        $this->transaction = new ThreeDCreditCardTransaction(
+            $this->amount,
+            self::SAMPLE_TRANSACTION_ID,
+            self::NOTIFICATION_TEST_URL,
+            self::TERM_TEST_URL
+        );
     }
 
-    /**
-     * @return string
-     */
-    public function getNotificationUrl()
+    public function testGetNotificationUrl()
     {
-        return $this->notificationUrl;
+        $this->assertEquals(self::NOTIFICATION_TEST_URL, $this->transaction->getNotificationUrl());
     }
 
-    /**
-     * @return Redirect
-     */
-    public function getRedirect()
+    public function testGetTermUrl()
     {
-        return $this->redirect;
+        $this->assertEquals(self::TERM_TEST_URL, $this->transaction->getTermUrl());
     }
 }

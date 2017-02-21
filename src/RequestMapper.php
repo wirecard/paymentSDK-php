@@ -34,6 +34,10 @@ namespace Wirecard\PaymentSdk;
 
 class RequestMapper
 {
+    const PARAM_TRANSACTION_TYPE = 'transaction-type';
+    const PARAM_PARENT_TRANSACTION_ID = 'parent-transaction-id';
+    const CCARD_AUTHORIZATION = 'authorization';
+
     /**
      * @var Config
      */
@@ -56,29 +60,147 @@ class RequestMapper
     }
 
     /**
-     * @param PayPalTransaction $transaction
+     * @param Transaction $transaction
      * @return string The transaction in JSON format.
+     * @throws \Wirecard\PaymentSdk\MandatoryFieldMissingException
      */
-    public function map(PayPalTransaction $transaction)
+    public function map(Transaction $transaction)
     {
-        $onlyPaymentMethod = ['payment-method' => [['name' => 'paypal']]];
-        $onlyNotificationUrl = ['notification' => [['url' => $transaction->getNotificationUrl()]]];
-        $amount = [
+        $requestId = $this->requestIdGenerator->generate();
+        $commonProperties = [
+            'merchant-account-id' => ['value' => $this->config->getMerchantAccountId()],
+            'request-id' => $requestId
+        ];
+
+        $specificProperties = [];
+
+        if ($transaction instanceof InitialTransaction) {
+            $commonProperties['requested-amount'] = $this->getAmountOfTransaction($transaction);
+        }
+
+        if ($transaction instanceof PayPalTransaction) {
+            $specificProperties = $this->getSpecificPropertiesForPayPal($transaction);
+        }
+
+        if ($transaction instanceof CreditCardTransaction) {
+            $specificProperties = $this->getSpecificPropertiesForCreditCard($transaction);
+        }
+
+        if ($transaction instanceof ThreeDAuthorizationTransaction) {
+            $specificProperties = $this->getSpecificPropertiesForReference($transaction);
+        }
+
+        if ($transaction instanceof FollowupTransaction) {
+            $specificProperties = $this->getSpecificPropertiesForFollowup($transaction);
+        }
+
+        $allProperties = array_merge($commonProperties, $specificProperties);
+        $result = ['payment' => $allProperties];
+
+        return json_encode($result);
+    }
+
+    /**
+     * @param InitialTransaction $transaction
+     * @return array
+     */
+    private function getAmountOfTransaction(InitialTransaction $transaction)
+    {
+        return [
             'currency' => $transaction->getAmount()->getCurrency(),
             'value' => $transaction->getAmount()->getAmount()
         ];
-        $requestId = $this->requestIdGenerator->generate();
+    }
 
-        $result = ['payment' => [
-            'merchant-account-id' => ['value' => $this->config->getMerchantAccountId()],
-            'request-id' => $requestId,
-            'transaction-type' => 'debit',
-            'requested-amount' => $amount,
+    /**
+     * @param PayPalTransaction $transaction
+     * @return array
+     */
+    private function getSpecificPropertiesForPayPal(PayPalTransaction $transaction)
+    {
+        $onlyPaymentMethod = ['payment-method' => [['name' => 'paypal']]];
+        $onlyNotificationUrl = ['notification' => [['url' => $transaction->getNotificationUrl()]]];
+
+        return [
+            self::PARAM_TRANSACTION_TYPE => 'debit',
             'payment-methods' => $onlyPaymentMethod,
             'cancel-redirect-url' => $transaction->getRedirect()->getCancelUrl(),
             'success-redirect-url' => $transaction->getRedirect()->getSuccessUrl(),
             'notifications' => $onlyNotificationUrl
-        ]];
-        return json_encode($result);
+        ];
+    }
+
+    /**
+     * @param CreditCardTransaction $transaction
+     * @return array
+     * @throws \Wirecard\PaymentSdk\MandatoryFieldMissingException
+     */
+    private function getSpecificPropertiesForCreditCard(CreditCardTransaction $transaction)
+    {
+        $tokenId = $transaction->getTokenId();
+        $parentTransactionId = $transaction->getParentTransactionId();
+        if ($tokenId === null && $parentTransactionId === null) {
+            throw new MandatoryFieldMissingException(
+                'At least one of these two parameters has to be provided: token ID, parent transaction ID.'
+            );
+        }
+
+        $specificProperties = [
+            self::PARAM_TRANSACTION_TYPE => self::CCARD_AUTHORIZATION
+        ];
+
+        if (null !== $parentTransactionId) {
+            $specificProperties[self::PARAM_TRANSACTION_TYPE] = 'referenced-authorization';
+            $specificProperties[self::PARAM_PARENT_TRANSACTION_ID] = $transaction->getParentTransactionId();
+        }
+
+        if (null !== $tokenId) {
+            $specificProperties['card-token'] = [
+                'token-id' => $transaction->getTokenId(),
+            ];
+        }
+
+        $specificProperties['ip-address'] = $_SERVER['REMOTE_ADDR'];
+
+        if ($transaction instanceof ThreeDCreditCardTransaction) {
+            $threeDProperties = [
+                self::PARAM_TRANSACTION_TYPE => 'check-enrollment',
+            ];
+            $specificProperties = array_merge($specificProperties, $threeDProperties);
+        }
+
+        return $specificProperties;
+    }
+
+    /**
+     * @param ThreeDAuthorizationTransaction $transaction
+     * @return array
+     */
+    private function getSpecificPropertiesForReference($transaction)
+    {
+        $payload = $transaction->getPayload();
+        $md = json_decode(base64_decode($payload['MD']), true);
+        $parentTransactionId = $md['enrollment-check-transaction-id'];
+        $paRes = $payload['PaRes'];
+
+        return [
+            self::PARAM_TRANSACTION_TYPE => self::CCARD_AUTHORIZATION,
+            self::PARAM_PARENT_TRANSACTION_ID => $parentTransactionId,
+            'three-d' => [
+                'pares' => $paRes
+            ],
+        ];
+    }
+
+    /**
+     * @param FollowupTransaction $transaction
+     * @return array
+     */
+    private function getSpecificPropertiesForFollowup($transaction)
+    {
+        return [
+            self::PARAM_TRANSACTION_TYPE => 'void-authorization',
+            self::PARAM_PARENT_TRANSACTION_ID => $transaction->getParentTransactionId()
+        ];
     }
 }

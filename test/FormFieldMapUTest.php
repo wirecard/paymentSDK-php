@@ -8,7 +8,7 @@
  *
  * They have been tested and approved for full functionality in the standard configuration
  * (status on delivery) of the corresponding shop system. They are under General Public
- * License Version 3 (GPLv3) and can be used, developed and passed on to third parties under
+ * License Version 2 (GPLv2) and can be used, developed and passed on to third parties under
  * the same terms.
  *
  * However, Wirecard CEE does not provide any guarantee or accept any liability for any errors
@@ -30,54 +30,28 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk;
+namespace WirecardTest\PaymentSdk;
 
-/**
- * Class PayPalTransaction
- * @package Wirecard\PaymentSdk
- *
- * An immutable entity representing a payment with Paypal.
- * It does not contain logic.
- * Use the TransactionService to initiate the payment.
- */
-class PayPalTransaction extends InitialTransaction
+use Wirecard\PaymentSdk\FormFieldMap;
+
+class FormFieldMapUTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var string
+     * @var FormFieldMap
      */
-    private $notificationUrl;
-
-    /**
-     * @var Redirect
-     */
-    private $redirect;
-
-    /**
-     * PayPalTransaction constructor.
-     * @param Money $amount
-     * @param string $notificationUrl
-     * @param Redirect $redirect
-     */
-    public function __construct(Money $amount, $notificationUrl, Redirect $redirect)
+    private $map;
+    public function setUp()
     {
-        parent::__construct($amount);
-        $this->notificationUrl = $notificationUrl;
-        $this->redirect = $redirect;
+        $this->map = new FormFieldMap();
     }
 
-    /**
-     * @return string
-     */
-    public function getNotificationUrl()
+    public function testAdd()
     {
-        return $this->notificationUrl;
-    }
+        $this->map->add('test', 'entry');
 
-    /**
-     * @return Redirect
-     */
-    public function getRedirect()
-    {
-        return $this->redirect;
+        foreach ($this->map as $key => $value) {
+            $this->assertEquals('test', $key);
+            $this->assertEquals('entry', $value);
+        }
     }
 }

@@ -8,7 +8,7 @@
  *
  * They have been tested and approved for full functionality in the standard configuration
  * (status on delivery) of the corresponding shop system. They are under General Public
- * License Version 3 (GPLv3) and can be used, developed and passed on to third parties under
+ * License Version 2 (GPLv2) and can be used, developed and passed on to third parties under
  * the same terms.
  *
  * However, Wirecard CEE does not provide any guarantee or accept any liability for any errors
@@ -32,52 +32,38 @@
 
 namespace Wirecard\PaymentSdk;
 
-/**
- * Class PayPalTransaction
- * @package Wirecard\PaymentSdk
- *
- * An immutable entity representing a payment with Paypal.
- * It does not contain logic.
- * Use the TransactionService to initiate the payment.
- */
-class PayPalTransaction extends InitialTransaction
+class FormInteractionResponse extends Response
 {
-    /**
-     * @var string
-     */
-    private $notificationUrl;
+    private $url;
+
+    private $formFields;
 
     /**
-     * @var Redirect
+     * FormInteractionResponse constructor.
+     * @param string $rawData
+     * @param StatusCollection $statusCollection
+     * @param $url
+     * @param FormFieldMap $formFields
      */
-    private $redirect;
-
-    /**
-     * PayPalTransaction constructor.
-     * @param Money $amount
-     * @param string $notificationUrl
-     * @param Redirect $redirect
-     */
-    public function __construct(Money $amount, $notificationUrl, Redirect $redirect)
+    public function __construct($rawData, StatusCollection $statusCollection, $url, FormFieldMap $formFields)
     {
-        parent::__construct($amount);
-        $this->notificationUrl = $notificationUrl;
-        $this->redirect = $redirect;
+        $this->formFields = $formFields;
+        $this->url = $url;
+        parent::__construct($rawData, $statusCollection);
     }
 
-    /**
-     * @return string
-     */
-    public function getNotificationUrl()
+    public function getMethod()
     {
-        return $this->notificationUrl;
+        return 'POST';
     }
 
-    /**
-     * @return Redirect
-     */
-    public function getRedirect()
+    public function getUrl()
     {
-        return $this->redirect;
+        return $this->url;
+    }
+
+    public function getFormFields()
+    {
+        return $this->formFields;
     }
 }

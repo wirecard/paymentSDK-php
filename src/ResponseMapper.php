@@ -42,10 +42,11 @@ class ResponseMapper
      * map the xml Response from engine to ResponseObjects
      *
      * @param $xmlResponse
-     * @return FailureResponse|InteractionResponse|SuccessResponse
+     * @param Transaction $transaction
+     * @return Response
      * @throws MalformedResponseException
      */
-    public function map($xmlResponse)
+    public function map($xmlResponse, Transaction $transaction = null)
     {
         $decodedResponse = base64_decode($xmlResponse);
         $xmlResponse = (base64_encode($decodedResponse) === $xmlResponse) ? $decodedResponse : $xmlResponse;
@@ -69,22 +70,8 @@ class ResponseMapper
         $statusCollection = $this->getStatusCollection($response);
         if ($state !== 'success') {
             return new FailureResponse($xmlResponse, $statusCollection);
-        }
-
-        $transactionId = $this->getTransactionId($response);
-
-        $paymentMethod = $this->getPaymentMethod($response);
-        $redirectUrl = $this->getRedirectUrl($paymentMethod);
-        if ($redirectUrl !== null) {
-            return new InteractionResponse($xmlResponse, $statusCollection, $transactionId, $redirectUrl);
         } else {
-            $providerTransactionId = $this->getProviderTransactionId($response);
-            return new SuccessResponse(
-                $xmlResponse,
-                $statusCollection,
-                $transactionId,
-                $providerTransactionId
-            );
+            return $this->mapSuccessResponse($xmlResponse, $response, $statusCollection, $transaction);
         }
     }
 
@@ -157,6 +144,10 @@ class ResponseMapper
     {
         if (isset($response->{'payment-methods'})) {
             $paymentMethods = $response->{'payment-methods'};
+        } elseif (isset($response->{'card-token'})) {
+            return new \SimpleXMLElement('<payment-methods>
+                                              <payment-method name="creditcard"></payment-method>
+                                          </payment-methods>');
         } else {
             throw new MalformedResponseException('Missing payment methods in response');
         }
@@ -205,10 +196,66 @@ class ResponseMapper
             }
         }
 
-        if ($result === null) {
-            throw new MalformedResponseException('No provider transaction ID in response.');
+        return (string)$result;
+    }
+
+    private function mapThreeDResponse($payload, $response, $status, ThreeDCreditCardTransaction $transaction)
+    {
+        if (!isset($response->{'three-d'})) {
+            throw new MalformedResponseException('Missing three-d element in enrollment-check response.');
+        } else {
+            $threeD = $response->{'three-d'};
+        }
+        if (!isset($threeD->{'acs-url'})) {
+            throw new MalformedResponseException('Missing acs redirect url in enrollment-check response.');
+        } else {
+            $redirectUrl = (string)$threeD->{'acs-url'};
+        }
+        $fields = new FormFieldMap();
+        $fields->add('TermUrl', $transaction->getTermUrl());
+        if (!isset($threeD->{'pareq'})) {
+            throw new MalformedResponseException('Missing pareq in enrollment-check response.');
+        } else {
+            $fields->add('PaReq', (string)$threeD->{'pareq'});
         }
 
-        return (string)$result;
+        $fields->add(
+            'MD',
+            base64_encode(json_encode(['enrollment-check-transaction-id' => (string)$this->getTransactionId($response),
+            'operation-type' => RequestMapper::CCARD_AUTHORIZATION]))
+        );
+
+        return new FormInteractionResponse($payload, $status, $redirectUrl, $fields);
+    }
+
+    /**
+     * @param $xmlResponse
+     * @param $response
+     * @param $statusCollection
+     * @param Transaction $transaction
+     * @return FormInteractionResponse|InteractionResponse|SuccessResponse
+     * @throws MalformedResponseException
+     */
+    private function mapSuccessResponse($xmlResponse, $response, $statusCollection, Transaction $transaction = null)
+    {
+        if ($transaction instanceof ThreeDCreditCardTransaction) {
+            return $this->mapThreeDResponse($xmlResponse, $response, $statusCollection, $transaction);
+        }
+
+        $transactionId = $this->getTransactionId($response);
+
+        $paymentMethod = $this->getPaymentMethod($response);
+        $redirectUrl = $this->getRedirectUrl($paymentMethod);
+        if ($redirectUrl !== null) {
+            return new InteractionResponse($xmlResponse, $statusCollection, $transactionId, $redirectUrl);
+        } else {
+            $providerTransactionId = $this->getProviderTransactionId($response);
+            return new SuccessResponse(
+                $xmlResponse,
+                $statusCollection,
+                $transactionId,
+                $providerTransactionId
+            );
+        }
     }
 }

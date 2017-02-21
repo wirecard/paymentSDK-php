@@ -8,7 +8,7 @@
  *
  * They have been tested and approved for full functionality in the standard configuration
  * (status on delivery) of the corresponding shop system. They are under General Public
- * License Version 3 (GPLv3) and can be used, developed and passed on to third parties under
+ * License Version 2 (GPLv2) and can be used, developed and passed on to third parties under
  * the same terms.
  *
  * However, Wirecard CEE does not provide any guarantee or accept any liability for any errors
@@ -32,52 +32,21 @@
 
 namespace Wirecard\PaymentSdk;
 
-/**
- * Class PayPalTransaction
- * @package Wirecard\PaymentSdk
- *
- * An immutable entity representing a payment with Paypal.
- * It does not contain logic.
- * Use the TransactionService to initiate the payment.
- */
-class PayPalTransaction extends InitialTransaction
+class FormFieldMap implements \IteratorAggregate
 {
-    /**
-     * @var string
-     */
-    private $notificationUrl;
+    private $formFields = [];
 
-    /**
-     * @var Redirect
-     */
-    private $redirect;
-
-    /**
-     * PayPalTransaction constructor.
-     * @param Money $amount
-     * @param string $notificationUrl
-     * @param Redirect $redirect
-     */
-    public function __construct(Money $amount, $notificationUrl, Redirect $redirect)
+    public function getIterator()
     {
-        parent::__construct($amount);
-        $this->notificationUrl = $notificationUrl;
-        $this->redirect = $redirect;
+        return new \ArrayIterator($this->formFields);
     }
 
     /**
-     * @return string
+     * @param string $key
+     * @param string $value
      */
-    public function getNotificationUrl()
+    public function add($key, $value)
     {
-        return $this->notificationUrl;
-    }
-
-    /**
-     * @return Redirect
-     */
-    public function getRedirect()
-    {
-        return $this->redirect;
+        $this->formFields[$key] = $value;
     }
 }

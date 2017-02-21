@@ -32,10 +32,13 @@
 
 namespace WirecardTest\PaymentSdk;
 
+use Wirecard\PaymentSdk\CreditCardTransaction;
 use Wirecard\PaymentSdk\FailureResponse;
+use Wirecard\PaymentSdk\FormInteractionResponse;
 use Wirecard\PaymentSdk\InteractionResponse;
 use Wirecard\PaymentSdk\ResponseMapper;
 use Wirecard\PaymentSdk\SuccessResponse;
+use Wirecard\PaymentSdk\ThreeDCreditCardTransaction;
 
 class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 {
@@ -161,14 +164,102 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(base64_decode($response), $mapped->getRawData());
     }
 
+    public function testWithValidResponseThreeDTransactionReturnsFormInteractionResponse()
+    {
+        $payload = '<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <statuses>
+                            <status 
+                            code="201.0000" 
+                            description="paypal:The resource was successfully created." 
+                            provider-transaction-id="W0RWI653B31MAU649" 
+                            severity="information"/>
+                        </statuses>
+                        <card-token></card-token>
+                        <three-d>
+                            <acs-url>https://www.example.com/acs</acs-url>
+                            <pareq>request</pareq>
+                        </three-d>
+                    </payment>';
+        $transaction = $this->createMock(ThreeDCreditCardTransaction::class);
+
+        /**
+         * @var $mapped FormInteractionResponse
+         */
+        $mapped = $this->mapper->map($payload, $transaction);
+
+        $this->assertInstanceOf(FormInteractionResponse::class, $mapped);
+        $this->assertEquals($payload, $mapped->getRawData());
+    }
+
+    public function testWithValidResponseThreeDTransactionReturnsFormInteractionResponseWithMd()
+    {
+        $payload = '<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <statuses>
+                            <status 
+                            code="201.0000" 
+                            description="paypal:The resource was successfully created." 
+                            provider-transaction-id="W0RWI653B31MAU649" 
+                            severity="information"/>
+                        </statuses>
+                        <card-token></card-token>
+                        <three-d>
+                            <acs-url>https://www.example.com/acs</acs-url>
+                            <pareq>request</pareq>
+                        </three-d>
+                    </payment>';
+        $transaction = $this->createMock(ThreeDCreditCardTransaction::class);
+
+        /**
+         * @var $mapped FormInteractionResponse
+         */
+        $mapped = $this->mapper->map($payload, $transaction);
+
+        $this->assertInstanceOf(FormInteractionResponse::class, $mapped);
+        $this->assertEquals($payload, $mapped->getRawData());
+        $this->assertEquals(
+            '{"enrollment-check-transaction-id":"12345","operation-type":"authorization"}',
+            base64_decode($mapped->getFormFields()->getIterator()['MD'])
+        );
+    }
+
+    public function testWithValidResponseCreditCardTransactionReturnsSuccessResponse()
+    {
+        $payload = '<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <statuses>
+                            <status 
+                            code="201.0000" 
+                            description="paypal:The resource was successfully created." 
+                            provider-transaction-id="W0RWI653B31MAU649" 
+                            severity="information"/>
+                        </statuses>
+                        <card-token></card-token>
+                    </payment>';
+        $transaction = $this->createMock(CreditCardTransaction::class);
+
+        /**
+         * @var $mapped FormInteractionResponse
+         */
+        $mapped = $this->mapper->map($payload, $transaction);
+
+        $this->assertInstanceOf(SuccessResponse::class, $mapped);
+        $this->assertEquals($payload, $mapped->getRawData());
+    }
+
     /**
      * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
      * @dataProvider invalidResponseProvider
      * @param $xmlResponse
+     * @param $transaction
      */
-    public function testInvalidResponseThrowsException($xmlResponse)
+    public function testInvalidResponseThrowsException($xmlResponse, $transaction)
     {
-        $this->mapper->map($xmlResponse);
+        $this->mapper->map($xmlResponse, $transaction);
     }
 
     public function invalidResponseProvider()
@@ -184,7 +275,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                             provider-transaction-id="W0RWI653B31MAU649" 
                             severity="information"/>
                         </statuses>
-                    </payment>'],
+                    </payment>', null],
             ['<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
@@ -197,7 +288,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         </statuses>
                         <payment-methods>
                         </payment-methods>
-                    </payment>'],
+                    </payment>', null],
             ['<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
@@ -212,15 +303,14 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                             <payment-method name="paypal"></payment-method>
                             <payment-method name="eft"></payment-method>
                         </payment-methods>
-                    </payment>'],
-
+                    </payment>', null],
             ['<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
                         <payment-methods>
                             <payment-method name="paypal"></payment-method>
                         </payment-methods>
-                    </payment>'],
+                    </payment>', null],
 
             ['<payment>
                         <transaction-state>success</transaction-state>
@@ -229,39 +319,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         <payment-methods>
                             <payment-method name="paypal"></payment-method>
                         </payment-methods>
-                    </payment>'],
+                    </payment>', null],
 
-            ['<payment>
-                        <transaction-state>success</transaction-state>
-                        <transaction-id>12345</transaction-id>
-                        <statuses>
-                            <status 
-                            code="201.0000" 
-                            description="paypal:The resource was successfully created."                             
-                            severity="information"/>
-                        </statuses>
-                        <payment-methods>
-                            <payment-method name="paypal"></payment-method>
-                        </payment-methods>
-                    </payment>'],
-
-            ['<payment>
-                        <transaction-state>success</transaction-state>
-                        <transaction-id>12345</transaction-id>
-                        <statuses>
-                            <status 
-                            code="302.0000" 
-                            description="paypal:A funny status."                             
-                            severity="information"/>
-                            <status 
-                            code="201.0000" 
-                            description="paypal:The resource was successfully created."                             
-                            severity="information"/>
-                        </statuses>
-                        <payment-methods>
-                            <payment-method name="paypal"></payment-method>
-                        </payment-methods>
-                    </payment>'],
             ['<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
@@ -280,7 +339,59 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         <payment-methods>
                             <payment-method name="paypal"></payment-method>
                         </payment-methods>
-                    </payment>']
+                    </payment>', null],
+            ['<payment>
+                           <transaction-state>success</transaction-state>
+                           <transaction-id>12345</transaction-id>
+                           <statuses>
+                               <status 
+                               code="305.0000" 
+                               description="paypal:Status before." 
+                               provider-transaction-id="xxx" 
+                               severity="information"/>
+                               <status 
+                               code="201.0000" 
+                               description="paypal:The resource was successfully created." 
+                               provider-transaction-id="W0RWI653B31MAU649" 
+                               severity="information"/>
+                           </statuses>
+                  </payment>', $this->createMock(ThreeDCreditCardTransaction::class)],
+            ['<payment>
+                           <transaction-state>success</transaction-state>
+                           <transaction-id>12345</transaction-id>
+                           <statuses>
+                               <status 
+                               code="305.0000" 
+                               description="paypal:Status before." 
+                               provider-transaction-id="xxx" 
+                               severity="information"/>
+                               <status 
+                               code="201.0000" 
+                               description="paypal:The resource was successfully created." 
+                               provider-transaction-id="W0RWI653B31MAU649" 
+                               severity="information"/>
+                           </statuses>
+                           <three-d></three-d>
+                  </payment>', $this->createMock(ThreeDCreditCardTransaction::class)],
+            ['<payment>
+                           <transaction-state>success</transaction-state>
+                           <transaction-id>12345</transaction-id>
+                           <statuses>
+                               <status 
+                               code="305.0000" 
+                               description="paypal:Status before." 
+                               provider-transaction-id="xxx" 
+                               severity="information"/>
+                               <status 
+                               code="201.0000" 
+                               description="paypal:The resource was successfully created." 
+                               provider-transaction-id="W0RWI653B31MAU649" 
+                               severity="information"/>
+                           </statuses>
+                           <three-d>
+                               <acs-url>https://www.example.com/acs</acs-url>
+                           </three-d>
+                  </payment>', $this->createMock(ThreeDCreditCardTransaction::class)],
         ];
     }
 

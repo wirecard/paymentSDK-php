@@ -8,7 +8,7 @@
  *
  * They have been tested and approved for full functionality in the standard configuration
  * (status on delivery) of the corresponding shop system. They are under General Public
- * License Version 3 (GPLv3) and can be used, developed and passed on to third parties under
+ * License Version 2 (GPLv2) and can be used, developed and passed on to third parties under
  * the same terms.
  *
  * However, Wirecard CEE does not provide any guarantee or accept any liability for any errors
@@ -32,59 +32,66 @@
 
 namespace WirecardTest\PaymentSdk;
 
-use Wirecard\PaymentSdk\Config;
+use Wirecard\PaymentSdk\FormFieldMap;
+use Wirecard\PaymentSdk\FormInteractionResponse;
+use Wirecard\PaymentSdk\StatusCollection;
 
-class ConfigUTest extends \PHPUnit_Framework_TestCase
+class FormInteractionResponseUTest extends \PHPUnit_Framework_TestCase
 {
+    private $rawData = '<raw></raw>';
+
+    private $url = 'https://www.example.com/redirect';
+
     /**
-     * @var Config
+     * @var StatusCollection
      */
-    private $instance;
+    private $statusCollection;
+
+    /**
+     * @var FormFieldMap
+     */
+    private $formFields;
+
+    /**
+     * @var FormInteractionResponse
+     */
+    private $response;
 
     public function setUp()
     {
-        $this->instance = new Config(
-            'http://www.example.com',
-            'httpUser',
-            'httpPassword',
-            'merchantAccountId',
-            'secretKey'
+        $this->statusCollection = $this->createMock(StatusCollection::class);
+        $this->formFields = $this->createMock(FormFieldMap::class);
+
+        $this->response = new FormInteractionResponse(
+            $this->rawData,
+            $this->statusCollection,
+            $this->url,
+            $this->formFields
         );
     }
 
-    public function testGetUrl()
+    public function testGetRawResponse()
     {
-        $this->assertEquals('http://www.example.com', $this->instance->getUrl());
+        $this->assertEquals($this->rawData, $this->response->getRawData());
     }
 
-    public function testGetHttpUser()
+    public function testGetStatusCollection()
     {
-        $this->assertEquals('httpUser', $this->instance->getHttpUser());
+        $this->assertEquals($this->statusCollection, $this->response->getStatusCollection());
     }
 
-    public function testGetHttpPassword()
+    public function testGetRedirectUrl()
     {
-        $this->assertEquals('httpPassword', $this->instance->getHttpPassword());
+        $this->assertEquals($this->url, $this->response->getUrl());
     }
 
-    public function testGetMerchantAccountId()
+    public function testGetFormFields()
     {
-        $this->assertEquals('merchantAccountId', $this->instance->getMerchantAccountId());
+        $this->assertEquals($this->formFields, $this->response->getFormFields());
     }
 
-    public function testGetSecretKey()
+    public function testGetMethod()
     {
-        $this->assertEquals('secretKey', $this->instance->getSecretKey());
-    }
-
-    public function testGetDefaultCurrency()
-    {
-        $this->assertEquals('EUR', $this->instance->getDefaultCurrency());
-    }
-
-    public function testSetDefaultCurrency()
-    {
-        $this->instance->setDefaultCurrency('USD');
-        $this->assertAttributeEquals('USD', 'defaultCurrency', $this->instance);
+        $this->assertEquals('POST', $this->response->getMethod());
     }
 }

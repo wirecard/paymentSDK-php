@@ -33,14 +33,12 @@
 namespace Wirecard\PaymentSdk;
 
 /**
- * Class PayPalTransaction
+ * Class CreditCard3DTransaction
  * @package Wirecard\PaymentSdk
  *
- * An immutable entity representing a payment with Paypal.
- * It does not contain logic.
- * Use the TransactionService to initiate the payment.
+ * An immutable entity representing a 3D payment with a credit card.
  */
-class PayPalTransaction extends InitialTransaction
+class ThreeDCreditCardTransaction extends CreditCardTransaction
 {
     /**
      * @var string
@@ -48,21 +46,23 @@ class PayPalTransaction extends InitialTransaction
     private $notificationUrl;
 
     /**
-     * @var Redirect
+     * @var string
      */
-    private $redirect;
+    private $termUrl;
 
     /**
-     * PayPalTransaction constructor.
-     * @param Money $amount
-     * @param string $notificationUrl
-     * @param Redirect $redirect
+     * ThreeDCreditCardTransaction constructor.
+     * @param Money $money
+     * @param $tokenId
+     * @param $notificationUrl
+     * @param $termUrl
      */
-    public function __construct(Money $amount, $notificationUrl, Redirect $redirect)
+    public function __construct($money, $tokenId, $notificationUrl, $termUrl)
     {
-        parent::__construct($amount);
+        parent::__construct($money);
+        $this->setTokenId($tokenId);
         $this->notificationUrl = $notificationUrl;
-        $this->redirect = $redirect;
+        $this->termUrl = $termUrl;
     }
 
     /**
@@ -74,10 +74,10 @@ class PayPalTransaction extends InitialTransaction
     }
 
     /**
-     * @return Redirect
+     * @return string
      */
-    public function getRedirect()
+    public function getTermUrl()
     {
-        return $this->redirect;
+        return $this->termUrl;
     }
 }

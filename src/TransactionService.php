@@ -102,29 +102,35 @@ class TransactionService
     }
 
     /**
-     * @param PayPalTransaction $transaction
+     * @param InitialTransaction $transaction
      * @throws RequestException|MalformedResponseException|\RuntimeException
      * @return InteractionResponse|FailureResponse
      */
-    public function pay(PayPalTransaction $transaction)
+    public function pay(InitialTransaction $transaction)
     {
-        $response = $this->getHttpClient()->request(
-            'POST',
-            $this->getConfig()->getUrl(),
-            [
-                'auth' => [
-                    $this->getConfig()->getHttpUser(),
-                    $this->getConfig()->getHttpPassword()
-                ],
-                'headers' => [
-                    'Content-Type' => 'application/json',
-                    'Accept' => 'application/xml'
-                ],
-                'body' => $this->getRequestMapper()->map($transaction)
-            ]
-        );
+        return $this->process($transaction);
+    }
 
-        return $this->getResponseMapper()->map($response->getBody()->getContents());
+    /**
+     * @param FollowupTransaction $transaction
+     * @return FailureResponse|InteractionResponse|SuccessResponse
+     * @throws \Wirecard\PaymentSdk\MalformedResponseException
+     * @throws \RuntimeException
+     * @throws \GuzzleHttp\Exception\RequestException
+     */
+    public function cancel(FollowupTransaction $transaction)
+    {
+        return $this->process($transaction);
+    }
+
+    /**
+     * @param InitialTransaction $transaction
+     * @throws RequestException|MalformedResponseException|\RuntimeException
+     * @return FailureResponse|InteractionResponse|SuccessResponse
+     */
+    public function reserve(InitialTransaction $transaction)
+    {
+        return $this->process($transaction);
     }
 
     /**
@@ -185,7 +191,7 @@ class TransactionService
 
     /**
      * @param $xmlResponse
-     * @return FailureResponse|InteractionResponse|SuccessResponse
+     * @return FailureResponse|InteractionResponse|SuccessResponse|Response
      * @throws \Wirecard\PaymentSdk\MalformedResponseException
      */
     public function handleNotification($xmlResponse)
@@ -195,16 +201,48 @@ class TransactionService
 
     /**
      * @param array $payload
-     * @return FailureResponse|InteractionResponse|SuccessResponse
+     * @return FailureResponse|InteractionResponse|SuccessResponse|Response
      * @throws MalformedResponseException
      */
     public function handleResponse(array $payload)
     {
+        if (array_key_exists('MD', $payload) && array_key_exists('PaRes', $payload)) {
+            return $this->processAuthFrom3DResponse($payload);
+        }
+
         if (array_key_exists('eppresponse', $payload)) {
             return $this->getResponseMapper()->map($payload['eppresponse']);
         } else {
             throw new MalformedResponseException('Missing response in payload');
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function getDataForCreditCardUi()
+    {
+        $requestData = array(
+            'request_time_stamp'        => gmdate('YmdHis'),
+            'request_id'                => $this->getRequestIdGenerator()->generate(64),
+            'merchant_account_id'       => $this->getConfig()->getMerchantAccountId(),
+            'transaction_type'          => 'tokenize',
+            'requested_amount'          => 0,
+            'requested_amount_currency' => $this->getConfig()->getDefaultCurrency(),
+            'payment_method'            => 'creditcard',
+        );
+
+        $requestData['request_signature'] = hash('sha256', trim(
+            $requestData['request_time_stamp'] .
+            $requestData['request_id'] .
+            $requestData['merchant_account_id'] .
+            $requestData['transaction_type'] .
+            $requestData['requested_amount'] .
+            $requestData['requested_amount_currency'] .
+            $this->getConfig()->getSecretKey()
+        ));
+
+        return json_encode($requestData);
     }
 
     /**
@@ -218,5 +256,37 @@ class TransactionService
         }
 
         return $this->logger;
+    }
+
+    /**
+     * @param Transaction $transaction
+     * @return FailureResponse|InteractionResponse|SuccessResponse|Response
+     * @throws RequestException|MalformedResponseException|\RuntimeException
+     */
+    private function process(Transaction $transaction)
+    {
+        $requestBody = $this->getRequestMapper()->map($transaction);
+        $response = $this->getHttpClient()->request(
+            'POST',
+            $this->getConfig()->getUrl(),
+            [
+                'auth' => [
+                    $this->getConfig()->getHttpUser(),
+                    $this->getConfig()->getHttpPassword()
+                ],
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'Accept' => 'application/xml'
+                ],
+                'body' => $requestBody
+            ]
+        );
+        return $this->getResponseMapper()->map($response->getBody()->getContents(), $transaction);
+    }
+
+    private function processAuthFrom3DResponse($payload)
+    {
+        $refTransaction = new ThreeDAuthorizationTransaction($payload);
+        return $this->process($refTransaction);
     }
 }
