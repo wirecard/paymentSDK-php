@@ -66,7 +66,12 @@
 			<h3>Classes</h3>
 			<ul>
 				<li><a href="class-Wirecard.PaymentSdk.Config.html">Config</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.CreditCardTransaction.html">CreditCardTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.FailureResponse.html">FailureResponse</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.FollowupTransaction.html">FollowupTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.FormFieldMap.html">FormFieldMap</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.FormInteractionResponse.html">FormInteractionResponse</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.InitialTransaction.html">InitialTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.InteractionResponse.html">InteractionResponse</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Money.html">Money</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.PayPalTransaction.html">PayPalTransaction</a></li>
@@ -78,14 +83,21 @@
 				<li><a href="class-Wirecard.PaymentSdk.Status.html">Status</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.StatusCollection.html">StatusCollection</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.SuccessResponse.html">SuccessResponse</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.ThreeDAuthorizationTransaction.html">ThreeDAuthorizationTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.ThreeDCreditCardTransaction.html">ThreeDCreditCardTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.TransactionService.html">TransactionService</a></li>
 			</ul>
 
+			<h3>Interfaces</h3>
+			<ul>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.html">Transaction</a></li>
+			</ul>
 
 
 			<h3>Exceptions</h3>
 			<ul>
 				<li><a href="class-Wirecard.PaymentSdk.MalformedResponseException.html">MalformedResponseException</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.MandatoryFieldMissingException.html">MandatoryFieldMissingException</a></li>
 			</ul>
 
 
@@ -116,7 +128,7 @@
 		<b>Namespace:</b> <a href="namespace-Wirecard.html">Wirecard</a>\<a href="namespace-Wirecard.PaymentSdk.html">PaymentSdk</a><br>
 		
 
-			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.RequestMapper.html#35-84" title="Go to source code">RequestMapper.php</a>
+			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.RequestMapper.html#35-206" title="Go to source code">RequestMapper.php</a>
 		<br>
 	</div>
 
@@ -136,7 +148,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#___construct">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.RequestMapper.html#47-56" title="Go to source code">__construct</a>( <span><code><a href="class-Wirecard.PaymentSdk.Config.html">Wirecard\PaymentSdk\Config</a></code> <var>$config</var></span>, <span><code><a href="class-Wirecard.PaymentSdk.RequestIdGenerator.html">Wirecard\PaymentSdk\RequestIdGenerator</a></code> <var>$requestIdGenerator</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.RequestMapper.html#51-60" title="Go to source code">__construct</a>( <span><code><a href="class-Wirecard.PaymentSdk.Config.html">Wirecard\PaymentSdk\Config</a></code> <var>$config</var></span>, <span><code><a href="class-Wirecard.PaymentSdk.RequestIdGenerator.html">Wirecard\PaymentSdk\RequestIdGenerator</a></code> <var>$requestIdGenerator</var></span> )</code>
 
 			<div class="description short">
 				<p>RequestMapper constructor.</p>
@@ -172,7 +184,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_map">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.RequestMapper.html#58-83" title="Go to source code">map</a>( <span><code><a href="class-Wirecard.PaymentSdk.PayPalTransaction.html">Wirecard\PaymentSdk\PayPalTransaction</a></code> <var>$transaction</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.RequestMapper.html#62-101" title="Go to source code">map</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.html">Wirecard\PaymentSdk\Transaction</a></code> <var>$transaction</var></span> )</code>
 
 			<div class="description short">
 				
@@ -193,6 +205,10 @@
 						string<br>The transaction in JSON format.
 					</div>
 
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-Wirecard.PaymentSdk.MandatoryFieldMissingException.html">Wirecard\PaymentSdk\MandatoryFieldMissingException</a></code>
+					</div>
 
 
 
@@ -208,6 +224,84 @@
 
 
 
+
+		<div class="panel panel-default">
+            <div class="panel-heading"><h2>Constants summary</h2></div>
+			<table class="summary table table-bordered table-striped constants" id="constants">
+			<tr data-order="PARAM_TRANSACTION_TYPE" id="PARAM_TRANSACTION_TYPE">
+
+				<td class="attributes"><code>string</code></td>
+				<td class="name">
+					<code>
+						<a href="source-class-Wirecard.PaymentSdk.RequestMapper.html#37" title="Go to source code"><b>PARAM_TRANSACTION_TYPE</b></a>
+					</code>
+
+					<div class="description short">
+						
+					</div>
+
+					<div class="description detailed hidden">
+						
+
+					</div>
+				</td>
+				<td class="value">
+					<div>
+						<a href="#PARAM_TRANSACTION_TYPE" class="anchor">#</a>
+						<code><span class="php-quote">'transaction-type'</span></code>
+					</div>
+				</td>
+			</tr>
+			<tr data-order="PARAM_PARENT_TRANSACTION_ID" id="PARAM_PARENT_TRANSACTION_ID">
+
+				<td class="attributes"><code>string</code></td>
+				<td class="name">
+					<code>
+						<a href="source-class-Wirecard.PaymentSdk.RequestMapper.html#38" title="Go to source code"><b>PARAM_PARENT_TRANSACTION_ID</b></a>
+					</code>
+
+					<div class="description short">
+						
+					</div>
+
+					<div class="description detailed hidden">
+						
+
+					</div>
+				</td>
+				<td class="value">
+					<div>
+						<a href="#PARAM_PARENT_TRANSACTION_ID" class="anchor">#</a>
+						<code><span class="php-quote">'parent-transaction-id'</span></code>
+					</div>
+				</td>
+			</tr>
+			<tr data-order="CCARD_AUTHORIZATION" id="CCARD_AUTHORIZATION">
+
+				<td class="attributes"><code>string</code></td>
+				<td class="name">
+					<code>
+						<a href="source-class-Wirecard.PaymentSdk.RequestMapper.html#39" title="Go to source code"><b>CCARD_AUTHORIZATION</b></a>
+					</code>
+
+					<div class="description short">
+						
+					</div>
+
+					<div class="description detailed hidden">
+						
+
+					</div>
+				</td>
+				<td class="value">
+					<div>
+						<a href="#CCARD_AUTHORIZATION" class="anchor">#</a>
+						<code><span class="php-quote">'authorization'</span></code>
+					</div>
+				</td>
+			</tr>
+			</table>
+		</div>
 
 
 

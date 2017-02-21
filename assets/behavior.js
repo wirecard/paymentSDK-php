@@ -16,6 +16,321 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         {
           "type": "folder",
           "data": {
+            "path": "examples/CreditCard",
+            "title": "CreditCard"
+          },
+          "depth": 2,
+          "children": [
+            {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/CreditCard/3d-reserve.php",
+                "projectPath": "examples/CreditCard/3d-reserve.php",
+                "targetPath": "examples/CreditCard/3d-reserve",
+                "pageTitle": "examples/CreditCard/3d-reserve",
+                "title": "3d-reserve"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Reservation for credit card with 3-D secure",
+                    "slug": "reservation-for-credit-card-with-3-d-secure"
+                  },
+                  "depth": 1
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Required objects",
+                    "slug": "required-objects"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 3,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 3
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 3,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 3
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/CreditCard/cancel.php",
+                "projectPath": "examples/CreditCard/cancel.php",
+                "targetPath": "examples/CreditCard/cancel",
+                "pageTitle": "examples/CreditCard/cancel",
+                "title": "cancel"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Cancelling a transaction",
+                    "slug": "cancelling-a-transaction"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [".htm", ".html"],
+                  "pygmentsLexer": "html",
+                  "multiLineComment": ["<!--", "", "-->"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "HTML"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/CreditCard/cancel-data-entry.html",
+                "projectPath": "examples/CreditCard/cancel-data-entry.html",
+                "targetPath": "examples/CreditCard/cancel-data-entry",
+                "pageTitle": "examples/CreditCard/cancel-data-entry",
+                "title": "cancel-data-entry"
+              },
+              "depth": 3,
+              "outline": []
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [".htm", ".html"],
+                  "pygmentsLexer": "html",
+                  "multiLineComment": ["<!--", "", "-->"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "HTML"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/CreditCard/create-based-on-previous-transaction.html",
+                "projectPath": "examples/CreditCard/create-based-on-previous-transaction.html",
+                "targetPath": "examples/CreditCard/create-based-on-previous-transaction",
+                "pageTitle": "examples/CreditCard/create-based-on-previous-transaction",
+                "title": "create-based-on-previous-transaction"
+              },
+              "depth": 3,
+              "outline": []
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/CreditCard/createUi.php",
+                "projectPath": "examples/CreditCard/createUi.php",
+                "targetPath": "examples/CreditCard/createUi",
+                "pageTitle": "examples/CreditCard/createUi",
+                "title": "createUi"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Credit Card UI creation",
+                    "slug": "credit-card-ui-creation"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required libraries and objects",
+                        "slug": "required-libraries-and-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Render the form",
+                            "slug": "render-the-form"
+                          },
+                          "depth": 3
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Submit handler for the form",
+                            "slug": "submit-handler-for-the-form"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/CreditCard/return.php",
+                "projectPath": "examples/CreditCard/return.php",
+                "targetPath": "examples/CreditCard/return",
+                "pageTitle": "examples/CreditCard/return",
+                "title": "return"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Handling the response of a transaction",
+                    "slug": "handling-the-response-of-a-transaction"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Payment results",
+                        "slug": "payment-results"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/CreditCard/ssl-reserve.php",
+                "projectPath": "examples/CreditCard/ssl-reserve.php",
+                "targetPath": "examples/CreditCard/ssl-reserve",
+                "pageTitle": "examples/CreditCard/ssl-reserve",
+                "title": "ssl-reserve"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Credit card amount reservation",
+                    "slug": "credit-card-amount-reservation"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }, {
+          "type": "folder",
+          "data": {
             "path": "examples/PayPal",
             "title": "PayPal"
           },

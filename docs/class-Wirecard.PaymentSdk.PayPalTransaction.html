@@ -66,7 +66,12 @@
 			<h3>Classes</h3>
 			<ul>
 				<li><a href="class-Wirecard.PaymentSdk.Config.html">Config</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.CreditCardTransaction.html">CreditCardTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.FailureResponse.html">FailureResponse</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.FollowupTransaction.html">FollowupTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.FormFieldMap.html">FormFieldMap</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.FormInteractionResponse.html">FormInteractionResponse</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.InitialTransaction.html">InitialTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.InteractionResponse.html">InteractionResponse</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Money.html">Money</a></li>
 				<li class="active"><a href="class-Wirecard.PaymentSdk.PayPalTransaction.html">PayPalTransaction</a></li>
@@ -78,14 +83,21 @@
 				<li><a href="class-Wirecard.PaymentSdk.Status.html">Status</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.StatusCollection.html">StatusCollection</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.SuccessResponse.html">SuccessResponse</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.ThreeDAuthorizationTransaction.html">ThreeDAuthorizationTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.ThreeDCreditCardTransaction.html">ThreeDCreditCardTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.TransactionService.html">TransactionService</a></li>
 			</ul>
 
+			<h3>Interfaces</h3>
+			<ul>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.html">Transaction</a></li>
+			</ul>
 
 
 			<h3>Exceptions</h3>
 			<ul>
 				<li><a href="class-Wirecard.PaymentSdk.MalformedResponseException.html">MalformedResponseException</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.MandatoryFieldMissingException.html">MandatoryFieldMissingException</a></li>
 			</ul>
 
 
@@ -105,6 +117,22 @@
 	<p>Class PayPalTransaction</p>
 	</div>
 
+	<dl class="tree well">
+		<dd style="padding-left:0px">
+			<a href="class-Wirecard.PaymentSdk.InitialTransaction.html"><span>Wirecard\PaymentSdk\InitialTransaction</span></a>
+			
+			 implements 
+				<a href="class-Wirecard.PaymentSdk.Transaction.html"><span>Wirecard\PaymentSdk\Transaction</span></a>
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by">
+<b><span>Wirecard\PaymentSdk\PayPalTransaction</span></b>			
+			
+			
+		</dd>
+	</dl>
 
 
 
@@ -119,7 +147,7 @@
 		<b>Namespace:</b> <a href="namespace-Wirecard.html">Wirecard</a>\<a href="namespace-Wirecard.PaymentSdk.html">PaymentSdk</a><br>
 		<b>Package:</b> Wirecard\PaymentSdk<br>
 
-			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.PayPalTransaction.html#35-96" title="Go to source code">PayPalTransaction.php</a>
+			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.PayPalTransaction.html#35-83" title="Go to source code">PayPalTransaction.php</a>
 		<br>
 	</div>
 
@@ -139,7 +167,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#___construct">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.PayPalTransaction.html#60-71" title="Go to source code">__construct</a>( <span><code><a href="class-Wirecard.PaymentSdk.Money.html">Wirecard\PaymentSdk\Money</a></code> <var>$amount</var></span>, <span>string <var>$notificationUrl</var></span>, <span><code><a href="class-Wirecard.PaymentSdk.Redirect.html">Wirecard\PaymentSdk\Redirect</a></code> <var>$redirect</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.PayPalTransaction.html#55-66" title="Go to source code">__construct</a>( <span><code><a href="class-Wirecard.PaymentSdk.Money.html">Wirecard\PaymentSdk\Money</a></code> <var>$amount</var></span>, <span>string <var>$notificationUrl</var></span>, <span><code><a href="class-Wirecard.PaymentSdk.Redirect.html">Wirecard\PaymentSdk\Redirect</a></code> <var>$redirect</var></span> )</code>
 
 			<div class="description short">
 				<p>PayPalTransaction constructor.</p>
@@ -162,39 +190,8 @@
 
 
 
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="getAmount" id="_getAmount">
-
-			<td class="attributes"><code>
-				 public 
-				<code><a href="class-Wirecard.PaymentSdk.Money.html">Wirecard\PaymentSdk\Money</a></code>
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_getAmount">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.PayPalTransaction.html#73-79" title="Go to source code">getAmount</a>( )</code>
-
-			<div class="description short">
-				
-			</div>
-
-			<div class="description detailed hidden">
-				
-
-
-
-					<h4>Returns</h4>
-					<div class="list">
-						<code><a href="class-Wirecard.PaymentSdk.Money.html">Wirecard\PaymentSdk\Money</a></code>
-					</div>
-
-
-
+					<h4>Overrides</h4>
+					<div class="list"><code><a href="class-Wirecard.PaymentSdk.InitialTransaction.html#___construct">Wirecard\PaymentSdk\InitialTransaction::__construct</a></code></div>
 
 			</div>
 			</div></td>
@@ -210,7 +207,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getNotificationUrl">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.PayPalTransaction.html#81-87" title="Go to source code">getNotificationUrl</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.PayPalTransaction.html#68-74" title="Go to source code">getNotificationUrl</a>( )</code>
 
 			<div class="description short">
 				
@@ -243,7 +240,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getRedirect">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.PayPalTransaction.html#89-95" title="Go to source code">getRedirect</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.PayPalTransaction.html#76-82" title="Go to source code">getRedirect</a>( )</code>
 
 			<div class="description short">
 				
@@ -268,6 +265,12 @@
 			</table>
 		</div>
 
+		<div class="panel panel-default">
+	        <div class="panel-heading"><h3>Methods inherited from <a href="class-Wirecard.PaymentSdk.InitialTransaction.html#methods">Wirecard\PaymentSdk\InitialTransaction</a></h3></div>
+			<p class="elementList">
+				<code><a href="class-Wirecard.PaymentSdk.InitialTransaction.html#_getAmount">getAmount()</a></code>
+			</p>
+		</div>
 
 
 
