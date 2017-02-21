@@ -18,8 +18,13 @@ use Wirecard\PaymentSdk\TransactionService;
 // Create a money object as amount which has to be payed by the consumer.
 $amount = new Money(12.59, 'EUR');
 
+$parentTransactionId = array_key_exists('parentTransactionId', $_POST) ? $_POST['parentTransactionId'] : null;
+
 // Tokens from a successful _seamlessRenderForm_ callback can be used to execute reservations.
-$tokenId = array_key_exists('tokenId', $_POST) ? $_POST['tokenId'] : '5168216323601006';
+$tokenId = array_key_exists('tokenId', $_POST) ? $_POST['tokenId'] : null;
+if ($parentTransactionId === null && $tokenId === null) {
+    $tokenId = '5168216323601006';
+}
 
 // An object containing the data regarding the options of the interface is needed.
 $config = new Config('https://api-test.wirecard.com/engine/rest/payments/', '70000-APILUHN-CARD', '8mhwavKVb91T',
@@ -27,8 +32,11 @@ $config = new Config('https://api-test.wirecard.com/engine/rest/payments/', '700
 
 // ## Transaction
 
-// Create an `CreditCardTransaction` object, which contains all relevant data for the payment process.
-$transaction = new CreditCardTransaction($amount, $tokenId);
+// Create a `CreditCardTransaction` object, which contains all relevant data for the payment process.
+// The token is required as reference to the credit card data.
+$transaction = new CreditCardTransaction($amount);
+$transaction->setTokenId($tokenId);
+$transaction->setParentTransactionId($parentTransactionId);
 
 // The service is used to execute the reservation (authorization) operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
