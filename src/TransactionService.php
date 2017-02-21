@@ -191,7 +191,7 @@ class TransactionService
 
     /**
      * @param $xmlResponse
-     * @return FailureResponse|InteractionResponse|SuccessResponse
+     * @return FailureResponse|InteractionResponse|SuccessResponse|Response
      * @throws \Wirecard\PaymentSdk\MalformedResponseException
      */
     public function handleNotification($xmlResponse)
@@ -201,7 +201,7 @@ class TransactionService
 
     /**
      * @param array $payload
-     * @return FailureResponse|InteractionResponse|SuccessResponse
+     * @return FailureResponse|InteractionResponse|SuccessResponse|Response
      * @throws MalformedResponseException
      */
     public function handleResponse(array $payload)
@@ -260,7 +260,7 @@ class TransactionService
 
     /**
      * @param Transaction $transaction
-     * @return FailureResponse|InteractionResponse|SuccessResponse
+     * @return FailureResponse|InteractionResponse|SuccessResponse|Response
      * @throws RequestException|MalformedResponseException|\RuntimeException
      */
     private function process(Transaction $transaction)

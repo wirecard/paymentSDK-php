@@ -35,6 +35,7 @@ namespace Wirecard\PaymentSdk;
 class RequestMapper
 {
     const PARAM_TRANSACTION_TYPE = 'transaction-type';
+    const PARAM_PARENT_TRANSACTION_ID = 'parent-transaction-id';
     const CCARD_AUTHORIZATION = 'authorization';
 
     /**
@@ -70,6 +71,8 @@ class RequestMapper
             'merchant-account-id' => ['value' => $this->config->getMerchantAccountId()],
             'request-id' => $requestId
         ];
+
+        $specificProperties = [];
 
         if ($transaction instanceof InitialTransaction) {
             $commonProperties['requested-amount'] = $this->getAmountOfTransaction($transaction);
@@ -138,19 +141,17 @@ class RequestMapper
         $parentTransactionId = $transaction->getParentTransactionId();
         if ($tokenId === null && $parentTransactionId === null) {
             throw new MandatoryFieldMissingException(
-                "At least one of these two parameters has to be provided: token ID, parent transaction ID."
+                'At least one of these two parameters has to be provided: token ID, parent transaction ID.'
             );
         }
 
+        $specificProperties = [
+            self::PARAM_TRANSACTION_TYPE => self::CCARD_AUTHORIZATION
+        ];
+
         if (null !== $parentTransactionId) {
-            $specificProperties = [
-                self::PARAM_TRANSACTION_TYPE => 'referenced-authorization',
-                'parent-transaction-id' => $transaction->getParentTransactionId()
-            ];
-        } else {
-            $specificProperties = [
-                self::PARAM_TRANSACTION_TYPE => self::CCARD_AUTHORIZATION
-            ];
+            $specificProperties[self::PARAM_TRANSACTION_TYPE] = 'referenced-authorization';
+            $specificProperties[self::PARAM_PARENT_TRANSACTION_ID] = $transaction->getParentTransactionId();
         }
 
         if (null !== $tokenId) {
@@ -158,6 +159,7 @@ class RequestMapper
                 'token-id' => $transaction->getTokenId(),
             ];
         }
+
         $specificProperties['ip-address'] = $_SERVER['REMOTE_ADDR'];
 
         if ($transaction instanceof ThreeDCreditCardTransaction) {
@@ -166,11 +168,12 @@ class RequestMapper
             ];
             $specificProperties = array_merge($specificProperties, $threeDProperties);
         }
+
         return $specificProperties;
     }
 
     /**
-     * @param $transaction
+     * @param ThreeDAuthorizationTransaction $transaction
      * @return array
      */
     private function getSpecificPropertiesForReference($transaction)
@@ -182,7 +185,7 @@ class RequestMapper
 
         return [
             self::PARAM_TRANSACTION_TYPE => self::CCARD_AUTHORIZATION,
-            'parent-transaction-id' => $parentTransactionId,
+            self::PARAM_PARENT_TRANSACTION_ID => $parentTransactionId,
             'three-d' => [
                 'pares' => $paRes
             ],
@@ -197,7 +200,7 @@ class RequestMapper
     {
         return [
             self::PARAM_TRANSACTION_TYPE => 'void-authorization',
-            'parent-transaction-id' => $transaction->getParentTransactionId()
+            self::PARAM_PARENT_TRANSACTION_ID => $transaction->getParentTransactionId()
         ];
     }
 }

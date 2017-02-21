@@ -51,9 +51,11 @@ class ThreeDCreditCardTransaction extends CreditCardTransaction
     private $termUrl;
 
     /**
-     * _3DCreditCardTransaction constructor.
-     * @param string $notificationUrl
-     * @param string $termUrl
+     * ThreeDCreditCardTransaction constructor.
+     * @param Money $money
+     * @param $tokenId
+     * @param $notificationUrl
+     * @param $termUrl
      */
     public function __construct($money, $tokenId, $notificationUrl, $termUrl)
     {
