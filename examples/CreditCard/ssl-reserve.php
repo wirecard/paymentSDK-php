@@ -17,13 +17,20 @@ use Wirecard\PaymentSdk\TransactionService;
 // Use the money object as amount which has to be payed by the consumer.
 $amount = new Money(12.59, 'EUR');
 
+$parentTransactionId = array_key_exists('parentTransactionId', $_POST) ? $_POST['parentTransactionId'] : null;
+
 // ### TokenId
 // tokens from seamlessRenderForm success callback can be used to execute reservations
-$tokenId = array_key_exists('tokenId', $_POST) ? $_POST['tokenId'] : '5168216323601006';
+$tokenId = array_key_exists('tokenId', $_POST) ? $_POST['tokenId'] : null;
+if ($parentTransactionId === null && $tokenId === null) {
+    $tokenId = '5168216323601006';
+}
 
 // ### Transaction
 // The credit card transaction holds all transaction relevant data for the payment process.
-$transaction = new CreditCardTransaction($amount, $tokenId);
+$transaction = new CreditCardTransaction($amount);
+$transaction->setTokenId($tokenId);
+$transaction->setParentTransactionId($parentTransactionId);
 
 // ### Config
 // The config object holds all interface configuration options
@@ -38,16 +45,16 @@ $response = $transactionService->reserve($transaction);
 // ### Response handling
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
-if($response instanceof SuccessResponse) {
+if ($response instanceof SuccessResponse) {
     echo sprintf('Payment with id %s successfully completed.<br>', $response->getTransactionId());
-?>
+    ?>
     <br>
     <form action="cancel.php" method="post">
-        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>" />
+        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <input type="submit" value="cancel the payment">
     </form>
 
-<?php
+    <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
     // In our example we iterate over all errors and echo them out. You should display them as error, warning or information based on the given severity.

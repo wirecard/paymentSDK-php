@@ -57,7 +57,8 @@ class ThreeDCreditCardTransaction extends CreditCardTransaction
      */
     public function __construct($money, $tokenId, $notificationUrl, $termUrl)
     {
-        parent::__construct($money, $tokenId);
+        parent::__construct($money);
+        $this->setTokenId($tokenId);
         $this->notificationUrl = $notificationUrl;
         $this->termUrl = $termUrl;
     }

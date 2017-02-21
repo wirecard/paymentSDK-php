@@ -286,7 +286,7 @@ class TransactionService
 
     private function processAuthFrom3DResponse($payload)
     {
-        $refTransaction = new ReferenceTransaction($payload);
+        $refTransaction = new ThreeDAuthorizationTransaction($payload);
         return $this->process($refTransaction);
     }
 }

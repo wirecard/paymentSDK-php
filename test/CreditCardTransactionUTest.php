@@ -52,7 +52,8 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->amount = new Money(8.5, 'EUR');
-        $this->ccTransaction = new CreditCardTransaction($this->amount, self::SAMPLE_TOKEN_ID);
+        $this->ccTransaction = new CreditCardTransaction($this->amount);
+        $this->ccTransaction->setTokenId(self::SAMPLE_TOKEN_ID);
     }
 
     public function testGetAmount()

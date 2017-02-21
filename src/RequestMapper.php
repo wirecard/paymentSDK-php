@@ -61,11 +61,12 @@ class RequestMapper
     /**
      * @param Transaction $transaction
      * @return string The transaction in JSON format.
+     * @throws \Wirecard\PaymentSdk\MandatoryFieldMissingException
      */
     public function map(Transaction $transaction)
     {
         $requestId = $this->requestIdGenerator->generate();
-        $commonProperties =  [
+        $commonProperties = [
             'merchant-account-id' => ['value' => $this->config->getMerchantAccountId()],
             'request-id' => $requestId
         ];
@@ -82,7 +83,7 @@ class RequestMapper
             $specificProperties = $this->getSpecificPropertiesForCreditCard($transaction);
         }
 
-        if ($transaction instanceof ReferenceTransaction) {
+        if ($transaction instanceof ThreeDAuthorizationTransaction) {
             $specificProperties = $this->getSpecificPropertiesForReference($transaction);
         }
 
@@ -91,7 +92,7 @@ class RequestMapper
         }
 
         $allProperties = array_merge($commonProperties, $specificProperties);
-        $result = [ 'payment' => $allProperties ];
+        $result = ['payment' => $allProperties];
 
         return json_encode($result);
     }
@@ -129,16 +130,35 @@ class RequestMapper
     /**
      * @param CreditCardTransaction $transaction
      * @return array
+     * @throws \Wirecard\PaymentSdk\MandatoryFieldMissingException
      */
     private function getSpecificPropertiesForCreditCard(CreditCardTransaction $transaction)
     {
-        $specificProperties = [
-            self::PARAM_TRANSACTION_TYPE => self::CCARD_AUTHORIZATION,
-            'card-token' => [
+        $tokenId = $transaction->getTokenId();
+        $parentTransactionId = $transaction->getParentTransactionId();
+        if ($tokenId === null && $parentTransactionId === null) {
+            throw new MandatoryFieldMissingException(
+                "At least one of these two parameters has to be provided: token ID, parent transaction ID."
+            );
+        }
+
+        if (null !== $parentTransactionId) {
+            $specificProperties = [
+                self::PARAM_TRANSACTION_TYPE => 'referenced-authorization',
+                'parent-transaction-id' => $transaction->getParentTransactionId()
+            ];
+        } else {
+            $specificProperties = [
+                self::PARAM_TRANSACTION_TYPE => self::CCARD_AUTHORIZATION
+            ];
+        }
+
+        if (null !== $tokenId) {
+            $specificProperties['card-token'] = [
                 'token-id' => $transaction->getTokenId(),
-            ],
-            'ip-address' => $_SERVER['REMOTE_ADDR']
-        ];
+            ];
+        }
+        $specificProperties['ip-address'] = $_SERVER['REMOTE_ADDR'];
 
         if ($transaction instanceof ThreeDCreditCardTransaction) {
             $threeDProperties = [

@@ -32,55 +32,9 @@
 
 namespace Wirecard\PaymentSdk;
 
-/**
- * Class CreditCardTransaction
- * @package Wirecard\PaymentSdk
- *
- * An entity representing a payment with credit card.
- * Use it for SSL payments.
- * For the 3D payments use the specific subclass.
- */
-class CreditCardTransaction extends InitialTransaction
+use UnexpectedValueException;
+
+class MandatoryFieldMissingException extends UnexpectedValueException
 {
-    /**
-     * @var string
-     */
-    private $tokenId;
 
-    /**
-     * @var string
-     */
-    private $parentTransactionId;
-
-    /**
-     * @return string
-     */
-    public function getTokenId()
-    {
-        return $this->tokenId;
-    }
-
-    /**
-     * @param string $tokenId
-     */
-    public function setTokenId($tokenId)
-    {
-        $this->tokenId = $tokenId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getParentTransactionId()
-    {
-        return $this->parentTransactionId;
-    }
-
-    /**
-     * @param string $parentTransactionId
-     */
-    public function setParentTransactionId($parentTransactionId)
-    {
-        $this->parentTransactionId = $parentTransactionId;
-    }
 }
