@@ -221,7 +221,7 @@ class ResponseMapper
 
         $fields->add(
             'MD',
-            base64_encode(json_encode(['enrollment-check-transaction-id' => (string)$response->{'transaction-id'},
+            base64_encode(json_encode(['enrollment-check-transaction-id' => (string)$this->getTransactionId($response),
             'operation-type' => RequestMapper::CCARD_AUTHORIZATION]))
         );
 
