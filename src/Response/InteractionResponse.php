@@ -32,7 +32,7 @@
 
 namespace Wirecard\PaymentSdk\Response;
 
-use Wirecard\PaymentSdk\StatusCollection;
+use Wirecard\PaymentSdk\Entity\StatusCollection;
 
 /**
  * Class InteractionResponse

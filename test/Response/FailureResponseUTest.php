@@ -34,7 +34,7 @@ namespace WirecardTest\PaymentSdk\Response;
 
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\Response;
-use Wirecard\PaymentSdk\StatusCollection;
+use Wirecard\PaymentSdk\Entity\StatusCollection;
 
 class FailureResponseUTest extends \PHPUnit_Framework_TestCase
 {

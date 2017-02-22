@@ -30,35 +30,38 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk;
+namespace WirecardTest\PaymentSdk\Entity;
 
-use Traversable;
+use Wirecard\PaymentSdk\Entity\Status;
 
-/**
- * Class StatusCollection
- * @package Wirecard\PaymentSdk
- */
-class StatusCollection implements \IteratorAggregate
+class StatusUTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var array
-     */
-    private $statuses = [];
+    const CODE = 55;
+    const DESCRIPTION = 'some error';
+    const ERROR = 'error';
 
     /**
-     * Retrieve an external iterator
-     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return Traversable An instance of an object implementing <b>Iterator</b> or
-     * <b>Traversable</b>
-     * @since 5.0.0
+     * @var Status
      */
-    public function getIterator()
+    private $status;
+
+    public function setUp()
     {
-        return new \ArrayIterator($this->statuses);
+        $this->status = new Status(self::CODE, self::DESCRIPTION, self::ERROR);
     }
 
-    public function add(Status $status)
+    public function testGetCode()
     {
-        $this->statuses[] = $status;
+        $this->assertEquals(self::CODE, $this->status->getCode());
+    }
+
+    public function testGetDescription()
+    {
+        $this->assertEquals(self::DESCRIPTION, $this->status->getDescription());
+    }
+
+    public function testGetSeverity()
+    {
+        $this->assertEquals(self::ERROR, $this->status->getSeverity());
     }
 }

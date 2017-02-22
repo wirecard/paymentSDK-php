@@ -8,7 +8,7 @@
  *
  * They have been tested and approved for full functionality in the standard configuration
  * (status on delivery) of the corresponding shop system. They are under General Public
- * License Version 3 (GPLv3) and can be used, developed and passed on to third parties under
+ * License Version 2 (GPLv2) and can be used, developed and passed on to third parties under
  * the same terms.
  *
  * However, Wirecard CEE does not provide any guarantee or accept any liability for any errors
@@ -30,37 +30,28 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk;
+namespace WirecardTest\PaymentSdk\Entity;
 
-use Wirecard\PaymentSdk\Status;
-use Wirecard\PaymentSdk\StatusCollection;
+use Wirecard\PaymentSdk\Entity\FormFieldMap;
 
-class StatusCollectionUTest extends \PHPUnit_Framework_TestCase
+class FormFieldMapUTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var StatusCollection
+     * @var FormFieldMap
      */
-    private $statusCollection;
-
+    private $map;
     public function setUp()
     {
-        $this->statusCollection = new StatusCollection();
+        $this->map = new FormFieldMap();
     }
 
     public function testAdd()
     {
-        $onlyStatus = new Status(23, 'sth useful', 'info');
-        $this->statusCollection->add($onlyStatus);
+        $this->map->add('test', 'entry');
 
-        $foundStatusCode = 0;
-
-        foreach ($this->statusCollection as $st) {
-            /**
-             * @var $st Status
-             */
-            $foundStatusCode = $st->getCode();
+        foreach ($this->map as $key => $value) {
+            $this->assertEquals('test', $key);
+            $this->assertEquals('entry', $value);
         }
-
-        $this->assertEquals(23, $foundStatusCode);
     }
 }

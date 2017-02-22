@@ -32,6 +32,9 @@
 
 namespace Wirecard\PaymentSdk;
 
+use Wirecard\PaymentSdk\Entity\FormFieldMap;
+use Wirecard\PaymentSdk\Entity\Status;
+use Wirecard\PaymentSdk\Entity\StatusCollection;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\FormInteractionResponse;

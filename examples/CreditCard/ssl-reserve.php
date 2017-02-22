@@ -66,7 +66,7 @@ if ($response instanceof SuccessResponse) {
     // You should handle them based on the given severity as error, warning or information.
     foreach ($response->getStatusCollection() AS $status) {
         /**
-         * @var $status \Wirecard\PaymentSdk\Status
+         * @var $status \Wirecard\PaymentSdk\Entity\Status
          */
         $severity = ucfirst($status->getSeverity());
         $code = $status->getCode();

@@ -32,8 +32,8 @@
 
 namespace Wirecard\PaymentSdk\Response;
 
-use Wirecard\PaymentSdk\FormFieldMap;
-use Wirecard\PaymentSdk\StatusCollection;
+use Wirecard\PaymentSdk\Entity\FormFieldMap;
+use Wirecard\PaymentSdk\Entity\StatusCollection;
 
 class FormInteractionResponse extends Response
 {

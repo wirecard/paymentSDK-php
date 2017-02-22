@@ -8,7 +8,7 @@
  *
  * They have been tested and approved for full functionality in the standard configuration
  * (status on delivery) of the corresponding shop system. They are under General Public
- * License Version 2 (GPLv2) and can be used, developed and passed on to third parties under
+ * License Version 3 (GPLv3) and can be used, developed and passed on to third parties under
  * the same terms.
  *
  * However, Wirecard CEE does not provide any guarantee or accept any liability for any errors
@@ -30,23 +30,36 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk;
+namespace Wirecard\PaymentSdk\Entity;
 
-class FormFieldMap implements \IteratorAggregate
+use Traversable;
+use Wirecard\PaymentSdk\Entity\Status;
+
+/**
+ * Class StatusCollection
+ * @package Wirecard\PaymentSdk
+ */
+class StatusCollection implements \IteratorAggregate
 {
-    private $formFields = [];
-
-    public function getIterator()
-    {
-        return new \ArrayIterator($this->formFields);
-    }
+    /**
+     * @var array
+     */
+    private $statuses = [];
 
     /**
-     * @param string $key
-     * @param string $value
+     * Retrieve an external iterator
+     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
+     * @return Traversable An instance of an object implementing <b>Iterator</b> or
+     * <b>Traversable</b>
+     * @since 5.0.0
      */
-    public function add($key, $value)
+    public function getIterator()
     {
-        $this->formFields[$key] = $value;
+        return new \ArrayIterator($this->statuses);
+    }
+
+    public function add(Status $status)
+    {
+        $this->statuses[] = $status;
     }
 }

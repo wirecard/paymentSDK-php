@@ -30,38 +30,37 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk;
+namespace WirecardTest\PaymentSdk\Entity;
 
-use Wirecard\PaymentSdk\Status;
+use Wirecard\PaymentSdk\Entity\Status;
+use Wirecard\PaymentSdk\Entity\StatusCollection;
 
-class StatusUTest extends \PHPUnit_Framework_TestCase
+class StatusCollectionUTest extends \PHPUnit_Framework_TestCase
 {
-    const CODE = 55;
-    const DESCRIPTION = 'some error';
-    const ERROR = 'error';
-
     /**
-     * @var Status
+     * @var StatusCollection
      */
-    private $status;
+    private $statusCollection;
 
     public function setUp()
     {
-        $this->status = new Status(self::CODE, self::DESCRIPTION, self::ERROR);
+        $this->statusCollection = new StatusCollection();
     }
 
-    public function testGetCode()
+    public function testAdd()
     {
-        $this->assertEquals(self::CODE, $this->status->getCode());
-    }
+        $onlyStatus = new Status(23, 'sth useful', 'info');
+        $this->statusCollection->add($onlyStatus);
 
-    public function testGetDescription()
-    {
-        $this->assertEquals(self::DESCRIPTION, $this->status->getDescription());
-    }
+        $foundStatusCode = 0;
 
-    public function testGetSeverity()
-    {
-        $this->assertEquals(self::ERROR, $this->status->getSeverity());
+        foreach ($this->statusCollection as $st) {
+            /**
+             * @var $st Status
+             */
+            $foundStatusCode = $st->getCode();
+        }
+
+        $this->assertEquals(23, $foundStatusCode);
     }
 }

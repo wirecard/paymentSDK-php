@@ -30,28 +30,23 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk;
+namespace Wirecard\PaymentSdk\Entity;
 
-use Wirecard\PaymentSdk\FormFieldMap;
-
-class FormFieldMapUTest extends \PHPUnit_Framework_TestCase
+class FormFieldMap implements \IteratorAggregate
 {
-    /**
-     * @var FormFieldMap
-     */
-    private $map;
-    public function setUp()
+    private $formFields = [];
+
+    public function getIterator()
     {
-        $this->map = new FormFieldMap();
+        return new \ArrayIterator($this->formFields);
     }
 
-    public function testAdd()
+    /**
+     * @param string $key
+     * @param string $value
+     */
+    public function add($key, $value)
     {
-        $this->map->add('test', 'entry');
-
-        foreach ($this->map as $key => $value) {
-            $this->assertEquals('test', $key);
-            $this->assertEquals('entry', $value);
-        }
+        $this->formFields[$key] = $value;
     }
 }

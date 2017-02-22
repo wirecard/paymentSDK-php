@@ -43,7 +43,7 @@ if($response instanceof SuccessResponse) {
     // In our example we iterate over all errors and echo them out. You should display them as error, warning or information based on the given severity.
     foreach ($response->getStatusCollection() AS $status) {
         /**
-         * @var $status \Wirecard\PaymentSdk\Status
+         * @var $status \Wirecard\PaymentSdk\Entity\Status
          */
         $severity = ucfirst($status->getSeverity());
         $code = $status->getCode();

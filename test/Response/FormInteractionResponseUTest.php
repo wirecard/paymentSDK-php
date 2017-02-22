@@ -32,9 +32,9 @@
 
 namespace WirecardTest\PaymentSdk\Response;
 
-use Wirecard\PaymentSdk\FormFieldMap;
+use Wirecard\PaymentSdk\Entity\FormFieldMap;
 use Wirecard\PaymentSdk\Response\FormInteractionResponse;
-use Wirecard\PaymentSdk\StatusCollection;
+use Wirecard\PaymentSdk\Entity\StatusCollection;
 
 class FormInteractionResponseUTest extends \PHPUnit_Framework_TestCase
 {
