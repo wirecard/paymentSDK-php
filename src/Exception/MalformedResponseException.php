@@ -8,7 +8,7 @@
  *
  * They have been tested and approved for full functionality in the standard configuration
  * (status on delivery) of the corresponding shop system. They are under General Public
- * License Version 2 (GPLv2) and can be used, developed and passed on to third parties under
+ * License Version 3 (GPLv3) and can be used, developed and passed on to third parties under
  * the same terms.
  *
  * However, Wirecard CEE does not provide any guarantee or accept any liability for any errors
@@ -30,24 +30,15 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk;
+namespace Wirecard\PaymentSdk\Exception;
 
-use Wirecard\PaymentSdk\MalformedResponseException;
+use UnexpectedValueException;
 
-class MalformedResponseExceptionUTest extends \PHPUnit_Framework_TestCase
+/**
+ * Class MalformedResponseException
+ * @package Wirecard\PaymentSdk
+ */
+class MalformedResponseException extends UnexpectedValueException
 {
-    /**
-     * @var MalformedResponseException
-     */
-    private $exception;
 
-    public function setUp()
-    {
-        $this->exception = new MalformedResponseException('testMessage');
-    }
-
-    public function testIsRuntimeException()
-    {
-        $this->assertInstanceOf(\RuntimeException::class, $this->exception);
-    }
 }

@@ -35,7 +35,7 @@ namespace WirecardTest\PaymentSdk;
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\FollowupTransaction;
-use Wirecard\PaymentSdk\MandatoryFieldMissingException;
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Money;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Redirect;
@@ -131,7 +131,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Wirecard\PaymentSdk\MandatoryFieldMissingException
+     * @expectedException \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
      */
     public function testSslCreditCardTransactionWithoutTokenIdAndParentTransactionId()
     {

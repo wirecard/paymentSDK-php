@@ -39,7 +39,7 @@ use GuzzleHttp\Psr7\Response;
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Transaction\FollowupTransaction;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
-use Wirecard\PaymentSdk\MalformedResponseException;
+use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
 use Wirecard\PaymentSdk\StatusCollection;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
@@ -288,7 +288,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
+     * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
      */
     public function testPayMalformedResponseException()
     {
@@ -324,7 +324,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
+     * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
      */
     public function testHandleNotificationMalformedResponseException()
     {
@@ -356,7 +356,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
+     * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
      */
     public function testHandleResponseMalformedResponseException()
     {

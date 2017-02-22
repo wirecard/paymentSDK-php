@@ -32,6 +32,7 @@
 
 namespace Wirecard\PaymentSdk;
 
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\FollowupTransaction;
 use Wirecard\PaymentSdk\Transaction\InitialTransaction;
@@ -70,7 +71,7 @@ class RequestMapper
     /**
      * @param Transaction $transaction
      * @return string The transaction in JSON format.
-     * @throws \Wirecard\PaymentSdk\MandatoryFieldMissingException
+     * @throws \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
      */
     public function map(Transaction $transaction)
     {
@@ -141,7 +142,7 @@ class RequestMapper
     /**
      * @param CreditCardTransaction $transaction
      * @return array
-     * @throws \Wirecard\PaymentSdk\MandatoryFieldMissingException
+     * @throws \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
      */
     private function getSpecificPropertiesForCreditCard(CreditCardTransaction $transaction)
     {

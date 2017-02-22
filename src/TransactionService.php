@@ -37,6 +37,7 @@ use GuzzleHttp\Exception\RequestException;
 use Monolog\Handler\ErrorLogHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
+use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Response\Response;
@@ -122,7 +123,7 @@ class TransactionService
     /**
      * @param FollowupTransaction $transaction
      * @return FailureResponse|InteractionResponse|SuccessResponse
-     * @throws \Wirecard\PaymentSdk\MalformedResponseException
+     * @throws \Wirecard\PaymentSdk\Exception\MalformedResponseException
      * @throws \RuntimeException
      * @throws \GuzzleHttp\Exception\RequestException
      */
@@ -200,7 +201,7 @@ class TransactionService
     /**
      * @param $xmlResponse
      * @return FailureResponse|InteractionResponse|SuccessResponse|Response
-     * @throws \Wirecard\PaymentSdk\MalformedResponseException
+     * @throws \Wirecard\PaymentSdk\Exception\MalformedResponseException
      */
     public function handleNotification($xmlResponse)
     {

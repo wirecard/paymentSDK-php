@@ -30,15 +30,11 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk;
+namespace Wirecard\PaymentSdk\Exception;
 
 use UnexpectedValueException;
 
-/**
- * Class MalformedResponseException
- * @package Wirecard\PaymentSdk
- */
-class MalformedResponseException extends UnexpectedValueException
+class MandatoryFieldMissingException extends UnexpectedValueException
 {
 
 }

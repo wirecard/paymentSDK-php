@@ -252,7 +252,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
+     * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
      * @dataProvider invalidResponseProvider
      * @param $xmlResponse
      * @param $transaction
@@ -457,7 +457,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Wirecard\PaymentSdk\MalformedResponseException
+     * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
      * @dataProvider malformedResponseProvider
      * @param $jsonResponse
      */
