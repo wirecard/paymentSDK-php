@@ -32,8 +32,8 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Money;
-use Wirecard\PaymentSdk\Redirect;
+use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Redirect;
 
 /**
  * Class PayPalTransaction

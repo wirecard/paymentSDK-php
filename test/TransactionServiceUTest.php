@@ -215,13 +215,13 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
     {
         $transaction = $this->createMock('\Wirecard\PaymentSdk\Transaction\PayPalTransaction');
 
-        $money = $this->createMock('\Wirecard\PaymentSdk\Money');
+        $money = $this->createMock('\Wirecard\PaymentSdk\Entity\Money');
         $money->method('getAmount')->willReturn(20.23);
         $money->method('getCurrency')->willReturn('EUR');
 
         $transaction->method('getAmount')->willReturn($money);
 
-        $redirect = $this->createMock('\Wirecard\PaymentSdk\Redirect');
+        $redirect = $this->createMock('\Wirecard\PaymentSdk\Entity\Redirect');
         $redirect->method('getSuccessUrl')->willReturn('http://www.example.com/success');
         $redirect->method('getCancelUrl')->willReturn('http://www.example.com/cancel');
 

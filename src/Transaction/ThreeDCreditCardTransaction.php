@@ -32,7 +32,7 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Money;
+use Wirecard\PaymentSdk\Entity\Money;
 
 /**
  * Class CreditCard3DTransaction

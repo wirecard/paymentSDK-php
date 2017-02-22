@@ -32,9 +32,9 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Money;
+use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
-use Wirecard\PaymentSdk\Redirect;
+use Wirecard\PaymentSdk\Entity\Redirect;
 
 class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
 {

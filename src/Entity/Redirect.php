@@ -30,31 +30,50 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk;
+namespace Wirecard\PaymentSdk\Entity;
 
-use Wirecard\PaymentSdk\Redirect;
-
-class RedirectUTest extends \PHPUnit_Framework_TestCase
+/**
+ * Class Redirect
+ * @package Wirecard\PaymentSdk
+ *
+ * An immutable entity representing redirect URL-s.
+ */
+class Redirect
 {
-    const SUCCESS_URL = 'http://www.example.com/success';
-    const CANCEL_URL = 'http://www.example.com/cancel';
     /**
-     * @var Redirect
+     * @var string
      */
-    private $redirect;
+    private $successUrl;
 
-    public function setUp()
+    /**
+     * @var string
+     */
+    private $cancelUrl;
+
+    /**
+     * Redirect constructor.
+     * @param string $successUrl
+     * @param string $cancelUrl
+     */
+    public function __construct($successUrl, $cancelUrl)
     {
-        $this->redirect = new Redirect(self::SUCCESS_URL, self::CANCEL_URL);
+        $this->successUrl = $successUrl;
+        $this->cancelUrl = $cancelUrl;
     }
 
-    public function testGetSuccessUrl()
+    /**
+     * @return string
+     */
+    public function getSuccessUrl()
     {
-        $this->assertEquals(self::SUCCESS_URL, $this->redirect->getSuccessUrl());
+        return $this->successUrl;
     }
 
-    public function testGetCancelUrl()
+    /**
+     * @return string
+     */
+    public function getCancelUrl()
     {
-        $this->assertEquals(self::CANCEL_URL, $this->redirect->getCancelUrl());
+        return $this->cancelUrl;
     }
 }

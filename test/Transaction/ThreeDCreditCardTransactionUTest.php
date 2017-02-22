@@ -32,7 +32,7 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Money;
+use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 
 class ThreeDCreditCardTransactionUTest extends \PHPUnit_Framework_TestCase

@@ -30,50 +30,50 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk;
+namespace Wirecard\PaymentSdk\Entity;
 
 /**
- * Class Redirect
+ * Class Money
  * @package Wirecard\PaymentSdk
  *
- * An immutable entity representing redirect URL-s.
+ * An immutable entity representing a money: amount and currency.
  */
-class Redirect
+class Money
 {
     /**
-     * @var string
+     * @var float
      */
-    private $successUrl;
+    private $amount;
 
     /**
      * @var string
      */
-    private $cancelUrl;
+    private $currency;
 
     /**
-     * Redirect constructor.
-     * @param string $successUrl
-     * @param string $cancelUrl
+     * Money constructor.
+     * @param float $amount
+     * @param string $currency
      */
-    public function __construct($successUrl, $cancelUrl)
+    public function __construct($amount, $currency)
     {
-        $this->successUrl = $successUrl;
-        $this->cancelUrl = $cancelUrl;
+        $this->amount = $amount;
+        $this->currency = $currency;
+    }
+
+    /**
+     * @return float
+     */
+    public function getAmount()
+    {
+        return $this->amount;
     }
 
     /**
      * @return string
      */
-    public function getSuccessUrl()
+    public function getCurrency()
     {
-        return $this->successUrl;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCancelUrl()
-    {
-        return $this->cancelUrl;
+        return $this->currency;
     }
 }

@@ -30,50 +30,31 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk;
+namespace WirecardTest\PaymentSdk\Entity;
 
-/**
- * Class Money
- * @package Wirecard\PaymentSdk
- *
- * An immutable entity representing a money: amount and currency.
- */
-class Money
+use Wirecard\PaymentSdk\Entity\Redirect;
+
+class RedirectUTest extends \PHPUnit_Framework_TestCase
 {
+    const SUCCESS_URL = 'http://www.example.com/success';
+    const CANCEL_URL = 'http://www.example.com/cancel';
     /**
-     * @var float
+     * @var Redirect
      */
-    private $amount;
+    private $redirect;
 
-    /**
-     * @var string
-     */
-    private $currency;
-
-    /**
-     * Money constructor.
-     * @param float $amount
-     * @param string $currency
-     */
-    public function __construct($amount, $currency)
+    public function setUp()
     {
-        $this->amount = $amount;
-        $this->currency = $currency;
+        $this->redirect = new Redirect(self::SUCCESS_URL, self::CANCEL_URL);
     }
 
-    /**
-     * @return float
-     */
-    public function getAmount()
+    public function testGetSuccessUrl()
     {
-        return $this->amount;
+        $this->assertEquals(self::SUCCESS_URL, $this->redirect->getSuccessUrl());
     }
 
-    /**
-     * @return string
-     */
-    public function getCurrency()
+    public function testGetCancelUrl()
     {
-        return $this->currency;
+        $this->assertEquals(self::CANCEL_URL, $this->redirect->getCancelUrl());
     }
 }
