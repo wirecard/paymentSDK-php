@@ -31,8 +31,8 @@
  */
 
 namespace Wirecard\PaymentSdk\Transaction;
+
 use Wirecard\PaymentSdk\Money;
-use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 
 /**
  * Class CreditCard3DTransaction

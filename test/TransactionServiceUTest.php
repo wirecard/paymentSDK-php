@@ -38,11 +38,11 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Transaction\FollowupTransaction;
-use Wirecard\PaymentSdk\InteractionResponse;
+use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\MalformedResponseException;
 use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
 use Wirecard\PaymentSdk\StatusCollection;
-use Wirecard\PaymentSdk\SuccessResponse;
+use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\TransactionService;
 
 class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
@@ -201,7 +201,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         //prepare ResponseMapper
         $responseMapper = $this->createMock('\Wirecard\PaymentSdk\ResponseMapper');
-        $response = $this->createMock('\Wirecard\PaymentSdk\Response');
+        $response = $this->createMock('\Wirecard\PaymentSdk\Response\Response');
         $responseMapper->expects($this->once())
             ->method('map')
             ->with($this->equalTo($responseToMap))
@@ -248,7 +248,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
                         </payment-methods>
                     </payment>'
                 ),
-                '\Wirecard\PaymentSdk\InteractionResponse'
+                '\Wirecard\PaymentSdk\Response\InteractionResponse'
             ],
             [
                 new Response(
@@ -261,7 +261,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
                         </statuses>
                     </payment>'
                 ),
-                '\Wirecard\PaymentSdk\FailureResponse'
+                '\Wirecard\PaymentSdk\Response\FailureResponse'
             ]
         ];
     }

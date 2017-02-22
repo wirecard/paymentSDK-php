@@ -30,68 +30,28 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk;
+namespace WirecardTest\PaymentSdk\Response;
 
-use Wirecard\PaymentSdk\FormFieldMap;
-use Wirecard\PaymentSdk\FormInteractionResponse;
+use Wirecard\PaymentSdk\Response\FailureResponse;
+use Wirecard\PaymentSdk\Response\Response;
 use Wirecard\PaymentSdk\StatusCollection;
 
-class FormInteractionResponseUTest extends \PHPUnit_Framework_TestCase
+class FailureResponseUTest extends \PHPUnit_Framework_TestCase
 {
-    private $rawData = '<raw></raw>';
-
-    private $url = 'https://www.example.com/redirect';
-
     /**
-     * @var StatusCollection
-     */
-    private $statusCollection;
-
-    /**
-     * @var FormFieldMap
-     */
-    private $formFields;
-
-    /**
-     * @var FormInteractionResponse
+     * @var FailureResponse
      */
     private $response;
 
     public function setUp()
     {
-        $this->statusCollection = $this->createMock(StatusCollection::class);
-        $this->formFields = $this->createMock(FormFieldMap::class);
-
-        $this->response = new FormInteractionResponse(
-            $this->rawData,
-            $this->statusCollection,
-            $this->url,
-            $this->formFields
-        );
+        $rawData = '<raw></raw>';
+        $status = $this->createMock(StatusCollection::class);
+        $this->response = new FailureResponse($rawData, $status);
     }
 
-    public function testGetRawResponse()
+    public function testFailureResponseIsResponse()
     {
-        $this->assertEquals($this->rawData, $this->response->getRawData());
-    }
-
-    public function testGetStatusCollection()
-    {
-        $this->assertEquals($this->statusCollection, $this->response->getStatusCollection());
-    }
-
-    public function testGetRedirectUrl()
-    {
-        $this->assertEquals($this->url, $this->response->getUrl());
-    }
-
-    public function testGetFormFields()
-    {
-        $this->assertEquals($this->formFields, $this->response->getFormFields());
-    }
-
-    public function testGetMethod()
-    {
-        $this->assertEquals('POST', $this->response->getMethod());
+        $this->assertInstanceOf(Response::class, $this->response);
     }
 }

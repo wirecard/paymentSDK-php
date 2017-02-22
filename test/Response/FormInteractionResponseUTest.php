@@ -8,7 +8,7 @@
  *
  * They have been tested and approved for full functionality in the standard configuration
  * (status on delivery) of the corresponding shop system. They are under General Public
- * License Version 3 (GPLv3) and can be used, developed and passed on to third parties under
+ * License Version 2 (GPLv2) and can be used, developed and passed on to third parties under
  * the same terms.
  *
  * However, Wirecard CEE does not provide any guarantee or accept any liability for any errors
@@ -30,18 +30,17 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk;
+namespace WirecardTest\PaymentSdk\Response;
 
-/**
- * Class Response
- * @package Wirecard\PaymentSdk
- */
-abstract class Response
+use Wirecard\PaymentSdk\FormFieldMap;
+use Wirecard\PaymentSdk\Response\FormInteractionResponse;
+use Wirecard\PaymentSdk\StatusCollection;
+
+class FormInteractionResponseUTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var string
-     */
-    private $rawData;
+    private $rawData = '<raw></raw>';
+
+    private $url = 'https://www.example.com/redirect';
 
     /**
      * @var StatusCollection
@@ -49,31 +48,50 @@ abstract class Response
     private $statusCollection;
 
     /**
-     * Response constructor.
-     * @param string $rawData
-     * @param StatusCollection $statusCollection
+     * @var FormFieldMap
      */
-    public function __construct($rawData, StatusCollection $statusCollection)
-    {
-        $this->rawData = $rawData;
-        $this->statusCollection = $statusCollection;
-    }
+    private $formFields;
 
     /**
-     * get the raw response data of the called interface
-     *
-     * @return string
+     * @var FormInteractionResponse
      */
-    public function getRawData()
+    private $response;
+
+    public function setUp()
     {
-        return $this->rawData;
+        $this->statusCollection = $this->createMock(StatusCollection::class);
+        $this->formFields = $this->createMock(FormFieldMap::class);
+
+        $this->response = new FormInteractionResponse(
+            $this->rawData,
+            $this->statusCollection,
+            $this->url,
+            $this->formFields
+        );
     }
 
-    /**
-     * @return StatusCollection
-     */
-    public function getStatusCollection()
+    public function testGetRawResponse()
     {
-        return $this->statusCollection;
+        $this->assertEquals($this->rawData, $this->response->getRawData());
+    }
+
+    public function testGetStatusCollection()
+    {
+        $this->assertEquals($this->statusCollection, $this->response->getStatusCollection());
+    }
+
+    public function testGetRedirectUrl()
+    {
+        $this->assertEquals($this->url, $this->response->getUrl());
+    }
+
+    public function testGetFormFields()
+    {
+        $this->assertEquals($this->formFields, $this->response->getFormFields());
+    }
+
+    public function testGetMethod()
+    {
+        $this->assertEquals('POST', $this->response->getMethod());
     }
 }

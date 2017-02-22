@@ -30,9 +30,9 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk;
+namespace WirecardTest\PaymentSdk\Response;
 
-use Wirecard\PaymentSdk\InteractionResponse;
+use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\StatusCollection;
 
 class InteractionResponseUTest extends \PHPUnit_Framework_TestCase

@@ -30,59 +30,52 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk;
+namespace Wirecard\PaymentSdk\Response;
+
+use Wirecard\PaymentSdk\StatusCollection;
 
 /**
- * Class InteractionResponse
- *
- * This object is returned,
- * if the payment process was initialized successfully,
- * and an interaction with the consumer browser is required in order to continue it.
+ * Class Response
  * @package Wirecard\PaymentSdk
  */
-class InteractionResponse extends Response
+abstract class Response
 {
     /**
      * @var string
      */
-    private $transactionId;
+    private $rawData;
 
     /**
-     * @var string
+     * @var StatusCollection
      */
-    private $redirectUrl;
+    private $statusCollection;
 
     /**
-     * InteractionResponse constructor.
-     * @param string $rawData - JSON string holding the raw response data
+     * Response constructor.
+     * @param string $rawData
      * @param StatusCollection $statusCollection
-     * @param string $transactionId - unique transaction id for followups
-     * @param string $redirectUrl - Redirect url of the external service provider
      */
-    public function __construct($rawData, $statusCollection, $transactionId, $redirectUrl)
+    public function __construct($rawData, StatusCollection $statusCollection)
     {
-        parent::__construct($rawData, $statusCollection);
-        $this->transactionId = $transactionId;
-        $this->redirectUrl = $redirectUrl;
+        $this->rawData = $rawData;
+        $this->statusCollection = $statusCollection;
     }
 
     /**
-     * get the unique transaction id for followup operations
+     * get the raw response data of the called interface
      *
      * @return string
      */
-    public function getTransactionId()
+    public function getRawData()
     {
-        return $this->transactionId;
+        return $this->rawData;
     }
 
     /**
-     * get the redirect url used for external service provider redirects
-     *
-     * @return string
+     * @return StatusCollection
      */
-    public function getRedirectUrl()
+    public function getStatusCollection()
     {
-        return $this->redirectUrl;
+        return $this->statusCollection;
     }
 }

@@ -8,7 +8,7 @@
  *
  * They have been tested and approved for full functionality in the standard configuration
  * (status on delivery) of the corresponding shop system. They are under General Public
- * License Version 2 (GPLv2) and can be used, developed and passed on to third parties under
+ * License Version 3 (GPLv3) and can be used, developed and passed on to third parties under
  * the same terms.
  *
  * However, Wirecard CEE does not provide any guarantee or accept any liability for any errors
@@ -30,40 +30,43 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk;
+namespace Wirecard\PaymentSdk\Response;
 
-class FormInteractionResponse extends Response
+use Wirecard\PaymentSdk\Response\Response;
+
+class SuccessResponse extends Response
 {
-    private $url;
-
-    private $formFields;
+    /**
+     * @var string
+     */
+    private $transactionId;
 
     /**
-     * FormInteractionResponse constructor.
-     * @param string $rawData
-     * @param StatusCollection $statusCollection
-     * @param $url
-     * @param FormFieldMap $formFields
+     * @var string
      */
-    public function __construct($rawData, StatusCollection $statusCollection, $url, FormFieldMap $formFields)
+    private $providerTransactionId;
+
+
+    public function __construct($rawData, $statusCollection, $transactionId, $providerTransactionId)
     {
-        $this->formFields = $formFields;
-        $this->url = $url;
         parent::__construct($rawData, $statusCollection);
+        $this->transactionId = $transactionId;
+        $this->providerTransactionId = $providerTransactionId;
     }
 
-    public function getMethod()
+    /**
+     * @return string
+     */
+    public function getTransactionId()
     {
-        return 'POST';
+        return $this->transactionId;
     }
 
-    public function getUrl()
+    /**
+     * @return string
+     */
+    public function getProviderTransactionId()
     {
-        return $this->url;
-    }
-
-    public function getFormFields()
-    {
-        return $this->formFields;
+        return $this->providerTransactionId;
     }
 }

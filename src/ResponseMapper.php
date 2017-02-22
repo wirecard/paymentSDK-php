@@ -31,6 +31,12 @@
  */
 
 namespace Wirecard\PaymentSdk;
+
+use Wirecard\PaymentSdk\Response\FailureResponse;
+use Wirecard\PaymentSdk\Response\FormInteractionResponse;
+use Wirecard\PaymentSdk\Response\InteractionResponse;
+use Wirecard\PaymentSdk\Response\Response;
+use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 

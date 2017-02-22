@@ -8,7 +8,7 @@
  *
  * They have been tested and approved for full functionality in the standard configuration
  * (status on delivery) of the corresponding shop system. They are under General Public
- * License Version 3 (GPLv3) and can be used, developed and passed on to third parties under
+ * License Version 2 (GPLv2) and can be used, developed and passed on to third parties under
  * the same terms.
  *
  * However, Wirecard CEE does not provide any guarantee or accept any liability for any errors
@@ -30,12 +30,43 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk;
+namespace Wirecard\PaymentSdk\Response;
 
-/**
- * Class FailureResponse
- * @package Wirecard\PaymentSdk
- */
-class FailureResponse extends Response
+use Wirecard\PaymentSdk\FormFieldMap;
+use Wirecard\PaymentSdk\StatusCollection;
+
+class FormInteractionResponse extends Response
 {
+    private $url;
+
+    private $formFields;
+
+    /**
+     * FormInteractionResponse constructor.
+     * @param string $rawData
+     * @param StatusCollection $statusCollection
+     * @param $url
+     * @param FormFieldMap $formFields
+     */
+    public function __construct($rawData, StatusCollection $statusCollection, $url, FormFieldMap $formFields)
+    {
+        $this->formFields = $formFields;
+        $this->url = $url;
+        parent::__construct($rawData, $statusCollection);
+    }
+
+    public function getMethod()
+    {
+        return 'POST';
+    }
+
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    public function getFormFields()
+    {
+        return $this->formFields;
+    }
 }

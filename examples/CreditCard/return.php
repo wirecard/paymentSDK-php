@@ -10,8 +10,8 @@
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
-use Wirecard\PaymentSdk\FailureResponse;
-use Wirecard\PaymentSdk\SuccessResponse;
+use Wirecard\PaymentSdk\Response\FailureResponse;
+use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\TransactionService;
 
 // An object containing the data regarding the options of the interface is needed.

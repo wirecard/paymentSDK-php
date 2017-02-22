@@ -8,7 +8,7 @@
  *
  * They have been tested and approved for full functionality in the standard configuration
  * (status on delivery) of the corresponding shop system. They are under General Public
- * License Version 2 (GPLv2) and can be used, developed and passed on to third parties under
+ * License Version 3 (GPLv3) and can be used, developed and passed on to third parties under
  * the same terms.
  *
  * However, Wirecard CEE does not provide any guarantee or accept any liability for any errors
@@ -30,28 +30,61 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk;
+namespace Wirecard\PaymentSdk\Response;
 
-use Wirecard\PaymentSdk\FailureResponse;
-use Wirecard\PaymentSdk\Response;
 use Wirecard\PaymentSdk\StatusCollection;
 
-class FailureResponseUTest extends \PHPUnit_Framework_TestCase
+/**
+ * Class InteractionResponse
+ *
+ * This object is returned,
+ * if the payment process was initialized successfully,
+ * and an interaction with the consumer browser is required in order to continue it.
+ * @package Wirecard\PaymentSdk
+ */
+class InteractionResponse extends Response
 {
     /**
-     * @var FailureResponse
+     * @var string
      */
-    private $response;
+    private $transactionId;
 
-    public function setUp()
+    /**
+     * @var string
+     */
+    private $redirectUrl;
+
+    /**
+     * InteractionResponse constructor.
+     * @param string $rawData - JSON string holding the raw response data
+     * @param StatusCollection $statusCollection
+     * @param string $transactionId - unique transaction id for followups
+     * @param string $redirectUrl - Redirect url of the external service provider
+     */
+    public function __construct($rawData, $statusCollection, $transactionId, $redirectUrl)
     {
-        $rawData = '<raw></raw>';
-        $status = $this->createMock(StatusCollection::class);
-        $this->response = new FailureResponse($rawData, $status);
+        parent::__construct($rawData, $statusCollection);
+        $this->transactionId = $transactionId;
+        $this->redirectUrl = $redirectUrl;
     }
 
-    public function testFailureResponseIsResponse()
+    /**
+     * get the unique transaction id for followup operations
+     *
+     * @return string
+     */
+    public function getTransactionId()
     {
-        $this->assertInstanceOf(Response::class, $this->response);
+        return $this->transactionId;
+    }
+
+    /**
+     * get the redirect url used for external service provider redirects
+     *
+     * @return string
+     */
+    public function getRedirectUrl()
+    {
+        return $this->redirectUrl;
     }
 }

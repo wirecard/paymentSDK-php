@@ -6,8 +6,8 @@
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
-use Wirecard\PaymentSDK\FailureResponse;
-use Wirecard\PaymentSdk\SuccessResponse;
+use Wirecard\PaymentSdk\Response\FailureResponse;
+use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\TransactionService;
 
 // ### Config

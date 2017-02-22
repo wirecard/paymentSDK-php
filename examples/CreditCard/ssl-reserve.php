@@ -10,9 +10,9 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
-use Wirecard\PaymentSdk\FailureResponse;
+use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Money;
-use Wirecard\PaymentSdk\SuccessResponse;
+use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\TransactionService;
 
 // Create a money object as amount which has to be payed by the consumer.

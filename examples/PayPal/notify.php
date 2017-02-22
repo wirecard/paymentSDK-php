@@ -8,8 +8,8 @@ require __DIR__ . '/../../vendor/autoload.php';
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Wirecard\PaymentSdk\Config;
-use Wirecard\PaymentSdk\FailureResponse;
-use Wirecard\PaymentSdk\SuccessResponse;
+use Wirecard\PaymentSdk\Response\FailureResponse;
+use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\TransactionService;
 
 // ### Config

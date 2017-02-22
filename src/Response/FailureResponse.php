@@ -30,41 +30,12 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk;
+namespace Wirecard\PaymentSdk\Response;
 
-class SuccessResponse extends Response
+/**
+ * Class FailureResponse
+ * @package Wirecard\PaymentSdk
+ */
+class FailureResponse extends Response
 {
-    /**
-     * @var string
-     */
-    private $transactionId;
-
-    /**
-     * @var string
-     */
-    private $providerTransactionId;
-
-
-    public function __construct($rawData, $statusCollection, $transactionId, $providerTransactionId)
-    {
-        parent::__construct($rawData, $statusCollection);
-        $this->transactionId = $transactionId;
-        $this->providerTransactionId = $providerTransactionId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTransactionId()
-    {
-        return $this->transactionId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getProviderTransactionId()
-    {
-        return $this->providerTransactionId;
-    }
 }
