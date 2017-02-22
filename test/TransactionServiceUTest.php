@@ -37,10 +37,10 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Wirecard\PaymentSdk\Config;
-use Wirecard\PaymentSdk\FollowupTransaction;
+use Wirecard\PaymentSdk\Transaction\FollowupTransaction;
 use Wirecard\PaymentSdk\InteractionResponse;
 use Wirecard\PaymentSdk\MalformedResponseException;
-use Wirecard\PaymentSdk\ThreeDAuthorizationTransaction;
+use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
 use Wirecard\PaymentSdk\StatusCollection;
 use Wirecard\PaymentSdk\SuccessResponse;
 use Wirecard\PaymentSdk\TransactionService;
@@ -181,7 +181,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
     public function testReserveCreditCardTransaction()
     {
-        $transaction = $this->createMock('\Wirecard\PaymentSdk\InitialTransaction');
+        $transaction = $this->createMock('\Wirecard\PaymentSdk\Transaction\InitialTransaction');
 
         //prepare RequestMapper
         $mappedRequest = '{"mocked": "json", "response": "object"}';
@@ -213,7 +213,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
     protected function getTransactionMock()
     {
-        $transaction = $this->createMock('\Wirecard\PaymentSdk\PayPalTransaction');
+        $transaction = $this->createMock('\Wirecard\PaymentSdk\Transaction\PayPalTransaction');
 
         $money = $this->createMock('\Wirecard\PaymentSdk\Money');
         $money->method('getAmount')->willReturn(20.23);

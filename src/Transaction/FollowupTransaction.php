@@ -30,39 +30,29 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk;
+namespace Wirecard\PaymentSdk\Transaction;
 
-/**
- * Class Transaction
- * @package Wirecard\PaymentSdk
- *
- * An immutable entity representing a payment
- * without any payment method specific properties.
- *
- * It does not contain logic.
- * Use the TransactionService to initiate the payment.
- */
-abstract class InitialTransaction implements Transaction
+class FollowupTransaction implements Transaction
 {
     /**
-     * @var Money
+     * @var string
      */
-    private $amount;
+    private $parentTransactionId;
 
     /**
-     * Transaction constructor.
-     * @param Money $amount
+     * FollowupTransaction constructor.
+     * @param string $parentTransactionId
      */
-    public function __construct(Money $amount)
+    public function __construct($parentTransactionId)
     {
-        $this->amount = $amount;
+        $this->parentTransactionId = $parentTransactionId;
     }
 
     /**
-     * @return Money
+     * @return string
      */
-    public function getAmount()
+    public function getParentTransactionId()
     {
-        return $this->amount;
+        return $this->parentTransactionId;
     }
 }

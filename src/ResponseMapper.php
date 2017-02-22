@@ -31,6 +31,8 @@
  */
 
 namespace Wirecard\PaymentSdk;
+use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
+use Wirecard\PaymentSdk\Transaction\Transaction;
 
 /**
  * Class ResponseMapper

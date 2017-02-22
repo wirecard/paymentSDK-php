@@ -30,29 +30,39 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk;
+namespace WirecardTest\PaymentSdk\Transaction;
 
-class FollowupTransaction implements Transaction
+use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
+use Wirecard\PaymentSdk\Money;
+
+class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var string
+     * @var CreditCardTransaction
      */
-    private $parentTransactionId;
+    private $ccTransaction;
 
     /**
-     * FollowupTransaction constructor.
-     * @param string $parentTransactionId
+     * @var Money
      */
-    public function __construct($parentTransactionId)
+    private $amount;
+
+    const SAMPLE_TOKEN_ID = '542';
+
+    public function setUp()
     {
-        $this->parentTransactionId = $parentTransactionId;
+        $this->amount = new Money(8.5, 'EUR');
+        $this->ccTransaction = new CreditCardTransaction($this->amount);
+        $this->ccTransaction->setTokenId(self::SAMPLE_TOKEN_ID);
     }
 
-    /**
-     * @return string
-     */
-    public function getParentTransactionId()
+    public function testGetAmount()
     {
-        return $this->parentTransactionId;
+        $this->assertEquals($this->amount, $this->ccTransaction->getAmount());
+    }
+
+    public function testGetTokenId()
+    {
+        $this->assertEquals(self::SAMPLE_TOKEN_ID, $this->ccTransaction->getTokenId());
     }
 }

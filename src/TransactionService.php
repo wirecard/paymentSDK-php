@@ -37,6 +37,10 @@ use GuzzleHttp\Exception\RequestException;
 use Monolog\Handler\ErrorLogHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
+use Wirecard\PaymentSdk\Transaction\FollowupTransaction;
+use Wirecard\PaymentSdk\Transaction\InitialTransaction;
+use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
+use Wirecard\PaymentSdk\Transaction\Transaction;
 
 /**
  * Class TransactionService

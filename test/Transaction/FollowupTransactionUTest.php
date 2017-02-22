@@ -30,54 +30,17 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk;
+namespace WirecardTest\PaymentSdk\Transaction;
 
-/**
- * Class PayPalTransaction
- * @package Wirecard\PaymentSdk
- *
- * An immutable entity representing a payment with Paypal.
- * It does not contain logic.
- * Use the TransactionService to initiate the payment.
- */
-class PayPalTransaction extends InitialTransaction
+use Wirecard\PaymentSdk\Transaction\FollowupTransaction;
+
+class FollowupTransactionUTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var string
-     */
-    private $notificationUrl;
 
-    /**
-     * @var Redirect
-     */
-    private $redirect;
-
-    /**
-     * PayPalTransaction constructor.
-     * @param Money $amount
-     * @param string $notificationUrl
-     * @param Redirect $redirect
-     */
-    public function __construct(Money $amount, $notificationUrl, Redirect $redirect)
+    public function testGetParentTransactionId()
     {
-        parent::__construct($amount);
-        $this->notificationUrl = $notificationUrl;
-        $this->redirect = $redirect;
-    }
+        $tx = new FollowupTransaction('55');
 
-    /**
-     * @return string
-     */
-    public function getNotificationUrl()
-    {
-        return $this->notificationUrl;
-    }
-
-    /**
-     * @return Redirect
-     */
-    public function getRedirect()
-    {
-        return $this->redirect;
+        $this->assertEquals('55', $tx->getParentTransactionId());
     }
 }

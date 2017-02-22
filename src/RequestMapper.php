@@ -32,6 +32,14 @@
 
 namespace Wirecard\PaymentSdk;
 
+use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
+use Wirecard\PaymentSdk\Transaction\FollowupTransaction;
+use Wirecard\PaymentSdk\Transaction\InitialTransaction;
+use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
+use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
+use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
+use Wirecard\PaymentSdk\Transaction\Transaction;
+
 class RequestMapper
 {
     const PARAM_TRANSACTION_TYPE = 'transaction-type';

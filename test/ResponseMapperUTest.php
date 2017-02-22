@@ -32,13 +32,13 @@
 
 namespace WirecardTest\PaymentSdk;
 
-use Wirecard\PaymentSdk\CreditCardTransaction;
+use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\FailureResponse;
 use Wirecard\PaymentSdk\FormInteractionResponse;
 use Wirecard\PaymentSdk\InteractionResponse;
 use Wirecard\PaymentSdk\ResponseMapper;
 use Wirecard\PaymentSdk\SuccessResponse;
-use Wirecard\PaymentSdk\ThreeDCreditCardTransaction;
+use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 
 class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 {

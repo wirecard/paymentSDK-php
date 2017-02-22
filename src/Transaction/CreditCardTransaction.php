@@ -30,9 +30,57 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk;
+namespace Wirecard\PaymentSdk\Transaction;
 
-interface Transaction
+/**
+ * Class CreditCardTransaction
+ * @package Wirecard\PaymentSdk
+ *
+ * An entity representing a payment with credit card.
+ * Use it for SSL payments.
+ * For the 3D payments use the specific subclass.
+ */
+class CreditCardTransaction extends InitialTransaction
 {
+    /**
+     * @var string
+     */
+    private $tokenId;
 
+    /**
+     * @var string
+     */
+    private $parentTransactionId;
+
+    /**
+     * @return string
+     */
+    public function getTokenId()
+    {
+        return $this->tokenId;
+    }
+
+    /**
+     * @param string $tokenId
+     */
+    public function setTokenId($tokenId)
+    {
+        $this->tokenId = $tokenId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getParentTransactionId()
+    {
+        return $this->parentTransactionId;
+    }
+
+    /**
+     * @param string $parentTransactionId
+     */
+    public function setParentTransactionId($parentTransactionId)
+    {
+        $this->parentTransactionId = $parentTransactionId;
+    }
 }

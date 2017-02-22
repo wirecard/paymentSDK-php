@@ -30,57 +30,41 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk;
+namespace Wirecard\PaymentSdk\Transaction;
+
+use Wirecard\PaymentSdk\Money;
 
 /**
- * Class CreditCardTransaction
+ * Class Transaction
  * @package Wirecard\PaymentSdk
  *
- * An entity representing a payment with credit card.
- * Use it for SSL payments.
- * For the 3D payments use the specific subclass.
+ * An immutable entity representing a payment
+ * without any payment method specific properties.
+ *
+ * It does not contain logic.
+ * Use the TransactionService to initiate the payment.
  */
-class CreditCardTransaction extends InitialTransaction
+abstract class InitialTransaction implements Transaction
 {
     /**
-     * @var string
+     * @var Money
      */
-    private $tokenId;
+    private $amount;
 
     /**
-     * @var string
+     * Transaction constructor.
+     * @param Money $amount
      */
-    private $parentTransactionId;
-
-    /**
-     * @return string
-     */
-    public function getTokenId()
+    public function __construct(Money $amount)
     {
-        return $this->tokenId;
+        $this->amount = $amount;
     }
 
     /**
-     * @param string $tokenId
+     * @return Money
      */
-    public function setTokenId($tokenId)
+    public function getAmount()
     {
-        $this->tokenId = $tokenId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getParentTransactionId()
-    {
-        return $this->parentTransactionId;
-    }
-
-    /**
-     * @param string $parentTransactionId
-     */
-    public function setParentTransactionId($parentTransactionId)
-    {
-        $this->parentTransactionId = $parentTransactionId;
+        return $this->amount;
     }
 }

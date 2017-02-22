@@ -9,7 +9,7 @@
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
-use Wirecard\PaymentSdk\CreditCardTransaction;
+use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\FailureResponse;
 use Wirecard\PaymentSdk\Money;
 use Wirecard\PaymentSdk\SuccessResponse;

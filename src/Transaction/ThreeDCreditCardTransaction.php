@@ -30,39 +30,56 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk;
-
-use Wirecard\PaymentSdk\CreditCardTransaction;
+namespace Wirecard\PaymentSdk\Transaction;
 use Wirecard\PaymentSdk\Money;
+use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 
-class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
+/**
+ * Class CreditCard3DTransaction
+ * @package Wirecard\PaymentSdk
+ *
+ * An immutable entity representing a 3D payment with a credit card.
+ */
+class ThreeDCreditCardTransaction extends CreditCardTransaction
 {
     /**
-     * @var CreditCardTransaction
+     * @var string
      */
-    private $ccTransaction;
+    private $notificationUrl;
 
     /**
-     * @var Money
+     * @var string
      */
-    private $amount;
+    private $termUrl;
 
-    const SAMPLE_TOKEN_ID = '542';
-
-    public function setUp()
+    /**
+     * ThreeDCreditCardTransaction constructor.
+     * @param Money $money
+     * @param $tokenId
+     * @param $notificationUrl
+     * @param $termUrl
+     */
+    public function __construct($money, $tokenId, $notificationUrl, $termUrl)
     {
-        $this->amount = new Money(8.5, 'EUR');
-        $this->ccTransaction = new CreditCardTransaction($this->amount);
-        $this->ccTransaction->setTokenId(self::SAMPLE_TOKEN_ID);
+        parent::__construct($money);
+        $this->setTokenId($tokenId);
+        $this->notificationUrl = $notificationUrl;
+        $this->termUrl = $termUrl;
     }
 
-    public function testGetAmount()
+    /**
+     * @return string
+     */
+    public function getNotificationUrl()
     {
-        $this->assertEquals($this->amount, $this->ccTransaction->getAmount());
+        return $this->notificationUrl;
     }
 
-    public function testGetTokenId()
+    /**
+     * @return string
+     */
+    public function getTermUrl()
     {
-        $this->assertEquals(self::SAMPLE_TOKEN_ID, $this->ccTransaction->getTokenId());
+        return $this->termUrl;
     }
 }

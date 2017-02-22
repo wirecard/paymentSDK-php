@@ -30,17 +30,36 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk;
+namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\FollowupTransaction;
-
-class FollowupTransactionUTest extends \PHPUnit_Framework_TestCase
+/**
+ * Class ReferenceTransaction
+ * @package Wirecard\PaymentSdk
+ *
+ * This class is instantiated during the 3D process,
+ * and it should not be instantiated by the merchant.
+ */
+class ThreeDAuthorizationTransaction implements Transaction
 {
+    /**
+     * @var string
+     */
+    private $payload;
 
-    public function testGetParentTransactionId()
+    /**
+     * ReferenceTransaction constructor.
+     * @param $payload
+     */
+    public function __construct($payload)
     {
-        $tx = new FollowupTransaction('55');
+        $this->payload = $payload;
+    }
 
-        $this->assertEquals('55', $tx->getParentTransactionId());
+    /**
+     * @return string
+     */
+    public function getPayload()
+    {
+        return $this->payload;
     }
 }

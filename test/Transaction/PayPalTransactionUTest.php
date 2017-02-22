@@ -30,45 +30,42 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk;
+namespace WirecardTest\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Money;
-use Wirecard\PaymentSdk\ThreeDCreditCardTransaction;
+use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
+use Wirecard\PaymentSdk\Redirect;
 
-class ThreeDCreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
+class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
 {
-    const NOTIFICATION_TEST_URL = 'test URL';
-    const TERM_TEST_URL = 'term test URL';
-    /**
-     * @var ThreeDCreditCardTransaction
-     */
-    private $transaction;
-
+    const NOTIFICATION_URL = 'http://www.example.com';
     /**
      * @var Money
      */
     private $amount;
 
-    const SAMPLE_TRANSACTION_ID = '542';
+    /**
+     * @var PayPalTransaction
+     */
+    private $payPalTransaction;
+
+    /**
+     * @var Redirect
+     */
+    private $redirect;
 
     public function setUp()
     {
-        $this->amount = new Money(8.5, 'EUR');
-        $this->transaction = new ThreeDCreditCardTransaction(
-            $this->amount,
-            self::SAMPLE_TRANSACTION_ID,
-            self::NOTIFICATION_TEST_URL,
-            self::TERM_TEST_URL
-        );
+        $this->amount = new Money(42.21, 'EUR');
     }
 
-    public function testGetNotificationUrl()
+    public function testConstructorWithRedirect()
     {
-        $this->assertEquals(self::NOTIFICATION_TEST_URL, $this->transaction->getNotificationUrl());
-    }
+        $this->redirect = new Redirect('http://www.example.com/success', 'http://www.example.com/cancel');
+        $this->payPalTransaction = new PayPalTransaction($this->amount, self::NOTIFICATION_URL, $this->redirect);
 
-    public function testGetTermUrl()
-    {
-        $this->assertEquals(self::TERM_TEST_URL, $this->transaction->getTermUrl());
+        $this->assertEquals($this->amount, $this->payPalTransaction->getAmount());
+        $this->assertEquals(self::NOTIFICATION_URL, $this->payPalTransaction->getNotificationUrl());
+        $this->assertEquals($this->redirect, $this->payPalTransaction->getRedirect());
     }
 }

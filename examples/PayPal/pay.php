@@ -10,7 +10,7 @@ use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\FailureResponse;
 use Wirecard\PaymentSdk\InteractionResponse;
 use Wirecard\PaymentSdk\Money;
-use Wirecard\PaymentSdk\PayPalTransaction;
+use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Redirect;
 use Wirecard\PaymentSdk\TransactionService;
 

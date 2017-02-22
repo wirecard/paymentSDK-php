@@ -30,36 +30,57 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk;
+namespace Wirecard\PaymentSdk\Transaction;
+
+use Wirecard\PaymentSdk\Money;
+use Wirecard\PaymentSdk\Redirect;
 
 /**
- * Class ReferenceTransaction
+ * Class PayPalTransaction
  * @package Wirecard\PaymentSdk
  *
- * This class is instantiated during the 3D process,
- * and it should not be instantiated by the merchant.
+ * An immutable entity representing a payment with Paypal.
+ * It does not contain logic.
+ * Use the TransactionService to initiate the payment.
  */
-class ThreeDAuthorizationTransaction implements Transaction
+class PayPalTransaction extends InitialTransaction
 {
     /**
      * @var string
      */
-    private $payload;
+    private $notificationUrl;
 
     /**
-     * ReferenceTransaction constructor.
-     * @param $payload
+     * @var Redirect
      */
-    public function __construct($payload)
+    private $redirect;
+
+    /**
+     * PayPalTransaction constructor.
+     * @param Money $amount
+     * @param string $notificationUrl
+     * @param Redirect $redirect
+     */
+    public function __construct(Money $amount, $notificationUrl, Redirect $redirect)
     {
-        $this->payload = $payload;
+        parent::__construct($amount);
+        $this->notificationUrl = $notificationUrl;
+        $this->redirect = $redirect;
     }
 
     /**
      * @return string
      */
-    public function getPayload()
+    public function getNotificationUrl()
     {
-        return $this->payload;
+        return $this->notificationUrl;
+    }
+
+    /**
+     * @return Redirect
+     */
+    public function getRedirect()
+    {
+        return $this->redirect;
     }
 }
