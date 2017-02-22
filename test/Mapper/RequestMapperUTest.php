@@ -30,7 +30,7 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk;
+namespace WirecardTest\PaymentSdk\Mapper;
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
@@ -40,7 +40,7 @@ use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
-use Wirecard\PaymentSdk\RequestMapper;
+use Wirecard\PaymentSdk\Mapper\RequestMapper;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 
 class RequestMapperUTest extends \PHPUnit_Framework_TestCase

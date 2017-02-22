@@ -74,8 +74,8 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
     {
         $logger = $this->createMock('\Monolog\Logger');
         $httpClient = $this->createMock('\GuzzleHttp\Client');
-        $requestMapper = $this->createMock('\Wirecard\PaymentSdk\RequestMapper');
-        $responseMapper = $this->createMock('\Wirecard\PaymentSdk\ResponseMapper');
+        $requestMapper = $this->createMock('\Wirecard\PaymentSdk\Mapper\RequestMapper');
+        $responseMapper = $this->createMock('\Wirecard\PaymentSdk\Mapper\ResponseMapper');
         $requestIdGenerator = $this->createMock('\Wirecard\PaymentSdk\RequestIdGenerator');
 
         $service = new TransactionService(
@@ -135,7 +135,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         $method = $helper->bindTo($this->instance, $this->instance);
 
-        $this->assertInstanceOf('\Wirecard\PaymentSdk\RequestMapper', $method());
+        $this->assertInstanceOf('\Wirecard\PaymentSdk\Mapper\RequestMapper', $method());
     }
 
     public function testGetResponseMapper()
@@ -146,7 +146,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         $method = $helper->bindTo($this->instance, $this->instance);
 
-        $this->assertInstanceOf('\Wirecard\PaymentSdk\ResponseMapper', $method());
+        $this->assertInstanceOf('\Wirecard\PaymentSdk\Mapper\ResponseMapper', $method());
     }
 
     public function testGetRequestIdGenerator()
@@ -185,7 +185,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         //prepare RequestMapper
         $mappedRequest = '{"mocked": "json", "response": "object"}';
-        $requestMapper = $this->createMock('\Wirecard\PaymentSdk\RequestMapper');
+        $requestMapper = $this->createMock('\Wirecard\PaymentSdk\Mapper\RequestMapper');
         $requestMapper->expects($this->once())
             ->method('map')
             ->with($this->equalTo($transaction))
@@ -200,7 +200,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $client = new Client([self::HANDLER => $handler, 'http_errors' => false]);
 
         //prepare ResponseMapper
-        $responseMapper = $this->createMock('\Wirecard\PaymentSdk\ResponseMapper');
+        $responseMapper = $this->createMock('\Wirecard\PaymentSdk\Mapper\ResponseMapper');
         $response = $this->createMock('\Wirecard\PaymentSdk\Response\Response');
         $responseMapper->expects($this->once())
             ->method('map')
@@ -312,7 +312,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
     {
         $validXmlContent = '<xml><payment></payment></xml>';
 
-        $responseMapper = $this->createMock('Wirecard\PaymentSdk\ResponseMapper');
+        $responseMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\ResponseMapper');
         $interactionResponse = new InteractionResponse('dummy', new StatusCollection(), 'x', 'y');
         $responseMapper->method('map')->with($validXmlContent)->willReturn($interactionResponse);
 
@@ -330,7 +330,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
     {
         $invalidXmlContent = '<xml><payment></payment></xml>';
 
-        $responseMapper = $this->createMock('Wirecard\PaymentSdk\ResponseMapper');
+        $responseMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\ResponseMapper');
         $responseMapper->method('map')->with($invalidXmlContent)->willThrowException(new MalformedResponseException());
 
         $this->instance = new TransactionService($this->config, null, null, null, $responseMapper);
@@ -344,7 +344,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
             'eppresponse' => base64_encode('<xml><payment></payment></xml>')
         ];
 
-        $responseMapper = $this->createMock('Wirecard\PaymentSdk\ResponseMapper');
+        $responseMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\ResponseMapper');
         $interactionResponse = new InteractionResponse('dummy', new StatusCollection(), 'x', 'y');
         $responseMapper->method('map')->with($validContent['eppresponse'])->willReturn($interactionResponse);
 
@@ -362,7 +362,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
     {
         $invalidXmlContent = [];
 
-        $responseMapper = $this->createMock('Wirecard\PaymentSdk\ResponseMapper');
+        $responseMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\ResponseMapper');
 
         $this->instance = new TransactionService($this->config, null, null, null, $responseMapper);
 
@@ -425,7 +425,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
      */
     private function mockProcessingRequest($tx)
     {
-        $requestMapper = $this->createMock('Wirecard\PaymentSdk\RequestMapper');
+        $requestMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\RequestMapper');
         $authRequestObject = "dummy_request_payload";
         $requestMapper->method('map')->with($tx)->willReturn($authRequestObject);
 
@@ -438,7 +438,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $httpResponseBody->method('getContents')->willReturn($httpResponseContent);
 
         $successResponse = new SuccessResponse('dummy', new StatusCollection(), 'x', 'y');
-        $responseMapper = $this->createMock('Wirecard\PaymentSdk\ResponseMapper');
+        $responseMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\ResponseMapper');
         $responseMapper->method('map')->with($httpResponseContent)->willReturn($successResponse);
 
         $this->instance = new TransactionService($this->config, null, $client, $requestMapper, $responseMapper);
