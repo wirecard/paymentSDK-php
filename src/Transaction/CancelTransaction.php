@@ -32,7 +32,14 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
-class FollowupTransaction implements Transaction
+/**
+ * Class CancelTransaction
+ * @package Wirecard\PaymentSdk\Transaction
+ *
+ * Use this transaction object,
+ * if you want to cancel an existing payment.
+ */
+class CancelTransaction implements Transaction
 {
     /**
      * @var string

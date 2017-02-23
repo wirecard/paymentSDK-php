@@ -37,7 +37,7 @@ use Wirecard\PaymentSdk\Entity\Status;
 
 /**
  * Class StatusCollection
- * @package Wirecard\PaymentSdk
+ * @package Wirecard\PaymentSdk\Entity
  */
 class StatusCollection implements \IteratorAggregate
 {

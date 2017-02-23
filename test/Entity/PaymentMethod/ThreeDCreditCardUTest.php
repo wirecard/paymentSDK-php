@@ -30,17 +30,38 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk\Transaction;
+namespace WirecardTest\PaymentSdk\Entity\PaymentMethod;
 
-use Wirecard\PaymentSdk\Transaction\FollowupTransaction;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCard;
 
-class FollowupTransactionUTest extends \PHPUnit_Framework_TestCase
+class ThreeDCreditCardUTest extends \PHPUnit_Framework_TestCase
 {
+    const NOTIFICATION_TEST_URL = 'test URL';
+    const TERM_TEST_URL = 'term test URL';
+    /**
+     * @var ThreeDCreditCard
+     */
+    private $transaction;
 
-    public function testGetParentTransactionId()
+
+    const SAMPLE_TRANSACTION_ID = '542';
+
+    public function setUp()
     {
-        $tx = new FollowupTransaction('55');
+        $this->transaction = new ThreeDCreditCard(
+            self::SAMPLE_TRANSACTION_ID,
+            self::NOTIFICATION_TEST_URL,
+            self::TERM_TEST_URL
+        );
+    }
 
-        $this->assertEquals('55', $tx->getParentTransactionId());
+    public function testGetNotificationUrl()
+    {
+        $this->assertEquals(self::NOTIFICATION_TEST_URL, $this->transaction->getNotificationUrl());
+    }
+
+    public function testGetTermUrl()
+    {
+        $this->assertEquals(self::TERM_TEST_URL, $this->transaction->getTermUrl());
     }
 }

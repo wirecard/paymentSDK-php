@@ -34,7 +34,7 @@ namespace Wirecard\PaymentSdk\Entity;
 
 /**
  * Class Money
- * @package Wirecard\PaymentSdk
+ * @package Wirecard\PaymentSdk\Entity
  *
  * An immutable entity representing a money: amount and currency.
  */

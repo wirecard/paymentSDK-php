@@ -37,9 +37,11 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Wirecard\PaymentSdk\Config;
-use Wirecard\PaymentSdk\Transaction\FollowupTransaction;
+use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Transaction\CancelTransaction;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
+use Wirecard\PaymentSdk\Transaction\PayTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
 use Wirecard\PaymentSdk\Entity\StatusCollection;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
@@ -178,12 +180,12 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         $service = new TransactionService($this->config, null, $client);
 
-        $this->assertInstanceOf($class, $service->pay($this->getTransactionMock()));
+        $this->assertInstanceOf($class, $service->process($this->getTransactionMock()));
     }
 
     public function testReserveCreditCardTransaction()
     {
-        $transaction = $this->createMock('\Wirecard\PaymentSdk\Transaction\InitialTransaction');
+        $transaction = $this->createMock('\Wirecard\PaymentSdk\Transaction\ReserveTransaction');
 
         //prepare RequestMapper
         $mappedRequest = '{"mocked": "json", "response": "object"}';
@@ -210,26 +212,23 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
             ->willReturn($response);
 
         $service = new TransactionService($this->config, null, $client, $requestMapper, $responseMapper);
-        $this->assertEquals($response, $service->reserve($transaction));
+        $this->assertEquals($response, $service->process($transaction));
     }
 
     protected function getTransactionMock()
     {
-        $transaction = $this->createMock('\Wirecard\PaymentSdk\Transaction\PayPalTransaction');
-
-        $money = $this->createMock('\Wirecard\PaymentSdk\Entity\Money');
-        $money->method('getAmount')->willReturn(20.23);
-        $money->method('getCurrency')->willReturn('EUR');
-
-        $transaction->method('getAmount')->willReturn($money);
+        $paypalData = $this->createMock('\Wirecard\PaymentSdk\Entity\PaymentMethod\PayPal');
 
         $redirect = $this->createMock('\Wirecard\PaymentSdk\Entity\Redirect');
         $redirect->method('getSuccessUrl')->willReturn('http://www.example.com/success');
         $redirect->method('getCancelUrl')->willReturn('http://www.example.com/cancel');
 
-        $transaction->method('getRedirect')->willReturn($redirect);
+        $paypalData->method('getRedirect')->willReturn($redirect);
 
-        return $transaction;
+        $tx = new PayTransaction(new Money(20.23, 'EUR'));
+        $tx->setPaymentTypeSpecificData($paypalData);
+
+        return $tx;
     }
 
     public function testPayProvider()
@@ -286,7 +285,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         $this->instance = new TransactionService($this->config, null, $client);
 
-        $this->instance->pay($this->getTransactionMock());
+        $this->instance->process($this->getTransactionMock());
     }
 
     /**
@@ -307,7 +306,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         $this->instance = new TransactionService($this->config, null, $client);
 
-        $this->instance->pay($this->getTransactionMock());
+        $this->instance->process($this->getTransactionMock());
     }
 
     public function testHandleNotificationHappyPath()
@@ -413,11 +412,11 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
     public function testCancel()
     {
-        $cancelTrans = new FollowupTransaction('parent-id');
+        $cancelTrans = new CancelTransaction('parent-id');
 
         $successResponse = $this->mockProcessingRequest($cancelTrans);
 
-        $result = $this->instance->cancel($cancelTrans);
+        $result = $this->instance->process($cancelTrans);
 
         $this->assertEquals($successResponse, $result);
     }

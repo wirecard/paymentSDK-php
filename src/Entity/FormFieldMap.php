@@ -32,6 +32,10 @@
 
 namespace Wirecard\PaymentSdk\Entity;
 
+/**
+ * Class FormFieldMap
+ * @package Wirecard\PaymentSdk\Entity
+ */
 class FormFieldMap implements \IteratorAggregate
 {
     private $formFields = [];

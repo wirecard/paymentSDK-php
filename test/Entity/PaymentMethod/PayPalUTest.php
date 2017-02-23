@@ -30,39 +30,21 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk\Transaction;
+namespace WirecardTest\PaymentSdk\Entity\PaymentMethod;
 
-use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
-use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\PayPal;
+use Wirecard\PaymentSdk\Entity\Redirect;
 
-class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
+class PayPalUTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var CreditCardTransaction
-     */
-    private $ccTransaction;
+    const NOTIFICATION_URL = 'http://www.example.com';
 
-    /**
-     * @var Money
-     */
-    private $amount;
-
-    const SAMPLE_TOKEN_ID = '542';
-
-    public function setUp()
+    public function testConstructorWithRedirect()
     {
-        $this->amount = new Money(8.5, 'EUR');
-        $this->ccTransaction = new CreditCardTransaction($this->amount);
-        $this->ccTransaction->setTokenId(self::SAMPLE_TOKEN_ID);
-    }
+        $redirect = new Redirect('http://www.example.com/success', 'http://www.example.com/cancel');
+        $payPalTransaction = new PayPal(self::NOTIFICATION_URL, $redirect);
 
-    public function testGetAmount()
-    {
-        $this->assertEquals($this->amount, $this->ccTransaction->getAmount());
-    }
-
-    public function testGetTokenId()
-    {
-        $this->assertEquals(self::SAMPLE_TOKEN_ID, $this->ccTransaction->getTokenId());
+        $this->assertEquals(self::NOTIFICATION_URL, $payPalTransaction->getNotificationUrl());
+        $this->assertEquals($redirect, $payPalTransaction->getRedirect());
     }
 }

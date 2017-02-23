@@ -30,45 +30,52 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Response;
+namespace Wirecard\PaymentSdk\Entity\PaymentMethod;
 
 /**
- * Class SuccessResponse
- * @package Wirecard\PaymentSdk\Response
+ * Class ThreeDCreditCard
+ * @package Wirecard\PaymentSdk\Entity\PaymentMethod
+ *
+ * An entity containing 3-D credit card specific payment data.
  */
-class SuccessResponse extends Response
+class ThreeDCreditCard extends CreditCard
 {
     /**
      * @var string
      */
-    private $transactionId;
+    private $notificationUrl;
 
     /**
      * @var string
      */
-    private $providerTransactionId;
+    private $termUrl;
 
-
-    public function __construct($rawData, $statusCollection, $transactionId, $providerTransactionId)
+    /**
+     * ThreeDCreditCardTransaction constructor.
+     * @param $tokenId
+     * @param $notificationUrl
+     * @param $termUrl
+     */
+    public function __construct($tokenId, $notificationUrl, $termUrl)
     {
-        parent::__construct($rawData, $statusCollection);
-        $this->transactionId = $transactionId;
-        $this->providerTransactionId = $providerTransactionId;
+        $this->setTokenId($tokenId);
+        $this->notificationUrl = $notificationUrl;
+        $this->termUrl = $termUrl;
     }
 
     /**
      * @return string
      */
-    public function getTransactionId()
+    public function getNotificationUrl()
     {
-        return $this->transactionId;
+        return $this->notificationUrl;
     }
 
     /**
      * @return string
      */
-    public function getProviderTransactionId()
+    public function getTermUrl()
     {
-        return $this->providerTransactionId;
+        return $this->termUrl;
     }
 }

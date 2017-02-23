@@ -30,42 +30,60 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk\Transaction;
+namespace Wirecard\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\Money;
-use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
-use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\PayPal;
 
-class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
+/**
+ * Class PayTransaction
+ * @package Wirecard\PaymentSdk\Transaction
+ *
+ * Use this transaction object,
+ * if you want to execute a payment.
+ */
+class PayTransaction implements Transaction
 {
-    const NOTIFICATION_URL = 'http://www.example.com';
     /**
      * @var Money
      */
     private $amount;
 
     /**
-     * @var PayPalTransaction
+     * @var PayPal
      */
-    private $payPalTransaction;
+    private $paymentTypeSpecificData;
 
     /**
-     * @var Redirect
+     * PayTransaction constructor.
+     * @param Money $amount
      */
-    private $redirect;
-
-    public function setUp()
+    public function __construct(Money $amount)
     {
-        $this->amount = new Money(42.21, 'EUR');
+        $this->amount = $amount;
     }
 
-    public function testConstructorWithRedirect()
+    /**
+     * @return Money
+     */
+    public function getAmount()
     {
-        $this->redirect = new Redirect('http://www.example.com/success', 'http://www.example.com/cancel');
-        $this->payPalTransaction = new PayPalTransaction($this->amount, self::NOTIFICATION_URL, $this->redirect);
+        return $this->amount;
+    }
 
-        $this->assertEquals($this->amount, $this->payPalTransaction->getAmount());
-        $this->assertEquals(self::NOTIFICATION_URL, $this->payPalTransaction->getNotificationUrl());
-        $this->assertEquals($this->redirect, $this->payPalTransaction->getRedirect());
+    /**
+     * @return PayPal
+     */
+    public function getPaymentTypeSpecificData()
+    {
+        return $this->paymentTypeSpecificData;
+    }
+
+    /**
+     * @param PayPal $paymentTypeSpecificData
+     */
+    public function setPaymentTypeSpecificData($paymentTypeSpecificData)
+    {
+        $this->paymentTypeSpecificData = $paymentTypeSpecificData;
     }
 }

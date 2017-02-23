@@ -34,7 +34,7 @@ namespace Wirecard\PaymentSdk\Entity;
 
 /**
  * Class Redirect
- * @package Wirecard\PaymentSdk
+ * @package Wirecard\PaymentSdk\Entity
  *
  * An immutable entity representing redirect URL-s.
  */

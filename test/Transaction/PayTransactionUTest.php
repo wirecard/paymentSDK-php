@@ -30,45 +30,41 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Response;
+namespace WirecardTest\PaymentSdk\Transaction;
 
-/**
- * Class SuccessResponse
- * @package Wirecard\PaymentSdk\Response
- */
-class SuccessResponse extends Response
+use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\PayPal;
+use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Transaction\PayTransaction;
+
+class PayTransactionUTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var string
+     * @var PayTransaction
      */
-    private $transactionId;
+    private $payTransaction;
 
     /**
-     * @var string
+     * @var Money
      */
-    private $providerTransactionId;
+    private $amount;
 
-
-    public function __construct($rawData, $statusCollection, $transactionId, $providerTransactionId)
+    public function setUp()
     {
-        parent::__construct($rawData, $statusCollection);
-        $this->transactionId = $transactionId;
-        $this->providerTransactionId = $providerTransactionId;
+        $this->amount = new Money(12, 'EUR');
+        $this->payTransaction = new PayTransaction($this->amount);
     }
 
-    /**
-     * @return string
-     */
-    public function getTransactionId()
+    public function testGetAmount()
     {
-        return $this->transactionId;
+        $this->assertEquals($this->amount, $this->payTransaction->getAmount());
     }
 
-    /**
-     * @return string
-     */
-    public function getProviderTransactionId()
+    public function testGetPaymentTypeSpecificData()
     {
-        return $this->providerTransactionId;
+        $payPalData = new PayPal('not_url', new Redirect('dummy', 'dummy'));
+        $this->payTransaction->setPaymentTypeSpecificData($payPalData);
+
+        $this->assertEquals($payPalData, $this->payTransaction->getPaymentTypeSpecificData());
     }
 }

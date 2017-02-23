@@ -33,21 +33,20 @@
 namespace Wirecard\PaymentSdk\Mapper;
 
 use Wirecard\PaymentSdk\Entity\FormFieldMap;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCard;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCard;
 use Wirecard\PaymentSdk\Entity\Status;
 use Wirecard\PaymentSdk\Entity\StatusCollection;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
-use Wirecard\PaymentSdk\Mapper\RequestMapper;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Response\Response;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
-use Wirecard\PaymentSdk\Transaction\Transaction;
 
 /**
  * Class ResponseMapper
- * @package Wirecard\PaymentSdk
+ * @package Wirecard\PaymentSdk\Mapper
  */
 class ResponseMapper
 {
@@ -55,11 +54,11 @@ class ResponseMapper
      * map the xml Response from engine to ResponseObjects
      *
      * @param $xmlResponse
-     * @param Transaction $transaction
+     * @param CreditCard $transaction
      * @return Response
      * @throws MalformedResponseException
      */
-    public function map($xmlResponse, Transaction $transaction = null)
+    public function map($xmlResponse, CreditCard $transaction = null)
     {
         $decodedResponse = base64_decode($xmlResponse);
         $xmlResponse = (base64_encode($decodedResponse) === $xmlResponse) ? $decodedResponse : $xmlResponse;
@@ -212,7 +211,7 @@ class ResponseMapper
         return (string)$result;
     }
 
-    private function mapThreeDResponse($payload, $response, $status, ThreeDCreditCardTransaction $transaction)
+    private function mapThreeDResponse($payload, $response, $status, ThreeDCreditCard $transaction)
     {
         if (!isset($response->{'three-d'})) {
             throw new MalformedResponseException('Missing three-d element in enrollment-check response.');
@@ -245,13 +244,13 @@ class ResponseMapper
      * @param $xmlResponse
      * @param $response
      * @param $statusCollection
-     * @param Transaction $transaction
+     * @param CreditCard $transaction
      * @return FormInteractionResponse|InteractionResponse|SuccessResponse
      * @throws MalformedResponseException
      */
-    private function mapSuccessResponse($xmlResponse, $response, $statusCollection, Transaction $transaction = null)
+    private function mapSuccessResponse($xmlResponse, $response, $statusCollection, CreditCard $transaction = null)
     {
-        if ($transaction instanceof ThreeDCreditCardTransaction) {
+        if ($transaction instanceof ThreeDCreditCard) {
             return $this->mapThreeDResponse($xmlResponse, $response, $statusCollection, $transaction);
         }
 

@@ -30,45 +30,37 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Response;
+namespace WirecardTest\PaymentSdk\Transaction;
 
-/**
- * Class SuccessResponse
- * @package Wirecard\PaymentSdk\Response
- */
-class SuccessResponse extends Response
+use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCard;
+use Wirecard\PaymentSdk\Transaction\ReserveTransaction;
+
+class ReserveTransactionUTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var string
-     */
-    private $transactionId;
-
-    /**
-     * @var string
-     */
-    private $providerTransactionId;
-
-
-    public function __construct($rawData, $statusCollection, $transactionId, $providerTransactionId)
+    public function testGetAmount()
     {
-        parent::__construct($rawData, $statusCollection);
-        $this->transactionId = $transactionId;
-        $this->providerTransactionId = $providerTransactionId;
+        $reserveTransaction = new ReserveTransaction();
+        $money = new Money(8, 'USD');
+        $reserveTransaction->setAmount($money);
+
+        $this->assertEquals($money, $reserveTransaction->getAmount());
     }
 
-    /**
-     * @return string
-     */
-    public function getTransactionId()
+    public function testGetParentTransactionId()
     {
-        return $this->transactionId;
+        $reserveTransaction = new ReserveTransaction();
+        $reserveTransaction->setParentTransactionId('dummy-parent');
+
+        $this->assertEquals('dummy-parent', $reserveTransaction->getParentTransactionId());
     }
 
-    /**
-     * @return string
-     */
-    public function getProviderTransactionId()
+    public function testGetPaymentTypeSpecificData()
     {
-        return $this->providerTransactionId;
+        $creditCardData = new CreditCard();
+        $reserveTransaction = new ReserveTransaction();
+        $reserveTransaction->setPaymentTypeSpecificData($creditCardData);
+
+        $this->assertEquals($creditCardData, $reserveTransaction->getPaymentTypeSpecificData());
     }
 }

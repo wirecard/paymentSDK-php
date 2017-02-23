@@ -30,57 +30,20 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Transaction;
+namespace WirecardTest\PaymentSdk\Entity\PaymentMethod;
 
+use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCard;
 use Wirecard\PaymentSdk\Entity\Money;
-use Wirecard\PaymentSdk\Entity\Redirect;
 
-/**
- * Class PayPalTransaction
- * @package Wirecard\PaymentSdk
- *
- * An immutable entity representing a payment with Paypal.
- * It does not contain logic.
- * Use the TransactionService to initiate the payment.
- */
-class PayPalTransaction extends InitialTransaction
+class CreditCardUTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var string
-     */
-    private $notificationUrl;
+    const SAMPLE_TOKEN_ID = '542';
 
-    /**
-     * @var Redirect
-     */
-    private $redirect;
-
-    /**
-     * PayPalTransaction constructor.
-     * @param Money $amount
-     * @param string $notificationUrl
-     * @param Redirect $redirect
-     */
-    public function __construct(Money $amount, $notificationUrl, Redirect $redirect)
+    public function testGetTokenId()
     {
-        parent::__construct($amount);
-        $this->notificationUrl = $notificationUrl;
-        $this->redirect = $redirect;
-    }
+        $ccTransaction = new CreditCard();
+        $ccTransaction->setTokenId(self::SAMPLE_TOKEN_ID);
 
-    /**
-     * @return string
-     */
-    public function getNotificationUrl()
-    {
-        return $this->notificationUrl;
-    }
-
-    /**
-     * @return Redirect
-     */
-    public function getRedirect()
-    {
-        return $this->redirect;
+        $this->assertEquals(self::SAMPLE_TOKEN_ID, $ccTransaction->getTokenId());
     }
 }

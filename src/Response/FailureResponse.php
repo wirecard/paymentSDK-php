@@ -34,7 +34,9 @@ namespace Wirecard\PaymentSdk\Response;
 
 /**
  * Class FailureResponse
- * @package Wirecard\PaymentSdk
+ * @package Wirecard\PaymentSdk\Response
+ *
+ * An object representing a negative response from the payment provider.
  */
 class FailureResponse extends Response
 {

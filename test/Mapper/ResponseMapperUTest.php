@@ -32,13 +32,13 @@
 
 namespace WirecardTest\PaymentSdk\Mapper;
 
-use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCard;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Mapper\ResponseMapper;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCard;
 
 class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 {
@@ -182,7 +182,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                             <pareq>request</pareq>
                         </three-d>
                     </payment>';
-        $transaction = $this->createMock(ThreeDCreditCardTransaction::class);
+        $transaction = $this->createMock(ThreeDCreditCard::class);
 
         /**
          * @var $mapped FormInteractionResponse
@@ -211,7 +211,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                             <pareq>request</pareq>
                         </three-d>
                     </payment>';
-        $transaction = $this->createMock(ThreeDCreditCardTransaction::class);
+        $transaction = $this->createMock(ThreeDCreditCard::class);
 
         /**
          * @var $mapped FormInteractionResponse
@@ -240,7 +240,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         </statuses>
                         <card-token></card-token>
                     </payment>';
-        $transaction = $this->createMock(CreditCardTransaction::class);
+        $transaction = $this->createMock(CreditCard::class);
 
         /**
          * @var $mapped FormInteractionResponse
@@ -355,7 +355,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                                provider-transaction-id="W0RWI653B31MAU649" 
                                severity="information"/>
                            </statuses>
-                  </payment>', $this->createMock(ThreeDCreditCardTransaction::class)],
+                  </payment>', $this->createMock(ThreeDCreditCard::class)],
             ['<payment>
                            <transaction-state>success</transaction-state>
                            <transaction-id>12345</transaction-id>
@@ -372,7 +372,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                                severity="information"/>
                            </statuses>
                            <three-d></three-d>
-                  </payment>', $this->createMock(ThreeDCreditCardTransaction::class)],
+                  </payment>', $this->createMock(ThreeDCreditCard::class)],
             ['<payment>
                            <transaction-state>success</transaction-state>
                            <transaction-id>12345</transaction-id>
@@ -391,7 +391,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                            <three-d>
                                <acs-url>https://www.example.com/acs</acs-url>
                            </three-d>
-                  </payment>', $this->createMock(ThreeDCreditCardTransaction::class)],
+                  </payment>', $this->createMock(ThreeDCreditCard::class)],
         ];
     }
 

@@ -36,7 +36,7 @@ use UnexpectedValueException;
 
 /**
  * Class MalformedResponseException
- * @package Wirecard\PaymentSdk
+ * @package Wirecard\PaymentSdk\Exception
  */
 class MalformedResponseException extends UnexpectedValueException
 {

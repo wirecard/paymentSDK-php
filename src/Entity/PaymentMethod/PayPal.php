@@ -30,17 +30,18 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Transaction;
+namespace Wirecard\PaymentSdk\Entity\PaymentMethod;
 
-use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Redirect;
 
 /**
- * Class CreditCard3DTransaction
- * @package Wirecard\PaymentSdk
+ * Class PayPal
+ * @package Wirecard\PaymentSdk\Entity\PaymentMethod
  *
- * An immutable entity representing a 3D payment with a credit card.
+ * An immutable entity containing Paypal payment data.
+ * It does not contain logic.
  */
-class ThreeDCreditCardTransaction extends CreditCardTransaction
+class PayPal
 {
     /**
      * @var string
@@ -48,23 +49,19 @@ class ThreeDCreditCardTransaction extends CreditCardTransaction
     private $notificationUrl;
 
     /**
-     * @var string
+     * @var Redirect
      */
-    private $termUrl;
+    private $redirect;
 
     /**
-     * ThreeDCreditCardTransaction constructor.
-     * @param Money $money
-     * @param $tokenId
-     * @param $notificationUrl
-     * @param $termUrl
+     * PayPalTransaction constructor.
+     * @param string $notificationUrl
+     * @param Redirect $redirect
      */
-    public function __construct($money, $tokenId, $notificationUrl, $termUrl)
+    public function __construct($notificationUrl, Redirect $redirect)
     {
-        parent::__construct($money);
-        $this->setTokenId($tokenId);
         $this->notificationUrl = $notificationUrl;
-        $this->termUrl = $termUrl;
+        $this->redirect = $redirect;
     }
 
     /**
@@ -76,10 +73,10 @@ class ThreeDCreditCardTransaction extends CreditCardTransaction
     }
 
     /**
-     * @return string
+     * @return Redirect
      */
-    public function getTermUrl()
+    public function getRedirect()
     {
-        return $this->termUrl;
+        return $this->redirect;
     }
 }

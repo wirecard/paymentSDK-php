@@ -35,6 +35,11 @@ namespace Wirecard\PaymentSdk\Response;
 use Wirecard\PaymentSdk\Entity\FormFieldMap;
 use Wirecard\PaymentSdk\Entity\StatusCollection;
 
+/**
+ * Class FormInteractionResponse
+ * @package Wirecard\PaymentSdk\Response
+ *
+ */
 class FormInteractionResponse extends Response
 {
     private $url;

@@ -32,6 +32,10 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
+/**
+ * Interface Transaction
+ * @package Wirecard\PaymentSdk\Transaction
+ */
 interface Transaction
 {
 

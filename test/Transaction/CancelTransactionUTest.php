@@ -30,41 +30,17 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Transaction;
+namespace WirecardTest\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Transaction\CancelTransaction;
 
-/**
- * Class Transaction
- * @package Wirecard\PaymentSdk
- *
- * An immutable entity representing a payment
- * without any payment method specific properties.
- *
- * It does not contain logic.
- * Use the TransactionService to initiate the payment.
- */
-abstract class InitialTransaction implements Transaction
+class CancelTransactionUTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var Money
-     */
-    private $amount;
 
-    /**
-     * Transaction constructor.
-     * @param Money $amount
-     */
-    public function __construct(Money $amount)
+    public function testGetParentTransactionId()
     {
-        $this->amount = $amount;
-    }
+        $tx = new CancelTransaction('55');
 
-    /**
-     * @return Money
-     */
-    public function getAmount()
-    {
-        return $this->amount;
+        $this->assertEquals('55', $tx->getParentTransactionId());
     }
 }

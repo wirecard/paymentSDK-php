@@ -32,20 +32,19 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCard;
+
 /**
- * Class CreditCardTransaction
- * @package Wirecard\PaymentSdk
- *
- * An entity representing a payment with credit card.
- * Use it for SSL payments.
- * For the 3D payments use the specific subclass.
+ * Class ReserveTransaction
+ * @package Wirecard\PaymentSdk\Transaction
  */
-class CreditCardTransaction extends InitialTransaction
+class ReserveTransaction implements Transaction
 {
     /**
-     * @var string
+     * @var Money
      */
-    private $tokenId;
+    private $amount;
 
     /**
      * @var string
@@ -53,19 +52,24 @@ class CreditCardTransaction extends InitialTransaction
     private $parentTransactionId;
 
     /**
-     * @return string
+     * @var CreditCard
      */
-    public function getTokenId()
+    private $paymentTypeSpecificData;
+
+    /**
+     * @return Money
+     */
+    public function getAmount()
     {
-        return $this->tokenId;
+        return $this->amount;
     }
 
     /**
-     * @param string $tokenId
+     * @param Money $amount
      */
-    public function setTokenId($tokenId)
+    public function setAmount($amount)
     {
-        $this->tokenId = $tokenId;
+        $this->amount = $amount;
     }
 
     /**
@@ -82,5 +86,21 @@ class CreditCardTransaction extends InitialTransaction
     public function setParentTransactionId($parentTransactionId)
     {
         $this->parentTransactionId = $parentTransactionId;
+    }
+
+    /**
+     * @return CreditCard
+     */
+    public function getPaymentTypeSpecificData()
+    {
+        return $this->paymentTypeSpecificData;
+    }
+
+    /**
+     * @param CreditCard $paymentTypeSpecificData
+     */
+    public function setPaymentTypeSpecificData($paymentTypeSpecificData)
+    {
+        $this->paymentTypeSpecificData = $paymentTypeSpecificData;
     }
 }

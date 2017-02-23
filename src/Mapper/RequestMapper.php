@@ -34,14 +34,17 @@ namespace Wirecard\PaymentSdk\Mapper;
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
-use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
-use Wirecard\PaymentSdk\Transaction\FollowupTransaction;
-use Wirecard\PaymentSdk\Transaction\InitialTransaction;
-use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
+use Wirecard\PaymentSdk\Transaction\CancelTransaction;
+use Wirecard\PaymentSdk\Transaction\PayTransaction;
+use Wirecard\PaymentSdk\Transaction\ReserveTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
-use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCard;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
+/**
+ * Class RequestMapper
+ * @package Wirecard\PaymentSdk\Mapper
+ */
 class RequestMapper
 {
     const PARAM_TRANSACTION_TYPE = 'transaction-type';
@@ -84,15 +87,11 @@ class RequestMapper
 
         $specificProperties = [];
 
-        if ($transaction instanceof InitialTransaction) {
-            $commonProperties['requested-amount'] = $this->getAmountOfTransaction($transaction);
-        }
-
-        if ($transaction instanceof PayPalTransaction) {
+        if ($transaction instanceof PayTransaction) {
             $specificProperties = $this->getSpecificPropertiesForPayPal($transaction);
         }
 
-        if ($transaction instanceof CreditCardTransaction) {
+        if ($transaction instanceof ReserveTransaction) {
             $specificProperties = $this->getSpecificPropertiesForCreditCard($transaction);
         }
 
@@ -100,7 +99,7 @@ class RequestMapper
             $specificProperties = $this->getSpecificPropertiesForReference($transaction);
         }
 
-        if ($transaction instanceof FollowupTransaction) {
+        if ($transaction instanceof CancelTransaction) {
             $specificProperties = $this->getSpecificPropertiesForFollowup($transaction);
         }
 
@@ -111,10 +110,10 @@ class RequestMapper
     }
 
     /**
-     * @param InitialTransaction $transaction
+     * @param $transaction
      * @return array
      */
-    private function getAmountOfTransaction(InitialTransaction $transaction)
+    private function getAmountOfTransaction($transaction)
     {
         return [
             'currency' => $transaction->getAmount()->getCurrency(),
@@ -123,32 +122,38 @@ class RequestMapper
     }
 
     /**
-     * @param PayPalTransaction $transaction
+     * @param PayTransaction $transaction
      * @return array
      */
-    private function getSpecificPropertiesForPayPal(PayPalTransaction $transaction)
+    private function getSpecificPropertiesForPayPal(PayTransaction $transaction)
     {
         $onlyPaymentMethod = ['payment-method' => [['name' => 'paypal']]];
-        $onlyNotificationUrl = ['notification' => [['url' => $transaction->getNotificationUrl()]]];
+        $onlyNotificationUrl = [
+            'notification' => [['url' => $transaction->getPaymentTypeSpecificData()->getNotificationUrl()]]
+        ];
 
         return [
+            'requested-amount' => $this->getAmountOfTransaction($transaction),
             self::PARAM_TRANSACTION_TYPE => 'debit',
             'payment-methods' => $onlyPaymentMethod,
-            'cancel-redirect-url' => $transaction->getRedirect()->getCancelUrl(),
-            'success-redirect-url' => $transaction->getRedirect()->getSuccessUrl(),
+            'cancel-redirect-url' => $transaction->getPaymentTypeSpecificData()->getRedirect()->getCancelUrl(),
+            'success-redirect-url' => $transaction->getPaymentTypeSpecificData()->getRedirect()->getSuccessUrl(),
             'notifications' => $onlyNotificationUrl
         ];
     }
 
     /**
-     * @param CreditCardTransaction $transaction
+     * @param ReserveTransaction $transaction
      * @return array
      * @throws \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
      */
-    private function getSpecificPropertiesForCreditCard(CreditCardTransaction $transaction)
+    private function getSpecificPropertiesForCreditCard(ReserveTransaction $transaction)
     {
-        $tokenId = $transaction->getTokenId();
+        $tokenId = null !== $transaction->getPaymentTypeSpecificData() ?
+            $transaction->getPaymentTypeSpecificData()->getTokenId()
+            : null;
         $parentTransactionId = $transaction->getParentTransactionId();
+
         if ($tokenId === null && $parentTransactionId === null) {
             throw new MandatoryFieldMissingException(
                 'At least one of these two parameters has to be provided: token ID, parent transaction ID.'
@@ -156,6 +161,7 @@ class RequestMapper
         }
 
         $specificProperties = [
+            'requested-amount' => $this->getAmountOfTransaction($transaction),
             self::PARAM_TRANSACTION_TYPE => self::CCARD_AUTHORIZATION
         ];
 
@@ -166,13 +172,13 @@ class RequestMapper
 
         if (null !== $tokenId) {
             $specificProperties['card-token'] = [
-                'token-id' => $transaction->getTokenId(),
+                'token-id' => $tokenId,
             ];
         }
 
         $specificProperties['ip-address'] = $_SERVER['REMOTE_ADDR'];
 
-        if ($transaction instanceof ThreeDCreditCardTransaction) {
+        if ($transaction->getPaymentTypeSpecificData() instanceof ThreeDCreditCard) {
             $threeDProperties = [
                 self::PARAM_TRANSACTION_TYPE => 'check-enrollment',
             ];
@@ -203,7 +209,7 @@ class RequestMapper
     }
 
     /**
-     * @param FollowupTransaction $transaction
+     * @param CancelTransaction $transaction
      * @return array
      */
     private function getSpecificPropertiesForFollowup($transaction)
