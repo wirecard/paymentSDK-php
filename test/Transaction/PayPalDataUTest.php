@@ -33,7 +33,7 @@
 namespace WirecardTest\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\Money;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\PayPalData;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\PayPal;
 use Wirecard\PaymentSdk\Entity\Redirect;
 
 class PayPalDataUTest extends \PHPUnit_Framework_TestCase
@@ -45,7 +45,7 @@ class PayPalDataUTest extends \PHPUnit_Framework_TestCase
     private $amount;
 
     /**
-     * @var PayPalData
+     * @var PayPal
      */
     private $payPalTransaction;
 
@@ -57,7 +57,7 @@ class PayPalDataUTest extends \PHPUnit_Framework_TestCase
     public function testConstructorWithRedirect()
     {
         $this->redirect = new Redirect('http://www.example.com/success', 'http://www.example.com/cancel');
-        $this->payPalTransaction = new PayPalData(self::NOTIFICATION_URL, $this->redirect);
+        $this->payPalTransaction = new PayPal(self::NOTIFICATION_URL, $this->redirect);
 
         $this->assertEquals(self::NOTIFICATION_URL, $this->payPalTransaction->getNotificationUrl());
         $this->assertEquals($this->redirect, $this->payPalTransaction->getRedirect());

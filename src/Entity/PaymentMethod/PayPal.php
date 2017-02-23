@@ -32,34 +32,51 @@
 
 namespace Wirecard\PaymentSdk\Entity\PaymentMethod;
 
+use Wirecard\PaymentSdk\Entity\Redirect;
+
 /**
- * Class CreditCardTransaction
- * @package Wirecard\PaymentSdk
+ * Class PayPalData
+ * @package Wirecard\PaymentSdk\Transaction
  *
- * An entity representing a payment with credit card.
- * Use it for SSL payments.
- * For the 3D payments use the specific subclass.
+ * An immutable entity containing Paypal payment data.
+ * It does not contain logic.
  */
-class CreditCardData
+class PayPal
 {
     /**
      * @var string
      */
-    private $tokenId;
+    private $notificationUrl;
+
+    /**
+     * @var Redirect
+     */
+    private $redirect;
+
+    /**
+     * PayPalTransaction constructor.
+     * @param string $notificationUrl
+     * @param Redirect $redirect
+     */
+    public function __construct($notificationUrl, Redirect $redirect)
+    {
+        $this->notificationUrl = $notificationUrl;
+        $this->redirect = $redirect;
+    }
 
     /**
      * @return string
      */
-    public function getTokenId()
+    public function getNotificationUrl()
     {
-        return $this->tokenId;
+        return $this->notificationUrl;
     }
 
     /**
-     * @param string $tokenId
+     * @return Redirect
      */
-    public function setTokenId($tokenId)
+    public function getRedirect()
     {
-        $this->tokenId = $tokenId;
+        return $this->redirect;
     }
 }

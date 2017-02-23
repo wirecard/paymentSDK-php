@@ -33,14 +33,14 @@
 namespace WirecardTest\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\Money;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCardData;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCard;
 
 class ThreeDCreditCardUTest extends \PHPUnit_Framework_TestCase
 {
     const NOTIFICATION_TEST_URL = 'test URL';
     const TERM_TEST_URL = 'term test URL';
     /**
-     * @var ThreeDCreditCardData
+     * @var ThreeDCreditCard
      */
     private $transaction;
 
@@ -49,7 +49,7 @@ class ThreeDCreditCardUTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->transaction = new ThreeDCreditCardData(
+        $this->transaction = new ThreeDCreditCard(
             self::SAMPLE_TRANSACTION_ID,
             self::NOTIFICATION_TEST_URL,
             self::TERM_TEST_URL

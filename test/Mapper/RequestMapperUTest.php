@@ -33,17 +33,17 @@
 namespace WirecardTest\PaymentSdk\Mapper;
 
 use Wirecard\PaymentSdk\Config;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCardData;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCard;
 use Wirecard\PaymentSdk\Transaction\CancelTransaction;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Entity\Money;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\PayPalData;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\PayPal;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\PayTransaction;
 use Wirecard\PaymentSdk\Transaction\ReserveTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
 use Wirecard\PaymentSdk\Mapper\RequestMapper;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCardData;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCard;
 
 class RequestMapperUTest extends \PHPUnit_Framework_TestCase
 {
@@ -70,7 +70,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
 
         $redirect = new Redirect('http://www.example.com/success', 'http://www.example.com/cancel');
 
-        $payPalData = new PayPalData(self::EXAMPLE_URL, $redirect);
+        $payPalData = new PayPal(self::EXAMPLE_URL, $redirect);
         $tx = new PayTransaction(new Money(24, 'EUR'));
         $tx->setPaymentTypeSpecificData($payPalData);
         $result = $mapper->map($tx);
@@ -96,7 +96,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
             'ip-address' => 'test IP'
         ]];
 
-        $cardData = new CreditCardData();
+        $cardData = new CreditCard();
         $cardData->setTokenId('21');
 
         $tx = new ReserveTransaction();
@@ -170,7 +170,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $transaction->setAmount(new Money(24, 'EUR'));
         $transaction->setParentTransactionId('parent5');
 
-        $cardData = new CreditCardData();
+        $cardData = new CreditCard();
         $cardData->setTokenId('33');
         $transaction->setPaymentTypeSpecificData($cardData);
 
@@ -198,7 +198,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         ]];
 
         $money = new Money(24, 'EUR');
-        $cardData = new ThreeDCreditCardData('21', 'https://example.com/n', 'https://example.com/r');
+        $cardData = new ThreeDCreditCard('21', 'https://example.com/n', 'https://example.com/r');
 
         $transaction = new ReserveTransaction();
         $transaction->setAmount($money);

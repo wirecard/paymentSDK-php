@@ -32,16 +32,16 @@
 
 namespace Wirecard\PaymentSdk\Entity\PaymentMethod;
 
-use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCard;
 
 /**
- * Class PayPalData
- * @package Wirecard\PaymentSdk\Transaction
+ * Class CreditCard3DTransaction
+ * @package Wirecard\PaymentSdk
  *
- * An immutable entity containing Paypal payment data.
- * It does not contain logic.
+ * An immutable entity representing a 3D payment with a credit card.
  */
-class PayPalData
+class ThreeDCreditCard extends CreditCard
 {
     /**
      * @var string
@@ -49,19 +49,21 @@ class PayPalData
     private $notificationUrl;
 
     /**
-     * @var Redirect
+     * @var string
      */
-    private $redirect;
+    private $termUrl;
 
     /**
-     * PayPalTransaction constructor.
-     * @param string $notificationUrl
-     * @param Redirect $redirect
+     * ThreeDCreditCardTransaction constructor.
+     * @param $tokenId
+     * @param $notificationUrl
+     * @param $termUrl
      */
-    public function __construct($notificationUrl, Redirect $redirect)
+    public function __construct($tokenId, $notificationUrl, $termUrl)
     {
+        $this->setTokenId($tokenId);
         $this->notificationUrl = $notificationUrl;
-        $this->redirect = $redirect;
+        $this->termUrl = $termUrl;
     }
 
     /**
@@ -73,10 +75,10 @@ class PayPalData
     }
 
     /**
-     * @return Redirect
+     * @return string
      */
-    public function getRedirect()
+    public function getTermUrl()
     {
-        return $this->redirect;
+        return $this->termUrl;
     }
 }

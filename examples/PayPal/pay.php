@@ -10,7 +10,7 @@ use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Entity\Money;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\PayPalData;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\PayPal;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\TransactionService;
 
@@ -46,7 +46,7 @@ $notificationUrl = getUrl('notify.php');
 
 // ### Transaction
 // The PayPal transaction holds all transaction relevant data for the payment process.
-$paypalTransaction = new PayPalData($notificationUrl, $redirectUrls);
+$paypalTransaction = new PayPal($notificationUrl, $redirectUrls);
 $tx = new \Wirecard\PaymentSdk\Transaction\PayTransaction($amount);
 $tx->setPaymentTypeSpecificData($paypalTransaction);
 

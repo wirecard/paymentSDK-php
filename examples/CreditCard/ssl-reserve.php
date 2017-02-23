@@ -9,7 +9,7 @@
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCardData;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCard;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
@@ -38,7 +38,7 @@ $config = new Config('https://api-test.wirecard.com/engine/rest/payments/', '700
 
 // Create a `CreditCardTransaction` object, which contains all relevant data for the payment process.
 // The token is required as reference to the credit card data.
-$cardData = new CreditCardData();
+$cardData = new CreditCard();
 $cardData->setTokenId($tokenId);
 
 $transaction = new ReserveTransaction();

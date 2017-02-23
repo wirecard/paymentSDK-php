@@ -33,7 +33,7 @@
 namespace Wirecard\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\Money;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCardData;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCard;
 
 class ReserveTransaction implements Transaction
 {
@@ -48,7 +48,7 @@ class ReserveTransaction implements Transaction
     private $parentTransactionId;
 
     /**
-     * @var CreditCardData
+     * @var CreditCard
      */
     private $paymentTypeSpecificData;
 
@@ -85,7 +85,7 @@ class ReserveTransaction implements Transaction
     }
 
     /**
-     * @return CreditCardData
+     * @return CreditCard
      */
     public function getPaymentTypeSpecificData()
     {
@@ -93,7 +93,7 @@ class ReserveTransaction implements Transaction
     }
 
     /**
-     * @param CreditCardData $paymentTypeSpecificData
+     * @param CreditCard $paymentTypeSpecificData
      */
     public function setPaymentTypeSpecificData($paymentTypeSpecificData)
     {

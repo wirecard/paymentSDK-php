@@ -32,53 +32,34 @@
 
 namespace Wirecard\PaymentSdk\Entity\PaymentMethod;
 
-use Wirecard\PaymentSdk\Entity\Money;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCardData;
-
 /**
- * Class CreditCard3DTransaction
+ * Class CreditCardTransaction
  * @package Wirecard\PaymentSdk
  *
- * An immutable entity representing a 3D payment with a credit card.
+ * An entity representing a payment with credit card.
+ * Use it for SSL payments.
+ * For the 3D payments use the specific subclass.
  */
-class ThreeDCreditCardData extends CreditCardData
+class CreditCard
 {
     /**
      * @var string
      */
-    private $notificationUrl;
-
-    /**
-     * @var string
-     */
-    private $termUrl;
-
-    /**
-     * ThreeDCreditCardTransaction constructor.
-     * @param $tokenId
-     * @param $notificationUrl
-     * @param $termUrl
-     */
-    public function __construct($tokenId, $notificationUrl, $termUrl)
-    {
-        $this->setTokenId($tokenId);
-        $this->notificationUrl = $notificationUrl;
-        $this->termUrl = $termUrl;
-    }
+    private $tokenId;
 
     /**
      * @return string
      */
-    public function getNotificationUrl()
+    public function getTokenId()
     {
-        return $this->notificationUrl;
+        return $this->tokenId;
     }
 
     /**
-     * @return string
+     * @param string $tokenId
      */
-    public function getTermUrl()
+    public function setTokenId($tokenId)
     {
-        return $this->termUrl;
+        $this->tokenId = $tokenId;
     }
 }
