@@ -179,7 +179,7 @@ class TransactionService
     /**
      * @return callable
      */
-    protected function getRequestIdGenerator()
+    public function getRequestIdGenerator()
     {
         if ($this->requestIdGenerator === null) {
             $this->requestIdGenerator = function ($length = 32) {

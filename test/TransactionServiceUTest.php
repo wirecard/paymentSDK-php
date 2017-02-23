@@ -422,6 +422,17 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($successResponse, $result);
     }
 
+    public function testRequestIdGeneratorRandomness()
+    {
+        $this->instance = new TransactionService($this->config, null, null, null, null, null);
+
+        $requestId = call_user_func($this->instance->getRequestIdGenerator());
+        usleep(1);
+        $laterRequestId = call_user_func($this->instance->getRequestIdGenerator());
+
+        $this->assertNotEquals($requestId, $laterRequestId);
+    }
+
     /**
      * @param $tx
      * @return SuccessResponse
