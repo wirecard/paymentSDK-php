@@ -44,7 +44,7 @@ use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Response\Response;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\FollowupTransaction;
+use Wirecard\PaymentSdk\Transaction\CancelTransaction;
 use Wirecard\PaymentSdk\Transaction\InitialTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
@@ -118,18 +118,6 @@ class TransactionService
      * @return InteractionResponse|FailureResponse
      */
     public function pay(InitialTransaction $transaction)
-    {
-        return $this->process($transaction);
-    }
-
-    /**
-     * @param FollowupTransaction $transaction
-     * @return FailureResponse|InteractionResponse|SuccessResponse
-     * @throws \Wirecard\PaymentSdk\Exception\MalformedResponseException
-     * @throws \RuntimeException
-     * @throws \GuzzleHttp\Exception\RequestException
-     */
-    public function cancel(FollowupTransaction $transaction)
     {
         return $this->process($transaction);
     }
@@ -276,7 +264,7 @@ class TransactionService
      * @return FailureResponse|InteractionResponse|SuccessResponse|Response
      * @throws RequestException|MalformedResponseException|\RuntimeException
      */
-    private function process(Transaction $transaction)
+    public function process(Transaction $transaction)
     {
         $requestBody = $this->getRequestMapper()->map($transaction);
         $response = $this->getHttpClient()->request(

@@ -34,7 +34,7 @@ namespace WirecardTest\PaymentSdk\Mapper;
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
-use Wirecard\PaymentSdk\Transaction\FollowupTransaction;
+use Wirecard\PaymentSdk\Transaction\CancelTransaction;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
@@ -221,7 +221,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', self::MAID, 'secret');
         $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
         $mapper = new RequestMapper($config, $requestIdGeneratorMock);
-        $followupTransaction = new FollowupTransaction('642');
+        $followupTransaction = new CancelTransaction('642');
 
         $result = $mapper->map($followupTransaction);
 

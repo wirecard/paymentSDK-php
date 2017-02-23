@@ -37,7 +37,7 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Wirecard\PaymentSdk\Config;
-use Wirecard\PaymentSdk\Transaction\FollowupTransaction;
+use Wirecard\PaymentSdk\Transaction\CancelTransaction;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
@@ -413,11 +413,11 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
     public function testCancel()
     {
-        $cancelTrans = new FollowupTransaction('parent-id');
+        $cancelTrans = new CancelTransaction('parent-id');
 
         $successResponse = $this->mockProcessingRequest($cancelTrans);
 
-        $result = $this->instance->cancel($cancelTrans);
+        $result = $this->instance->process($cancelTrans);
 
         $this->assertEquals($successResponse, $result);
     }

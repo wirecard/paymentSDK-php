@@ -32,14 +32,14 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Transaction\FollowupTransaction;
+use Wirecard\PaymentSdk\Transaction\CancelTransaction;
 
 class FollowupTransactionUTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testGetParentTransactionId()
     {
-        $tx = new FollowupTransaction('55');
+        $tx = new CancelTransaction('55');
 
         $this->assertEquals('55', $tx->getParentTransactionId());
     }

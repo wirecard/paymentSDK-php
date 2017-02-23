@@ -35,7 +35,7 @@ namespace Wirecard\PaymentSdk\Mapper;
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
-use Wirecard\PaymentSdk\Transaction\FollowupTransaction;
+use Wirecard\PaymentSdk\Transaction\CancelTransaction;
 use Wirecard\PaymentSdk\Transaction\InitialTransaction;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
@@ -100,7 +100,7 @@ class RequestMapper
             $specificProperties = $this->getSpecificPropertiesForReference($transaction);
         }
 
-        if ($transaction instanceof FollowupTransaction) {
+        if ($transaction instanceof CancelTransaction) {
             $specificProperties = $this->getSpecificPropertiesForFollowup($transaction);
         }
 
@@ -203,7 +203,7 @@ class RequestMapper
     }
 
     /**
-     * @param FollowupTransaction $transaction
+     * @param CancelTransaction $transaction
      * @return array
      */
     private function getSpecificPropertiesForFollowup($transaction)

@@ -32,7 +32,7 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
-class FollowupTransaction implements Transaction
+class CancelTransaction implements Transaction
 {
     /**
      * @var string
