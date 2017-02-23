@@ -52,11 +52,8 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
     public function testPayPalTransaction()
     {
         $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', self::MAID, 'secret');
-        $requestIdGeneratorMock = $this->createMock('Wirecard\PaymentSdk\RequestIdGenerator');
+        $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
         $mapper = new RequestMapper($config, $requestIdGeneratorMock);
-
-        $requestIdGeneratorMock->method('generate')
-            ->willReturn('5B-dummy-id');
 
         $expectedResult = ['payment' => [
             'merchant-account-id' => ['value' => 'B612'],
@@ -80,11 +77,8 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
     {
         $_SERVER['REMOTE_ADDR'] = 'test IP';
         $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', self::MAID, 'secret');
-        $requestIdGeneratorMock = $this->createMock('Wirecard\PaymentSdk\RequestIdGenerator');
+        $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
         $mapper = new RequestMapper($config, $requestIdGeneratorMock);
-
-        $requestIdGeneratorMock->method('generate')
-            ->willReturn('5B-dummy-id');
 
         $expectedResult = ['payment' => [
             'merchant-account-id' => ['value' => 'B612'],
@@ -108,11 +102,8 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
     {
         $_SERVER['REMOTE_ADDR'] = 'test IP';
         $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', self::MAID, 'secret');
-        $requestIdGeneratorMock = $this->createMock('Wirecard\PaymentSdk\RequestIdGenerator');
+        $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
         $mapper = new RequestMapper($config, $requestIdGeneratorMock);
-
-        $requestIdGeneratorMock->method('generate')
-            ->willReturn('5B-dummy-id');
 
         $expectedResult = ['payment' => [
             'merchant-account-id' => ['value' => 'B612'],
@@ -137,11 +128,8 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
     {
         $_SERVER['REMOTE_ADDR'] = 'test IP';
         $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', self::MAID, 'secret');
-        $requestIdGeneratorMock = $this->createMock('Wirecard\PaymentSdk\RequestIdGenerator');
+        $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
         $mapper = new RequestMapper($config, $requestIdGeneratorMock);
-
-        $requestIdGeneratorMock->method('generate')
-            ->willReturn('5B-dummy-id');
 
         $transaction = new CreditCardTransaction(new Money(24, 'EUR'));
         $mapper->map($transaction);
@@ -151,11 +139,8 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
     {
         $_SERVER['REMOTE_ADDR'] = 'test IP';
         $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', self::MAID, 'secret');
-        $requestIdGeneratorMock = $this->createMock('Wirecard\PaymentSdk\RequestIdGenerator');
+        $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
         $mapper = new RequestMapper($config, $requestIdGeneratorMock);
-
-        $requestIdGeneratorMock->method('generate')
-            ->willReturn('5B-dummy-id');
 
         $expectedResult = ['payment' => [
             'merchant-account-id' => ['value' => 'B612'],
@@ -181,11 +166,8 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
     {
         $_SERVER['REMOTE_ADDR'] = 'test IP';
         $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', self::MAID, 'secret');
-        $requestIdGeneratorMock = $this->createMock('Wirecard\PaymentSdk\RequestIdGenerator');
+        $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
         $mapper = new RequestMapper($config, $requestIdGeneratorMock);
-
-        $requestIdGeneratorMock->method('generate')
-            ->willReturn('5B-dummy-id');
 
         $expectedResult = ['payment' => [
             'merchant-account-id' => ['value' => 'B612'],
@@ -208,11 +190,8 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
     public function testThreeDAuthorizationTransaction()
     {
         $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', self::MAID, 'secret');
-        $requestIdGeneratorMock = $this->createMock('Wirecard\PaymentSdk\RequestIdGenerator');
+        $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
         $mapper = new RequestMapper($config, $requestIdGeneratorMock);
-
-        $requestIdGeneratorMock->method('generate')
-            ->willReturn('5B-dummy-id');
 
         $payload = [
             'PaRes' => 'sth',
@@ -240,12 +219,9 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
     public function testCancel()
     {
         $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', self::MAID, 'secret');
-        $requestIdGeneratorMock = $this->createMock('Wirecard\PaymentSdk\RequestIdGenerator');
+        $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
         $mapper = new RequestMapper($config, $requestIdGeneratorMock);
         $followupTransaction = new FollowupTransaction('642');
-
-        $requestIdGeneratorMock->method('generate')
-            ->willReturn('5B-dummy-id');
 
         $result = $mapper->map($followupTransaction);
 
@@ -257,5 +233,15 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
 
         ]];
         $this->assertEquals(json_encode($expectedResult), $result);
+    }
+
+    /**
+     * @return \Closure
+     */
+    private function createRequestIdGeneratorMock()
+    {
+        return function () {
+            return '5B-dummy-id';
+        };
     }
 }

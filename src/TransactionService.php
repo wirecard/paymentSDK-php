@@ -83,7 +83,7 @@ class TransactionService
     private $responseMapper;
 
     /**
-     * @var RequestIdGenerator
+     * @var callable
      */
     private $requestIdGenerator;
 
@@ -94,7 +94,7 @@ class TransactionService
      * @param Client|null $httpClient
      * @param RequestMapper|null $requestMapper
      * @param ResponseMapper|null $responseMapper
-     * @param RequestIdGenerator|null $requestIdGenerator
+     * @param callable|null $requestIdGenerator
      */
     public function __construct(
         Config $config,
@@ -102,7 +102,7 @@ class TransactionService
         Client $httpClient = null,
         RequestMapper $requestMapper = null,
         ResponseMapper $responseMapper = null,
-        RequestIdGenerator $requestIdGenerator = null
+        callable $requestIdGenerator = null
     ) {
         $this->config = $config;
         $this->logger = $logger;
@@ -177,12 +177,14 @@ class TransactionService
     }
 
     /**
-     * @return RequestIdGenerator
+     * @return callable
      */
     protected function getRequestIdGenerator()
     {
         if ($this->requestIdGenerator === null) {
-            $this->requestIdGenerator = new RequestIdGenerator();
+            $this->requestIdGenerator = function ($length = 32) {
+                return substr(bin2hex(openssl_random_pseudo_bytes($length)), 0, $length);
+            };
         }
 
         return $this->requestIdGenerator;
@@ -235,7 +237,7 @@ class TransactionService
     {
         $requestData = array(
             'request_time_stamp'        => gmdate('YmdHis'),
-            'request_id'                => $this->getRequestIdGenerator()->generate(64),
+            'request_id'                => call_user_func($this->getRequestIdGenerator(), 64),
             'merchant_account_id'       => $this->getConfig()->getMerchantAccountId(),
             'transaction_type'          => 'tokenize',
             'requested_amount'          => 0,

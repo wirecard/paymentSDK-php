@@ -34,7 +34,6 @@ namespace Wirecard\PaymentSdk\Mapper;
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
-use Wirecard\PaymentSdk\RequestIdGenerator;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\FollowupTransaction;
 use Wirecard\PaymentSdk\Transaction\InitialTransaction;
@@ -55,16 +54,16 @@ class RequestMapper
     private $config;
 
     /**
-     * @var RequestIdGenerator
+     * @var callable
      */
     private $requestIdGenerator;
 
     /**
      * RequestMapper constructor.
      * @param Config $config
-     * @param RequestIdGenerator $requestIdGenerator
+     * @param callable $requestIdGenerator
      */
-    public function __construct(Config $config, RequestIdGenerator $requestIdGenerator)
+    public function __construct(Config $config, callable $requestIdGenerator)
     {
         $this->config = $config;
         $this->requestIdGenerator = $requestIdGenerator;
@@ -77,7 +76,7 @@ class RequestMapper
      */
     public function map(Transaction $transaction)
     {
-        $requestId = $this->requestIdGenerator->generate();
+        $requestId = call_user_func($this->requestIdGenerator);
         $commonProperties = [
             'merchant-account-id' => ['value' => $this->config->getMerchantAccountId()],
             'request-id' => $requestId
