@@ -36,14 +36,13 @@ use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Entity\Redirect;
 
 /**
- * Class PayPalTransaction
- * @package Wirecard\PaymentSdk
+ * Class PayPalData
+ * @package Wirecard\PaymentSdk\Transaction
  *
- * An immutable entity representing a payment with Paypal.
+ * An immutable entity containing Paypal payment data.
  * It does not contain logic.
- * Use the TransactionService to initiate the payment.
  */
-class PayPalTransaction extends InitialTransaction
+class PayPalData
 {
     /**
      * @var string
@@ -57,13 +56,11 @@ class PayPalTransaction extends InitialTransaction
 
     /**
      * PayPalTransaction constructor.
-     * @param Money $amount
      * @param string $notificationUrl
      * @param Redirect $redirect
      */
-    public function __construct(Money $amount, $notificationUrl, Redirect $redirect)
+    public function __construct($notificationUrl, Redirect $redirect)
     {
-        parent::__construct($amount);
         $this->notificationUrl = $notificationUrl;
         $this->redirect = $redirect;
     }

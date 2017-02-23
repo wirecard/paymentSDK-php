@@ -37,7 +37,8 @@ use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\CancelTransaction;
 use Wirecard\PaymentSdk\Transaction\InitialTransaction;
-use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
+use Wirecard\PaymentSdk\Transaction\PayPalData;
+use Wirecard\PaymentSdk\Transaction\PayTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
@@ -88,7 +89,7 @@ class RequestMapper
             $commonProperties['requested-amount'] = $this->getAmountOfTransaction($transaction);
         }
 
-        if ($transaction instanceof PayPalTransaction) {
+        if ($transaction instanceof PayTransaction) {
             $specificProperties = $this->getSpecificPropertiesForPayPal($transaction);
         }
 
@@ -111,10 +112,10 @@ class RequestMapper
     }
 
     /**
-     * @param InitialTransaction $transaction
+     * @param $transaction
      * @return array
      */
-    private function getAmountOfTransaction(InitialTransaction $transaction)
+    private function getAmountOfTransaction($transaction)
     {
         return [
             'currency' => $transaction->getAmount()->getCurrency(),
@@ -123,19 +124,22 @@ class RequestMapper
     }
 
     /**
-     * @param PayPalTransaction $transaction
+     * @param PayTransaction $transaction
      * @return array
      */
-    private function getSpecificPropertiesForPayPal(PayPalTransaction $transaction)
+    private function getSpecificPropertiesForPayPal(PayTransaction $transaction)
     {
         $onlyPaymentMethod = ['payment-method' => [['name' => 'paypal']]];
-        $onlyNotificationUrl = ['notification' => [['url' => $transaction->getNotificationUrl()]]];
+        $onlyNotificationUrl = [
+            'notification' => [['url' => $transaction->getPaymentTypeSpecificData()->getNotificationUrl()]]
+        ];
 
         return [
+            'requested-amount' => $this->getAmountOfTransaction($transaction),
             self::PARAM_TRANSACTION_TYPE => 'debit',
             'payment-methods' => $onlyPaymentMethod,
-            'cancel-redirect-url' => $transaction->getRedirect()->getCancelUrl(),
-            'success-redirect-url' => $transaction->getRedirect()->getSuccessUrl(),
+            'cancel-redirect-url' => $transaction->getPaymentTypeSpecificData()->getRedirect()->getCancelUrl(),
+            'success-redirect-url' => $transaction->getPaymentTypeSpecificData()->getRedirect()->getSuccessUrl(),
             'notifications' => $onlyNotificationUrl
         ];
     }

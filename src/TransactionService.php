@@ -115,16 +115,6 @@ class TransactionService
     /**
      * @param InitialTransaction $transaction
      * @throws RequestException|MalformedResponseException|\RuntimeException
-     * @return InteractionResponse|FailureResponse
-     */
-    public function pay(InitialTransaction $transaction)
-    {
-        return $this->process($transaction);
-    }
-
-    /**
-     * @param InitialTransaction $transaction
-     * @throws RequestException|MalformedResponseException|\RuntimeException
      * @return FailureResponse|InteractionResponse|SuccessResponse
      */
     public function reserve(InitialTransaction $transaction)

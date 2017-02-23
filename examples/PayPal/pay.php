@@ -10,7 +10,7 @@ use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Entity\Money;
-use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
+use Wirecard\PaymentSdk\Transaction\PayPalData;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\TransactionService;
 
@@ -46,7 +46,10 @@ $notificationUrl = getUrl('notify.php');
 
 // ### Transaction
 // The PayPal transaction holds all transaction relevant data for the payment process.
-$transaction = new PayPalTransaction($amount, $notificationUrl, $redirectUrls);
+$paypalTransaction = new PayPalData($notificationUrl, $redirectUrls);
+$tx = new \Wirecard\PaymentSdk\Transaction\PayTransaction($amount);
+$tx->setPaymentTypeSpecificData($paypalTransaction);
+
 
 // ### Config
 // The config object holds all interface configuration options
@@ -55,7 +58,7 @@ $config = new Config('https://api-test.wirecard.com/engine/rest/paymentmethods/'
 // ### Transaction Service
 // The service is used to execute the payment operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
-$response = $transactionService->pay($transaction);
+$response = $transactionService->process($tx);
 
 // ### Response handling
 // The response of the service must be handled depending on it's class

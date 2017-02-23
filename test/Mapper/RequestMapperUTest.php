@@ -37,8 +37,9 @@ use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\CancelTransaction;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Entity\Money;
-use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
+use Wirecard\PaymentSdk\Transaction\PayPalData;
 use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Transaction\PayTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
 use Wirecard\PaymentSdk\Mapper\RequestMapper;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
@@ -67,8 +68,11 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         ]];
 
         $redirect = new Redirect('http://www.example.com/success', 'http://www.example.com/cancel');
-        $transaction = new PayPalTransaction(new Money(24, 'EUR'), self::EXAMPLE_URL, $redirect);
-        $result = $mapper->map($transaction);
+
+        $payPalData = new PayPalData(self::EXAMPLE_URL, $redirect);
+        $tx = new PayTransaction(new Money(24, 'EUR'));
+        $tx->setPaymentTypeSpecificData($payPalData);
+        $result = $mapper->map($tx);
 
         $this->assertEquals(json_encode($expectedResult), $result);
     }
