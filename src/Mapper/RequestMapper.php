@@ -34,14 +34,14 @@ namespace Wirecard\PaymentSdk\Mapper;
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
-use Wirecard\PaymentSdk\Transaction\CreditCardData;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCardData;
 use Wirecard\PaymentSdk\Transaction\CancelTransaction;
 use Wirecard\PaymentSdk\Transaction\InitialTransaction;
-use Wirecard\PaymentSdk\Transaction\PayPalData;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\PayPalData;
 use Wirecard\PaymentSdk\Transaction\PayTransaction;
 use Wirecard\PaymentSdk\Transaction\ReserveTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
-use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardData;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCardData;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
 class RequestMapper

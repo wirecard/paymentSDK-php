@@ -217,7 +217,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
     protected function getTransactionMock()
     {
-        $paypalData = $this->createMock('\Wirecard\PaymentSdk\Transaction\PayPalData');
+        $paypalData = $this->createMock('\Wirecard\PaymentSdk\Entity\PaymentMethod\PayPalData');
 
         $redirect = $this->createMock('\Wirecard\PaymentSdk\Entity\Redirect');
         $redirect->method('getSuccessUrl')->willReturn('http://www.example.com/success');

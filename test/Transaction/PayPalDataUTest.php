@@ -33,7 +33,7 @@
 namespace WirecardTest\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\Money;
-use Wirecard\PaymentSdk\Transaction\PayPalData;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\PayPalData;
 use Wirecard\PaymentSdk\Entity\Redirect;
 
 class PayPalDataUTest extends \PHPUnit_Framework_TestCase

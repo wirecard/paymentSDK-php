@@ -43,8 +43,8 @@ use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Response\Response;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\CreditCardData;
-use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardData;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCardData;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCardData;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
 /**

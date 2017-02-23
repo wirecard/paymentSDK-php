@@ -32,7 +32,7 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Transaction\CreditCardData;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCardData;
 use Wirecard\PaymentSdk\Entity\Money;
 
 class CreditCardDataUTest extends \PHPUnit_Framework_TestCase

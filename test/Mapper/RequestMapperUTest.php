@@ -33,17 +33,17 @@
 namespace WirecardTest\PaymentSdk\Mapper;
 
 use Wirecard\PaymentSdk\Config;
-use Wirecard\PaymentSdk\Transaction\CreditCardData;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCardData;
 use Wirecard\PaymentSdk\Transaction\CancelTransaction;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Entity\Money;
-use Wirecard\PaymentSdk\Transaction\PayPalData;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\PayPalData;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\PayTransaction;
 use Wirecard\PaymentSdk\Transaction\ReserveTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
 use Wirecard\PaymentSdk\Mapper\RequestMapper;
-use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardData;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCardData;
 
 class RequestMapperUTest extends \PHPUnit_Framework_TestCase
 {

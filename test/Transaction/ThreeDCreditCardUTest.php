@@ -30,54 +30,39 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Transaction;
+namespace WirecardTest\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\Money;
-use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCardData;
 
-/**
- * Class PayPalData
- * @package Wirecard\PaymentSdk\Transaction
- *
- * An immutable entity containing Paypal payment data.
- * It does not contain logic.
- */
-class PayPalData
+class ThreeDCreditCardUTest extends \PHPUnit_Framework_TestCase
 {
+    const NOTIFICATION_TEST_URL = 'test URL';
+    const TERM_TEST_URL = 'term test URL';
     /**
-     * @var string
+     * @var ThreeDCreditCardData
      */
-    private $notificationUrl;
+    private $transaction;
 
-    /**
-     * @var Redirect
-     */
-    private $redirect;
 
-    /**
-     * PayPalTransaction constructor.
-     * @param string $notificationUrl
-     * @param Redirect $redirect
-     */
-    public function __construct($notificationUrl, Redirect $redirect)
+    const SAMPLE_TRANSACTION_ID = '542';
+
+    public function setUp()
     {
-        $this->notificationUrl = $notificationUrl;
-        $this->redirect = $redirect;
+        $this->transaction = new ThreeDCreditCardData(
+            self::SAMPLE_TRANSACTION_ID,
+            self::NOTIFICATION_TEST_URL,
+            self::TERM_TEST_URL
+        );
     }
 
-    /**
-     * @return string
-     */
-    public function getNotificationUrl()
+    public function testGetNotificationUrl()
     {
-        return $this->notificationUrl;
+        $this->assertEquals(self::NOTIFICATION_TEST_URL, $this->transaction->getNotificationUrl());
     }
 
-    /**
-     * @return Redirect
-     */
-    public function getRedirect()
+    public function testGetTermUrl()
     {
-        return $this->redirect;
+        $this->assertEquals(self::TERM_TEST_URL, $this->transaction->getTermUrl());
     }
 }

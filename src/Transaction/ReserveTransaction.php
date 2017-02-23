@@ -33,6 +33,7 @@
 namespace Wirecard\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCardData;
 
 class ReserveTransaction implements Transaction
 {

@@ -13,7 +13,7 @@ use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Transaction\ReserveTransaction;
-use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardData;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCardData;
 use Wirecard\PaymentSdk\TransactionService;
 
 /**
