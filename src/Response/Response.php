@@ -36,7 +36,7 @@ use Wirecard\PaymentSdk\Entity\StatusCollection;
 
 /**
  * Class Response
- * @package Wirecard\PaymentSdk
+ * @package Wirecard\PaymentSdk\Response
  */
 abstract class Response
 {

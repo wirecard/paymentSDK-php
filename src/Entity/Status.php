@@ -32,6 +32,10 @@
 
 namespace Wirecard\PaymentSdk\Entity;
 
+/**
+ * Class Status
+ * @package Wirecard\PaymentSdk\Entity
+ */
 class Status
 {
     /**

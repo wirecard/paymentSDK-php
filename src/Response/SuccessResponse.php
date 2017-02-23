@@ -32,8 +32,10 @@
 
 namespace Wirecard\PaymentSdk\Response;
 
-use Wirecard\PaymentSdk\Response\Response;
-
+/**
+ * Class SuccessResponse
+ * @package Wirecard\PaymentSdk\Response
+ */
 class SuccessResponse extends Response
 {
     /**

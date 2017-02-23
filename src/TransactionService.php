@@ -51,7 +51,7 @@ use Wirecard\PaymentSdk\Transaction\Transaction;
 /**
  * Class TransactionService
  *
- * This service manages communication  to the elastic engine
+ * This service manages communication  to the Elastic Engine
  * @package Wirecard\PaymentSdk
  */
 class TransactionService

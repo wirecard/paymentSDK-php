@@ -41,6 +41,10 @@ use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
 use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCard;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
+/**
+ * Class RequestMapper
+ * @package Wirecard\PaymentSdk\Mapper
+ */
 class RequestMapper
 {
     const PARAM_TRANSACTION_TYPE = 'transaction-type';

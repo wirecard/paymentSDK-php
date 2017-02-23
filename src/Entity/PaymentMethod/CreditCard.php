@@ -33,10 +33,10 @@
 namespace Wirecard\PaymentSdk\Entity\PaymentMethod;
 
 /**
- * Class CreditCardTransaction
- * @package Wirecard\PaymentSdk
+ * Class CreditCard
+ * @package Wirecard\PaymentSdk\Entity\PaymentMethod
  *
- * An entity representing a payment with credit card.
+ * An entity containing credit card specific payment data.
  * Use it for SSL payments.
  * For the 3D payments use the specific subclass.
  */

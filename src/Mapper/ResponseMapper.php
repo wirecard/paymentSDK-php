@@ -32,24 +32,21 @@
 
 namespace Wirecard\PaymentSdk\Mapper;
 
-use phpDocumentor\Reflection\TypeResolver;
 use Wirecard\PaymentSdk\Entity\FormFieldMap;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCard;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCard;
 use Wirecard\PaymentSdk\Entity\Status;
 use Wirecard\PaymentSdk\Entity\StatusCollection;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
-use Wirecard\PaymentSdk\Mapper\RequestMapper;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Response\Response;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCard;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCard;
-use Wirecard\PaymentSdk\Transaction\Transaction;
 
 /**
  * Class ResponseMapper
- * @package Wirecard\PaymentSdk
+ * @package Wirecard\PaymentSdk\Mapper
  */
 class ResponseMapper
 {

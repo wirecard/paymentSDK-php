@@ -35,8 +35,8 @@ namespace Wirecard\PaymentSdk\Entity\PaymentMethod;
 use Wirecard\PaymentSdk\Entity\Redirect;
 
 /**
- * Class PayPalData
- * @package Wirecard\PaymentSdk\Transaction
+ * Class PayPal
+ * @package Wirecard\PaymentSdk\Entity\PaymentMethod
  *
  * An immutable entity containing Paypal payment data.
  * It does not contain logic.

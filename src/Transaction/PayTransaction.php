@@ -35,6 +35,13 @@ namespace Wirecard\PaymentSdk\Transaction;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Entity\PaymentMethod\PayPal;
 
+/**
+ * Class PayTransaction
+ * @package Wirecard\PaymentSdk\Transaction
+ *
+ * Use this transaction object,
+ * if you want to execute a payment.
+ */
 class PayTransaction implements Transaction
 {
     /**

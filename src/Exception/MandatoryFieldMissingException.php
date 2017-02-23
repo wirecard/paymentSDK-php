@@ -34,6 +34,10 @@ namespace Wirecard\PaymentSdk\Exception;
 
 use UnexpectedValueException;
 
+/**
+ * Class MandatoryFieldMissingException
+ * @package Wirecard\PaymentSdk\Exception
+ */
 class MandatoryFieldMissingException extends UnexpectedValueException
 {
 

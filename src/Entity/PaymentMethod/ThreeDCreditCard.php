@@ -32,14 +32,11 @@
 
 namespace Wirecard\PaymentSdk\Entity\PaymentMethod;
 
-use Wirecard\PaymentSdk\Entity\Money;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCard;
-
 /**
- * Class CreditCard3DTransaction
- * @package Wirecard\PaymentSdk
+ * Class ThreeDCreditCard
+ * @package Wirecard\PaymentSdk\Entity\PaymentMethod
  *
- * An immutable entity representing a 3D payment with a credit card.
+ * An entity containing 3-D credit card specific payment data.
  */
 class ThreeDCreditCard extends CreditCard
 {

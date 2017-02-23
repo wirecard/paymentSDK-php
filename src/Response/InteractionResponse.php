@@ -36,11 +36,11 @@ use Wirecard\PaymentSdk\Entity\StatusCollection;
 
 /**
  * Class InteractionResponse
+ * @package Wirecard\PaymentSdk\Response
  *
  * This object is returned,
  * if the payment process was initialized successfully,
  * and an interaction with the consumer browser is required in order to continue it.
- * @package Wirecard\PaymentSdk
  */
 class InteractionResponse extends Response
 {

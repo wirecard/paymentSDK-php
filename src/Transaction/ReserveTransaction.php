@@ -35,6 +35,10 @@ namespace Wirecard\PaymentSdk\Transaction;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCard;
 
+/**
+ * Class ReserveTransaction
+ * @package Wirecard\PaymentSdk\Transaction
+ */
 class ReserveTransaction implements Transaction
 {
     /**
