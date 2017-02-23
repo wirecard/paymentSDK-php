@@ -76,7 +76,9 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $httpClient = $this->createMock('\GuzzleHttp\Client');
         $requestMapper = $this->createMock('\Wirecard\PaymentSdk\Mapper\RequestMapper');
         $responseMapper = $this->createMock('\Wirecard\PaymentSdk\Mapper\ResponseMapper');
-        $requestIdGenerator = $this->createMock('\Wirecard\PaymentSdk\RequestIdGenerator');
+        $requestIdGenerator = function () {
+            return 42;
+        };
 
         $service = new TransactionService(
             $this->config,
@@ -157,7 +159,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         $method = $helper->bindTo($this->instance, $this->instance);
 
-        $this->assertInstanceOf('\Wirecard\PaymentSdk\RequestIdGenerator', $method());
+        $this->assertInstanceOf('Closure', $method());
     }
 
     /**
@@ -371,8 +373,9 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
     public function testGetDataForCreditCardUi()
     {
-        $requestIdGenerator = $this->createMock('\Wirecard\PaymentSdk\RequestIdGenerator');
-        $requestIdGenerator->method('generate')->willReturn('abc123');
+        $requestIdGenerator = function () {
+            return 'abc123';
+        };
 
         $this->instance = new TransactionService($this->config, null, null, null, null, $requestIdGenerator);
         $data = json_decode($this->instance->getDataForCreditCardUi(), true);
@@ -417,6 +420,17 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $result = $this->instance->cancel($cancelTrans);
 
         $this->assertEquals($successResponse, $result);
+    }
+
+    public function testRequestIdGeneratorRandomness()
+    {
+        $this->instance = new TransactionService($this->config, null, null, null, null, null);
+
+        $requestId = call_user_func($this->instance->getRequestIdGenerator());
+        usleep(1);
+        $laterRequestId = call_user_func($this->instance->getRequestIdGenerator());
+
+        $this->assertNotEquals($requestId, $laterRequestId);
     }
 
     /**
