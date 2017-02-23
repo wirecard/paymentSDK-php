@@ -34,10 +34,7 @@ namespace Wirecard\PaymentSdk\Mapper;
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCard;
 use Wirecard\PaymentSdk\Transaction\CancelTransaction;
-use Wirecard\PaymentSdk\Transaction\InitialTransaction;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\PayPal;
 use Wirecard\PaymentSdk\Transaction\PayTransaction;
 use Wirecard\PaymentSdk\Transaction\ReserveTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
@@ -85,10 +82,6 @@ class RequestMapper
         ];
 
         $specificProperties = [];
-
-        if ($transaction instanceof InitialTransaction) {
-            $commonProperties['requested-amount'] = $this->getAmountOfTransaction($transaction);
-        }
 
         if ($transaction instanceof PayTransaction) {
             $specificProperties = $this->getSpecificPropertiesForPayPal($transaction);

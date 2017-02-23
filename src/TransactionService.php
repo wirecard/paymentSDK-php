@@ -44,8 +44,6 @@ use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Response\Response;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\CancelTransaction;
-use Wirecard\PaymentSdk\Transaction\InitialTransaction;
 use Wirecard\PaymentSdk\Transaction\ReserveTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
