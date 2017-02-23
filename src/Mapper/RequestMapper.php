@@ -54,16 +54,16 @@ class RequestMapper
     private $config;
 
     /**
-     * @var callable
+     * @var \Closure
      */
     private $requestIdGenerator;
 
     /**
      * RequestMapper constructor.
      * @param Config $config
-     * @param callable $requestIdGenerator
+     * @param \Closure $requestIdGenerator
      */
-    public function __construct(Config $config, callable $requestIdGenerator)
+    public function __construct(Config $config, \Closure $requestIdGenerator)
     {
         $this->config = $config;
         $this->requestIdGenerator = $requestIdGenerator;

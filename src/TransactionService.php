@@ -83,7 +83,7 @@ class TransactionService
     private $responseMapper;
 
     /**
-     * @var callable
+     * @var \Closure
      */
     private $requestIdGenerator;
 
@@ -94,7 +94,7 @@ class TransactionService
      * @param Client|null $httpClient
      * @param RequestMapper|null $requestMapper
      * @param ResponseMapper|null $responseMapper
-     * @param callable|null $requestIdGenerator
+     * @param \Closure|null $requestIdGenerator
      */
     public function __construct(
         Config $config,
@@ -102,7 +102,7 @@ class TransactionService
         Client $httpClient = null,
         RequestMapper $requestMapper = null,
         ResponseMapper $responseMapper = null,
-        callable $requestIdGenerator = null
+        \Closure $requestIdGenerator = null
     ) {
         $this->config = $config;
         $this->logger = $logger;
@@ -177,7 +177,7 @@ class TransactionService
     }
 
     /**
-     * @return callable
+     * @return \Closure
      */
     public function getRequestIdGenerator()
     {
