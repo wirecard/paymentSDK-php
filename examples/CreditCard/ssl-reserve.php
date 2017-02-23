@@ -9,10 +9,10 @@
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
-use Wirecard\PaymentSdk\CreditCardTransaction;
-use Wirecard\PaymentSdk\FailureResponse;
-use Wirecard\PaymentSdk\Money;
-use Wirecard\PaymentSdk\SuccessResponse;
+use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
+use Wirecard\PaymentSdk\Response\FailureResponse;
+use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\TransactionService;
 
 // Create a money object as amount which has to be payed by the consumer.
@@ -66,7 +66,7 @@ if ($response instanceof SuccessResponse) {
     // You should handle them based on the given severity as error, warning or information.
     foreach ($response->getStatusCollection() AS $status) {
         /**
-         * @var $status \Wirecard\PaymentSdk\Status
+         * @var $status \Wirecard\PaymentSdk\Entity\Status
          */
         $severity = ucfirst($status->getSeverity());
         $code = $status->getCode();

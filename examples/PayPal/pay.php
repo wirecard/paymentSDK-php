@@ -7,11 +7,11 @@
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
-use Wirecard\PaymentSdk\FailureResponse;
-use Wirecard\PaymentSdk\InteractionResponse;
-use Wirecard\PaymentSdk\Money;
-use Wirecard\PaymentSdk\PayPalTransaction;
-use Wirecard\PaymentSdk\Redirect;
+use Wirecard\PaymentSdk\Response\FailureResponse;
+use Wirecard\PaymentSdk\Response\InteractionResponse;
+use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
+use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\TransactionService;
 
 /**
@@ -69,7 +69,7 @@ if ($response instanceof InteractionResponse) {
 // In our example we iterate over all errors and echo them out. You should display them as error, warning or information based on the given severity.
     foreach ($response->getStatusCollection() AS $status) {
         /**
-         * @var $status \Wirecard\PaymentSdk\Status
+         * @var $status \Wirecard\PaymentSdk\Entity\Status
          */
         $severity = ucfirst($status->getSeverity());
         $code = $status->getCode();

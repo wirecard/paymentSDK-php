@@ -9,9 +9,9 @@
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
-use Wirecard\PaymentSdk\FailureResponse;
-use Wirecard\PaymentSdk\FollowupTransaction;
-use Wirecard\PaymentSdk\SuccessResponse;
+use Wirecard\PaymentSdk\Response\FailureResponse;
+use Wirecard\PaymentSdk\Transaction\FollowupTransaction;
+use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\TransactionService;
 
 // An object containing the data regarding the options of the interface is needed.
@@ -38,7 +38,7 @@ if($response instanceof SuccessResponse) {
     // In our example we iterate over all errors and echo them out. You should display them as error, warning or information based on the given severity.
     foreach ($response->getStatusCollection() AS $status) {
         /**
-         * @var $status \Wirecard\PaymentSdk\Status
+         * @var $status \Wirecard\PaymentSdk\Entity\Status
          */
         $severity = ucfirst($status->getSeverity());
         $code = $status->getCode();
