@@ -30,36 +30,38 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk\Transaction;
+namespace WirecardTest\PaymentSdk\Entity\PaymentMethod;
 
-use Wirecard\PaymentSdk\Entity\Money;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\PayPal;
-use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCard;
 
-class PayPalDataUTest extends \PHPUnit_Framework_TestCase
+class ThreeDCreditCardUTest extends \PHPUnit_Framework_TestCase
 {
-    const NOTIFICATION_URL = 'http://www.example.com';
+    const NOTIFICATION_TEST_URL = 'test URL';
+    const TERM_TEST_URL = 'term test URL';
     /**
-     * @var Money
+     * @var ThreeDCreditCard
      */
-    private $amount;
+    private $transaction;
 
-    /**
-     * @var PayPal
-     */
-    private $payPalTransaction;
 
-    /**
-     * @var Redirect
-     */
-    private $redirect;
+    const SAMPLE_TRANSACTION_ID = '542';
 
-    public function testConstructorWithRedirect()
+    public function setUp()
     {
-        $this->redirect = new Redirect('http://www.example.com/success', 'http://www.example.com/cancel');
-        $this->payPalTransaction = new PayPal(self::NOTIFICATION_URL, $this->redirect);
+        $this->transaction = new ThreeDCreditCard(
+            self::SAMPLE_TRANSACTION_ID,
+            self::NOTIFICATION_TEST_URL,
+            self::TERM_TEST_URL
+        );
+    }
 
-        $this->assertEquals(self::NOTIFICATION_URL, $this->payPalTransaction->getNotificationUrl());
-        $this->assertEquals($this->redirect, $this->payPalTransaction->getRedirect());
+    public function testGetNotificationUrl()
+    {
+        $this->assertEquals(self::NOTIFICATION_TEST_URL, $this->transaction->getNotificationUrl());
+    }
+
+    public function testGetTermUrl()
+    {
+        $this->assertEquals(self::TERM_TEST_URL, $this->transaction->getTermUrl());
     }
 }
