@@ -46,6 +46,7 @@ use Wirecard\PaymentSdk\Response\Response;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\CancelTransaction;
 use Wirecard\PaymentSdk\Transaction\InitialTransaction;
+use Wirecard\PaymentSdk\Transaction\ReserveTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
@@ -110,16 +111,6 @@ class TransactionService
         $this->requestMapper = $requestMapper;
         $this->responseMapper = $responseMapper;
         $this->requestIdGenerator = $requestIdGenerator;
-    }
-
-    /**
-     * @param InitialTransaction $transaction
-     * @throws RequestException|MalformedResponseException|\RuntimeException
-     * @return FailureResponse|InteractionResponse|SuccessResponse
-     */
-    public function reserve(InitialTransaction $transaction)
-    {
-        return $this->process($transaction);
     }
 
     /**
@@ -272,7 +263,9 @@ class TransactionService
                 'body' => $requestBody
             ]
         );
-        return $this->getResponseMapper()->map($response->getBody()->getContents(), $transaction);
+
+        $data = $transaction instanceof ReserveTransaction ? $transaction->getPaymentTypeSpecificData() : null;
+        return $this->getResponseMapper()->map($response->getBody()->getContents(), $data);
     }
 
     private function processAuthFrom3DResponse($payload)

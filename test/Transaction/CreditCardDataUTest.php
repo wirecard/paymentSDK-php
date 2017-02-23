@@ -30,56 +30,20 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Transaction;
+namespace WirecardTest\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Transaction\CreditCardData;
 use Wirecard\PaymentSdk\Entity\Money;
 
-/**
- * Class CreditCard3DTransaction
- * @package Wirecard\PaymentSdk
- *
- * An immutable entity representing a 3D payment with a credit card.
- */
-class ThreeDCreditCardTransaction extends CreditCardTransaction
+class CreditCardDataUTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var string
-     */
-    private $notificationUrl;
+    const SAMPLE_TOKEN_ID = '542';
 
-    /**
-     * @var string
-     */
-    private $termUrl;
-
-    /**
-     * ThreeDCreditCardTransaction constructor.
-     * @param Money $money
-     * @param $tokenId
-     * @param $notificationUrl
-     * @param $termUrl
-     */
-    public function __construct($money, $tokenId, $notificationUrl, $termUrl)
+    public function testGetTokenId()
     {
-        parent::__construct($money);
-        $this->setTokenId($tokenId);
-        $this->notificationUrl = $notificationUrl;
-        $this->termUrl = $termUrl;
-    }
+        $ccTransaction = new CreditCardData();
+        $ccTransaction->setTokenId(self::SAMPLE_TOKEN_ID);
 
-    /**
-     * @return string
-     */
-    public function getNotificationUrl()
-    {
-        return $this->notificationUrl;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTermUrl()
-    {
-        return $this->termUrl;
+        $this->assertEquals(self::SAMPLE_TOKEN_ID, $ccTransaction->getTokenId());
     }
 }

@@ -32,37 +32,15 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
-use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Transaction\CancelTransaction;
 
-class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
+class CancelTransactionUTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var CreditCardTransaction
-     */
-    private $ccTransaction;
 
-    /**
-     * @var Money
-     */
-    private $amount;
-
-    const SAMPLE_TOKEN_ID = '542';
-
-    public function setUp()
+    public function testGetParentTransactionId()
     {
-        $this->amount = new Money(8.5, 'EUR');
-        $this->ccTransaction = new CreditCardTransaction($this->amount);
-        $this->ccTransaction->setTokenId(self::SAMPLE_TOKEN_ID);
-    }
+        $tx = new CancelTransaction('55');
 
-    public function testGetAmount()
-    {
-        $this->assertEquals($this->amount, $this->ccTransaction->getAmount());
-    }
-
-    public function testGetTokenId()
-    {
-        $this->assertEquals(self::SAMPLE_TOKEN_ID, $this->ccTransaction->getTokenId());
+        $this->assertEquals('55', $tx->getParentTransactionId());
     }
 }

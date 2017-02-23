@@ -30,17 +30,36 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk\Transaction;
+namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Transaction\CancelTransaction;
-
-class FollowupTransactionUTest extends \PHPUnit_Framework_TestCase
+/**
+ * Class CreditCardTransaction
+ * @package Wirecard\PaymentSdk
+ *
+ * An entity representing a payment with credit card.
+ * Use it for SSL payments.
+ * For the 3D payments use the specific subclass.
+ */
+class CreditCardData
 {
+    /**
+     * @var string
+     */
+    private $tokenId;
 
-    public function testGetParentTransactionId()
+    /**
+     * @return string
+     */
+    public function getTokenId()
     {
-        $tx = new CancelTransaction('55');
+        return $this->tokenId;
+    }
 
-        $this->assertEquals('55', $tx->getParentTransactionId());
+    /**
+     * @param string $tokenId
+     */
+    public function setTokenId($tokenId)
+    {
+        $this->tokenId = $tokenId;
     }
 }

@@ -34,13 +34,14 @@ namespace Wirecard\PaymentSdk\Mapper;
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
-use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
+use Wirecard\PaymentSdk\Transaction\CreditCardData;
 use Wirecard\PaymentSdk\Transaction\CancelTransaction;
 use Wirecard\PaymentSdk\Transaction\InitialTransaction;
 use Wirecard\PaymentSdk\Transaction\PayPalData;
 use Wirecard\PaymentSdk\Transaction\PayTransaction;
+use Wirecard\PaymentSdk\Transaction\ReserveTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
-use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
+use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardData;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
 class RequestMapper
@@ -93,7 +94,7 @@ class RequestMapper
             $specificProperties = $this->getSpecificPropertiesForPayPal($transaction);
         }
 
-        if ($transaction instanceof CreditCardTransaction) {
+        if ($transaction instanceof ReserveTransaction) {
             $specificProperties = $this->getSpecificPropertiesForCreditCard($transaction);
         }
 
@@ -145,14 +146,17 @@ class RequestMapper
     }
 
     /**
-     * @param CreditCardTransaction $transaction
+     * @param ReserveTransaction $transaction
      * @return array
      * @throws \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
      */
-    private function getSpecificPropertiesForCreditCard(CreditCardTransaction $transaction)
+    private function getSpecificPropertiesForCreditCard(ReserveTransaction $transaction)
     {
-        $tokenId = $transaction->getTokenId();
+        $tokenId = null !== $transaction->getPaymentTypeSpecificData() ?
+            $transaction->getPaymentTypeSpecificData()->getTokenId()
+            : null;
         $parentTransactionId = $transaction->getParentTransactionId();
+
         if ($tokenId === null && $parentTransactionId === null) {
             throw new MandatoryFieldMissingException(
                 'At least one of these two parameters has to be provided: token ID, parent transaction ID.'
@@ -160,6 +164,7 @@ class RequestMapper
         }
 
         $specificProperties = [
+            'requested-amount' => $this->getAmountOfTransaction($transaction),
             self::PARAM_TRANSACTION_TYPE => self::CCARD_AUTHORIZATION
         ];
 
@@ -170,13 +175,13 @@ class RequestMapper
 
         if (null !== $tokenId) {
             $specificProperties['card-token'] = [
-                'token-id' => $transaction->getTokenId(),
+                'token-id' => $tokenId,
             ];
         }
 
         $specificProperties['ip-address'] = $_SERVER['REMOTE_ADDR'];
 
-        if ($transaction instanceof ThreeDCreditCardTransaction) {
+        if ($transaction->getPaymentTypeSpecificData() instanceof ThreeDCreditCardData) {
             $threeDProperties = [
                 self::PARAM_TRANSACTION_TYPE => 'check-enrollment',
             ];
