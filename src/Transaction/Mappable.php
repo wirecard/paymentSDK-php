@@ -30,64 +30,12 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Entity;
+namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Transaction\Mappable;
-
-/**
- * Class Money
- * @package Wirecard\PaymentSdk\Entity
- *
- * An immutable entity representing a money: amount and currency.
- */
-class Money implements Mappable
+interface Mappable
 {
     /**
-     * @var float
-     */
-    private $amount;
-
-    /**
-     * @var string
-     */
-    private $currency;
-
-    /**
-     * Money constructor.
-     * @param float $amount
-     * @param string $currency
-     */
-    public function __construct($amount, $currency)
-    {
-        $this->amount = $amount;
-        $this->currency = $currency;
-    }
-
-    /**
-     * @return float
-     */
-    public function getAmount()
-    {
-        return $this->amount;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCurrency()
-    {
-        return $this->currency;
-    }
-
-    /**
-     * @param null $operation
      * @return array
      */
-    public function mappedProperties($operation = null)
-    {
-        return [
-            'currency' => $this->currency,
-            'value' => $this->amount
-        ];
-    }
+    public function mappedProperties($operation = null);
 }

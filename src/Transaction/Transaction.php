@@ -36,12 +36,7 @@ namespace Wirecard\PaymentSdk\Transaction;
  * Interface Transaction
  * @package Wirecard\PaymentSdk\Transaction
  */
-interface Transaction
+interface Transaction extends Mappable
 {
     const PARAM_TRANSACTION_TYPE = 'transaction-type';
-
-    /**
-     * @return array
-     */
-    public function mappedProperties($operation = null);
 }
