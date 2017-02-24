@@ -38,6 +38,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCardTransaction;
 use Wirecard\PaymentSdk\Entity\PaymentMethod\PayPal;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\CancelTransaction;
@@ -187,7 +188,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
     public function testReserveCreditCardTransaction()
     {
-        $transaction = $this->createMock('\Wirecard\PaymentSdk\Transaction\ReserveTransaction');
+        $transaction = new CreditCardTransaction();
 
         //prepare RequestMapper
         $mappedRequest = '{"mocked": "json", "response": "object"}';

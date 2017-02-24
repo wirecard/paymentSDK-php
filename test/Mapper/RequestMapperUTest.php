@@ -39,7 +39,6 @@ use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Entity\PaymentMethod\PayPal;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\PayTransaction;
-use Wirecard\PaymentSdk\Transaction\ReserveTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
 use Wirecard\PaymentSdk\Mapper\RequestMapper;
 use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCardTransaction;
@@ -88,21 +87,18 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
             'merchant-account-id' => ['value' => 'B612'],
             'request-id' => '5B-dummy-id',
             'requested-amount' => ['currency' => 'EUR', 'value' => 24],
+            'ip-address' => 'test IP',
             'transaction-type' => 'authorization',
             'card-token' => [
                 'token-id' => '21'
             ],
-            'ip-address' => 'test IP'
         ]];
 
         $cardData = new CreditCardTransaction();
         $cardData->setTokenId('21');
+        $cardData->setAmount(new Money(24, 'EUR'));
 
-        $tx = new ReserveTransaction();
-        $tx->setAmount(new Money(24, 'EUR'));
-        $tx->setPaymentTypeSpecificData($cardData);
-
-        $result = $mapper->map($tx);
+        $result = $mapper->map($cardData, 'RESERVE');
 
         $this->assertEquals(json_encode($expectedResult), $result);
     }
@@ -118,15 +114,15 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
             'merchant-account-id' => ['value' => 'B612'],
             'request-id' => '5B-dummy-id',
             'requested-amount' => ['currency' => 'EUR', 'value' => 24],
+            'ip-address' => 'test IP',
             'transaction-type' => 'referenced-authorization',
             'parent-transaction-id' => 'parent5',
-            'ip-address' => 'test IP'
         ]];
 
-        $transaction = new ReserveTransaction();
+        $transaction = new CreditCardTransaction();
         $transaction->setAmount(new Money(24, 'EUR'));
         $transaction->setParentTransactionId('parent5');
-        $result = $mapper->map($transaction);
+        $result = $mapper->map($transaction, 'RESERVE');
 
         $this->assertEquals(json_encode($expectedResult), $result);
     }
@@ -141,7 +137,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
         $mapper = new RequestMapper($config, $requestIdGeneratorMock);
 
-        $transaction = new ReserveTransaction();
+        $transaction = new CreditCardTransaction();
         $transaction->setAmount(new Money(24, 'EUR'));
         $mapper->map($transaction);
     }
@@ -157,23 +153,20 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
             'merchant-account-id' => ['value' => 'B612'],
             'request-id' => '5B-dummy-id',
             'requested-amount' => ['currency' => 'EUR', 'value' => 24],
+            'ip-address' => 'test IP',
             'transaction-type' => 'referenced-authorization',
             'parent-transaction-id' => 'parent5',
             'card-token' => [
                 'token-id' => '33'
-            ],
-            'ip-address' => 'test IP'
+            ]
         ]];
-
-        $transaction = new ReserveTransaction();
-        $transaction->setAmount(new Money(24, 'EUR'));
-        $transaction->setParentTransactionId('parent5');
 
         $cardData = new CreditCardTransaction();
         $cardData->setTokenId('33');
-        $transaction->setPaymentTypeSpecificData($cardData);
+        $cardData->setAmount(new Money(24, 'EUR'));
+        $cardData->setParentTransactionId('parent5');
 
-        $result = $mapper->map($transaction);
+        $result = $mapper->map($cardData, 'RESERVE');
 
         $this->assertEquals(json_encode($expectedResult), $result);
     }
@@ -189,11 +182,11 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
             'merchant-account-id' => ['value' => 'B612'],
             'request-id' => '5B-dummy-id',
             'requested-amount' => ['currency' => 'EUR', 'value' => 24],
+            'ip-address' => 'test IP',
             'transaction-type' => 'check-enrollment',
             'card-token' => [
                 'token-id' => '21'
             ],
-            'ip-address' => 'test IP'
         ]];
 
         $money = new Money(24, 'EUR');
@@ -201,12 +194,9 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $cardData->setTokenId('21');
         $cardData->setNotificationUrl('https://example.com/n');
         $cardData->setTermUrl('https://example.com/r');
+        $cardData->setAmount($money);
 
-        $transaction = new ReserveTransaction();
-        $transaction->setAmount($money);
-        $transaction->setPaymentTypeSpecificData($cardData);
-
-        $result = $mapper->map($transaction);
+        $result = $mapper->map($cardData, 'RESERVE');
 
         $this->assertEquals(json_encode($expectedResult), $result);
     }

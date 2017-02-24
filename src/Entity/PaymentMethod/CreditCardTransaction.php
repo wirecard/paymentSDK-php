@@ -32,6 +32,7 @@
 
 namespace Wirecard\PaymentSdk\Entity\PaymentMethod;
 
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
 /**
