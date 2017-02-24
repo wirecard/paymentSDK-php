@@ -250,7 +250,7 @@ class TransactionService
      */
     public function process(Transaction $transaction, $operation = null)
     {
-        $requestBody = $this->getRequestMapper()->map($transaction);
+        $requestBody = $this->getRequestMapper()->map($transaction, $operation);
         $response = $this->getHttpClient()->request(
             'POST',
             $this->getConfig()->getUrl(),

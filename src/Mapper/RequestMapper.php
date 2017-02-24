@@ -67,7 +67,7 @@ class RequestMapper
      * @return string The transaction in JSON format.
      * @throws \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
      */
-    public function map(Transaction $transaction)
+    public function map(Transaction $transaction, $operation = null)
     {
         $requestId = call_user_func($this->requestIdGenerator);
         $commonProperties = [
@@ -75,7 +75,7 @@ class RequestMapper
             'request-id' => $requestId
         ];
 
-        $allProperties = array_merge($commonProperties, $transaction->mappedProperties());
+        $allProperties = array_merge($commonProperties, $transaction->mappedProperties($operation));
         $result = ['payment' => $allProperties];
 
         return json_encode($result);

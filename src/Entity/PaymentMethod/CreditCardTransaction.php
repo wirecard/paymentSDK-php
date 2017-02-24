@@ -44,7 +44,6 @@ use Wirecard\PaymentSdk\Transaction\Transaction;
  */
 class CreditCardTransaction implements Transaction
 {
-    const AUTHORIZATION = 'authorization';
     const PARAM_PARENT_TRANSACTION_ID = 'parent-transaction-id';
 
     /**
@@ -113,15 +112,7 @@ class CreditCardTransaction implements Transaction
             $specificProperties[self::PARAM_PARENT_TRANSACTION_ID] = $this->parentTransactionId;
         }
 
-        $transactionType = self::AUTHORIZATION;
-        if (null !== $this->parentTransactionId) {
-            $transactionType = 'referenced-authorization';
-        }
-
-        if ($this instanceof ThreeDCreditCardTransaction) {
-            $transactionType = 'check-enrollment';
-        }
-        $specificProperties[self::PARAM_TRANSACTION_TYPE] = $transactionType;
+        $specificProperties[self::PARAM_TRANSACTION_TYPE] = $this->retrieveTransactionType($operation);
 
         if (null !== $this->tokenId) {
             $specificProperties['card-token'] = [
@@ -133,5 +124,35 @@ class CreditCardTransaction implements Transaction
 
         return $specificProperties;
 
+    }
+
+    private function retrieveTransactionType($operation)
+    {
+        $transactionTypes = [
+            'RESERVE' => $this->retrieveTransactionTypeForReserve()
+        ];
+
+        if (!array_key_exists($operation, $transactionTypes)) {
+            throw new \Exception('Unsupported operation.');
+        }
+
+        return $transactionTypes[$operation];
+    }
+
+    /**
+     * @return string
+     */
+    private function retrieveTransactionTypeForReserve()
+    {
+        $transactionType = 'authorization';
+        if (null !== $this->parentTransactionId) {
+            $transactionType = 'referenced-authorization';
+        }
+
+        if ($this instanceof ThreeDCreditCardTransaction) {
+            $transactionType = 'check-enrollment';
+            return $transactionType;
+        }
+        return $transactionType;
     }
 }
