@@ -43,7 +43,6 @@ use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Response\Response;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\ReserveTransaction;
 
 /**
  * Class ResponseMapper
@@ -235,7 +234,7 @@ class ResponseMapper
         $fields->add(
             'MD',
             base64_encode(json_encode(['enrollment-check-transaction-id' => (string)$this->getTransactionId($response),
-            'operation-type' => ReserveTransaction::AUTHORIZATION]))
+            'operation-type' => 'authorization']))
         );
 
         return new FormInteractionResponse($payload, $status, $redirectUrl, $fields);

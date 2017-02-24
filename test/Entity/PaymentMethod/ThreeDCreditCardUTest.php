@@ -43,25 +43,22 @@ class ThreeDCreditCardUTest extends \PHPUnit_Framework_TestCase
      */
     private $transaction;
 
-
     const SAMPLE_TRANSACTION_ID = '542';
 
     public function setUp()
     {
-        $this->transaction = new ThreeDCreditCardTransaction(
-            self::SAMPLE_TRANSACTION_ID,
-            self::NOTIFICATION_TEST_URL,
-            self::TERM_TEST_URL
-        );
+        $this->transaction = new ThreeDCreditCardTransaction();
     }
 
     public function testGetNotificationUrl()
     {
+        $this->transaction->setNotificationUrl(self::NOTIFICATION_TEST_URL);
         $this->assertEquals(self::NOTIFICATION_TEST_URL, $this->transaction->getNotificationUrl());
     }
 
     public function testGetTermUrl()
     {
+        $this->transaction->setTermUrl(self::TERM_TEST_URL);
         $this->assertEquals(self::TERM_TEST_URL, $this->transaction->getTermUrl());
     }
 }

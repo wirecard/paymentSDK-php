@@ -51,19 +51,6 @@ class ThreeDCreditCardTransaction extends CreditCardTransaction
     private $termUrl;
 
     /**
-     * ThreeDCreditCardTransaction constructor.
-     * @param $tokenId
-     * @param $notificationUrl
-     * @param $termUrl
-     */
-    public function __construct($tokenId, $notificationUrl, $termUrl)
-    {
-        $this->setTokenId($tokenId);
-        $this->notificationUrl = $notificationUrl;
-        $this->termUrl = $termUrl;
-    }
-
-    /**
      * @return string
      */
     public function getNotificationUrl()
@@ -72,10 +59,26 @@ class ThreeDCreditCardTransaction extends CreditCardTransaction
     }
 
     /**
+     * @param string $notificationUrl
+     */
+    public function setNotificationUrl($notificationUrl)
+    {
+        $this->notificationUrl = $notificationUrl;
+    }
+
+    /**
      * @return string
      */
     public function getTermUrl()
     {
         return $this->termUrl;
+    }
+
+    /**
+     * @param string $termUrl
+     */
+    public function setTermUrl($termUrl)
+    {
+        $this->termUrl = $termUrl;
     }
 }

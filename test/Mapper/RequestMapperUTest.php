@@ -35,7 +35,6 @@ namespace WirecardTest\PaymentSdk\Mapper;
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\CancelTransaction;
-use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Entity\PaymentMethod\PayPal;
 use Wirecard\PaymentSdk\Entity\Redirect;
@@ -198,7 +197,10 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         ]];
 
         $money = new Money(24, 'EUR');
-        $cardData = new ThreeDCreditCardTransaction('21', 'https://example.com/n', 'https://example.com/r');
+        $cardData = new ThreeDCreditCardTransaction();
+        $cardData->setTokenId('21');
+        $cardData->setNotificationUrl('https://example.com/n');
+        $cardData->setTermUrl('https://example.com/r');
 
         $transaction = new ReserveTransaction();
         $transaction->setAmount($money);

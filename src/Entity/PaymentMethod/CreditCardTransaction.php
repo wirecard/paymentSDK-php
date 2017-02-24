@@ -104,24 +104,24 @@ class CreditCardTransaction implements Transaction
             );
         }
 
-        $specificProperties = [
+        $result = [
             'requested-amount' => $this->amount->mappedProperties(),
             'ip-address' => $_SERVER['REMOTE_ADDR']
         ];
 
+        $result[self::PARAM_TRANSACTION_TYPE] = $this->retrieveTransactionType($operation);
+
         if (null !== $this->parentTransactionId) {
-            $specificProperties[self::PARAM_PARENT_TRANSACTION_ID] = $this->parentTransactionId;
+            $result[self::PARAM_PARENT_TRANSACTION_ID] = $this->parentTransactionId;
         }
 
-        $specificProperties[self::PARAM_TRANSACTION_TYPE] = $this->retrieveTransactionType($operation);
-
         if (null !== $this->tokenId) {
-            $specificProperties['card-token'] = [
+            $result['card-token'] = [
                 'token-id' => $this->tokenId,
             ];
         }
 
-        return $specificProperties;
+        return $result;
     }
 
     private function retrieveTransactionType($operation)
@@ -148,8 +148,7 @@ class CreditCardTransaction implements Transaction
         }
 
         if ($this instanceof ThreeDCreditCardTransaction) {
-            $transactionType = 'check-enrollment';
-            return $transactionType;
+            return 'check-enrollment';
         }
         return $transactionType;
     }
