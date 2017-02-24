@@ -235,7 +235,7 @@ class ResponseMapper
         $fields->add(
             'MD',
             base64_encode(json_encode(['enrollment-check-transaction-id' => (string)$this->getTransactionId($response),
-            'operation-type' => ReserveTransaction::CCARD_AUTHORIZATION]))
+            'operation-type' => ReserveTransaction::AUTHORIZATION]))
         );
 
         return new FormInteractionResponse($payload, $status, $redirectUrl, $fields);

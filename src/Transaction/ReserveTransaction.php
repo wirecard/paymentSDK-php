@@ -43,7 +43,7 @@ use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
  */
 class ReserveTransaction implements Transaction
 {
-    const CCARD_AUTHORIZATION = 'authorization';
+    const AUTHORIZATION = 'authorization';
     const PARAM_PARENT_TRANSACTION_ID = 'parent-transaction-id';
 
     /**
@@ -127,7 +127,7 @@ class ReserveTransaction implements Transaction
 
         $specificProperties = [
             'requested-amount' => $this->amount->mappedProperties(),
-            self::PARAM_TRANSACTION_TYPE => self::CCARD_AUTHORIZATION
+            self::PARAM_TRANSACTION_TYPE => self::AUTHORIZATION
         ];
 
         if (null !== $this->parentTransactionId) {
