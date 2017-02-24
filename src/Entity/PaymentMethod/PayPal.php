@@ -79,4 +79,22 @@ class PayPal
     {
         return $this->redirect;
     }
+
+    /**
+     * @return array
+     */
+    public function mappedProperties()
+    {
+        $onlyPaymentMethod = ['payment-method' => [['name' => 'paypal']]];
+        $onlyNotificationUrl = [
+            'notification' => [['url' => $this->notificationUrl]]
+        ];
+
+        return [
+            'payment-methods' => $onlyPaymentMethod,
+            'cancel-redirect-url' => $this->getRedirect()->getCancelUrl(),
+            'success-redirect-url' => $this->getRedirect()->getSuccessUrl(),
+            'notifications' => $onlyNotificationUrl
+        ];
+    }
 }

@@ -38,6 +38,8 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\PayPal;
+use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\CancelTransaction;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
@@ -180,7 +182,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         $service = new TransactionService($this->config, null, $client);
 
-        $this->assertInstanceOf($class, $service->process($this->getTransactionMock()));
+        $this->assertInstanceOf($class, $service->process($this->getTestTransaction()));
     }
 
     public function testReserveCreditCardTransaction()
@@ -215,15 +217,10 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($response, $service->process($transaction));
     }
 
-    protected function getTransactionMock()
+    protected function getTestTransaction()
     {
-        $paypalData = $this->createMock('\Wirecard\PaymentSdk\Entity\PaymentMethod\PayPal');
-
-        $redirect = $this->createMock('\Wirecard\PaymentSdk\Entity\Redirect');
-        $redirect->method('getSuccessUrl')->willReturn('http://www.example.com/success');
-        $redirect->method('getCancelUrl')->willReturn('http://www.example.com/cancel');
-
-        $paypalData->method('getRedirect')->willReturn($redirect);
+        $redirect = new Redirect('http://www.example.com/success', 'http://www.example.com/cancel');
+        $paypalData = new PayPal('notUrl', $redirect);
 
         $tx = new PayTransaction(new Money(20.23, 'EUR'));
         $tx->setPaymentTypeSpecificData($paypalData);
@@ -285,7 +282,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         $this->instance = new TransactionService($this->config, null, $client);
 
-        $this->instance->process($this->getTransactionMock());
+        $this->instance->process($this->getTestTransaction());
     }
 
     /**
@@ -306,7 +303,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         $this->instance = new TransactionService($this->config, null, $client);
 
-        $this->instance->process($this->getTransactionMock());
+        $this->instance->process($this->getTestTransaction());
     }
 
     public function testHandleNotificationHappyPath()
