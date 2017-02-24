@@ -13,7 +13,7 @@ use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Transaction\ReserveTransaction;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCard;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 /**
@@ -51,7 +51,7 @@ $config = new Config('https://api-test.wirecard.com/engine/rest/payments/', '700
     '33f6d473-3036-4ca5-acb5-8c64dac862d1', '9e0130f6-2e1e-4185-b0d5-dc69079c75cc');
 
 // The 3-D credit card transaction contains all relevant data for the payment process.
-$cardData = new ThreeDCreditCard($tokenId, $notificationUrl, $redirectUrl);
+$cardData = new ThreeDCreditCardTransaction($tokenId, $notificationUrl, $redirectUrl);
 $tx = new ReserveTransaction();
 $tx->setAmount($amount);
 $tx->setPaymentTypeSpecificData($cardData);

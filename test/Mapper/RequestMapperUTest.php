@@ -33,7 +33,7 @@
 namespace WirecardTest\PaymentSdk\Mapper;
 
 use Wirecard\PaymentSdk\Config;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCard;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\CancelTransaction;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Entity\Money;
@@ -43,7 +43,7 @@ use Wirecard\PaymentSdk\Transaction\PayTransaction;
 use Wirecard\PaymentSdk\Transaction\ReserveTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
 use Wirecard\PaymentSdk\Mapper\RequestMapper;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCard;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCardTransaction;
 
 class RequestMapperUTest extends \PHPUnit_Framework_TestCase
 {
@@ -96,7 +96,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
             'ip-address' => 'test IP'
         ]];
 
-        $cardData = new CreditCard();
+        $cardData = new CreditCardTransaction();
         $cardData->setTokenId('21');
 
         $tx = new ReserveTransaction();
@@ -170,7 +170,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $transaction->setAmount(new Money(24, 'EUR'));
         $transaction->setParentTransactionId('parent5');
 
-        $cardData = new CreditCard();
+        $cardData = new CreditCardTransaction();
         $cardData->setTokenId('33');
         $transaction->setPaymentTypeSpecificData($cardData);
 
@@ -198,7 +198,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         ]];
 
         $money = new Money(24, 'EUR');
-        $cardData = new ThreeDCreditCard('21', 'https://example.com/n', 'https://example.com/r');
+        $cardData = new ThreeDCreditCardTransaction('21', 'https://example.com/n', 'https://example.com/r');
 
         $transaction = new ReserveTransaction();
         $transaction->setAmount($money);

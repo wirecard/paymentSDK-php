@@ -33,8 +33,8 @@
 namespace Wirecard\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\Money;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCard;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCard;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCardTransaction;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 
 /**
@@ -57,7 +57,7 @@ class ReserveTransaction implements Transaction
     private $parentTransactionId;
 
     /**
-     * @var CreditCard
+     * @var CreditCardTransaction
      */
     private $paymentTypeSpecificData;
 
@@ -94,7 +94,7 @@ class ReserveTransaction implements Transaction
     }
 
     /**
-     * @return CreditCard
+     * @return CreditCardTransaction
      */
     public function getPaymentTypeSpecificData()
     {
@@ -102,7 +102,7 @@ class ReserveTransaction implements Transaction
     }
 
     /**
-     * @param CreditCard $paymentTypeSpecificData
+     * @param CreditCardTransaction $paymentTypeSpecificData
      */
     public function setPaymentTypeSpecificData($paymentTypeSpecificData)
     {
@@ -113,7 +113,7 @@ class ReserveTransaction implements Transaction
      * @return array
      * @throws \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
      */
-    public function mappedProperties()
+    public function mappedProperties($operation = null)
     {
         $tokenId = null !== $this->paymentTypeSpecificData ?
             $this->paymentTypeSpecificData->getTokenId()
@@ -143,7 +143,7 @@ class ReserveTransaction implements Transaction
 
         $specificProperties['ip-address'] = $_SERVER['REMOTE_ADDR'];
 
-        if ($this->paymentTypeSpecificData instanceof ThreeDCreditCard) {
+        if ($this->paymentTypeSpecificData instanceof ThreeDCreditCardTransaction) {
             $specificProperties[self::PARAM_TRANSACTION_TYPE] = 'check-enrollment';
         }
 

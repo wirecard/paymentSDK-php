@@ -214,7 +214,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
             ->willReturn($response);
 
         $service = new TransactionService($this->config, null, $client, $requestMapper, $responseMapper);
-        $this->assertEquals($response, $service->process($transaction));
+        $this->assertEquals($response, $service->reserve($transaction));
     }
 
     protected function getTestTransaction()

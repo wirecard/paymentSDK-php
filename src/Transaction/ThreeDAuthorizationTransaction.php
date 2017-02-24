@@ -70,7 +70,7 @@ class ThreeDAuthorizationTransaction implements Transaction
     /**
      * @return array
      */
-    public function mappedProperties()
+    public function mappedProperties($operation = null)
     {
         $md = json_decode(base64_decode($this->payload['MD']), true);
         $parentTransactionId = $md['enrollment-check-transaction-id'];

@@ -38,7 +38,7 @@ namespace Wirecard\PaymentSdk\Entity\PaymentMethod;
  *
  * An entity containing 3-D credit card specific payment data.
  */
-class ThreeDCreditCard extends CreditCard
+class ThreeDCreditCardTransaction extends CreditCardTransaction
 {
     /**
      * @var string

@@ -32,6 +32,8 @@
 
 namespace Wirecard\PaymentSdk\Entity\PaymentMethod;
 
+use Wirecard\PaymentSdk\Transaction\Transaction;
+
 /**
  * Class CreditCard
  * @package Wirecard\PaymentSdk\Entity\PaymentMethod
@@ -40,12 +42,25 @@ namespace Wirecard\PaymentSdk\Entity\PaymentMethod;
  * Use it for SSL payments.
  * For the 3D payments use the specific subclass.
  */
-class CreditCard
+class CreditCardTransaction implements Transaction
 {
+    const AUTHORIZATION = 'authorization';
+    const PARAM_PARENT_TRANSACTION_ID = 'parent-transaction-id';
+
     /**
      * @var string
      */
     private $tokenId;
+
+    /**
+     * @var Money
+     */
+    private $amount;
+
+    /**
+     * @var string
+     */
+    private $parentTransactionId;
 
     /**
      * @return string
@@ -61,5 +76,62 @@ class CreditCard
     public function setTokenId($tokenId)
     {
         $this->tokenId = $tokenId;
+    }
+
+    /**
+     * @param Money $amount
+     */
+    public function setAmount($amount)
+    {
+        $this->amount = $amount;
+    }
+
+    /**
+     * @param string $parentTransactionId
+     */
+    public function setParentTransactionId($parentTransactionId)
+    {
+        $this->parentTransactionId = $parentTransactionId;
+    }
+
+    /**
+     * @return array
+     */
+    public function mappedProperties($operation = null)
+    {
+        if ($this->tokenId === null && $this->parentTransactionId === null) {
+            throw new MandatoryFieldMissingException(
+                'At least one of these two parameters has to be provided: token ID, parent transaction ID.'
+            );
+        }
+
+        $specificProperties = [
+            'requested-amount' => $this->amount->mappedProperties()
+        ];
+
+        if (null !== $this->parentTransactionId) {
+            $specificProperties[self::PARAM_PARENT_TRANSACTION_ID] = $this->parentTransactionId;
+        }
+
+        $transactionType = self::AUTHORIZATION;
+        if (null !== $this->parentTransactionId) {
+            $transactionType = 'referenced-authorization';
+        }
+
+        if ($this instanceof ThreeDCreditCardTransaction) {
+            $transactionType = 'check-enrollment';
+        }
+        $specificProperties[self::PARAM_TRANSACTION_TYPE] = $transactionType;
+
+        if (null !== $this->tokenId) {
+            $specificProperties['card-token'] = [
+                'token-id' => $this->tokenId,
+            ];
+        }
+
+        $specificProperties['ip-address'] = $_SERVER['REMOTE_ADDR'];
+
+        return $specificProperties;
+
     }
 }

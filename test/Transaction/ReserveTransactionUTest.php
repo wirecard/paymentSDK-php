@@ -33,7 +33,7 @@
 namespace WirecardTest\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\Money;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCard;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\ReserveTransaction;
 
 class ReserveTransactionUTest extends \PHPUnit_Framework_TestCase
@@ -57,7 +57,7 @@ class ReserveTransactionUTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPaymentTypeSpecificData()
     {
-        $creditCardData = new CreditCard();
+        $creditCardData = new CreditCardTransaction();
         $reserveTransaction = new ReserveTransaction();
         $reserveTransaction->setPaymentTypeSpecificData($creditCardData);
 

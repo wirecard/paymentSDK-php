@@ -32,7 +32,7 @@
 
 namespace WirecardTest\PaymentSdk\Entity\PaymentMethod;
 
-use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCard;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCardTransaction;
 use Wirecard\PaymentSdk\Entity\Money;
 
 class CreditCardUTest extends \PHPUnit_Framework_TestCase
@@ -41,7 +41,7 @@ class CreditCardUTest extends \PHPUnit_Framework_TestCase
 
     public function testGetTokenId()
     {
-        $ccTransaction = new CreditCard();
+        $ccTransaction = new CreditCardTransaction();
         $ccTransaction->setTokenId(self::SAMPLE_TOKEN_ID);
 
         $this->assertEquals(self::SAMPLE_TOKEN_ID, $ccTransaction->getTokenId());

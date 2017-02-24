@@ -68,7 +68,7 @@ class CancelTransaction implements Transaction
     /**
      * @return array
      */
-    public function mappedProperties()
+    public function mappedProperties($operation = null)
     {
         return [
             self::PARAM_TRANSACTION_TYPE => 'void-authorization',

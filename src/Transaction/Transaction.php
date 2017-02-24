@@ -43,5 +43,5 @@ interface Transaction
     /**
      * @return array
      */
-    public function mappedProperties();
+    public function mappedProperties($operation = null);
 }

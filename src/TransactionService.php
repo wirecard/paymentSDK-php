@@ -225,6 +225,11 @@ class TransactionService
         return json_encode($requestData);
     }
 
+    public function reserve($transaction)
+    {
+        return $this->process($transaction, 'RESERVE');
+    }
+
     /**
      * @return LoggerInterface
      */
@@ -243,7 +248,7 @@ class TransactionService
      * @return FailureResponse|InteractionResponse|SuccessResponse|Response
      * @throws RequestException|MalformedResponseException|\RuntimeException
      */
-    public function process(Transaction $transaction)
+    public function process(Transaction $transaction, $operation = null)
     {
         $requestBody = $this->getRequestMapper()->map($transaction);
         $response = $this->getHttpClient()->request(

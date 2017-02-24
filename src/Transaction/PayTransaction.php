@@ -90,7 +90,7 @@ class PayTransaction implements Transaction
     /**
      * @return array
      */
-    public function mappedProperties()
+    public function mappedProperties($operation = null)
     {
         $payProperties = [
             'requested-amount' => $this->amount->mappedProperties(),
