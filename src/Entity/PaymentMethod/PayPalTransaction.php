@@ -33,6 +33,8 @@
 namespace Wirecard\PaymentSdk\Entity\PaymentMethod;
 
 use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Transaction\Operation;
+use Wirecard\PaymentSdk\Transaction\Transaction;
 
 /**
  * Class PayPal
@@ -41,7 +43,7 @@ use Wirecard\PaymentSdk\Entity\Redirect;
  * An immutable entity containing Paypal payment data.
  * It does not contain logic.
  */
-class PayPal
+class PayPalTransaction implements Transaction
 {
     /**
      * @var string
@@ -52,6 +54,11 @@ class PayPal
      * @var Redirect
      */
     private $redirect;
+
+    /**
+     * @var Money
+     */
+    private $amount;
 
     /**
      * PayPalTransaction constructor.
@@ -81,9 +88,18 @@ class PayPal
     }
 
     /**
+     * @param Money $amount
+     */
+    public function setAmount($amount)
+    {
+        $this->amount = $amount;
+    }
+
+    /**
+     * @param null $operation
      * @return array
      */
-    public function mappedProperties()
+    public function mappedProperties($operation = null)
     {
         $onlyPaymentMethod = ['payment-method' => [['name' => 'paypal']]];
         $onlyNotificationUrl = [
@@ -91,10 +107,25 @@ class PayPal
         ];
 
         return [
+            'requested-amount' => $this->amount->mappedProperties(),
+            self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType($operation),
             'payment-methods' => $onlyPaymentMethod,
             'cancel-redirect-url' => $this->getRedirect()->getCancelUrl(),
             'success-redirect-url' => $this->getRedirect()->getSuccessUrl(),
             'notifications' => $onlyNotificationUrl
         ];
+    }
+
+    private function retrieveTransactionType($operation)
+    {
+        $transactionTypes = [
+            Operation::PAY => 'debit'
+        ];
+
+        if (!array_key_exists($operation, $transactionTypes)) {
+            throw new \Exception('Unsupported operation.');
+        }
+
+        return $transactionTypes[$operation];
     }
 }

@@ -226,9 +226,22 @@ class TransactionService
         return json_encode($requestData);
     }
 
-    public function reserve($transaction)
+    /**
+     * @param Transaction $transaction
+     * @return FailureResponse|InteractionResponse|Response|SuccessResponse
+     */
+    public function reserve(Transaction $transaction)
     {
         return $this->process($transaction, Operation::RESERVE);
+    }
+
+    /**
+     * @param Transaction $transaction
+     * @return FailureResponse|InteractionResponse|Response|SuccessResponse
+     */
+    public function pay(Transaction $transaction)
+    {
+        return $this->process($transaction, Operation::PAY);
     }
 
     /**

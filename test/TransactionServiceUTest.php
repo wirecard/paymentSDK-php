@@ -39,12 +39,11 @@ use GuzzleHttp\Psr7\Response;
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCardTransaction;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\PayPal;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\PayPalTransaction;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\CancelTransaction;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
-use Wirecard\PaymentSdk\Transaction\PayTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
 use Wirecard\PaymentSdk\Entity\StatusCollection;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
@@ -183,7 +182,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         $service = new TransactionService($this->config, null, $client);
 
-        $this->assertInstanceOf($class, $service->process($this->getTestTransaction()));
+        $this->assertInstanceOf($class, $service->pay($this->getTestPayPalTransaction()));
     }
 
     public function testReserveCreditCardTransaction()
@@ -218,15 +217,13 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($response, $service->reserve($transaction));
     }
 
-    protected function getTestTransaction()
+    protected function getTestPayPalTransaction()
     {
         $redirect = new Redirect('http://www.example.com/success', 'http://www.example.com/cancel');
-        $paypalData = new PayPal('notUrl', $redirect);
+        $paypalData = new PayPalTransaction('notUrl', $redirect);
+        $paypalData->setAmount(new Money(20.23, 'EUR'));
 
-        $tx = new PayTransaction(new Money(20.23, 'EUR'));
-        $tx->setPaymentTypeSpecificData($paypalData);
-
-        return $tx;
+        return $paypalData;
     }
 
     public function testPayProvider()
@@ -283,7 +280,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         $this->instance = new TransactionService($this->config, null, $client);
 
-        $this->instance->process($this->getTestTransaction());
+        $this->instance->pay($this->getTestPayPalTransaction());
     }
 
     /**
@@ -304,7 +301,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         $this->instance = new TransactionService($this->config, null, $client);
 
-        $this->instance->process($this->getTestTransaction());
+        $this->instance->pay($this->getTestPayPalTransaction());
     }
 
     public function testHandleNotificationHappyPath()

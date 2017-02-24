@@ -33,7 +33,7 @@
 namespace Wirecard\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\Money;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\PayPal;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\PayPalTransaction;
 
 /**
  * Class PayTransaction
@@ -50,7 +50,7 @@ class PayTransaction implements Transaction
     private $amount;
 
     /**
-     * @var PayPal
+     * @var PayPalTransaction
      */
     private $paymentTypeSpecificData;
 
@@ -72,7 +72,7 @@ class PayTransaction implements Transaction
     }
 
     /**
-     * @return PayPal
+     * @return PayPalTransaction
      */
     public function getPaymentTypeSpecificData()
     {
@@ -80,7 +80,7 @@ class PayTransaction implements Transaction
     }
 
     /**
-     * @param PayPal $paymentTypeSpecificData
+     * @param PayPalTransaction $paymentTypeSpecificData
      */
     public function setPaymentTypeSpecificData($paymentTypeSpecificData)
     {

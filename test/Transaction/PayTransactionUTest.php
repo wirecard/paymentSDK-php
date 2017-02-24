@@ -33,7 +33,7 @@
 namespace WirecardTest\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\Money;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\PayPal;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\PayPalTransaction;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\PayTransaction;
 
@@ -62,7 +62,7 @@ class PayTransactionUTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPaymentTypeSpecificData()
     {
-        $payPalData = new PayPal('not_url', new Redirect('dummy', 'dummy'));
+        $payPalData = new PayPalTransaction('not_url', new Redirect('dummy', 'dummy'));
         $this->payTransaction->setPaymentTypeSpecificData($payPalData);
 
         $this->assertEquals($payPalData, $this->payTransaction->getPaymentTypeSpecificData());

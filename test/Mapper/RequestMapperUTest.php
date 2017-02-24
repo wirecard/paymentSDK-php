@@ -36,10 +36,9 @@ use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\CancelTransaction;
 use Wirecard\PaymentSdk\Entity\Money;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\PayPal;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\PayPalTransaction;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\Operation;
-use Wirecard\PaymentSdk\Transaction\PayTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
 use Wirecard\PaymentSdk\Mapper\RequestMapper;
 use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCardTransaction;
@@ -69,10 +68,9 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
 
         $redirect = new Redirect('http://www.example.com/success', 'http://www.example.com/cancel');
 
-        $payPalData = new PayPal(self::EXAMPLE_URL, $redirect);
-        $tx = new PayTransaction(new Money(24, 'EUR'));
-        $tx->setPaymentTypeSpecificData($payPalData);
-        $result = $mapper->map($tx);
+        $payPalData = new PayPalTransaction(self::EXAMPLE_URL, $redirect);
+        $payPalData->setAmount(new Money(24, 'EUR'));
+        $result = $mapper->map($payPalData, Operation::PAY);
 
         $this->assertEquals(json_encode($expectedResult), $result);
     }
