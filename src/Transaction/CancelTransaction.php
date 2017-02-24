@@ -41,6 +41,8 @@ namespace Wirecard\PaymentSdk\Transaction;
  */
 class CancelTransaction implements Transaction
 {
+    const PARAM_PARENT_TRANSACTION_ID = 'parent-transaction-id';
+
     /**
      * @var string
      */
@@ -61,5 +63,13 @@ class CancelTransaction implements Transaction
     public function getParentTransactionId()
     {
         return $this->parentTransactionId;
+    }
+
+    public function mappedProperties()
+    {
+        return [
+            self::PARAM_TRANSACTION_TYPE => 'void-authorization',
+            self::PARAM_PARENT_TRANSACTION_ID => $this->parentTransactionId
+        ];
     }
 }

@@ -47,10 +47,6 @@ use Wirecard\PaymentSdk\Transaction\Transaction;
  */
 class RequestMapper
 {
-    const PARAM_TRANSACTION_TYPE = 'transaction-type';
-    const PARAM_PARENT_TRANSACTION_ID = 'parent-transaction-id';
-    const CCARD_AUTHORIZATION = 'authorization';
-
     /**
      * @var Config
      */
@@ -85,25 +81,7 @@ class RequestMapper
             'request-id' => $requestId
         ];
 
-        $specificProperties = [];
-
-        if ($transaction instanceof PayTransaction) {
-            $specificProperties = $this->getSpecificPropertiesForPayPal($transaction);
-        }
-
-        if ($transaction instanceof ReserveTransaction) {
-            $specificProperties = $this->getSpecificPropertiesForCreditCard($transaction);
-        }
-
-        if ($transaction instanceof ThreeDAuthorizationTransaction) {
-            $specificProperties = $this->getSpecificPropertiesForReference($transaction);
-        }
-
-        if ($transaction instanceof CancelTransaction) {
-            $specificProperties = $this->getSpecificPropertiesForFollowup($transaction);
-        }
-
-        $allProperties = array_merge($commonProperties, $specificProperties);
+        $allProperties = array_merge($commonProperties, $transaction->mappedProperties());
         $result = ['payment' => $allProperties];
 
         return json_encode($result);

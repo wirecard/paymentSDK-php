@@ -34,6 +34,8 @@ namespace Wirecard\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCard;
+use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCard;
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 
 /**
  * Class ReserveTransaction
@@ -41,6 +43,9 @@ use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCard;
  */
 class ReserveTransaction implements Transaction
 {
+    const CCARD_AUTHORIZATION = 'authorization';
+    const PARAM_PARENT_TRANSACTION_ID = 'parent-transaction-id';
+
     /**
      * @var Money
      */
@@ -102,5 +107,42 @@ class ReserveTransaction implements Transaction
     public function setPaymentTypeSpecificData($paymentTypeSpecificData)
     {
         $this->paymentTypeSpecificData = $paymentTypeSpecificData;
+    }
+
+    public function mappedProperties()
+    {
+        $tokenId = null !== $this->paymentTypeSpecificData ?
+            $this->paymentTypeSpecificData->getTokenId()
+            : null;
+
+        if ($tokenId === null && $this->parentTransactionId === null) {
+            throw new MandatoryFieldMissingException(
+                'At least one of these two parameters has to be provided: token ID, parent transaction ID.'
+            );
+        }
+
+        $specificProperties = [
+            'requested-amount' => $this->amount->mappedProperties(),
+            self::PARAM_TRANSACTION_TYPE => self::CCARD_AUTHORIZATION
+        ];
+
+        if (null !== $this->parentTransactionId) {
+            $specificProperties[self::PARAM_TRANSACTION_TYPE] = 'referenced-authorization';
+            $specificProperties[self::PARAM_PARENT_TRANSACTION_ID] = $this->parentTransactionId;
+        }
+
+        if (null !== $tokenId) {
+            $specificProperties['card-token'] = [
+                'token-id' => $tokenId,
+            ];
+        }
+
+        $specificProperties['ip-address'] = $_SERVER['REMOTE_ADDR'];
+
+        if ($this->paymentTypeSpecificData instanceof ThreeDCreditCard) {
+            $specificProperties[self::PARAM_TRANSACTION_TYPE] = 'check-enrollment';
+        }
+
+        return $specificProperties;
     }
 }

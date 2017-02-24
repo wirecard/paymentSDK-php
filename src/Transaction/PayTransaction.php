@@ -86,4 +86,23 @@ class PayTransaction implements Transaction
     {
         $this->paymentTypeSpecificData = $paymentTypeSpecificData;
     }
+
+    public function mappedProperties()
+    {
+        $onlyPaymentMethod = ['payment-method' => [['name' => 'paypal']]];
+        $onlyNotificationUrl = [
+            'notification' => [['url' => $this->paymentTypeSpecificData->getNotificationUrl()]]
+        ];
+
+        return [
+            'requested-amount' => $this->amount->mappedProperties(),
+            self::PARAM_TRANSACTION_TYPE => 'debit',
+            'payment-methods' => $onlyPaymentMethod,
+            'cancel-redirect-url' => $this->paymentTypeSpecificData->getRedirect()->getCancelUrl(),
+            'success-redirect-url' => $this->paymentTypeSpecificData->getRedirect()->getSuccessUrl(),
+            'notifications' => $onlyNotificationUrl
+        ];
+    }
+
+
 }

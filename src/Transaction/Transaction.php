@@ -38,5 +38,6 @@ namespace Wirecard\PaymentSdk\Transaction;
  */
 interface Transaction
 {
-
+    const PARAM_TRANSACTION_TYPE = 'transaction-type';
+    public function mappedProperties();
 }

@@ -76,4 +76,12 @@ class Money
     {
         return $this->currency;
     }
+
+    public function mappedProperties()
+    {
+        return [
+            'currency' => $this->currency,
+            'value' => $this->amount
+        ];
+    }
 }

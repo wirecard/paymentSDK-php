@@ -42,6 +42,9 @@ namespace Wirecard\PaymentSdk\Transaction;
  */
 class ThreeDAuthorizationTransaction implements Transaction
 {
+    const CCARD_AUTHORIZATION = 'authorization';
+    const PARAM_PARENT_TRANSACTION_ID = 'parent-transaction-id';
+
     /**
      * @var string
      */
@@ -62,5 +65,20 @@ class ThreeDAuthorizationTransaction implements Transaction
     public function getPayload()
     {
         return $this->payload;
+    }
+
+    public function mappedProperties()
+    {
+        $md = json_decode(base64_decode($this->payload['MD']), true);
+        $parentTransactionId = $md['enrollment-check-transaction-id'];
+        $paRes = $this->payload['PaRes'];
+
+        return [
+            self::PARAM_TRANSACTION_TYPE => self::CCARD_AUTHORIZATION,
+            self::PARAM_PARENT_TRANSACTION_ID => $parentTransactionId,
+            'three-d' => [
+                'pares' => $paRes
+            ],
+        ];
     }
 }
