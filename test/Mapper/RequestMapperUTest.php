@@ -38,6 +38,7 @@ use Wirecard\PaymentSdk\Transaction\CancelTransaction;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Entity\PaymentMethod\PayPal;
 use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\PayTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
 use Wirecard\PaymentSdk\Mapper\RequestMapper;
@@ -98,7 +99,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $cardData->setTokenId('21');
         $cardData->setAmount(new Money(24, 'EUR'));
 
-        $result = $mapper->map($cardData, 'RESERVE');
+        $result = $mapper->map($cardData, Operation::RESERVE);
 
         $this->assertEquals(json_encode($expectedResult), $result);
     }
@@ -122,7 +123,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $transaction = new CreditCardTransaction();
         $transaction->setAmount(new Money(24, 'EUR'));
         $transaction->setParentTransactionId('parent5');
-        $result = $mapper->map($transaction, 'RESERVE');
+        $result = $mapper->map($transaction, Operation::RESERVE);
 
         $this->assertEquals(json_encode($expectedResult), $result);
     }
@@ -166,7 +167,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $cardData->setAmount(new Money(24, 'EUR'));
         $cardData->setParentTransactionId('parent5');
 
-        $result = $mapper->map($cardData, 'RESERVE');
+        $result = $mapper->map($cardData, Operation::RESERVE);
 
         $this->assertEquals(json_encode($expectedResult), $result);
     }
@@ -196,7 +197,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $cardData->setTermUrl('https://example.com/r');
         $cardData->setAmount($money);
 
-        $result = $mapper->map($cardData, 'RESERVE');
+        $result = $mapper->map($cardData, Operation::RESERVE);
 
         $this->assertEquals(json_encode($expectedResult), $result);
     }

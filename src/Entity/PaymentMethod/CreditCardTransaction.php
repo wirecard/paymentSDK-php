@@ -33,6 +33,7 @@
 namespace Wirecard\PaymentSdk\Entity\PaymentMethod;
 
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
+use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
 /**
@@ -128,7 +129,7 @@ class CreditCardTransaction implements Transaction
     private function retrieveTransactionType($operation)
     {
         $transactionTypes = [
-            'RESERVE' => $this->retrieveTransactionTypeForReserve()
+            Operation::RESERVE => $this->retrieveTransactionTypeForReserve()
         ];
 
         if (!array_key_exists($operation, $transactionTypes)) {

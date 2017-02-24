@@ -30,55 +30,10 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Mapper;
+namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Config;
-use Wirecard\PaymentSdk\Transaction\Operation;
-use Wirecard\PaymentSdk\Transaction\Transaction;
-
-/**
- * Class RequestMapper
- * @package Wirecard\PaymentSdk\Mapper
- */
-class RequestMapper
+class Operation
 {
-    /**
-     * @var Config
-     */
-    private $config;
-
-    /**
-     * @var \Closure
-     */
-    private $requestIdGenerator;
-
-    /**
-     * RequestMapper constructor.
-     * @param Config $config
-     * @param \Closure $requestIdGenerator
-     */
-    public function __construct(Config $config, \Closure $requestIdGenerator)
-    {
-        $this->config = $config;
-        $this->requestIdGenerator = $requestIdGenerator;
-    }
-
-    /**
-     * @param Transaction $transaction
-     * @param string $operation
-     * @return string The transaction in JSON format.
-     */
-    public function map(Transaction $transaction, $operation = null)
-    {
-        $requestId = call_user_func($this->requestIdGenerator);
-        $commonProperties = [
-            'merchant-account-id' => ['value' => $this->config->getMerchantAccountId()],
-            'request-id' => $requestId
-        ];
-
-        $allProperties = array_merge($commonProperties, $transaction->mappedProperties($operation));
-        $result = ['payment' => $allProperties];
-
-        return json_encode($result);
-    }
+    const RESERVE = 'reserve';
+    const PAY = 'pay';
 }
