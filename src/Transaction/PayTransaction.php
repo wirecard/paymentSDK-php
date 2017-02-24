@@ -103,6 +103,4 @@ class PayTransaction implements Transaction
             'notifications' => $onlyNotificationUrl
         ];
     }
-
-
 }

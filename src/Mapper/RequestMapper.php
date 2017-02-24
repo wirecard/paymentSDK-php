@@ -33,12 +33,6 @@
 namespace Wirecard\PaymentSdk\Mapper;
 
 use Wirecard\PaymentSdk\Config;
-use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
-use Wirecard\PaymentSdk\Transaction\CancelTransaction;
-use Wirecard\PaymentSdk\Transaction\PayTransaction;
-use Wirecard\PaymentSdk\Transaction\ReserveTransaction;
-use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCard;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
 /**
@@ -85,116 +79,5 @@ class RequestMapper
         $result = ['payment' => $allProperties];
 
         return json_encode($result);
-    }
-
-    /**
-     * @param $transaction
-     * @return array
-     */
-    private function getAmountOfTransaction($transaction)
-    {
-        return [
-            'currency' => $transaction->getAmount()->getCurrency(),
-            'value' => $transaction->getAmount()->getAmount()
-        ];
-    }
-
-    /**
-     * @param PayTransaction $transaction
-     * @return array
-     */
-    private function getSpecificPropertiesForPayPal(PayTransaction $transaction)
-    {
-        $onlyPaymentMethod = ['payment-method' => [['name' => 'paypal']]];
-        $onlyNotificationUrl = [
-            'notification' => [['url' => $transaction->getPaymentTypeSpecificData()->getNotificationUrl()]]
-        ];
-
-        return [
-            'requested-amount' => $this->getAmountOfTransaction($transaction),
-            self::PARAM_TRANSACTION_TYPE => 'debit',
-            'payment-methods' => $onlyPaymentMethod,
-            'cancel-redirect-url' => $transaction->getPaymentTypeSpecificData()->getRedirect()->getCancelUrl(),
-            'success-redirect-url' => $transaction->getPaymentTypeSpecificData()->getRedirect()->getSuccessUrl(),
-            'notifications' => $onlyNotificationUrl
-        ];
-    }
-
-    /**
-     * @param ReserveTransaction $transaction
-     * @return array
-     * @throws \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
-     */
-    private function getSpecificPropertiesForCreditCard(ReserveTransaction $transaction)
-    {
-        $tokenId = null !== $transaction->getPaymentTypeSpecificData() ?
-            $transaction->getPaymentTypeSpecificData()->getTokenId()
-            : null;
-        $parentTransactionId = $transaction->getParentTransactionId();
-
-        if ($tokenId === null && $parentTransactionId === null) {
-            throw new MandatoryFieldMissingException(
-                'At least one of these two parameters has to be provided: token ID, parent transaction ID.'
-            );
-        }
-
-        $specificProperties = [
-            'requested-amount' => $this->getAmountOfTransaction($transaction),
-            self::PARAM_TRANSACTION_TYPE => self::CCARD_AUTHORIZATION
-        ];
-
-        if (null !== $parentTransactionId) {
-            $specificProperties[self::PARAM_TRANSACTION_TYPE] = 'referenced-authorization';
-            $specificProperties[self::PARAM_PARENT_TRANSACTION_ID] = $transaction->getParentTransactionId();
-        }
-
-        if (null !== $tokenId) {
-            $specificProperties['card-token'] = [
-                'token-id' => $tokenId,
-            ];
-        }
-
-        $specificProperties['ip-address'] = $_SERVER['REMOTE_ADDR'];
-
-        if ($transaction->getPaymentTypeSpecificData() instanceof ThreeDCreditCard) {
-            $threeDProperties = [
-                self::PARAM_TRANSACTION_TYPE => 'check-enrollment',
-            ];
-            $specificProperties = array_merge($specificProperties, $threeDProperties);
-        }
-
-        return $specificProperties;
-    }
-
-    /**
-     * @param ThreeDAuthorizationTransaction $transaction
-     * @return array
-     */
-    private function getSpecificPropertiesForReference($transaction)
-    {
-        $payload = $transaction->getPayload();
-        $md = json_decode(base64_decode($payload['MD']), true);
-        $parentTransactionId = $md['enrollment-check-transaction-id'];
-        $paRes = $payload['PaRes'];
-
-        return [
-            self::PARAM_TRANSACTION_TYPE => self::CCARD_AUTHORIZATION,
-            self::PARAM_PARENT_TRANSACTION_ID => $parentTransactionId,
-            'three-d' => [
-                'pares' => $paRes
-            ],
-        ];
-    }
-
-    /**
-     * @param CancelTransaction $transaction
-     * @return array
-     */
-    private function getSpecificPropertiesForFollowup($transaction)
-    {
-        return [
-            self::PARAM_TRANSACTION_TYPE => 'void-authorization',
-            self::PARAM_PARENT_TRANSACTION_ID => $transaction->getParentTransactionId()
-        ];
     }
 }
