@@ -33,7 +33,7 @@
 namespace WirecardTest\PaymentSdk\Mapper;
 
 use Wirecard\PaymentSdk\Config;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCardTransaction;
+use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\CancelTransaction;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
@@ -41,7 +41,7 @@ use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
 use Wirecard\PaymentSdk\Mapper\RequestMapper;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCardTransaction;
+use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 
 class RequestMapperUTest extends \PHPUnit_Framework_TestCase
 {

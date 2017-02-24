@@ -33,8 +33,8 @@
 namespace Wirecard\PaymentSdk\Mapper;
 
 use Wirecard\PaymentSdk\Entity\FormFieldMap;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCardTransaction;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCardTransaction;
+use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
+use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\Entity\Status;
 use Wirecard\PaymentSdk\Entity\StatusCollection;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;

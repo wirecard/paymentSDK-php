@@ -37,7 +37,7 @@ use GuzzleHttp\Exception\RequestException;
 use Monolog\Handler\ErrorLogHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCardTransaction;
+use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Mapper\RequestMapper;
 use Wirecard\PaymentSdk\Mapper\ResponseMapper;

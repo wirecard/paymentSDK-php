@@ -30,17 +30,16 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Entity\PaymentMethod;
+namespace Wirecard\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Entity\PaymentMethod\Money;
+use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
-use Wirecard\PaymentSdk\Transaction\Operation;
-use Wirecard\PaymentSdk\Transaction\Transaction;
 
 /**
- * Class CreditCard
- * @package Wirecard\PaymentSdk\Entity\PaymentMethod
+ * Class CreditCardTransaction
+ * @package Wirecard\PaymentSdk\Transaction
  *
- * An entity containing credit card specific payment data.
  * Use it for SSL payments.
  * For the 3D payments use the specific subclass.
  */
