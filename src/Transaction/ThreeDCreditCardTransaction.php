@@ -48,13 +48,6 @@ class ThreeDCreditCardTransaction extends CreditCardTransaction
      */
     private $termUrl;
 
-    /**
-     * @return string
-     */
-    public function getNotificationUrl()
-    {
-        return $this->notificationUrl;
-    }
 
     /**
      * @param string $notificationUrl

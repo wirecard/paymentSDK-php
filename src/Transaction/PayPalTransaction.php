@@ -68,22 +68,6 @@ class PayPalTransaction implements Transaction
     }
 
     /**
-     * @return string
-     */
-    public function getNotificationUrl()
-    {
-        return $this->notificationUrl;
-    }
-
-    /**
-     * @return Redirect
-     */
-    public function getRedirect()
-    {
-        return $this->redirect;
-    }
-
-    /**
      * @param Money $amount
      */
     public function setAmount($amount)
@@ -106,8 +90,8 @@ class PayPalTransaction implements Transaction
             'requested-amount' => $this->amount->mappedProperties(),
             self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType($operation),
             'payment-methods' => $onlyPaymentMethod,
-            'cancel-redirect-url' => $this->getRedirect()->getCancelUrl(),
-            'success-redirect-url' => $this->getRedirect()->getSuccessUrl(),
+            'cancel-redirect-url' => $this->redirect->getCancelUrl(),
+            'success-redirect-url' => $this->redirect->getSuccessUrl(),
             'notifications' => $onlyNotificationUrl
         ];
     }

@@ -63,14 +63,6 @@ class CreditCardTransaction implements Transaction
     private $parentTransactionId;
 
     /**
-     * @return string
-     */
-    public function getTokenId()
-    {
-        return $this->tokenId;
-    }
-
-    /**
      * @param string $tokenId
      */
     public function setTokenId($tokenId)

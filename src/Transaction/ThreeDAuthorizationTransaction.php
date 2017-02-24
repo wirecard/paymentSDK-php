@@ -60,14 +60,6 @@ class ThreeDAuthorizationTransaction implements Transaction
     }
 
     /**
-     * @return string
-     */
-    public function getPayload()
-    {
-        return $this->payload;
-    }
-
-    /**
      * @return array
      */
     public function mappedProperties($operation = null)
