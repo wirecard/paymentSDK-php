@@ -30,9 +30,9 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk\Entity\PaymentMethod;
+namespace WirecardTest\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\PaymentMethod\PayPalTransaction;
+use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Entity\Redirect;
 
 class PayPalUTest extends \PHPUnit_Framework_TestCase

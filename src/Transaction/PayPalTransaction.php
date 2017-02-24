@@ -30,18 +30,14 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Entity\PaymentMethod;
+namespace Wirecard\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Entity\PaymentMethod\Money;
 use Wirecard\PaymentSdk\Entity\Redirect;
-use Wirecard\PaymentSdk\Transaction\Operation;
-use Wirecard\PaymentSdk\Transaction\Transaction;
 
 /**
- * Class PayPal
- * @package Wirecard\PaymentSdk\Entity\PaymentMethod
- *
- * An immutable entity containing Paypal payment data.
- * It does not contain logic.
+ * Class PayPalTransaction
+ * @package Wirecard\PaymentSdk\Transaction
  */
 class PayPalTransaction implements Transaction
 {
