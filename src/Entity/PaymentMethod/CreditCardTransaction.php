@@ -105,7 +105,8 @@ class CreditCardTransaction implements Transaction
         }
 
         $specificProperties = [
-            'requested-amount' => $this->amount->mappedProperties()
+            'requested-amount' => $this->amount->mappedProperties(),
+            'ip-address' => $_SERVER['REMOTE_ADDR']
         ];
 
         if (null !== $this->parentTransactionId) {
@@ -120,10 +121,7 @@ class CreditCardTransaction implements Transaction
             ];
         }
 
-        $specificProperties['ip-address'] = $_SERVER['REMOTE_ADDR'];
-
         return $specificProperties;
-
     }
 
     private function retrieveTransactionType($operation)

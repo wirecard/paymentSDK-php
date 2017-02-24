@@ -249,8 +249,12 @@ class ResponseMapper
      * @return FormInteractionResponse|InteractionResponse|SuccessResponse
      * @throws MalformedResponseException
      */
-    private function mapSuccessResponse($xmlResponse, $response, $statusCollection, CreditCardTransaction $transaction = null)
-    {
+    private function mapSuccessResponse(
+        $xmlResponse,
+        $response,
+        $statusCollection,
+        CreditCardTransaction $transaction = null
+    ) {
         if ($transaction instanceof ThreeDCreditCardTransaction) {
             return $this->mapThreeDResponse($xmlResponse, $response, $statusCollection, $transaction);
         }
