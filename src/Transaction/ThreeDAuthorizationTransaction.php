@@ -67,6 +67,9 @@ class ThreeDAuthorizationTransaction implements Transaction
         return $this->payload;
     }
 
+    /**
+     * @return array
+     */
     public function mappedProperties()
     {
         $md = json_decode(base64_decode($this->payload['MD']), true);

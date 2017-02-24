@@ -87,6 +87,9 @@ class PayTransaction implements Transaction
         $this->paymentTypeSpecificData = $paymentTypeSpecificData;
     }
 
+    /**
+     * @return array
+     */
     public function mappedProperties()
     {
         $onlyPaymentMethod = ['payment-method' => [['name' => 'paypal']]];

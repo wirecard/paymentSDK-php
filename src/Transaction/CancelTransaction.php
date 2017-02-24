@@ -65,6 +65,9 @@ class CancelTransaction implements Transaction
         return $this->parentTransactionId;
     }
 
+    /**
+     * @return array
+     */
     public function mappedProperties()
     {
         return [

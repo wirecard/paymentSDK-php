@@ -109,6 +109,10 @@ class ReserveTransaction implements Transaction
         $this->paymentTypeSpecificData = $paymentTypeSpecificData;
     }
 
+    /**
+     * @return array
+     * @throws \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
+     */
     public function mappedProperties()
     {
         $tokenId = null !== $this->paymentTypeSpecificData ?
