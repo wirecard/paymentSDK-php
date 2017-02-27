@@ -47,10 +47,12 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
      */
     public function testMapPropertiesUnsupportedOperation()
     {
+        $this->tx->setTokenId('anything');
+
         $this->tx->mappedProperties('non-existing');
     }
 }

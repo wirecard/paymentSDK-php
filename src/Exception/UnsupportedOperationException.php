@@ -30,58 +30,15 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Transaction;
+namespace Wirecard\PaymentSdk\Exception;
 
-use Wirecard\PaymentSdk\Entity\Redirect;
-use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
+use UnexpectedValueException;
 
 /**
- * Class PayPalTransaction
- * @package Wirecard\PaymentSdk\Transaction
+ * Class UnsupportedOperationException
+ * @package Wirecard\PaymentSdk\Exception
  */
-class PayPalTransaction extends Transaction
+class UnsupportedOperationException extends UnexpectedValueException
 {
-    /**
-     * @var Redirect
-     */
-    private $redirect;
 
-    /**
-     * @param Redirect $redirect
-     */
-    public function setRedirect($redirect)
-    {
-        $this->redirect = $redirect;
-    }
-
-    /**
-     * @param null $operation
-     * @return array
-     */
-    public function mappedProperties($operation = null)
-    {
-        $onlyPaymentMethod = ['payment-method' => [['name' => 'paypal']]];
-
-        $specificProperties = [
-            self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType($operation),
-            'payment-methods' => $onlyPaymentMethod,
-            'cancel-redirect-url' => $this->redirect->getCancelUrl(),
-            'success-redirect-url' => $this->redirect->getSuccessUrl()
-        ];
-
-        return array_merge(parent::mappedProperties($operation), $specificProperties);
-    }
-
-    private function retrieveTransactionType($operation)
-    {
-        $transactionTypes = [
-            Operation::PAY => 'debit'
-        ];
-
-        if (!array_key_exists($operation, $transactionTypes)) {
-            throw new UnsupportedOperationException();
-        }
-
-        return $transactionTypes[$operation];
-    }
 }

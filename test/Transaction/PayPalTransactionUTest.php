@@ -34,7 +34,7 @@ namespace WirecardTest\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 
-class PayPalTransactionTest extends \PHPUnit_Framework_TestCase
+class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var PayPalTransaction
@@ -47,7 +47,7 @@ class PayPalTransactionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Exception
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
      */
     public function testMapPropertiesUnsupportedOperation()
     {

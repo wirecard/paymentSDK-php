@@ -32,8 +32,7 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\PaymentMethod\Money;
-use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
+use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 
 /**
@@ -90,7 +89,7 @@ class CreditCardTransaction extends Transaction
         ];
 
         if (!array_key_exists($operation, $transactionTypes)) {
-            throw new \Exception('Unsupported operation.');
+            throw new UnsupportedOperationException();
         }
 
         return $transactionTypes[$operation];
