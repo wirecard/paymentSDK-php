@@ -21,7 +21,8 @@ $config = new Config('https://api-test.wirecard.com/engine/rest/payments/', '700
 
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
-$tx = new CancelTransaction($_POST['parentTransactionId']);
+$tx = new CancelTransaction();
+$tx->setParentTransactionId($_POST['parentTransactionId']);
 $response = $transactionService->process($tx);
 
 // ## Response handling

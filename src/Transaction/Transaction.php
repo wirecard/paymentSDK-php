@@ -39,11 +39,17 @@ namespace Wirecard\PaymentSdk\Transaction;
 abstract class Transaction implements Mappable
 {
     const PARAM_TRANSACTION_TYPE = 'transaction-type';
+    const PARAM_PARENT_TRANSACTION_ID = 'parent-transaction-id';
 
     /**
      * @var Money
      */
-    private $amount;
+    protected $amount;
+
+    /**
+     * @var string
+     */
+    protected $parentTransactionId;
 
     /**
      * @param Money $amount
@@ -53,13 +59,25 @@ abstract class Transaction implements Mappable
         $this->amount = $amount;
     }
 
+    /**
+     * @param string $parentTransactionId
+     */
+    public function setParentTransactionId($parentTransactionId)
+    {
+        $this->parentTransactionId = $parentTransactionId;
+    }
+
     public function mappedProperties($operation = null)
     {
-        return [
+        $result = [
             'requested-amount' => $this->amount->mappedProperties(),
             //'ip-address' => $_SERVER['REMOTE_ADDR']
         ];
+
+        if (null !== $this->parentTransactionId) {
+            $result[self::PARAM_PARENT_TRANSACTION_ID] = $this->parentTransactionId;
+        }
+
+        return $result;
     }
-
-
 }

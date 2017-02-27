@@ -113,9 +113,9 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
             'merchant-account-id' => ['value' => 'B612'],
             'request-id' => '5B-dummy-id',
             'requested-amount' => ['currency' => 'EUR', 'value' => 24],
+            'parent-transaction-id' => 'parent5',
             'ip-address' => 'test IP',
             'transaction-type' => 'referenced-authorization',
-            'parent-transaction-id' => 'parent5',
         ]];
 
         $transaction = new CreditCardTransaction();
@@ -152,9 +152,9 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
             'merchant-account-id' => ['value' => 'B612'],
             'request-id' => '5B-dummy-id',
             'requested-amount' => ['currency' => 'EUR', 'value' => 24],
+            'parent-transaction-id' => 'parent5',
             'ip-address' => 'test IP',
             'transaction-type' => 'referenced-authorization',
-            'parent-transaction-id' => 'parent5',
             'card-token' => [
                 'token-id' => '33'
             ]
@@ -234,7 +234,8 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', self::MAID, 'secret');
         $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
         $mapper = new RequestMapper($config, $requestIdGeneratorMock);
-        $followupTransaction = new CancelTransaction('642');
+        $followupTransaction = new CancelTransaction();
+        $followupTransaction->setParentTransactionId('642');
 
         $result = $mapper->map($followupTransaction);
 

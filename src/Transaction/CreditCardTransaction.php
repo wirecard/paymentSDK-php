@@ -45,17 +45,10 @@ use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
  */
 class CreditCardTransaction extends Transaction
 {
-    const PARAM_PARENT_TRANSACTION_ID = 'parent-transaction-id';
-
     /**
      * @var string
      */
     private $tokenId;
-
-    /**
-     * @var string
-     */
-    private $parentTransactionId;
 
     /**
      * @param string $tokenId
@@ -63,14 +56,6 @@ class CreditCardTransaction extends Transaction
     public function setTokenId($tokenId)
     {
         $this->tokenId = $tokenId;
-    }
-
-    /**
-     * @param string $parentTransactionId
-     */
-    public function setParentTransactionId($parentTransactionId)
-    {
-        $this->parentTransactionId = $parentTransactionId;
     }
 
     /**
@@ -88,10 +73,6 @@ class CreditCardTransaction extends Transaction
         $result['ip-address'] = $_SERVER['REMOTE_ADDR'];
 
         $result[self::PARAM_TRANSACTION_TYPE] = $this->retrieveTransactionType($operation);
-
-        if (null !== $this->parentTransactionId) {
-            $result[self::PARAM_PARENT_TRANSACTION_ID] = $this->parentTransactionId;
-        }
 
         if (null !== $this->tokenId) {
             $result['card-token'] = [

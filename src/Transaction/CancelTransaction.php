@@ -44,20 +44,6 @@ class CancelTransaction extends Transaction
     const PARAM_PARENT_TRANSACTION_ID = 'parent-transaction-id';
 
     /**
-     * @var string
-     */
-    private $parentTransactionId;
-
-    /**
-     * FollowupTransaction constructor.
-     * @param string $parentTransactionId
-     */
-    public function __construct($parentTransactionId)
-    {
-        $this->parentTransactionId = $parentTransactionId;
-    }
-
-    /**
      * @return array
      */
     public function mappedProperties($operation = null)
