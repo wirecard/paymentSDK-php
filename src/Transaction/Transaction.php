@@ -59,11 +59,6 @@ abstract class Transaction implements Mappable
     /**
      * @var string
      */
-    protected $notification;
-
-    /**
-     * @var string
-     */
     protected $consumerId;
 
     /**
@@ -88,14 +83,6 @@ abstract class Transaction implements Mappable
     public function setNotificationUrl($notificationUrl)
     {
         $this->notificationUrl = $notificationUrl;
-    }
-
-    /**
-     * @param string $notification
-     */
-    public function setNotification($notification)
-    {
-        $this->notification = $notification;
     }
 
     /**
@@ -126,6 +113,10 @@ abstract class Transaction implements Mappable
                 'notification' => [['url' => $this->notificationUrl]]
             ];
             $result['notifications'] = $onlyNotificationUrl;
+        }
+
+        if (null !== $this->consumerId) {
+            $result['consumer-id'] = $this->consumerId;
         }
 
         return $result;
