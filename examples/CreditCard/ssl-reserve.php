@@ -9,11 +9,10 @@
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCard;
+use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\ReserveTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 // Create a money object as amount which has to be payed by the consumer.
@@ -38,16 +37,13 @@ $config = new Config('https://api-test.wirecard.com/engine/rest/payments/', '700
 
 // Create a `CreditCardTransaction` object, which contains all relevant data for the payment process.
 // The token is required as reference to the credit card data.
-$cardData = new CreditCard();
-$cardData->setTokenId($tokenId);
-
-$transaction = new ReserveTransaction();
+$transaction = new CreditCardTransaction();
+$transaction->setTokenId($tokenId);
 $transaction->setAmount($amount);
-$transaction->setPaymentTypeSpecificData($cardData);
 $transaction->setParentTransactionId($parentTransactionId);
 // The service is used to execute the reservation (authorization) operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
-$response = $transactionService->process($transaction);
+$response = $transactionService->reserve($transaction);
 
 
 // ## Response handling

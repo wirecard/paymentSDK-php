@@ -37,6 +37,7 @@ use GuzzleHttp\Exception\RequestException;
 use Monolog\Handler\ErrorLogHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
+use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Mapper\RequestMapper;
 use Wirecard\PaymentSdk\Mapper\ResponseMapper;
@@ -44,7 +45,7 @@ use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Response\Response;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\ReserveTransaction;
+use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
@@ -226,6 +227,33 @@ class TransactionService
     }
 
     /**
+     * @param Transaction $transaction
+     * @return FailureResponse|InteractionResponse|Response|SuccessResponse
+     */
+    public function reserve(Transaction $transaction)
+    {
+        return $this->process($transaction, Operation::RESERVE);
+    }
+
+    /**
+     * @param Transaction $transaction
+     * @return FailureResponse|InteractionResponse|Response|SuccessResponse
+     */
+    public function pay(Transaction $transaction)
+    {
+        return $this->process($transaction, Operation::PAY);
+    }
+
+    /**
+     * @param Transaction $transaction
+     * @return FailureResponse|InteractionResponse|Response|SuccessResponse
+     */
+    public function cancel(Transaction $transaction)
+    {
+        return $this->process($transaction, Operation::CANCEL);
+    }
+
+    /**
      * @return LoggerInterface
      */
     protected function getLogger()
@@ -240,12 +268,12 @@ class TransactionService
 
     /**
      * @param Transaction $transaction
-     * @return FailureResponse|InteractionResponse|SuccessResponse|Response
-     * @throws RequestException|MalformedResponseException|\RuntimeException
+     * @param string $operation
+     * @return FailureResponse|InteractionResponse|Response|SuccessResponse
      */
-    public function process(Transaction $transaction)
+    public function process(Transaction $transaction, $operation)
     {
-        $requestBody = $this->getRequestMapper()->map($transaction);
+        $requestBody = $this->getRequestMapper()->map($transaction, $operation);
         $response = $this->getHttpClient()->request(
             'POST',
             $this->getConfig()->getUrl(),
@@ -262,13 +290,13 @@ class TransactionService
             ]
         );
 
-        $data = $transaction instanceof ReserveTransaction ? $transaction->getPaymentTypeSpecificData() : null;
+        $data = $transaction instanceof ThreeDCreditCardTransaction ? $transaction : null;
         return $this->getResponseMapper()->map($response->getBody()->getContents(), $data);
     }
 
     private function processAuthFrom3DResponse($payload)
     {
         $refTransaction = new ThreeDAuthorizationTransaction($payload);
-        return $this->process($refTransaction);
+        return $this->process($refTransaction, Operation::RESERVE);
     }
 }

@@ -30,53 +30,11 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Entity\PaymentMethod;
+namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\Redirect;
-
-/**
- * Class PayPal
- * @package Wirecard\PaymentSdk\Entity\PaymentMethod
- *
- * An immutable entity containing Paypal payment data.
- * It does not contain logic.
- */
-class PayPal
+class Operation
 {
-    /**
-     * @var string
-     */
-    private $notificationUrl;
-
-    /**
-     * @var Redirect
-     */
-    private $redirect;
-
-    /**
-     * PayPalTransaction constructor.
-     * @param string $notificationUrl
-     * @param Redirect $redirect
-     */
-    public function __construct($notificationUrl, Redirect $redirect)
-    {
-        $this->notificationUrl = $notificationUrl;
-        $this->redirect = $redirect;
-    }
-
-    /**
-     * @return string
-     */
-    public function getNotificationUrl()
-    {
-        return $this->notificationUrl;
-    }
-
-    /**
-     * @return Redirect
-     */
-    public function getRedirect()
-    {
-        return $this->redirect;
-    }
+    const RESERVE = 'reserve';
+    const PAY = 'pay';
+    const CANCEL = 'cancel';
 }

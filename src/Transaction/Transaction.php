@@ -36,7 +36,89 @@ namespace Wirecard\PaymentSdk\Transaction;
  * Interface Transaction
  * @package Wirecard\PaymentSdk\Transaction
  */
-interface Transaction
+abstract class Transaction implements Mappable
 {
+    const PARAM_TRANSACTION_TYPE = 'transaction-type';
+    const PARAM_PARENT_TRANSACTION_ID = 'parent-transaction-id';
 
+    /**
+     * @var Money
+     */
+    protected $amount;
+
+    /**
+     * @var string
+     */
+    protected $parentTransactionId;
+
+    /**
+     * @var string
+     */
+    protected $notificationUrl;
+
+    /**
+     * @var string
+     */
+    protected $consumerId;
+
+    /**
+     * @param Money $amount
+     */
+    public function setAmount($amount)
+    {
+        $this->amount = $amount;
+    }
+
+    /**
+     * @param string $parentTransactionId
+     */
+    public function setParentTransactionId($parentTransactionId)
+    {
+        $this->parentTransactionId = $parentTransactionId;
+    }
+
+    /**
+     * @param string $notificationUrl
+     */
+    public function setNotificationUrl($notificationUrl)
+    {
+        $this->notificationUrl = $notificationUrl;
+    }
+
+    /**
+     * @param string $consumerId
+     */
+    public function setConsumerId($consumerId)
+    {
+        $this->consumerId = $consumerId;
+    }
+
+    public function mappedProperties($operation = null)
+    {
+        $result = [];
+        if ($this->amount) {
+            $result['requested-amount'] = $this->amount->mappedProperties();
+        };
+
+        if (null !== $this->parentTransactionId) {
+            $result[self::PARAM_PARENT_TRANSACTION_ID] = $this->parentTransactionId;
+        }
+
+        if (array_key_exists('REMOTE_ADDR', $_SERVER)) {
+            $result['ip-address'] = $_SERVER['REMOTE_ADDR'];
+        }
+
+        if (null !== $this->notificationUrl) {
+            $onlyNotificationUrl = [
+                'notification' => [['url' => $this->notificationUrl]]
+            ];
+            $result['notifications'] = $onlyNotificationUrl;
+        }
+
+        if (null !== $this->consumerId) {
+            $result['consumer-id'] = $this->consumerId;
+        }
+
+        return $result;
+    }
 }

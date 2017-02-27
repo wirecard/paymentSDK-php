@@ -32,13 +32,15 @@
 
 namespace Wirecard\PaymentSdk\Entity;
 
+use Wirecard\PaymentSdk\Transaction\Mappable;
+
 /**
  * Class Money
  * @package Wirecard\PaymentSdk\Entity
  *
  * An immutable entity representing a money: amount and currency.
  */
-class Money
+class Money implements Mappable
 {
     /**
      * @var float
@@ -75,5 +77,17 @@ class Money
     public function getCurrency()
     {
         return $this->currency;
+    }
+
+    /**
+     * @param null $operation
+     * @return array
+     */
+    public function mappedProperties($operation = null)
+    {
+        return [
+            'currency' => $this->currency,
+            'value' => $this->amount
+        ];
     }
 }

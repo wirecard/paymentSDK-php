@@ -12,8 +12,7 @@ use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Entity\Money;
-use Wirecard\PaymentSdk\Transaction\ReserveTransaction;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCard;
+use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 /**
@@ -51,16 +50,17 @@ $config = new Config('https://api-test.wirecard.com/engine/rest/payments/', '700
     '33f6d473-3036-4ca5-acb5-8c64dac862d1', '9e0130f6-2e1e-4185-b0d5-dc69079c75cc');
 
 // The 3-D credit card transaction contains all relevant data for the payment process.
-$cardData = new ThreeDCreditCard($tokenId, $notificationUrl, $redirectUrl);
-$tx = new ReserveTransaction();
+$tx = new ThreeDCreditCardTransaction();
 $tx->setAmount($amount);
-$tx->setPaymentTypeSpecificData($cardData);
+$tx->setTokenId($tokenId);
+$tx->setNotificationUrl($notificationUrl);
+$tx->setTermUrl($redirectUrl);
 
 // ### Transaction
 
 // The service is used to execute the reservation (authorization) operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
-$response = $transactionService->process($tx);
+$response = $transactionService->reserve($tx);
 
 // ### Response handling
 

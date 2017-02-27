@@ -32,34 +32,10 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
-/**
- * Class CancelTransaction
- * @package Wirecard\PaymentSdk\Transaction
- *
- * Use this transaction object,
- * if you want to cancel an existing payment.
- */
-class CancelTransaction implements Transaction
+interface Mappable
 {
     /**
-     * @var string
+     * @return array
      */
-    private $parentTransactionId;
-
-    /**
-     * FollowupTransaction constructor.
-     * @param string $parentTransactionId
-     */
-    public function __construct($parentTransactionId)
-    {
-        $this->parentTransactionId = $parentTransactionId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getParentTransactionId()
-    {
-        return $this->parentTransactionId;
-    }
+    public function mappedProperties($operation = null);
 }

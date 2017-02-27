@@ -30,21 +30,58 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk\Entity\PaymentMethod;
+namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\PaymentMethod\PayPal;
 use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
-class PayPalUTest extends \PHPUnit_Framework_TestCase
+/**
+ * Class PayPalTransaction
+ * @package Wirecard\PaymentSdk\Transaction
+ */
+class PayPalTransaction extends Transaction
 {
-    const NOTIFICATION_URL = 'http://www.example.com';
+    /**
+     * @var Redirect
+     */
+    private $redirect;
 
-    public function testConstructorWithRedirect()
+    /**
+     * @param Redirect $redirect
+     */
+    public function setRedirect($redirect)
     {
-        $redirect = new Redirect('http://www.example.com/success', 'http://www.example.com/cancel');
-        $payPalTransaction = new PayPal(self::NOTIFICATION_URL, $redirect);
+        $this->redirect = $redirect;
+    }
 
-        $this->assertEquals(self::NOTIFICATION_URL, $payPalTransaction->getNotificationUrl());
-        $this->assertEquals($redirect, $payPalTransaction->getRedirect());
+    /**
+     * @param null $operation
+     * @return array
+     */
+    public function mappedProperties($operation = null)
+    {
+        $onlyPaymentMethod = ['payment-method' => [['name' => 'paypal']]];
+
+        $specificProperties = [
+            self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType($operation),
+            'payment-methods' => $onlyPaymentMethod,
+            'cancel-redirect-url' => $this->redirect->getCancelUrl(),
+            'success-redirect-url' => $this->redirect->getSuccessUrl()
+        ];
+
+        return array_merge(parent::mappedProperties($operation), $specificProperties);
+    }
+
+    private function retrieveTransactionType($operation)
+    {
+        $transactionTypes = [
+            Operation::PAY => 'debit'
+        ];
+
+        if (!array_key_exists($operation, $transactionTypes)) {
+            throw new UnsupportedOperationException();
+        }
+
+        return $transactionTypes[$operation];
     }
 }

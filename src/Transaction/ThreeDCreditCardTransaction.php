@@ -30,38 +30,32 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk\Entity\PaymentMethod;
+namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCard;
-
-class ThreeDCreditCardUTest extends \PHPUnit_Framework_TestCase
+/**
+ * Class ThreeDCreditCardTransaction
+ * @package Wirecard\PaymentSdk\Transaction
+ */
+class ThreeDCreditCardTransaction extends CreditCardTransaction
 {
-    const NOTIFICATION_TEST_URL = 'test URL';
-    const TERM_TEST_URL = 'term test URL';
     /**
-     * @var ThreeDCreditCard
+     * @var string
      */
-    private $transaction;
+    private $termUrl;
 
-
-    const SAMPLE_TRANSACTION_ID = '542';
-
-    public function setUp()
+    /**
+     * @return string
+     */
+    public function getTermUrl()
     {
-        $this->transaction = new ThreeDCreditCard(
-            self::SAMPLE_TRANSACTION_ID,
-            self::NOTIFICATION_TEST_URL,
-            self::TERM_TEST_URL
-        );
+        return $this->termUrl;
     }
 
-    public function testGetNotificationUrl()
+    /**
+     * @param string $termUrl
+     */
+    public function setTermUrl($termUrl)
     {
-        $this->assertEquals(self::NOTIFICATION_TEST_URL, $this->transaction->getNotificationUrl());
-    }
-
-    public function testGetTermUrl()
-    {
-        $this->assertEquals(self::TERM_TEST_URL, $this->transaction->getTermUrl());
+        $this->termUrl = $termUrl;
     }
 }

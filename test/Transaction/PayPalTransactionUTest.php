@@ -32,15 +32,25 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Transaction\CancelTransaction;
+use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 
-class CancelTransactionUTest extends \PHPUnit_Framework_TestCase
+class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var PayPalTransaction
+     */
+    private $tx;
 
-    public function testGetParentTransactionId()
+    public function setUp()
     {
-        $tx = new CancelTransaction('55');
+        $this->tx = new PayPalTransaction();
+    }
 
-        $this->assertEquals('55', $tx->getParentTransactionId());
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
+     */
+    public function testMapPropertiesUnsupportedOperation()
+    {
+        $this->tx->mappedProperties('non-existing');
     }
 }

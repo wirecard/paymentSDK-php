@@ -32,31 +32,29 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
+
 /**
- * Class ThreeDAuthorizationTransaction
+ * Class CreditCardTransaction
  * @package Wirecard\PaymentSdk\Transaction
  *
- * This class is instantiated during the 3D process,
- * and it should not be instantiated by the merchant.
-
+ * Use it for SSL payments.
+ * For the 3D payments use the specific subclass.
  */
-class ThreeDAuthorizationTransaction extends Transaction
+class CreditCardTransaction extends Transaction
 {
-    const CCARD_AUTHORIZATION = 'authorization';
-    const PARAM_PARENT_TRANSACTION_ID = 'parent-transaction-id';
-
     /**
      * @var string
      */
-    private $payload;
+    private $tokenId;
 
     /**
-     * ReferenceTransaction constructor.
-     * @param $payload
+     * @param string $tokenId
      */
-    public function __construct($payload)
+    public function setTokenId($tokenId)
     {
-        $this->payload = $payload;
+        $this->tokenId = $tokenId;
     }
 
     /**
@@ -64,16 +62,52 @@ class ThreeDAuthorizationTransaction extends Transaction
      */
     public function mappedProperties($operation = null)
     {
-        $md = json_decode(base64_decode($this->payload['MD']), true);
-        $parentTransactionId = $md['enrollment-check-transaction-id'];
-        $paRes = $this->payload['PaRes'];
+        if ($this->tokenId === null && $this->parentTransactionId === null) {
+            throw new MandatoryFieldMissingException(
+                'At least one of these two parameters has to be provided: token ID, parent transaction ID.'
+            );
+        }
 
-        return [
-            self::PARAM_TRANSACTION_TYPE => self::CCARD_AUTHORIZATION,
-            self::PARAM_PARENT_TRANSACTION_ID => $parentTransactionId,
-            'three-d' => [
-                'pares' => $paRes
-            ],
+        $result = parent::mappedProperties($operation);
+
+        $result[self::PARAM_TRANSACTION_TYPE] = $this->retrieveTransactionType($operation);
+
+        if (null !== $this->tokenId) {
+            $result['card-token'] = [
+                'token-id' => $this->tokenId,
+            ];
+        }
+
+        return $result;
+    }
+
+    private function retrieveTransactionType($operation)
+    {
+        $transactionTypes = [
+            Operation::RESERVE => $this->retrieveTransactionTypeForReserve(),
+            Operation::CANCEL => 'void-authorization'
         ];
+
+        if (!array_key_exists($operation, $transactionTypes)) {
+            throw new UnsupportedOperationException();
+        }
+
+        return $transactionTypes[$operation];
+    }
+
+    /**
+     * @return string
+     */
+    private function retrieveTransactionTypeForReserve()
+    {
+        $transactionType = 'authorization';
+        if (null !== $this->parentTransactionId) {
+            $transactionType = 'referenced-authorization';
+        }
+
+        if ($this instanceof ThreeDCreditCardTransaction) {
+            return 'check-enrollment';
+        }
+        return $transactionType;
     }
 }

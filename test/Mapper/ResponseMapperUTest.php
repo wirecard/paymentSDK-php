@@ -32,13 +32,13 @@
 
 namespace WirecardTest\PaymentSdk\Mapper;
 
-use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCard;
+use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Mapper\ResponseMapper;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\ThreeDCreditCard;
+use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 
 class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 {
@@ -182,7 +182,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                             <pareq>request</pareq>
                         </three-d>
                     </payment>';
-        $transaction = $this->createMock(ThreeDCreditCard::class);
+        $transaction = new ThreeDCreditCardTransaction();
 
         /**
          * @var $mapped FormInteractionResponse
@@ -211,7 +211,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                             <pareq>request</pareq>
                         </three-d>
                     </payment>';
-        $transaction = $this->createMock(ThreeDCreditCard::class);
+        $transaction = new ThreeDCreditCardTransaction();
 
         /**
          * @var $mapped FormInteractionResponse
@@ -224,6 +224,36 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
             '{"enrollment-check-transaction-id":"12345","operation-type":"authorization"}',
             base64_decode($mapped->getFormFields()->getIterator()['MD'])
         );
+    }
+
+    public function testWithValidResponseThreeDTransactionReturnsFormInteractionResponseWithTermUrl()
+    {
+        $payload = '<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <statuses>
+                            <status 
+                            code="201.0000" 
+                            description="paypal:The resource was successfully created." 
+                            provider-transaction-id="W0RWI653B31MAU649" 
+                            severity="information"/>
+                        </statuses>
+                        <card-token></card-token>
+                        <three-d>
+                            <acs-url>https://www.example.com/acs</acs-url>
+                            <pareq>request</pareq>
+                        </three-d>
+                    </payment>';
+        $transaction = new ThreeDCreditCardTransaction();
+        $transaction->setTermUrl('dummy URL');
+
+        /**
+         * @var $mapped FormInteractionResponse
+         */
+        $mapped = $this->mapper->map($payload, $transaction);
+
+        $this->assertInstanceOf(FormInteractionResponse::class, $mapped);
+        $this->assertEquals('dummy URL', $mapped->getFormFields()->getIterator()['TermUrl']);
     }
 
     public function testWithValidResponseCreditCardTransactionReturnsSuccessResponse()
@@ -240,7 +270,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         </statuses>
                         <card-token></card-token>
                     </payment>';
-        $transaction = $this->createMock(CreditCard::class);
+        $transaction = new CreditCardTransaction();
 
         /**
          * @var $mapped FormInteractionResponse
@@ -355,7 +385,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                                provider-transaction-id="W0RWI653B31MAU649" 
                                severity="information"/>
                            </statuses>
-                  </payment>', $this->createMock(ThreeDCreditCard::class)],
+                  </payment>', $this->createMock(ThreeDCreditCardTransaction::class)],
             ['<payment>
                            <transaction-state>success</transaction-state>
                            <transaction-id>12345</transaction-id>
@@ -372,7 +402,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                                severity="information"/>
                            </statuses>
                            <three-d></three-d>
-                  </payment>', $this->createMock(ThreeDCreditCard::class)],
+                  </payment>', $this->createMock(ThreeDCreditCardTransaction::class)],
             ['<payment>
                            <transaction-state>success</transaction-state>
                            <transaction-id>12345</transaction-id>
@@ -391,7 +421,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                            <three-d>
                                <acs-url>https://www.example.com/acs</acs-url>
                            </three-d>
-                  </payment>', $this->createMock(ThreeDCreditCard::class)],
+                  </payment>', $this->createMock(ThreeDCreditCardTransaction::class)],
         ];
     }
 

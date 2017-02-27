@@ -30,20 +30,29 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk\Entity\PaymentMethod;
+namespace WirecardTest\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\PaymentMethod\CreditCard;
-use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Transaction\Operation;
+use Wirecard\PaymentSdk\Transaction\Transaction;
 
-class CreditCardUTest extends \PHPUnit_Framework_TestCase
+class TransactionUTest extends \PHPUnit_Framework_TestCase
 {
-    const SAMPLE_TOKEN_ID = '542';
+    /**
+     * @var Transaction
+     */
+    private $tx;
 
-    public function testGetTokenId()
+    public function setUp()
     {
-        $ccTransaction = new CreditCard();
-        $ccTransaction->setTokenId(self::SAMPLE_TOKEN_ID);
+        $this->tx = $this->getMockForAbstractClass(Transaction::class);
+    }
 
-        $this->assertEquals(self::SAMPLE_TOKEN_ID, $ccTransaction->getTokenId());
+    public function testMappingForConsumerId()
+    {
+        $this->tx->setConsumerId('b4');
+
+        $mapped = $this->tx->mappedProperties(Operation::PAY);
+
+        $this->assertEquals('b4', $mapped['consumer-id']);
     }
 }

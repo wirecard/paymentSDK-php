@@ -10,8 +10,8 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Response\FailureResponse;
-use Wirecard\PaymentSdk\Transaction\CancelTransaction;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
+use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 // An object containing the data regarding the options of the interface is needed.
@@ -21,8 +21,9 @@ $config = new Config('https://api-test.wirecard.com/engine/rest/payments/', '700
 
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
-$tx = new CancelTransaction($_POST['parentTransactionId']);
-$response = $transactionService->process($tx);
+$tx = new CreditCardTransaction();
+$tx->setParentTransactionId($_POST['parentTransactionId']);
+$response = $transactionService->cancel($tx);
 
 // ## Response handling
 

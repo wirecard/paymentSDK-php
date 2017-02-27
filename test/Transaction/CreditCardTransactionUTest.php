@@ -30,60 +30,29 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Transaction;
+namespace WirecardTest\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\Money;
-use Wirecard\PaymentSdk\Entity\PaymentMethod\PayPal;
+use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 
-/**
- * Class PayTransaction
- * @package Wirecard\PaymentSdk\Transaction
- *
- * Use this transaction object,
- * if you want to execute a payment.
- */
-class PayTransaction implements Transaction
+class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Money
+     * @var CreditCardTransaction
      */
-    private $amount;
+    private $tx;
 
-    /**
-     * @var PayPal
-     */
-    private $paymentTypeSpecificData;
-
-    /**
-     * PayTransaction constructor.
-     * @param Money $amount
-     */
-    public function __construct(Money $amount)
+    public function setUp()
     {
-        $this->amount = $amount;
+        $this->tx = new CreditCardTransaction();
     }
 
     /**
-     * @return Money
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
      */
-    public function getAmount()
+    public function testMapPropertiesUnsupportedOperation()
     {
-        return $this->amount;
-    }
+        $this->tx->setTokenId('anything');
 
-    /**
-     * @return PayPal
-     */
-    public function getPaymentTypeSpecificData()
-    {
-        return $this->paymentTypeSpecificData;
-    }
-
-    /**
-     * @param PayPal $paymentTypeSpecificData
-     */
-    public function setPaymentTypeSpecificData($paymentTypeSpecificData)
-    {
-        $this->paymentTypeSpecificData = $paymentTypeSpecificData;
+        $this->tx->mappedProperties('non-existing');
     }
 }

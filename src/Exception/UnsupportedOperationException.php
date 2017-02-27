@@ -30,36 +30,15 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Entity\PaymentMethod;
+namespace Wirecard\PaymentSdk\Exception;
+
+use UnexpectedValueException;
 
 /**
- * Class CreditCard
- * @package Wirecard\PaymentSdk\Entity\PaymentMethod
- *
- * An entity containing credit card specific payment data.
- * Use it for SSL payments.
- * For the 3D payments use the specific subclass.
+ * Class UnsupportedOperationException
+ * @package Wirecard\PaymentSdk\Exception
  */
-class CreditCard
+class UnsupportedOperationException extends UnexpectedValueException
 {
-    /**
-     * @var string
-     */
-    private $tokenId;
 
-    /**
-     * @return string
-     */
-    public function getTokenId()
-    {
-        return $this->tokenId;
-    }
-
-    /**
-     * @param string $tokenId
-     */
-    public function setTokenId($tokenId)
-    {
-        $this->tokenId = $tokenId;
-    }
 }
