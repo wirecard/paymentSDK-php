@@ -54,6 +54,11 @@ abstract class Transaction implements Mappable
     /**
      * @var string
      */
+    protected $notificationUrl;
+
+    /**
+     * @var string
+     */
     protected $notification;
 
     /**
@@ -75,6 +80,14 @@ abstract class Transaction implements Mappable
     public function setParentTransactionId($parentTransactionId)
     {
         $this->parentTransactionId = $parentTransactionId;
+    }
+
+    /**
+     * @param string $notificationUrl
+     */
+    public function setNotificationUrl($notificationUrl)
+    {
+        $this->notificationUrl = $notificationUrl;
     }
 
     /**
@@ -106,6 +119,13 @@ abstract class Transaction implements Mappable
 
         if (array_key_exists('REMOTE_ADDR', $_SERVER)) {
             $result['ip-address'] = $_SERVER['REMOTE_ADDR'];
+        }
+
+        if (null !== $this->notificationUrl) {
+            $onlyNotificationUrl = [
+                'notification' => [['url' => $this->notificationUrl]]
+            ];
+            $result['notifications'] = $onlyNotificationUrl;
         }
 
         return $result;

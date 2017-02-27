@@ -219,10 +219,12 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
     protected function getTestPayPalTransaction()
     {
         $redirect = new Redirect('http://www.example.com/success', 'http://www.example.com/cancel');
-        $paypalData = new PayPalTransaction('notUrl', $redirect);
-        $paypalData->setAmount(new Money(20.23, 'EUR'));
+        $payPalTransaction = new PayPalTransaction();
+        $payPalTransaction->setNotificationUrl('notUrl');
+        $payPalTransaction->setRedirect($redirect);
+        $payPalTransaction->setAmount(new Money(20.23, 'EUR'));
 
-        return $paypalData;
+        return $payPalTransaction;
     }
 
     public function testPayProvider()

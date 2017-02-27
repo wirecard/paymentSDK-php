@@ -42,23 +42,15 @@ use Wirecard\PaymentSdk\Entity\Redirect;
 class PayPalTransaction extends Transaction
 {
     /**
-     * @var string
-     */
-    private $notificationUrl;
-
-    /**
      * @var Redirect
      */
     private $redirect;
 
     /**
-     * PayPalTransaction constructor.
-     * @param string $notificationUrl
      * @param Redirect $redirect
      */
-    public function __construct($notificationUrl, Redirect $redirect)
+    public function setRedirect($redirect)
     {
-        $this->notificationUrl = $notificationUrl;
         $this->redirect = $redirect;
     }
 
@@ -69,16 +61,12 @@ class PayPalTransaction extends Transaction
     public function mappedProperties($operation = null)
     {
         $onlyPaymentMethod = ['payment-method' => [['name' => 'paypal']]];
-        $onlyNotificationUrl = [
-            'notification' => [['url' => $this->notificationUrl]]
-        ];
 
         $specificProperties = [
             self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType($operation),
             'payment-methods' => $onlyPaymentMethod,
             'cancel-redirect-url' => $this->redirect->getCancelUrl(),
-            'success-redirect-url' => $this->redirect->getSuccessUrl(),
-            'notifications' => $onlyNotificationUrl
+            'success-redirect-url' => $this->redirect->getSuccessUrl()
         ];
 
         return array_merge(parent::mappedProperties($operation), $specificProperties);

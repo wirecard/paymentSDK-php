@@ -46,7 +46,9 @@ $notificationUrl = getUrl('notify.php');
 
 // ### Transaction
 // The PayPal transaction holds all transaction relevant data for the payment process.
-$paypalTransaction = new PayPalTransaction($notificationUrl, $redirectUrls);
+$paypalTransaction = new PayPalTransaction();
+$paypalTransaction->setNotificationUrl($notificationUrl);
+$paypalTransaction->setRedirect($redirectUrls);
 $paypalTransaction->setAmount($amount);
 
 // ### Config

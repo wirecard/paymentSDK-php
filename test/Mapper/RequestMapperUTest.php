@@ -58,18 +58,20 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
             'merchant-account-id' => ['value' => 'B612'],
             'request-id' => '5B-dummy-id',
             'requested-amount' => ['currency' => 'EUR', 'value' => 24],
+            'notifications' => ['notification' => [['url' => self::EXAMPLE_URL]]],
             'transaction-type' => 'debit',
             'payment-methods' => ['payment-method' => [['name' => 'paypal']]],
             'cancel-redirect-url' => 'http://www.example.com/cancel',
             'success-redirect-url' => 'http://www.example.com/success',
-            'notifications' => ['notification' => [['url' => self::EXAMPLE_URL]]]
         ]];
 
         $redirect = new Redirect('http://www.example.com/success', 'http://www.example.com/cancel');
 
-        $payPalData = new PayPalTransaction(self::EXAMPLE_URL, $redirect);
-        $payPalData->setAmount(new Money(24, 'EUR'));
-        $result = $mapper->map($payPalData, Operation::PAY);
+        $payPalTransaction = new PayPalTransaction();
+        $payPalTransaction->setNotificationUrl(self::EXAMPLE_URL);
+        $payPalTransaction->setRedirect($redirect);
+        $payPalTransaction->setAmount(new Money(24, 'EUR'));
+        $result = $mapper->map($payPalTransaction, Operation::PAY);
 
         $this->assertEquals(json_encode($expectedResult), $result);
     }
@@ -188,13 +190,12 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         ]];
 
         $money = new Money(24, 'EUR');
-        $cardData = new ThreeDCreditCardTransaction();
-        $cardData->setTokenId('21');
-        $cardData->setNotificationUrl('https://example.com/n');
-        $cardData->setTermUrl('https://example.com/r');
-        $cardData->setAmount($money);
+        $creditCardTransaction = new ThreeDCreditCardTransaction();
+        $creditCardTransaction->setTokenId('21');
+        $creditCardTransaction->setTermUrl('https://example.com/r');
+        $creditCardTransaction->setAmount($money);
 
-        $result = $mapper->map($cardData, Operation::RESERVE);
+        $result = $mapper->map($creditCardTransaction, Operation::RESERVE);
 
         $this->assertEquals(json_encode($expectedResult), $result);
     }
