@@ -39,7 +39,7 @@ namespace Wirecard\PaymentSdk\Transaction;
  * Use this transaction object,
  * if you want to cancel an existing payment.
  */
-class CancelTransaction implements Transaction
+class CancelTransaction extends Transaction
 {
     const PARAM_PARENT_TRANSACTION_ID = 'parent-transaction-id';
 

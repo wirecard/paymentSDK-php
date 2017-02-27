@@ -40,7 +40,7 @@ namespace Wirecard\PaymentSdk\Transaction;
  * and it should not be instantiated by the merchant.
 
  */
-class ThreeDAuthorizationTransaction implements Transaction
+class ThreeDAuthorizationTransaction extends Transaction
 {
     const CCARD_AUTHORIZATION = 'authorization';
     const PARAM_PARENT_TRANSACTION_ID = 'parent-transaction-id';

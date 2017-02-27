@@ -43,7 +43,7 @@ use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
  * Use it for SSL payments.
  * For the 3D payments use the specific subclass.
  */
-class CreditCardTransaction implements Transaction
+class CreditCardTransaction extends Transaction
 {
     const PARAM_PARENT_TRANSACTION_ID = 'parent-transaction-id';
 
@@ -51,11 +51,6 @@ class CreditCardTransaction implements Transaction
      * @var string
      */
     private $tokenId;
-
-    /**
-     * @var Money
-     */
-    private $amount;
 
     /**
      * @var string
@@ -68,14 +63,6 @@ class CreditCardTransaction implements Transaction
     public function setTokenId($tokenId)
     {
         $this->tokenId = $tokenId;
-    }
-
-    /**
-     * @param Money $amount
-     */
-    public function setAmount($amount)
-    {
-        $this->amount = $amount;
     }
 
     /**
@@ -97,10 +84,8 @@ class CreditCardTransaction implements Transaction
             );
         }
 
-        $result = [
-            'requested-amount' => $this->amount->mappedProperties(),
-            'ip-address' => $_SERVER['REMOTE_ADDR']
-        ];
+        $result = parent::mappedProperties($operation);
+        $result['ip-address'] = $_SERVER['REMOTE_ADDR'];
 
         $result[self::PARAM_TRANSACTION_TYPE] = $this->retrieveTransactionType($operation);
 

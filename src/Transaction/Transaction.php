@@ -36,7 +36,30 @@ namespace Wirecard\PaymentSdk\Transaction;
  * Interface Transaction
  * @package Wirecard\PaymentSdk\Transaction
  */
-interface Transaction extends Mappable
+abstract class Transaction implements Mappable
 {
     const PARAM_TRANSACTION_TYPE = 'transaction-type';
+
+    /**
+     * @var Money
+     */
+    private $amount;
+
+    /**
+     * @param Money $amount
+     */
+    public function setAmount($amount)
+    {
+        $this->amount = $amount;
+    }
+
+    public function mappedProperties($operation = null)
+    {
+        return [
+            'requested-amount' => $this->amount->mappedProperties(),
+            //'ip-address' => $_SERVER['REMOTE_ADDR']
+        ];
+    }
+
+
 }
