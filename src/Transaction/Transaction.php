@@ -52,6 +52,16 @@ abstract class Transaction implements Mappable
     protected $parentTransactionId;
 
     /**
+     * @var string
+     */
+    protected $notification;
+
+    /**
+     * @var string
+     */
+    protected $consumerId;
+
+    /**
      * @param Money $amount
      */
     public function setAmount($amount)
@@ -67,11 +77,26 @@ abstract class Transaction implements Mappable
         $this->parentTransactionId = $parentTransactionId;
     }
 
+    /**
+     * @param string $notification
+     */
+    public function setNotification($notification)
+    {
+        $this->notification = $notification;
+    }
+
+    /**
+     * @param string $consumerId
+     */
+    public function setConsumerId($consumerId)
+    {
+        $this->consumerId = $consumerId;
+    }
+
     public function mappedProperties($operation = null)
     {
         $result = [
-            'requested-amount' => $this->amount->mappedProperties(),
-            //'ip-address' => $_SERVER['REMOTE_ADDR']
+            'requested-amount' => $this->amount->mappedProperties()
         ];
 
         if (null !== $this->parentTransactionId) {
