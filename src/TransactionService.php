@@ -271,7 +271,7 @@ class TransactionService
      * @param string $operation
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
      */
-    public function process(Transaction $transaction, $operation = null)
+    public function process(Transaction $transaction, $operation)
     {
         $requestBody = $this->getRequestMapper()->map($transaction, $operation);
         $response = $this->getHttpClient()->request(
@@ -297,6 +297,6 @@ class TransactionService
     private function processAuthFrom3DResponse($payload)
     {
         $refTransaction = new ThreeDAuthorizationTransaction($payload);
-        return $this->process($refTransaction);
+        return $this->process($refTransaction, Operation::RESERVE);
     }
 }

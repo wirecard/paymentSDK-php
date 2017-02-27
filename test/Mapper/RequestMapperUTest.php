@@ -139,7 +139,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
 
         $transaction = new CreditCardTransaction();
         $transaction->setAmount(new Money(24, 'EUR'));
-        $mapper->map($transaction);
+        $mapper->map($transaction, Operation::RESERVE);
     }
 
     public function testSslCreditCardTransactionWithBothTokenIdAndParentTransactionId()
@@ -214,7 +214,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         ];
 
         $refTransaction = new ThreeDAuthorizationTransaction($payload);
-        $result = $mapper->map($refTransaction);
+        $result = $mapper->map($refTransaction, Operation::RESERVE);
 
         $expectedResult = ['payment' => [
             'merchant-account-id' => ['value' => 'B612'],

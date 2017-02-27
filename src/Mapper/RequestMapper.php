@@ -68,7 +68,7 @@ class RequestMapper
      * @param string $operation
      * @return string The transaction in JSON format.
      */
-    public function map(Transaction $transaction, $operation = null)
+    public function map(Transaction $transaction, $operation)
     {
         $requestId = call_user_func($this->requestIdGenerator);
         $commonProperties = [

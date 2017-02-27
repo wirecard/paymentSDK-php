@@ -413,7 +413,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         $successResponse = $this->mockProcessingRequest($tx);
 
-        $result = $this->instance->process($tx);
+        $result = $this->instance->cancel($tx);
 
         $this->assertEquals($successResponse, $result);
     }
