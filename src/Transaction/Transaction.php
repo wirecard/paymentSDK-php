@@ -104,6 +104,10 @@ abstract class Transaction implements Mappable
             $result[self::PARAM_PARENT_TRANSACTION_ID] = $this->parentTransactionId;
         }
 
+        if (array_key_exists('REMOTE_ADDR', $_SERVER)) {
+            $result['ip-address'] = $_SERVER['REMOTE_ADDR'];
+        }
+
         return $result;
     }
 }

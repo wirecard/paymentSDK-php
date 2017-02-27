@@ -70,7 +70,6 @@ class CreditCardTransaction extends Transaction
         }
 
         $result = parent::mappedProperties($operation);
-        $result['ip-address'] = $_SERVER['REMOTE_ADDR'];
 
         $result[self::PARAM_TRANSACTION_TYPE] = $this->retrieveTransactionType($operation);
 
