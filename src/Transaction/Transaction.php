@@ -95,9 +95,10 @@ abstract class Transaction implements Mappable
 
     public function mappedProperties($operation = null)
     {
-        $result = [
-            'requested-amount' => $this->amount->mappedProperties()
-        ];
+        $result = [];
+        if ($this->amount) {
+            $result['requested-amount'] = $this->amount->mappedProperties();
+        };
 
         if (null !== $this->parentTransactionId) {
             $result[self::PARAM_PARENT_TRANSACTION_ID] = $this->parentTransactionId;

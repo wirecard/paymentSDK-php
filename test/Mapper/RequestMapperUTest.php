@@ -34,7 +34,6 @@ namespace WirecardTest\PaymentSdk\Mapper;
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
-use Wirecard\PaymentSdk\Transaction\CancelTransaction;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Entity\Redirect;
@@ -234,16 +233,18 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', self::MAID, 'secret');
         $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
         $mapper = new RequestMapper($config, $requestIdGeneratorMock);
-        $followupTransaction = new CancelTransaction();
+        $followupTransaction = new CreditCardTransaction();
         $followupTransaction->setParentTransactionId('642');
+        $_SERVER['REMOTE_ADDR'] = 'test';
 
-        $result = $mapper->map($followupTransaction);
+        $result = $mapper->map($followupTransaction, Operation::CANCEL);
 
         $expectedResult = ['payment' => [
             'merchant-account-id' => ['value' => 'B612'],
             'request-id' => '5B-dummy-id',
-            'transaction-type' => 'void-authorization',
             'parent-transaction-id' => '642',
+            'ip-address' => 'test',
+            'transaction-type' => 'void-authorization',
 
         ]];
         $this->assertEquals(json_encode($expectedResult), $result);

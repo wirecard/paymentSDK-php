@@ -86,7 +86,8 @@ class CreditCardTransaction extends Transaction
     private function retrieveTransactionType($operation)
     {
         $transactionTypes = [
-            Operation::RESERVE => $this->retrieveTransactionTypeForReserve()
+            Operation::RESERVE => $this->retrieveTransactionTypeForReserve(),
+            Operation::CANCEL => 'void-authorization'
         ];
 
         if (!array_key_exists($operation, $transactionTypes)) {

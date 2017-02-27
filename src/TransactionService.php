@@ -245,6 +245,15 @@ class TransactionService
     }
 
     /**
+     * @param Transaction $transaction
+     * @return FailureResponse|InteractionResponse|Response|SuccessResponse
+     */
+    public function cancel(Transaction $transaction)
+    {
+        return $this->process($transaction, Operation::CANCEL);
+    }
+
+    /**
      * @return LoggerInterface
      */
     protected function getLogger()

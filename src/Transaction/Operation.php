@@ -36,4 +36,5 @@ class Operation
 {
     const RESERVE = 'reserve';
     const PAY = 'pay';
+    const CANCEL = 'cancel';
 }

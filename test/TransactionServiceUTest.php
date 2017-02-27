@@ -41,7 +41,6 @@ use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Entity\Redirect;
-use Wirecard\PaymentSdk\Transaction\CancelTransaction;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
@@ -407,11 +406,12 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
     public function testCancel()
     {
-        $cancelTrans = new CancelTransaction('parent-id');
+        $tx = new CreditCardTransaction();
+        $tx->setParentTransactionId('parent-id');
 
-        $successResponse = $this->mockProcessingRequest($cancelTrans);
+        $successResponse = $this->mockProcessingRequest($tx);
 
-        $result = $this->instance->process($cancelTrans);
+        $result = $this->instance->process($tx);
 
         $this->assertEquals($successResponse, $result);
     }
