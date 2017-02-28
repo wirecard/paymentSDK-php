@@ -31,10 +31,8 @@
 
 namespace WirecardTest\PaymentSdk\Config;
 
-
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfigCollection;
-
 
 class PaymentMethodConfigCollectionUTest extends \PHPUnit_Framework_TestCase
 {
@@ -67,7 +65,7 @@ class PaymentMethodConfigCollectionUTest extends \PHPUnit_Framework_TestCase
     public function testGet()
     {
         $this->instance->add($this->paymentMethodConfig);
-        $this->assertEquals($this->paymentMethodConfig,$this->instance->get(self::PAYMENT_METHOD_NAME));
+        $this->assertEquals($this->paymentMethodConfig, $this->instance->get(self::PAYMENT_METHOD_NAME));
     }
 
     public function testGetIterator()

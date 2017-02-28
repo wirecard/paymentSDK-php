@@ -31,9 +31,7 @@
 
 namespace WirecardTest\PaymentSdk\Exception;
 
-
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
-
 
 class UnsupportedOperationExceptionUTest extends \PHPUnit_Framework_TestCase
 {

@@ -31,9 +31,7 @@
 
 namespace WirecardTest\PaymentSdk\Exception;
 
-
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
-
 
 class MandatoryFieldMissingExceptionUTest extends \PHPUnit_Framework_TestCase
 {

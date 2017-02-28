@@ -31,9 +31,7 @@
 
 namespace WirecardTest\PaymentSdk\Config;
 
-
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
-
 
 class PaymentMethodConfigUTest extends \PHPUnit_Framework_TestCase
 {
@@ -67,5 +65,4 @@ class PaymentMethodConfigUTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(self::SECRET, $this->instance->getSecret());
     }
-
 }

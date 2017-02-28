@@ -31,7 +31,6 @@
 
 namespace Wirecard\PaymentSdk\Config;
 
-
 class PaymentMethodConfigCollection implements \IteratorAggregate
 {
     /**
