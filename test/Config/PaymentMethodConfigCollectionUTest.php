@@ -59,7 +59,11 @@ class PaymentMethodConfigCollectionUTest extends \PHPUnit_Framework_TestCase
 
         $this->instance->add($this->paymentMethodConfig);
 
-        $this->assertAttributeEquals(array(self::PAYMENT_METHOD_NAME => $this->paymentMethodConfig), 'paymentMethodConfigs', $this->instance);
+        $this->assertAttributeEquals(
+            array(self::PAYMENT_METHOD_NAME => $this->paymentMethodConfig),
+            'paymentMethodConfigs',
+            $this->instance
+        );
     }
 
     public function testGet()

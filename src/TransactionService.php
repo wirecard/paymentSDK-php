@@ -205,13 +205,13 @@ class TransactionService
     public function getDataForCreditCardUi()
     {
         $requestData = array(
-            'request_time_stamp'        => gmdate('YmdHis'),
-            'request_id'                => call_user_func($this->getRequestIdGenerator(), 64),
-            'merchant_account_id'       => $this->getConfig()->get(CreditCardTransaction::class)->getMerchantAccountId(),
-            'transaction_type'          => 'tokenize',
-            'requested_amount'          => 0,
+            'request_time_stamp' => gmdate('YmdHis'),
+            'request_id' => call_user_func($this->getRequestIdGenerator(), 64),
+            'merchant_account_id' => $this->getConfig()->get(CreditCardTransaction::class)->getMerchantAccountId(),
+            'transaction_type' => 'tokenize',
+            'requested_amount' => 0,
             'requested_amount_currency' => $this->getConfig()->getDefaultCurrency(),
-            'payment_method'            => 'creditcard',
+            'payment_method' => 'creditcard',
         );
 
         $requestData['request_signature'] = hash('sha256', trim(

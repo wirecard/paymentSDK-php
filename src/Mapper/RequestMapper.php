@@ -77,7 +77,9 @@ class RequestMapper
         ];
 
         $allProperties = array_merge($commonProperties, $transaction->mappedProperties($operation));
-        $allProperties['merchant-account-id']['value'] = $this->config->get(get_class($transaction))->getMerchantAccountId();
+
+        $allProperties['merchant-account-id']['value'] = $this->config->get(get_class($transaction))
+            ->getMerchantAccountId();
 
         $result = ['payment' => $allProperties];
 
