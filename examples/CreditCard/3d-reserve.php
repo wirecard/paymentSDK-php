@@ -42,9 +42,6 @@ $tokenId = array_key_exists('tokenId', $_POST) ? $_POST['tokenId'] : '5168216323
 // after an approval/cancellation on the issuer's ACS page.
 $redirectUrl = getUrl('return.php?status=success');
 
-// As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
-$notificationUrl = getUrl('notify.php');
-
 
 // ### Config
 
@@ -72,7 +69,6 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, $configCollection, '
 $tx = new ThreeDCreditCardTransaction();
 $tx->setAmount($amount);
 $tx->setTokenId($tokenId);
-$tx->setNotificationUrl($notificationUrl);
 $tx->setTermUrl($redirectUrl);
 
 // ### Transaction
