@@ -207,7 +207,7 @@ class TransactionService
         $requestData = array(
             'request_time_stamp'        => gmdate('YmdHis'),
             'request_id'                => call_user_func($this->getRequestIdGenerator(), 64),
-            'merchant_account_id'       => $this->getConfig()->get(CreditCardTransaction::NAME)->getMerchantAccountId(),
+            'merchant_account_id'       => $this->getConfig()->get(CreditCardTransaction::class)->getMerchantAccountId(),
             'transaction_type'          => 'tokenize',
             'requested_amount'          => 0,
             'requested_amount_currency' => $this->getConfig()->getDefaultCurrency(),
@@ -221,7 +221,7 @@ class TransactionService
             $requestData['transaction_type'] .
             $requestData['requested_amount'] .
             $requestData['requested_amount_currency'] .
-            $this->getConfig()->get(CreditCardTransaction::NAME)->getSecret()
+            $this->getConfig()->get(CreditCardTransaction::class)->getSecret()
         ));
 
         return json_encode($requestData);
