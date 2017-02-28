@@ -57,7 +57,7 @@ $paypalTransaction->setAmount($amount);
 $configCollection = new Config\PaymentMethodConfigCollection();
 
 // Create and add a configuration object with the PayPal settings
-$paypalMId= '9abf05c1-c266-46ae-8eac-7f87ca97af28';
+$paypalMId = '9abf05c1-c266-46ae-8eac-7f87ca97af28';
 $paypalKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
 $paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::class, $paypalMId, $paypalKey);
 $configCollection->add($paypalConfig);
