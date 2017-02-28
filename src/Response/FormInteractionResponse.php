@@ -42,8 +42,14 @@ use Wirecard\PaymentSdk\Entity\StatusCollection;
  */
 class FormInteractionResponse extends Response
 {
+    /**
+     * @var string
+     */
     private $url;
 
+    /**
+     * @var FormFieldMap
+     */
     private $formFields;
 
     /**
@@ -60,16 +66,25 @@ class FormInteractionResponse extends Response
         parent::__construct($rawData, $statusCollection);
     }
 
+    /**
+     * @return string
+     */
     public function getMethod()
     {
         return 'POST';
     }
 
+    /**
+     * @return string
+     */
     public function getUrl()
     {
         return $this->url;
     }
 
+    /**
+     * @return FormFieldMap
+     */
     public function getFormFields()
     {
         return $this->formFields;

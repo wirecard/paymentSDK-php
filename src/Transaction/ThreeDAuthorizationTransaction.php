@@ -52,7 +52,7 @@ class ThreeDAuthorizationTransaction extends Transaction
 
     /**
      * ReferenceTransaction constructor.
-     * @param $payload
+     * @param array $payload
      */
     public function __construct($payload)
     {
@@ -60,6 +60,7 @@ class ThreeDAuthorizationTransaction extends Transaction
     }
 
     /**
+     * @param string|null $operation
      * @return array
      */
     public function mappedProperties($operation = null)

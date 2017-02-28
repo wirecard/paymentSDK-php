@@ -53,7 +53,7 @@ class ResponseMapper
     /**
      * map the xml Response from engine to ResponseObjects
      *
-     * @param $xmlResponse
+     * @param string $xmlResponse
      * @param CreditCardTransaction $transaction
      * @return Response
      * @throws MalformedResponseException
@@ -211,6 +211,13 @@ class ResponseMapper
         return (string)$result;
     }
 
+    /**
+     * @param $payload
+     * @param $response
+     * @param $status
+     * @param ThreeDCreditCardTransaction $transaction
+     * @return FormInteractionResponse
+     */
     private function mapThreeDResponse($payload, $response, $status, ThreeDCreditCardTransaction $transaction)
     {
         if (!isset($response->{'three-d'})) {

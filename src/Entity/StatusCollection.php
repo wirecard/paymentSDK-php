@@ -58,8 +58,14 @@ class StatusCollection implements \IteratorAggregate
         return new \ArrayIterator($this->statuses);
     }
 
+    /**
+     * @param \Wirecard\PaymentSdk\Entity\Status $status
+     * @return $this
+     */
     public function add(Status $status)
     {
         $this->statuses[] = $status;
+
+        return $this;
     }
 }

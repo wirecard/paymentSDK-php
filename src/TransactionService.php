@@ -33,12 +33,13 @@
 namespace Wirecard\PaymentSdk;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
 use Monolog\Handler\ErrorLogHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
-use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
+use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
+use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
+use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\Mapper\RequestMapper;
 use Wirecard\PaymentSdk\Mapper\ResponseMapper;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -171,7 +172,7 @@ class TransactionService
     }
 
     /**
-     * @param $xmlResponse
+     * @param string $xmlResponse
      * @return FailureResponse|InteractionResponse|SuccessResponse|Response
      * @throws \Wirecard\PaymentSdk\Exception\MalformedResponseException
      */
@@ -206,7 +207,7 @@ class TransactionService
         $requestData = array(
             'request_time_stamp'        => gmdate('YmdHis'),
             'request_id'                => call_user_func($this->getRequestIdGenerator(), 64),
-            'merchant_account_id'       => $this->getConfig()->getMerchantAccountId(),
+            'merchant_account_id'       => $this->getConfig()->get(CreditCardTransaction::NAME)->getMerchantAccountId(),
             'transaction_type'          => 'tokenize',
             'requested_amount'          => 0,
             'requested_amount_currency' => $this->getConfig()->getDefaultCurrency(),
@@ -220,7 +221,7 @@ class TransactionService
             $requestData['transaction_type'] .
             $requestData['requested_amount'] .
             $requestData['requested_amount_currency'] .
-            $this->getConfig()->getSecretKey()
+            $this->getConfig()->get(CreditCardTransaction::NAME)->getSecret()
         ));
 
         return json_encode($requestData);
@@ -276,7 +277,7 @@ class TransactionService
         $requestBody = $this->getRequestMapper()->map($transaction, $operation);
         $response = $this->getHttpClient()->request(
             'POST',
-            $this->getConfig()->getUrl(),
+            $this->getConfig()->getBaseUrl() . $transaction::ENDPOINT,
             [
                 'auth' => [
                     $this->getConfig()->getHttpUser(),
@@ -294,6 +295,10 @@ class TransactionService
         return $this->getResponseMapper()->map($response->getBody()->getContents(), $data);
     }
 
+    /**
+     * @param array $payload
+     * @return FailureResponse|InteractionResponse|Response|SuccessResponse
+     */
     private function processAuthFrom3DResponse($payload)
     {
         $refTransaction = new ThreeDAuthorizationTransaction($payload);

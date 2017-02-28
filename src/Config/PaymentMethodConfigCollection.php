@@ -8,7 +8,7 @@
  *
  * They have been tested and approved for full functionality in the standard configuration
  * (status on delivery) of the corresponding shop system. They are under General Public
- * License Version 2 (GPLv2) and can be used, developed and passed on to third parties under
+ * License Version 3 (GPLv3) and can be used, developed and passed on to third parties under
  * the same terms.
  *
  * However, Wirecard CEE does not provide any guarantee or accept any liability for any errors
@@ -25,41 +25,45 @@
  *
  * Customers are responsible for testing the plugin's functionality before starting productive
  * operation.
- *
  * By installing the plugin into the shop system the customer agrees to these terms of use.
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Entity;
+namespace Wirecard\PaymentSdk\Config;
 
-/**
- * Class FormFieldMap
- * @package Wirecard\PaymentSdk\Entity
- */
-class FormFieldMap implements \IteratorAggregate
+
+class PaymentMethodConfigCollection implements \IteratorAggregate
 {
     /**
      * @var array
      */
-    private $formFields = [];
+    private $paymentMethodConfigs = [];
+
+    /**
+     * @param PaymentMethodConfig $paymentMethodConfig
+     * @return $this
+     */
+    public function add(PaymentMethodConfig $paymentMethodConfig)
+    {
+        $this->paymentMethodConfigs[$paymentMethodConfig->getPaymentMethodName()] = $paymentMethodConfig;
+
+        return $this;
+    }
+
+    /**
+     * @param string $paymentMethodName
+     * @return PaymentMethodConfig
+     */
+    public function get($paymentMethodName)
+    {
+        return $this->paymentMethodConfigs[$paymentMethodName];
+    }
 
     /**
      * @return \ArrayIterator
      */
     public function getIterator()
     {
-        return new \ArrayIterator($this->formFields);
-    }
-
-    /**
-     * @param string $key
-     * @param string $value
-     * @return $this
-     */
-    public function add($key, $value)
-    {
-        $this->formFields[$key] = $value;
-
-        return $this;
+        return new \ArrayIterator($this->paymentMethodConfigs);
     }
 }

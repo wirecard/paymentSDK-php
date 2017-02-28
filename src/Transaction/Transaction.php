@@ -32,6 +32,8 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Entity\Money;
+
 /**
  * Interface Transaction
  * @package Wirecard\PaymentSdk\Transaction
@@ -40,6 +42,8 @@ abstract class Transaction implements Mappable
 {
     const PARAM_TRANSACTION_TYPE = 'transaction-type';
     const PARAM_PARENT_TRANSACTION_ID = 'parent-transaction-id';
+    const ENDPOINT = '/engine/rest/paymentmethods/';
+    const NAME = '';
 
     /**
      * @var Money
@@ -93,12 +97,17 @@ abstract class Transaction implements Mappable
         $this->consumerId = $consumerId;
     }
 
+    /**
+     * @param string|null $operation
+     * @return array
+     */
     public function mappedProperties($operation = null)
     {
-        $result = [];
+        $result = ['payment-methods' => ['payment-method' => [['name' => $this::NAME]]]];
+
         if ($this->amount) {
             $result['requested-amount'] = $this->amount->mappedProperties();
-        };
+        }
 
         if (null !== $this->parentTransactionId) {
             $result[self::PARAM_PARENT_TRANSACTION_ID] = $this->parentTransactionId;

@@ -44,6 +44,9 @@ use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
  */
 class CreditCardTransaction extends Transaction
 {
+    const ENDPOINT = '/engine/rest/payments/';
+    const NAME = 'creditcard';
+
     /**
      * @var string
      */
@@ -58,6 +61,7 @@ class CreditCardTransaction extends Transaction
     }
 
     /**
+     * @param string|null $operation
      * @return array
      */
     public function mappedProperties($operation = null)
@@ -69,7 +73,6 @@ class CreditCardTransaction extends Transaction
         }
 
         $result = parent::mappedProperties($operation);
-
         $result[self::PARAM_TRANSACTION_TYPE] = $this->retrieveTransactionType($operation);
 
         if (null !== $this->tokenId) {
@@ -81,6 +84,10 @@ class CreditCardTransaction extends Transaction
         return $result;
     }
 
+    /**
+     * @param string|null $operation
+     * @return string
+     */
     private function retrieveTransactionType($operation)
     {
         $transactionTypes = [

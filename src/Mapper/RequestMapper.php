@@ -32,8 +32,9 @@
 
 namespace Wirecard\PaymentSdk\Mapper;
 
-use Wirecard\PaymentSdk\Config;
-use Wirecard\PaymentSdk\Transaction\Operation;
+use Wirecard\PaymentSdk\Config\Config;
+use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
+use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
 /**
@@ -72,11 +73,12 @@ class RequestMapper
     {
         $requestId = call_user_func($this->requestIdGenerator);
         $commonProperties = [
-            'merchant-account-id' => ['value' => $this->config->getMerchantAccountId()],
             'request-id' => $requestId
         ];
 
         $allProperties = array_merge($commonProperties, $transaction->mappedProperties($operation));
+        $allProperties['merchant-account-id']['value'] = $this->config->get(get_class($transaction))->getMerchantAccountId();
+
         $result = ['payment' => $allProperties];
 
         return json_encode($result);

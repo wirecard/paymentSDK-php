@@ -30,9 +30,10 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk;
+namespace WirecardTest\PaymentSdk\Config;
 
-use Wirecard\PaymentSdk\Config;
+use Wirecard\PaymentSdk\Config\Config;
+use Wirecard\PaymentSdk\Config\PaymentMethodConfigCollection;
 
 class ConfigUTest extends \PHPUnit_Framework_TestCase
 {
@@ -41,20 +42,27 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
      */
     private $instance;
 
+    /**
+     * @var PaymentMethodConfigCollection
+     */
+    private $paymentMethodConfigs;
+
     public function setUp()
     {
+        $this->paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
+        $this->paymentMethodConfigs->method('get')->willReturn('test');
+
         $this->instance = new Config(
             'http://www.example.com',
             'httpUser',
             'httpPassword',
-            'merchantAccountId',
-            'secretKey'
+            $this->paymentMethodConfigs
         );
     }
 
-    public function testGetUrl()
+    public function testGetBaseUrl()
     {
-        $this->assertEquals('http://www.example.com', $this->instance->getUrl());
+        $this->assertEquals('http://www.example.com', $this->instance->getBaseUrl());
     }
 
     public function testGetHttpUser()
@@ -67,24 +75,31 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('httpPassword', $this->instance->getHttpPassword());
     }
 
-    public function testGetMerchantAccountId()
-    {
-        $this->assertEquals('merchantAccountId', $this->instance->getMerchantAccountId());
-    }
-
-    public function testGetSecretKey()
-    {
-        $this->assertEquals('secretKey', $this->instance->getSecretKey());
-    }
-
     public function testGetDefaultCurrency()
     {
         $this->assertEquals('EUR', $this->instance->getDefaultCurrency());
     }
 
+    public function testGetPaymentMethodConfigs()
+    {
+        $this->assertEquals($this->paymentMethodConfigs, $this->instance->getPaymentMethodConfigs());
+    }
+
+    public function testGet()
+    {
+        $this->assertEquals('test', $this->instance->get('hi'));
+    }
+
     public function testSetDefaultCurrency()
     {
-        $this->instance->setDefaultCurrency('USD');
-        $this->assertAttributeEquals('USD', 'defaultCurrency', $this->instance);
+        $this->instance = new Config(
+            'http://www.example.com',
+            'httpUser',
+            'httpPassword',
+            $this->paymentMethodConfigs,
+            'USD'
+        );
+
+        $this->assertEquals('USD', $this->instance->getDefaultCurrency());
     }
 }
