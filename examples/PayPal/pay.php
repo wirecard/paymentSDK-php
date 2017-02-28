@@ -52,8 +52,23 @@ $paypalTransaction->setRedirect($redirectUrls);
 $paypalTransaction->setAmount($amount);
 
 // ### Config
-// The config object holds all interface configuration options
-$config = new Config('https://api-test.wirecard.com/engine/rest/paymentmethods/', '70000-APITEST-AP', 'qD2wzQ_hrc!8', '9abf05c1-c266-46ae-8eac-7f87ca97af28', '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f');
+
+// Since payment method may have a different merchant ID, a config collection is created.
+$configCollection = new Config\PaymentMethodConfigCollection();
+
+// Create and add a configuration object with the PayPal settings
+$paypalMId= '9abf05c1-c266-46ae-8eac-7f87ca97af28';
+$paypalKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
+$paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::class, $paypalMId, $paypalKey);
+$configCollection->add($paypalConfig);
+
+// The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
+$baseUrl = 'https://api-test.wirecard.com';
+$httpUser = '70000-APITEST-AP';
+$httpPass = 'qD2wzQ_hrc!8';
+
+// A default currency can also be provided.
+$config = new Config\Config($baseUrl, $httpUser, $httpPass, $configCollection, 'EUR');
 
 // ### Transaction Service
 // The service is used to execute the payment operation itself. A response object is returned.
@@ -62,15 +77,18 @@ $response = $transactionService->pay($paypalTransaction);
 
 // ### Response handling
 // The response of the service must be handled depending on it's class
-// In case of an `InteractionResponse`, a browser interaction by the consumer is required in order to continue the payment process.
-// In this example we proceed with a header redirect to the given _redirectUrl_. IFrame integration using this URL is also possible.
+// In case of an `InteractionResponse`, a browser interaction by the consumer is required
+// in order to continue the payment process. In this example we proceed with a header redirect
+// to the given _redirectUrl_. IFrame integration using this URL is also possible.
 if ($response instanceof InteractionResponse) {
     header('location: ' . $response->getRedirectUrl());
     exit;
-// The failure state is represented by a FailureResponse object. In this case the returned errors should be stored in your system.
-} else if ($response instanceof FailureResponse) {
-// In our example we iterate over all errors and echo them out. You should display them as error, warning or information based on the given severity.
-    foreach ($response->getStatusCollection() AS $status) {
+// The failure state is represented by a FailureResponse object.
+// In this case the returned errors should be stored in your system.
+} elseif ($response instanceof FailureResponse) {
+// In our example we iterate over all errors and echo them out. You should display them as
+// error, warning or information based on the given severity.
+    foreach ($response->getStatusCollection() as $status) {
         /**
          * @var $status \Wirecard\PaymentSdk\Entity\Status
          */
@@ -80,4 +98,3 @@ if ($response instanceof InteractionResponse) {
         echo sprintf('%s with code %s and message "%s" occured.<br>', $severity, $code, $description);
     }
 }
-
