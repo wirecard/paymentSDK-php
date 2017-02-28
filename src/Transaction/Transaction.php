@@ -130,4 +130,13 @@ abstract class Transaction implements Mappable
 
         return $result;
     }
+
+    /**
+     * @param string|null
+     * @return string
+     */
+    public function getConfigKey($operation = null)
+    {
+        return get_class($this);
+    }
 }

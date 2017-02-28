@@ -77,4 +77,13 @@ class ThreeDAuthorizationTransaction extends Transaction
             ],
         ];
     }
+
+    /**
+     * @param string|null
+     * @return string
+     */
+    public function getConfigKey($operation = null)
+    {
+        return ThreeDCreditCardTransaction::class;
+    }
 }
