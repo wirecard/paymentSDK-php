@@ -29,59 +29,51 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Config;
+namespace WirecardTest\PaymentSdk\Config;
 
-class PaymentMethodConfig
+use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
+use Wirecard\PaymentSdk\Config\PaymentMethodConfigCollection;
+
+class PaymentMethodConfigCollectionUTest extends \PHPUnit_Framework_TestCase
 {
+    const PAYMENT_METHOD_NAME = 'Test';
     /**
-     * @var string
+     * @var PaymentMethodConfigCollection
      */
-    private $paymentMethodName;
+    private $instance;
 
     /**
-     * @var string
+     * @var PaymentMethodConfig
      */
-    private $merchantAccountId;
+    private $paymentMethodConfig;
 
-    /**
-     * @var string
-     */
-    private $secret;
-
-    /**
-     * PaymentMethodConfig constructor.
-     * @param string $paymentMethodName
-     * @param string $merchantAccountId
-     * @param string $secret
-     */
-    public function __construct($paymentMethodName, $merchantAccountId, $secret)
+    public function setUp()
     {
-        $this->paymentMethodName = $paymentMethodName;
-        $this->merchantAccountId = $merchantAccountId;
-        $this->secret = $secret;
+        $this->instance = new PaymentMethodConfigCollection();
+        $this->paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
+        $this->paymentMethodConfig->method('getPaymentMethodName')->willReturn(self::PAYMENT_METHOD_NAME);
     }
 
-    /**
-     * @return string
-     */
-    public function getPaymentMethodName()
+    public function testAdd()
     {
-        return $this->paymentMethodName;
+
+        $this->instance->add($this->paymentMethodConfig);
+
+        $this->assertAttributeEquals(
+            array(self::PAYMENT_METHOD_NAME => $this->paymentMethodConfig),
+            'paymentMethodConfigs',
+            $this->instance
+        );
     }
 
-    /**
-     * @return string
-     */
-    public function getMerchantAccountId()
+    public function testGet()
     {
-        return $this->merchantAccountId;
+        $this->instance->add($this->paymentMethodConfig);
+        $this->assertEquals($this->paymentMethodConfig, $this->instance->get(self::PAYMENT_METHOD_NAME));
     }
 
-    /**
-     * @return string
-     */
-    public function getSecret()
+    public function testGetIterator()
     {
-        return $this->secret;
+        $this->assertInstanceOf(\ArrayIterator::class, $this->instance->getIterator());
     }
 }

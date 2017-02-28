@@ -29,59 +29,24 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Config;
+namespace WirecardTest\PaymentSdk\Exception;
 
-class PaymentMethodConfig
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
+
+class MandatoryFieldMissingExceptionUTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var string
+     * @var MandatoryFieldMissingException
      */
-    private $paymentMethodName;
+    private $exception;
 
-    /**
-     * @var string
-     */
-    private $merchantAccountId;
-
-    /**
-     * @var string
-     */
-    private $secret;
-
-    /**
-     * PaymentMethodConfig constructor.
-     * @param string $paymentMethodName
-     * @param string $merchantAccountId
-     * @param string $secret
-     */
-    public function __construct($paymentMethodName, $merchantAccountId, $secret)
+    public function setUp()
     {
-        $this->paymentMethodName = $paymentMethodName;
-        $this->merchantAccountId = $merchantAccountId;
-        $this->secret = $secret;
+        $this->exception = new MandatoryFieldMissingException('testMessage');
     }
 
-    /**
-     * @return string
-     */
-    public function getPaymentMethodName()
+    public function testIsRuntimeException()
     {
-        return $this->paymentMethodName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMerchantAccountId()
-    {
-        return $this->merchantAccountId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSecret()
-    {
-        return $this->secret;
+        $this->assertInstanceOf(\RuntimeException::class, $this->exception);
     }
 }

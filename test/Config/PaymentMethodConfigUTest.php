@@ -29,59 +29,40 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Config;
+namespace WirecardTest\PaymentSdk\Config;
 
-class PaymentMethodConfig
+use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
+
+class PaymentMethodConfigUTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var string
-     */
-    private $paymentMethodName;
+    const PAYMENT_METHOD_NAME = 'paypal';
+
+    const MAID = '1234fdsf';
+
+    const SECRET = 'gfdhfjfgh';
 
     /**
-     * @var string
+     * @var PaymentMethodConfig
      */
-    private $merchantAccountId;
+    private $instance;
 
-    /**
-     * @var string
-     */
-    private $secret;
-
-    /**
-     * PaymentMethodConfig constructor.
-     * @param string $paymentMethodName
-     * @param string $merchantAccountId
-     * @param string $secret
-     */
-    public function __construct($paymentMethodName, $merchantAccountId, $secret)
+    public function setUp()
     {
-        $this->paymentMethodName = $paymentMethodName;
-        $this->merchantAccountId = $merchantAccountId;
-        $this->secret = $secret;
+        $this->instance = new PaymentMethodConfig(self::PAYMENT_METHOD_NAME, self::MAID, self::SECRET);
     }
 
-    /**
-     * @return string
-     */
-    public function getPaymentMethodName()
+    public function testGetPaymentMethodName()
     {
-        return $this->paymentMethodName;
+        $this->assertEquals(self::PAYMENT_METHOD_NAME, $this->instance->getPaymentMethodName());
     }
 
-    /**
-     * @return string
-     */
-    public function getMerchantAccountId()
+    public function testGetMerchantAccountId()
     {
-        return $this->merchantAccountId;
+        $this->assertEquals(self::MAID, $this->instance->getMerchantAccountId());
     }
 
-    /**
-     * @return string
-     */
-    public function getSecret()
+    public function testGetSecret()
     {
-        return $this->secret;
+        $this->assertEquals(self::SECRET, $this->instance->getSecret());
     }
 }
