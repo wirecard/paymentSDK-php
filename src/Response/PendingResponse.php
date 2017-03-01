@@ -51,7 +51,8 @@ class PendingResponse extends Response
      * @param \Wirecard\PaymentSdk\Entity\StatusCollection $statusCollection
      * @param $requestId
      */
-    public function __construct ($rawData, $statusCollection, $requestId) {
+    public function __construct($rawData, $statusCollection, $requestId)
+    {
         parent::__construct($rawData, $statusCollection);
         $this->requestId = $requestId;
     }
@@ -63,5 +64,4 @@ class PendingResponse extends Response
     {
         return $this->requestId;
     }
-
 }
