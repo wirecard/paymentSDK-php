@@ -30,60 +30,38 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Transaction;
+namespace Wirecard\PaymentSdk\Response;
 
 /**
- * Class ThreeDAuthorizationTransaction
- * @package Wirecard\PaymentSdk\Transaction
+ * Class PendingResponse
+ * @package Wirecard\PaymentSdk\Response
  *
- * This class is instantiated during the 3D process,
- * and it should not be instantiated by the merchant.
+ * An object representing a pending response from the payment provider.
  */
-class ThreeDAuthorizationTransaction extends Transaction
+class PendingResponse extends Response
 {
-    const ENDPOINT = '/engine/rest/payments/';
-    const CCARD_AUTHORIZATION = 'authorization';
-    const PARAM_PARENT_TRANSACTION_ID = 'parent-transaction-id';
-
     /**
      * @var string
      */
-    private $payload;
+    private $requestId;
 
     /**
-     * ReferenceTransaction constructor.
-     * @param array $payload
+     * PendingResponse constructor.
+     * @param string $rawData
+     * @param \Wirecard\PaymentSdk\Entity\StatusCollection $statusCollection
+     * @param $requestId
      */
-    public function __construct($payload)
-    {
-        $this->payload = $payload;
+    public function __construct ($rawData, $statusCollection, $requestId) {
+        parent::__construct($rawData, $statusCollection);
+        $this->requestId = $requestId;
     }
 
     /**
-     * @param string|null $operation
-     * @return array
-     */
-    public function mappedProperties($operation = null)
-    {
-        $md = json_decode(base64_decode($this->payload['MD']), true);
-        $parentTransactionId = $md['enrollment-check-transaction-id'];
-        $paRes = $this->payload['PaRes'];
-
-        return [
-            self::PARAM_TRANSACTION_TYPE => self::CCARD_AUTHORIZATION,
-            self::PARAM_PARENT_TRANSACTION_ID => $parentTransactionId,
-            'three-d' => [
-                'pares' => $paRes
-            ],
-        ];
-    }
-
-    /**
-     * @param string|null
      * @return string
      */
-    public function getConfigKey($operation = null)
+    public function getRequestId()
     {
-        return ThreeDCreditCardTransaction::class;
+        return $this->requestId;
     }
+
 }

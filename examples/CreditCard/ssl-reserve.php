@@ -1,7 +1,8 @@
 <?php
 
 // # Credit card amount reservation
-// The method `reserve` of the _transactionService_ provides the means to reserve an amount (also known as authorization).
+// The method `reserve` of the _transactionService_ provides the means
+// to reserve an amount (also known as authorization).
 
 // ## Required objects
 
@@ -29,9 +30,25 @@ if ($parentTransactionId === null && $tokenId === null) {
     $tokenId = '5168216323601006';
 }
 
-// An object containing the data regarding the options of the interface is needed.
-$config = new Config('https://api-test.wirecard.com/engine/rest/payments/', '70000-APILUHN-CARD', '8mhwavKVb91T',
-    '9105bb4f-ae68-4768-9c3b-3eda968f57ea', 'd1efed51-4cb9-46a5-ba7b-0fdc87a66544');
+// ### Config
+
+// Since payment method may have a different merchant ID, a config collection is created.
+$configCollection = new Config\PaymentMethodConfigCollection();
+
+// Create and add a configuration object with the settings for credit card
+$ccardMId = '9105bb4f-ae68-4768-9c3b-3eda968f57ea';
+$ccardKey = 'd1efed51-4cb9-46a5-ba7b-0fdc87a66544';
+$ccardConfig = new Config\PaymentMethodConfig(CreditCardTransaction::class, $ccardMId, $ccardKey);
+$configCollection->add($ccardConfig);
+
+// The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
+$baseUrl = 'https://api-test.wirecard.com';
+$httpUser = '70000-APILUHN-CARD';
+$httpPass = '8mhwavKVb91T';
+
+// A default currency can also be provided.
+$config = new Config\Config($baseUrl, $httpUser, $httpPass, $configCollection, 'EUR');
+
 
 // ## Transaction
 
@@ -64,7 +81,7 @@ if ($response instanceof SuccessResponse) {
 } elseif ($response instanceof FailureResponse) {
     // In our example we iterate over all errors and display them in a raw state.
     // You should handle them based on the given severity as error, warning or information.
-    foreach ($response->getStatusCollection() AS $status) {
+    foreach ($response->getStatusCollection() as $status) {
         /**
          * @var $status \Wirecard\PaymentSdk\Entity\Status
          */

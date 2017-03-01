@@ -12,11 +12,34 @@
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
+use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
+use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
-// An object containing the data regarding the options of the interface is needed.
-$config = new Config('https://api-test.wirecard.com/engine/rest/payments/', '70000-APILUHN-CARD', '8mhwavKVb91T',
-    '9105bb4f-ae68-4768-9c3b-3eda968f57ea', 'd1efed51-4cb9-46a5-ba7b-0fdc87a66544');
+
+// ### Config
+
+// Since payment method may have a different merchant ID, a config collection is created.
+$configCollection = new Config\PaymentMethodConfigCollection();
+
+// Create and add a configuration object with the settings for credit card
+$ccardMId = '9105bb4f-ae68-4768-9c3b-3eda968f57ea';
+$ccardKey = 'd1efed51-4cb9-46a5-ba7b-0fdc87a66544';
+$ccardConfig = new Config\PaymentMethodConfig(CreditCardTransaction::class, $ccardMId, $ccardKey);
+$configCollection->add($ccardConfig);
+
+$ccard3dMId = '33f6d473-3036-4ca5-acb5-8c64dac862d1';
+$ccard3dKey = '9e0130f6-2e1e-4185-b0d5-dc69079c75cc';
+$ccard3dConfig = new Config\PaymentMethodConfig(ThreeDCreditCardTransaction::class, $ccard3dMId, $ccard3dKey);
+$configCollection->add($ccard3dConfig);
+
+// The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
+$baseUrl = 'https://api-test.wirecard.com';
+$httpUser = '70000-APILUHN-CARD';
+$httpPass = '8mhwavKVb91T';
+
+// A default currency can also be provided.
+$config = new Config\Config($baseUrl, $httpUser, $httpPass, $configCollection, 'EUR');
 
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
@@ -62,7 +85,8 @@ $transactionService = new TransactionService($config);
     // This function will render the credit card UI in the specified div.
     WirecardPaymentPage.seamlessRenderForm({
 
-        // We fill the _requestData_ with the return value from the `getDataForCreditCardUi` method of the `transactionService`.
+        // We fill the _requestData_ with the return value
+        // from the `getDataForCreditCardUi` method of the `transactionService`.
         requestData: <?= $transactionService->getDataForCreditCardUi(); ?>,
         wrappingDivId: "creditcard-form-div",
         onSuccess: logCallback,
@@ -82,7 +106,7 @@ $transactionService = new TransactionService($config);
     $('#followup-transaction').on('change', function (event) {
         var action = '';
         console.log(event.target.value);
-        switch(event.target.value) {
+        switch (event.target.value) {
             case 'ssl':
                 action = 'ssl-reserve.php';
                 break;

@@ -33,6 +33,7 @@
 namespace Wirecard\PaymentSdk\Mapper;
 
 use Wirecard\PaymentSdk\Entity\FormFieldMap;
+use Wirecard\PaymentSdk\Response\PendingResponse;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\Entity\Status;
@@ -80,10 +81,15 @@ class ResponseMapper
         }
 
         $statusCollection = $this->getStatusCollection($response);
-        if ($state !== 'success') {
-            return new FailureResponse($xmlResponse, $statusCollection);
-        } else {
-            return $this->mapSuccessResponse($xmlResponse, $response, $statusCollection, $transaction);
+        switch ($state) {
+            case 'success':
+                return $this->mapSuccessResponse($xmlResponse, $response, $statusCollection, $transaction);
+                break;
+            case 'in-progress':
+                return new PendingResponse($xmlResponse, $statusCollection, $this->getRequestId($response));
+                break;
+            default:
+                return new FailureResponse($xmlResponse, $statusCollection);
         }
     }
 
@@ -126,8 +132,6 @@ class ResponseMapper
                 $status = new Status($code, $description, $severity);
                 $collection->add($status);
             }
-        } else {
-            throw new MalformedResponseException('Statuses is empty in response.');
         }
 
         return $collection;
@@ -146,6 +150,21 @@ class ResponseMapper
             throw new MalformedResponseException('Missing transaction-id in response');
         }
     }
+
+    /**
+     * @param \SimpleXMLElement $response
+     * @return string
+     * @throws MalformedResponseException
+     */
+    private function getRequestId(\SimpleXMLElement $response)
+    {
+        if (isset($response->{'request-id'})) {
+            return (string)$response->{'request-id'};
+        } else {
+            throw new MalformedResponseException('Missing request-id in response.');
+        }
+    }
+
 
     /**
      * @param \SimpleXMLElement $response
@@ -241,7 +260,7 @@ class ResponseMapper
         $fields->add(
             'MD',
             base64_encode(json_encode(['enrollment-check-transaction-id' => (string)$this->getTransactionId($response),
-            'operation-type' => 'authorization']))
+                'operation-type' => 'authorization']))
         );
 
         return new FormInteractionResponse($payload, $status, $redirectUrl, $fields);
