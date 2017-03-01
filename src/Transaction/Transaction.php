@@ -44,6 +44,9 @@ abstract class Transaction implements Mappable
     const PARAM_PARENT_TRANSACTION_ID = 'parent-transaction-id';
     const ENDPOINT = '/engine/rest/paymentmethods/';
     const NAME = '';
+    const AUTHORIZATION = 'authorization';
+    const REFERENCED_AUTHORIZATION = 'referenced-authorization';
+    const VOID_AUTHORIZATION = 'void-authorization';
 
     /**
      * @var Money

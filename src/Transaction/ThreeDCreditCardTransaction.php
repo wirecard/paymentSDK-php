@@ -44,6 +44,11 @@ class ThreeDCreditCardTransaction extends CreditCardTransaction
     private $termUrl;
 
     /**
+     * @var string
+     */
+    private $paRes;
+
+    /**
      * @return string
      */
     public function getTermUrl()
@@ -53,9 +58,61 @@ class ThreeDCreditCardTransaction extends CreditCardTransaction
 
     /**
      * @param string $termUrl
+     * @return $this
      */
     public function setTermUrl($termUrl)
     {
         $this->termUrl = $termUrl;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPaRes()
+    {
+        return $this->paRes;
+    }
+
+    /**
+     * @param string $paRes
+     * @return ThreeDCreditCardTransaction
+     */
+    public function setPaRes($paRes)
+    {
+        $this->paRes = $paRes;
+
+        return $this;
+    }
+
+    /**
+     * @param string|null $operation
+     * @return array
+     */
+    public function mappedProperties($operation = null)
+    {
+        $result = parent::mappedProperties($operation);
+
+        if (null !== $this->paRes) {
+            $result['three-d'] = [
+                'pares' => $this->paRes,
+            ];
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param null|string $operation
+     * @return null|string
+     */
+    protected function retrieveTransactionType($operation)
+    {
+        if (null !== $this->paRes) {
+            return $operation;
+        } else {
+            return 'check-enrollment';
+        }
     }
 }

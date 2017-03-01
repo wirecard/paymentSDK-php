@@ -44,9 +44,9 @@ use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
-use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
 use Wirecard\PaymentSdk\Entity\StatusCollection;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
+use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
@@ -398,13 +398,21 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
     public function testHandleResponseThreeD()
     {
+        $md = [
+            'enrollment-check-transaction-id' => 'parentid',
+            'operation-type' => 'authorization'
+        ];
+
         $validContent = [
-            'MD' => 'arbitrary MD',
+            'MD' => base64_encode(json_encode($md)),
             'PaRes' => 'arbitrary PaRes'
         ];
-        $refTrans = new ThreeDAuthorizationTransaction($validContent);
 
-        $successResponse = $this->mockProcessingRequest($refTrans);
+        $transaction = new ThreeDCreditCardTransaction();
+        $transaction->setParentTransactionId($md['enrollment-check-transaction-id']);
+        $transaction->setPaRes($validContent['PaRes']);
+
+        $successResponse = $this->mockProcessingRequest($transaction);
 
         $result = $this->instance->handleResponse($validContent);
 

@@ -40,7 +40,6 @@ use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\Operation;
-use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
 use Wirecard\PaymentSdk\Mapper\RequestMapper;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 
@@ -232,40 +231,6 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $creditCardTransaction->setAmount($money);
 
         $result = $mapper->map($creditCardTransaction, Operation::RESERVE);
-
-        $this->assertEquals(json_encode($expectedResult), $result);
-    }
-
-    public function testThreeDAuthorizationTransaction()
-    {
-        $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
-        $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
-        $paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
-        $paymentMethodConfigs->method('get')->willReturn($paymentMethodConfig);
-
-        $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', $paymentMethodConfigs);
-        $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
-        $mapper = new RequestMapper($config, $requestIdGeneratorMock);
-
-        $payload = [
-            'PaRes' => 'sth',
-            'MD' => base64_encode(json_encode([
-                'enrollment-check-transaction-id' => '642'
-            ]))
-        ];
-
-        $refTransaction = new ThreeDAuthorizationTransaction($payload);
-        $result = $mapper->map($refTransaction, Operation::RESERVE);
-
-        $expectedResult = ['payment' => [
-            'request-id' => '5B-dummy-id',
-            'transaction-type' => 'authorization',
-            'parent-transaction-id' => '642',
-            'three-d' => [
-                'pares' => 'sth'
-            ],
-            'merchant-account-id' => ['value' => 'B612'],
-        ]];
 
         $this->assertEquals(json_encode($expectedResult), $result);
     }
