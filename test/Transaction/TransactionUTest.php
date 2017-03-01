@@ -32,6 +32,7 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
@@ -55,4 +56,13 @@ class TransactionUTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('b4', $mapped['consumer-id']);
     }
+
+    public function testSetAccountHolder()
+    {
+        $accountholder = new AccountHolder('Doe');
+        $this->tx->setAccountHolder($accountholder);
+        $mapped = $this->tx->mappedProperties(Operation::PAY);
+        $this->assertEquals('Doe', $mapped['account-holder']['last-name']);
+    }
+
 }
