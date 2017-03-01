@@ -66,8 +66,7 @@ class CreditCardTransaction extends Transaction
      */
     public function mappedProperties($operation = null)
     {
-        if ($this->tokenId === null
-            && ($this->parentTransactionId === null && !$this instanceof ThreeDCreditCardTransaction)) {
+        if ($this->tokenId === null && ($this->parentTransactionId === null && get_class($this) === self::class)) {
             throw new MandatoryFieldMissingException(
                 'At least one of these two parameters has to be provided: token ID, parent transaction ID.'
             );
