@@ -280,7 +280,7 @@ class ResponseMapper
         $statusCollection,
         CreditCardTransaction $transaction = null
     ) {
-        if ($transaction instanceof ThreeDCreditCardTransaction) {
+        if ($transaction instanceof ThreeDCreditCardTransaction && null === $transaction->getPaRes()) {
             return $this->mapThreeDResponse($xmlResponse, $response, $statusCollection, $transaction);
         }
 

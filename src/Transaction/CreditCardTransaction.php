@@ -66,7 +66,7 @@ class CreditCardTransaction extends Transaction
      */
     public function mappedProperties($operation = null)
     {
-        if ($this->tokenId === null && $this->parentTransactionId === null) {
+        if ($this->tokenId === null && ($this->parentTransactionId === null && !$this instanceof ThreeDCreditCardTransaction)) {
             throw new MandatoryFieldMissingException(
                 'At least one of these two parameters has to be provided: token ID, parent transaction ID.'
             );
@@ -88,11 +88,11 @@ class CreditCardTransaction extends Transaction
      * @param string|null $operation
      * @return string
      */
-    private function retrieveTransactionType($operation)
+    protected function retrieveTransactionType($operation)
     {
         $transactionTypes = [
             Operation::RESERVE => $this->retrieveTransactionTypeForReserve(),
-            Operation::CANCEL => 'void-authorization'
+            Operation::CANCEL => $this::VOID_AUTHORIZATION
         ];
 
         if (!array_key_exists($operation, $transactionTypes)) {
@@ -107,14 +107,11 @@ class CreditCardTransaction extends Transaction
      */
     private function retrieveTransactionTypeForReserve()
     {
-        $transactionType = 'authorization';
+        $transactionType = $this::AUTHORIZATION;
         if (null !== $this->parentTransactionId) {
-            $transactionType = 'referenced-authorization';
+            $transactionType = $this::REFERENCED_AUTHORIZATION;
         }
 
-        if ($this instanceof ThreeDCreditCardTransaction) {
-            return 'check-enrollment';
-        }
         return $transactionType;
     }
 }

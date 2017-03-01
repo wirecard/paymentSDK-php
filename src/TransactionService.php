@@ -47,7 +47,6 @@ use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Response\Response;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\Operation;
-use Wirecard\PaymentSdk\Transaction\ThreeDAuthorizationTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
 /**
@@ -301,7 +300,12 @@ class TransactionService
      */
     private function processAuthFrom3DResponse($payload)
     {
-        $refTransaction = new ThreeDAuthorizationTransaction($payload);
-        return $this->process($refTransaction, Operation::RESERVE);
+        $md = json_decode(base64_decode($payload['MD']), true);
+
+        $transaction = new ThreeDCreditCardTransaction();
+        $transaction->setParentTransactionId($md['enrollment-check-transaction-id']);
+        $transaction->setPaRes($payload['PaRes']);
+
+        return $this->process($transaction, $md['operation-type']);
     }
 }
