@@ -30,12 +30,31 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Transaction;
+namespace WirecardTest\PaymentSdk\Entity;
 
-class Operation
+use Wirecard\PaymentSdk\Entity\AccountHolder;
+
+class AccountHolderUTest extends \PHPUnit_Framework_TestCase
 {
-    const RESERVE = 'reserve';
-    const PAY = 'pay';
-    const CANCEL = 'cancel';
-    const CREDIT = 'credit';
+    const LASTNAME = 'Doe';
+
+    /**
+     * @var AccountHolder
+     */
+    private $accountholder;
+
+    public function setUp()
+    {
+        $this->accountholder = new AccountHolder(self::LASTNAME);
+    }
+
+    public function testGetLastname()
+    {
+        $this->assertEquals(self::LASTNAME, $this->accountholder->getLastname());
+    }
+
+    public function testGetMappedProperties()
+    {
+        $this->assertEquals([ 'last-name' => self::LASTNAME ], $this->accountholder->mappedProperties());
+    }
 }

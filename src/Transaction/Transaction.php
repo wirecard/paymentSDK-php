@@ -32,6 +32,7 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Money;
 
 /**
@@ -47,6 +48,12 @@ abstract class Transaction implements Mappable
     const AUTHORIZATION = 'authorization';
     const REFERENCED_AUTHORIZATION = 'referenced-authorization';
     const VOID_AUTHORIZATION = 'void-authorization';
+    const CREDIT = 'credit';
+
+    /**
+     * @var AccountHolder
+     */
+    protected $accountHolder;
 
     /**
      * @var Money
@@ -67,6 +74,14 @@ abstract class Transaction implements Mappable
      * @var string
      */
     protected $consumerId;
+
+    /**
+     * @param AccountHolder $accountHolder
+     */
+    public function setAccountHolder($accountHolder)
+    {
+        $this->accountHolder = $accountHolder;
+    }
 
     /**
      * @param Money $amount
@@ -110,6 +125,10 @@ abstract class Transaction implements Mappable
 
         if ($this->amount) {
             $result['requested-amount'] = $this->amount->mappedProperties();
+        }
+
+        if ($this->accountHolder) {
+            $result['account-holder'] = $this->accountHolder->mappedProperties();
         }
 
         if (null !== $this->parentTransactionId) {
