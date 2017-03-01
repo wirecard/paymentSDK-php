@@ -607,14 +607,17 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                             <status 
                             code="305.0000" 
                             description="paypal:Status before." 
-                            provider-transaction-id="xxx"
+                            provider-transaction-id="xxx" 
                             severity="information"/>
                             <status 
                             code="201.0000" 
                             description="paypal:The resource was successfully created." 
-                            provider-transaction-id="yyy"
+                            provider-transaction-id="yyy" 
                             severity="information"/>
                         </statuses>
+                        <payment-methods>
+                            <payment-method></payment-method>
+                        </payment-methods>
                     </payment>';
         $this->mapper->map($response);
     }
