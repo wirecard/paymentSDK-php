@@ -36,7 +36,8 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use Wirecard\PaymentSdk\Config;
+use Wirecard\PaymentSdk\Config\Config;
+use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
@@ -51,6 +52,7 @@ use Wirecard\PaymentSdk\TransactionService;
 class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 {
     const HANDLER = 'handler';
+    const MAID = '213asdf';
     /**
      * @var TransactionService
      */
@@ -63,11 +65,14 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->config = $this->createMock('\Wirecard\PaymentSdk\Config');
+        $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
+        $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
+
+        $this->config = $this->createMock('\Wirecard\PaymentSdk\Config\Config');
         $this->config->method('getHttpUser')->willReturn('abc123');
         $this->config->method('getHttpPassword')->willReturn('password');
-        $this->config->method('getMerchantAccountId')->willReturn('maid');
-        $this->config->method('getUrl')->willReturn('http://engine.ok');
+        $this->config->method('get')->willReturn($paymentMethodConfig);
+        $this->config->method('getBaseUrl')->willReturn('http://engine.ok');
         $this->config->method('getDefaultCurrency')->willReturn('EUR');
 
         $this->instance = new TransactionService($this->config);
@@ -383,7 +388,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(array(
             'request_id'                => 'abc123',
-            'merchant_account_id'       => $this->config->getMerchantAccountId(),
+            'merchant_account_id'       => self::MAID,
             'transaction_type'          => 'tokenize',
             'requested_amount'          => 0,
             'requested_amount_currency' => $this->config->getDefaultCurrency(),

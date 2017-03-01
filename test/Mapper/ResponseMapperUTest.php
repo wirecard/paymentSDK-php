@@ -32,6 +32,7 @@
 
 namespace WirecardTest\PaymentSdk\Mapper;
 
+use Wirecard\PaymentSdk\Response\PendingResponse;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\FormInteractionResponse;
@@ -281,17 +282,6 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($payload, $mapped->getRawData());
     }
 
-    /**
-     * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
-     * @dataProvider invalidResponseProvider
-     * @param $xmlResponse
-     * @param $transaction
-     */
-    public function testInvalidResponseThrowsException($xmlResponse, $transaction)
-    {
-        $this->mapper->map($xmlResponse, $transaction);
-    }
-
     public function invalidResponseProvider()
     {
         return [
@@ -486,6 +476,22 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($response, $mapped->getRawData());
     }
 
+
+    public function testTransactionStateInProgressReturnsPendingResponseObject()
+    {
+        $response = '<payment>
+                        <transaction-state>in-progress</transaction-state>
+                        <request-id>1234</request-id>
+                    </payment>';
+        /**
+         * @var $mapped PendingResponse
+         */
+        $mapped = $this->mapper->map($response);
+        $this->assertInstanceOf(PendingResponse::class, $mapped);
+        $this->assertEquals('1234', $mapped->getRequestId());
+    }
+
+
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
      * @dataProvider malformedResponseProvider
@@ -495,6 +501,205 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
     {
         $this->mapper->map($jsonResponse);
     }
+
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
+     * @dataProvider malformedResponseProvider
+     */
+    public function testTransactionStateInProgressThrowsException()
+    {
+        $response = '<payment>
+                        <transaction-state>in-progress</transaction-state>
+                    </payment>';
+        $this->mapper->map($response);
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
+     * @dataProvider malformedResponseProvider
+     */
+    public function testMissingPaymentMethodsThrowsException()
+    {
+        $response = '<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <statuses>
+                            <status 
+                            code="305.0000" 
+                            description="paypal:Status before." 
+                            severity="information"/>
+                            <status 
+                            code="201.0000" 
+                            description="paypal:The resource was successfully created." 
+                            provider-transaction-id="xxx" 
+                            severity="information"/>
+                        </statuses>
+                    </payment>';
+        $this->mapper->map($response);
+    }
+
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
+     * @dataProvider malformedResponseProvider
+     */
+    public function testEmptyPaymentMethodsThrowsException()
+    {
+        $response = '<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <statuses>
+                            <status 
+                            code="305.0000" 
+                            description="paypal:Status before." 
+                            severity="information"/>
+                            <status 
+                            code="201.0000" 
+                            description="paypal:The resource was successfully created." 
+                            provider-transaction-id="xxx" 
+                            severity="information"/>
+                        </statuses>
+                        <payment-methods></payment-methods>
+                    </payment>';
+        $this->mapper->map($response);
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
+     * @dataProvider malformedResponseProvider
+     */
+    public function testMultiplePaymentMethodsThrowsException()
+    {
+        $response = '<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <statuses>
+                            <status 
+                            code="305.0000" 
+                            description="paypal:Status before." 
+                            severity="information"/>
+                            <status 
+                            code="201.0000" 
+                            description="paypal:The resource was successfully created." 
+                            provider-transaction-id="xxx" 
+                            severity="information"/>
+                        </statuses>
+                        <payment-methods>
+                            <payment-method></payment-method>
+                            <payment-method></payment-method>
+                        </payment-methods>
+                    </payment>';
+        $this->mapper->map($response);
+    }
+
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
+     * @dataProvider malformedResponseProvider
+     */
+    public function testMultipleDifferentProviderTransactionIDsThrowsException()
+    {
+        $response = '<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <statuses>
+                            <status 
+                            code="305.0000" 
+                            description="paypal:Status before." 
+                            provider-transaction-id="xxx" 
+                            severity="information"/>
+                            <status 
+                            code="201.0000" 
+                            description="paypal:The resource was successfully created." 
+                            provider-transaction-id="yyy" 
+                            severity="information"/>
+                        </statuses>
+                        <payment-methods>
+                            <payment-method></payment-method>
+                        </payment-methods>
+                    </payment>';
+        $this->mapper->map($response);
+    }
+
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
+     * @dataProvider malformedResponseProvider
+     */
+    public function testMissingThreeDElementThrowsException()
+    {
+        $payload = '<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <statuses>
+                            <status 
+                            code="201.0000" 
+                            description="paypal:The resource was successfully created." 
+                            provider-transaction-id="W0RWI653B31MAU649" 
+                            severity="information"/>
+                        </statuses>
+                        <card-token></card-token>
+                    </payment>';
+        $transaction = new ThreeDCreditCardTransaction();
+
+        $this->mapper->map($payload, $transaction);
+    }
+
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
+     * @dataProvider malformedResponseProvider
+     */
+    public function testMissingAcsElementThrowsException()
+    {
+        $payload = '<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <statuses>
+                            <status 
+                            code="201.0000" 
+                            description="paypal:The resource was successfully created." 
+                            provider-transaction-id="W0RWI653B31MAU649" 
+                            severity="information"/>
+                        </statuses>
+                        <card-token></card-token>
+                        <three-d>
+                            <pareq>request</pareq>
+                        </three-d>
+                    </payment>';
+        $transaction = new ThreeDCreditCardTransaction();
+
+        $this->mapper->map($payload, $transaction);
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
+     * @dataProvider malformedResponseProvider
+     */
+    public function testMissingPareqElementThrowsException()
+    {
+        $payload = '<payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <statuses>
+                            <status 
+                            code="201.0000" 
+                            description="paypal:The resource was successfully created." 
+                            provider-transaction-id="W0RWI653B31MAU649" 
+                            severity="information"/>
+                        </statuses>
+                        <card-token></card-token>
+                        <three-d>
+                            <acs-url>https://www.example.com/acs</acs-url>
+                        </three-d>
+                    </payment>';
+        $transaction = new ThreeDCreditCardTransaction();
+
+        $this->mapper->map($payload, $transaction);
+    }
+
+
 
     public function malformedResponseProvider()
     {

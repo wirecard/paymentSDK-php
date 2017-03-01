@@ -25,66 +25,55 @@
  *
  * Customers are responsible for testing the plugin's functionality before starting productive
  * operation.
- *
  * By installing the plugin into the shop system the customer agrees to these terms of use.
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk;
+namespace WirecardTest\PaymentSdk\Config;
 
-use Wirecard\PaymentSdk\Config;
+use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
+use Wirecard\PaymentSdk\Config\PaymentMethodConfigCollection;
 
-class ConfigUTest extends \PHPUnit_Framework_TestCase
+class PaymentMethodConfigCollectionUTest extends \PHPUnit_Framework_TestCase
 {
+    const PAYMENT_METHOD_NAME = 'Test';
     /**
-     * @var Config
+     * @var PaymentMethodConfigCollection
      */
     private $instance;
 
+    /**
+     * @var PaymentMethodConfig
+     */
+    private $paymentMethodConfig;
+
     public function setUp()
     {
-        $this->instance = new Config(
-            'http://www.example.com',
-            'httpUser',
-            'httpPassword',
-            'merchantAccountId',
-            'secretKey'
+        $this->instance = new PaymentMethodConfigCollection();
+        $this->paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
+        $this->paymentMethodConfig->method('getPaymentMethodName')->willReturn(self::PAYMENT_METHOD_NAME);
+    }
+
+    public function testAdd()
+    {
+
+        $this->instance->add($this->paymentMethodConfig);
+
+        $this->assertAttributeEquals(
+            array(self::PAYMENT_METHOD_NAME => $this->paymentMethodConfig),
+            'paymentMethodConfigs',
+            $this->instance
         );
     }
 
-    public function testGetUrl()
+    public function testGet()
     {
-        $this->assertEquals('http://www.example.com', $this->instance->getUrl());
+        $this->instance->add($this->paymentMethodConfig);
+        $this->assertEquals($this->paymentMethodConfig, $this->instance->get(self::PAYMENT_METHOD_NAME));
     }
 
-    public function testGetHttpUser()
+    public function testGetIterator()
     {
-        $this->assertEquals('httpUser', $this->instance->getHttpUser());
-    }
-
-    public function testGetHttpPassword()
-    {
-        $this->assertEquals('httpPassword', $this->instance->getHttpPassword());
-    }
-
-    public function testGetMerchantAccountId()
-    {
-        $this->assertEquals('merchantAccountId', $this->instance->getMerchantAccountId());
-    }
-
-    public function testGetSecretKey()
-    {
-        $this->assertEquals('secretKey', $this->instance->getSecretKey());
-    }
-
-    public function testGetDefaultCurrency()
-    {
-        $this->assertEquals('EUR', $this->instance->getDefaultCurrency());
-    }
-
-    public function testSetDefaultCurrency()
-    {
-        $this->instance->setDefaultCurrency('USD');
-        $this->assertAttributeEquals('USD', 'defaultCurrency', $this->instance);
+        $this->assertInstanceOf(\ArrayIterator::class, $this->instance->getIterator());
     }
 }

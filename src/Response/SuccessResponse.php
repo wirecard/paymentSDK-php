@@ -48,7 +48,13 @@ class SuccessResponse extends Response
      */
     private $providerTransactionId;
 
-
+    /**
+     * SuccessResponse constructor.
+     * @param string $rawData
+     * @param \Wirecard\PaymentSdk\Entity\StatusCollection $statusCollection
+     * @param string $transactionId
+     * @param string $providerTransactionId
+     */
     public function __construct($rawData, $statusCollection, $transactionId, $providerTransactionId)
     {
         parent::__construct($rawData, $statusCollection);

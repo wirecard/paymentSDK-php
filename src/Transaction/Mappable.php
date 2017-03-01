@@ -35,6 +35,7 @@ namespace Wirecard\PaymentSdk\Transaction;
 interface Mappable
 {
     /**
+     * @param string|null $operation
      * @return array
      */
     public function mappedProperties($operation = null);

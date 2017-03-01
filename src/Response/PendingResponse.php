@@ -8,7 +8,7 @@
  *
  * They have been tested and approved for full functionality in the standard configuration
  * (status on delivery) of the corresponding shop system. They are under General Public
- * License Version 2 (GPLv2) and can be used, developed and passed on to third parties under
+ * License Version 3 (GPLv3) and can be used, developed and passed on to third parties under
  * the same terms.
  *
  * However, Wirecard CEE does not provide any guarantee or accept any liability for any errors
@@ -30,36 +30,38 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Entity;
+namespace Wirecard\PaymentSdk\Response;
 
 /**
- * Class FormFieldMap
- * @package Wirecard\PaymentSdk\Entity
+ * Class PendingResponse
+ * @package Wirecard\PaymentSdk\Response
+ *
+ * An object representing a pending response from the payment provider.
  */
-class FormFieldMap implements \IteratorAggregate
+class PendingResponse extends Response
 {
     /**
-     * @var array
+     * @var string
      */
-    private $formFields = [];
+    private $requestId;
 
     /**
-     * @return \ArrayIterator
+     * PendingResponse constructor.
+     * @param string $rawData
+     * @param \Wirecard\PaymentSdk\Entity\StatusCollection $statusCollection
+     * @param $requestId
      */
-    public function getIterator()
+    public function __construct($rawData, $statusCollection, $requestId)
     {
-        return new \ArrayIterator($this->formFields);
+        parent::__construct($rawData, $statusCollection);
+        $this->requestId = $requestId;
     }
 
     /**
-     * @param string $key
-     * @param string $value
-     * @return $this
+     * @return string
      */
-    public function add($key, $value)
+    public function getRequestId()
     {
-        $this->formFields[$key] = $value;
-
-        return $this;
+        return $this->requestId;
     }
 }

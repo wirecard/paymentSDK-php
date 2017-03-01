@@ -8,7 +8,7 @@
  *
  * They have been tested and approved for full functionality in the standard configuration
  * (status on delivery) of the corresponding shop system. They are under General Public
- * License Version 2 (GPLv2) and can be used, developed and passed on to third parties under
+ * License Version 3 (GPLv3) and can be used, developed and passed on to third parties under
  * the same terms.
  *
  * However, Wirecard CEE does not provide any guarantee or accept any liability for any errors
@@ -25,41 +25,44 @@
  *
  * Customers are responsible for testing the plugin's functionality before starting productive
  * operation.
- *
  * By installing the plugin into the shop system the customer agrees to these terms of use.
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Entity;
+namespace WirecardTest\PaymentSdk\Config;
 
-/**
- * Class FormFieldMap
- * @package Wirecard\PaymentSdk\Entity
- */
-class FormFieldMap implements \IteratorAggregate
+use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
+
+class PaymentMethodConfigUTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var array
-     */
-    private $formFields = [];
+    const PAYMENT_METHOD_NAME = 'paypal';
+
+    const MAID = '1234fdsf';
+
+    const SECRET = 'gfdhfjfgh';
 
     /**
-     * @return \ArrayIterator
+     * @var PaymentMethodConfig
      */
-    public function getIterator()
+    private $instance;
+
+    public function setUp()
     {
-        return new \ArrayIterator($this->formFields);
+        $this->instance = new PaymentMethodConfig(self::PAYMENT_METHOD_NAME, self::MAID, self::SECRET);
     }
 
-    /**
-     * @param string $key
-     * @param string $value
-     * @return $this
-     */
-    public function add($key, $value)
+    public function testGetPaymentMethodName()
     {
-        $this->formFields[$key] = $value;
+        $this->assertEquals(self::PAYMENT_METHOD_NAME, $this->instance->getPaymentMethodName());
+    }
 
-        return $this;
+    public function testGetMerchantAccountId()
+    {
+        $this->assertEquals(self::MAID, $this->instance->getMerchantAccountId());
+    }
+
+    public function testGetSecret()
+    {
+        $this->assertEquals(self::SECRET, $this->instance->getSecret());
     }
 }

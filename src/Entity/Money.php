@@ -80,7 +80,7 @@ class Money implements Mappable
     }
 
     /**
-     * @param null $operation
+     * @param string|null $operation
      * @return array
      */
     public function mappedProperties($operation = null)

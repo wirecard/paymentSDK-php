@@ -8,7 +8,7 @@
  *
  * They have been tested and approved for full functionality in the standard configuration
  * (status on delivery) of the corresponding shop system. They are under General Public
- * License Version 2 (GPLv2) and can be used, developed and passed on to third parties under
+ * License Version 3 (GPLv3) and can be used, developed and passed on to third parties under
  * the same terms.
  *
  * However, Wirecard CEE does not provide any guarantee or accept any liability for any errors
@@ -25,41 +25,63 @@
  *
  * Customers are responsible for testing the plugin's functionality before starting productive
  * operation.
- *
  * By installing the plugin into the shop system the customer agrees to these terms of use.
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Entity;
+namespace Wirecard\PaymentSdk\Config;
 
-/**
- * Class FormFieldMap
- * @package Wirecard\PaymentSdk\Entity
- */
-class FormFieldMap implements \IteratorAggregate
+class PaymentMethodConfig
 {
     /**
-     * @var array
+     * @var string
      */
-    private $formFields = [];
+    private $paymentMethodName;
 
     /**
-     * @return \ArrayIterator
+     * @var string
      */
-    public function getIterator()
+    private $merchantAccountId;
+
+    /**
+     * @var string
+     */
+    private $secret;
+
+    /**
+     * PaymentMethodConfig constructor.
+     * @param string $paymentMethodName
+     * @param string $merchantAccountId
+     * @param string $secret
+     */
+    public function __construct($paymentMethodName, $merchantAccountId, $secret)
     {
-        return new \ArrayIterator($this->formFields);
+        $this->paymentMethodName = $paymentMethodName;
+        $this->merchantAccountId = $merchantAccountId;
+        $this->secret = $secret;
     }
 
     /**
-     * @param string $key
-     * @param string $value
-     * @return $this
+     * @return string
      */
-    public function add($key, $value)
+    public function getPaymentMethodName()
     {
-        $this->formFields[$key] = $value;
+        return $this->paymentMethodName;
+    }
 
-        return $this;
+    /**
+     * @return string
+     */
+    public function getMerchantAccountId()
+    {
+        return $this->merchantAccountId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSecret()
+    {
+        return $this->secret;
     }
 }

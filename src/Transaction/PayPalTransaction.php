@@ -41,6 +41,8 @@ use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
  */
 class PayPalTransaction extends Transaction
 {
+    const NAME = 'paypal';
+
     /**
      * @var Redirect
      */
@@ -55,16 +57,14 @@ class PayPalTransaction extends Transaction
     }
 
     /**
-     * @param null $operation
+     * @param string|null $operation
      * @return array
      */
     public function mappedProperties($operation = null)
     {
-        $onlyPaymentMethod = ['payment-method' => [['name' => 'paypal']]];
 
         $specificProperties = [
             self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType($operation),
-            'payment-methods' => $onlyPaymentMethod,
             'cancel-redirect-url' => $this->redirect->getCancelUrl(),
             'success-redirect-url' => $this->redirect->getSuccessUrl()
         ];
@@ -72,6 +72,10 @@ class PayPalTransaction extends Transaction
         return array_merge(parent::mappedProperties($operation), $specificProperties);
     }
 
+    /**
+     * @param string|null $operation
+     * @return string
+     */
     private function retrieveTransactionType($operation)
     {
         $transactionTypes = [

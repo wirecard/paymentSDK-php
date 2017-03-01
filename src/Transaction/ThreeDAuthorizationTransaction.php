@@ -38,10 +38,10 @@ namespace Wirecard\PaymentSdk\Transaction;
  *
  * This class is instantiated during the 3D process,
  * and it should not be instantiated by the merchant.
-
  */
 class ThreeDAuthorizationTransaction extends Transaction
 {
+    const ENDPOINT = '/engine/rest/payments/';
     const CCARD_AUTHORIZATION = 'authorization';
     const PARAM_PARENT_TRANSACTION_ID = 'parent-transaction-id';
 
@@ -52,7 +52,7 @@ class ThreeDAuthorizationTransaction extends Transaction
 
     /**
      * ReferenceTransaction constructor.
-     * @param $payload
+     * @param array $payload
      */
     public function __construct($payload)
     {
@@ -60,6 +60,7 @@ class ThreeDAuthorizationTransaction extends Transaction
     }
 
     /**
+     * @param string|null $operation
      * @return array
      */
     public function mappedProperties($operation = null)
@@ -75,5 +76,14 @@ class ThreeDAuthorizationTransaction extends Transaction
                 'pares' => $paRes
             ],
         ];
+    }
+
+    /**
+     * @param string|null
+     * @return string
+     */
+    public function getConfigKey($operation = null)
+    {
+        return ThreeDCreditCardTransaction::class;
     }
 }
