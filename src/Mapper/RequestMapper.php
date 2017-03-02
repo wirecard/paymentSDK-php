@@ -67,22 +67,25 @@ class RequestMapper
     /**
      * @param Transaction $transaction
      * @param string $operation
+     * @param null|string $parentTransactionType
      * @return string The transaction in JSON format.
      */
-    public function map(Transaction $transaction, $operation)
+    public function map(Transaction $transaction, $operation, $parentTransactionType)
     {
         $requestId = call_user_func($this->requestIdGenerator);
         $commonProperties = [
             'request-id' => $requestId
         ];
 
-        $allProperties = array_merge($commonProperties, $transaction->mappedProperties($operation));
+        $allProperties = array_merge($commonProperties, $transaction->mappedProperties($operation, $parentTransactionType));
 
         $allProperties['merchant-account-id']['value'] = $this->config->get($transaction->getConfigKey())
             ->getMerchantAccountId();
 
-        $result = ['payment' => $allProperties];
+        $result = [Transaction::PARAM_PAYMENT => $allProperties];
 
+        echo 'request';
+        var_dump($result);
         return json_encode($result);
     }
 }

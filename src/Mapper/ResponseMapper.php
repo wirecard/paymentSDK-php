@@ -44,6 +44,7 @@ use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Response\Response;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
+use Wirecard\PaymentSdk\Transaction\Transaction;
 
 /**
  * Class ResponseMapper
@@ -55,11 +56,11 @@ class ResponseMapper
      * map the xml Response from engine to ResponseObjects
      *
      * @param string $xmlResponse
-     * @param CreditCardTransaction $transaction
+     * @param Transaction $transaction
      * @return Response
      * @throws MalformedResponseException
      */
-    public function map($xmlResponse, CreditCardTransaction $transaction = null)
+    public function map($xmlResponse, Transaction $transaction = null)
     {
         $decodedResponse = base64_decode($xmlResponse);
         $xmlResponse = (base64_encode($decodedResponse) === $xmlResponse) ? $decodedResponse : $xmlResponse;
@@ -71,6 +72,9 @@ class ResponseMapper
         if (!$response instanceof \SimpleXMLElement) {
             throw new MalformedResponseException('Response is not a valid xml string.');
         }
+
+        echo 'response';
+        var_dump($response);
 
         //we have to string cast all fields, otherwise the contain SimpleXMLElements
 
@@ -270,7 +274,7 @@ class ResponseMapper
      * @param $xmlResponse
      * @param $response
      * @param $statusCollection
-     * @param CreditCardTransaction $transaction
+     * @param Transaction $transaction
      * @return FormInteractionResponse|InteractionResponse|SuccessResponse
      * @throws MalformedResponseException
      */
@@ -278,9 +282,9 @@ class ResponseMapper
         $xmlResponse,
         $response,
         $statusCollection,
-        CreditCardTransaction $transaction = null
+        Transaction $transaction = null
     ) {
-        if ($transaction instanceof ThreeDCreditCardTransaction && null === $transaction->getPaRes()) {
+        if ($response->{'transaction-type'} === ThreeDCreditCardTransaction::TYPE_CHECK_ENROLLMENT) {
             return $this->mapThreeDResponse($xmlResponse, $response, $statusCollection, $transaction);
         }
 
