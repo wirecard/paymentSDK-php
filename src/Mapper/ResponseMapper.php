@@ -85,10 +85,8 @@ class ResponseMapper
         switch ($state) {
             case 'success':
                 return $this->mapSuccessResponse($xmlResponse, $response, $statusCollection, $transaction);
-                break;
             case 'in-progress':
                 return new PendingResponse($xmlResponse, $statusCollection, $this->getRequestId($response));
-                break;
             default:
                 return new FailureResponse($xmlResponse, $statusCollection);
         }
@@ -165,7 +163,6 @@ class ResponseMapper
             throw new MalformedResponseException('Missing request-id in response.');
         }
     }
-
 
     /**
      * @param \SimpleXMLElement $response

@@ -77,8 +77,10 @@ class RequestMapper
             'request-id' => $requestId
         ];
 
-        $allProperties = array_merge($commonProperties,
-            $transaction->mappedProperties($operation, $parentTransactionType));
+        $allProperties = array_merge(
+            $commonProperties,
+            $transaction->mappedProperties($operation, $parentTransactionType)
+        );
 
         $allProperties['merchant-account-id']['value'] = $this->config->get($transaction->getConfigKey())
             ->getMerchantAccountId();

@@ -221,6 +221,38 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($response, $service->reserve($transaction));
     }
 
+    public function testGetParentTransactionDetails()
+    {
+        $transaction = new CreditCardTransaction();
+        $transaction->setParentTransactionId('myparentid');
+
+        //prepare RequestMapper
+        $mappedRequest = '{"mocked": "json", "response": "object"}';
+        $requestMapper = $this->createMock('\Wirecard\PaymentSdk\Mapper\RequestMapper');
+        $requestMapper->expects($this->once())
+            ->method('map')
+            ->with($this->equalTo($transaction), 'reserve', 'credit')
+            ->willReturn($mappedRequest);
+
+        //prepare Guzzle
+        $guzzleMock = new MockHandler([
+            new Response(200, [], '{"payment":{"transaction-type":"credit"}}'),
+            new Response(200, [], '<payment><xml-response></xml-response></payment>')
+        ]);
+        $handler = HandlerStack::create($guzzleMock);
+        $client = new Client([self::HANDLER => $handler, 'http_errors' => false]);
+
+        //prepare ResponseMapper
+        $responseMapper = $this->createMock('\Wirecard\PaymentSdk\Mapper\ResponseMapper');
+        $response = $this->createMock('\Wirecard\PaymentSdk\Response\Response');
+        $responseMapper
+            ->method('map')
+            ->willReturn($response);
+
+        $service = new TransactionService($this->config, null, $client, $requestMapper, $responseMapper);
+        $service->reserve($transaction);
+    }
+
     protected function getTestPayPalTransaction()
     {
         $redirect = new Redirect('http://www.example.com/success', 'http://www.example.com/cancel');

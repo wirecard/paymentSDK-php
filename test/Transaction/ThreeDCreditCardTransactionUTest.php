@@ -31,6 +31,7 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 
 class ThreeDCreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
@@ -81,7 +82,7 @@ class ThreeDCreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
             ],
             'transaction-type' => 'check-enrollment'
         ];
-        $this->assertEquals($valid, $this->instance->mappedProperties('testtype'));
+        $this->assertEquals($valid, $this->instance->mappedProperties(Operation::RESERVE));
     }
 
     public function testMappedPropertiesPares()

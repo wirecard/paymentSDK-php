@@ -288,13 +288,16 @@ class TransactionService
         $parentTransactionType = null;
 
         if (null !== $transaction->getParentTransactionId()) {
-            $parentTransaction = $this->getTransactionByTransactionId($transaction->getParentTransactionId(),
-                $transaction->getConfigKey($operation));
+            $parentTransaction = $this->getTransactionByTransactionId(
+                $transaction->getParentTransactionId(),
+                $transaction->getConfigKey($operation)
+            );
 
             if (null !== $parentTransaction && array_key_exists(Transaction::PARAM_PAYMENT, $parentTransaction)
                 && array_key_exists('transaction-type', $parentTransaction[Transaction::PARAM_PAYMENT])
             ) {
-                $parentTransactionType = $parentTransaction[Transaction::PARAM_PAYMENT][Transaction::PARAM_TRANSACTION_TYPE];
+                $parentTransactionType = $parentTransaction[Transaction::PARAM_PAYMENT]
+                    [Transaction::PARAM_TRANSACTION_TYPE];
             }
         }
 
