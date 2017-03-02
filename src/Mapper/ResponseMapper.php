@@ -35,6 +35,7 @@ namespace Wirecard\PaymentSdk\Mapper;
 use Wirecard\PaymentSdk\Entity\FormFieldMap;
 use Wirecard\PaymentSdk\Response\PendingResponse;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
+use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\Entity\Status;
 use Wirecard\PaymentSdk\Entity\StatusCollection;
@@ -56,11 +57,12 @@ class ResponseMapper
      * map the xml Response from engine to ResponseObjects
      *
      * @param string $xmlResponse
-     * @param Transaction $transaction
+     * @param string $operation
+     * @param ThreeDCreditCardTransaction $transaction
      * @return Response
      * @throws MalformedResponseException
      */
-    public function map($xmlResponse, Transaction $transaction = null)
+    public function map($xmlResponse, $operation = null, ThreeDCreditCardTransaction $transaction = null)
     {
         $decodedResponse = base64_decode($xmlResponse);
         $xmlResponse = (base64_encode($decodedResponse) === $xmlResponse) ? $decodedResponse : $xmlResponse;
@@ -84,7 +86,7 @@ class ResponseMapper
         $statusCollection = $this->getStatusCollection($response);
         switch ($state) {
             case 'success':
-                return $this->mapSuccessResponse($xmlResponse, $response, $statusCollection, $transaction);
+                return $this->mapSuccessResponse($xmlResponse, $response, $statusCollection, $operation, $transaction);
             case 'in-progress':
                 return new PendingResponse($xmlResponse, $statusCollection, $this->getRequestId($response));
             default:
@@ -232,11 +234,18 @@ class ResponseMapper
      * @param $payload
      * @param $response
      * @param $status
+     * @param $operation
      * @param ThreeDCreditCardTransaction $transaction
+     * @throws MalformedResponseException
      * @return FormInteractionResponse
      */
-    private function mapThreeDResponse($payload, $response, $status, ThreeDCreditCardTransaction $transaction)
-    {
+    private function mapThreeDResponse(
+        $payload,
+        $response,
+        $status,
+        $operation,
+        ThreeDCreditCardTransaction $transaction
+    ) {
         if (!isset($response->{'three-d'})) {
             throw new MalformedResponseException('Missing three-d element in enrollment-check response.');
         } else {
@@ -257,8 +266,11 @@ class ResponseMapper
 
         $fields->add(
             'MD',
-            base64_encode(json_encode(['enrollment-check-transaction-id' => (string)$this->getTransactionId($response),
-                'operation-type' => 'authorization']))
+            base64_encode(json_encode([
+                'enrollment-check-transaction-id' => (string)$this->getTransactionId($response),
+                'operation-type' => ($operation === Operation::RESERVE)
+                    ? Transaction::TYPE_AUTHORIZATION : CreditCardTransaction::TYPE_PURCHASE
+            ]))
         );
 
         return new FormInteractionResponse($payload, $status, $redirectUrl, $fields);
@@ -268,7 +280,8 @@ class ResponseMapper
      * @param $xmlResponse
      * @param $response
      * @param $statusCollection
-     * @param Transaction $transaction
+     * @param string $operation
+     * @param ThreeDCreditCardTransaction $transaction
      * @return FormInteractionResponse|InteractionResponse|SuccessResponse
      * @throws MalformedResponseException
      */
@@ -276,10 +289,11 @@ class ResponseMapper
         $xmlResponse,
         $response,
         $statusCollection,
-        Transaction $transaction = null
+        $operation,
+        ThreeDCreditCardTransaction $transaction = null
     ) {
-        if ((string) $response->{'transaction-type'} === ThreeDCreditCardTransaction::TYPE_CHECK_ENROLLMENT) {
-            return $this->mapThreeDResponse($xmlResponse, $response, $statusCollection, $transaction);
+        if ((string)$response->{'transaction-type'} === ThreeDCreditCardTransaction::TYPE_CHECK_ENROLLMENT) {
+            return $this->mapThreeDResponse($xmlResponse, $response, $statusCollection, $operation, $transaction);
         }
 
         $transactionId = $this->getTransactionId($response);

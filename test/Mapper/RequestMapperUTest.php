@@ -347,6 +347,110 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(json_encode($expectedResult), $result);
     }
 
+    public function testPayProvider()
+    {
+        return [
+            [
+                Transaction::TYPE_AUTHORIZATION,
+                Transaction::TYPE_CAPTURE_AUTHORIZATION
+            ],
+            [
+                CreditCardTransaction::TYPE_PURCHASE,
+                CreditCardTransaction::TYPE_REFERENCED_PURCHASE
+            ],
+            [
+                null,
+                CreditCardTransaction::TYPE_PURCHASE
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider testPayProvider
+     * @param $transactionType
+     * @param $payType
+     */
+    public function testPay($transactionType, $payType)
+    {
+        $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
+        $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
+        $paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
+        $paymentMethodConfigs->method('get')->willReturn($paymentMethodConfig);
+
+        $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', $paymentMethodConfigs);
+        $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
+        $mapper = new RequestMapper($config, $requestIdGeneratorMock);
+        $followupTransaction = new CreditCardTransaction();
+        $followupTransaction->setParentTransactionId('642');
+        $_SERVER['REMOTE_ADDR'] = 'test';
+
+        $result = $mapper->map($followupTransaction, Operation::PAY, $transactionType);
+
+        $expectedResult = ['payment' => [
+            'request-id' => '5B-dummy-id',
+            'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
+            'parent-transaction-id' => '642',
+            'ip-address' => 'test',
+            'transaction-type' => $payType,
+            'merchant-account-id' => ['value' => 'B612'],
+        ]];
+        $this->assertEquals(json_encode($expectedResult), $result);
+    }
+
+    public function testPay3dProvider()
+    {
+        return [
+            [
+                Transaction::TYPE_AUTHORIZATION,
+                Transaction::TYPE_CAPTURE_AUTHORIZATION
+            ],
+            [
+                CreditCardTransaction::TYPE_PURCHASE,
+                CreditCardTransaction::TYPE_REFERENCED_PURCHASE
+            ],
+            [
+                ThreeDCreditCardTransaction::TYPE_CHECK_ENROLLMENT,
+                CreditCardTransaction::TYPE_PURCHASE
+            ],
+            [
+                null,
+                ThreeDCreditCardTransaction::TYPE_CHECK_ENROLLMENT
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider testPay3dProvider
+     * @param $transactionType
+     * @param $payType
+     */
+    public function testPay3d($transactionType, $payType)
+    {
+        $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
+        $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
+        $paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
+        $paymentMethodConfigs->method('get')->willReturn($paymentMethodConfig);
+
+        $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', $paymentMethodConfigs);
+        $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
+        $mapper = new RequestMapper($config, $requestIdGeneratorMock);
+        $followupTransaction = new ThreeDCreditCardTransaction();
+        $followupTransaction->setParentTransactionId('642');
+        $_SERVER['REMOTE_ADDR'] = 'test';
+
+        $result = $mapper->map($followupTransaction, Operation::PAY, $transactionType);
+
+        $expectedResult = ['payment' => [
+            'request-id' => '5B-dummy-id',
+            'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
+            'parent-transaction-id' => '642',
+            'ip-address' => 'test',
+            'transaction-type' => $payType,
+            'merchant-account-id' => ['value' => 'B612'],
+        ]];
+        $this->assertEquals(json_encode($expectedResult), $result);
+    }
+
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
      */

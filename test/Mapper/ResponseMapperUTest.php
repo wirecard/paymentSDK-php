@@ -39,6 +39,7 @@ use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Mapper\ResponseMapper;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
+use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 
 class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
@@ -189,7 +190,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         /**
          * @var $mapped FormInteractionResponse
          */
-        $mapped = $this->mapper->map($payload, $transaction);
+        $mapped = $this->mapper->map($payload, Operation::RESERVE, $transaction);
 
         $this->assertInstanceOf(FormInteractionResponse::class, $mapped);
         $this->assertEquals($payload, $mapped->getRawData());
@@ -219,7 +220,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         /**
          * @var $mapped FormInteractionResponse
          */
-        $mapped = $this->mapper->map($payload, $transaction);
+        $mapped = $this->mapper->map($payload, Operation::RESERVE, $transaction);
 
         $this->assertInstanceOf(FormInteractionResponse::class, $mapped);
         $this->assertEquals($payload, $mapped->getRawData());
@@ -254,7 +255,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         /**
          * @var $mapped FormInteractionResponse
          */
-        $mapped = $this->mapper->map($payload, $transaction);
+        $mapped = $this->mapper->map($payload, Operation::RESERVE, $transaction);
 
         $this->assertInstanceOf(FormInteractionResponse::class, $mapped);
         $this->assertEquals('dummy URL', $mapped->getFormFields()->getIterator()['TermUrl']);
@@ -647,7 +648,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                     </payment>';
         $transaction = new ThreeDCreditCardTransaction();
 
-        $this->mapper->map($payload, $transaction);
+        $this->mapper->map($payload, Operation::RESERVE, $transaction);
     }
 
 
@@ -675,7 +676,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                     </payment>';
         $transaction = new ThreeDCreditCardTransaction();
 
-        $this->mapper->map($payload, $transaction);
+        $this->mapper->map($payload, Operation::RESERVE, $transaction);
     }
 
     /**
@@ -702,7 +703,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                     </payment>';
         $transaction = new ThreeDCreditCardTransaction();
 
-        $this->mapper->map($payload, $transaction);
+        $this->mapper->map($payload, Operation::RESERVE, $transaction);
     }
 
 

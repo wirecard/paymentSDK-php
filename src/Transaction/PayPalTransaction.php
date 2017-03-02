@@ -58,7 +58,7 @@ class PayPalTransaction extends Transaction
 
     /**
      * @param string|null $operation
-     * @param null|string $parentTransactionType
+     * @param string|null $parentTransactionType
      * @return array
      */
     public function mappedProperties($operation = null, $parentTransactionType = null)

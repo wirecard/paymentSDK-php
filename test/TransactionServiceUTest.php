@@ -473,7 +473,6 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $result = $this->instance->credit($tx);
 
         $this->assertEquals($successResponse, $result);
-        var_dump($result);
     }
 
 
