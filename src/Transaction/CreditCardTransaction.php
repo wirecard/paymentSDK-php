@@ -102,9 +102,13 @@ class CreditCardTransaction extends Transaction
                 return $this->retrieveTransactionTypeForCancel($parentTransactionType);
             case Operation::PAY:
                 return $this->retrieveTransactionTypeForPay($parentTransactionType);
+            case Operation::CREDIT:
+                return $this::TYPE_CREDIT;
             default:
                 throw new UnsupportedOperationException();
         }
+
+        return $transactionTypes[$operation];
     }
 
     /**

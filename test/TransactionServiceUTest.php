@@ -431,6 +431,20 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($successResponse, $result);
     }
 
+    public function testCredit()
+    {
+        $tx = new CreditCardTransaction();
+        $tx->setTokenId('token-id');
+
+        $successResponse = $this->mockProcessingRequest($tx);
+
+        $result = $this->instance->credit($tx);
+
+        $this->assertEquals($successResponse, $result);
+        var_dump($result);
+    }
+
+
     public function testRequestIdGeneratorRandomness()
     {
         $this->instance = new TransactionService($this->config, null, null, null, null, null);

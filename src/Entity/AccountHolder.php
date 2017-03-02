@@ -30,12 +30,47 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Transaction;
+namespace Wirecard\PaymentSdk\Entity;
 
-class Operation
+use Wirecard\PaymentSdk\Transaction\Mappable;
+
+/**
+ * Class Money
+ * @package Wirecard\PaymentSdk\Entity
+ *
+ * An immutable entity representing an account holder.
+ */
+class AccountHolder implements Mappable
 {
-    const RESERVE = 'reserve';
-    const PAY = 'pay';
-    const CANCEL = 'cancel';
-    const CREDIT = 'credit';
+    /**
+     * @var string
+     */
+    private $lastname;
+
+
+    /**
+     * AccountHolder constructor.
+     * @param $lastname
+     */
+    public function __construct($lastname)
+    {
+        $this->lastname = $lastname;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+    /**
+     * @param string|null $operation
+     * @return array
+     */
+    public function mappedProperties($operation = null)
+    {
+        return [ 'last-name'=> $this->lastname ];
+    }
 }

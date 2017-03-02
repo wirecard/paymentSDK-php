@@ -256,6 +256,16 @@ class TransactionService
     }
 
     /**
+     * @param Transaction $transaction
+     * @return FailureResponse|InteractionResponse|Response|SuccessResponse
+     */
+    public function credit(Transaction $transaction)
+    {
+        return $this->process($transaction, Operation::CREDIT);
+    }
+
+
+    /**
      * @return LoggerInterface
      */
     protected function getLogger()
