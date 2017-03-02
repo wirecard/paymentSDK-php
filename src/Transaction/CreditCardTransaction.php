@@ -154,13 +154,7 @@ class CreditCardTransaction extends Transaction
      */
     protected function retrieveTransactionTypeForReserve($parentTransactionType)
     {
-        $transactionType = $this::TYPE_AUTHORIZATION;
-
-        if (null !== $this->parentTransactionId) {
-            $transactionType = $this::TYPE_REFERENCED_AUTHORIZATION;
-        }
-
-        return $transactionType;
+        return (null !== $this->parentTransactionId) ? $this::TYPE_REFERENCED_AUTHORIZATION : $this::TYPE_AUTHORIZATION;
     }
 
     /**
