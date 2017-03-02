@@ -36,7 +36,8 @@ interface Mappable
 {
     /**
      * @param string|null $operation
+     * @param string|null $parentTransactionType
      * @return array
      */
-    public function mappedProperties($operation = null);
+    public function mappedProperties($operation = null, $parentTransactionType = null);
 }

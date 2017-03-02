@@ -320,7 +320,7 @@ class TransactionService
         );
 
         $data = $transaction instanceof ThreeDCreditCardTransaction ? $transaction : null;
-        return $this->getResponseMapper()->map($response->getBody()->getContents(), $data);
+        return $this->getResponseMapper()->map($response->getBody()->getContents(), $operation, $data);
     }
 
     /**

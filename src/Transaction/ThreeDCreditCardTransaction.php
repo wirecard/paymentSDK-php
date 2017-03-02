@@ -92,7 +92,8 @@ class ThreeDCreditCardTransaction extends CreditCardTransaction
 
     /**
      * @param string|null $operation
-     * @param null|string $parentTransactionType
+     * @param string|null $parentTransactionType
+     * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return array
      */
     public function mappedProperties($operation = null, $parentTransactionType = null)
