@@ -78,5 +78,3 @@ if ($response instanceof SuccessResponse) {
         echo sprintf('%s with code %s and message "%s" occured.<br>', $severity, $code, $description);
     }
 }
-
-var_dump($response);
