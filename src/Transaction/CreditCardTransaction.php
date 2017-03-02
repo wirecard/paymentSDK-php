@@ -97,18 +97,22 @@ class CreditCardTransaction extends Transaction
     {
         switch ($operation) {
             case Operation::RESERVE:
-                return $this->retrieveTransactionTypeForReserve($parentTransactionType);
+                $transactionType = $this->retrieveTransactionTypeForReserve($parentTransactionType);
+                break;
             case Operation::CANCEL:
-                return $this->retrieveTransactionTypeForCancel($parentTransactionType);
+                $transactionType = $this->retrieveTransactionTypeForCancel($parentTransactionType);
+                break;
             case Operation::PAY:
-                return $this->retrieveTransactionTypeForPay($parentTransactionType);
+                $transactionType = $this->retrieveTransactionTypeForPay($parentTransactionType);
+                break;
             case Operation::CREDIT:
-                return $this::TYPE_CREDIT;
+                $transactionType = $this::TYPE_CREDIT;
+                break;
             default:
                 throw new UnsupportedOperationException();
         }
 
-        return $transactionTypes[$operation];
+        return $transactionType;
     }
 
     /**
@@ -137,7 +141,7 @@ class CreditCardTransaction extends Transaction
                 break;
             default:
                 throw new MandatoryFieldMissingException(
-                    'Parent transaction type is missing for refund operation'
+                    'Parent transaction type is missing for cancel operation'
                 );
         }
 

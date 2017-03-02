@@ -288,13 +288,12 @@ class TransactionService
         $parentTransactionType = null;
 
         if (null !== $transaction->getParentTransactionId()) {
-            $parentTransaction = $this->getTransactionByTransactionId($transaction->getParentTransactionId()
-                , $transaction->getConfigKey($operation));
+            $parentTransaction = $this->getTransactionByTransactionId($transaction->getParentTransactionId(),
+                $transaction->getConfigKey($operation));
 
-            echo 'parentTransaction';
-            var_dump($parentTransaction);
-            if (array_key_exists(Transaction::PARAM_PAYMENT, $parentTransaction)
-                && array_key_exists('transaction-type', $parentTransaction[Transaction::PARAM_PAYMENT])) {
+            if (null !== $parentTransaction && array_key_exists(Transaction::PARAM_PAYMENT, $parentTransaction)
+                && array_key_exists('transaction-type', $parentTransaction[Transaction::PARAM_PAYMENT])
+            ) {
                 $parentTransactionType = $parentTransaction[Transaction::PARAM_PAYMENT][Transaction::PARAM_TRANSACTION_TYPE];
             }
         }
@@ -331,10 +330,10 @@ class TransactionService
         $response = $this->getHttpClient()->request(
             'GET',
             $this->getConfig()->getBaseUrl() .
-                '/engine/rest/merchants/' .
-                $this->getConfig()->get($paymentMethod)->getMerchantAccountId() .
-                '/payments/' .
-                $transactionId,
+            '/engine/rest/merchants/' .
+            $this->getConfig()->get($paymentMethod)->getMerchantAccountId() .
+            '/payments/' .
+            $transactionId,
             [
                 'auth' => [
                     $this->getConfig()->getHttpUser(),

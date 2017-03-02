@@ -73,9 +73,6 @@ class ResponseMapper
             throw new MalformedResponseException('Response is not a valid xml string.');
         }
 
-        echo 'response';
-        var_dump($response);
-
         //we have to string cast all fields, otherwise the contain SimpleXMLElements
 
         if (isset($response->{'transaction-state'})) {
@@ -284,7 +281,7 @@ class ResponseMapper
         $statusCollection,
         Transaction $transaction = null
     ) {
-        if ($response->{'transaction-type'} === ThreeDCreditCardTransaction::TYPE_CHECK_ENROLLMENT) {
+        if ((string) $response->{'transaction-type'} === ThreeDCreditCardTransaction::TYPE_CHECK_ENROLLMENT) {
             return $this->mapThreeDResponse($xmlResponse, $response, $statusCollection, $transaction);
         }
 

@@ -67,7 +67,11 @@ $response = $transactionService->credit($tx);
 if ($response instanceof SuccessResponse) {
     echo sprintf('Funds successfully transfered.<br> Transaction ID: %s<br>', $response->getTransactionId());
     ?>
-
+    <br>
+    <form action="cancel.php" method="post">
+        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+        <input type="submit" value="cancel the credit">
+    </form>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
