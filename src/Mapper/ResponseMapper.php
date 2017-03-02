@@ -44,6 +44,7 @@ use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Response\Response;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
+use Wirecard\PaymentSdk\Transaction\Transaction;
 
 /**
  * Class ResponseMapper
@@ -55,11 +56,11 @@ class ResponseMapper
      * map the xml Response from engine to ResponseObjects
      *
      * @param string $xmlResponse
-     * @param CreditCardTransaction $transaction
+     * @param Transaction $transaction
      * @return Response
      * @throws MalformedResponseException
      */
-    public function map($xmlResponse, CreditCardTransaction $transaction = null)
+    public function map($xmlResponse, Transaction $transaction = null)
     {
         $decodedResponse = base64_decode($xmlResponse);
         $xmlResponse = (base64_encode($decodedResponse) === $xmlResponse) ? $decodedResponse : $xmlResponse;
@@ -84,10 +85,8 @@ class ResponseMapper
         switch ($state) {
             case 'success':
                 return $this->mapSuccessResponse($xmlResponse, $response, $statusCollection, $transaction);
-                break;
             case 'in-progress':
                 return new PendingResponse($xmlResponse, $statusCollection, $this->getRequestId($response));
-                break;
             default:
                 return new FailureResponse($xmlResponse, $statusCollection);
         }
@@ -164,7 +163,6 @@ class ResponseMapper
             throw new MalformedResponseException('Missing request-id in response.');
         }
     }
-
 
     /**
      * @param \SimpleXMLElement $response
@@ -270,7 +268,7 @@ class ResponseMapper
      * @param $xmlResponse
      * @param $response
      * @param $statusCollection
-     * @param CreditCardTransaction $transaction
+     * @param Transaction $transaction
      * @return FormInteractionResponse|InteractionResponse|SuccessResponse
      * @throws MalformedResponseException
      */
@@ -278,9 +276,9 @@ class ResponseMapper
         $xmlResponse,
         $response,
         $statusCollection,
-        CreditCardTransaction $transaction = null
+        Transaction $transaction = null
     ) {
-        if ($transaction instanceof ThreeDCreditCardTransaction && null === $transaction->getPaRes()) {
+        if ((string) $response->{'transaction-type'} === ThreeDCreditCardTransaction::TYPE_CHECK_ENROLLMENT) {
             return $this->mapThreeDResponse($xmlResponse, $response, $statusCollection, $transaction);
         }
 

@@ -41,14 +41,16 @@ use Wirecard\PaymentSdk\Entity\Money;
  */
 abstract class Transaction implements Mappable
 {
+    const PARAM_PAYMENT = 'payment';
     const PARAM_TRANSACTION_TYPE = 'transaction-type';
     const PARAM_PARENT_TRANSACTION_ID = 'parent-transaction-id';
     const ENDPOINT = '/engine/rest/paymentmethods/';
     const NAME = '';
-    const AUTHORIZATION = 'authorization';
-    const REFERENCED_AUTHORIZATION = 'referenced-authorization';
-    const VOID_AUTHORIZATION = 'void-authorization';
-    const CREDIT = 'credit';
+    const TYPE_AUTHORIZATION = 'authorization';
+    const TYPE_REFERENCED_AUTHORIZATION = 'referenced-authorization';
+    const TYPE_CAPTURE_AUTHORIZATION = 'capture-authorization';
+    const TYPE_VOID_AUTHORIZATION = 'void-authorization';
+    const TYPE_CREDIT = 'credit';
 
     /**
      * @var AccountHolder
@@ -100,6 +102,14 @@ abstract class Transaction implements Mappable
     }
 
     /**
+     * @return string
+     */
+    public function getParentTransactionId()
+    {
+        return $this->parentTransactionId;
+    }
+
+    /**
      * @param string $notificationUrl
      */
     public function setNotificationUrl($notificationUrl)
@@ -117,9 +127,10 @@ abstract class Transaction implements Mappable
 
     /**
      * @param string|null $operation
+     * @param null|string $parentTransactionType
      * @return array
      */
-    public function mappedProperties($operation = null)
+    public function mappedProperties($operation = null, $parentTransactionType = null)
     {
         $result = ['payment-methods' => ['payment-method' => [['name' => $this::NAME]]]];
 

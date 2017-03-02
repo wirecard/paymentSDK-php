@@ -58,9 +58,10 @@ class PayPalTransaction extends Transaction
 
     /**
      * @param string|null $operation
+     * @param null|string $parentTransactionType
      * @return array
      */
-    public function mappedProperties($operation = null)
+    public function mappedProperties($operation = null, $parentTransactionType = null)
     {
 
         $specificProperties = [
@@ -69,7 +70,7 @@ class PayPalTransaction extends Transaction
             'success-redirect-url' => $this->redirect->getSuccessUrl()
         ];
 
-        return array_merge(parent::mappedProperties($operation), $specificProperties);
+        return array_merge(parent::mappedProperties($operation, $parentTransactionType), $specificProperties);
     }
 
     /**

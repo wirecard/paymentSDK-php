@@ -32,12 +32,16 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
+use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
+
 /**
  * Class ThreeDCreditCardTransaction
  * @package Wirecard\PaymentSdk\Transaction
  */
 class ThreeDCreditCardTransaction extends CreditCardTransaction
 {
+    const TYPE_CHECK_ENROLLMENT = 'check-enrollment';
     /**
      * @var string
      */
@@ -88,11 +92,12 @@ class ThreeDCreditCardTransaction extends CreditCardTransaction
 
     /**
      * @param string|null $operation
+     * @param null|string $parentTransactionType
      * @return array
      */
-    public function mappedProperties($operation = null)
+    public function mappedProperties($operation = null, $parentTransactionType = null)
     {
-        $result = parent::mappedProperties($operation);
+        $result = parent::mappedProperties($operation, $parentTransactionType);
 
         if (null !== $this->paRes) {
             $result['three-d'] = [
@@ -104,15 +109,74 @@ class ThreeDCreditCardTransaction extends CreditCardTransaction
     }
 
     /**
-     * @param null|string $operation
-     * @return null|string
+     * @param string|null $operation
+     * @param null|string $parentTransactionType
+     * @throws UnsupportedOperationException|MandatoryFieldMissingException
+     * @return string
      */
-    protected function retrieveTransactionType($operation)
+    protected function retrieveTransactionType($operation, $parentTransactionType)
     {
         if (null !== $this->paRes) {
             return $operation;
-        } else {
-            return 'check-enrollment';
         }
+
+        switch ($operation) {
+            case Operation::RESERVE:
+                $transactionType = $this->retrieveTransactionTypeForReserve($parentTransactionType);
+                break;
+            case Operation::CANCEL:
+                $transactionType = $this->retrieveTransactionTypeForCancel($parentTransactionType);
+                break;
+            case Operation::PAY:
+                $transactionType = $this->retrieveTransactionTypeForPay($parentTransactionType);
+                break;
+            default:
+                throw new UnsupportedOperationException();
+        }
+
+        return $transactionType;
+    }
+
+    /**
+     * @param string $parentTransactionType
+     * @return string
+     */
+    protected function retrieveTransactionTypeForReserve($parentTransactionType)
+    {
+        switch ($parentTransactionType) {
+            case $this::TYPE_AUTHORIZATION:
+                $transactionType = $this::TYPE_REFERENCED_AUTHORIZATION;
+                break;
+            case $this::TYPE_CHECK_ENROLLMENT:
+                $transactionType = $this::TYPE_AUTHORIZATION;
+                break;
+            default:
+                $transactionType = $this::TYPE_CHECK_ENROLLMENT;
+        }
+
+        return $transactionType;
+    }
+
+    /**
+     * @param string $parentTransactionType
+     * @return string
+     */
+    protected function retrieveTransactionTypeForPay($parentTransactionType)
+    {
+        switch ($parentTransactionType) {
+            case $this::TYPE_AUTHORIZATION:
+                $transactionType = $this::TYPE_CAPTURE_AUTHORIZATION;
+                break;
+            case $this::TYPE_PURCHASE:
+                $transactionType = $this::TYPE_REFERENCED_PURCHASE;
+                break;
+            case $this::TYPE_CHECK_ENROLLMENT:
+                $transactionType = $this::TYPE_PURCHASE;
+                break;
+            default:
+                $transactionType = $this::TYPE_CHECK_ENROLLMENT;
+        }
+
+        return $transactionType;
     }
 }

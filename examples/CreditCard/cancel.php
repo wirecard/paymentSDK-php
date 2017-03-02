@@ -45,7 +45,12 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, $configCollection, '
 
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
-$tx = new CreditCardTransaction();
+if ($_POST['transaction'] === 'creditcard') {
+    $tx = new CreditCardTransaction();
+} else {
+    $tx = new ThreeDCreditCardTransaction();
+}
+
 $tx->setParentTransactionId($_POST['parentTransactionId']);
 $response = $transactionService->cancel($tx);
 
@@ -54,7 +59,7 @@ $response = $transactionService->cancel($tx);
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
-    echo sprintf('Payment successfully cancelled.<br> Transaction ID: %s<br>', $response->getTransactionId());
+    echo sprintf('Successfully cancelled.<br> Transaction ID: %s<br>', $response->getTransactionId());
     ?>
 
     <?php

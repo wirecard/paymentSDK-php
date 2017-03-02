@@ -57,6 +57,8 @@ use Wirecard\PaymentSdk\Transaction\Transaction;
  */
 class TransactionService
 {
+    const APPLICATION_JSON = 'application/json';
+
     /**
      * @var Config
      */
@@ -283,7 +285,24 @@ class TransactionService
      */
     public function process(Transaction $transaction, $operation)
     {
-        $requestBody = $this->getRequestMapper()->map($transaction, $operation);
+        $parentTransactionType = null;
+
+        if (null !== $transaction->getParentTransactionId()) {
+            $parentTransaction = $this->getTransactionByTransactionId(
+                $transaction->getParentTransactionId(),
+                $transaction->getConfigKey($operation)
+            );
+
+            if (null !== $parentTransaction && array_key_exists(Transaction::PARAM_PAYMENT, $parentTransaction)
+                && array_key_exists('transaction-type', $parentTransaction[Transaction::PARAM_PAYMENT])
+            ) {
+                $parentTransactionType = $parentTransaction[Transaction::PARAM_PAYMENT]
+                    [Transaction::PARAM_TRANSACTION_TYPE];
+            }
+        }
+
+        $requestBody = $this->getRequestMapper()->map($transaction, $operation, $parentTransactionType);
+
         $response = $this->getHttpClient()->request(
             'POST',
             $this->getConfig()->getBaseUrl() . $transaction::ENDPOINT,
@@ -293,7 +312,7 @@ class TransactionService
                     $this->getConfig()->getHttpPassword()
                 ],
                 'headers' => [
-                    'Content-Type' => 'application/json',
+                    'Content-Type' => self::APPLICATION_JSON,
                     'Accept' => 'application/xml'
                 ],
                 'body' => $requestBody
@@ -302,6 +321,35 @@ class TransactionService
 
         $data = $transaction instanceof ThreeDCreditCardTransaction ? $transaction : null;
         return $this->getResponseMapper()->map($response->getBody()->getContents(), $data);
+    }
+
+    /**
+     * @param $transactionId
+     * @param $paymentMethod
+     * @return null|array
+     */
+    private function getTransactionByTransactionId($transactionId, $paymentMethod)
+    {
+        $response = $this->getHttpClient()->request(
+            'GET',
+            $this->getConfig()->getBaseUrl() .
+            '/engine/rest/merchants/' .
+            $this->getConfig()->get($paymentMethod)->getMerchantAccountId() .
+            '/payments/' .
+            $transactionId,
+            [
+                'auth' => [
+                    $this->getConfig()->getHttpUser(),
+                    $this->getConfig()->getHttpPassword()
+                ],
+                'headers' => [
+                    'Content-Type' => self::APPLICATION_JSON,
+                    'Accept' => self::APPLICATION_JSON
+                ]
+            ]
+        );
+
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     /**

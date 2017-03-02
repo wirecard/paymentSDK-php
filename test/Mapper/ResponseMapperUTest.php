@@ -170,6 +170,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $payload = '<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <transaction-type>check-enrollment</transaction-type>
                         <statuses>
                             <status 
                             code="201.0000" 
@@ -199,6 +200,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $payload = '<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <transaction-type>check-enrollment</transaction-type>
                         <statuses>
                             <status 
                             code="201.0000" 
@@ -231,6 +233,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
     {
         $payload = '<payment>
                         <transaction-state>success</transaction-state>
+                        <transaction-type>check-enrollment</transaction-type>
                         <transaction-id>12345</transaction-id>
                         <statuses>
                             <status 
@@ -631,6 +634,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
     {
         $payload = '<payment>
                         <transaction-state>success</transaction-state>
+                        <transaction-type>check-enrollment</transaction-type>
                         <transaction-id>12345</transaction-id>
                         <statuses>
                             <status 
@@ -655,6 +659,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
     {
         $payload = '<payment>
                         <transaction-state>success</transaction-state>
+                        <transaction-type>check-enrollment</transaction-type>
                         <transaction-id>12345</transaction-id>
                         <statuses>
                             <status 
@@ -681,6 +686,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
     {
         $payload = '<payment>
                         <transaction-state>success</transaction-state>
+                        <transaction-type>check-enrollment</transaction-type>
                         <transaction-id>12345</transaction-id>
                         <statuses>
                             <status 
