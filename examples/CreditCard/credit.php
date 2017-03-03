@@ -1,22 +1,24 @@
 <?php
 
-// # Handling the response of a transaction
+// # Cancelling a transaction
 
-// When a transaction is finished, the response from Wirecard can be read and processed.
+// To cancel a transaction, a cancel request with the parent transaction is sent.
 
 // ## Required objects
 
-// To include the necessary files, we use the composer for PSR-4 autoloading.
+// To include the necessary files, use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
+use Wirecard\PaymentSdk\Entity\AccountHolder;
+use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Response\FailureResponse;
-use Wirecard\PaymentSdk\Response\PendingResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
-use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
+// Define the token for the credit card where the amount should be credited.
+$tokenId = '4304509873471003';
 
 // ### Config
 
@@ -27,15 +29,10 @@ $configCollection = new Config\PaymentMethodConfigCollection();
 // For 3-D Secure transactions a different merchant account ID is required
 // than for the previously executed _seamlessRenderForm_.
 
-$ccardMId = '9105bb4f-ae68-4768-9c3b-3eda968f57ea';
-$ccardKey = 'd1efed51-4cb9-46a5-ba7b-0fdc87a66544';
+$ccardMId = '33f6d473-3036-4ca5-acb5-8c64dac862d1';
+$ccardKey = '9e0130f6-2e1e-4185-b0d5-dc69079c75cc';
 $ccardConfig = new Config\PaymentMethodConfig(CreditCardTransaction::class, $ccardMId, $ccardKey);
 $configCollection->add($ccardConfig);
-
-$ccard3dMId = '33f6d473-3036-4ca5-acb5-8c64dac862d1';
-$ccard3dKey = '9e0130f6-2e1e-4185-b0d5-dc69079c75cc';
-$ccard3dConfig = new Config\PaymentMethodConfig(ThreeDCreditCardTransaction::class, $ccard3dMId, $ccard3dKey);
-$configCollection->add($ccard3dConfig);
 
 // The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
 $baseUrl = 'https://api-test.wirecard.com';
@@ -45,24 +42,36 @@ $httpPass = '8mhwavKVb91T';
 // A default currency can also be provided.
 $config = new Config\Config($baseUrl, $httpUser, $httpPass, $configCollection, 'EUR');
 
-// The _TransactionService_ is used to generate the request data needed for the generation of the UI.
+// Create a money object as amount which has to be payed by the consumer.
+$amount = new Money(10.59, 'EUR');
+
+// The account holder last name is required for credit.
+$accountHolder = new AccountHolder('Doe');
+
+// The _TransactionService_ is used to generate the request data.
 $transactionService = new TransactionService($config);
+$tx = new CreditCardTransaction();
+$tx->setAmount($amount);
 
-// The 3D-Secure page redirects to the _returnUrl_, which points to this file. To continue the payment process
-// the sent data can be fed directly to the transaction service via the method `handleResponse()`.
-$response = $transactionService->handleResponse($_POST);
+// To credit an amount a token ID and the corresponding account holder is required.
+$tx->setTokenId($tokenId);
+$tx->setAccountHolder($accountHolder);
 
-// ## Payment results
+// The method `credit` is used to transfer funds to the credit card.
+$response = $transactionService->credit($tx);
+
+// ## Response handling
 
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
-    echo sprintf('Payment with id %s successfully completed.<br>', $response->getTransactionId());
+    echo sprintf('Funds successfully transfered.<br> Transaction ID: %s<br>', $response->getTransactionId());
     ?>
     <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="submit" value="cancel the payment">
+        <input type="hidden" name="transaction-type" value="3d"/>
+        <input type="submit" value="cancel the credit">
     </form>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.

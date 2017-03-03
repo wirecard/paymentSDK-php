@@ -1,8 +1,8 @@
 <?php
 
-// # Credit card amount reservation
-// The method `reserve` of the _transactionService_ provides the means
-// to reserve an amount (also known as authorization).
+// # Credit card amount purchase
+// The method `pay` of the _transactionService_ provides the means
+// to reserve and capture an amount (also known as authorization and capture).
 
 // ## Required objects
 
@@ -58,9 +58,9 @@ $transaction = new CreditCardTransaction();
 $transaction->setTokenId($tokenId);
 $transaction->setAmount($amount);
 $transaction->setParentTransactionId($parentTransactionId);
-// The service is used to execute the reservation (authorization) operation itself. A response object is returned.
+// The service is used to execute the payment (authorization + capture) operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
-$response = $transactionService->reserve($transaction);
+$response = $transactionService->pay($transaction);
 
 
 // ## Response handling
@@ -75,11 +75,6 @@ if ($response instanceof SuccessResponse) {
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <input type="hidden" name="transaction-type" value="ssl"/>
         <input type="submit" value="cancel the payment">
-    </form>
-    <form action="pay-based-on-reserve.php" method="post">
-        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="hidden" name="transaction-type" value="ssl"/>
-        <input type="submit" value="capture the payment">
     </form>
 
     <?php

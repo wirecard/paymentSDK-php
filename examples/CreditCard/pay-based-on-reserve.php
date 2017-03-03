@@ -1,22 +1,19 @@
 <?php
 
-// # Handling the response of a transaction
+// # Payment after a reservation.
 
-// When a transaction is finished, the response from Wirecard can be read and processed.
+// Enter the ID of the successful reserve transaction and start a pay transaction with it.
 
 // ## Required objects
 
-// To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Response\FailureResponse;
-use Wirecard\PaymentSdk\Response\PendingResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
-
 
 // ### Config
 
@@ -45,24 +42,36 @@ $httpPass = '8mhwavKVb91T';
 // A default currency can also be provided.
 $config = new Config\Config($baseUrl, $httpUser, $httpPass, $configCollection, 'EUR');
 
+
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
 
-// The 3D-Secure page redirects to the _returnUrl_, which points to this file. To continue the payment process
-// the sent data can be fed directly to the transaction service via the method `handleResponse()`.
-$response = $transactionService->handleResponse($_POST);
+if ('3d' === $_POST['transaction-type']) {
+    $tx = new ThreeDCreditCardTransaction();
+} else {
+    $tx = new CreditCardTransaction();
+}
 
-// ## Payment results
+$tx->setParentTransactionId($_POST['parentTransactionId']);
+
+if (array_key_exists('amount', $_POST)) {
+    $tx->setAmount(new \Wirecard\PaymentSdk\Entity\Money((float)$_POST['amount'], 'EUR'));
+}
+
+$response = $transactionService->pay($tx);
+
+// ## Response handling
 
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
-    echo sprintf('Payment with id %s successfully completed.<br>', $response->getTransactionId());
+    echo sprintf('Payment successful.<br> Transaction ID: %s<br>', $response->getTransactionId());
     ?>
     <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="submit" value="cancel the payment">
+        <input type="hidden" name="transaction-type" value="<?= $_POST['transaction-type'] ?>"/>
+        <input type="submit" value="cancel the capture">
     </form>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
