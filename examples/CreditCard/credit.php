@@ -70,6 +70,7 @@ if ($response instanceof SuccessResponse) {
     <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+        <input type="hidden" name="transaction-type" value="3d"/>
         <input type="submit" value="cancel the credit">
     </form>
     <?php
