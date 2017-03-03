@@ -32,6 +32,8 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
+
 class SepaTransaction extends Transaction
 {
     const DIRECT_DEBIT = 'SEPA Direct Debit';
@@ -74,9 +76,9 @@ class SepaTransaction extends Transaction
     public function mappedProperties($operation = null, $parentTransactionType = null)
     {
         $result = parent::mappedProperties($operation, $parentTransactionType);
-        $result[self::PARAM_TRANSACTION_TYPE] = 'authorization';
+        $result[self::PARAM_TRANSACTION_TYPE] = $this->retrieveTransactionType($operation, $parentTransactionType);
         $result['bank-account'] = [
-          'iban' => $this->iban
+            'iban' => $this->iban
         ];
         if (null !== $this->bic) {
             $result['bank-account']['bic'] = $this->bic;
@@ -88,5 +90,24 @@ class SepaTransaction extends Transaction
     public function getConfigKey($operation = null)
     {
         return self::DIRECT_DEBIT;
+    }
+
+    private function retrieveTransactionType($operation, $parentTransactionType)
+    {
+        if (Operation::CANCEL === $operation) {
+            return 'void-' . $parentTransactionType;
+        }
+
+        $txTypeMapping = [
+            Operation::RESERVE => 'authorization',
+            Operation::PAY => 'pending-debit',
+            Operation::CREDIT => 'pending-credit'
+        ];
+
+        if (!array_key_exists($operation, $txTypeMapping)) {
+            throw new UnsupportedOperationException();
+        }
+
+        return $txTypeMapping[$operation];
     }
 }
