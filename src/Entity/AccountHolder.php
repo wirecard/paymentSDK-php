@@ -45,29 +45,29 @@ class AccountHolder implements Mappable
     /**
      * @var string
      */
-    private $lastname;
+    private $lastName;
 
     /**
      * @var string
      */
-    private $firstname;
+    private $firstName;
 
 
     /**
      * AccountHolder constructor.
-     * @param $lastname
+     * @param $lastName
      */
-    public function __construct($lastname)
+    public function __construct($lastName)
     {
-        $this->lastname = $lastname;
+        $this->lastName = $lastName;
     }
 
     /**
-     * @param string $firstname
+     * @param string $firstName
      */
-    public function setFirstname($firstname)
+    public function setFirstName($firstName)
     {
-        $this->firstname = $firstname;
+        $this->firstName = $firstName;
     }
 
     /**
@@ -77,9 +77,9 @@ class AccountHolder implements Mappable
      */
     public function mappedProperties($operation = null, $parentTransactionType = null)
     {
-        $result = [ 'last-name'=> $this->lastname ];
-        if (null !== $this->firstname) {
-            $result['first-name'] = $this->firstname;
+        $result = [ 'last-name'=> $this->lastName ];
+        if (null !== $this->firstName) {
+            $result['first-name'] = $this->firstName;
         }
         return $result;
     }

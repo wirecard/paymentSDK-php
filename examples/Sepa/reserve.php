@@ -49,7 +49,7 @@ $transaction->setAmount($amount);
 $transaction->setIban('DE42512308000000060004');
 
 $accountHolder = new AccountHolder('Doe');
-$accountHolder->setFirstname('Jane');
+$accountHolder->setFirstName('Jane');
 $transaction->setAccountHolder($accountHolder);
 
 // The service is used to execute the reservation (authorization) operation itself. A response object is returned.
