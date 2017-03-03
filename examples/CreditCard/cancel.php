@@ -45,7 +45,7 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, $configCollection, '
 
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
-if ($_POST['transaction'] === 'creditcard') {
+if ($_POST['transaction-type'] === 'ssl') {
     $tx = new CreditCardTransaction();
 } else {
     $tx = new ThreeDCreditCardTransaction();

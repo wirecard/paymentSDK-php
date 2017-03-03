@@ -53,6 +53,11 @@ if ('3d' === $_POST['transaction-type']) {
 }
 
 $tx->setParentTransactionId($_POST['parentTransactionId']);
+
+if (array_key_exists('amount', $_POST)) {
+    $tx->setAmount(new \Wirecard\PaymentSdk\Entity\Money((float)$_POST['amount'], 'EUR'));
+}
+
 $response = $transactionService->pay($tx);
 
 // ## Response handling
@@ -62,7 +67,12 @@ $response = $transactionService->pay($tx);
 if ($response instanceof SuccessResponse) {
     echo sprintf('Payment successful.<br> Transaction ID: %s<br>', $response->getTransactionId());
     ?>
-
+    <br>
+    <form action="cancel.php" method="post">
+        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+        <input type="hidden" name="transaction-type" value="<?= $_POST['transaction-type'] ?>"/>
+        <input type="submit" value="cancel the capture">
+    </form>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {

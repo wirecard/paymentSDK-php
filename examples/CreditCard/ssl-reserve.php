@@ -73,8 +73,13 @@ if ($response instanceof SuccessResponse) {
     <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="hidden" name="transaction" value="creditcard"/>
+        <input type="hidden" name="transaction-type" value="ssl"/>
         <input type="submit" value="cancel the payment">
+    </form>
+    <form action="pay-based-on-reserve.php" method="post">
+        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+        <input type="hidden" name="transaction-type" value="ssl"/>
+        <input type="submit" value="capture the payment">
     </form>
 
     <?php

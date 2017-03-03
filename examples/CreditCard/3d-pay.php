@@ -12,6 +12,7 @@ use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
@@ -35,8 +36,16 @@ function getUrl($path)
 // Create a money object as amount which has to be payed by the consumer.
 $amount = new Money(12.59, 'EUR');
 
-// Tokens from a successful _seamlessRenderForm_ callback can be used to execute purchases.
-$tokenId = array_key_exists('tokenId', $_POST) ? $_POST['tokenId'] : '5168216323601006';
+// If there was a previous transaction, use the ID of this parent transaction as reference.
+$parentTransactionId = array_key_exists('parentTransactionId', $_POST) ? $_POST['parentTransactionId'] : null;
+
+// Otherwise if a token was defined when submitting the credit card data to Wirecard via the UI, this token is used.
+$tokenId = array_key_exists('tokenId', $_POST) ? $_POST['tokenId'] : null;
+
+// To make this example usable, even is no transaction or token ID is provided, a predefined existing token ID is set.
+if ($parentTransactionId === null && $tokenId === null) {
+    $tokenId = '5168216323601006';
+}
 
 // The redirect URL determines where the consumer should be redirected to
 // after an approval/cancellation on the issuer's ACS page.
@@ -70,6 +79,7 @@ $tx = new ThreeDCreditCardTransaction();
 $tx->setAmount($amount);
 $tx->setTokenId($tokenId);
 $tx->setTermUrl($redirectUrl);
+$tx->setParentTransactionId($parentTransactionId);
 
 // ### Transaction
 
@@ -91,6 +101,17 @@ if ($response instanceof FormInteractionResponse):
         // For a better demonstration and for the ease of use the automatic submit was replaced with a submit button.
         ?>
         <input type="submit" value="Redirect to 3-D Secure page"></form>
+    <?php
+elseif ($response instanceof SuccessResponse):
+    echo sprintf('Payment with id %s successfully completed.<br>', $response->getTransactionId());
+    ?>
+    <br>
+    <form action="cancel.php" method="post">
+        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+        <input type="hidden" name="transaction-type" value="3d"/>
+        <input type="submit" value="cancel the payment">
+    </form>
+
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
 elseif ($response instanceof FailureResponse):
