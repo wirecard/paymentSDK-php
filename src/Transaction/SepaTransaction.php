@@ -100,6 +100,10 @@ class SepaTransaction extends Transaction
             }
         }
 
+        if (null !== $this->mandate) {
+            $result['mandate'] = $this->mandate->mappedProperties();
+        }
+
         return $result;
     }
 

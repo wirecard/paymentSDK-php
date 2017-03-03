@@ -67,7 +67,7 @@ class Mandate implements MappableEntity
             'mandate-id' => $this->id
         ];
 
-        if (null !== $this->signedDate){
+        if (null !== $this->signedDate) {
             $result['signed-date'] = date('Y-m-d', $this->signedDate);
         }
 

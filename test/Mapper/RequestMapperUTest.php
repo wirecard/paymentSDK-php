@@ -55,6 +55,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
     {
         $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
         $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
+        $paymentMethodConfig->method('mappedProperties')->willReturn([]);
         $paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
         $paymentMethodConfigs->method('get')->willReturn($paymentMethodConfig);
 
@@ -89,6 +90,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $_SERVER['REMOTE_ADDR'] = 'test IP';
         $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
         $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
+        $paymentMethodConfig->method('mappedProperties')->willReturn([]);
         $paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
         $paymentMethodConfigs->method('get')->willReturn($paymentMethodConfig);
 
@@ -122,6 +124,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $_SERVER['REMOTE_ADDR'] = 'test IP';
         $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
         $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
+        $paymentMethodConfig->method('mappedProperties')->willReturn([]);
         $paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
         $paymentMethodConfigs->method('get')->willReturn($paymentMethodConfig);
 
@@ -172,6 +175,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $_SERVER['REMOTE_ADDR'] = 'test IP';
         $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
         $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
+        $paymentMethodConfig->method('mappedProperties')->willReturn([]);
         $paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
         $paymentMethodConfigs->method('get')->willReturn($paymentMethodConfig);
 
@@ -235,6 +239,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $_SERVER['REMOTE_ADDR'] = 'test IP';
         $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
         $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
+        $paymentMethodConfig->method('mappedProperties')->willReturn([]);
         $paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
         $paymentMethodConfigs->method('get')->willReturn($paymentMethodConfig);
 
@@ -275,6 +280,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $_SERVER['REMOTE_ADDR'] = 'test IP';
         $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
         $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
+        $paymentMethodConfig->method('mappedProperties')->willReturn([]);
         $paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
         $paymentMethodConfigs->method('get')->willReturn($paymentMethodConfig);
 
@@ -324,6 +330,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
     {
         $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
         $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
+        $paymentMethodConfig->method('mappedProperties')->willReturn([]);
         $paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
         $paymentMethodConfigs->method('get')->willReturn($paymentMethodConfig);
 
@@ -374,6 +381,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
     {
         $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
         $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
+        $paymentMethodConfig->method('mappedProperties')->willReturn([]);
         $paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
         $paymentMethodConfigs->method('get')->willReturn($paymentMethodConfig);
 
@@ -428,6 +436,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
     {
         $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
         $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
+        $paymentMethodConfig->method('mappedProperties')->willReturn([]);
         $paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
         $paymentMethodConfigs->method('get')->willReturn($paymentMethodConfig);
 
@@ -458,6 +467,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
     {
         $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
         $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
+        $paymentMethodConfig->method('mappedProperties')->willReturn([]);
         $paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
         $paymentMethodConfigs->method('get')->willReturn($paymentMethodConfig);
 
@@ -475,6 +485,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
     {
         $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
         $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
+        $paymentMethodConfig->method('mappedProperties')->willReturn([]);
         $paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
         $paymentMethodConfigs->method('get')->willReturn($paymentMethodConfig);
 

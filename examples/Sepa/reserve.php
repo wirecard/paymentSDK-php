@@ -25,7 +25,7 @@ $amount = new Money(12.59, 'EUR');
 // Since payment method may have a different merchant ID, a config collection is created.
 $configCollection = new Config\PaymentMethodConfigCollection();
 
-// Create and add a configuration object with the settings for credit card
+// Create and add a configuration object with the settings for SEPA
 $sepaMId = '4c901196-eff7-411e-82a3-5ef6b6860d64';
 $sepaKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
 $sepaDdConfig = new Config\PaymentMethodConfig(SepaTransaction::DIRECT_DEBIT, $sepaMId, $sepaKey);
@@ -42,8 +42,7 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, $configCollection, '
 
 // ## Transaction
 
-// Create a `CreditCardTransaction` object, which contains all relevant data for the payment process.
-// The token is required as reference to the credit card data.
+// Create a `SepaTransaction` object, which contains all relevant data for the payment process.
 $transaction = new SepaTransaction();
 $transaction->setAmount($amount);
 $transaction->setIban($_POST['iban']);

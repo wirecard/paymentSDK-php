@@ -31,7 +31,9 @@
 
 namespace Wirecard\PaymentSdk\Config;
 
-class PaymentMethodConfig
+use Wirecard\PaymentSdk\Entity\MappableEntity;
+
+class PaymentMethodConfig implements MappableEntity
 {
     /**
      * @var string
@@ -49,6 +51,11 @@ class PaymentMethodConfig
     private $secret;
 
     /**
+     * @var array
+     */
+    private $specificProperties;
+
+    /**
      * PaymentMethodConfig constructor.
      * @param string $paymentMethodName
      * @param string $merchantAccountId
@@ -59,6 +66,7 @@ class PaymentMethodConfig
         $this->paymentMethodName = $paymentMethodName;
         $this->merchantAccountId = $merchantAccountId;
         $this->secret = $secret;
+        $this->specificProperties = [];
     }
 
     /**
@@ -83,5 +91,22 @@ class PaymentMethodConfig
     public function getSecret()
     {
         return $this->secret;
+    }
+
+    /**
+     * @param string $key
+     * @param string $value
+     */
+    public function addSpecificProperty($key, $value)
+    {
+        $this->specificProperties[$key] = $value;
+    }
+
+    /**
+     * @return array
+     */
+    public function mappedProperties()
+    {
+        return $this->specificProperties;
     }
 }
