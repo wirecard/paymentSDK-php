@@ -57,15 +57,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
-        $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
-        $paymentMethodConfig->method('mappedProperties')->willReturn([]);
-        $paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
-        $paymentMethodConfigs->method('get')->willReturn($paymentMethodConfig);
-
-        $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', $paymentMethodConfigs);
-        $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
-        $this->mapper = new RequestMapper($config, $requestIdGeneratorMock);
+        $this->mapper = $this->createRequestMapper();
     }
     
     public function testPayPalTransaction()
@@ -417,6 +409,30 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(json_encode($expectedResult), $result);
     }
 
+    public function testMappingWithPaymentMethodSpecificProperties()
+    {
+        $mapper = $this->createRequestMapper([
+            'specific-id' => '42'
+        ]);
+
+        $followupTransaction = new CreditCardTransaction();
+        $followupTransaction->setParentTransactionId('642');
+        $_SERVER['REMOTE_ADDR'] = 'test';
+
+        $result = $mapper->map($followupTransaction, Operation::CREDIT, Transaction::TYPE_CREDIT);
+
+        $expectedResult = ['payment' => [
+            'request-id' => '5B-dummy-id',
+            'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
+            'parent-transaction-id' => '642',
+            'ip-address' => 'test',
+            'transaction-type' => 'credit',
+            'specific-id' => '42',
+            'merchant-account-id' => ['value' => 'B612']
+        ]];
+        $this->assertEquals(json_encode($expectedResult), $result);
+    }
+
     /**
      * @return \Closure
      */
@@ -425,5 +441,22 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         return function () {
             return '5B-dummy-id';
         };
+    }
+
+    /**
+     * @param array $paymentMethodSpecificProperties
+     * @return RequestMapper
+     */
+    private function createRequestMapper($paymentMethodSpecificProperties = [])
+    {
+        $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
+        $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
+        $paymentMethodConfig->method('mappedProperties')->willReturn($paymentMethodSpecificProperties);
+        $paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
+        $paymentMethodConfigs->method('get')->willReturn($paymentMethodConfig);
+
+        $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', $paymentMethodConfigs);
+        $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
+        return new RequestMapper($config, $requestIdGeneratorMock);
     }
 }
