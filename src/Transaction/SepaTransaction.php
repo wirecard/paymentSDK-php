@@ -32,6 +32,7 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Entity\Mandate;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
 class SepaTransaction extends Transaction
@@ -51,6 +52,11 @@ class SepaTransaction extends Transaction
     private $bic;
 
     /**
+     * @var Mandate
+     */
+    private $mandate;
+
+    /**
      * @param string $iban
      */
     public function setIban($iban)
@@ -64,6 +70,14 @@ class SepaTransaction extends Transaction
     public function setBic($bic)
     {
         $this->bic = $bic;
+    }
+
+    /**
+     * @param Mandate $mandate
+     */
+    public function setMandate($mandate)
+    {
+        $this->mandate = $mandate;
     }
 
     /**
