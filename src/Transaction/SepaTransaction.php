@@ -69,6 +69,7 @@ class SepaTransaction extends Transaction
     /**
      * @param null $operation
      * @param null $parentTransactionType
+     * @return array
      */
     public function mappedProperties($operation = null, $parentTransactionType = null)
     {
