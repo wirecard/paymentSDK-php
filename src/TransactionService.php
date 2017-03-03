@@ -38,15 +38,15 @@ use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
-use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
-use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\Mapper\RequestMapper;
 use Wirecard\PaymentSdk\Mapper\ResponseMapper;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Response\Response;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
+use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
+use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
 /**
@@ -215,15 +215,18 @@ class TransactionService
             'payment_method' => 'creditcard',
         );
 
-        $requestData['request_signature'] = hash('sha256', trim(
-            $requestData['request_time_stamp'] .
-            $requestData['request_id'] .
-            $requestData['merchant_account_id'] .
-            $requestData['transaction_type'] .
-            $requestData['requested_amount'] .
-            $requestData['requested_amount_currency'] .
-            $this->getConfig()->get(CreditCardTransaction::class)->getSecret()
-        ));
+        $requestData['request_signature'] = hash(
+            'sha256',
+            trim(
+                $requestData['request_time_stamp'] .
+                $requestData['request_id'] .
+                $requestData['merchant_account_id'] .
+                $requestData['transaction_type'] .
+                $requestData['requested_amount'] .
+                $requestData['requested_amount_currency'] .
+                $this->getConfig()->get(CreditCardTransaction::class)->getSecret()
+            )
+        );
 
         return json_encode($requestData);
     }
