@@ -63,14 +63,6 @@ class AccountHolder implements Mappable
     }
 
     /**
-     * @return string
-     */
-    public function getLastname()
-    {
-        return $this->lastname;
-    }
-
-    /**
      * @param string $firstname
      */
     public function setFirstname($firstname)
