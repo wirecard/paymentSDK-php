@@ -126,7 +126,7 @@ abstract class Transaction
     }
 
     /**
-     * @param string|null $operation
+     * @param string $operation
      * @param string|null $parentTransactionType
      * @return array
      *
@@ -134,7 +134,7 @@ abstract class Transaction
      *  - the common properties are mapped here,
      *  - an abstract operation is defined for the payment type specific properties.
      */
-    public function mappedProperties($operation = null, $parentTransactionType = null)
+    public function mappedProperties($operation, $parentTransactionType = null)
     {
         $result = ['payment-methods' => ['payment-method' => [['name' => $this->retrievePaymentMethodName()]]]];
 
