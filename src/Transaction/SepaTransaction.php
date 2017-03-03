@@ -30,65 +30,62 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Entity;
+namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Transaction\Mappable;
-
-/**
- * Class Money
- * @package Wirecard\PaymentSdk\Entity
- *
- * An immutable entity representing an account holder.
- */
-class AccountHolder implements Mappable
+class SepaTransaction extends Transaction
 {
-    /**
-     * @var string
-     */
-    private $lastname;
+    const DIRECT_DEBIT = 'SEPA Direct Debit';
+
+    const CREDIT_TRANSFER = 'SEPA Credit Transfer';
+
+    const NAME = 'sepadirectdebit';
 
     /**
      * @var string
      */
-    private $firstname;
-
+    private $iban;
 
     /**
-     * AccountHolder constructor.
-     * @param $lastname
+     * @var string
      */
-    public function __construct($lastname)
+    private $bic;
+
+    /**
+     * @param string $iban
+     */
+    public function setIban($iban)
     {
-        $this->lastname = $lastname;
+        $this->iban = $iban;
     }
 
     /**
-     * @return string
+     * @param string $bic
      */
-    public function getLastname()
+    public function setBic($bic)
     {
-        return $this->lastname;
+        $this->bic = $bic;
     }
 
     /**
-     * @param string $firstname
-     */
-    public function setFirstname($firstname)
-    {
-        $this->firstname = $firstname;
-    }
-
-    /**
-     * @param string|null $operation
-     * @param string|null $parentTransactionType
-     * @return array
+     * @param null $operation
+     * @param null $parentTransactionType
      */
     public function mappedProperties($operation = null, $parentTransactionType = null)
     {
-        $result = [ 'last-name'=> $this->lastname ];
-        if (null !== $this->firstname) {
-            $result['first-name'] = $this->firstname;
+        $result = parent::mappedProperties($operation, $parentTransactionType);
+        $result[self::PARAM_TRANSACTION_TYPE] = 'authorization';
+        $result['bank-account'] = [
+          'iban' => $this->iban
+        ];
+        if (null !== $this->bic) {
+            $result['bank-account']['bic'] = $this->bic;
         }
+
         return $result;
+    }
+
+    public function getConfigKey($operation = null)
+    {
+        return self::DIRECT_DEBIT;
     }
 }
