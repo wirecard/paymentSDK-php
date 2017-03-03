@@ -57,20 +57,17 @@ class PayPalTransaction extends Transaction
     }
 
     /**
-     * @param string|null $operation
-     * @param string|null $parentTransactionType
+     * @param string $operation
+     * @param string $parentTransactionType
      * @return array
      */
-    public function mappedProperties($operation = null, $parentTransactionType = null)
+    protected function mappedSpecificProperties($operation, $parentTransactionType)
     {
-
-        $specificProperties = [
+        return [
             self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType($operation),
             'cancel-redirect-url' => $this->redirect->getCancelUrl(),
             'success-redirect-url' => $this->redirect->getSuccessUrl()
         ];
-
-        return array_merge(parent::mappedProperties($operation, $parentTransactionType), $specificProperties);
     }
 
     /**

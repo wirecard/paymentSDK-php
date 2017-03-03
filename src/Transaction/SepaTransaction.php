@@ -67,14 +67,15 @@ class SepaTransaction extends Transaction
     }
 
     /**
-     * @param null $operation
-     * @param null $parentTransactionType
+     * @param string $operation
+     * @param string $parentTransactionType
      * @return array
      */
-    public function mappedProperties($operation = null, $parentTransactionType = null)
+    protected function mappedSpecificProperties($operation, $parentTransactionType)
     {
-        $result = parent::mappedProperties($operation, $parentTransactionType);
-        $result[self::PARAM_TRANSACTION_TYPE] = $this->retrieveTransactionType($operation, $parentTransactionType);
+        $result = [
+            self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType($operation, $parentTransactionType)
+        ];
 
         if (null !== $this->iban) {
             $result['bank-account'] = [

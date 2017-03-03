@@ -130,10 +130,9 @@ abstract class Transaction
      * @param string|null $parentTransactionType
      * @return array
      *
-     * Contains the mapping of the transaction properties.
-     * Subclasses should use the logic below
-     * and add the mapping of their specific properties.
-     * The mapping of the subclass-specific properties often depends on the operation and the parentTransactionType.
+     * A template method for the mapping of the transaction properties:
+     *  - the common properties are mapped here,
+     *  - an abstract operation is defined for the payment type specific properties.
      */
     public function mappedProperties($operation = null, $parentTransactionType = null)
     {
@@ -166,8 +165,15 @@ abstract class Transaction
             $result['consumer-id'] = $this->consumerId;
         }
 
-        return $result;
+        return array_merge($result, $this->mappedSpecificProperties($operation, $parentTransactionType));
     }
+
+    /**
+     * @param string $operation
+     * @param string $parentTransactionType
+     * @return array
+     */
+    abstract protected function mappedSpecificProperties($operation, $parentTransactionType);
 
     /**
      * @param string|null
