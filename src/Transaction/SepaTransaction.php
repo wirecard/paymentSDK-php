@@ -36,11 +36,9 @@ use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
 class SepaTransaction extends Transaction
 {
-    const DIRECT_DEBIT = 'SEPA Direct Debit';
+    const DIRECT_DEBIT = 'sepadirectdebit';
 
-    const CREDIT_TRANSFER = 'SEPA Credit Transfer';
-
-    const NAME = 'sepadirectdebit';
+    const CREDIT_TRANSFER = 'sepacredit';
 
     /**
      * @var string
@@ -87,8 +85,17 @@ class SepaTransaction extends Transaction
         return $result;
     }
 
-    public function getConfigKey($operation = null)
+    public function getConfigKey($operation = null, $parentTransactionType = null)
     {
+        return $this->retrievePaymentMethodName($operation, $parentTransactionType);
+    }
+
+    public function retrievePaymentMethodName($operation = null, $parentTransactionType = null)
+    {
+        if (Operation::CREDIT === $operation || Operation::CREDIT == $parentTransactionType) {
+            return self::CREDIT_TRANSFER;
+        }
+
         return self::DIRECT_DEBIT;
     }
 

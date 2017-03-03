@@ -92,6 +92,8 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
+
+
     /**
      * @return array
      */
@@ -119,5 +121,17 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
             ]
         ];
         return $expectedResult;
+    }
+
+    public function testRetrievePaymentMethodNamePay()
+    {
+        $this->assertEquals(SepaTransaction::DIRECT_DEBIT, $this->tx->retrievePaymentMethodName(Operation::PAY));
+        $this->assertEquals(SepaTransaction::DIRECT_DEBIT, $this->tx->getConfigKey(Operation::PAY));
+    }
+
+    public function testRetrievePaymentMethodNameCredit()
+    {
+        $this->assertEquals(SepaTransaction::CREDIT_TRANSFER, $this->tx->retrievePaymentMethodName(Operation::CREDIT));
+        $this->assertEquals(SepaTransaction::CREDIT_TRANSFER, $this->tx->getConfigKey(Operation::CREDIT));
     }
 }

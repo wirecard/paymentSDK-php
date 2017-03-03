@@ -267,7 +267,6 @@ class TransactionService
         return $this->process($transaction, Operation::CREDIT);
     }
 
-
     /**
      * @return LoggerInterface
      */
