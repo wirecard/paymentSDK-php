@@ -39,7 +39,7 @@ use Wirecard\PaymentSdk\Entity\Money;
  * Interface Transaction
  * @package Wirecard\PaymentSdk\Transaction
  */
-abstract class Transaction implements Mappable
+abstract class Transaction
 {
     const PARAM_PAYMENT = 'payment';
     const PARAM_TRANSACTION_TYPE = 'transaction-type';
@@ -129,6 +129,11 @@ abstract class Transaction implements Mappable
      * @param string|null $operation
      * @param string|null $parentTransactionType
      * @return array
+     *
+     * Contains the mapping of the transaction properties.
+     * Subclasses should use the logic below
+     * and add the mapping of their specific properties.
+     * The mapping of the subclass-specific properties often depends on the operation and the parentTransactionType.
      */
     public function mappedProperties($operation = null, $parentTransactionType = null)
     {
