@@ -35,7 +35,6 @@ namespace WirecardTest\PaymentSdk\Mapper;
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfigCollection;
-use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
@@ -51,7 +50,12 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
 
     const EXAMPLE_URL = 'http://www.example.com';
 
-    public function testPayPalTransaction()
+    /**
+     * @var RequestMapper
+     */
+    private $mapper;
+
+    protected function setUp()
     {
         $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
         $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
@@ -61,8 +65,11 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
 
         $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', $paymentMethodConfigs);
         $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
-        $mapper = new RequestMapper($config, $requestIdGeneratorMock);
-
+        $this->mapper = new RequestMapper($config, $requestIdGeneratorMock);
+    }
+    
+    public function testPayPalTransaction()
+    {
         $expectedResult = ['payment' => [
             'request-id' => '5B-dummy-id',
             'payment-methods' => ['payment-method' => [['name' => 'paypal']]],
@@ -80,7 +87,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $payPalTransaction->setNotificationUrl(self::EXAMPLE_URL);
         $payPalTransaction->setRedirect($redirect);
         $payPalTransaction->setAmount(new Money(24, 'EUR'));
-        $result = $mapper->map($payPalTransaction, Operation::PAY, null);
+        $result = $this->mapper->map($payPalTransaction, Operation::PAY, null);
 
         $this->assertEquals(json_encode($expectedResult), $result);
     }
@@ -88,15 +95,6 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
     public function testSslCreditCardTransactionWithTokenId()
     {
         $_SERVER['REMOTE_ADDR'] = 'test IP';
-        $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
-        $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
-        $paymentMethodConfig->method('mappedProperties')->willReturn([]);
-        $paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
-        $paymentMethodConfigs->method('get')->willReturn($paymentMethodConfig);
-
-        $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', $paymentMethodConfigs);
-        $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
-        $mapper = new RequestMapper($config, $requestIdGeneratorMock);
 
         $expectedResult = ['payment' => [
             'request-id' => '5B-dummy-id',
@@ -114,7 +112,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $cardData->setTokenId('21');
         $cardData->setAmount(new Money(24, 'EUR'));
 
-        $result = $mapper->map($cardData, Operation::RESERVE, null);
+        $result = $this->mapper->map($cardData, Operation::RESERVE, null);
 
         $this->assertEquals(json_encode($expectedResult), $result);
     }
@@ -122,15 +120,6 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
     public function testSslCreditCardTransactionWithParentTransactionId()
     {
         $_SERVER['REMOTE_ADDR'] = 'test IP';
-        $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
-        $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
-        $paymentMethodConfig->method('mappedProperties')->willReturn([]);
-        $paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
-        $paymentMethodConfigs->method('get')->willReturn($paymentMethodConfig);
-
-        $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', $paymentMethodConfigs);
-        $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
-        $mapper = new RequestMapper($config, $requestIdGeneratorMock);
 
         $expectedResult = ['payment' => [
             'request-id' => '5B-dummy-id',
@@ -145,7 +134,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $transaction = new CreditCardTransaction();
         $transaction->setAmount(new Money(24, 'EUR'));
         $transaction->setParentTransactionId('parent5');
-        $result = $mapper->map($transaction, Operation::RESERVE, Transaction::TYPE_AUTHORIZATION);
+        $result = $this->mapper->map($transaction, Operation::RESERVE, Transaction::TYPE_AUTHORIZATION);
 
         $this->assertEquals(json_encode($expectedResult), $result);
     }
@@ -156,32 +145,15 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
     public function testSslCreditCardTransactionWithoutTokenIdAndParentTransactionId()
     {
         $_SERVER['REMOTE_ADDR'] = 'test IP';
-        $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
-        $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
-        $paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
-        $paymentMethodConfigs->method('get')->willReturn($paymentMethodConfig);
-
-        $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', $paymentMethodConfigs);
-        $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
-        $mapper = new RequestMapper($config, $requestIdGeneratorMock);
 
         $transaction = new CreditCardTransaction();
         $transaction->setAmount(new Money(24, 'EUR'));
-        $mapper->map($transaction, Operation::RESERVE, null);
+        $this->mapper->map($transaction, Operation::RESERVE, null);
     }
 
     public function testSslCreditCardTransactionWithBothTokenIdAndParentTransactionId()
     {
         $_SERVER['REMOTE_ADDR'] = 'test IP';
-        $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
-        $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
-        $paymentMethodConfig->method('mappedProperties')->willReturn([]);
-        $paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
-        $paymentMethodConfigs->method('get')->willReturn($paymentMethodConfig);
-
-        $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', $paymentMethodConfigs);
-        $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
-        $mapper = new RequestMapper($config, $requestIdGeneratorMock);
 
         $expectedResult = ['payment' => [
             'request-id' => '5B-dummy-id',
@@ -201,7 +173,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $cardData->setAmount(new Money(24, 'EUR'));
         $cardData->setParentTransactionId('parent5');
 
-        $result = $mapper->map($cardData, Operation::RESERVE, Transaction::TYPE_AUTHORIZATION);
+        $result = $this->mapper->map($cardData, Operation::RESERVE, Transaction::TYPE_AUTHORIZATION);
 
         $this->assertEquals(json_encode($expectedResult), $result);
     }
@@ -237,15 +209,6 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
     public function testThreeDCreditCardTransaction($operation, $parentTransactionType, $expectedType)
     {
         $_SERVER['REMOTE_ADDR'] = 'test IP';
-        $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
-        $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
-        $paymentMethodConfig->method('mappedProperties')->willReturn([]);
-        $paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
-        $paymentMethodConfigs->method('get')->willReturn($paymentMethodConfig);
-
-        $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', $paymentMethodConfigs);
-        $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
-        $mapper = new RequestMapper($config, $requestIdGeneratorMock);
 
         $expectedResult = ['payment' => [
             'request-id' => '5B-dummy-id',
@@ -267,7 +230,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $creditCardTransaction->setAmount($money);
         $creditCardTransaction->setParentTransactionId('parent54');
 
-        $result = $mapper->map($creditCardTransaction, $operation, $parentTransactionType);
+        $result = $this->mapper->map($creditCardTransaction, $operation, $parentTransactionType);
 
         $this->assertEquals(json_encode($expectedResult), $result);
     }
@@ -278,16 +241,6 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
     public function testThreeDCreditCardTransactionThrowsUnsupportedOperationException()
     {
         $_SERVER['REMOTE_ADDR'] = 'test IP';
-        $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
-        $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
-        $paymentMethodConfig->method('mappedProperties')->willReturn([]);
-        $paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
-        $paymentMethodConfigs->method('get')->willReturn($paymentMethodConfig);
-
-        $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', $paymentMethodConfigs);
-        $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
-        $mapper = new RequestMapper($config, $requestIdGeneratorMock);
-
 
         $money = new Money(24, 'EUR');
         $creditCardTransaction = new ThreeDCreditCardTransaction();
@@ -296,7 +249,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $creditCardTransaction->setAmount($money);
         $creditCardTransaction->setParentTransactionId('parent54');
 
-        $mapper->map($creditCardTransaction, 'test', null);
+        $this->mapper->map($creditCardTransaction, 'test', null);
     }
 
     public function testCancelProvider()
@@ -328,20 +281,11 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
      */
     public function testCancel($transactionType, $cancelType)
     {
-        $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
-        $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
-        $paymentMethodConfig->method('mappedProperties')->willReturn([]);
-        $paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
-        $paymentMethodConfigs->method('get')->willReturn($paymentMethodConfig);
-
-        $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', $paymentMethodConfigs);
-        $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
-        $mapper = new RequestMapper($config, $requestIdGeneratorMock);
         $followupTransaction = new CreditCardTransaction();
         $followupTransaction->setParentTransactionId('642');
         $_SERVER['REMOTE_ADDR'] = 'test';
 
-        $result = $mapper->map($followupTransaction, Operation::CANCEL, $transactionType);
+        $result = $this->mapper->map($followupTransaction, Operation::CANCEL, $transactionType);
 
         $expectedResult = ['payment' => [
             'request-id' => '5B-dummy-id',
@@ -379,20 +323,11 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
      */
     public function testPay($transactionType, $payType)
     {
-        $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
-        $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
-        $paymentMethodConfig->method('mappedProperties')->willReturn([]);
-        $paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
-        $paymentMethodConfigs->method('get')->willReturn($paymentMethodConfig);
-
-        $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', $paymentMethodConfigs);
-        $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
-        $mapper = new RequestMapper($config, $requestIdGeneratorMock);
         $followupTransaction = new CreditCardTransaction();
         $followupTransaction->setParentTransactionId('642');
         $_SERVER['REMOTE_ADDR'] = 'test';
 
-        $result = $mapper->map($followupTransaction, Operation::PAY, $transactionType);
+        $result = $this->mapper->map($followupTransaction, Operation::PAY, $transactionType);
 
         $expectedResult = ['payment' => [
             'request-id' => '5B-dummy-id',
@@ -434,20 +369,11 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
      */
     public function testPay3d($transactionType, $payType)
     {
-        $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
-        $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
-        $paymentMethodConfig->method('mappedProperties')->willReturn([]);
-        $paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
-        $paymentMethodConfigs->method('get')->willReturn($paymentMethodConfig);
-
-        $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', $paymentMethodConfigs);
-        $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
-        $mapper = new RequestMapper($config, $requestIdGeneratorMock);
         $followupTransaction = new ThreeDCreditCardTransaction();
         $followupTransaction->setParentTransactionId('642');
         $_SERVER['REMOTE_ADDR'] = 'test';
 
-        $result = $mapper->map($followupTransaction, Operation::PAY, $transactionType);
+        $result = $this->mapper->map($followupTransaction, Operation::PAY, $transactionType);
 
         $expectedResult = ['payment' => [
             'request-id' => '5B-dummy-id',
@@ -465,38 +391,20 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
      */
     public function testCancelInvalidParentTransaction()
     {
-        $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
-        $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
-        $paymentMethodConfig->method('mappedProperties')->willReturn([]);
-        $paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
-        $paymentMethodConfigs->method('get')->willReturn($paymentMethodConfig);
-
-        $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', $paymentMethodConfigs);
-        $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
-        $mapper = new RequestMapper($config, $requestIdGeneratorMock);
         $followupTransaction = new CreditCardTransaction();
         $followupTransaction->setParentTransactionId('642');
         $_SERVER['REMOTE_ADDR'] = 'test';
 
-        $mapper->map($followupTransaction, Operation::CANCEL, 'test');
+        $this->mapper->map($followupTransaction, Operation::CANCEL, 'test');
     }
 
     public function testCredit()
     {
-        $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
-        $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
-        $paymentMethodConfig->method('mappedProperties')->willReturn([]);
-        $paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
-        $paymentMethodConfigs->method('get')->willReturn($paymentMethodConfig);
-
-        $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', $paymentMethodConfigs);
-        $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
-        $mapper = new RequestMapper($config, $requestIdGeneratorMock);
         $followupTransaction = new CreditCardTransaction();
         $followupTransaction->setParentTransactionId('642');
         $_SERVER['REMOTE_ADDR'] = 'test';
 
-        $result = $mapper->map($followupTransaction, Operation::CREDIT, Transaction::TYPE_CREDIT);
+        $result = $this->mapper->map($followupTransaction, Operation::CREDIT, Transaction::TYPE_CREDIT);
 
         $expectedResult = ['payment' => [
             'request-id' => '5B-dummy-id',
