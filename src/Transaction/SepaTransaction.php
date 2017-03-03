@@ -75,11 +75,14 @@ class SepaTransaction extends Transaction
     {
         $result = parent::mappedProperties($operation, $parentTransactionType);
         $result[self::PARAM_TRANSACTION_TYPE] = $this->retrieveTransactionType($operation, $parentTransactionType);
-        $result['bank-account'] = [
-            'iban' => $this->iban
-        ];
-        if (null !== $this->bic) {
-            $result['bank-account']['bic'] = $this->bic;
+
+        if (null !== $this->iban) {
+            $result['bank-account'] = [
+                'iban' => $this->iban
+            ];
+            if (null !== $this->bic) {
+                $result['bank-account']['bic'] = $this->bic;
+            }
         }
 
         return $result;

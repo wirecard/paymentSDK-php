@@ -34,6 +34,7 @@ namespace WirecardTest\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\SepaTransaction;
 
@@ -66,12 +67,13 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
 
         $this->tx = new SepaTransaction();
         $this->tx->setAmount($this->amount);
-        $this->tx->setIban(self::IBAN);
-        $this->tx->setAccountHolder($this->accountHolder);
     }
 
     public function testMappedPropertiesReserveIbanOnly()
     {
+        $this->tx->setIban(self::IBAN);
+        $this->tx->setAccountHolder($this->accountHolder);
+
         $expectedResult = $this->getExpectedResultIbanOnly();
 
         $result = $this->tx->mappedProperties(Operation::RESERVE, null);
@@ -81,6 +83,8 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
 
     public function testMappedPropertiesReserveIbanAndBic()
     {
+        $this->tx->setIban(self::IBAN);
+        $this->tx->setAccountHolder($this->accountHolder);
         $bic = '42B';
         $this->tx->setBic($bic);
 
@@ -92,14 +96,12 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
-
-
     /**
      * @return array
      */
     private function getExpectedResultIbanOnly()
     {
-        $expectedResult = [
+        return [
             'transaction-type' => 'authorization',
             'requested-amount' => [
                 'currency' => 'EUR',
@@ -120,7 +122,25 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
                 'iban' => self::IBAN
             ]
         ];
-        return $expectedResult;
+    }
+
+    public function testMappedPropertiesCancelPay()
+    {
+        $parentTransactionId = 'B612';
+        $this->tx->setParentTransactionId($parentTransactionId);
+
+        $result = $this->tx->mappedProperties(Operation::CANCEL, 'pending-debit');
+
+        $expectedResult = $this->getExpectedResultCancelPay($parentTransactionId);
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
+     */
+    public function testMappedPropertiesUnsupportedOperation()
+    {
+        $this->tx->mappedProperties('non_existing_operation');
     }
 
     public function testRetrievePaymentMethodNamePay()
@@ -133,5 +153,24 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(SepaTransaction::CREDIT_TRANSFER, $this->tx->retrievePaymentMethodName(Operation::CREDIT));
         $this->assertEquals(SepaTransaction::CREDIT_TRANSFER, $this->tx->getConfigKey(Operation::CREDIT));
+    }
+
+    private function getExpectedResultCancelPay($parentTransactionId)
+    {
+        return [
+            'transaction-type' => 'void-pending-debit',
+            'requested-amount' => [
+                'currency' => 'EUR',
+                'value' => '55.5'
+            ],
+            'payment-methods' => [
+                'payment-method' => [
+                    0 => [
+                        'name' => 'sepadirectdebit'
+                    ]
+                ]
+            ],
+            'parent-transaction-id' => $parentTransactionId
+        ];
     }
 }
