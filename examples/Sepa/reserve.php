@@ -46,7 +46,11 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, $configCollection, '
 // The token is required as reference to the credit card data.
 $transaction = new SepaTransaction();
 $transaction->setAmount($amount);
-$transaction->setIban('DE42512308000000060004');
+$transaction->setIban($_POST['iban']);
+
+if (null !== $_POST['bic']) {
+    $transaction->setBic($_POST['bic']);
+}
 
 $accountHolder = new AccountHolder('Doe');
 $accountHolder->setFirstName('Jane');
