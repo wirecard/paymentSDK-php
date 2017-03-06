@@ -153,8 +153,7 @@ class ResponseMapper
         $statusCollection,
         $operation,
         ThreeDCreditCardTransaction $transaction = null
-    )
-    {
+    ) {
         if ((string)$response->{'transaction-type'} === ThreeDCreditCardTransaction::TYPE_CHECK_ENROLLMENT) {
             return $this->mapThreeDResponse($xmlResponse, $response, $statusCollection, $operation, $transaction);
         }
@@ -191,8 +190,7 @@ class ResponseMapper
         $status,
         $operation,
         ThreeDCreditCardTransaction $transaction
-    )
-    {
+    ) {
         if (!isset($response->{'three-d'})) {
             throw new MalformedResponseException('Missing three-d element in enrollment-check response.');
         } else {
