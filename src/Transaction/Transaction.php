@@ -51,6 +51,8 @@ abstract class Transaction
     const TYPE_CAPTURE_AUTHORIZATION = 'capture-authorization';
     const TYPE_VOID_AUTHORIZATION = 'void-authorization';
     const TYPE_CREDIT = 'credit';
+    const TYPE_PENDING_CREDIT = 'pending-credit';
+    const TYPE_PENDING_DEBIT = 'pending-debit';
 
     /**
      * @var AccountHolder
