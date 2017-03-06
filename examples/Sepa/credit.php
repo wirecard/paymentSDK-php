@@ -1,8 +1,6 @@
 <?php
 
-// # SEPA amount payment
-// The method `pay` of the _transactionService_ provides the means
-// to execute a payment with an amount (also known as debit).
+// # SEPA credit
 
 // To include the necessary files, use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
@@ -21,7 +19,7 @@ $amount = new Money(12.59, 'EUR');
 
 // ### Config
 
-// Since payment method may have a different merchant ID, a config collection is created.
+// Since different payment methods may have a different merchant ID, a config collection is created.
 $configCollection = new Config\PaymentMethodConfigCollection();
 
 // Create and add a configuration object with the settings for SEPA
@@ -44,14 +42,14 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, $configCollection, '
 
 // ## Transaction
 
-// Create a `SepaTransaction` object, which contains all relevant data for the payment process.
+// Create a `SepaTransaction` object, which contains all relevant data for the credit process.
 $transaction = new SepaTransaction();
 $transaction->setAmount($amount);
-$transaction->setIban('DE42512308000000060004');
+$transaction->setIban($_POST['iban']);
 
-//if (null !== $_POST['bic']) {
-  //  $transaction->setBic($_POST['bic']);
-//}
+if (null !== $_POST['bic']) {
+    $transaction->setBic($_POST['bic']);
+}
 
 // The account holder (first name, last name) is required.
 $accountHolder = new AccountHolder('Doe');
@@ -62,7 +60,7 @@ $transaction->setAccountHolder($accountHolder);
 $mandate = new Mandate('12345678');
 $transaction->setMandate($mandate);
 
-// The service is used to execute the pay (pending-debit) operation itself. A response object is returned.
+// The service is used to execute the credit (pending-credit) operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
 $response = $transactionService->credit($transaction);
 
