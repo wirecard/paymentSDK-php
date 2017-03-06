@@ -117,15 +117,6 @@ class CreditCardTransaction extends Transaction
 
     /**
      * @param string $parentTransactionType
-     * @return string
-     */
-    protected function retrieveTransactionTypeForReserve($parentTransactionType)
-    {
-        return (null !== $this->parentTransactionId) ? $this::TYPE_REFERENCED_AUTHORIZATION : $this::TYPE_AUTHORIZATION;
-    }
-
-    /**
-     * @param string $parentTransactionType
      * @throws MandatoryFieldMissingException
      * @return string
      */
@@ -155,6 +146,15 @@ class CreditCardTransaction extends Transaction
         }
 
         return $transactionType;
+    }
+
+    /**
+     * @param string $parentTransactionType
+     * @return string
+     */
+    protected function retrieveTransactionTypeForReserve($parentTransactionType)
+    {
+        return (null !== $this->parentTransactionId) ? $this::TYPE_REFERENCED_AUTHORIZATION : $this::TYPE_AUTHORIZATION;
     }
 
     /**

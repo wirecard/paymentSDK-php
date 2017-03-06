@@ -55,6 +55,11 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
      */
     private $mapper;
 
+    protected function setUp()
+    {
+        $this->mapper = $this->createRequestMapper();
+    }
+    
     public function testPayPalTransaction()
     {
         $expectedResult = ['payment' => [
@@ -190,7 +195,6 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
-
     /**
      * @dataProvider threeDProvider
      */
@@ -430,6 +434,16 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @return \Closure
+     */
+    private function createRequestIdGeneratorMock()
+    {
+        return function () {
+            return '5B-dummy-id';
+        };
+    }
+
+    /**
      * @param array $paymentMethodSpecificProperties
      * @return RequestMapper
      */
@@ -444,20 +458,5 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', $paymentMethodConfigs);
         $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
         return new RequestMapper($config, $requestIdGeneratorMock);
-    }
-
-    /**
-     * @return \Closure
-     */
-    private function createRequestIdGeneratorMock()
-    {
-        return function () {
-            return '5B-dummy-id';
-        };
-    }
-
-    protected function setUp()
-    {
-        $this->mapper = $this->createRequestMapper();
     }
 }

@@ -82,6 +82,21 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
+    public function testMappedPropertiesReserveIbanAndBic()
+    {
+        $this->tx->setIban(self::IBAN);
+        $this->tx->setAccountHolder($this->accountHolder);
+        $bic = '42B';
+        $this->tx->setBic($bic);
+
+        $expectedResult = $this->getExpectedResultReserveIbanOnly();
+        $expectedResult['bank-account']['bic'] = $bic;
+
+        $result = $this->tx->mappedProperties(Operation::RESERVE, null);
+
+        $this->assertEquals($expectedResult, $result);
+    }
+
     /**
      * @return array
      */
@@ -108,21 +123,6 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
                 'iban' => self::IBAN
             ]
         ];
-    }
-
-    public function testMappedPropertiesReserveIbanAndBic()
-    {
-        $this->tx->setIban(self::IBAN);
-        $this->tx->setAccountHolder($this->accountHolder);
-        $bic = '42B';
-        $this->tx->setBic($bic);
-
-        $expectedResult = $this->getExpectedResultReserveIbanOnly();
-        $expectedResult['bank-account']['bic'] = $bic;
-
-        $result = $this->tx->mappedProperties(Operation::RESERVE, null);
-
-        $this->assertEquals($expectedResult, $result);
     }
 
     public function testMappedPropertiesPayIbanOnly()
@@ -172,13 +172,6 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    /**
-     * @return false|string
-     */
-    private function today()
-    {
-        return gmdate('Y-m-d');
-    }
 
     public function testMappedPropertiesCancelPay()
     {
@@ -189,25 +182,6 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
 
         $expectedResult = $this->getExpectedResultCancelPay($parentTransactionId);
         $this->assertEquals($expectedResult, $result);
-    }
-
-    private function getExpectedResultCancelPay($parentTransactionId)
-    {
-        return [
-            'transaction-type' => 'void-pending-debit',
-            'requested-amount' => [
-                'currency' => 'EUR',
-                'value' => '55.5'
-            ],
-            'payment-methods' => [
-                'payment-method' => [
-                    0 => [
-                        'name' => 'sepadirectdebit'
-                    ]
-                ]
-            ],
-            'parent-transaction-id' => $parentTransactionId
-        ];
     }
 
     /**
@@ -236,5 +210,32 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(SepaTransaction::CREDIT_TRANSFER, $this->tx->retrievePaymentMethodName(Operation::CREDIT));
         $this->assertEquals(SepaTransaction::CREDIT_TRANSFER, $this->tx->getConfigKey(Operation::CREDIT));
+    }
+
+    private function getExpectedResultCancelPay($parentTransactionId)
+    {
+        return [
+            'transaction-type' => 'void-pending-debit',
+            'requested-amount' => [
+                'currency' => 'EUR',
+                'value' => '55.5'
+            ],
+            'payment-methods' => [
+                'payment-method' => [
+                    0 => [
+                        'name' => 'sepadirectdebit'
+                    ]
+                ]
+            ],
+            'parent-transaction-id' => $parentTransactionId
+        ];
+    }
+
+    /**
+     * @return false|string
+     */
+    private function today()
+    {
+        return gmdate('Y-m-d');
     }
 }

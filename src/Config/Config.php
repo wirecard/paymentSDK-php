@@ -143,6 +143,14 @@ class Config
     }
 
     /**
+     * @return PaymentMethodConfigCollection
+     */
+    public function getPaymentMethodConfigs()
+    {
+        return $this->paymentMethodConfigs;
+    }
+
+    /**
      * @return string
      */
     public function getDefaultCurrency()
@@ -157,13 +165,5 @@ class Config
     public function get($paymentMethodName)
     {
         return $this->getPaymentMethodConfigs()->get($paymentMethodName);
-    }
-
-    /**
-     * @return PaymentMethodConfigCollection
-     */
-    public function getPaymentMethodConfigs()
-    {
-        return $this->paymentMethodConfigs;
     }
 }
