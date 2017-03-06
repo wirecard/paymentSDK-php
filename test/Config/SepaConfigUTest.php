@@ -25,77 +25,35 @@
  *
  * Customers are responsible for testing the plugin's functionality before starting productive
  * operation.
+ *
  * By installing the plugin into the shop system the customer agrees to these terms of use.
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Config;
+namespace WirecardTest\PaymentSdk\Config;
 
-use Wirecard\PaymentSdk\Entity\MappableEntity;
+use Wirecard\PaymentSdk\Config\SepaConfig;
+use Wirecard\PaymentSdk\Transaction\SepaTransaction;
 
-class PaymentMethodConfig implements MappableEntity
+class SepaConfigUTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var string
-     */
-    private $paymentMethodName;
 
-    /**
-     * @var string
-     */
-    private $merchantAccountId;
-
-    /**
-     * @var string
-     */
-    private $secret;
-
-    /**
-     * PaymentMethodConfig constructor.
-     * @param string $paymentMethodName
-     * @param string $merchantAccountId
-     * @param string $secret
-     */
-    public function __construct($paymentMethodName, $merchantAccountId, $secret)
+    public function testMappedProperties()
     {
-        $this->paymentMethodName = $paymentMethodName;
-        $this->merchantAccountId = $merchantAccountId;
-        $this->secret = $secret;
-    }
+        $accountId = 'accountId';
+        $conf = new SepaConfig(SepaTransaction::DIRECT_DEBIT, $accountId, 'secret');
+        $creditorId = '555-cred-id';
+        $conf->setCreditorId($creditorId);
 
-    /**
-     * @return string
-     */
-    public function getPaymentMethodName()
-    {
-        return $this->paymentMethodName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMerchantAccountId()
-    {
-        return $this->merchantAccountId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSecret()
-    {
-        return $this->secret;
-    }
-
-    /**
-     * @return array
-     */
-    public function mappedProperties()
-    {
-        return [
+        $expectedResult = [
             'merchant-account-id' => [
-                'value' => $this->merchantAccountId
-            ]
+                'value' => $accountId
+            ],
+            'creditor-id' => $creditorId
         ];
+
+        $result = $conf->mappedProperties();
+
+        $this->assertEquals($expectedResult, $result);
     }
 }

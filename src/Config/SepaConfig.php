@@ -25,77 +25,32 @@
  *
  * Customers are responsible for testing the plugin's functionality before starting productive
  * operation.
+ *
  * By installing the plugin into the shop system the customer agrees to these terms of use.
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
 namespace Wirecard\PaymentSdk\Config;
 
-use Wirecard\PaymentSdk\Entity\MappableEntity;
-
-class PaymentMethodConfig implements MappableEntity
+class SepaConfig extends PaymentMethodConfig
 {
     /**
      * @var string
      */
-    private $paymentMethodName;
+    private $creditorId;
 
     /**
-     * @var string
+     * @param string $creditorId
      */
-    private $merchantAccountId;
-
-    /**
-     * @var string
-     */
-    private $secret;
-
-    /**
-     * PaymentMethodConfig constructor.
-     * @param string $paymentMethodName
-     * @param string $merchantAccountId
-     * @param string $secret
-     */
-    public function __construct($paymentMethodName, $merchantAccountId, $secret)
+    public function setCreditorId($creditorId)
     {
-        $this->paymentMethodName = $paymentMethodName;
-        $this->merchantAccountId = $merchantAccountId;
-        $this->secret = $secret;
+        $this->creditorId = $creditorId;
     }
 
-    /**
-     * @return string
-     */
-    public function getPaymentMethodName()
-    {
-        return $this->paymentMethodName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMerchantAccountId()
-    {
-        return $this->merchantAccountId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSecret()
-    {
-        return $this->secret;
-    }
-
-    /**
-     * @return array
-     */
     public function mappedProperties()
     {
-        return [
-            'merchant-account-id' => [
-                'value' => $this->merchantAccountId
-            ]
-        ];
+        $result = parent::mappedProperties();
+        $result['creditor-id'] = $this->creditorId;
+        return $result;
     }
 }
