@@ -25,88 +25,53 @@
  *
  * Customers are responsible for testing the plugin's functionality before starting productive
  * operation.
+ *
  * By installing the plugin into the shop system the customer agrees to these terms of use.
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Config;
+namespace WirecardTest\PaymentSdk\Entity;
 
-use Wirecard\PaymentSdk\Entity\MappableEntity;
+use Wirecard\PaymentSdk\Entity\Mandate;
 
-class PaymentMethodConfig implements MappableEntity
+class MandateUTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var string
-     */
-    private $paymentMethodName;
+    const ID = '345';
 
     /**
-     * @var string
+     * @var Mandate
      */
-    private $merchantAccountId;
+    private $mandate;
 
-    /**
-     * @var string
-     */
-    private $secret;
-
-    /**
-     * @var array
-     */
-    private $specificProperties;
-
-    /**
-     * PaymentMethodConfig constructor.
-     * @param string $paymentMethodName
-     * @param string $merchantAccountId
-     * @param string $secret
-     */
-    public function __construct($paymentMethodName, $merchantAccountId, $secret)
+    public function setUp()
     {
-        $this->paymentMethodName = $paymentMethodName;
-        $this->merchantAccountId = $merchantAccountId;
-        $this->secret = $secret;
-        $this->specificProperties = [];
+        $this->mandate = new Mandate(self::ID);
     }
 
-    /**
-     * @return string
-     */
-    public function getPaymentMethodName()
+    public function testMappedPropertiesWithoutSignedDate()
     {
-        return $this->paymentMethodName;
+        $expectedResult = [
+            'mandate-id' => self::ID
+        ];
+
+        $result = $this->mandate->mappedProperties();
+
+        $this->assertEquals($expectedResult, $result);
     }
 
-    /**
-     * @return string
-     */
-    public function getMerchantAccountId()
+    public function testMappedPropertiesWithSignedDate()
     {
-        return $this->merchantAccountId;
-    }
+        $dateAsStr = '2017-03-24';
+        $signedDate = strtotime($dateAsStr);
+        $this->mandate->setSignedDate($signedDate);
 
-    /**
-     * @return string
-     */
-    public function getSecret()
-    {
-        return $this->secret;
-    }
+        $expectedResult = [
+            'mandate-id' => self::ID,
+            'signed-date' => $dateAsStr
+        ];
 
-    /**
-     * @param string $key
-     * @param string $value
-     */
-    public function addSpecificProperty($key, $value)
-    {
-        $this->specificProperties[$key] = $value;
-    }
+        $result = $this->mandate->mappedProperties();
 
-    /**
-     * @return array
-     */
-    public function mappedProperties()
-    {
-        return $this->specificProperties;
+        $this->assertEquals($expectedResult, $result);
     }
 }

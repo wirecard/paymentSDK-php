@@ -30,14 +30,16 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Transaction;
+namespace Wirecard\PaymentSdk\Entity;
 
-interface Mappable
+/**
+ * Interface MappableEntity
+ * @package Wirecard\PaymentSdk\Entity
+ *
+ * Represents an entity which can be mapped
+ * => it can be included in a request to Elastic Engine.
+ */
+interface MappableEntity
 {
-    /**
-     * @param string|null $operation
-     * @param string|null $parentTransactionType
-     * @return array
-     */
-    public function mappedProperties($operation = null, $parentTransactionType = null);
+    public function mappedProperties();
 }

@@ -32,6 +32,7 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Entity\Mandate;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
 class SepaTransaction extends Transaction
@@ -51,6 +52,11 @@ class SepaTransaction extends Transaction
     private $bic;
 
     /**
+     * @var Mandate
+     */
+    private $mandate;
+
+    /**
      * @param string $iban
      */
     public function setIban($iban)
@@ -67,14 +73,23 @@ class SepaTransaction extends Transaction
     }
 
     /**
-     * @param null $operation
-     * @param null $parentTransactionType
+     * @param Mandate $mandate
+     */
+    public function setMandate($mandate)
+    {
+        $this->mandate = $mandate;
+    }
+
+    /**
+     * @param string $operation
+     * @param string $parentTransactionType
      * @return array
      */
-    public function mappedProperties($operation = null, $parentTransactionType = null)
+    protected function mappedSpecificProperties($operation, $parentTransactionType)
     {
-        $result = parent::mappedProperties($operation, $parentTransactionType);
-        $result[self::PARAM_TRANSACTION_TYPE] = $this->retrieveTransactionType($operation, $parentTransactionType);
+        $result = [
+            self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType($operation, $parentTransactionType)
+        ];
 
         if (null !== $this->iban) {
             $result['bank-account'] = [
@@ -83,6 +98,10 @@ class SepaTransaction extends Transaction
             if (null !== $this->bic) {
                 $result['bank-account']['bic'] = $this->bic;
             }
+        }
+
+        if (null !== $this->mandate) {
+            $result['mandate'] = $this->mandate->mappedProperties();
         }
 
         return $result;
