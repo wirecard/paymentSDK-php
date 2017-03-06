@@ -45,8 +45,7 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, $configCollection, '
 
 // ## Transaction
 
-// Create a `CreditCardTransaction` object, which contains all relevant data for the payment process.
-// The token is required as reference to the credit card data.
+// Create a `SepaTransaction` object, which contains all relevant data for the payment process.
 $transaction = new SepaTransaction();
 $transaction->setAmount($amount);
 $transaction->setIban($_POST['iban']);
@@ -55,14 +54,17 @@ if (null !== $_POST['bic']) {
     $transaction->setBic($_POST['bic']);
 }
 
+// The account holder (first name, last name) is required.
 $accountHolder = new AccountHolder('Doe');
 $accountHolder->setFirstName('Jane');
 $transaction->setAccountHolder($accountHolder);
+
+// A mandate with ID and signed date is required.
 $mandate = new Mandate('12345678');
 $mandate->setSignedDate(strtotime('2015-08-27'));
 $transaction->setMandate($mandate);
 
-// The service is used to execute the reservation (authorization) operation itself. A response object is returned.
+// The service is used to execute the pay (pending-debit) operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
 $response = $transactionService->pay($transaction);
 
