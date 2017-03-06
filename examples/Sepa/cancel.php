@@ -26,9 +26,7 @@ $sepaKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
 $sepaDdConfig = new Config\PaymentMethodConfig(SepaTransaction::DIRECT_DEBIT, $sepaMId, $sepaKey);
 $configCollection->add($sepaDdConfig);
 
-// Create and add a configuration object with the settings for SEPA credit transfer.
-$sepaMId = '4c901196-eff7-411e-82a3-5ef6b6860d64';
-$sepaKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
+// The configration for sepa needs to be also added with the corresponding transaction for credit transfer.
 $sepaCtConfig = new Config\PaymentMethodConfig(SepaTransaction::CREDIT_TRANSFER, $sepaMId, $sepaKey);
 $configCollection->add($sepaCtConfig);
 
