@@ -114,7 +114,7 @@ class SepaTransaction extends Transaction
     public function retrievePaymentMethodName($operation = null, $parentTransactionType = null)
     {
         if (Operation::CREDIT === $operation || Operation::CREDIT == $parentTransactionType ||
-            parent::TYPE_PENDING_CREDIT === $operation || parent::TYPE_PENDING_CREDIT == $parentTransactionType) {
+            parent::TYPE_PENDING_CREDIT == $parentTransactionType) {
             return self::CREDIT_TRANSFER;
         }
 
