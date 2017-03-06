@@ -61,7 +61,6 @@ $transaction->setAccountHolder($accountHolder);
 
 // A mandate with ID and signed date is required.
 $mandate = new Mandate('12345678');
-$mandate->setSignedDate(strtotime('2015-08-27'));
 $transaction->setMandate($mandate);
 
 // The service is used to execute the pay (pending-debit) operation itself. A response object is returned.
