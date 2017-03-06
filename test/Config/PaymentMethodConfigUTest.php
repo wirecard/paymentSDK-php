@@ -68,7 +68,14 @@ class PaymentMethodConfigUTest extends \PHPUnit_Framework_TestCase
 
     public function testMappedPropertiesWithoutSpecificProperties()
     {
-        $this->assertEquals([], $this->instance->mappedProperties());
+        $this->assertEquals(
+            [
+                'merchant-account-id' => [
+                    'value' => self::MAID
+                ]
+            ],
+            $this->instance->mappedProperties()
+        );
     }
 
     public function testMappedPropertiesWith1SpecificProperty()
@@ -76,7 +83,12 @@ class PaymentMethodConfigUTest extends \PHPUnit_Framework_TestCase
         $this->instance->addSpecificProperty('creditor-id', 'anything');
 
         $this->assertEquals(
-            [ 'creditor-id' => 'anything' ],
+            [
+            'creditor-id' => 'anything',
+            'merchant-account-id' => [
+                'value' => self::MAID
+            ]
+            ],
             $this->instance->mappedProperties()
         );
     }
@@ -89,7 +101,10 @@ class PaymentMethodConfigUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             [
                 'creditor-id' => 'anything',
-                'dummy-id' => 'bla'
+                'dummy-id' => 'bla',
+                'merchant-account-id' => [
+                    'value' => self::MAID
+                ]
             ],
             $this->instance->mappedProperties()
         );

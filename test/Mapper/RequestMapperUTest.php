@@ -411,9 +411,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
 
     public function testMappingWithPaymentMethodSpecificProperties()
     {
-        $mapper = $this->createRequestMapper([
-            'specific-id' => '42'
-        ]);
+        $mapper = $this->createRequestMapper();
 
         $followupTransaction = new CreditCardTransaction();
         $followupTransaction->setParentTransactionId('642');
@@ -427,7 +425,6 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
             'parent-transaction-id' => '642',
             'ip-address' => 'test',
             'transaction-type' => 'credit',
-            'specific-id' => '42',
             'merchant-account-id' => ['value' => 'B612']
         ]];
         $this->assertEquals(json_encode($expectedResult), $result);
@@ -447,11 +444,9 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
      * @param array $paymentMethodSpecificProperties
      * @return RequestMapper
      */
-    private function createRequestMapper($paymentMethodSpecificProperties = [])
+    private function createRequestMapper()
     {
-        $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
-        $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
-        $paymentMethodConfig->method('mappedProperties')->willReturn($paymentMethodSpecificProperties);
+        $paymentMethodConfig = new PaymentMethodConfig(PayPalTransaction::NAME, self::MAID, 'secret');
         $paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
         $paymentMethodConfigs->method('get')->willReturn($paymentMethodConfig);
 

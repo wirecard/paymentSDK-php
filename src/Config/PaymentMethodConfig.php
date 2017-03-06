@@ -106,6 +106,10 @@ class PaymentMethodConfig implements MappableEntity
      */
     public function mappedProperties()
     {
-        return $this->specificProperties;
+        return array_merge([
+            'merchant-account-id' => [
+                'value' => $this->merchantAccountId
+            ]
+        ], $this->specificProperties);
     }
 }
