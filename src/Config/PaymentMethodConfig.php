@@ -53,7 +53,7 @@ class PaymentMethodConfig implements MappableEntity
     /**
      * @var array
      */
-    private $specificProperties;
+    private $specificProperties = [];
 
     /**
      * PaymentMethodConfig constructor.
@@ -66,7 +66,6 @@ class PaymentMethodConfig implements MappableEntity
         $this->paymentMethodName = $paymentMethodName;
         $this->merchantAccountId = $merchantAccountId;
         $this->secret = $secret;
-        $this->specificProperties = [];
     }
 
     /**
