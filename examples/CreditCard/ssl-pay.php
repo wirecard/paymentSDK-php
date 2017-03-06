@@ -1,6 +1,7 @@
 <?php
 
-// # Credit card amount purchase
+// # Credit card purchase
+
 // The method `pay` of the _transactionService_ provides the means
 // to reserve and capture an amount (also known as authorization and capture).
 
@@ -35,7 +36,7 @@ if ($parentTransactionId === null && $tokenId === null) {
 // Since payment method may have a different merchant ID, a config collection is created.
 $configCollection = new Config\PaymentMethodConfigCollection();
 
-// Create and add a configuration object with the settings for credit card
+// Create and add a configuration object with the settings for credit card.
 $ccardMId = '9105bb4f-ae68-4768-9c3b-3eda968f57ea';
 $ccardKey = 'd1efed51-4cb9-46a5-ba7b-0fdc87a66544';
 $ccardConfig = new Config\PaymentMethodConfig(CreditCardTransaction::class, $ccardMId, $ccardKey);
@@ -58,7 +59,8 @@ $transaction = new CreditCardTransaction();
 $transaction->setTokenId($tokenId);
 $transaction->setAmount($amount);
 $transaction->setParentTransactionId($parentTransactionId);
-// The service is used to execute the payment (authorization + capture) operation itself. A response object is returned.
+// The service is used to execute the payment (authorization + capture) operation itself.
+// A response object is returned.
 $transactionService = new TransactionService($config);
 $response = $transactionService->pay($transaction);
 

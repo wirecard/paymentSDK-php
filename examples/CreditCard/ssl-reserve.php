@@ -1,6 +1,6 @@
 <?php
 
-// # Credit card amount reservation
+// # Credit card reservation
 // The method `reserve` of the _transactionService_ provides the means
 // to reserve an amount (also known as authorization).
 
