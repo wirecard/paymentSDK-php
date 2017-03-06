@@ -2,7 +2,7 @@
 
 // # Cancelling a SEPA-transaction
 
-// To cancel a transaction, a cancel request with the parent transaction is sent. Voiding a SEPA-transaction
+// To cancel a transaction, a cancel request with the parent transaction is sent. Voiding  SEPA-transactions
 // is only possible before they are forwarded to the bank for settlement.
 
 // ## Required objects
