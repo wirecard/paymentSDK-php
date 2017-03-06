@@ -39,7 +39,7 @@ use Wirecard\PaymentSdk\Entity\Money;
  * Interface Transaction
  * @package Wirecard\PaymentSdk\Transaction
  */
-abstract class Transaction implements Mappable
+abstract class Transaction
 {
     const PARAM_PAYMENT = 'payment';
     const PARAM_TRANSACTION_TYPE = 'transaction-type';
@@ -126,11 +126,15 @@ abstract class Transaction implements Mappable
     }
 
     /**
-     * @param string|null $operation
+     * @param string $operation
      * @param string|null $parentTransactionType
      * @return array
+     *
+     * A template method for the mapping of the transaction properties:
+     *  - the common properties are mapped here,
+     *  - an abstract operation is defined for the payment type specific properties.
      */
-    public function mappedProperties($operation = null, $parentTransactionType = null)
+    public function mappedProperties($operation, $parentTransactionType = null)
     {
         $result = ['payment-methods' => ['payment-method' => [['name' => $this->retrievePaymentMethodName()]]]];
 
@@ -161,8 +165,15 @@ abstract class Transaction implements Mappable
             $result['consumer-id'] = $this->consumerId;
         }
 
-        return $result;
+        return array_merge($result, $this->mappedSpecificProperties($operation, $parentTransactionType));
     }
+
+    /**
+     * @param string $operation
+     * @param string $parentTransactionType
+     * @return array
+     */
+    abstract protected function mappedSpecificProperties($operation, $parentTransactionType);
 
     /**
      * @param string|null

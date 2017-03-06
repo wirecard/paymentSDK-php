@@ -32,15 +32,13 @@
 
 namespace Wirecard\PaymentSdk\Entity;
 
-use Wirecard\PaymentSdk\Transaction\Mappable;
-
 /**
  * Class Money
  * @package Wirecard\PaymentSdk\Entity
  *
  * An immutable entity representing an account holder.
  */
-class AccountHolder implements Mappable
+class AccountHolder implements MappableEntity
 {
     /**
      * @var string
@@ -71,11 +69,9 @@ class AccountHolder implements Mappable
     }
 
     /**
-     * @param string|null $operation
-     * @param string|null $parentTransactionType
      * @return array
      */
-    public function mappedProperties($operation = null, $parentTransactionType = null)
+    public function mappedProperties()
     {
         $result = [ 'last-name'=> $this->lastName ];
         if (null !== $this->firstName) {

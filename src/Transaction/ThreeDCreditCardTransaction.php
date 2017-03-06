@@ -91,14 +91,14 @@ class ThreeDCreditCardTransaction extends CreditCardTransaction
     }
 
     /**
-     * @param string|null $operation
-     * @param string|null $parentTransactionType
+     * @param string $operation
+     * @param string $parentTransactionType
      * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return array
      */
-    public function mappedProperties($operation = null, $parentTransactionType = null)
+    protected function mappedSpecificProperties($operation, $parentTransactionType)
     {
-        $result = parent::mappedProperties($operation, $parentTransactionType);
+        $result = parent::mappedSpecificProperties($operation, $parentTransactionType);
 
         if (null !== $this->paRes) {
             $result['three-d'] = [
