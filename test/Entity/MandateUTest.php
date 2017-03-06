@@ -25,87 +25,39 @@
  *
  * Customers are responsible for testing the plugin's functionality before starting productive
  * operation.
+ *
  * By installing the plugin into the shop system the customer agrees to these terms of use.
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Config;
+namespace WirecardTest\PaymentSdk\Entity;
 
-use Wirecard\PaymentSdk\Entity\MappableEntity;
+use Wirecard\PaymentSdk\Entity\Mandate;
 
-class PaymentMethodConfig implements MappableEntity
+class MandateUTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var string
-     */
-    private $paymentMethodName;
+    const ID = '345';
 
     /**
-     * @var string
+     * @var Mandate
      */
-    private $merchantAccountId;
+    private $mandate;
 
-    /**
-     * @var string
-     */
-    private $secret;
-
-    /**
-     * @var array
-     */
-    private $specificProperties = [];
-
-    /**
-     * PaymentMethodConfig constructor.
-     * @param string $paymentMethodName
-     * @param string $merchantAccountId
-     * @param string $secret
-     */
-    public function __construct($paymentMethodName, $merchantAccountId, $secret)
+    public function setUp()
     {
-        $this->paymentMethodName = $paymentMethodName;
-        $this->merchantAccountId = $merchantAccountId;
-        $this->secret = $secret;
+        $this->mandate = new Mandate(self::ID);
     }
 
-    /**
-     * @return string
-     */
-    public function getPaymentMethodName()
+    public function testMappedProperties()
     {
-        return $this->paymentMethodName;
-    }
+        $today = gmdate('Y-m-d');
+        $expectedResult = [
+            'mandate-id' => self::ID,
+            'signed-date' => $today
+        ];
 
-    /**
-     * @return string
-     */
-    public function getMerchantAccountId()
-    {
-        return $this->merchantAccountId;
-    }
+        $result = $this->mandate->mappedProperties();
 
-    /**
-     * @return string
-     */
-    public function getSecret()
-    {
-        return $this->secret;
-    }
-
-    /**
-     * @param string $key
-     * @param string $value
-     */
-    public function addSpecificProperty($key, $value)
-    {
-        $this->specificProperties[$key] = $value;
-    }
-
-    /**
-     * @return array
-     */
-    public function mappedProperties()
-    {
-        return $this->specificProperties;
+        $this->assertEquals($expectedResult, $result);
     }
 }

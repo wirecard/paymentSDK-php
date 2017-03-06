@@ -67,6 +67,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
     {
         $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
         $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
+        $paymentMethodConfig->method('mappedProperties')->willReturn([]);
 
         $this->config = $this->createMock('\Wirecard\PaymentSdk\Config\Config');
         $this->config->method('getHttpUser')->willReturn('abc123');

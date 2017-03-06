@@ -1,16 +1,15 @@
 <?php
 
-// # SEPA amount reservation
-// The method `reserve` of the _transactionService_ provides the means
-// to reserve an amount (also known as authorization).
-
-// ## Required objects
+// # SEPA amount payment
+// The method `pay` of the _transactionService_ provides the means
+// to execute a payment with an amount (also known as debit).
 
 // To include the necessary files, use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
+use Wirecard\PaymentSdk\Entity\Mandate;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
@@ -29,6 +28,10 @@ $configCollection = new Config\PaymentMethodConfigCollection();
 $sepaMId = '4c901196-eff7-411e-82a3-5ef6b6860d64';
 $sepaKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
 $sepaDdConfig = new Config\PaymentMethodConfig(SepaTransaction::DIRECT_DEBIT, $sepaMId, $sepaKey);
+
+// In order to execute a pay transaction you also have to provide your creditor ID.
+// Please add it to the config as a specific property with the key 'creditor-id'.
+$sepaDdConfig->addSpecificProperty('creditor-id','DE98ZZZ09999999999');
 $configCollection->add($sepaDdConfig);
 
 // The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
@@ -51,13 +54,18 @@ if (null !== $_POST['bic']) {
     $transaction->setBic($_POST['bic']);
 }
 
+// The account holder (first name, last name) is required.
 $accountHolder = new AccountHolder('Doe');
 $accountHolder->setFirstName('Jane');
 $transaction->setAccountHolder($accountHolder);
 
-// The service is used to execute the reservation (authorization) operation itself. A response object is returned.
+// A mandate with ID and signed date is required.
+$mandate = new Mandate('12345678');
+$transaction->setMandate($mandate);
+
+// The service is used to execute the pay (pending-debit) operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
-$response = $transactionService->reserve($transaction);
+$response = $transactionService->pay($transaction);
 
 // ## Response handling
 

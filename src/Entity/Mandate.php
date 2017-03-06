@@ -25,87 +25,34 @@
  *
  * Customers are responsible for testing the plugin's functionality before starting productive
  * operation.
+ *
  * By installing the plugin into the shop system the customer agrees to these terms of use.
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Config;
+namespace Wirecard\PaymentSdk\Entity;
 
-use Wirecard\PaymentSdk\Entity\MappableEntity;
-
-class PaymentMethodConfig implements MappableEntity
+class Mandate implements MappableEntity
 {
     /**
      * @var string
      */
-    private $paymentMethodName;
+    private $id;
 
     /**
-     * @var string
+     * Mandate constructor.
+     * @param string $id
      */
-    private $merchantAccountId;
-
-    /**
-     * @var string
-     */
-    private $secret;
-
-    /**
-     * @var array
-     */
-    private $specificProperties = [];
-
-    /**
-     * PaymentMethodConfig constructor.
-     * @param string $paymentMethodName
-     * @param string $merchantAccountId
-     * @param string $secret
-     */
-    public function __construct($paymentMethodName, $merchantAccountId, $secret)
+    public function __construct($id)
     {
-        $this->paymentMethodName = $paymentMethodName;
-        $this->merchantAccountId = $merchantAccountId;
-        $this->secret = $secret;
+        $this->id = $id;
     }
 
-    /**
-     * @return string
-     */
-    public function getPaymentMethodName()
-    {
-        return $this->paymentMethodName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMerchantAccountId()
-    {
-        return $this->merchantAccountId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSecret()
-    {
-        return $this->secret;
-    }
-
-    /**
-     * @param string $key
-     * @param string $value
-     */
-    public function addSpecificProperty($key, $value)
-    {
-        $this->specificProperties[$key] = $value;
-    }
-
-    /**
-     * @return array
-     */
     public function mappedProperties()
     {
-        return $this->specificProperties;
+        return [
+            'mandate-id' => $this->id,
+            'signed-date' => gmdate('Y-m-d')
+        ];
     }
 }
