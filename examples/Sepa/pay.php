@@ -48,10 +48,17 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, $configCollection, '
 // Create a `SepaTransaction` object, which contains all relevant data for the payment process.
 $transaction = new SepaTransaction();
 $transaction->setAmount($amount);
-$transaction->setIban($_POST['iban']);
 
-if (null !== $_POST['bic']) {
-    $transaction->setBic($_POST['bic']);
+if (array_key_exists('iban', $_POST)) {
+    $transaction->setIban($_POST['iban']);
+
+    if (null !== $_POST['bic']) {
+        $transaction->setBic($_POST['bic']);
+    }
+}
+
+if (array_key_exists('parentTransactionId', $_POST)) {
+    $transaction->setParentTransactionId($_POST['parentTransactionId']);
 }
 
 // The account holder (first name, last name) is required.
@@ -78,6 +85,10 @@ if ($response instanceof SuccessResponse) {
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <input type="submit" value="cancel the payment">
+    </form>
+    <form action="pay.php" method="post">
+        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+        <input type="submit" value="Execute on a new payment based on this">
     </form>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
