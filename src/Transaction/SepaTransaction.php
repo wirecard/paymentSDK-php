@@ -79,6 +79,22 @@ class SepaTransaction extends Transaction
         $this->mandate = $mandate;
     }
 
+    public function getConfigKey($operation = null, $parentTransactionType = null)
+    {
+        return $this->retrievePaymentMethodName($operation, $parentTransactionType);
+    }
+
+    public function retrievePaymentMethodName($operation = null, $parentTransactionType = null)
+    {
+        if (Operation::CREDIT === $operation || Operation::CREDIT == $parentTransactionType ||
+            parent::TYPE_PENDING_CREDIT === $operation || parent::TYPE_PENDING_CREDIT == $parentTransactionType
+        ) {
+            return self::CREDIT_TRANSFER;
+        }
+
+        return self::DIRECT_DEBIT;
+    }
+
     /**
      * @param string $operation
      * @param string $parentTransactionType
@@ -104,21 +120,6 @@ class SepaTransaction extends Transaction
         }
 
         return $result;
-    }
-
-    public function getConfigKey($operation = null, $parentTransactionType = null)
-    {
-        return $this->retrievePaymentMethodName($operation, $parentTransactionType);
-    }
-
-    public function retrievePaymentMethodName($operation = null, $parentTransactionType = null)
-    {
-        if (Operation::CREDIT === $operation || Operation::CREDIT == $parentTransactionType ||
-            parent::TYPE_PENDING_CREDIT === $operation || parent::TYPE_PENDING_CREDIT == $parentTransactionType) {
-            return self::CREDIT_TRANSFER;
-        }
-
-        return self::DIRECT_DEBIT;
     }
 
     private function retrieveTransactionType($operation, $parentTransactionType)

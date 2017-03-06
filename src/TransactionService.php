@@ -115,6 +115,135 @@ class TransactionService
     }
 
     /**
+     * @param string $xmlResponse
+     * @return FailureResponse|InteractionResponse|SuccessResponse|Response
+     * @throws \Wirecard\PaymentSdk\Exception\MalformedResponseException
+     */
+    public function handleNotification($xmlResponse)
+    {
+        return $this->getResponseMapper()->map($xmlResponse);
+    }
+
+    /**
+     * @return ResponseMapper
+     */
+    protected function getResponseMapper()
+    {
+        if ($this->responseMapper === null) {
+            $this->responseMapper = new ResponseMapper();
+        }
+
+        return $this->responseMapper;
+    }
+
+    /**
+     * @param array $payload
+     * @return FailureResponse|InteractionResponse|SuccessResponse|Response
+     * @throws MalformedResponseException
+     */
+    public function handleResponse(array $payload)
+    {
+        if (array_key_exists('MD', $payload) && array_key_exists('PaRes', $payload)) {
+            return $this->processAuthFrom3DResponse($payload);
+        }
+
+        if (array_key_exists('eppresponse', $payload)) {
+            return $this->getResponseMapper()->map($payload['eppresponse']);
+        } else {
+            throw new MalformedResponseException('Missing response in payload');
+        }
+    }
+
+    /**
+     * @param array $payload
+     * @return FailureResponse|InteractionResponse|Response|SuccessResponse
+     */
+    private function processAuthFrom3DResponse($payload)
+    {
+        $md = json_decode(base64_decode($payload['MD']), true);
+
+        $transaction = new ThreeDCreditCardTransaction();
+        $transaction->setParentTransactionId($md['enrollment-check-transaction-id']);
+        $transaction->setPaRes($payload['PaRes']);
+
+        return $this->process($transaction, $md['operation-type']);
+    }
+
+    /**
+     * @param Transaction $transaction
+     * @param string $operation
+     * @return FailureResponse|InteractionResponse|Response|SuccessResponse
+     */
+    public function process(Transaction $transaction, $operation)
+    {
+        $parentTransactionType = null;
+
+        if (null !== $transaction->getParentTransactionId()) {
+            $parentTransaction = $this->getTransactionByTransactionId(
+                $transaction->getParentTransactionId(),
+                $transaction->getConfigKey($operation)
+            );
+
+            if (null !== $parentTransaction && array_key_exists(Transaction::PARAM_PAYMENT, $parentTransaction)
+                && array_key_exists('transaction-type', $parentTransaction[Transaction::PARAM_PAYMENT])
+            ) {
+                $parentTransactionType = $parentTransaction[Transaction::PARAM_PAYMENT]
+                [Transaction::PARAM_TRANSACTION_TYPE];
+            }
+        }
+
+        $requestBody = $this->getRequestMapper()->map($transaction, $operation, $parentTransactionType);
+
+        $response = $this->getHttpClient()->request(
+            'POST',
+            $this->getConfig()->getBaseUrl() . $transaction::ENDPOINT,
+            [
+                'auth' => [
+                    $this->getConfig()->getHttpUser(),
+                    $this->getConfig()->getHttpPassword()
+                ],
+                'headers' => [
+                    'Content-Type' => self::APPLICATION_JSON,
+                    'Accept' => 'application/xml'
+                ],
+                'body' => $requestBody
+            ]
+        );
+
+        $data = $transaction instanceof ThreeDCreditCardTransaction ? $transaction : null;
+        return $this->getResponseMapper()->map($response->getBody()->getContents(), $operation, $data);
+    }
+
+    /**
+     * @param $transactionId
+     * @param $paymentMethod
+     * @return null|array
+     */
+    private function getTransactionByTransactionId($transactionId, $paymentMethod)
+    {
+        $response = $this->getHttpClient()->request(
+            'GET',
+            $this->getConfig()->getBaseUrl() .
+            '/engine/rest/merchants/' .
+            $this->getConfig()->get($paymentMethod)->getMerchantAccountId() .
+            '/payments/' .
+            $transactionId,
+            [
+                'auth' => [
+                    $this->getConfig()->getHttpUser(),
+                    $this->getConfig()->getHttpPassword()
+                ],
+                'headers' => [
+                    'Content-Type' => self::APPLICATION_JSON,
+                    'Accept' => self::APPLICATION_JSON
+                ]
+            ]
+        );
+
+        return json_decode($response->getBody()->getContents(), true);
+    }
+
+    /**
      * @return Client
      */
     protected function getHttpClient()
@@ -158,46 +287,6 @@ class TransactionService
         }
 
         return $this->requestIdGenerator;
-    }
-
-    /**
-     * @return ResponseMapper
-     */
-    protected function getResponseMapper()
-    {
-        if ($this->responseMapper === null) {
-            $this->responseMapper = new ResponseMapper();
-        }
-
-        return $this->responseMapper;
-    }
-
-    /**
-     * @param string $xmlResponse
-     * @return FailureResponse|InteractionResponse|SuccessResponse|Response
-     * @throws \Wirecard\PaymentSdk\Exception\MalformedResponseException
-     */
-    public function handleNotification($xmlResponse)
-    {
-        return $this->getResponseMapper()->map($xmlResponse);
-    }
-
-    /**
-     * @param array $payload
-     * @return FailureResponse|InteractionResponse|SuccessResponse|Response
-     * @throws MalformedResponseException
-     */
-    public function handleResponse(array $payload)
-    {
-        if (array_key_exists('MD', $payload) && array_key_exists('PaRes', $payload)) {
-            return $this->processAuthFrom3DResponse($payload);
-        }
-
-        if (array_key_exists('eppresponse', $payload)) {
-            return $this->getResponseMapper()->map($payload['eppresponse']);
-        } else {
-            throw new MalformedResponseException('Missing response in payload');
-        }
     }
 
     /**
@@ -278,94 +367,5 @@ class TransactionService
         }
 
         return $this->logger;
-    }
-
-    /**
-     * @param Transaction $transaction
-     * @param string $operation
-     * @return FailureResponse|InteractionResponse|Response|SuccessResponse
-     */
-    public function process(Transaction $transaction, $operation)
-    {
-        $parentTransactionType = null;
-
-        if (null !== $transaction->getParentTransactionId()) {
-            $parentTransaction = $this->getTransactionByTransactionId(
-                $transaction->getParentTransactionId(),
-                $transaction->getConfigKey($operation)
-            );
-
-            if (null !== $parentTransaction && array_key_exists(Transaction::PARAM_PAYMENT, $parentTransaction)
-                && array_key_exists('transaction-type', $parentTransaction[Transaction::PARAM_PAYMENT])
-            ) {
-                $parentTransactionType = $parentTransaction[Transaction::PARAM_PAYMENT]
-                    [Transaction::PARAM_TRANSACTION_TYPE];
-            }
-        }
-
-        $requestBody = $this->getRequestMapper()->map($transaction, $operation, $parentTransactionType);
-
-        $response = $this->getHttpClient()->request(
-            'POST',
-            $this->getConfig()->getBaseUrl() . $transaction::ENDPOINT,
-            [
-                'auth' => [
-                    $this->getConfig()->getHttpUser(),
-                    $this->getConfig()->getHttpPassword()
-                ],
-                'headers' => [
-                    'Content-Type' => self::APPLICATION_JSON,
-                    'Accept' => 'application/xml'
-                ],
-                'body' => $requestBody
-            ]
-        );
-
-        $data = $transaction instanceof ThreeDCreditCardTransaction ? $transaction : null;
-        return $this->getResponseMapper()->map($response->getBody()->getContents(), $operation, $data);
-    }
-
-    /**
-     * @param $transactionId
-     * @param $paymentMethod
-     * @return null|array
-     */
-    private function getTransactionByTransactionId($transactionId, $paymentMethod)
-    {
-        $response = $this->getHttpClient()->request(
-            'GET',
-            $this->getConfig()->getBaseUrl() .
-            '/engine/rest/merchants/' .
-            $this->getConfig()->get($paymentMethod)->getMerchantAccountId() .
-            '/payments/' .
-            $transactionId,
-            [
-                'auth' => [
-                    $this->getConfig()->getHttpUser(),
-                    $this->getConfig()->getHttpPassword()
-                ],
-                'headers' => [
-                    'Content-Type' => self::APPLICATION_JSON,
-                    'Accept' => self::APPLICATION_JSON
-                ]
-            ]
-        );
-
-        return json_decode($response->getBody()->getContents(), true);
-    }
-
-    /**
-     * @param array $payload
-     * @return FailureResponse|InteractionResponse|Response|SuccessResponse
-     */
-    private function processAuthFrom3DResponse($payload)
-    {
-        $md = json_decode(base64_decode($payload['MD']), true);
-
-        $transaction = new ThreeDCreditCardTransaction();
-        $transaction->setParentTransactionId($md['enrollment-check-transaction-id']);
-        $transaction->setPaRes($payload['PaRes']);
-
-        return $this->process($transaction, $md['operation-type']);
     }
 }

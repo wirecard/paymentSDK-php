@@ -139,6 +139,91 @@ class ResponseMapper
     }
 
     /**
+     * @param $xmlResponse
+     * @param $response
+     * @param $statusCollection
+     * @param string $operation
+     * @param ThreeDCreditCardTransaction $transaction
+     * @return FormInteractionResponse|InteractionResponse|SuccessResponse
+     * @throws MalformedResponseException
+     */
+    private function mapSuccessResponse(
+        $xmlResponse,
+        $response,
+        $statusCollection,
+        $operation,
+        ThreeDCreditCardTransaction $transaction = null
+    )
+    {
+        if ((string)$response->{'transaction-type'} === ThreeDCreditCardTransaction::TYPE_CHECK_ENROLLMENT) {
+            return $this->mapThreeDResponse($xmlResponse, $response, $statusCollection, $operation, $transaction);
+        }
+
+        $transactionId = $this->getTransactionId($response);
+
+        $paymentMethod = $this->getPaymentMethod($response);
+        $redirectUrl = $this->getRedirectUrl($paymentMethod);
+        if ($redirectUrl !== null) {
+            return new InteractionResponse($xmlResponse, $statusCollection, $transactionId, $redirectUrl);
+        } else {
+            $providerTransactionId = $this->getProviderTransactionId($response);
+            return new SuccessResponse(
+                $xmlResponse,
+                $statusCollection,
+                $transactionId,
+                $providerTransactionId
+            );
+        }
+    }
+
+    /**
+     * @param $payload
+     * @param $response
+     * @param $status
+     * @param $operation
+     * @param ThreeDCreditCardTransaction $transaction
+     * @throws MalformedResponseException
+     * @return FormInteractionResponse
+     */
+    private function mapThreeDResponse(
+        $payload,
+        $response,
+        $status,
+        $operation,
+        ThreeDCreditCardTransaction $transaction
+    )
+    {
+        if (!isset($response->{'three-d'})) {
+            throw new MalformedResponseException('Missing three-d element in enrollment-check response.');
+        } else {
+            $threeD = $response->{'three-d'};
+        }
+        if (!isset($threeD->{'acs-url'})) {
+            throw new MalformedResponseException('Missing acs redirect url in enrollment-check response.');
+        } else {
+            $redirectUrl = (string)$threeD->{'acs-url'};
+        }
+        $fields = new FormFieldMap();
+        $fields->add('TermUrl', $transaction->getTermUrl());
+        if (!isset($threeD->{'pareq'})) {
+            throw new MalformedResponseException('Missing pareq in enrollment-check response.');
+        } else {
+            $fields->add('PaReq', (string)$threeD->{'pareq'});
+        }
+
+        $fields->add(
+            'MD',
+            base64_encode(json_encode([
+                'enrollment-check-transaction-id' => (string)$this->getTransactionId($response),
+                'operation-type' => ($operation === Operation::RESERVE)
+                    ? Transaction::TYPE_AUTHORIZATION : CreditCardTransaction::TYPE_PURCHASE
+            ]))
+        );
+
+        return new FormInteractionResponse($payload, $status, $redirectUrl, $fields);
+    }
+
+    /**
      * @param \SimpleXMLElement $response
      * @return string
      * @throws MalformedResponseException
@@ -149,20 +234,6 @@ class ResponseMapper
             return (string)$response->{'transaction-id'};
         } else {
             throw new MalformedResponseException('Missing transaction-id in response');
-        }
-    }
-
-    /**
-     * @param \SimpleXMLElement $response
-     * @return string
-     * @throws MalformedResponseException
-     */
-    private function getRequestId(\SimpleXMLElement $response)
-    {
-        if (isset($response->{'request-id'})) {
-            return (string)$response->{'request-id'};
-        } else {
-            throw new MalformedResponseException('Missing request-id in response.');
         }
     }
 
@@ -231,85 +302,16 @@ class ResponseMapper
     }
 
     /**
-     * @param $payload
-     * @param $response
-     * @param $status
-     * @param $operation
-     * @param ThreeDCreditCardTransaction $transaction
-     * @throws MalformedResponseException
-     * @return FormInteractionResponse
-     */
-    private function mapThreeDResponse(
-        $payload,
-        $response,
-        $status,
-        $operation,
-        ThreeDCreditCardTransaction $transaction
-    ) {
-        if (!isset($response->{'three-d'})) {
-            throw new MalformedResponseException('Missing three-d element in enrollment-check response.');
-        } else {
-            $threeD = $response->{'three-d'};
-        }
-        if (!isset($threeD->{'acs-url'})) {
-            throw new MalformedResponseException('Missing acs redirect url in enrollment-check response.');
-        } else {
-            $redirectUrl = (string)$threeD->{'acs-url'};
-        }
-        $fields = new FormFieldMap();
-        $fields->add('TermUrl', $transaction->getTermUrl());
-        if (!isset($threeD->{'pareq'})) {
-            throw new MalformedResponseException('Missing pareq in enrollment-check response.');
-        } else {
-            $fields->add('PaReq', (string)$threeD->{'pareq'});
-        }
-
-        $fields->add(
-            'MD',
-            base64_encode(json_encode([
-                'enrollment-check-transaction-id' => (string)$this->getTransactionId($response),
-                'operation-type' => ($operation === Operation::RESERVE)
-                    ? Transaction::TYPE_AUTHORIZATION : CreditCardTransaction::TYPE_PURCHASE
-            ]))
-        );
-
-        return new FormInteractionResponse($payload, $status, $redirectUrl, $fields);
-    }
-
-    /**
-     * @param $xmlResponse
-     * @param $response
-     * @param $statusCollection
-     * @param string $operation
-     * @param ThreeDCreditCardTransaction $transaction
-     * @return FormInteractionResponse|InteractionResponse|SuccessResponse
+     * @param \SimpleXMLElement $response
+     * @return string
      * @throws MalformedResponseException
      */
-    private function mapSuccessResponse(
-        $xmlResponse,
-        $response,
-        $statusCollection,
-        $operation,
-        ThreeDCreditCardTransaction $transaction = null
-    ) {
-        if ((string)$response->{'transaction-type'} === ThreeDCreditCardTransaction::TYPE_CHECK_ENROLLMENT) {
-            return $this->mapThreeDResponse($xmlResponse, $response, $statusCollection, $operation, $transaction);
-        }
-
-        $transactionId = $this->getTransactionId($response);
-
-        $paymentMethod = $this->getPaymentMethod($response);
-        $redirectUrl = $this->getRedirectUrl($paymentMethod);
-        if ($redirectUrl !== null) {
-            return new InteractionResponse($xmlResponse, $statusCollection, $transactionId, $redirectUrl);
+    private function getRequestId(\SimpleXMLElement $response)
+    {
+        if (isset($response->{'request-id'})) {
+            return (string)$response->{'request-id'};
         } else {
-            $providerTransactionId = $this->getProviderTransactionId($response);
-            return new SuccessResponse(
-                $xmlResponse,
-                $statusCollection,
-                $transactionId,
-                $providerTransactionId
-            );
+            throw new MalformedResponseException('Missing request-id in response.');
         }
     }
 }
