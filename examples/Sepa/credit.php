@@ -41,10 +41,17 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, $configCollection, '
 // Create a `SepaTransaction` object, which contains all relevant data for the credit process.
 $transaction = new SepaTransaction();
 $transaction->setAmount($amount);
-$transaction->setIban($_POST['iban']);
 
-if (null !== $_POST['bic']) {
-    $transaction->setBic($_POST['bic']);
+if (array_key_exists('iban', $_POST)) {
+    $transaction->setIban($_POST['iban']);
+
+    if (null !== $_POST['bic']) {
+        $transaction->setBic($_POST['bic']);
+    }
+}
+
+if (array_key_exists('parentTransactionId', $_POST)) {
+    $transaction->setParentTransactionId($_POST['parentTransactionId']);
 }
 
 // The account holder (first name, last name) is required.
@@ -66,7 +73,14 @@ $response = $transactionService->credit($transaction);
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo sprintf('Credit with id %s successfully completed.<br>', $response->getTransactionId());
+    ?>
+    <br>
+    <form action="credit.php" method="post">
+        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+        <input type="submit" value="Execute on a new credit based on this">
+    </form>
 
+<?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
     // In our example we iterate over all errors and display them in a raw state.
