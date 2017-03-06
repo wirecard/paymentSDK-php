@@ -40,11 +40,6 @@ class Mandate implements MappableEntity
     private $id;
 
     /**
-     * @var \DateTime
-     */
-    private $signedDate;
-
-    /**
      * Mandate constructor.
      * @param string $id
      */
@@ -53,24 +48,11 @@ class Mandate implements MappableEntity
         $this->id = $id;
     }
 
-    /**
-     * @param \DateTime $signedDate
-     */
-    public function setSignedDate($signedDate)
-    {
-        $this->signedDate = $signedDate;
-    }
-
     public function mappedProperties()
     {
-        $result = [
-            'mandate-id' => $this->id
+        return [
+            'mandate-id' => $this->id,
+            'signed-date' => gmdate('Y-m-d')
         ];
-
-        if (null !== $this->signedDate) {
-            $result['signed-date'] = date('Y-m-d', $this->signedDate);
-        }
-
-        return $result;
     }
 }

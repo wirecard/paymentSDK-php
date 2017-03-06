@@ -48,26 +48,12 @@ class MandateUTest extends \PHPUnit_Framework_TestCase
         $this->mandate = new Mandate(self::ID);
     }
 
-    public function testMappedPropertiesWithoutSignedDate()
+    public function testMappedProperties()
     {
-        $expectedResult = [
-            'mandate-id' => self::ID
-        ];
-
-        $result = $this->mandate->mappedProperties();
-
-        $this->assertEquals($expectedResult, $result);
-    }
-
-    public function testMappedPropertiesWithSignedDate()
-    {
-        $dateAsStr = '2017-03-24';
-        $signedDate = strtotime($dateAsStr);
-        $this->mandate->setSignedDate($signedDate);
-
+        $today = gmdate('Y-m-d');
         $expectedResult = [
             'mandate-id' => self::ID,
-            'signed-date' => $dateAsStr
+            'signed-date' => $today
         ];
 
         $result = $this->mandate->mappedProperties();

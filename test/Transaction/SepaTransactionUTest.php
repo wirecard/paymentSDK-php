@@ -44,7 +44,6 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
     const LAST_NAME = 'Doe';
     const FIRST_NAME = 'Jane';
     const MANDATE_ID = '2345';
-    const MANDATE_SIGNED_DATE = '2017-05-05';
 
     /**
      * @var SepaTransaction
@@ -132,7 +131,6 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx->setAccountHolder($this->accountHolder);
 
         $mandate = new Mandate(self::MANDATE_ID);
-        $mandate->setSignedDate(strtotime(self::MANDATE_SIGNED_DATE));
         $this->tx->setMandate($mandate);
 
         $expectedResult = $this->getExpectedResultPayIbanOnly();
@@ -169,7 +167,7 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
             ],
             'mandate' => [
                 'mandate-id' => self::MANDATE_ID,
-                'signed-date' => self::MANDATE_SIGNED_DATE
+                'signed-date' => $this->today()
             ]
         ];
     }
@@ -231,5 +229,13 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
             ],
             'parent-transaction-id' => $parentTransactionId
         ];
+    }
+
+    /**
+     * @return false|string
+     */
+    private function today()
+    {
+        return gmdate('Y-m-d');
     }
 }
