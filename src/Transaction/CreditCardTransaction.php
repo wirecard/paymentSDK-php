@@ -63,12 +63,12 @@ class CreditCardTransaction extends Transaction
     }
 
     /**
-     * @param string|null $operation
-     * @param string|null $parentTransactionType
+     * @param string $operation
+     * @param string $parentTransactionType
      * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return array
      */
-    public function mappedProperties($operation = null, $parentTransactionType = null)
+    protected function mappedSpecificProperties($operation, $parentTransactionType)
     {
         if ($this->tokenId === null && ($this->parentTransactionId === null && get_class($this) === self::class)) {
             throw new MandatoryFieldMissingException(
@@ -76,7 +76,6 @@ class CreditCardTransaction extends Transaction
             );
         }
 
-        $result = parent::mappedProperties($operation, $parentTransactionType);
         $result[self::PARAM_TRANSACTION_TYPE] = $this->retrieveTransactionType($operation, $parentTransactionType);
 
         if (null !== $this->tokenId) {
