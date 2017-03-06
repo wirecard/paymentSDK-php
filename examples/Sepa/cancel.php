@@ -20,12 +20,17 @@ use Wirecard\PaymentSdk\TransactionService;
 // Since payment method may have a different merchant ID, a config collection is created.
 $configCollection = new Config\PaymentMethodConfigCollection();
 
-// Create and add a configuration object with the settings for SEPA.
+// Create and add a configuration object with the settings for SEPA direct debit.
 $sepaMId = '4c901196-eff7-411e-82a3-5ef6b6860d64';
 $sepaKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
 $sepaDdConfig = new Config\PaymentMethodConfig(SepaTransaction::DIRECT_DEBIT, $sepaMId, $sepaKey);
-
 $configCollection->add($sepaDdConfig);
+
+// Create and add a configuration object with the settings for SEPA credit transfer.
+$sepaMId = '4c901196-eff7-411e-82a3-5ef6b6860d64';
+$sepaKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
+$sepaCtConfig = new Config\PaymentMethodConfig(SepaTransaction::CREDIT_TRANSFER, $sepaMId, $sepaKey);
+$configCollection->add($sepaCtConfig);
 
 // The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
 $baseUrl = 'https://api-test.wirecard.com';
