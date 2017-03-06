@@ -124,6 +124,9 @@ class SepaTransaction extends Transaction
     private function retrieveTransactionType($operation, $parentTransactionType)
     {
         if (Operation::CANCEL === $operation) {
+            if (!in_array($parentTransactionType, ['pending-debit', 'pending-credit'])) {
+                throw new UnsupportedOperationException();
+            }
             return 'void-' . $parentTransactionType;
         }
 

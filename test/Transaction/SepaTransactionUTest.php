@@ -194,6 +194,14 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx->mappedProperties('non_existing_operation');
     }
 
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
+     */
+    public function testMappedPropertiesUnsupportedCancelOperation()
+    {
+        $this->tx->mappedProperties(Operation::CANCEL, 'authorization');
+    }
+
     public function testRetrievePaymentMethodNamePay()
     {
         $this->assertEquals(SepaTransaction::DIRECT_DEBIT, $this->tx->retrievePaymentMethodName(Operation::PAY));
