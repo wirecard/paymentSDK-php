@@ -155,8 +155,6 @@ abstract class Transaction
     }
 
     /**
-     * @param string $operation
-     * @param string|null $parentTransactionType
      * @return array
      *
      * A template method for the mapping of the transaction properties:
@@ -200,7 +198,6 @@ abstract class Transaction
     }
 
     /**
-     * @param string $operation
      * @return array
      */
     abstract protected function mappedSpecificProperties();

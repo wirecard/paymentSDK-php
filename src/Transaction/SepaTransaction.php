@@ -104,11 +104,17 @@ class SepaTransaction extends Transaction
         return $result;
     }
 
+    /**
+     * @return string
+     */
     public function getConfigKey()
     {
         return $this->retrievePaymentMethodName();
     }
 
+    /**
+     * @return string
+     */
     public function retrievePaymentMethodName()
     {
         if (Operation::CREDIT === $this->operation || parent::TYPE_CREDIT == $this->parentTransactionType ||
@@ -119,6 +125,10 @@ class SepaTransaction extends Transaction
         return self::DIRECT_DEBIT;
     }
 
+
+    /**
+     * @return mixed|string
+     */
     private function retrieveTransactionType()
     {
         if (Operation::CANCEL === $this->operation) {
