@@ -80,13 +80,12 @@ class SepaTransaction extends Transaction
     }
 
     /**
-     * @param string $operation
      * @return array
      */
-    protected function mappedSpecificProperties($operation)
+    protected function mappedSpecificProperties()
     {
         $result = [
-            self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType($operation)
+            self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType()
         ];
 
         if (null !== $this->iban) {
@@ -105,14 +104,14 @@ class SepaTransaction extends Transaction
         return $result;
     }
 
-    public function getConfigKey($operation = null)
+    public function getConfigKey()
     {
-        return $this->retrievePaymentMethodName($operation);
+        return $this->retrievePaymentMethodName();
     }
 
-    public function retrievePaymentMethodName($operation = null)
+    public function retrievePaymentMethodName()
     {
-        if (Operation::CREDIT === $operation || parent::TYPE_CREDIT == $this->parentTransactionType ||
+        if (Operation::CREDIT === $this->operation || parent::TYPE_CREDIT == $this->parentTransactionType ||
             parent::TYPE_PENDING_CREDIT == $this->parentTransactionType) {
             return self::CREDIT_TRANSFER;
         }
@@ -120,9 +119,9 @@ class SepaTransaction extends Transaction
         return self::DIRECT_DEBIT;
     }
 
-    private function retrieveTransactionType($operation)
+    private function retrieveTransactionType()
     {
-        if (Operation::CANCEL === $operation) {
+        if (Operation::CANCEL === $this->operation) {
             if (!in_array($this->parentTransactionType, [parent::TYPE_PENDING_DEBIT, parent::TYPE_PENDING_CREDIT])) {
                 throw new UnsupportedOperationException();
             }
@@ -135,10 +134,10 @@ class SepaTransaction extends Transaction
             Operation::CREDIT => parent::TYPE_PENDING_CREDIT
         ];
 
-        if (!array_key_exists($operation, $txTypeMapping)) {
+        if (!array_key_exists($this->operation, $txTypeMapping)) {
             throw new UnsupportedOperationException();
         }
 
-        return $txTypeMapping[$operation];
+        return $txTypeMapping[$this->operation];
     }
 }

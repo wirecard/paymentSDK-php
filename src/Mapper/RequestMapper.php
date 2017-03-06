@@ -64,23 +64,22 @@ class RequestMapper
 
     /**
      * @param Transaction $transaction
-     * @param string $operation
      * @return string The transaction in JSON format.
      */
-    public function map(Transaction $transaction, $operation)
+    public function map(Transaction $transaction)
     {
         $requestId = call_user_func($this->requestIdGenerator);
         $commonProperties = [
             'request-id' => $requestId
         ];
 
-        $configKey = $transaction->getConfigKey($operation);
+        $configKey = $transaction->getConfigKey();
         $paymentMethodConfig = $this->config->get($configKey);
         $paymentMethodConfigProperties = $paymentMethodConfig->mappedProperties();
 
         $allProperties = array_merge(
             $commonProperties,
-            $transaction->mappedProperties($operation),
+            $transaction->mappedProperties(),
             $paymentMethodConfigProperties
         );
 

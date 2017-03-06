@@ -91,13 +91,12 @@ class ThreeDCreditCardTransaction extends CreditCardTransaction
     }
 
     /**
-     * @param string $operation
      * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return array
      */
-    protected function mappedSpecificProperties($operation)
+    protected function mappedSpecificProperties()
     {
-        $result = parent::mappedSpecificProperties($operation);
+        $result = parent::mappedSpecificProperties();
 
         if (null !== $this->paRes) {
             $result['three-d'] = [
@@ -109,17 +108,16 @@ class ThreeDCreditCardTransaction extends CreditCardTransaction
     }
 
     /**
-     * @param string|null $operation
      * @throws UnsupportedOperationException|MandatoryFieldMissingException
      * @return string
      */
-    protected function retrieveTransactionType($operation)
+    protected function retrieveTransactionType()
     {
         if (null !== $this->paRes) {
-            return $operation;
+            return $this->operation;
         }
 
-        switch ($operation) {
+        switch ($this->operation) {
             case Operation::RESERVE:
                 $transactionType = $this->retrieveTransactionTypeForReserve();
                 break;

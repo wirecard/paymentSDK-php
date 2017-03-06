@@ -63,11 +63,10 @@ class CreditCardTransaction extends Transaction
     }
 
     /**
-     * @param string $operation
      * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return array
      */
-    protected function mappedSpecificProperties($operation)
+    protected function mappedSpecificProperties()
     {
         if ($this->tokenId === null && ($this->parentTransactionId === null && get_class($this) === self::class)) {
             throw new MandatoryFieldMissingException(
@@ -75,7 +74,7 @@ class CreditCardTransaction extends Transaction
             );
         }
 
-        $result[self::PARAM_TRANSACTION_TYPE] = $this->retrieveTransactionType($operation);
+        $result[self::PARAM_TRANSACTION_TYPE] = $this->retrieveTransactionType();
 
         if (null !== $this->tokenId) {
             $result['card-token'] = [
@@ -87,13 +86,12 @@ class CreditCardTransaction extends Transaction
     }
 
     /**
-     * @param string|null $operation
      * @throws UnsupportedOperationException|MandatoryFieldMissingException
      * @return string
      */
-    protected function retrieveTransactionType($operation)
+    protected function retrieveTransactionType()
     {
-        switch ($operation) {
+        switch ($this->operation) {
             case Operation::RESERVE:
                 $transactionType = $this->retrieveTransactionTypeForReserve();
                 break;

@@ -287,10 +287,12 @@ class TransactionService
      */
     public function process(Transaction $transaction, $operation)
     {
+        $transaction->setOperation($operation);
+
         if (null !== $transaction->getParentTransactionId()) {
             $parentTransaction = $this->getTransactionByTransactionId(
                 $transaction->getParentTransactionId(),
-                $transaction->getConfigKey($operation)
+                $transaction->getConfigKey()
             );
 
             if (null !== $parentTransaction && array_key_exists(Transaction::PARAM_PAYMENT, $parentTransaction)
@@ -301,7 +303,7 @@ class TransactionService
             }
         }
 
-        $requestBody = $this->getRequestMapper()->map($transaction, $operation);
+        $requestBody = $this->getRequestMapper()->map($transaction);
 
         $response = $this->getHttpClient()->request(
             'POST',

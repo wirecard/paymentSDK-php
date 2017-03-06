@@ -84,6 +84,11 @@ abstract class Transaction
      */
     protected $parentTransactionType;
 
+    /**
+     * @var string
+     */
+    protected $operation;
+
 
     /**
      * @param AccountHolder $accountHolder
@@ -143,6 +148,14 @@ abstract class Transaction
 
     /**
      * @param string $operation
+     */
+    public function setOperation($operation)
+    {
+        $this->operation = $operation;
+    }
+
+    /**
+     * @param string $operation
      * @param string|null $parentTransactionType
      * @return array
      *
@@ -150,10 +163,10 @@ abstract class Transaction
      *  - the common properties are mapped here,
      *  - an abstract operation is defined for the payment type specific properties.
      */
-    public function mappedProperties($operation)
+    public function mappedProperties()
     {
         $result = ['payment-methods' => ['payment-method' => [[
-            'name' => $this->retrievePaymentMethodName($operation)
+            'name' => $this->retrievePaymentMethodName()
         ]]]];
 
         if ($this->amount) {
@@ -183,20 +196,20 @@ abstract class Transaction
             $result['consumer-id'] = $this->consumerId;
         }
 
-        return array_merge($result, $this->mappedSpecificProperties($operation));
+        return array_merge($result, $this->mappedSpecificProperties());
     }
 
     /**
      * @param string $operation
      * @return array
      */
-    abstract protected function mappedSpecificProperties($operation);
+    abstract protected function mappedSpecificProperties();
 
     /**
      * @param string|null
      * @return string
      */
-    public function getConfigKey($operation = null)
+    public function getConfigKey()
     {
         return get_class($this);
     }
@@ -204,7 +217,7 @@ abstract class Transaction
     /**
      * @return string
      */
-    public function retrievePaymentMethodName($operation = null)
+    public function retrievePaymentMethodName()
     {
         return $this::NAME;
     }

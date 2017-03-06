@@ -57,32 +57,30 @@ class PayPalTransaction extends Transaction
     }
 
     /**
-     * @param string $operation
      * @return array
      */
-    protected function mappedSpecificProperties($operation)
+    protected function mappedSpecificProperties()
     {
         return [
-            self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType($operation),
+            self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType(),
             'cancel-redirect-url' => $this->redirect->getCancelUrl(),
             'success-redirect-url' => $this->redirect->getSuccessUrl()
         ];
     }
 
     /**
-     * @param string|null $operation
      * @return string
      */
-    private function retrieveTransactionType($operation)
+    private function retrieveTransactionType()
     {
         $transactionTypes = [
             Operation::PAY => 'debit'
         ];
 
-        if (!array_key_exists($operation, $transactionTypes)) {
+        if (!array_key_exists($this->operation, $transactionTypes)) {
             throw new UnsupportedOperationException();
         }
 
-        return $transactionTypes[$operation];
+        return $transactionTypes[$this->operation];
     }
 }
