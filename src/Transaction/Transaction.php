@@ -132,7 +132,7 @@ abstract class Transaction implements Mappable
      */
     public function mappedProperties($operation = null, $parentTransactionType = null)
     {
-        $result = ['payment-methods' => ['payment-method' => [['name' => $this::NAME]]]];
+        $result = ['payment-methods' => ['payment-method' => [['name' => $this->retrievePaymentMethodName()]]]];
 
         if ($this->amount) {
             $result['requested-amount'] = $this->amount->mappedProperties();
@@ -168,8 +168,16 @@ abstract class Transaction implements Mappable
      * @param string|null
      * @return string
      */
-    public function getConfigKey($operation = null)
+    public function getConfigKey($operation = null, $parentTransactionType = null)
     {
         return get_class($this);
+    }
+
+    /**
+     * @return string
+     */
+    public function retrievePaymentMethodName($operation = null, $parentTransactionType = null)
+    {
+        return $this::NAME;
     }
 }
