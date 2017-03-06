@@ -77,9 +77,8 @@ class RequestMapper
             'request-id' => $requestId
         ];
 
-        $paymentMethodConfig = $this->config->get(
-            $transaction->getConfigKey($operation, $parentTransactionType)
-        );
+        $configKey = $transaction->getConfigKey($operation, $parentTransactionType);
+        $paymentMethodConfig = $this->config->get($configKey);
         $paymentMethodConfigProperties = $paymentMethodConfig->mappedProperties();
 
         $allProperties = array_merge(
@@ -88,8 +87,7 @@ class RequestMapper
             $paymentMethodConfigProperties
         );
 
-        $allProperties['merchant-account-id']['value'] = $this->config->get($transaction->getConfigKey())
-            ->getMerchantAccountId();
+        $allProperties['merchant-account-id']['value'] = $this->config->get($configKey)->getMerchantAccountId();
 
         $result = [Transaction::PARAM_PAYMENT => $allProperties];
 
