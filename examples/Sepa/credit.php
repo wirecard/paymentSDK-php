@@ -26,10 +26,6 @@ $configCollection = new Config\PaymentMethodConfigCollection();
 $sepaMId = '4c901196-eff7-411e-82a3-5ef6b6860d64';
 $sepaKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
 $sepaCtConfig = new Config\PaymentMethodConfig(SepaTransaction::CREDIT_TRANSFER, $sepaMId, $sepaKey);
-
-// In order to execute a pay transaction you also have to provide your creditor ID.
-// Please add it to the config as a specific property with the key 'creditor-id'.
-$sepaCtConfig->addSpecificProperty('creditor-id','DE98ZZZ09999999999');
 $configCollection->add($sepaCtConfig);
 
 // The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
@@ -69,7 +65,7 @@ $response = $transactionService->credit($transaction);
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
-    echo sprintf('Payment with id %s successfully completed.<br>', $response->getTransactionId());
+    echo sprintf('Credit with id %s successfully completed.<br>', $response->getTransactionId());
 
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
