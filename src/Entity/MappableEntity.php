@@ -41,5 +41,8 @@ namespace Wirecard\PaymentSdk\Entity;
  */
 interface MappableEntity
 {
+    /**
+     * @return array
+     */
     public function mappedProperties();
 }
