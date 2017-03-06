@@ -38,7 +38,7 @@ $httpPass = 'qD2wzQ_hrc!8';
 // A default currency can also be provided.
 $config = new Config\Config($baseUrl, $httpUser, $httpPass, $configCollection, 'EUR');
 
-// The _TransactionService_ is used to generate the request data needed for the generation of the UI.
+// The _TransactionService_ is used to execute the cancel operation.
 $transactionService = new TransactionService($config);
 
 // ## Cancelling the transaction
