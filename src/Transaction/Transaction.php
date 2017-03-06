@@ -136,7 +136,9 @@ abstract class Transaction
      */
     public function mappedProperties($operation, $parentTransactionType = null)
     {
-        $result = ['payment-methods' => ['payment-method' => [['name' => $this->retrievePaymentMethodName()]]]];
+        $result = ['payment-methods' => ['payment-method' => [[
+            'name' => $this->retrievePaymentMethodName($operation, $parentTransactionType)
+        ]]]];
 
         if ($this->amount) {
             $result['requested-amount'] = $this->amount->mappedProperties();
