@@ -36,6 +36,7 @@ function getUrl($path)
 $amount = new Money(12.59, 'EUR');
 
 // Tokens from a successful _seamlessRenderForm_ callback can be used to execute reservations.
+// If no token ID is provided, a predefined ID is used.
 $tokenId = array_key_exists('tokenId', $_POST) ? $_POST['tokenId'] : '5168216323601006';
 
 // The redirect URL determines where the consumer should be redirected to
@@ -45,13 +46,12 @@ $redirectUrl = getUrl('return.php?status=success');
 
 // ### Config
 
-// Since payment method may have a different merchant ID, a config collection is created.
+// Since each payment method may have a different merchant ID, a config collection is created.
 $configCollection = new Config\PaymentMethodConfigCollection();
 
 // Create and add a configuration object with the settings for credit card.
 // For 3-D Secure transactions a different merchant account ID is required
 // than for the previously executed _seamlessRenderForm_.
-
 $ccard3dMId = '33f6d473-3036-4ca5-acb5-8c64dac862d1';
 $ccard3dKey = '9e0130f6-2e1e-4185-b0d5-dc69079c75cc';
 $ccard3dConfig = new Config\PaymentMethodConfig(ThreeDCreditCardTransaction::class, $ccard3dMId, $ccard3dKey);

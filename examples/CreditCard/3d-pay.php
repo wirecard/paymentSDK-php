@@ -1,7 +1,8 @@
 <?php
 
-// # Purchase for credit card with 3-D secure
-// To reserve and capture an amount for a credit card with 3-D secure, you need to use a different transaction object.
+// # 3-D Secure purchase for credit card
+// To reserve and capture an amount for a credit card with 3-D secure, you need to use a different transaction object
+// in contrast to a transaction with SSL only.
 
 // # Required objects
 
@@ -54,13 +55,11 @@ $redirectUrl = getUrl('return.php?status=success');
 
 // ### Config
 
-// Since payment method may have a different merchant ID, a config collection is created.
+// Since each payment method may have a different merchant ID, a config collection is created.
 $configCollection = new Config\PaymentMethodConfigCollection();
 
 // Create and add a configuration object with the settings for credit card.
-// For 3-D Secure transactions a different merchant account ID is required
-// than for the previously executed _seamlessRenderForm_.
-
+// For 3-D Secure transactions the corresponding merchant account ID is required.
 $ccard3dMId = '33f6d473-3036-4ca5-acb5-8c64dac862d1';
 $ccard3dKey = '9e0130f6-2e1e-4185-b0d5-dc69079c75cc';
 $ccard3dConfig = new Config\PaymentMethodConfig(ThreeDCreditCardTransaction::class, $ccard3dMId, $ccard3dKey);
@@ -83,7 +82,8 @@ $tx->setParentTransactionId($parentTransactionId);
 
 // ### Transaction
 
-// The service is used to execute the payment (authorization + capture) operation itself. A response object is returned.
+// The service is used to execute the payment (authorization + capture) operation itself.
+// A response object is returned.
 $transactionService = new TransactionService($config);
 $response = $transactionService->pay($tx);
 
@@ -98,7 +98,9 @@ if ($response instanceof FormInteractionResponse):
         <?php foreach ($response->getFormFields() as $key => $value): ?>
             <input type="hidden" name="<?= $key ?>" value="<?= $value ?>">
         <?php endforeach;
-        // For a better demonstration and for the ease of use the automatic submit was replaced with a submit button.
+        // Usually an automated transmission of the form would be made.
+        // For a better demonstration and for the ease of use this automated submit
+        // is replaced with a submit button.
         ?>
         <input type="submit" value="Redirect to 3-D Secure page"></form>
     <?php

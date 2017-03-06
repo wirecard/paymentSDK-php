@@ -11,7 +11,6 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Response\FailureResponse;
-use Wirecard\PaymentSdk\Response\PendingResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
@@ -24,14 +23,13 @@ use Wirecard\PaymentSdk\TransactionService;
 $configCollection = new Config\PaymentMethodConfigCollection();
 
 // Create and add a configuration object with the settings for credit card.
-// For 3-D Secure transactions a different merchant account ID is required
-// than for the previously executed _seamlessRenderForm_.
 
 $ccardMId = '9105bb4f-ae68-4768-9c3b-3eda968f57ea';
 $ccardKey = 'd1efed51-4cb9-46a5-ba7b-0fdc87a66544';
 $ccardConfig = new Config\PaymentMethodConfig(CreditCardTransaction::class, $ccardMId, $ccardKey);
 $configCollection->add($ccardConfig);
 
+// For 3-D Secure transactions a different merchant account ID is required.
 $ccard3dMId = '33f6d473-3036-4ca5-acb5-8c64dac862d1';
 $ccard3dKey = '9e0130f6-2e1e-4185-b0d5-dc69079c75cc';
 $ccard3dConfig = new Config\PaymentMethodConfig(ThreeDCreditCardTransaction::class, $ccard3dMId, $ccard3dKey);

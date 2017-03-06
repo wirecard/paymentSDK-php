@@ -31,7 +31,7 @@ php -f apigen.phar -- generate -s src -d ${UPLOAD_DIRECTORY}/docs --template-the
 npm install -q groc
 
 # groc: generate the examples
-groc -o ${UPLOAD_DIRECTORY}/ examples/*/*
+groc -o ${UPLOAD_DIRECTORY}/ examples/*/*.php
 
 # Copy the main pages to UPLOAD_DIRECTORY
 cp docs/* ${UPLOAD_DIRECTORY}/

@@ -1,8 +1,9 @@
 <?php
 
-// # Cancelling a transaction
+// # Credit to a credit card
 
-// To cancel a transaction, a cancel request with the parent transaction is sent.
+// To transfer funds to a credit card via a credit operation, a token for the corresponding credit card is required.
+// A request with the token ID and the account holder name is sent.
 
 // ## Required objects
 
@@ -22,13 +23,10 @@ $tokenId = '4304509873471003';
 
 // ### Config
 
-// Since payment method may have a different merchant ID, a config collection is created.
+// Since each payment method may have a different merchant ID, a config collection is created.
 $configCollection = new Config\PaymentMethodConfigCollection();
 
 // Create and add a configuration object with the settings for credit card.
-// For 3-D Secure transactions a different merchant account ID is required
-// than for the previously executed _seamlessRenderForm_.
-
 $ccardMId = '33f6d473-3036-4ca5-acb5-8c64dac862d1';
 $ccardKey = '9e0130f6-2e1e-4185-b0d5-dc69079c75cc';
 $ccardConfig = new Config\PaymentMethodConfig(CreditCardTransaction::class, $ccardMId, $ccardKey);
