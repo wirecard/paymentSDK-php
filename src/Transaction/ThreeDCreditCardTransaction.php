@@ -92,13 +92,12 @@ class ThreeDCreditCardTransaction extends CreditCardTransaction
 
     /**
      * @param string $operation
-     * @param string $parentTransactionType
      * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return array
      */
-    protected function mappedSpecificProperties($operation, $parentTransactionType)
+    protected function mappedSpecificProperties($operation)
     {
-        $result = parent::mappedSpecificProperties($operation, $parentTransactionType);
+        $result = parent::mappedSpecificProperties($operation);
 
         if (null !== $this->paRes) {
             $result['three-d'] = [
@@ -111,11 +110,10 @@ class ThreeDCreditCardTransaction extends CreditCardTransaction
 
     /**
      * @param string|null $operation
-     * @param null|string $parentTransactionType
      * @throws UnsupportedOperationException|MandatoryFieldMissingException
      * @return string
      */
-    protected function retrieveTransactionType($operation, $parentTransactionType)
+    protected function retrieveTransactionType($operation)
     {
         if (null !== $this->paRes) {
             return $operation;
@@ -123,13 +121,13 @@ class ThreeDCreditCardTransaction extends CreditCardTransaction
 
         switch ($operation) {
             case Operation::RESERVE:
-                $transactionType = $this->retrieveTransactionTypeForReserve($parentTransactionType);
+                $transactionType = $this->retrieveTransactionTypeForReserve();
                 break;
             case Operation::CANCEL:
-                $transactionType = $this->retrieveTransactionTypeForCancel($parentTransactionType);
+                $transactionType = $this->retrieveTransactionTypeForCancel();
                 break;
             case Operation::PAY:
-                $transactionType = $this->retrieveTransactionTypeForPay($parentTransactionType);
+                $transactionType = $this->retrieveTransactionTypeForPay();
                 break;
             default:
                 throw new UnsupportedOperationException();
@@ -139,12 +137,11 @@ class ThreeDCreditCardTransaction extends CreditCardTransaction
     }
 
     /**
-     * @param string $parentTransactionType
      * @return string
      */
-    protected function retrieveTransactionTypeForReserve($parentTransactionType)
+    protected function retrieveTransactionTypeForReserve()
     {
-        switch ($parentTransactionType) {
+        switch ($this->parentTransactionType) {
             case $this::TYPE_AUTHORIZATION:
                 $transactionType = $this::TYPE_REFERENCED_AUTHORIZATION;
                 break;
@@ -159,12 +156,11 @@ class ThreeDCreditCardTransaction extends CreditCardTransaction
     }
 
     /**
-     * @param string $parentTransactionType
      * @return string
      */
-    protected function retrieveTransactionTypeForPay($parentTransactionType)
+    protected function retrieveTransactionTypeForPay()
     {
-        switch ($parentTransactionType) {
+        switch ($this->parentTransactionType) {
             case $this::TYPE_AUTHORIZATION:
                 $transactionType = $this::TYPE_CAPTURE_AUTHORIZATION;
                 break;

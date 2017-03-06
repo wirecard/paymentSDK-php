@@ -58,10 +58,9 @@ class PayPalTransaction extends Transaction
 
     /**
      * @param string $operation
-     * @param string $parentTransactionType
      * @return array
      */
-    protected function mappedSpecificProperties($operation, $parentTransactionType)
+    protected function mappedSpecificProperties($operation)
     {
         return [
             self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType($operation),

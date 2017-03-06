@@ -81,13 +81,12 @@ class SepaTransaction extends Transaction
 
     /**
      * @param string $operation
-     * @param string $parentTransactionType
      * @return array
      */
-    protected function mappedSpecificProperties($operation, $parentTransactionType)
+    protected function mappedSpecificProperties($operation)
     {
         $result = [
-            self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType($operation, $parentTransactionType)
+            self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType($operation)
         ];
 
         if (null !== $this->iban) {
@@ -106,28 +105,28 @@ class SepaTransaction extends Transaction
         return $result;
     }
 
-    public function getConfigKey($operation = null, $parentTransactionType = null)
+    public function getConfigKey($operation = null)
     {
-        return $this->retrievePaymentMethodName($operation, $parentTransactionType);
+        return $this->retrievePaymentMethodName($operation);
     }
 
-    public function retrievePaymentMethodName($operation = null, $parentTransactionType = null)
+    public function retrievePaymentMethodName($operation = null)
     {
-        if (Operation::CREDIT === $operation || parent::TYPE_CREDIT == $parentTransactionType ||
-            parent::TYPE_PENDING_CREDIT == $parentTransactionType) {
+        if (Operation::CREDIT === $operation || parent::TYPE_CREDIT == $this->parentTransactionType ||
+            parent::TYPE_PENDING_CREDIT == $this->parentTransactionType) {
             return self::CREDIT_TRANSFER;
         }
 
         return self::DIRECT_DEBIT;
     }
 
-    private function retrieveTransactionType($operation, $parentTransactionType)
+    private function retrieveTransactionType($operation)
     {
         if (Operation::CANCEL === $operation) {
-            if (!in_array($parentTransactionType, [parent::TYPE_PENDING_DEBIT, parent::TYPE_PENDING_CREDIT])) {
+            if (!in_array($this->parentTransactionType, [parent::TYPE_PENDING_DEBIT, parent::TYPE_PENDING_CREDIT])) {
                 throw new UnsupportedOperationException();
             }
-            return 'void-' . $parentTransactionType;
+            return 'void-' . $this->parentTransactionType;
         }
 
         $txTypeMapping = [

@@ -226,13 +226,14 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
     {
         $transaction = new CreditCardTransaction();
         $transaction->setParentTransactionId('myparentid');
+        $transaction->setParentTransactionType('credit');
 
         //prepare RequestMapper
         $mappedRequest = '{"mocked": "json", "response": "object"}';
         $requestMapper = $this->createMock('\Wirecard\PaymentSdk\Mapper\RequestMapper');
         $requestMapper->expects($this->once())
             ->method('map')
-            ->with($this->equalTo($transaction), 'reserve', 'credit')
+            ->with($this->equalTo($transaction), 'reserve')
             ->willReturn($mappedRequest);
 
         //prepare Guzzle

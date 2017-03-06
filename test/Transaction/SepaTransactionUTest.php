@@ -77,7 +77,7 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
 
         $expectedResult = $this->getExpectedResultReserveIbanOnly();
 
-        $result = $this->tx->mappedProperties(Operation::RESERVE, null);
+        $result = $this->tx->mappedProperties(Operation::RESERVE);
 
         $this->assertEquals($expectedResult, $result);
     }
@@ -92,7 +92,7 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
         $expectedResult = $this->getExpectedResultReserveIbanOnly();
         $expectedResult['bank-account']['bic'] = $bic;
 
-        $result = $this->tx->mappedProperties(Operation::RESERVE, null);
+        $result = $this->tx->mappedProperties(Operation::RESERVE);
 
         $this->assertEquals($expectedResult, $result);
     }
@@ -135,7 +135,7 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
 
         $expectedResult = $this->getExpectedResultPayIbanOnly();
 
-        $result = $this->tx->mappedProperties(Operation::PAY, null);
+        $result = $this->tx->mappedProperties(Operation::PAY);
 
         $this->assertEquals($expectedResult, $result);
     }
@@ -177,8 +177,9 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
     {
         $parentTransactionId = 'B612';
         $this->tx->setParentTransactionId($parentTransactionId);
+        $this->tx->setParentTransactionType('pending-debit');
 
-        $result = $this->tx->mappedProperties(Operation::CANCEL, 'pending-debit');
+        $result = $this->tx->mappedProperties(Operation::CANCEL);
 
         $expectedResult = $this->getExpectedResultCancelPay($parentTransactionId);
         $this->assertEquals($expectedResult, $result);
@@ -197,7 +198,8 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
      */
     public function testMappedPropertiesUnsupportedCancelOperation()
     {
-        $this->tx->mappedProperties(Operation::CANCEL, 'authorization');
+        $this->tx->setParentTransactionType('authorization');
+        $this->tx->mappedProperties(Operation::CANCEL);
     }
 
     public function testRetrievePaymentMethodNamePay()

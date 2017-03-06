@@ -64,11 +64,10 @@ class CreditCardTransaction extends Transaction
 
     /**
      * @param string $operation
-     * @param string $parentTransactionType
      * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return array
      */
-    protected function mappedSpecificProperties($operation, $parentTransactionType)
+    protected function mappedSpecificProperties($operation)
     {
         if ($this->tokenId === null && ($this->parentTransactionId === null && get_class($this) === self::class)) {
             throw new MandatoryFieldMissingException(
@@ -76,7 +75,7 @@ class CreditCardTransaction extends Transaction
             );
         }
 
-        $result[self::PARAM_TRANSACTION_TYPE] = $this->retrieveTransactionType($operation, $parentTransactionType);
+        $result[self::PARAM_TRANSACTION_TYPE] = $this->retrieveTransactionType($operation);
 
         if (null !== $this->tokenId) {
             $result['card-token'] = [
@@ -89,21 +88,20 @@ class CreditCardTransaction extends Transaction
 
     /**
      * @param string|null $operation
-     * @param null|string $parentTransactionType
      * @throws UnsupportedOperationException|MandatoryFieldMissingException
      * @return string
      */
-    protected function retrieveTransactionType($operation, $parentTransactionType)
+    protected function retrieveTransactionType($operation)
     {
         switch ($operation) {
             case Operation::RESERVE:
-                $transactionType = $this->retrieveTransactionTypeForReserve($parentTransactionType);
+                $transactionType = $this->retrieveTransactionTypeForReserve();
                 break;
             case Operation::CANCEL:
-                $transactionType = $this->retrieveTransactionTypeForCancel($parentTransactionType);
+                $transactionType = $this->retrieveTransactionTypeForCancel();
                 break;
             case Operation::PAY:
-                $transactionType = $this->retrieveTransactionTypeForPay($parentTransactionType);
+                $transactionType = $this->retrieveTransactionTypeForPay();
                 break;
             case Operation::CREDIT:
                 $transactionType = $this::TYPE_CREDIT;
@@ -116,13 +114,12 @@ class CreditCardTransaction extends Transaction
     }
 
     /**
-     * @param string $parentTransactionType
      * @throws MandatoryFieldMissingException
      * @return string
      */
-    protected function retrieveTransactionTypeForCancel($parentTransactionType)
+    protected function retrieveTransactionTypeForCancel()
     {
-        switch ($parentTransactionType) {
+        switch ($this->parentTransactionType) {
             case $this::TYPE_AUTHORIZATION:
             case $this::TYPE_REFERENCED_AUTHORIZATION:
                 $transactionType = $this::TYPE_VOID_AUTHORIZATION;
@@ -130,7 +127,7 @@ class CreditCardTransaction extends Transaction
             case 'refund-capture':
             case 'refund-purchase':
             case 'credit':
-                $transactionType = 'void-' . $parentTransactionType;
+                $transactionType = 'void-' . $this->parentTransactionType;
                 break;
             case $this::TYPE_PURCHASE:
             case $this::TYPE_REFERENCED_PURCHASE:
@@ -149,21 +146,19 @@ class CreditCardTransaction extends Transaction
     }
 
     /**
-     * @param string $parentTransactionType
      * @return string
      */
-    protected function retrieveTransactionTypeForReserve($parentTransactionType)
+    protected function retrieveTransactionTypeForReserve()
     {
         return (null !== $this->parentTransactionId) ? $this::TYPE_REFERENCED_AUTHORIZATION : $this::TYPE_AUTHORIZATION;
     }
 
     /**
-     * @param string $parentTransactionType
      * @return string
      */
-    protected function retrieveTransactionTypeForPay($parentTransactionType)
+    protected function retrieveTransactionTypeForPay()
     {
-        switch ($parentTransactionType) {
+        switch ($this->parentTransactionType) {
             case $this::TYPE_AUTHORIZATION:
                 $transactionType = $this::TYPE_CAPTURE_AUTHORIZATION;
                 break;
