@@ -24,14 +24,14 @@ $amount = new Money(12.59, 'EUR');
 // Since payment method may have a different merchant ID, a config collection is created.
 $configCollection = new Config\PaymentMethodConfigCollection();
 
-// Create and add a configuration object with the settings for SEPA
+// Create and add a configuration object with the settings for SEPA.
 $sepaMId = '4c901196-eff7-411e-82a3-5ef6b6860d64';
 $sepaKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
 $sepaDdConfig = new Config\PaymentMethodConfig(SepaTransaction::DIRECT_DEBIT, $sepaMId, $sepaKey);
 
 // In order to execute a pay transaction you also have to provide your creditor ID.
 // Please add it to the config as a specific property with the key 'creditor-id'.
-$sepaDdConfig->addSpecificProperty('creditor-id','DE98ZZZ09999999999');
+$sepaDdConfig->addSpecificProperty('creditor-id', 'DE98ZZZ09999999999');
 $configCollection->add($sepaDdConfig);
 
 // The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
@@ -73,7 +73,13 @@ $response = $transactionService->pay($transaction);
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo sprintf('Payment with id %s successfully completed.<br>', $response->getTransactionId());
-
+    ?>
+    <br>
+    <form action="cancel.php" method="post">
+        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+        <input type="submit" value="cancel the payment">
+    </form>
+    <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
     // In our example we iterate over all errors and display them in a raw state.

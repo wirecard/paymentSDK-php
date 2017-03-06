@@ -190,6 +190,17 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf($class, $service->pay($this->getTestPayPalTransaction()));
     }
 
+    protected function getTestPayPalTransaction()
+    {
+        $redirect = new Redirect('http://www.example.com/success', 'http://www.example.com/cancel');
+        $payPalTransaction = new PayPalTransaction();
+        $payPalTransaction->setNotificationUrl('notUrl');
+        $payPalTransaction->setRedirect($redirect);
+        $payPalTransaction->setAmount(new Money(20.23, 'EUR'));
+
+        return $payPalTransaction;
+    }
+
     public function testReserveCreditCardTransaction()
     {
         $transaction = new CreditCardTransaction();
@@ -252,17 +263,6 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         $service = new TransactionService($this->config, null, $client, $requestMapper, $responseMapper);
         $service->reserve($transaction);
-    }
-
-    protected function getTestPayPalTransaction()
-    {
-        $redirect = new Redirect('http://www.example.com/success', 'http://www.example.com/cancel');
-        $payPalTransaction = new PayPalTransaction();
-        $payPalTransaction->setNotificationUrl('notUrl');
-        $payPalTransaction->setRedirect($redirect);
-        $payPalTransaction->setAmount(new Money(20.23, 'EUR'));
-
-        return $payPalTransaction;
     }
 
     public function testPayProvider()
@@ -452,42 +452,6 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($successResponse, $result);
     }
 
-    public function testCancel()
-    {
-        $tx = new CreditCardTransaction();
-        $tx->setParentTransactionId('parent-id');
-
-        $successResponse = $this->mockProcessingRequest($tx);
-
-        $result = $this->instance->cancel($tx);
-
-        $this->assertEquals($successResponse, $result);
-    }
-
-    public function testCredit()
-    {
-        $tx = new CreditCardTransaction();
-        $tx->setTokenId('token-id');
-
-        $successResponse = $this->mockProcessingRequest($tx);
-
-        $result = $this->instance->credit($tx);
-
-        $this->assertEquals($successResponse, $result);
-    }
-
-
-    public function testRequestIdGeneratorRandomness()
-    {
-        $this->instance = new TransactionService($this->config, null, null, null, null, null);
-
-        $requestId = call_user_func($this->instance->getRequestIdGenerator());
-        usleep(1);
-        $laterRequestId = call_user_func($this->instance->getRequestIdGenerator());
-
-        $this->assertNotEquals($requestId, $laterRequestId);
-    }
-
     /**
      * @param $tx
      * @return SuccessResponse
@@ -512,5 +476,40 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         $this->instance = new TransactionService($this->config, null, $client, $requestMapper, $responseMapper);
         return $successResponse;
+    }
+
+    public function testCancel()
+    {
+        $tx = new CreditCardTransaction();
+        $tx->setParentTransactionId('parent-id');
+
+        $successResponse = $this->mockProcessingRequest($tx);
+
+        $result = $this->instance->cancel($tx);
+
+        $this->assertEquals($successResponse, $result);
+    }
+
+    public function testCredit()
+    {
+        $tx = new CreditCardTransaction();
+        $tx->setTokenId('token-id');
+
+        $successResponse = $this->mockProcessingRequest($tx);
+
+        $result = $this->instance->credit($tx);
+
+        $this->assertEquals($successResponse, $result);
+    }
+
+    public function testRequestIdGeneratorRandomness()
+    {
+        $this->instance = new TransactionService($this->config, null, null, null, null, null);
+
+        $requestId = call_user_func($this->instance->getRequestIdGenerator());
+        usleep(1);
+        $laterRequestId = call_user_func($this->instance->getRequestIdGenerator());
+
+        $this->assertNotEquals($requestId, $laterRequestId);
     }
 }

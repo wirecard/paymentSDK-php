@@ -51,6 +51,8 @@ abstract class Transaction
     const TYPE_CAPTURE_AUTHORIZATION = 'capture-authorization';
     const TYPE_VOID_AUTHORIZATION = 'void-authorization';
     const TYPE_CREDIT = 'credit';
+    const TYPE_PENDING_CREDIT = 'pending-credit';
+    const TYPE_PENDING_DEBIT = 'pending-debit';
 
     /**
      * @var AccountHolder
@@ -94,19 +96,19 @@ abstract class Transaction
     }
 
     /**
-     * @param string $parentTransactionId
-     */
-    public function setParentTransactionId($parentTransactionId)
-    {
-        $this->parentTransactionId = $parentTransactionId;
-    }
-
-    /**
      * @return string
      */
     public function getParentTransactionId()
     {
         return $this->parentTransactionId;
+    }
+
+    /**
+     * @param string $parentTransactionId
+     */
+    public function setParentTransactionId($parentTransactionId)
+    {
+        $this->parentTransactionId = $parentTransactionId;
     }
 
     /**
@@ -171,6 +173,14 @@ abstract class Transaction
     }
 
     /**
+     * @return string
+     */
+    public function retrievePaymentMethodName($operation = null, $parentTransactionType = null)
+    {
+        return $this::NAME;
+    }
+
+    /**
      * @param string $operation
      * @param string $parentTransactionType
      * @return array
@@ -184,13 +194,5 @@ abstract class Transaction
     public function getConfigKey($operation = null, $parentTransactionType = null)
     {
         return get_class($this);
-    }
-
-    /**
-     * @return string
-     */
-    public function retrievePaymentMethodName($operation = null, $parentTransactionType = null)
-    {
-        return $this::NAME;
     }
 }
