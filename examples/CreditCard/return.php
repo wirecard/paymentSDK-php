@@ -11,7 +11,6 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Response\FailureResponse;
-use Wirecard\PaymentSdk\Response\PendingResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
@@ -62,6 +61,7 @@ if ($response instanceof SuccessResponse) {
     <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+        <input type="hidden" name="transaction-type" value="3d">
         <input type="submit" value="cancel the payment">
     </form>
     <?php

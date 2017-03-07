@@ -80,14 +80,12 @@ class SepaTransaction extends Transaction
     }
 
     /**
-     * @param string $operation
-     * @param string $parentTransactionType
      * @return array
      */
-    protected function mappedSpecificProperties($operation, $parentTransactionType)
+    protected function mappedSpecificProperties()
     {
         $result = [
-            self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType($operation, $parentTransactionType)
+            self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType()
         ];
 
         if (null !== $this->iban) {
@@ -106,28 +104,38 @@ class SepaTransaction extends Transaction
         return $result;
     }
 
-    public function getConfigKey($operation = null, $parentTransactionType = null)
+    /**
+     * @return string
+     */
+    public function getConfigKey()
     {
-        return $this->retrievePaymentMethodName($operation, $parentTransactionType);
+        return $this->retrievePaymentMethodName();
     }
 
-    public function retrievePaymentMethodName($operation = null, $parentTransactionType = null)
+    /**
+     * @return string
+     */
+    public function retrievePaymentMethodName()
     {
-        if (Operation::CREDIT === $operation || parent::TYPE_CREDIT == $parentTransactionType ||
-            parent::TYPE_PENDING_CREDIT == $parentTransactionType) {
+        if (Operation::CREDIT === $this->operation || parent::TYPE_CREDIT == $this->parentTransactionType ||
+            parent::TYPE_PENDING_CREDIT == $this->parentTransactionType) {
             return self::CREDIT_TRANSFER;
         }
 
         return self::DIRECT_DEBIT;
     }
 
-    private function retrieveTransactionType($operation, $parentTransactionType)
+
+    /**
+     * @return mixed|string
+     */
+    private function retrieveTransactionType()
     {
-        if (Operation::CANCEL === $operation) {
-            if (!in_array($parentTransactionType, [parent::TYPE_PENDING_DEBIT, parent::TYPE_PENDING_CREDIT])) {
+        if (Operation::CANCEL === $this->operation) {
+            if (!in_array($this->parentTransactionType, [parent::TYPE_PENDING_DEBIT, parent::TYPE_PENDING_CREDIT])) {
                 throw new UnsupportedOperationException();
             }
-            return 'void-' . $parentTransactionType;
+            return 'void-' . $this->parentTransactionType;
         }
 
         $txTypeMapping = [
@@ -136,10 +144,10 @@ class SepaTransaction extends Transaction
             Operation::CREDIT => parent::TYPE_PENDING_CREDIT
         ];
 
-        if (!array_key_exists($operation, $txTypeMapping)) {
+        if (!array_key_exists($this->operation, $txTypeMapping)) {
             throw new UnsupportedOperationException();
         }
 
-        return $txTypeMapping[$operation];
+        return $txTypeMapping[$this->operation];
     }
 }

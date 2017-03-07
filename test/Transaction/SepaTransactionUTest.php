@@ -74,10 +74,10 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
     {
         $this->tx->setIban(self::IBAN);
         $this->tx->setAccountHolder($this->accountHolder);
-
         $expectedResult = $this->getExpectedResultReserveIbanOnly();
 
-        $result = $this->tx->mappedProperties(Operation::RESERVE, null);
+        $this->tx->setOperation(Operation::RESERVE);
+        $result = $this->tx->mappedProperties();
 
         $this->assertEquals($expectedResult, $result);
     }
@@ -92,7 +92,8 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
         $expectedResult = $this->getExpectedResultReserveIbanOnly();
         $expectedResult['bank-account']['bic'] = $bic;
 
-        $result = $this->tx->mappedProperties(Operation::RESERVE, null);
+        $this->tx->setOperation(Operation::RESERVE);
+        $result = $this->tx->mappedProperties();
 
         $this->assertEquals($expectedResult, $result);
     }
@@ -135,7 +136,8 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
 
         $expectedResult = $this->getExpectedResultPayIbanOnly();
 
-        $result = $this->tx->mappedProperties(Operation::PAY, null);
+        $this->tx->setOperation(Operation::PAY);
+        $result = $this->tx->mappedProperties();
 
         $this->assertEquals($expectedResult, $result);
     }
@@ -177,8 +179,10 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
     {
         $parentTransactionId = 'B612';
         $this->tx->setParentTransactionId($parentTransactionId);
+        $this->tx->setParentTransactionType('pending-debit');
+        $this->tx->setOperation(Operation::CANCEL);
 
-        $result = $this->tx->mappedProperties(Operation::CANCEL, 'pending-debit');
+        $result = $this->tx->mappedProperties();
 
         $expectedResult = $this->getExpectedResultCancelPay($parentTransactionId);
         $this->assertEquals($expectedResult, $result);
@@ -189,7 +193,8 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
      */
     public function testMappedPropertiesUnsupportedOperation()
     {
-        $this->tx->mappedProperties('non_existing_operation');
+        $this->tx->setOperation('non_existing_operation');
+        $this->tx->mappedProperties();
     }
 
     /**
@@ -197,19 +202,23 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
      */
     public function testMappedPropertiesUnsupportedCancelOperation()
     {
-        $this->tx->mappedProperties(Operation::CANCEL, 'authorization');
+        $this->tx->setParentTransactionType('authorization');
+        $this->tx->setOperation(Operation::CANCEL);
+        $this->tx->mappedProperties();
     }
 
     public function testRetrievePaymentMethodNamePay()
     {
-        $this->assertEquals(SepaTransaction::DIRECT_DEBIT, $this->tx->retrievePaymentMethodName(Operation::PAY));
-        $this->assertEquals(SepaTransaction::DIRECT_DEBIT, $this->tx->getConfigKey(Operation::PAY));
+        $this->tx->setOperation(Operation::PAY);
+        $this->assertEquals(SepaTransaction::DIRECT_DEBIT, $this->tx->retrievePaymentMethodName());
+        $this->assertEquals(SepaTransaction::DIRECT_DEBIT, $this->tx->getConfigKey());
     }
 
     public function testRetrievePaymentMethodNameCredit()
     {
-        $this->assertEquals(SepaTransaction::CREDIT_TRANSFER, $this->tx->retrievePaymentMethodName(Operation::CREDIT));
-        $this->assertEquals(SepaTransaction::CREDIT_TRANSFER, $this->tx->getConfigKey(Operation::CREDIT));
+        $this->tx->setOperation(Operation::CREDIT);
+        $this->assertEquals(SepaTransaction::CREDIT_TRANSFER, $this->tx->retrievePaymentMethodName());
+        $this->assertEquals(SepaTransaction::CREDIT_TRANSFER, $this->tx->getConfigKey());
     }
 
     private function getExpectedResultCancelPay($parentTransactionId)

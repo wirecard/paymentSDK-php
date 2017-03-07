@@ -79,7 +79,8 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $payPalTransaction->setNotificationUrl(self::EXAMPLE_URL);
         $payPalTransaction->setRedirect($redirect);
         $payPalTransaction->setAmount(new Money(24, 'EUR'));
-        $result = $this->mapper->map($payPalTransaction, Operation::PAY, null);
+        $payPalTransaction->setOperation(Operation::PAY);
+        $result = $this->mapper->map($payPalTransaction);
 
         $this->assertEquals(json_encode($expectedResult), $result);
     }
@@ -103,8 +104,9 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $cardData = new CreditCardTransaction();
         $cardData->setTokenId('21');
         $cardData->setAmount(new Money(24, 'EUR'));
+        $cardData->setOperation(Operation::RESERVE);
 
-        $result = $this->mapper->map($cardData, Operation::RESERVE, null);
+        $result = $this->mapper->map($cardData);
 
         $this->assertEquals(json_encode($expectedResult), $result);
     }
@@ -126,7 +128,9 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $transaction = new CreditCardTransaction();
         $transaction->setAmount(new Money(24, 'EUR'));
         $transaction->setParentTransactionId('parent5');
-        $result = $this->mapper->map($transaction, Operation::RESERVE, Transaction::TYPE_AUTHORIZATION);
+        $transaction->setParentTransactionType(Transaction::TYPE_AUTHORIZATION);
+        $transaction->setOperation(Operation::RESERVE);
+        $result = $this->mapper->map($transaction);
 
         $this->assertEquals(json_encode($expectedResult), $result);
     }
@@ -140,7 +144,8 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
 
         $transaction = new CreditCardTransaction();
         $transaction->setAmount(new Money(24, 'EUR'));
-        $this->mapper->map($transaction, Operation::RESERVE, null);
+        $transaction->setOperation(Operation::RESERVE);
+        $this->mapper->map($transaction);
     }
 
     public function testSslCreditCardTransactionWithBothTokenIdAndParentTransactionId()
@@ -164,8 +169,9 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $cardData->setTokenId('33');
         $cardData->setAmount(new Money(24, 'EUR'));
         $cardData->setParentTransactionId('parent5');
-
-        $result = $this->mapper->map($cardData, Operation::RESERVE, Transaction::TYPE_AUTHORIZATION);
+        $cardData->setParentTransactionType(Transaction::TYPE_AUTHORIZATION);
+        $cardData->setOperation(Operation::RESERVE);
+        $result = $this->mapper->map($cardData);
 
         $this->assertEquals(json_encode($expectedResult), $result);
     }
@@ -221,8 +227,9 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $creditCardTransaction->setTermUrl('https://example.com/r');
         $creditCardTransaction->setAmount($money);
         $creditCardTransaction->setParentTransactionId('parent54');
-
-        $result = $this->mapper->map($creditCardTransaction, $operation, $parentTransactionType);
+        $creditCardTransaction->setParentTransactionType($parentTransactionType);
+        $creditCardTransaction->setOperation($operation);
+        $result = $this->mapper->map($creditCardTransaction);
 
         $this->assertEquals(json_encode($expectedResult), $result);
     }
@@ -240,8 +247,8 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $creditCardTransaction->setTermUrl('https://example.com/r');
         $creditCardTransaction->setAmount($money);
         $creditCardTransaction->setParentTransactionId('parent54');
-
-        $this->mapper->map($creditCardTransaction, 'test', null);
+        $creditCardTransaction->setOperation('test');
+        $this->mapper->map($creditCardTransaction);
     }
 
     public function testCancelProvider()
@@ -275,9 +282,11 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
     {
         $followupTransaction = new CreditCardTransaction();
         $followupTransaction->setParentTransactionId('642');
+        $followupTransaction->setParentTransactionType($transactionType);
+        $followupTransaction->setOperation(Operation::CANCEL);
         $_SERVER['REMOTE_ADDR'] = 'test';
 
-        $result = $this->mapper->map($followupTransaction, Operation::CANCEL, $transactionType);
+        $result = $this->mapper->map($followupTransaction);
 
         $expectedResult = ['payment' => [
             'request-id' => '5B-dummy-id',
@@ -317,9 +326,11 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
     {
         $followupTransaction = new CreditCardTransaction();
         $followupTransaction->setParentTransactionId('642');
+        $followupTransaction->setParentTransactionType($transactionType);
+        $followupTransaction->setOperation(Operation::PAY);
         $_SERVER['REMOTE_ADDR'] = 'test';
 
-        $result = $this->mapper->map($followupTransaction, Operation::PAY, $transactionType);
+        $result = $this->mapper->map($followupTransaction);
 
         $expectedResult = ['payment' => [
             'request-id' => '5B-dummy-id',
@@ -363,9 +374,11 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
     {
         $followupTransaction = new ThreeDCreditCardTransaction();
         $followupTransaction->setParentTransactionId('642');
+        $followupTransaction->setParentTransactionType($transactionType);
+        $followupTransaction->setOperation(Operation::PAY);
         $_SERVER['REMOTE_ADDR'] = 'test';
 
-        $result = $this->mapper->map($followupTransaction, Operation::PAY, $transactionType);
+        $result = $this->mapper->map($followupTransaction);
 
         $expectedResult = ['payment' => [
             'request-id' => '5B-dummy-id',
@@ -385,18 +398,23 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
     {
         $followupTransaction = new CreditCardTransaction();
         $followupTransaction->setParentTransactionId('642');
+        $followupTransaction->setParentTransactionType('test');
+        $followupTransaction->setOperation(Operation::CANCEL);
         $_SERVER['REMOTE_ADDR'] = 'test';
 
-        $this->mapper->map($followupTransaction, Operation::CANCEL, 'test');
+        $this->mapper->map($followupTransaction);
     }
 
     public function testCredit()
     {
         $followupTransaction = new CreditCardTransaction();
         $followupTransaction->setParentTransactionId('642');
+        $followupTransaction->setParentTransactionType(Transaction::TYPE_CREDIT);
+        $followupTransaction->setOperation(Operation::CREDIT);
+
         $_SERVER['REMOTE_ADDR'] = 'test';
 
-        $result = $this->mapper->map($followupTransaction, Operation::CREDIT, Transaction::TYPE_CREDIT);
+        $result = $this->mapper->map($followupTransaction);
 
         $expectedResult = ['payment' => [
             'request-id' => '5B-dummy-id',
@@ -415,9 +433,12 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
 
         $followupTransaction = new CreditCardTransaction();
         $followupTransaction->setParentTransactionId('642');
+        $followupTransaction->setParentTransactionType(Transaction::TYPE_CREDIT);
+        $followupTransaction->setOperation(Operation::CREDIT);
+
         $_SERVER['REMOTE_ADDR'] = 'test';
 
-        $result = $mapper->map($followupTransaction, Operation::CREDIT, Transaction::TYPE_CREDIT);
+        $result = $mapper->map($followupTransaction);
 
         $expectedResult = ['payment' => [
             'request-id' => '5B-dummy-id',
