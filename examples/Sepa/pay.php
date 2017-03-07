@@ -22,7 +22,7 @@ if (!empty($_POST['amount'])) {
     $amount = new Money((float)$_POST['amount'], 'EUR');
 }
 
-if (empty($_POST['amount']) && null === $_POST['parentTransactionId']) {
+if (empty($_POST['amount']) && empty($_POST['parentTransactionId'])) {
     $amount = new Money(12.59, 'EUR');
 }
 
