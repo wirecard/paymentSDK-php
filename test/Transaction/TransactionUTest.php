@@ -46,6 +46,7 @@ class TransactionUTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->tx = $this->getMockForAbstractClass(Transaction::class);
+        $this->tx->method('mappedSpecificProperties')->willReturn([]);
     }
 
     public function testMappingForConsumerId()

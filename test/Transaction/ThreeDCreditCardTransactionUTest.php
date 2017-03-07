@@ -82,7 +82,8 @@ class ThreeDCreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
             ],
             'transaction-type' => 'check-enrollment'
         ];
-        $this->assertEquals($valid, $this->instance->mappedProperties(Operation::RESERVE));
+        $this->instance->setOperation(Operation::RESERVE);
+        $this->assertEquals($valid, $this->instance->mappedProperties());
     }
 
     public function testMappedPropertiesPares()
@@ -102,6 +103,7 @@ class ThreeDCreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
                 'pares' => 'pasdsgf'
             ]
         ];
-        $this->assertEquals($valid, $this->instance->mappedProperties('testtype'));
+        $this->instance->setOperation('testtype');
+        $this->assertEquals($valid, $this->instance->mappedProperties());
     }
 }

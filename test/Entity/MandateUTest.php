@@ -25,77 +25,39 @@
  *
  * Customers are responsible for testing the plugin's functionality before starting productive
  * operation.
+ *
  * By installing the plugin into the shop system the customer agrees to these terms of use.
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Config;
+namespace WirecardTest\PaymentSdk\Entity;
 
-use Wirecard\PaymentSdk\Entity\MappableEntity;
+use Wirecard\PaymentSdk\Entity\Mandate;
 
-class PaymentMethodConfig implements MappableEntity
+class MandateUTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var string
-     */
-    private $paymentMethodName;
+    const ID = '345';
 
     /**
-     * @var string
+     * @var Mandate
      */
-    private $merchantAccountId;
+    private $mandate;
 
-    /**
-     * @var string
-     */
-    private $secret;
-
-    /**
-     * PaymentMethodConfig constructor.
-     * @param string $paymentMethodName
-     * @param string $merchantAccountId
-     * @param string $secret
-     */
-    public function __construct($paymentMethodName, $merchantAccountId, $secret)
+    public function setUp()
     {
-        $this->paymentMethodName = $paymentMethodName;
-        $this->merchantAccountId = $merchantAccountId;
-        $this->secret = $secret;
+        $this->mandate = new Mandate(self::ID);
     }
 
-    /**
-     * @return string
-     */
-    public function getPaymentMethodName()
+    public function testMappedProperties()
     {
-        return $this->paymentMethodName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMerchantAccountId()
-    {
-        return $this->merchantAccountId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSecret()
-    {
-        return $this->secret;
-    }
-
-    /**
-     * @return array
-     */
-    public function mappedProperties()
-    {
-        return [
-            'merchant-account-id' => [
-                'value' => $this->merchantAccountId
-            ]
+        $today = gmdate('Y-m-d');
+        $expectedResult = [
+            'mandate-id' => self::ID,
+            'signed-date' => $today
         ];
+
+        $result = $this->mandate->mappedProperties();
+
+        $this->assertEquals($expectedResult, $result);
     }
 }

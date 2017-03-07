@@ -65,4 +65,16 @@ class PaymentMethodConfigUTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(self::SECRET, $this->instance->getSecret());
     }
+
+    public function testMappedPropertiesWithoutSpecificProperties()
+    {
+        $this->assertEquals(
+            [
+                'merchant-account-id' => [
+                    'value' => self::MAID
+                ]
+            ],
+            $this->instance->mappedProperties()
+        );
+    }
 }

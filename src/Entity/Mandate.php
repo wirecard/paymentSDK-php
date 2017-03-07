@@ -30,14 +30,29 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Transaction;
+namespace Wirecard\PaymentSdk\Entity;
 
-interface Mappable
+class Mandate implements MappableEntity
 {
     /**
-     * @param string|null $operation
-     * @param string|null $parentTransactionType
-     * @return array
+     * @var string
      */
-    public function mappedProperties($operation = null, $parentTransactionType = null);
+    private $id;
+
+    /**
+     * Mandate constructor.
+     * @param string $id
+     */
+    public function __construct($id)
+    {
+        $this->id = $id;
+    }
+
+    public function mappedProperties()
+    {
+        return [
+            'mandate-id' => $this->id,
+            'signed-date' => gmdate('Y-m-d')
+        ];
+    }
 }

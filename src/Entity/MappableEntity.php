@@ -25,77 +25,24 @@
  *
  * Customers are responsible for testing the plugin's functionality before starting productive
  * operation.
+ *
  * By installing the plugin into the shop system the customer agrees to these terms of use.
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Config;
+namespace Wirecard\PaymentSdk\Entity;
 
-use Wirecard\PaymentSdk\Entity\MappableEntity;
-
-class PaymentMethodConfig implements MappableEntity
+/**
+ * Interface MappableEntity
+ * @package Wirecard\PaymentSdk\Entity
+ *
+ * Represents an entity which can be mapped
+ * => it can be included in a request to Elastic Engine.
+ */
+interface MappableEntity
 {
-    /**
-     * @var string
-     */
-    private $paymentMethodName;
-
-    /**
-     * @var string
-     */
-    private $merchantAccountId;
-
-    /**
-     * @var string
-     */
-    private $secret;
-
-    /**
-     * PaymentMethodConfig constructor.
-     * @param string $paymentMethodName
-     * @param string $merchantAccountId
-     * @param string $secret
-     */
-    public function __construct($paymentMethodName, $merchantAccountId, $secret)
-    {
-        $this->paymentMethodName = $paymentMethodName;
-        $this->merchantAccountId = $merchantAccountId;
-        $this->secret = $secret;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPaymentMethodName()
-    {
-        return $this->paymentMethodName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMerchantAccountId()
-    {
-        return $this->merchantAccountId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSecret()
-    {
-        return $this->secret;
-    }
-
     /**
      * @return array
      */
-    public function mappedProperties()
-    {
-        return [
-            'merchant-account-id' => [
-                'value' => $this->merchantAccountId
-            ]
-        ];
-    }
+    public function mappedProperties();
 }

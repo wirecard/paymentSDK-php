@@ -41,20 +41,29 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
     /**
      * @var AccountHolder
      */
-    private $accountholder;
+    private $accountHolder;
 
     public function setUp()
     {
-        $this->accountholder = new AccountHolder(self::LASTNAME);
+        $this->accountHolder = new AccountHolder(self::LASTNAME);
     }
 
-    public function testGetLastname()
+    public function testGetMappedPropertiesOnlyLastName()
     {
-        $this->assertEquals(self::LASTNAME, $this->accountholder->getLastname());
+        $this->assertEquals([ 'last-name' => self::LASTNAME ], $this->accountHolder->mappedProperties());
     }
 
-    public function testGetMappedProperties()
+    public function testGetMappedPropertiesLastAndFirstName()
     {
-        $this->assertEquals([ 'last-name' => self::LASTNAME ], $this->accountholder->mappedProperties());
+        $firstName = 'Jane';
+        $this->accountHolder->setFirstName($firstName);
+
+        $this->assertEquals(
+            [
+                'last-name' => self::LASTNAME,
+                'first-name' => $firstName
+            ],
+            $this->accountHolder->mappedProperties()
+        );
     }
 }

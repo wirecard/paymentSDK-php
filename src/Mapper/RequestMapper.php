@@ -33,8 +33,6 @@
 namespace Wirecard\PaymentSdk\Mapper;
 
 use Wirecard\PaymentSdk\Config\Config;
-use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
-use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
 /**
@@ -66,24 +64,24 @@ class RequestMapper
 
     /**
      * @param Transaction $transaction
-     * @param string $operation
-     * @param null|string $parentTransactionType
      * @return string The transaction in JSON format.
      */
-    public function map(Transaction $transaction, $operation, $parentTransactionType)
+    public function map(Transaction $transaction)
     {
         $requestId = call_user_func($this->requestIdGenerator);
         $commonProperties = [
             'request-id' => $requestId
         ];
 
+        $configKey = $transaction->getConfigKey();
+        $paymentMethodConfig = $this->config->get($configKey);
+        $paymentMethodConfigProperties = $paymentMethodConfig->mappedProperties();
+
         $allProperties = array_merge(
             $commonProperties,
-            $transaction->mappedProperties($operation, $parentTransactionType)
+            $transaction->mappedProperties(),
+            $paymentMethodConfigProperties
         );
-
-        $allProperties['merchant-account-id']['value'] = $this->config->get($transaction->getConfigKey())
-            ->getMerchantAccountId();
 
         $result = [Transaction::PARAM_PAYMENT => $allProperties];
 

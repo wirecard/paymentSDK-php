@@ -267,7 +267,6 @@ class TransactionService
         return $this->process($transaction, Operation::CREDIT);
     }
 
-
     /**
      * @return LoggerInterface
      */
@@ -288,23 +287,23 @@ class TransactionService
      */
     public function process(Transaction $transaction, $operation)
     {
-        $parentTransactionType = null;
+        $transaction->setOperation($operation);
 
         if (null !== $transaction->getParentTransactionId()) {
             $parentTransaction = $this->getTransactionByTransactionId(
                 $transaction->getParentTransactionId(),
-                $transaction->getConfigKey($operation)
+                $transaction->getConfigKey()
             );
 
             if (null !== $parentTransaction && array_key_exists(Transaction::PARAM_PAYMENT, $parentTransaction)
                 && array_key_exists('transaction-type', $parentTransaction[Transaction::PARAM_PAYMENT])
             ) {
-                $parentTransactionType = $parentTransaction[Transaction::PARAM_PAYMENT]
-                    [Transaction::PARAM_TRANSACTION_TYPE];
+                $transaction->setParentTransactionType($parentTransaction[Transaction::PARAM_PAYMENT]
+                    [Transaction::PARAM_TRANSACTION_TYPE]);
             }
         }
 
-        $requestBody = $this->getRequestMapper()->map($transaction, $operation, $parentTransactionType);
+        $requestBody = $this->getRequestMapper()->map($transaction);
 
         $response = $this->getHttpClient()->request(
             'POST',

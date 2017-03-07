@@ -39,7 +39,7 @@ use Wirecard\PaymentSdk\Entity\Money;
  * Interface Transaction
  * @package Wirecard\PaymentSdk\Transaction
  */
-abstract class Transaction implements Mappable
+abstract class Transaction
 {
     const PARAM_PAYMENT = 'payment';
     const PARAM_TRANSACTION_TYPE = 'transaction-type';
@@ -51,6 +51,8 @@ abstract class Transaction implements Mappable
     const TYPE_CAPTURE_AUTHORIZATION = 'capture-authorization';
     const TYPE_VOID_AUTHORIZATION = 'void-authorization';
     const TYPE_CREDIT = 'credit';
+    const TYPE_PENDING_CREDIT = 'pending-credit';
+    const TYPE_PENDING_DEBIT = 'pending-debit';
 
     /**
      * @var AccountHolder
@@ -76,6 +78,17 @@ abstract class Transaction implements Mappable
      * @var string
      */
     protected $consumerId;
+
+    /**
+     * @var string
+     */
+    protected $parentTransactionType;
+
+    /**
+     * @var string
+     */
+    protected $operation;
+
 
     /**
      * @param AccountHolder $accountHolder
@@ -110,6 +123,14 @@ abstract class Transaction implements Mappable
     }
 
     /**
+     * @param string $parentTransactionType
+     */
+    public function setParentTransactionType($parentTransactionType)
+    {
+        $this->parentTransactionType = $parentTransactionType;
+    }
+
+    /**
      * @param string $notificationUrl
      */
     public function setNotificationUrl($notificationUrl)
@@ -126,13 +147,25 @@ abstract class Transaction implements Mappable
     }
 
     /**
-     * @param string|null $operation
-     * @param string|null $parentTransactionType
-     * @return array
+     * @param string $operation
      */
-    public function mappedProperties($operation = null, $parentTransactionType = null)
+    public function setOperation($operation)
     {
-        $result = ['payment-methods' => ['payment-method' => [['name' => $this::NAME]]]];
+        $this->operation = $operation;
+    }
+
+    /**
+     * @return array
+     *
+     * A template method for the mapping of the transaction properties:
+     *  - the common properties are mapped here,
+     *  - an abstract operation is defined for the payment type specific properties.
+     */
+    public function mappedProperties()
+    {
+        $result = ['payment-methods' => ['payment-method' => [[
+            'name' => $this->retrievePaymentMethodName()
+        ]]]];
 
         if ($this->amount) {
             $result['requested-amount'] = $this->amount->mappedProperties();
@@ -161,15 +194,28 @@ abstract class Transaction implements Mappable
             $result['consumer-id'] = $this->consumerId;
         }
 
-        return $result;
+        return array_merge($result, $this->mappedSpecificProperties());
     }
+
+    /**
+     * @return array
+     */
+    abstract protected function mappedSpecificProperties();
 
     /**
      * @param string|null
      * @return string
      */
-    public function getConfigKey($operation = null)
+    public function getConfigKey()
     {
         return get_class($this);
+    }
+
+    /**
+     * @return string
+     */
+    public function retrievePaymentMethodName()
+    {
+        return $this::NAME;
     }
 }
