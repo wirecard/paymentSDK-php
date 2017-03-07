@@ -87,8 +87,6 @@ class RequestMapper
             $paymentMethodConfigProperties
         );
 
-        $allProperties['merchant-account-id']['value'] = $this->config->get($configKey)->getMerchantAccountId();
-
         $result = [Transaction::PARAM_PAYMENT => $allProperties];
 
         return json_encode($result);

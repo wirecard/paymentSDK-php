@@ -27,11 +27,10 @@ $configCollection = new Config\PaymentMethodConfigCollection();
 // Create and add a configuration object with the settings for SEPA.
 $sepaMId = '4c901196-eff7-411e-82a3-5ef6b6860d64';
 $sepaKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
-$sepaDdConfig = new Config\PaymentMethodConfig(SepaTransaction::DIRECT_DEBIT, $sepaMId, $sepaKey);
+$sepaDdConfig = new Config\SepaConfig(SepaTransaction::DIRECT_DEBIT, $sepaMId, $sepaKey);
 
 // In order to execute a pay transaction you also have to provide your creditor ID.
-// Please add it to the config as a specific property with the key 'creditor-id'.
-$sepaDdConfig->addSpecificProperty('creditor-id', 'DE98ZZZ09999999999');
+$sepaDdConfig->setCreditorId('DE98ZZZ09999999999');
 $configCollection->add($sepaDdConfig);
 
 // The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
