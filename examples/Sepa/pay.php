@@ -22,7 +22,7 @@ if (!empty($_POST['amount'])) {
     $amount = new Money((float)$_POST['amount'], 'EUR');
 }
 
-if (empty($_POST['amount']) && null === $_POST['parentTransactionId']) {
+if (empty($_POST['amount']) && empty($_POST['parentTransactionId'])) {
     $amount = new Money(12.59, 'EUR');
 }
 
@@ -102,7 +102,10 @@ if ($response instanceof SuccessResponse) {
 
     <form action="credit.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="submit" value="Execute a fund / credit based on this">
+        <input id="amount" name="amount" style="width:100px" />
+        <p>
+            <input type="submit" value="Execute a fund / credit based on this">
+        </p>
     </form>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
