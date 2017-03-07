@@ -69,7 +69,7 @@ if ($response instanceof SuccessResponse) {
     <br>
     <form action="pay.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="submit" value="Execute on a new payment based on this">
+        <input type="submit" value="Execute a new payment based on this">
     </form>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
