@@ -18,7 +18,7 @@ use Wirecard\PaymentSdk\Transaction\SepaTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 // Create a money object as amount which has to be payed by the consumer.
-$amount = new Money(12.59, 'EUR');
+$amount = new Money(7, 'EUR');
 
 // ### Config
 
@@ -69,7 +69,11 @@ if ($response instanceof SuccessResponse) {
     <br>
     <form action="pay.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="submit" value="Execute on a new payment based on this">
+        <label for="amount">Amount:</label><br>
+        <input id="amount" name="amount" style="width:100px" />
+        <p>
+            <input type="submit" value="Execute a new payment based on this">
+        </p>
     </form>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
