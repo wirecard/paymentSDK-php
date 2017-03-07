@@ -17,7 +17,14 @@ use Wirecard\PaymentSdk\Transaction\SepaTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 // Create a money object as amount which has to be payed by the consumer.
-$amount = new Money(12.59, 'EUR');
+$amount = null;
+if (!empty($_POST['amount'])) {
+    $amount = new Money((float)$_POST['amount'], 'EUR');
+}
+
+if (empty($_POST['amount']) && null === $_POST['parentTransactionId']) {
+    $amount = new Money(12.59, 'EUR');
+}
 
 // ### Config
 
@@ -46,7 +53,9 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, $configCollection, '
 
 // Create a `SepaTransaction` object, which contains all relevant data for the payment process.
 $transaction = new SepaTransaction();
-$transaction->setAmount($amount);
+if (null !== $amount) {
+    $transaction->setAmount($amount);
+}
 
 if (array_key_exists('iban', $_POST)) {
     $transaction->setIban($_POST['iban']);
