@@ -93,8 +93,10 @@
 				<li><a href="class-Wirecard.PaymentSdk.Config.Config.html">Wirecard\PaymentSdk\Config\Config</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Config.PaymentMethodConfig.html">Wirecard\PaymentSdk\Config\PaymentMethodConfig</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Config.PaymentMethodConfigCollection.html">Wirecard\PaymentSdk\Config\PaymentMethodConfigCollection</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Config.SepaConfig.html">Wirecard\PaymentSdk\Config\SepaConfig</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.AccountHolder.html">Wirecard\PaymentSdk\Entity\AccountHolder</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.FormFieldMap.html">Wirecard\PaymentSdk\Entity\FormFieldMap</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.Mandate.html">Wirecard\PaymentSdk\Entity\Mandate</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Money.html">Wirecard\PaymentSdk\Entity\Money</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Redirect.html">Wirecard\PaymentSdk\Entity\Redirect</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Status.html">Wirecard\PaymentSdk\Entity\Status</a></li>
@@ -110,6 +112,7 @@
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html">Wirecard\PaymentSdk\Transaction\CreditCardTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.Operation.html">Wirecard\PaymentSdk\Transaction\Operation</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.PayPalTransaction.html">Wirecard\PaymentSdk\Transaction\PayPalTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html">Wirecard\PaymentSdk\Transaction\SepaTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.ThreeDCreditCardTransaction.html">Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.TransactionService.html">Wirecard\PaymentSdk\TransactionService</a></li>
@@ -117,7 +120,7 @@
 
 			<h3>Interfaces</h3>
 			<ul>
-				<li><a href="class-Wirecard.PaymentSdk.Transaction.Mappable.html">Wirecard\PaymentSdk\Transaction\Mappable</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.MappableEntity.html">Wirecard\PaymentSdk\Entity\MappableEntity</a></li>
 			</ul>
 
 
@@ -406,110 +409,109 @@
 </span><span id="267" class="l"><a href="#267">267 </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;process(<span class="php-var">$transaction</span>, Operation::CREDIT);
 </span><span id="268" class="l"><a href="#268">268 </a>    }
 </span><span id="269" class="l"><a href="#269">269 </a>
-</span><span id="270" class="l"><a href="#270">270 </a>
-</span><span id="271" class="l"><a href="#271">271 </a>    <span class="php-comment">/**
-</span></span><span id="272" class="l"><a href="#272">272 </a><span class="php-comment">     * @return LoggerInterface
-</span></span><span id="273" class="l"><a href="#273">273 </a><span class="php-comment">     */</span>
-</span><span id="274" class="l"><a href="#274">274 </a>    <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> getLogger()
-</span><span id="275" class="l"><a href="#275">275 </a>    {
-</span><span id="276" class="l"><a href="#276">276 </a>        <span class="php-keyword1">if</span> (<span class="php-var">$this</span>-&gt;logger === <span class="php-keyword1">null</span>) {
-</span><span id="277" class="l"><a href="#277">277 </a>            <span class="php-var">$this</span>-&gt;logger = <span class="php-keyword1">new</span> Logger(<span class="php-quote">'wirecard_payment_sdk'</span>);
-</span><span id="278" class="l"><a href="#278">278 </a>            <span class="php-var">$this</span>-&gt;logger-&gt;pushHandler(<span class="php-keyword1">new</span> ErrorLogHandler());
-</span><span id="279" class="l"><a href="#279">279 </a>        }
-</span><span id="280" class="l"><a href="#280">280 </a>
-</span><span id="281" class="l"><a href="#281">281 </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;logger;
-</span><span id="282" class="l"><a href="#282">282 </a>    }
-</span><span id="283" class="l"><a href="#283">283 </a>
-</span><span id="284" class="l"><a href="#284">284 </a>    <span class="php-comment">/**
-</span></span><span id="285" class="l"><a href="#285">285 </a><span class="php-comment">     * @param Transaction $transaction
-</span></span><span id="286" class="l"><a href="#286">286 </a><span class="php-comment">     * @param string $operation
-</span></span><span id="287" class="l"><a href="#287">287 </a><span class="php-comment">     * @return FailureResponse|InteractionResponse|Response|SuccessResponse
-</span></span><span id="288" class="l"><a href="#288">288 </a><span class="php-comment">     */</span>
-</span><span id="289" class="l"><a href="#289">289 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> process(Transaction <span class="php-var">$transaction</span>, <span class="php-var">$operation</span>)
-</span><span id="290" class="l"><a href="#290">290 </a>    {
-</span><span id="291" class="l"><a href="#291">291 </a>        <span class="php-var">$parentTransactionType</span> = <span class="php-keyword1">null</span>;
-</span><span id="292" class="l"><a href="#292">292 </a>
-</span><span id="293" class="l"><a href="#293">293 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">null</span> !== <span class="php-var">$transaction</span>-&gt;getParentTransactionId()) {
-</span><span id="294" class="l"><a href="#294">294 </a>            <span class="php-var">$parentTransaction</span> = <span class="php-var">$this</span>-&gt;getTransactionByTransactionId(
-</span><span id="295" class="l"><a href="#295">295 </a>                <span class="php-var">$transaction</span>-&gt;getParentTransactionId(),
-</span><span id="296" class="l"><a href="#296">296 </a>                <span class="php-var">$transaction</span>-&gt;getConfigKey(<span class="php-var">$operation</span>)
-</span><span id="297" class="l"><a href="#297">297 </a>            );
-</span><span id="298" class="l"><a href="#298">298 </a>
-</span><span id="299" class="l"><a href="#299">299 </a>            <span class="php-keyword1">if</span> (<span class="php-keyword1">null</span> !== <span class="php-var">$parentTransaction</span> &amp;&amp; <span class="php-keyword2">array_key_exists</span>(Transaction::PARAM_PAYMENT, <span class="php-var">$parentTransaction</span>)
-</span><span id="300" class="l"><a href="#300">300 </a>                &amp;&amp; <span class="php-keyword2">array_key_exists</span>(<span class="php-quote">'transaction-type'</span>, <span class="php-var">$parentTransaction</span>[Transaction::PARAM_PAYMENT])
-</span><span id="301" class="l"><a href="#301">301 </a>            ) {
-</span><span id="302" class="l"><a href="#302">302 </a>                <span class="php-var">$parentTransactionType</span> = <span class="php-var">$parentTransaction</span>[Transaction::PARAM_PAYMENT]
-</span><span id="303" class="l"><a href="#303">303 </a>                    [Transaction::PARAM_TRANSACTION_TYPE];
-</span><span id="304" class="l"><a href="#304">304 </a>            }
-</span><span id="305" class="l"><a href="#305">305 </a>        }
-</span><span id="306" class="l"><a href="#306">306 </a>
-</span><span id="307" class="l"><a href="#307">307 </a>        <span class="php-var">$requestBody</span> = <span class="php-var">$this</span>-&gt;getRequestMapper()-&gt;map(<span class="php-var">$transaction</span>, <span class="php-var">$operation</span>, <span class="php-var">$parentTransactionType</span>);
-</span><span id="308" class="l"><a href="#308">308 </a>
-</span><span id="309" class="l"><a href="#309">309 </a>        <span class="php-var">$response</span> = <span class="php-var">$this</span>-&gt;getHttpClient()-&gt;request(
-</span><span id="310" class="l"><a href="#310">310 </a>            <span class="php-quote">'POST'</span>,
-</span><span id="311" class="l"><a href="#311">311 </a>            <span class="php-var">$this</span>-&gt;getConfig()-&gt;getBaseUrl() . <span class="php-var">$transaction</span>::ENDPOINT,
-</span><span id="312" class="l"><a href="#312">312 </a>            [
-</span><span id="313" class="l"><a href="#313">313 </a>                <span class="php-quote">'auth'</span> =&gt; [
-</span><span id="314" class="l"><a href="#314">314 </a>                    <span class="php-var">$this</span>-&gt;getConfig()-&gt;getHttpUser(),
-</span><span id="315" class="l"><a href="#315">315 </a>                    <span class="php-var">$this</span>-&gt;getConfig()-&gt;getHttpPassword()
-</span><span id="316" class="l"><a href="#316">316 </a>                ],
-</span><span id="317" class="l"><a href="#317">317 </a>                <span class="php-quote">'headers'</span> =&gt; [
-</span><span id="318" class="l"><a href="#318">318 </a>                    <span class="php-quote">'Content-Type'</span> =&gt; self::APPLICATION_JSON,
-</span><span id="319" class="l"><a href="#319">319 </a>                    <span class="php-quote">'Accept'</span> =&gt; <span class="php-quote">'application/xml'</span>
-</span><span id="320" class="l"><a href="#320">320 </a>                ],
-</span><span id="321" class="l"><a href="#321">321 </a>                <span class="php-quote">'body'</span> =&gt; <span class="php-var">$requestBody</span>
-</span><span id="322" class="l"><a href="#322">322 </a>            ]
-</span><span id="323" class="l"><a href="#323">323 </a>        );
-</span><span id="324" class="l"><a href="#324">324 </a>
-</span><span id="325" class="l"><a href="#325">325 </a>        <span class="php-var">$data</span> = <span class="php-var">$transaction</span> <span class="php-keyword1">instanceof</span> ThreeDCreditCardTransaction ? <span class="php-var">$transaction</span> : <span class="php-keyword1">null</span>;
-</span><span id="326" class="l"><a href="#326">326 </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;getResponseMapper()-&gt;map(<span class="php-var">$response</span>-&gt;getBody()-&gt;getContents(), <span class="php-var">$operation</span>, <span class="php-var">$data</span>);
-</span><span id="327" class="l"><a href="#327">327 </a>    }
-</span><span id="328" class="l"><a href="#328">328 </a>
-</span><span id="329" class="l"><a href="#329">329 </a>    <span class="php-comment">/**
-</span></span><span id="330" class="l"><a href="#330">330 </a><span class="php-comment">     * @param $transactionId
-</span></span><span id="331" class="l"><a href="#331">331 </a><span class="php-comment">     * @param $paymentMethod
-</span></span><span id="332" class="l"><a href="#332">332 </a><span class="php-comment">     * @return null|array
-</span></span><span id="333" class="l"><a href="#333">333 </a><span class="php-comment">     */</span>
-</span><span id="334" class="l"><a href="#334">334 </a>    <span class="php-keyword1">private</span> <span class="php-keyword1">function</span> getTransactionByTransactionId(<span class="php-var">$transactionId</span>, <span class="php-var">$paymentMethod</span>)
-</span><span id="335" class="l"><a href="#335">335 </a>    {
-</span><span id="336" class="l"><a href="#336">336 </a>        <span class="php-var">$response</span> = <span class="php-var">$this</span>-&gt;getHttpClient()-&gt;request(
-</span><span id="337" class="l"><a href="#337">337 </a>            <span class="php-quote">'GET'</span>,
-</span><span id="338" class="l"><a href="#338">338 </a>            <span class="php-var">$this</span>-&gt;getConfig()-&gt;getBaseUrl() .
-</span><span id="339" class="l"><a href="#339">339 </a>            <span class="php-quote">'/engine/rest/merchants/'</span> .
-</span><span id="340" class="l"><a href="#340">340 </a>            <span class="php-var">$this</span>-&gt;getConfig()-&gt;get(<span class="php-var">$paymentMethod</span>)-&gt;getMerchantAccountId() .
-</span><span id="341" class="l"><a href="#341">341 </a>            <span class="php-quote">'/payments/'</span> .
-</span><span id="342" class="l"><a href="#342">342 </a>            <span class="php-var">$transactionId</span>,
-</span><span id="343" class="l"><a href="#343">343 </a>            [
-</span><span id="344" class="l"><a href="#344">344 </a>                <span class="php-quote">'auth'</span> =&gt; [
-</span><span id="345" class="l"><a href="#345">345 </a>                    <span class="php-var">$this</span>-&gt;getConfig()-&gt;getHttpUser(),
-</span><span id="346" class="l"><a href="#346">346 </a>                    <span class="php-var">$this</span>-&gt;getConfig()-&gt;getHttpPassword()
-</span><span id="347" class="l"><a href="#347">347 </a>                ],
-</span><span id="348" class="l"><a href="#348">348 </a>                <span class="php-quote">'headers'</span> =&gt; [
-</span><span id="349" class="l"><a href="#349">349 </a>                    <span class="php-quote">'Content-Type'</span> =&gt; self::APPLICATION_JSON,
-</span><span id="350" class="l"><a href="#350">350 </a>                    <span class="php-quote">'Accept'</span> =&gt; self::APPLICATION_JSON
-</span><span id="351" class="l"><a href="#351">351 </a>                ]
-</span><span id="352" class="l"><a href="#352">352 </a>            ]
-</span><span id="353" class="l"><a href="#353">353 </a>        );
-</span><span id="354" class="l"><a href="#354">354 </a>
-</span><span id="355" class="l"><a href="#355">355 </a>        <span class="php-keyword1">return</span> <span class="php-keyword2">json_decode</span>(<span class="php-var">$response</span>-&gt;getBody()-&gt;getContents(), <span class="php-keyword1">true</span>);
-</span><span id="356" class="l"><a href="#356">356 </a>    }
-</span><span id="357" class="l"><a href="#357">357 </a>
-</span><span id="358" class="l"><a href="#358">358 </a>    <span class="php-comment">/**
-</span></span><span id="359" class="l"><a href="#359">359 </a><span class="php-comment">     * @param array $payload
-</span></span><span id="360" class="l"><a href="#360">360 </a><span class="php-comment">     * @return FailureResponse|InteractionResponse|Response|SuccessResponse
-</span></span><span id="361" class="l"><a href="#361">361 </a><span class="php-comment">     */</span>
-</span><span id="362" class="l"><a href="#362">362 </a>    <span class="php-keyword1">private</span> <span class="php-keyword1">function</span> processAuthFrom3DResponse(<span class="php-var">$payload</span>)
-</span><span id="363" class="l"><a href="#363">363 </a>    {
-</span><span id="364" class="l"><a href="#364">364 </a>        <span class="php-var">$md</span> = <span class="php-keyword2">json_decode</span>(<span class="php-keyword2">base64_decode</span>(<span class="php-var">$payload</span>[<span class="php-quote">'MD'</span>]), <span class="php-keyword1">true</span>);
-</span><span id="365" class="l"><a href="#365">365 </a>
-</span><span id="366" class="l"><a href="#366">366 </a>        <span class="php-var">$transaction</span> = <span class="php-keyword1">new</span> ThreeDCreditCardTransaction();
-</span><span id="367" class="l"><a href="#367">367 </a>        <span class="php-var">$transaction</span>-&gt;setParentTransactionId(<span class="php-var">$md</span>[<span class="php-quote">'enrollment-check-transaction-id'</span>]);
-</span><span id="368" class="l"><a href="#368">368 </a>        <span class="php-var">$transaction</span>-&gt;setPaRes(<span class="php-var">$payload</span>[<span class="php-quote">'PaRes'</span>]);
-</span><span id="369" class="l"><a href="#369">369 </a>
-</span><span id="370" class="l"><a href="#370">370 </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;process(<span class="php-var">$transaction</span>, <span class="php-var">$md</span>[<span class="php-quote">'operation-type'</span>]);
-</span><span id="371" class="l"><a href="#371">371 </a>    }
-</span><span id="372" class="l"><a href="#372">372 </a>}
-</span><span id="373" class="l"><a href="#373">373 </a></span></code></pre>
+</span><span id="270" class="l"><a href="#270">270 </a>    <span class="php-comment">/**
+</span></span><span id="271" class="l"><a href="#271">271 </a><span class="php-comment">     * @return LoggerInterface
+</span></span><span id="272" class="l"><a href="#272">272 </a><span class="php-comment">     */</span>
+</span><span id="273" class="l"><a href="#273">273 </a>    <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> getLogger()
+</span><span id="274" class="l"><a href="#274">274 </a>    {
+</span><span id="275" class="l"><a href="#275">275 </a>        <span class="php-keyword1">if</span> (<span class="php-var">$this</span>-&gt;logger === <span class="php-keyword1">null</span>) {
+</span><span id="276" class="l"><a href="#276">276 </a>            <span class="php-var">$this</span>-&gt;logger = <span class="php-keyword1">new</span> Logger(<span class="php-quote">'wirecard_payment_sdk'</span>);
+</span><span id="277" class="l"><a href="#277">277 </a>            <span class="php-var">$this</span>-&gt;logger-&gt;pushHandler(<span class="php-keyword1">new</span> ErrorLogHandler());
+</span><span id="278" class="l"><a href="#278">278 </a>        }
+</span><span id="279" class="l"><a href="#279">279 </a>
+</span><span id="280" class="l"><a href="#280">280 </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;logger;
+</span><span id="281" class="l"><a href="#281">281 </a>    }
+</span><span id="282" class="l"><a href="#282">282 </a>
+</span><span id="283" class="l"><a href="#283">283 </a>    <span class="php-comment">/**
+</span></span><span id="284" class="l"><a href="#284">284 </a><span class="php-comment">     * @param Transaction $transaction
+</span></span><span id="285" class="l"><a href="#285">285 </a><span class="php-comment">     * @param string $operation
+</span></span><span id="286" class="l"><a href="#286">286 </a><span class="php-comment">     * @return FailureResponse|InteractionResponse|Response|SuccessResponse
+</span></span><span id="287" class="l"><a href="#287">287 </a><span class="php-comment">     */</span>
+</span><span id="288" class="l"><a href="#288">288 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> process(Transaction <span class="php-var">$transaction</span>, <span class="php-var">$operation</span>)
+</span><span id="289" class="l"><a href="#289">289 </a>    {
+</span><span id="290" class="l"><a href="#290">290 </a>        <span class="php-var">$transaction</span>-&gt;setOperation(<span class="php-var">$operation</span>);
+</span><span id="291" class="l"><a href="#291">291 </a>
+</span><span id="292" class="l"><a href="#292">292 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">null</span> !== <span class="php-var">$transaction</span>-&gt;getParentTransactionId()) {
+</span><span id="293" class="l"><a href="#293">293 </a>            <span class="php-var">$parentTransaction</span> = <span class="php-var">$this</span>-&gt;getTransactionByTransactionId(
+</span><span id="294" class="l"><a href="#294">294 </a>                <span class="php-var">$transaction</span>-&gt;getParentTransactionId(),
+</span><span id="295" class="l"><a href="#295">295 </a>                <span class="php-var">$transaction</span>-&gt;getConfigKey()
+</span><span id="296" class="l"><a href="#296">296 </a>            );
+</span><span id="297" class="l"><a href="#297">297 </a>
+</span><span id="298" class="l"><a href="#298">298 </a>            <span class="php-keyword1">if</span> (<span class="php-keyword1">null</span> !== <span class="php-var">$parentTransaction</span> &amp;&amp; <span class="php-keyword2">array_key_exists</span>(Transaction::PARAM_PAYMENT, <span class="php-var">$parentTransaction</span>)
+</span><span id="299" class="l"><a href="#299">299 </a>                &amp;&amp; <span class="php-keyword2">array_key_exists</span>(<span class="php-quote">'transaction-type'</span>, <span class="php-var">$parentTransaction</span>[Transaction::PARAM_PAYMENT])
+</span><span id="300" class="l"><a href="#300">300 </a>            ) {
+</span><span id="301" class="l"><a href="#301">301 </a>                <span class="php-var">$transaction</span>-&gt;setParentTransactionType(<span class="php-var">$parentTransaction</span>[Transaction::PARAM_PAYMENT]
+</span><span id="302" class="l"><a href="#302">302 </a>                    [Transaction::PARAM_TRANSACTION_TYPE]);
+</span><span id="303" class="l"><a href="#303">303 </a>            }
+</span><span id="304" class="l"><a href="#304">304 </a>        }
+</span><span id="305" class="l"><a href="#305">305 </a>
+</span><span id="306" class="l"><a href="#306">306 </a>        <span class="php-var">$requestBody</span> = <span class="php-var">$this</span>-&gt;getRequestMapper()-&gt;map(<span class="php-var">$transaction</span>);
+</span><span id="307" class="l"><a href="#307">307 </a>
+</span><span id="308" class="l"><a href="#308">308 </a>        <span class="php-var">$response</span> = <span class="php-var">$this</span>-&gt;getHttpClient()-&gt;request(
+</span><span id="309" class="l"><a href="#309">309 </a>            <span class="php-quote">'POST'</span>,
+</span><span id="310" class="l"><a href="#310">310 </a>            <span class="php-var">$this</span>-&gt;getConfig()-&gt;getBaseUrl() . <span class="php-var">$transaction</span>::ENDPOINT,
+</span><span id="311" class="l"><a href="#311">311 </a>            [
+</span><span id="312" class="l"><a href="#312">312 </a>                <span class="php-quote">'auth'</span> =&gt; [
+</span><span id="313" class="l"><a href="#313">313 </a>                    <span class="php-var">$this</span>-&gt;getConfig()-&gt;getHttpUser(),
+</span><span id="314" class="l"><a href="#314">314 </a>                    <span class="php-var">$this</span>-&gt;getConfig()-&gt;getHttpPassword()
+</span><span id="315" class="l"><a href="#315">315 </a>                ],
+</span><span id="316" class="l"><a href="#316">316 </a>                <span class="php-quote">'headers'</span> =&gt; [
+</span><span id="317" class="l"><a href="#317">317 </a>                    <span class="php-quote">'Content-Type'</span> =&gt; self::APPLICATION_JSON,
+</span><span id="318" class="l"><a href="#318">318 </a>                    <span class="php-quote">'Accept'</span> =&gt; <span class="php-quote">'application/xml'</span>
+</span><span id="319" class="l"><a href="#319">319 </a>                ],
+</span><span id="320" class="l"><a href="#320">320 </a>                <span class="php-quote">'body'</span> =&gt; <span class="php-var">$requestBody</span>
+</span><span id="321" class="l"><a href="#321">321 </a>            ]
+</span><span id="322" class="l"><a href="#322">322 </a>        );
+</span><span id="323" class="l"><a href="#323">323 </a>
+</span><span id="324" class="l"><a href="#324">324 </a>        <span class="php-var">$data</span> = <span class="php-var">$transaction</span> <span class="php-keyword1">instanceof</span> ThreeDCreditCardTransaction ? <span class="php-var">$transaction</span> : <span class="php-keyword1">null</span>;
+</span><span id="325" class="l"><a href="#325">325 </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;getResponseMapper()-&gt;map(<span class="php-var">$response</span>-&gt;getBody()-&gt;getContents(), <span class="php-var">$operation</span>, <span class="php-var">$data</span>);
+</span><span id="326" class="l"><a href="#326">326 </a>    }
+</span><span id="327" class="l"><a href="#327">327 </a>
+</span><span id="328" class="l"><a href="#328">328 </a>    <span class="php-comment">/**
+</span></span><span id="329" class="l"><a href="#329">329 </a><span class="php-comment">     * @param $transactionId
+</span></span><span id="330" class="l"><a href="#330">330 </a><span class="php-comment">     * @param $paymentMethod
+</span></span><span id="331" class="l"><a href="#331">331 </a><span class="php-comment">     * @return null|array
+</span></span><span id="332" class="l"><a href="#332">332 </a><span class="php-comment">     */</span>
+</span><span id="333" class="l"><a href="#333">333 </a>    <span class="php-keyword1">private</span> <span class="php-keyword1">function</span> getTransactionByTransactionId(<span class="php-var">$transactionId</span>, <span class="php-var">$paymentMethod</span>)
+</span><span id="334" class="l"><a href="#334">334 </a>    {
+</span><span id="335" class="l"><a href="#335">335 </a>        <span class="php-var">$response</span> = <span class="php-var">$this</span>-&gt;getHttpClient()-&gt;request(
+</span><span id="336" class="l"><a href="#336">336 </a>            <span class="php-quote">'GET'</span>,
+</span><span id="337" class="l"><a href="#337">337 </a>            <span class="php-var">$this</span>-&gt;getConfig()-&gt;getBaseUrl() .
+</span><span id="338" class="l"><a href="#338">338 </a>            <span class="php-quote">'/engine/rest/merchants/'</span> .
+</span><span id="339" class="l"><a href="#339">339 </a>            <span class="php-var">$this</span>-&gt;getConfig()-&gt;get(<span class="php-var">$paymentMethod</span>)-&gt;getMerchantAccountId() .
+</span><span id="340" class="l"><a href="#340">340 </a>            <span class="php-quote">'/payments/'</span> .
+</span><span id="341" class="l"><a href="#341">341 </a>            <span class="php-var">$transactionId</span>,
+</span><span id="342" class="l"><a href="#342">342 </a>            [
+</span><span id="343" class="l"><a href="#343">343 </a>                <span class="php-quote">'auth'</span> =&gt; [
+</span><span id="344" class="l"><a href="#344">344 </a>                    <span class="php-var">$this</span>-&gt;getConfig()-&gt;getHttpUser(),
+</span><span id="345" class="l"><a href="#345">345 </a>                    <span class="php-var">$this</span>-&gt;getConfig()-&gt;getHttpPassword()
+</span><span id="346" class="l"><a href="#346">346 </a>                ],
+</span><span id="347" class="l"><a href="#347">347 </a>                <span class="php-quote">'headers'</span> =&gt; [
+</span><span id="348" class="l"><a href="#348">348 </a>                    <span class="php-quote">'Content-Type'</span> =&gt; self::APPLICATION_JSON,
+</span><span id="349" class="l"><a href="#349">349 </a>                    <span class="php-quote">'Accept'</span> =&gt; self::APPLICATION_JSON
+</span><span id="350" class="l"><a href="#350">350 </a>                ]
+</span><span id="351" class="l"><a href="#351">351 </a>            ]
+</span><span id="352" class="l"><a href="#352">352 </a>        );
+</span><span id="353" class="l"><a href="#353">353 </a>
+</span><span id="354" class="l"><a href="#354">354 </a>        <span class="php-keyword1">return</span> <span class="php-keyword2">json_decode</span>(<span class="php-var">$response</span>-&gt;getBody()-&gt;getContents(), <span class="php-keyword1">true</span>);
+</span><span id="355" class="l"><a href="#355">355 </a>    }
+</span><span id="356" class="l"><a href="#356">356 </a>
+</span><span id="357" class="l"><a href="#357">357 </a>    <span class="php-comment">/**
+</span></span><span id="358" class="l"><a href="#358">358 </a><span class="php-comment">     * @param array $payload
+</span></span><span id="359" class="l"><a href="#359">359 </a><span class="php-comment">     * @return FailureResponse|InteractionResponse|Response|SuccessResponse
+</span></span><span id="360" class="l"><a href="#360">360 </a><span class="php-comment">     */</span>
+</span><span id="361" class="l"><a href="#361">361 </a>    <span class="php-keyword1">private</span> <span class="php-keyword1">function</span> processAuthFrom3DResponse(<span class="php-var">$payload</span>)
+</span><span id="362" class="l"><a href="#362">362 </a>    {
+</span><span id="363" class="l"><a href="#363">363 </a>        <span class="php-var">$md</span> = <span class="php-keyword2">json_decode</span>(<span class="php-keyword2">base64_decode</span>(<span class="php-var">$payload</span>[<span class="php-quote">'MD'</span>]), <span class="php-keyword1">true</span>);
+</span><span id="364" class="l"><a href="#364">364 </a>
+</span><span id="365" class="l"><a href="#365">365 </a>        <span class="php-var">$transaction</span> = <span class="php-keyword1">new</span> ThreeDCreditCardTransaction();
+</span><span id="366" class="l"><a href="#366">366 </a>        <span class="php-var">$transaction</span>-&gt;setParentTransactionId(<span class="php-var">$md</span>[<span class="php-quote">'enrollment-check-transaction-id'</span>]);
+</span><span id="367" class="l"><a href="#367">367 </a>        <span class="php-var">$transaction</span>-&gt;setPaRes(<span class="php-var">$payload</span>[<span class="php-quote">'PaRes'</span>]);
+</span><span id="368" class="l"><a href="#368">368 </a>
+</span><span id="369" class="l"><a href="#369">369 </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;process(<span class="php-var">$transaction</span>, <span class="php-var">$md</span>[<span class="php-quote">'operation-type'</span>]);
+</span><span id="370" class="l"><a href="#370">370 </a>    }
+</span><span id="371" class="l"><a href="#371">371 </a>}
+</span><span id="372" class="l"><a href="#372">372 </a></span></code></pre>
 	</div>
 
 	<div id="footer">
@@ -517,6 +519,6 @@
 	</div>
 </div>
 <script src="resources/combined.js?cfd636dbffd7235c2f8960621ad1ba069499eba1"></script>
-<script src="elementlist.js?736d15ab4b1a69e34895b37a064c06a3baace073"></script>
+<script src="elementlist.js?dcea314e7819ae4eece9367e452f6f43a4df7140"></script>
 </body>
 </html>

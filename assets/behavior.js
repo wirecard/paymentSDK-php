@@ -44,8 +44,8 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "type": "heading",
                   "data": {
                     "level": 1,
-                    "title": "Purchase for credit card with 3-D secure",
-                    "slug": "purchase-for-credit-card-with-3-d-secure"
+                    "title": "3-D Secure purchase for credit card",
+                    "slug": "3-d-secure-purchase-for-credit-card"
                   },
                   "depth": 1
                 }, {
@@ -212,44 +212,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "type": "file",
               "data": {
                 "language": {
-                  "nameMatchers": [".htm", ".html"],
-                  "pygmentsLexer": "html",
-                  "multiLineComment": ["<!--", "", "-->"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "HTML"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/CreditCard/cancel-data-entry.html",
-                "projectPath": "examples/CreditCard/cancel-data-entry.html",
-                "targetPath": "examples/CreditCard/cancel-data-entry",
-                "pageTitle": "examples/CreditCard/cancel-data-entry",
-                "title": "cancel-data-entry"
-              },
-              "depth": 3,
-              "outline": []
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [".htm", ".html"],
-                  "pygmentsLexer": "html",
-                  "multiLineComment": ["<!--", "", "-->"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "HTML"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/CreditCard/create-based-on-previous-transaction.html",
-                "projectPath": "examples/CreditCard/create-based-on-previous-transaction.html",
-                "targetPath": "examples/CreditCard/create-based-on-previous-transaction",
-                "pageTitle": "examples/CreditCard/create-based-on-previous-transaction",
-                "title": "create-based-on-previous-transaction"
-              },
-              "depth": 3,
-              "outline": []
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
                   "nameMatchers": [{}, ".fbp"],
                   "pygmentsLexer": "php",
                   "singleLineComment": ["//"],
@@ -336,8 +298,8 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "type": "heading",
                   "data": {
                     "level": 1,
-                    "title": "Cancelling a transaction",
-                    "slug": "cancelling-a-transaction"
+                    "title": "Credit to a credit card",
+                    "slug": "credit-to-a-credit-card"
                   },
                   "depth": 1,
                   "children": [
@@ -376,44 +338,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "type": "file",
               "data": {
                 "language": {
-                  "nameMatchers": [".htm", ".html"],
-                  "pygmentsLexer": "html",
-                  "multiLineComment": ["<!--", "", "-->"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "HTML"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/CreditCard/pay-based-on-pay.html",
-                "projectPath": "examples/CreditCard/pay-based-on-pay.html",
-                "targetPath": "examples/CreditCard/pay-based-on-pay",
-                "pageTitle": "examples/CreditCard/pay-based-on-pay",
-                "title": "pay-based-on-pay"
-              },
-              "depth": 3,
-              "outline": []
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [".htm", ".html"],
-                  "pygmentsLexer": "html",
-                  "multiLineComment": ["<!--", "", "-->"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "HTML"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/CreditCard/pay-based-on-reserve.html",
-                "projectPath": "examples/CreditCard/pay-based-on-reserve.html",
-                "targetPath": "examples/CreditCard/pay-based-on-reserve",
-                "pageTitle": "examples/CreditCard/pay-based-on-reserve",
-                "title": "pay-based-on-reserve"
-              },
-              "depth": 3,
-              "outline": []
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
                   "nameMatchers": [{}, ".fbp"],
                   "pygmentsLexer": "php",
                   "singleLineComment": ["//"],
@@ -428,7 +352,47 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                 "title": "pay-based-on-reserve"
               },
               "depth": 3,
-              "outline": []
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Payment after a reservation",
+                    "slug": "payment-after-a-reservation"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
             }, {
               "type": "file",
               "data": {
@@ -511,8 +475,8 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "type": "heading",
                   "data": {
                     "level": 1,
-                    "title": "Credit card amount purchase",
-                    "slug": "credit-card-amount-purchase"
+                    "title": "Credit card purchase",
+                    "slug": "credit-card-purchase"
                   },
                   "depth": 1,
                   "children": [
@@ -578,8 +542,8 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "type": "heading",
                   "data": {
                     "level": 1,
-                    "title": "Credit card amount reservation",
-                    "slug": "credit-card-amount-reservation"
+                    "title": "Credit card reservation",
+                    "slug": "credit-card-reservation"
                   },
                   "depth": 1,
                   "children": [
@@ -828,6 +792,262 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                         "slug": "payment-results"
                       },
                       "depth": 3
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }, {
+          "type": "folder",
+          "data": {
+            "path": "examples/Sepa",
+            "title": "Sepa"
+          },
+          "depth": 2,
+          "children": [
+            {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Sepa/cancel.php",
+                "projectPath": "examples/Sepa/cancel.php",
+                "targetPath": "examples/Sepa/cancel",
+                "pageTitle": "examples/Sepa/cancel",
+                "title": "cancel"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Cancelling a SEPA-transaction",
+                    "slug": "cancelling-a-sepa-transaction"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Cancelling the transaction",
+                        "slug": "cancelling-the-transaction"
+                      },
+                      "depth": 2
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Sepa/credit.php",
+                "projectPath": "examples/Sepa/credit.php",
+                "targetPath": "examples/Sepa/credit",
+                "pageTitle": "examples/Sepa/credit",
+                "title": "credit"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "SEPA credit",
+                    "slug": "sepa-credit"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 3,
+                        "title": "Config",
+                        "slug": "config"
+                      },
+                      "depth": 3
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Sepa/pay.php",
+                "projectPath": "examples/Sepa/pay.php",
+                "targetPath": "examples/Sepa/pay",
+                "pageTitle": "examples/Sepa/pay",
+                "title": "pay"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "SEPA amount payment",
+                    "slug": "sepa-amount-payment"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 3,
+                        "title": "Config",
+                        "slug": "config"
+                      },
+                      "depth": 3
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Sepa/reserve.php",
+                "projectPath": "examples/Sepa/reserve.php",
+                "targetPath": "examples/Sepa/reserve",
+                "pageTitle": "examples/Sepa/reserve",
+                "title": "reserve"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "SEPA amount reservation",
+                    "slug": "sepa-amount-reservation"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
                     }
                   ]
                 }

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 
-	<title>Class Wirecard\PaymentSdk\Transaction\PayPalTransaction</title>
+	<title>Class Wirecard\PaymentSdk\Transaction\SepaTransaction</title>
 
 	<link rel="stylesheet" href="resources/bootstrap.min.css?973e37a8502921d56bc02bb55321f45b072b6f71">
 	<link rel="stylesheet" href="resources/style.css?49f43d3208c5d7e33fa16d36107a345bf11cc00d">
@@ -92,8 +92,8 @@
 			<ul>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html">CreditCardTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.Operation.html">Operation</a></li>
-				<li class="active"><a href="class-Wirecard.PaymentSdk.Transaction.PayPalTransaction.html">PayPalTransaction</a></li>
-				<li><a href="class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html">SepaTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.PayPalTransaction.html">PayPalTransaction</a></li>
+				<li class="active"><a href="class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html">SepaTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.ThreeDCreditCardTransaction.html">ThreeDCreditCardTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Transaction</a></li>
 			</ul>
@@ -111,11 +111,11 @@
 <div id="right">
 	<div id="rightInner">
 <div id="content" class="class">
-	<h1>Class PayPalTransaction</h1>
+	<h1>Class SepaTransaction</h1>
 
 
 	<div class="description">
-	<p>Class PayPalTransaction</p>
+	<p>Interface Transaction</p>
 	</div>
 
 	<dl class="tree well">
@@ -127,7 +127,7 @@
 		</dd>
 		<dd style="padding-left:30px">
 			<img src="resources/inherit.png" alt="Extended by">
-<b><span>Wirecard\PaymentSdk\Transaction\PayPalTransaction</span></b>			
+<b><span>Wirecard\PaymentSdk\Transaction\SepaTransaction</span></b>			
 			
 			
 		</dd>
@@ -146,7 +146,7 @@
 		<b>Namespace:</b> <a href="namespace-Wirecard.html">Wirecard</a>\<a href="namespace-Wirecard.PaymentSdk.html">PaymentSdk</a>\<a href="namespace-Wirecard.PaymentSdk.Transaction.html">Transaction</a><br>
 		<b>Package:</b> Wirecard\PaymentSdk\Transaction<br>
 
-			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.Transaction.PayPalTransaction.html#38-86" title="Go to source code">Transaction/PayPalTransaction.php</a>
+			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html#38-153" title="Go to source code">Transaction/SepaTransaction.php</a>
 		<br>
 	</div>
 
@@ -155,7 +155,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading"><h2>Methods summary</h2></div>
 			<table class="summary table table-bordered table-striped methods" id="methods">
-		<tr data-order="setRedirect" id="_setRedirect">
+		<tr data-order="setIban" id="_setIban">
 
 			<td class="attributes"><code>
 				 public 
@@ -165,8 +165,8 @@
 			</td>
 
 			<td class="name"><div>
-			<a class="anchor" href="#_setRedirect">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.PayPalTransaction.html#51-57" title="Go to source code">setRedirect</a>( <span><code><a href="class-Wirecard.PaymentSdk.Entity.Redirect.html">Wirecard\PaymentSdk\Entity\Redirect</a></code> <var>$redirect</var></span> )</code>
+			<a class="anchor" href="#_setIban">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html#58-64" title="Go to source code">setIban</a>( <span>string <var>$iban</var></span> )</code>
 
 			<div class="description short">
 				
@@ -178,7 +178,75 @@
 
 					<h4>Parameters</h4>
 					<div class="list"><dl>
-						<dt><var>$redirect</var></dt>
+						<dt><var>$iban</var></dt>
+						<dd></dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="setBic" id="_setBic">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setBic">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html#66-72" title="Go to source code">setBic</a>( <span>string <var>$bic</var></span> )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$bic</var></dt>
+						<dd></dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="setMandate" id="_setMandate">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setMandate">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html#74-80" title="Go to source code">setMandate</a>( <span><code><a href="class-Wirecard.PaymentSdk.Entity.Mandate.html">Wirecard\PaymentSdk\Entity\Mandate</a></code> <var>$mandate</var></span> )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$mandate</var></dt>
 						<dd></dd>
 					</dl></div>
 
@@ -200,7 +268,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_mappedSpecificProperties">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.PayPalTransaction.html#59-69" title="Go to source code">mappedSpecificProperties</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html#82-105" title="Go to source code">mappedSpecificProperties</a>( )</code>
 
 			<div class="description short">
 				
@@ -222,16 +290,84 @@
 			</div>
 			</div></td>
 		</tr>
+		<tr data-order="getConfigKey" id="_getConfigKey">
+
+			<td class="attributes"><code>
+				 public 
+				string
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getConfigKey">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html#107-113" title="Go to source code">getConfigKey</a>( )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+					<h4>Returns</h4>
+					<div class="list">
+						string
+					</div>
+
+
+
+					<h4>Overrides</h4>
+					<div class="list"><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_getConfigKey">Wirecard\PaymentSdk\Transaction\Transaction::getConfigKey</a></code></div>
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="retrievePaymentMethodName" id="_retrievePaymentMethodName">
+
+			<td class="attributes"><code>
+				 public 
+				string
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_retrievePaymentMethodName">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html#115-126" title="Go to source code">retrievePaymentMethodName</a>( )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+					<h4>Returns</h4>
+					<div class="list">
+						string
+					</div>
+
+
+
+					<h4>Overrides</h4>
+					<div class="list"><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_retrievePaymentMethodName">Wirecard\PaymentSdk\Transaction\Transaction::retrievePaymentMethodName</a></code></div>
+
+			</div>
+			</div></td>
+		</tr>
 			</table>
 		</div>
 
 		<div class="panel panel-default">
 	        <div class="panel-heading"><h3>Methods inherited from <a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#methods">Wirecard\PaymentSdk\Transaction\Transaction</a></h3></div>
 			<p class="elementList">
-				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_getConfigKey">getConfigKey()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_getParentTransactionId">getParentTransactionId()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_mappedProperties">mappedProperties()</a></code>, 
-				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_retrievePaymentMethodName">retrievePaymentMethodName()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_setAccountHolder">setAccountHolder()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_setAmount">setAmount()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_setConsumerId">setConsumerId()</a></code>, 
@@ -250,6 +386,56 @@
 
 		<div class="panel panel-default">
             <div class="panel-heading"><h2>Constants summary</h2></div>
+			<table class="summary table table-bordered table-striped constants" id="constants">
+			<tr data-order="DIRECT_DEBIT" id="DIRECT_DEBIT">
+
+				<td class="attributes"><code>string</code></td>
+				<td class="name">
+					<code>
+						<a href="source-class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html#40" title="Go to source code"><b>DIRECT_DEBIT</b></a>
+					</code>
+
+					<div class="description short">
+						
+					</div>
+
+					<div class="description detailed hidden">
+						
+
+					</div>
+				</td>
+				<td class="value">
+					<div>
+						<a href="#DIRECT_DEBIT" class="anchor">#</a>
+						<code><span class="php-quote">'sepadirectdebit'</span></code>
+					</div>
+				</td>
+			</tr>
+			<tr data-order="CREDIT_TRANSFER" id="CREDIT_TRANSFER">
+
+				<td class="attributes"><code>string</code></td>
+				<td class="name">
+					<code>
+						<a href="source-class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html#41" title="Go to source code"><b>CREDIT_TRANSFER</b></a>
+					</code>
+
+					<div class="description short">
+						
+					</div>
+
+					<div class="description detailed hidden">
+						
+
+					</div>
+				</td>
+				<td class="value">
+					<div>
+						<a href="#CREDIT_TRANSFER" class="anchor">#</a>
+						<code><span class="php-quote">'sepacredit'</span></code>
+					</div>
+				</td>
+			</tr>
+			</table>
 		</div>
 
 		<div class="panel panel-default">
