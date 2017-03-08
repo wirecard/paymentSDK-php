@@ -51,6 +51,7 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
      */
     public function testMapPropertiesUnsupportedOperation()
     {
-        $this->tx->mappedProperties('non-existing');
+        $this->tx->setOperation('non-existing');
+        $this->tx->mappedProperties();
     }
 }
