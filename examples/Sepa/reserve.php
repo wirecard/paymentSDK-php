@@ -65,7 +65,14 @@ $response = $transactionService->reserve($transaction);
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo sprintf('Payment with id %s successfully completed.<br>', $response->getTransactionId());
+    $txDetailsLink = sprintf(
+        'https://api-test.wirecard.com/engine/rest/merchants/%s/payments/%s',
+        $sepaMId,
+        $response->getTransactionId()
+    );
     ?>
+
+    <a href="<?= $txDetailsLink ?>">View transaction details</a>
     <br>
     <form action="pay.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
