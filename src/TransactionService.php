@@ -46,6 +46,7 @@ use Wirecard\PaymentSdk\Response\Response;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
+use Wirecard\PaymentSdk\Transaction\Reservable;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
@@ -232,10 +233,10 @@ class TransactionService
     }
 
     /**
-     * @param Transaction $transaction
+     * @param Reservable $transaction
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
      */
-    public function reserve(Transaction $transaction)
+    public function reserve(Reservable $transaction)
     {
         return $this->process($transaction, Operation::RESERVE);
     }

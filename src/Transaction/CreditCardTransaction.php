@@ -42,7 +42,7 @@ use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
  * Use it for SSL payments.
  * For the 3D payments use the specific subclass.
  */
-class CreditCardTransaction extends Transaction
+class CreditCardTransaction extends Transaction implements Reservable
 {
     const ENDPOINT = '/engine/rest/payments/';
     const NAME = 'creditcard';

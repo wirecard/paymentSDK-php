@@ -32,55 +32,13 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\Redirect;
-use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
-
 /**
- * Class PayPalTransaction
+ * Interface Reservable
  * @package Wirecard\PaymentSdk\Transaction
+ *
+ * Empty interface for payment methods which support a 'reserve' operation.
  */
-class PayPalTransaction extends Transaction implements Reservable
+interface Reservable
 {
-    const NAME = 'paypal';
 
-    /**
-     * @var Redirect
-     */
-    private $redirect;
-
-    /**
-     * @param Redirect $redirect
-     */
-    public function setRedirect($redirect)
-    {
-        $this->redirect = $redirect;
-    }
-
-    /**
-     * @return array
-     */
-    protected function mappedSpecificProperties()
-    {
-        return [
-            self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType(),
-            'cancel-redirect-url' => $this->redirect->getCancelUrl(),
-            'success-redirect-url' => $this->redirect->getSuccessUrl()
-        ];
-    }
-
-    /**
-     * @return string
-     */
-    private function retrieveTransactionType()
-    {
-        $transactionTypes = [
-            Operation::PAY => 'debit'
-        ];
-
-        if (!array_key_exists($this->operation, $transactionTypes)) {
-            throw new UnsupportedOperationException();
-        }
-
-        return $transactionTypes[$this->operation];
-    }
 }
