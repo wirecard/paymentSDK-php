@@ -10,7 +10,6 @@ use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Entity\Money;
-use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\SofortTransaction;
 use Wirecard\PaymentSdk\TransactionService;
@@ -38,11 +37,12 @@ function getUrl($path)
 $amount = new Money(12.59, 'EUR');
 
 // ### Redirect URLs
-// The redirect URLs determine where the consumer should be redirected by PayPal after approval/cancellation.
+// The redirect URLs determine where the consumer should be redirected by Sofortbanking after approval/cancellation.
 $redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
 
 // ### Transaction
-// The PayPal transaction holds all transaction relevant data for the payment process.
+// The SofortTransaction object holds all transaction relevant data for the payment process.
+// The required fields are: amount, descriptor, success and cancel redirect URL-s
 $sofortTransaction = new SofortTransaction();
 $sofortTransaction->setRedirect($redirectUrls);
 $sofortTransaction->setDescriptor('test');
@@ -53,7 +53,7 @@ $sofortTransaction->setAmount($amount);
 // Since payment method may have a different merchant ID, a config collection is created.
 $configCollection = new Config\PaymentMethodConfigCollection();
 
-// Create and add a configuration object with the PayPal settings
+// Create and add a configuration object with the Sofortbanking settings
 $sofortMId = 'f19d17a2-01ae-11e2-9085-005056a96a54';
 $sofortSecretKey = 'ad39d9d9-2712-4abd-9016-cdeb60dc3c8f';
 $sofortConfig = new Config\PaymentMethodConfig(SofortTransaction::class, $sofortMId, $sofortSecretKey);
