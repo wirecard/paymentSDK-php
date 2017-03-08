@@ -41,6 +41,15 @@ $response = $service->handleResponse($_POST);
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo sprintf('Payment with id %s successfully completed.<br>', $response->getTransactionId());
+    $txDetailsLink = sprintf(
+        'https://api-test.wirecard.com/engine/rest/merchants/%s/payments/%s',
+        $sofortMId,
+        $response->getTransactionId()
+    );
+    ?>
+
+    <a href="<?= $txDetailsLink ?>">View transaction details</a>
+<?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
     // In our example we iterate over all errors and echo them out.
