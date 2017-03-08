@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class Wirecard\PaymentSdk\Transaction\Transaction</title>
+
+	<link rel="stylesheet" href="resources/bootstrap.min.css?973e37a8502921d56bc02bb55321f45b072b6f71">
+	<link rel="stylesheet" href="resources/style.css?49f43d3208c5d7e33fa16d36107a345bf11cc00d">
+
+</head>
+
+<body>
+	<nav id="navigation" class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a href="index.html" class="navbar-brand">Overview</a>
+			</div>
+			<div class="collapse navbar-collapse">
+
+                <form id="search" class="navbar-form navbar-left" role="search">
+                    <input type="hidden" name="cx" value="">
+                    <input type="hidden" name="ie" value="UTF-8">
+                    <div class="form-group">
+                        <input type="text" name="q" class="search-query form-control" placeholder="Search">
+					</div>
+				</form>
+
+				<ul class="nav navbar-nav">
+					<li>
+						<a href="namespace-Wirecard.PaymentSdk.Transaction.html" title="Summary of Wirecard\PaymentSdk\Transaction"><span>Namespace</span></a>
+					</li>
+					<li class="active">
+<span>Class</span>					</li>
+
+
+
+
+
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div id="left">
+	<div id="menu">
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+					<li class="active">
+						<a href="namespace-Wirecard.html">
+							Wirecard<span></span>
+						</a>
+							<ul>
+					<li class="active">
+						<a href="namespace-Wirecard.PaymentSdk.html">
+							PaymentSdk<span></span>
+						</a>
+							<ul>
+					<li>
+						<a href="namespace-Wirecard.PaymentSdk.Config.html">
+							Config						</a>
+							</li>
+					<li>
+						<a href="namespace-Wirecard.PaymentSdk.Entity.html">
+							Entity						</a>
+							</li>
+					<li>
+						<a href="namespace-Wirecard.PaymentSdk.Exception.html">
+							Exception						</a>
+							</li>
+					<li>
+						<a href="namespace-Wirecard.PaymentSdk.Mapper.html">
+							Mapper						</a>
+							</li>
+					<li>
+						<a href="namespace-Wirecard.PaymentSdk.Response.html">
+							Response						</a>
+							</li>
+					<li class="active">
+						<a href="namespace-Wirecard.PaymentSdk.Transaction.html">
+							Transaction						</a>
+							</li>
+								</ul></li></ul></li>
+			</ul>
+		</div>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html">CreditCardTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.Operation.html">Operation</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.PayPalTransaction.html">PayPalTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html">SepaTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.ThreeDCreditCardTransaction.html">ThreeDCreditCardTransaction</a></li>
+				<li class="active"><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Transaction</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+	<div id="rightInner">
+<div id="content" class="class">
+	<h1>Class Transaction</h1>
+
+
+	<div class="description">
+	<p>Interface Transaction</p>
+	</div>
+
+
+
+	<div>
+		<h3>Direct known subclasses</h3>
+		<p class="elementList">
+			<code><a href="class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html">Wirecard\PaymentSdk\Transaction\CreditCardTransaction</a></code>, 
+			<code><a href="class-Wirecard.PaymentSdk.Transaction.PayPalTransaction.html">Wirecard\PaymentSdk\Transaction\PayPalTransaction</a></code>, 
+			<code><a href="class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html">Wirecard\PaymentSdk\Transaction\SepaTransaction</a></code>
+		</p>
+	</div>
+
+	<div>
+		<h3>Indirect known subclasses</h3>
+		<p class="elementList">
+			<code><a href="class-Wirecard.PaymentSdk.Transaction.ThreeDCreditCardTransaction.html">Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction</a></code>
+		</p>
+	</div>
+
+
+
+
+
+	<div class="alert alert-info">
+		<b>Abstract</b><br>
+		
+		<b>Namespace:</b> <a href="namespace-Wirecard.html">Wirecard</a>\<a href="namespace-Wirecard.PaymentSdk.html">PaymentSdk</a>\<a href="namespace-Wirecard.PaymentSdk.Transaction.html">Transaction</a><br>
+		<b>Package:</b> Wirecard\PaymentSdk\Transaction<br>
+
+			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#38-221" title="Go to source code">Transaction/Transaction.php</a>
+		<br>
+	</div>
+
+
+
+		<div class="panel panel-default">
+			<div class="panel-heading"><h2>Methods summary</h2></div>
+			<table class="summary table table-bordered table-striped methods" id="methods">
+		<tr data-order="setAccountHolder" id="_setAccountHolder">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setAccountHolder">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#93-99" title="Go to source code">setAccountHolder</a>( <span><code><a href="class-Wirecard.PaymentSdk.Entity.AccountHolder.html">Wirecard\PaymentSdk\Entity\AccountHolder</a></code> <var>$accountHolder</var></span> )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$accountHolder</var></dt>
+						<dd></dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="setAmount" id="_setAmount">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setAmount">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#101-107" title="Go to source code">setAmount</a>( <span><code><a href="class-Wirecard.PaymentSdk.Entity.Money.html">Wirecard\PaymentSdk\Entity\Money</a></code> <var>$amount</var></span> )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$amount</var></dt>
+						<dd></dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="setParentTransactionId" id="_setParentTransactionId">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setParentTransactionId">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#109-115" title="Go to source code">setParentTransactionId</a>( <span>string <var>$parentTransactionId</var></span> )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$parentTransactionId</var></dt>
+						<dd></dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getParentTransactionId" id="_getParentTransactionId">
+
+			<td class="attributes"><code>
+				 public 
+				string
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getParentTransactionId">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#117-123" title="Go to source code">getParentTransactionId</a>( )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+					<h4>Returns</h4>
+					<div class="list">
+						string
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="setParentTransactionType" id="_setParentTransactionType">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setParentTransactionType">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#125-131" title="Go to source code">setParentTransactionType</a>( <span>string <var>$parentTransactionType</var></span> )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$parentTransactionType</var></dt>
+						<dd></dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="setNotificationUrl" id="_setNotificationUrl">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setNotificationUrl">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#133-139" title="Go to source code">setNotificationUrl</a>( <span>string <var>$notificationUrl</var></span> )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$notificationUrl</var></dt>
+						<dd></dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="setConsumerId" id="_setConsumerId">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setConsumerId">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#141-147" title="Go to source code">setConsumerId</a>( <span>string <var>$consumerId</var></span> )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$consumerId</var></dt>
+						<dd></dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="setOperation" id="_setOperation">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setOperation">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#149-155" title="Go to source code">setOperation</a>( <span>string <var>$operation</var></span> )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$operation</var></dt>
+						<dd></dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="mappedProperties" id="_mappedProperties">
+
+			<td class="attributes"><code>
+				 public 
+				array
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_mappedProperties">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#157-198" title="Go to source code">mappedProperties</a>( )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+					<h4>Returns</h4>
+					<div class="list">
+						array<br><p>A template method for the mapping of the transaction properties:
+ - the common properties are mapped here,
+ - an abstract operation is defined for the payment type specific properties.</p>
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="mappedSpecificProperties" id="_mappedSpecificProperties">
+
+			<td class="attributes"><code>
+				abstract protected 
+				array
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_mappedSpecificProperties">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#200-203" title="Go to source code">mappedSpecificProperties</a>( )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+					<h4>Returns</h4>
+					<div class="list">
+						array
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getConfigKey" id="_getConfigKey">
+
+			<td class="attributes"><code>
+				 public 
+				string
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getConfigKey">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#205-212" title="Go to source code">getConfigKey</a>( )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+					<h4>Returns</h4>
+					<div class="list">
+						string
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="retrievePaymentMethodName" id="_retrievePaymentMethodName">
+
+			<td class="attributes"><code>
+				 public 
+				string
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_retrievePaymentMethodName">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#214-220" title="Go to source code">retrievePaymentMethodName</a>( )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+					<h4>Returns</h4>
+					<div class="list">
+						string
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+			</table>
+		</div>
+
+
+
+
+
+
+
+
+		<div class="panel panel-default">
+            <div class="panel-heading"><h2>Constants summary</h2></div>
+			<table class="summary table table-bordered table-striped constants" id="constants">
+			<tr data-order="PARAM_PAYMENT" id="PARAM_PAYMENT">
+
+				<td class="attributes"><code>string</code></td>
+				<td class="name">
+					<code>
+						<a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#44" title="Go to source code"><b>PARAM_PAYMENT</b></a>
+					</code>
+
+					<div class="description short">
+						
+					</div>
+
+					<div class="description detailed hidden">
+						
+
+					</div>
+				</td>
+				<td class="value">
+					<div>
+						<a href="#PARAM_PAYMENT" class="anchor">#</a>
+						<code><span class="php-quote">'payment'</span></code>
+					</div>
+				</td>
+			</tr>
+			<tr data-order="PARAM_TRANSACTION_TYPE" id="PARAM_TRANSACTION_TYPE">
+
+				<td class="attributes"><code>string</code></td>
+				<td class="name">
+					<code>
+						<a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#45" title="Go to source code"><b>PARAM_TRANSACTION_TYPE</b></a>
+					</code>
+
+					<div class="description short">
+						
+					</div>
+
+					<div class="description detailed hidden">
+						
+
+					</div>
+				</td>
+				<td class="value">
+					<div>
+						<a href="#PARAM_TRANSACTION_TYPE" class="anchor">#</a>
+						<code><span class="php-quote">'transaction-type'</span></code>
+					</div>
+				</td>
+			</tr>
+			<tr data-order="PARAM_PARENT_TRANSACTION_ID" id="PARAM_PARENT_TRANSACTION_ID">
+
+				<td class="attributes"><code>string</code></td>
+				<td class="name">
+					<code>
+						<a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#46" title="Go to source code"><b>PARAM_PARENT_TRANSACTION_ID</b></a>
+					</code>
+
+					<div class="description short">
+						
+					</div>
+
+					<div class="description detailed hidden">
+						
+
+					</div>
+				</td>
+				<td class="value">
+					<div>
+						<a href="#PARAM_PARENT_TRANSACTION_ID" class="anchor">#</a>
+						<code><span class="php-quote">'parent-transaction-id'</span></code>
+					</div>
+				</td>
+			</tr>
+			<tr data-order="ENDPOINT" id="ENDPOINT">
+
+				<td class="attributes"><code>string</code></td>
+				<td class="name">
+					<code>
+						<a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#47" title="Go to source code"><b>ENDPOINT</b></a>
+					</code>
+
+					<div class="description short">
+						
+					</div>
+
+					<div class="description detailed hidden">
+						
+
+					</div>
+				</td>
+				<td class="value">
+					<div>
+						<a href="#ENDPOINT" class="anchor">#</a>
+						<code><span class="php-quote">'/engine/rest/paymentmethods/'</span></code>
+					</div>
+				</td>
+			</tr>
+			<tr data-order="NAME" id="NAME">
+
+				<td class="attributes"><code>string</code></td>
+				<td class="name">
+					<code>
+						<a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#48" title="Go to source code"><b>NAME</b></a>
+					</code>
+
+					<div class="description short">
+						
+					</div>
+
+					<div class="description detailed hidden">
+						
+
+					</div>
+				</td>
+				<td class="value">
+					<div>
+						<a href="#NAME" class="anchor">#</a>
+						<code><span class="php-quote">''</span></code>
+					</div>
+				</td>
+			</tr>
+			<tr data-order="TYPE_AUTHORIZATION" id="TYPE_AUTHORIZATION">
+
+				<td class="attributes"><code>string</code></td>
+				<td class="name">
+					<code>
+						<a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#49" title="Go to source code"><b>TYPE_AUTHORIZATION</b></a>
+					</code>
+
+					<div class="description short">
+						
+					</div>
+
+					<div class="description detailed hidden">
+						
+
+					</div>
+				</td>
+				<td class="value">
+					<div>
+						<a href="#TYPE_AUTHORIZATION" class="anchor">#</a>
+						<code><span class="php-quote">'authorization'</span></code>
+					</div>
+				</td>
+			</tr>
+			<tr data-order="TYPE_REFERENCED_AUTHORIZATION" id="TYPE_REFERENCED_AUTHORIZATION">
+
+				<td class="attributes"><code>string</code></td>
+				<td class="name">
+					<code>
+						<a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#50" title="Go to source code"><b>TYPE_REFERENCED_AUTHORIZATION</b></a>
+					</code>
+
+					<div class="description short">
+						
+					</div>
+
+					<div class="description detailed hidden">
+						
+
+					</div>
+				</td>
+				<td class="value">
+					<div>
+						<a href="#TYPE_REFERENCED_AUTHORIZATION" class="anchor">#</a>
+						<code><span class="php-quote">'referenced-authorization'</span></code>
+					</div>
+				</td>
+			</tr>
+			<tr data-order="TYPE_CAPTURE_AUTHORIZATION" id="TYPE_CAPTURE_AUTHORIZATION">
+
+				<td class="attributes"><code>string</code></td>
+				<td class="name">
+					<code>
+						<a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#51" title="Go to source code"><b>TYPE_CAPTURE_AUTHORIZATION</b></a>
+					</code>
+
+					<div class="description short">
+						
+					</div>
+
+					<div class="description detailed hidden">
+						
+
+					</div>
+				</td>
+				<td class="value">
+					<div>
+						<a href="#TYPE_CAPTURE_AUTHORIZATION" class="anchor">#</a>
+						<code><span class="php-quote">'capture-authorization'</span></code>
+					</div>
+				</td>
+			</tr>
+			<tr data-order="TYPE_VOID_AUTHORIZATION" id="TYPE_VOID_AUTHORIZATION">
+
+				<td class="attributes"><code>string</code></td>
+				<td class="name">
+					<code>
+						<a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#52" title="Go to source code"><b>TYPE_VOID_AUTHORIZATION</b></a>
+					</code>
+
+					<div class="description short">
+						
+					</div>
+
+					<div class="description detailed hidden">
+						
+
+					</div>
+				</td>
+				<td class="value">
+					<div>
+						<a href="#TYPE_VOID_AUTHORIZATION" class="anchor">#</a>
+						<code><span class="php-quote">'void-authorization'</span></code>
+					</div>
+				</td>
+			</tr>
+			<tr data-order="TYPE_CREDIT" id="TYPE_CREDIT">
+
+				<td class="attributes"><code>string</code></td>
+				<td class="name">
+					<code>
+						<a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#53" title="Go to source code"><b>TYPE_CREDIT</b></a>
+					</code>
+
+					<div class="description short">
+						
+					</div>
+
+					<div class="description detailed hidden">
+						
+
+					</div>
+				</td>
+				<td class="value">
+					<div>
+						<a href="#TYPE_CREDIT" class="anchor">#</a>
+						<code><span class="php-quote">'credit'</span></code>
+					</div>
+				</td>
+			</tr>
+			<tr data-order="TYPE_PENDING_CREDIT" id="TYPE_PENDING_CREDIT">
+
+				<td class="attributes"><code>string</code></td>
+				<td class="name">
+					<code>
+						<a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#54" title="Go to source code"><b>TYPE_PENDING_CREDIT</b></a>
+					</code>
+
+					<div class="description short">
+						
+					</div>
+
+					<div class="description detailed hidden">
+						
+
+					</div>
+				</td>
+				<td class="value">
+					<div>
+						<a href="#TYPE_PENDING_CREDIT" class="anchor">#</a>
+						<code><span class="php-quote">'pending-credit'</span></code>
+					</div>
+				</td>
+			</tr>
+			<tr data-order="TYPE_PENDING_DEBIT" id="TYPE_PENDING_DEBIT">
+
+				<td class="attributes"><code>string</code></td>
+				<td class="name">
+					<code>
+						<a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#55" title="Go to source code"><b>TYPE_PENDING_DEBIT</b></a>
+					</code>
+
+					<div class="description short">
+						
+					</div>
+
+					<div class="description detailed hidden">
+						
+
+					</div>
+				</td>
+				<td class="value">
+					<div>
+						<a href="#TYPE_PENDING_DEBIT" class="anchor">#</a>
+						<code><span class="php-quote">'pending-debit'</span></code>
+					</div>
+				</td>
+			</tr>
+			</table>
+		</div>
+
+
+
+
+		<div class="panel panel-default">
+            <div class="panel-heading"><h2>Properties summary</h2></div>
+			<table class="summary table table-bordered table-striped properties" id="properties">
+		<tr data-order="accountHolder" id="$accountHolder">
+			<td class="attributes"><code>
+				protected  
+				<code><a href="class-Wirecard.PaymentSdk.Entity.AccountHolder.html">Wirecard\PaymentSdk\Entity\AccountHolder</a></code>
+			</code></td>
+
+			<td class="name">
+					<a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#57-60" title="Go to source code"><var>$accountHolder</var></a>
+
+				<div class="description short">
+					
+				</div>
+
+				<div class="description detailed hidden">
+					
+
+				</div>
+			</td>
+			<td class="value">
+				<div>
+					<a href="#$accountHolder" class="anchor">#</a>
+					<code></code>
+				</div>
+			</td>
+		</tr>
+		<tr data-order="amount" id="$amount">
+			<td class="attributes"><code>
+				protected  
+				<code><a href="class-Wirecard.PaymentSdk.Entity.Money.html">Wirecard\PaymentSdk\Entity\Money</a></code>
+			</code></td>
+
+			<td class="name">
+					<a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#62-65" title="Go to source code"><var>$amount</var></a>
+
+				<div class="description short">
+					
+				</div>
+
+				<div class="description detailed hidden">
+					
+
+				</div>
+			</td>
+			<td class="value">
+				<div>
+					<a href="#$amount" class="anchor">#</a>
+					<code></code>
+				</div>
+			</td>
+		</tr>
+		<tr data-order="parentTransactionId" id="$parentTransactionId">
+			<td class="attributes"><code>
+				protected  
+				string
+			</code></td>
+
+			<td class="name">
+					<a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#67-70" title="Go to source code"><var>$parentTransactionId</var></a>
+
+				<div class="description short">
+					
+				</div>
+
+				<div class="description detailed hidden">
+					
+
+				</div>
+			</td>
+			<td class="value">
+				<div>
+					<a href="#$parentTransactionId" class="anchor">#</a>
+					<code></code>
+				</div>
+			</td>
+		</tr>
+		<tr data-order="notificationUrl" id="$notificationUrl">
+			<td class="attributes"><code>
+				protected  
+				string
+			</code></td>
+
+			<td class="name">
+					<a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#72-75" title="Go to source code"><var>$notificationUrl</var></a>
+
+				<div class="description short">
+					
+				</div>
+
+				<div class="description detailed hidden">
+					
+
+				</div>
+			</td>
+			<td class="value">
+				<div>
+					<a href="#$notificationUrl" class="anchor">#</a>
+					<code></code>
+				</div>
+			</td>
+		</tr>
+		<tr data-order="consumerId" id="$consumerId">
+			<td class="attributes"><code>
+				protected  
+				string
+			</code></td>
+
+			<td class="name">
+					<a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#77-80" title="Go to source code"><var>$consumerId</var></a>
+
+				<div class="description short">
+					
+				</div>
+
+				<div class="description detailed hidden">
+					
+
+				</div>
+			</td>
+			<td class="value">
+				<div>
+					<a href="#$consumerId" class="anchor">#</a>
+					<code></code>
+				</div>
+			</td>
+		</tr>
+		<tr data-order="parentTransactionType" id="$parentTransactionType">
+			<td class="attributes"><code>
+				protected  
+				string
+			</code></td>
+
+			<td class="name">
+					<a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#82-85" title="Go to source code"><var>$parentTransactionType</var></a>
+
+				<div class="description short">
+					
+				</div>
+
+				<div class="description detailed hidden">
+					
+
+				</div>
+			</td>
+			<td class="value">
+				<div>
+					<a href="#$parentTransactionType" class="anchor">#</a>
+					<code></code>
+				</div>
+			</td>
+		</tr>
+		<tr data-order="operation" id="$operation">
+			<td class="attributes"><code>
+				protected  
+				string
+			</code></td>
+
+			<td class="name">
+					<a href="source-class-Wirecard.PaymentSdk.Transaction.Transaction.html#87-90" title="Go to source code"><var>$operation</var></a>
+
+				<div class="description short">
+					
+				</div>
+
+				<div class="description detailed hidden">
+					
+
+				</div>
+			</td>
+			<td class="value">
+				<div>
+					<a href="#$operation" class="anchor">#</a>
+					<code></code>
+				</div>
+			</td>
+		</tr>
+			</table>
+		</div>
+
+
+
+
+
+
+</div>
+	</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>
