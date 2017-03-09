@@ -32,18 +32,29 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
+use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Transaction\Operation;
+use Wirecard\PaymentSdk\Transaction\SofortTransaction;
 
-class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
+class SofortTransactionUTest extends \PHPUnit_Framework_TestCase
 {
+    const SUCCESS_URL = 'http://www.example.com/success';
+    const CANCEL_URL = 'http://www.example.com/cancel';
+    const DESCRIPTOR = 'dummy description';
+
     /**
-     * @var PayPalTransaction
+     * @var SofortTransaction
      */
     private $tx;
 
     public function setUp()
     {
-        $this->tx = new PayPalTransaction();
+        $redirect = new Redirect(self::SUCCESS_URL, self::CANCEL_URL);
+        $this->tx = new SofortTransaction();
+        $this->tx->setRedirect($redirect);
+        $this->tx->setDescriptor(self::DESCRIPTOR);
+        $this->tx->setAmount(new Money(33, 'USD'));
     }
 
     /**
@@ -53,5 +64,32 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
     {
         $this->tx->setOperation('non-existing');
         $this->tx->mappedProperties();
+    }
+
+    public function testMappedProperties()
+    {
+        $expectedResult = [
+            'transaction-type' => 'debit',
+            'requested-amount' => [
+                'currency' => 'USD',
+                'value' => '33'
+            ],
+            'payment-methods' => [
+                'payment-method' => [
+                    0 => [
+                        'name' => 'sofortbanking'
+                    ]
+                ]
+            ],
+            'cancel-redirect-url' => self::CANCEL_URL,
+            'success-redirect-url' => self::SUCCESS_URL,
+            'descriptor' => self::DESCRIPTOR
+        ];
+
+        $this->tx->setOperation(Operation::PAY);
+
+        $result = $this->tx->mappedProperties();
+
+        $this->assertEquals($expectedResult, $result);
     }
 }

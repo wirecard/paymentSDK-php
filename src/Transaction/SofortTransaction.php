@@ -30,28 +30,66 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk\Transaction;
+namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
+use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
-class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
+class SofortTransaction extends Transaction
 {
-    /**
-     * @var PayPalTransaction
-     */
-    private $tx;
+    const NAME = 'sofortbanking';
 
-    public function setUp()
+    /**
+     * @var Redirect
+     */
+    private $redirect;
+
+    /**
+     * @var string
+     */
+    private $descriptor;
+
+    /**
+     * @param Redirect $redirect
+     */
+    public function setRedirect($redirect)
     {
-        $this->tx = new PayPalTransaction();
+        $this->redirect = $redirect;
     }
 
     /**
-     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
+     * @param string $descriptor
      */
-    public function testMapPropertiesUnsupportedOperation()
+    public function setDescriptor($descriptor)
     {
-        $this->tx->setOperation('non-existing');
-        $this->tx->mappedProperties();
+        $this->descriptor = $descriptor;
+    }
+
+    /**
+     * @return array
+     */
+    protected function mappedSpecificProperties()
+    {
+        return [
+            self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType(),
+            'cancel-redirect-url' => $this->redirect->getCancelUrl(),
+            'success-redirect-url' => $this->redirect->getSuccessUrl(),
+            'descriptor' => $this->descriptor
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    private function retrieveTransactionType()
+    {
+        $transactionTypes = [
+            Operation::PAY => 'debit'
+        ];
+
+        if (!array_key_exists($this->operation, $transactionTypes)) {
+            throw new UnsupportedOperationException();
+        }
+
+        return $transactionTypes[$this->operation];
     }
 }

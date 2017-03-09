@@ -35,7 +35,7 @@ namespace Wirecard\PaymentSdk\Transaction;
 use Wirecard\PaymentSdk\Entity\Mandate;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
-class SepaTransaction extends Transaction
+class SepaTransaction extends Transaction implements Reservable
 {
     const DIRECT_DEBIT = 'sepadirectdebit';
     const CREDIT_TRANSFER = 'sepacredit';

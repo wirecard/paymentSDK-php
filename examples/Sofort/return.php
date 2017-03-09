@@ -1,10 +1,6 @@
 <?php
-
-// # Handling the response of a transaction
-
-// When a transaction is finished, the response from Wirecard can be read and processed.
-
-// ## Required objects
+// # Sofortbanking return after transaction
+// The consumer gets redirected to this page after a Sofortbanking transaction.
 
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
@@ -12,65 +8,48 @@ require __DIR__ . '/../../vendor/autoload.php';
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
-use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
+use Wirecard\PaymentSdk\Transaction\SofortTransaction;
 use Wirecard\PaymentSdk\TransactionService;
-
 
 // ### Config
 
 // Since payment method may have a different merchant ID, a config collection is created.
 $configCollection = new Config\PaymentMethodConfigCollection();
 
-// Create and add a configuration object with the settings for credit card.
-
-$ccardMId = '9105bb4f-ae68-4768-9c3b-3eda968f57ea';
-$ccardKey = 'd1efed51-4cb9-46a5-ba7b-0fdc87a66544';
-$ccardConfig = new Config\PaymentMethodConfig(CreditCardTransaction::class, $ccardMId, $ccardKey);
-$configCollection->add($ccardConfig);
-
-// For 3-D Secure transactions a different merchant account ID is required.
-$ccard3dMId = '33f6d473-3036-4ca5-acb5-8c64dac862d1';
-$ccard3dKey = '9e0130f6-2e1e-4185-b0d5-dc69079c75cc';
-$ccard3dConfig = new Config\PaymentMethodConfig(ThreeDCreditCardTransaction::class, $ccard3dMId, $ccard3dKey);
-$configCollection->add($ccard3dConfig);
+// Create and add a configuration object with the Sofortbanking settings
+$sofortMId = 'f19d17a2-01ae-11e2-9085-005056a96a54';
+$sofortSecretKey = 'ad39d9d9-2712-4abd-9016-cdeb60dc3c8f';
+$sofortConfig = new Config\PaymentMethodConfig(SofortTransaction::class, $sofortMId, $sofortSecretKey);
+$configCollection->add($sofortConfig);
 
 // The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
 $baseUrl = 'https://api-test.wirecard.com';
-$httpUser = '70000-APILUHN-CARD';
-$httpPass = '8mhwavKVb91T';
+$httpUser = '70000-APITEST-AP';
+$httpPass = 'qD2wzQ_hrc!8';
 
 // A default currency can also be provided.
 $config = new Config\Config($baseUrl, $httpUser, $httpPass, $configCollection, 'EUR');
 
-// The _TransactionService_ is used to generate the request data needed for the generation of the UI.
-$transactionService = new TransactionService($config);
+// ### Transaction Service
+// The `TransactionService` is used to determine the response from the service provider.
+$service = new TransactionService($config);
 
-// The 3D-Secure page redirects to the _returnUrl_, which points to this file. To continue the payment process
-// the sent data can be fed directly to the transaction service via the method `handleResponse()`.
-$response = $transactionService->handleResponse($_POST);
+$response = $service->handleResponse($_POST);
 
-// ## Payment results
-
+// ### Payment results
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo sprintf('Payment with id %s successfully completed.<br>', $response->getTransactionId());
     $txDetailsLink = sprintf(
         'https://api-test.wirecard.com/engine/rest/merchants/%s/payments/%s',
-        $ccard3dMId,
+        $sofortMId,
         $response->getTransactionId()
     );
     ?>
 
     <a href="<?= $txDetailsLink ?>">View transaction details</a>
-    <br><br>
-    <form action="cancel.php" method="post">
-        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="hidden" name="transaction-type" value="3d">
-        <input type="submit" value="cancel the payment">
-    </form>
-    <?php
+<?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
     // In our example we iterate over all errors and echo them out.

@@ -30,28 +30,15 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk\Transaction;
+namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
-
-class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
+/**
+ * Interface Reservable
+ * @package Wirecard\PaymentSdk\Transaction
+ *
+ * Empty interface for payment methods which support a 'reserve' operation.
+ */
+interface Reservable
 {
-    /**
-     * @var PayPalTransaction
-     */
-    private $tx;
 
-    public function setUp()
-    {
-        $this->tx = new PayPalTransaction();
-    }
-
-    /**
-     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
-     */
-    public function testMapPropertiesUnsupportedOperation()
-    {
-        $this->tx->setOperation('non-existing');
-        $this->tx->mappedProperties();
-    }
 }
