@@ -35,6 +35,7 @@ namespace WirecardTest\PaymentSdk\Transaction;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\Operation;
+use Wirecard\PaymentSdk\Transaction\SepaTransaction;
 use Wirecard\PaymentSdk\Transaction\SofortTransaction;
 
 class SofortTransactionUTest extends \PHPUnit_Framework_TestCase
@@ -91,5 +92,36 @@ class SofortTransactionUTest extends \PHPUnit_Framework_TestCase
         $result = $this->tx->mappedProperties();
 
         $this->assertEquals($expectedResult, $result);
+    }
+
+    public function testGetConfigKeySepaDD()
+    {
+        $this->tx->setParentTransactionId('anything');
+        $this->tx->setOperation(Operation::PAY);
+
+        $result = $this->tx->getConfigKey();
+
+        $this->assertEquals(SepaTransaction::DIRECT_DEBIT, $result);
+    }
+
+    public function testGetConfigKeySepaCT()
+    {
+        $this->tx->setParentTransactionId('anything');
+        $this->tx->setOperation(Operation::CREDIT);
+
+        $result = $this->tx->getConfigKey();
+
+        $this->assertEquals(SepaTransaction::CREDIT_TRANSFER, $result);
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
+     */
+    public function testGetConfigKeyInvalid()
+    {
+        $this->tx->setParentTransactionId('anything');
+        $this->tx->setOperation('invalid');
+
+        $this->tx->getConfigKey();
     }
 }

@@ -79,6 +79,27 @@ class SofortTransaction extends Transaction
 
     /**
      * @return string
+     * @throws \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
+     */
+    public function getConfigKey()
+    {
+        if (null !== $this->parentTransactionId) {
+            switch ($this->operation) {
+                case Operation::PAY:
+                    return SepaTransaction::DIRECT_DEBIT;
+                case Operation::CREDIT:
+                    return SepaTransaction::CREDIT_TRANSFER;
+            }
+
+            throw new UnsupportedOperationException();
+        }
+
+        return parent::getConfigKey();
+    }
+
+    /**
+     * @return string
+     * @throws \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
      */
     private function retrieveTransactionType()
     {

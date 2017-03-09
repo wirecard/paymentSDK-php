@@ -56,7 +56,7 @@ $configCollection = new Config\PaymentMethodConfigCollection();
 // Create and add a configuration object with the Sofortbanking settings
 $sofortMId = 'f19d17a2-01ae-11e2-9085-005056a96a54';
 $sofortSecretKey = 'ad39d9d9-2712-4abd-9016-cdeb60dc3c8f';
-$sofortConfig = new Config\PaymentMethodConfig(SofortTransaction::class, $sofortMId, $sofortSecretKey);
+$sofortConfig = new Config\PaymentMethodConfig(SofortTransaction::NAME, $sofortMId, $sofortSecretKey);
 $configCollection->add($sofortConfig);
 
 // The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
