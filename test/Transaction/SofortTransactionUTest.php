@@ -113,4 +113,15 @@ class SofortTransactionUTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(SepaTransaction::CREDIT_TRANSFER, $result);
     }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
+     */
+    public function testGetConfigKeyInvalid()
+    {
+        $this->tx->setParentTransactionId('anything');
+        $this->tx->setOperation('invalid');
+
+        $this->tx->getConfigKey();
+    }
 }
