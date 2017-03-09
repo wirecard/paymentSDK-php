@@ -54,7 +54,7 @@ $configCollection = new Config\PaymentMethodConfigCollection();
 // than for the previously executed _seamlessRenderForm_.
 $ccard3dMId = '33f6d473-3036-4ca5-acb5-8c64dac862d1';
 $ccard3dKey = '9e0130f6-2e1e-4185-b0d5-dc69079c75cc';
-$ccard3dConfig = new Config\PaymentMethodConfig(ThreeDCreditCardTransaction::class, $ccard3dMId, $ccard3dKey);
+$ccard3dConfig = new Config\PaymentMethodConfig(ThreeDCreditCardTransaction::NAME, $ccard3dMId, $ccard3dKey);
 $configCollection->add($ccard3dConfig);
 
 // The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.

@@ -164,7 +164,7 @@ abstract class Transaction
     public function mappedProperties()
     {
         $result = ['payment-methods' => ['payment-method' => [[
-            'name' => $this->retrievePaymentMethodName()
+            'name' => $this->paymentMethodNameForRequest()
         ]]]];
 
         if ($this->amount) {
@@ -208,14 +208,14 @@ abstract class Transaction
      */
     public function getConfigKey()
     {
-        return get_class($this);
+        return $this::NAME;
     }
 
     /**
      * @return string
      */
-    public function retrievePaymentMethodName()
+    protected function paymentMethodNameForRequest()
     {
-        return $this::NAME;
+        return $this->getConfigKey();
     }
 }

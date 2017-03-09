@@ -109,14 +109,6 @@ class SepaTransaction extends Transaction implements Reservable
      */
     public function getConfigKey()
     {
-        return $this->retrievePaymentMethodName();
-    }
-
-    /**
-     * @return string
-     */
-    public function retrievePaymentMethodName()
-    {
         if (Operation::CREDIT === $this->operation || parent::TYPE_CREDIT == $this->parentTransactionType ||
             parent::TYPE_PENDING_CREDIT == $this->parentTransactionType) {
             return self::CREDIT_TRANSFER;
@@ -124,7 +116,6 @@ class SepaTransaction extends Transaction implements Reservable
 
         return self::DIRECT_DEBIT;
     }
-
 
     /**
      * @return mixed|string

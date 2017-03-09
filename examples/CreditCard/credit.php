@@ -29,7 +29,7 @@ $configCollection = new Config\PaymentMethodConfigCollection();
 // Create and add a configuration object with the settings for credit card.
 $ccardMId = '33f6d473-3036-4ca5-acb5-8c64dac862d1';
 $ccardKey = '9e0130f6-2e1e-4185-b0d5-dc69079c75cc';
-$ccardConfig = new Config\PaymentMethodConfig(CreditCardTransaction::class, $ccardMId, $ccardKey);
+$ccardConfig = new Config\PaymentMethodConfig(CreditCardTransaction::NAME, $ccardMId, $ccardKey);
 $configCollection->add($ccardConfig);
 
 // The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
