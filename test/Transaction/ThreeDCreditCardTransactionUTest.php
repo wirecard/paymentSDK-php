@@ -60,7 +60,7 @@ class ThreeDCreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
 
     public function testMappedPropertiesDefault()
     {
-        $valid = [
+        $expectedResult = [
             'payment-methods' => [
                 'payment-method' => [
                     [
@@ -68,10 +68,16 @@ class ThreeDCreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
                     ]
                 ]
             ],
-            'transaction-type' => 'check-enrollment'
+            'transaction-type' => 'check-enrollment',
+            'card-token' => [
+                'token-id' => '33'
+            ]
         ];
+
+        $this->tx->setTokenId('33');
+
         $this->tx->setOperation(Operation::RESERVE);
-        $this->assertEquals($valid, $this->tx->mappedProperties());
+        $this->assertEquals($expectedResult, $this->tx->mappedProperties());
     }
 
     public function testMappedPropertiesPares()
@@ -93,5 +99,13 @@ class ThreeDCreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
         ];
         $this->tx->setOperation('testtype');
         $this->assertEquals($valid, $this->tx->mappedProperties());
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
+     */
+    public function testMapPropertiesNoTokenIdNoParentTransactionIdNoPaRes()
+    {
+        $this->tx->mappedProperties();
     }
 }

@@ -182,9 +182,12 @@ class ThreeDCreditCardTransaction extends CreditCardTransaction
 
     /**
      *
+     * @throws \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
      */
     protected function validate()
     {
-        // No validation necessary.
+        if ($this->paRes === null) {
+            parent::validate();
+        }
     }
 }
