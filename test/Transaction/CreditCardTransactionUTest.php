@@ -56,4 +56,12 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx->setOperation('non-existing');
         $this->tx->mappedProperties();
     }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
+     */
+    public function testMapPropertiesNoTokenIdNoParentTransactionId()
+    {
+        $this->tx->mappedProperties();
+    }
 }
