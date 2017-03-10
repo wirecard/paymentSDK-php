@@ -39,35 +39,35 @@ class ThreeDCreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
     /**
      * @var ThreeDCreditCardTransaction
      */
-    private $instance;
+    private $tx;
 
     public function setUp()
     {
-        $this->instance = new ThreeDCreditCardTransaction();
+        $this->tx = new ThreeDCreditCardTransaction();
     }
 
     public function testSetTermUrl()
     {
-        $this->instance->setTermUrl('test');
-        $this->assertAttributeEquals('test', 'termUrl', $this->instance);
+        $this->tx->setTermUrl('test');
+        $this->assertAttributeEquals('test', 'termUrl', $this->tx);
     }
 
     public function testGetTermUrl()
     {
-        $this->instance->setTermUrl('test');
-        $this->assertEquals('test', $this->instance->getTermUrl());
+        $this->tx->setTermUrl('test');
+        $this->assertEquals('test', $this->tx->getTermUrl());
     }
 
     public function testSetPaRes()
     {
-        $this->instance->setPaRes('paRes');
-        $this->assertAttributeEquals('paRes', 'paRes', $this->instance);
+        $this->tx->setPaRes('paRes');
+        $this->assertAttributeEquals('paRes', 'paRes', $this->tx);
     }
 
     public function testGetPaRes()
     {
-        $this->instance->setPaRes('paRes');
-        $this->assertEquals('paRes', $this->instance->getPaRes());
+        $this->tx->setPaRes('paRes');
+        $this->assertEquals('paRes', $this->tx->getPaRes());
     }
 
     public function testMappedPropertiesDefault()
@@ -82,13 +82,13 @@ class ThreeDCreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
             ],
             'transaction-type' => 'check-enrollment'
         ];
-        $this->instance->setOperation(Operation::RESERVE);
-        $this->assertEquals($valid, $this->instance->mappedProperties());
+        $this->tx->setOperation(Operation::RESERVE);
+        $this->assertEquals($valid, $this->tx->mappedProperties());
     }
 
     public function testMappedPropertiesPares()
     {
-        $this->instance->setPaRes('pasdsgf');
+        $this->tx->setPaRes('pasdsgf');
 
         $valid = [
             'payment-methods' => [
@@ -103,7 +103,7 @@ class ThreeDCreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
                 'pares' => 'pasdsgf'
             ]
         ];
-        $this->instance->setOperation('testtype');
-        $this->assertEquals($valid, $this->instance->mappedProperties());
+        $this->tx->setOperation('testtype');
+        $this->assertEquals($valid, $this->tx->mappedProperties());
     }
 }

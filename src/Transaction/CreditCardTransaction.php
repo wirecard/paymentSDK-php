@@ -68,11 +68,7 @@ class CreditCardTransaction extends Transaction implements Reservable
      */
     protected function mappedSpecificProperties()
     {
-        if ($this->tokenId === null && ($this->parentTransactionId === null && get_class($this) === self::class)) {
-            throw new MandatoryFieldMissingException(
-                'At least one of these two parameters has to be provided: token ID, parent transaction ID.'
-            );
-        }
+        $this->validate();
 
         $result[self::PARAM_TRANSACTION_TYPE] = $this->retrieveTransactionType();
 
@@ -168,5 +164,18 @@ class CreditCardTransaction extends Transaction implements Reservable
         }
 
         return $transactionType;
+    }
+
+    /**
+     *
+     * @throws \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
+     */
+    protected function validate()
+    {
+        if ($this->tokenId === null && $this->parentTransactionId === null) {
+            throw new MandatoryFieldMissingException(
+                'At least one of these two parameters has to be provided: token ID, parent transaction ID.'
+            );
+        }
     }
 }
