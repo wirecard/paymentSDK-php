@@ -187,4 +187,14 @@ class ThreeDCreditCardTransaction extends CreditCardTransaction
     {
         return parent::NAME;
     }
+
+    /**
+     *
+     */
+    protected function validate()
+    {
+        // No validation necessary.
+    }
+
+
 }
