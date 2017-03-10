@@ -74,14 +74,6 @@ class ThreeDCreditCardTransaction extends CreditCardTransaction
     }
 
     /**
-     * @return string
-     */
-    public function getPaRes()
-    {
-        return $this->paRes;
-    }
-
-    /**
      * @param string $paRes
      * @return ThreeDCreditCardTransaction
      */
@@ -190,9 +182,12 @@ class ThreeDCreditCardTransaction extends CreditCardTransaction
 
     /**
      *
+     * @throws \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
      */
     protected function validate()
     {
-        // No validation necessary.
+        if ($this->paRes === null) {
+            parent::validate();
+        }
     }
 }
