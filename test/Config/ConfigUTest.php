@@ -112,6 +112,17 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
         $this->config->get('unknown_payment_method');
     }
 
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException
+     */
+    public function testGetUnknownPaymentMethodBecauseFallbackAlsoUnknown()
+    {
+        $payPalConfig = new PaymentMethodConfig(PayPalTransaction::NAME, 'mid', 'key');
+        $this->config->add($payPalConfig);
+
+        $this->config->get(SepaTransaction::DIRECT_DEBIT);
+    }
+
     public function testSetDefaultCurrency()
     {
         $this->config = new Config(
