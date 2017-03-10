@@ -33,7 +33,8 @@
 namespace WirecardTest\PaymentSdk\Config;
 
 use Wirecard\PaymentSdk\Config\Config;
-use Wirecard\PaymentSdk\Config\PaymentMethodConfigCollection;
+use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
+use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 
 class ConfigUTest extends \PHPUnit_Framework_TestCase
 {
@@ -42,21 +43,12 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
      */
     private $instance;
 
-    /**
-     * @var PaymentMethodConfigCollection
-     */
-    private $paymentMethodConfigs;
-
     public function setUp()
     {
-        $this->paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
-        $this->paymentMethodConfigs->method('get')->willReturn('test');
-
         $this->instance = new Config(
             'http://www.example.com',
             'httpUser',
-            'httpPassword',
-            $this->paymentMethodConfigs
+            'httpPassword'
         );
     }
 
@@ -80,14 +72,12 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('EUR', $this->instance->getDefaultCurrency());
     }
 
-    public function testGetPaymentMethodConfigs()
+    public function testAddAndGet()
     {
-        $this->assertEquals($this->paymentMethodConfigs, $this->instance->getPaymentMethodConfigs());
-    }
+        $payPalConfig = new PaymentMethodConfig(PayPalTransaction::NAME, 'mid', 'key');
+        $this->instance->add($payPalConfig);
 
-    public function testGet()
-    {
-        $this->assertEquals('test', $this->instance->get('hi'));
+        $this->assertEquals($payPalConfig, $this->instance->get(PayPalTransaction::NAME));
     }
 
     public function testSetDefaultCurrency()
@@ -96,7 +86,6 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
             'http://www.example.com',
             'httpUser',
             'httpPassword',
-            $this->paymentMethodConfigs,
             'USD'
         );
 
