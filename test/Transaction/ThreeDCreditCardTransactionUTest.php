@@ -58,18 +58,6 @@ class ThreeDCreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('test', $this->tx->getTermUrl());
     }
 
-    public function testSetPaRes()
-    {
-        $this->tx->setPaRes('paRes');
-        $this->assertAttributeEquals('paRes', 'paRes', $this->tx);
-    }
-
-    public function testGetPaRes()
-    {
-        $this->tx->setPaRes('paRes');
-        $this->assertEquals('paRes', $this->tx->getPaRes());
-    }
-
     public function testMappedPropertiesDefault()
     {
         $valid = [

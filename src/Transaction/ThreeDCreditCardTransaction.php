@@ -74,14 +74,6 @@ class ThreeDCreditCardTransaction extends CreditCardTransaction
     }
 
     /**
-     * @return string
-     */
-    public function getPaRes()
-    {
-        return $this->paRes;
-    }
-
-    /**
      * @param string $paRes
      * @return ThreeDCreditCardTransaction
      */
