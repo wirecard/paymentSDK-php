@@ -35,6 +35,7 @@ namespace WirecardTest\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
+use Wirecard\PaymentSdk\Transaction\SepaTransaction;
 
 class ConfigUTest extends \PHPUnit_Framework_TestCase
 {
@@ -72,12 +73,32 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('EUR', $this->instance->getDefaultCurrency());
     }
 
-    public function testAddAndGet()
+    public function testGetStraightforwardCase()
     {
         $payPalConfig = new PaymentMethodConfig(PayPalTransaction::NAME, 'mid', 'key');
         $this->instance->add($payPalConfig);
 
         $this->assertEquals($payPalConfig, $this->instance->get(PayPalTransaction::NAME));
+    }
+
+    public function testGetFallback()
+    {
+        $sepaConfig = new PaymentMethodConfig(SepaTransaction::NAME, 'mid', 'key');
+        $this->instance->add($sepaConfig);
+
+        $this->assertEquals($sepaConfig, $this->instance->get(SepaTransaction::DIRECT_DEBIT));
+        $this->assertEquals($sepaConfig, $this->instance->get(SepaTransaction::CREDIT_TRANSFER));
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException
+     */
+    public function testGetUnknownPaymentMethod()
+    {
+        $payPalConfig = new PaymentMethodConfig(PayPalTransaction::NAME, 'mid', 'key');
+        $this->instance->add($payPalConfig);
+
+        $this->instance->get('unknown_payment_method');
     }
 
     public function testSetDefaultCurrency()

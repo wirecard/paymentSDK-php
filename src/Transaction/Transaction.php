@@ -45,7 +45,7 @@ abstract class Transaction
     const PARAM_TRANSACTION_TYPE = 'transaction-type';
     const PARAM_PARENT_TRANSACTION_ID = 'parent-transaction-id';
     const ENDPOINT = '/engine/rest/paymentmethods/';
-    const NAME = '';
+    const NAME = 'sepa';
     const TYPE_AUTHORIZATION = 'authorization';
     const TYPE_REFERENCED_AUTHORIZATION = 'referenced-authorization';
     const TYPE_CAPTURE_AUTHORIZATION = 'capture-authorization';

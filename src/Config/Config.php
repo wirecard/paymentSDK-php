@@ -62,6 +62,9 @@
 
 namespace Wirecard\PaymentSdk\Config;
 
+use Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException;
+use Wirecard\PaymentSdk\Transaction\SepaTransaction;
+
 /**
  * Class Config
  *
@@ -161,9 +164,26 @@ class Config
     /**
      * @param string $paymentMethodName
      * @return PaymentMethodConfig
+     * @throws \Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException
      */
     public function get($paymentMethodName)
     {
-        return $this->paymentMethodConfigs[$paymentMethodName];
+        if (array_key_exists($paymentMethodName, $this->paymentMethodConfigs)) {
+            return $this->paymentMethodConfigs[$paymentMethodName];
+        }
+
+        $fallbacks = [
+            SepaTransaction::DIRECT_DEBIT => SepaTransaction::NAME,
+            SepaTransaction::CREDIT_TRANSFER => SepaTransaction::NAME
+        ];
+
+        if (array_key_exists($paymentMethodName, $fallbacks)) {
+            $fallbackConfigKey = $fallbacks[$paymentMethodName];
+            if (array_key_exists($fallbackConfigKey, $this->paymentMethodConfigs)) {
+                return $this->paymentMethodConfigs[$fallbackConfigKey];
+            }
+        }
+
+        throw new UnconfiguredPaymentMethodException();
     }
 }
