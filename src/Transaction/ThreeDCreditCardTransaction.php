@@ -195,6 +195,4 @@ class ThreeDCreditCardTransaction extends CreditCardTransaction
     {
         // No validation necessary.
     }
-
-
 }
