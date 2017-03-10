@@ -105,17 +105,6 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->assertAttributeEquals($requestIdGenerator, 'requestIdGenerator', $service);
     }
 
-    public function testGetConfig()
-    {
-        $helper = function () {
-            return $this->getConfig();
-        };
-
-        $method = $helper->bindTo($this->instance, $this->instance);
-
-        $this->assertEquals($this->config, $method());
-    }
-
     public function testGetLogger()
     {
         $helper = function () {

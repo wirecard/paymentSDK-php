@@ -128,20 +128,12 @@ class TransactionService
     }
 
     /**
-     * @return Config
-     */
-    protected function getConfig()
-    {
-        return $this->config;
-    }
-
-    /**
      * @return RequestMapper
      */
     protected function getRequestMapper()
     {
         if ($this->requestMapper === null) {
-            $this->requestMapper = new RequestMapper($this->getConfig(), $this->getRequestIdGenerator());
+            $this->requestMapper = new RequestMapper($this->config, $this->getRequestIdGenerator());
         }
 
         return $this->requestMapper;
@@ -209,10 +201,10 @@ class TransactionService
         $requestData = array(
             'request_time_stamp' => gmdate('YmdHis'),
             'request_id' => call_user_func($this->getRequestIdGenerator(), 64),
-            'merchant_account_id' => $this->getConfig()->get(CreditCardTransaction::NAME)->getMerchantAccountId(),
+            'merchant_account_id' => $this->config->get(CreditCardTransaction::NAME)->getMerchantAccountId(),
             'transaction_type' => 'tokenize',
             'requested_amount' => 0,
-            'requested_amount_currency' => $this->getConfig()->getDefaultCurrency(),
+            'requested_amount_currency' => $this->config->getDefaultCurrency(),
             'payment_method' => 'creditcard',
         );
 
@@ -225,7 +217,7 @@ class TransactionService
                 $requestData['transaction_type'] .
                 $requestData['requested_amount'] .
                 $requestData['requested_amount_currency'] .
-                $this->getConfig()->get(CreditCardTransaction::NAME)->getSecret()
+                $this->config->get(CreditCardTransaction::NAME)->getSecret()
             )
         );
 
@@ -308,11 +300,11 @@ class TransactionService
 
         $response = $this->getHttpClient()->request(
             'POST',
-            $this->getConfig()->getBaseUrl() . $transaction::ENDPOINT,
+            $this->config->getBaseUrl() . $transaction::ENDPOINT,
             [
                 'auth' => [
-                    $this->getConfig()->getHttpUser(),
-                    $this->getConfig()->getHttpPassword()
+                    $this->config->getHttpUser(),
+                    $this->config->getHttpPassword()
                 ],
                 'headers' => [
                     'Content-Type' => self::APPLICATION_JSON,
@@ -335,15 +327,15 @@ class TransactionService
     {
         $response = $this->getHttpClient()->request(
             'GET',
-            $this->getConfig()->getBaseUrl() .
+            $this->config->getBaseUrl() .
             '/engine/rest/merchants/' .
-            $this->getConfig()->get($paymentMethod)->getMerchantAccountId() .
+            $this->config->get($paymentMethod)->getMerchantAccountId() .
             '/payments/' .
             $transactionId,
             [
                 'auth' => [
-                    $this->getConfig()->getHttpUser(),
-                    $this->getConfig()->getHttpPassword()
+                    $this->config->getHttpUser(),
+                    $this->config->getHttpPassword()
                 ],
                 'headers' => [
                     'Content-Type' => self::APPLICATION_JSON,

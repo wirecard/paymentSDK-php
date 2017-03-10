@@ -12,23 +12,22 @@ use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 // ### Config
-
-// Since payment method may have a different merchant ID, a config collection is created.
-$configCollection = new Config\PaymentMethodConfigCollection();
-
-// Create and add a configuration object with the PayPal settings
-$paypalMId = '9abf05c1-c266-46ae-8eac-7f87ca97af28';
-$paypalKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
-$paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalMId, $paypalKey);
-$configCollection->add($paypalConfig);
-
+// #### Basic configuration
 // The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
 $baseUrl = 'https://api-test.wirecard.com';
 $httpUser = '70000-APITEST-AP';
 $httpPass = 'qD2wzQ_hrc!8';
 
 // A default currency can also be provided.
-$config = new Config\Config($baseUrl, $httpUser, $httpPass, $configCollection, 'EUR');
+$config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
+
+// Config for PayPal
+// Create and add a configuration object with the PayPal settings
+$paypalMId = '9abf05c1-c266-46ae-8eac-7f87ca97af28';
+$paypalKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
+$paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalMId, $paypalKey);
+$config->add($paypalConfig);
+
 
 // ### Transaction Service
 // The `TransactionService` is used to determine the response from the service provider.

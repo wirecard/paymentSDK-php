@@ -12,23 +12,21 @@ use Wirecard\PaymentSdk\Transaction\SofortTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 // ### Config
-
-// Since payment method may have a different merchant ID, a config collection is created.
-$configCollection = new Config\PaymentMethodConfigCollection();
-
-// Create and add a configuration object with the Sofortbanking settings
-$sofortMId = 'f19d17a2-01ae-11e2-9085-005056a96a54';
-$sofortSecretKey = 'ad39d9d9-2712-4abd-9016-cdeb60dc3c8f';
-$sofortConfig = new Config\PaymentMethodConfig(SofortTransaction::NAME, $sofortMId, $sofortSecretKey);
-$configCollection->add($sofortConfig);
-
+// #### Basic configuration
 // The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
 $baseUrl = 'https://api-test.wirecard.com';
 $httpUser = '70000-APITEST-AP';
 $httpPass = 'qD2wzQ_hrc!8';
 
 // A default currency can also be provided.
-$config = new Config\Config($baseUrl, $httpUser, $httpPass, $configCollection, 'EUR');
+$config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
+
+// Configuration for Sofortbanking
+// Create and add a configuration object with the Sofortbanking settings
+$sofortMId = 'f19d17a2-01ae-11e2-9085-005056a96a54';
+$sofortSecretKey = 'ad39d9d9-2712-4abd-9016-cdeb60dc3c8f';
+$sofortConfig = new Config\PaymentMethodConfig(SofortTransaction::NAME, $sofortMId, $sofortSecretKey);
+$config->add($sofortConfig);
 
 // ### Transaction Service
 // The `TransactionService` is used to determine the response from the service provider.

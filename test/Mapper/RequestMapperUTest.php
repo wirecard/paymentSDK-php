@@ -34,7 +34,6 @@ namespace WirecardTest\PaymentSdk\Mapper;
 
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
-use Wirecard\PaymentSdk\Config\PaymentMethodConfigCollection;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
@@ -462,16 +461,14 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $paymentMethodSpecificProperties
      * @return RequestMapper
      */
     private function createRequestMapper()
     {
-        $paymentMethodConfig = new PaymentMethodConfig(PayPalTransaction::NAME, self::MAID, 'secret');
-        $paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
-        $paymentMethodConfigs->method('get')->willReturn($paymentMethodConfig);
+        $dummyPaymentMethodConfig = new PaymentMethodConfig('dummy', self::MAID, 'secret');
+        $config = $this->createMock(Config::class);
+        $config->method('get')->willReturn($dummyPaymentMethodConfig);
 
-        $config = new Config(self::EXAMPLE_URL, 'dummyUser', 'dummyPassword', $paymentMethodConfigs);
         $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
         return new RequestMapper($config, $requestIdGeneratorMock);
     }

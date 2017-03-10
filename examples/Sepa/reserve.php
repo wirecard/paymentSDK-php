@@ -21,23 +21,24 @@ use Wirecard\PaymentSdk\TransactionService;
 $amount = new Money(7, 'EUR');
 
 // ### Config
-
-// Since payment method may have a different merchant ID, a config collection is created.
-$configCollection = new Config\PaymentMethodConfigCollection();
-
-// Create and add a configuration object with the settings for SEPA
-$sepaMId = '4c901196-eff7-411e-82a3-5ef6b6860d64';
-$sepaKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
-$sepaDdConfig = new Config\PaymentMethodConfig(SepaTransaction::DIRECT_DEBIT, $sepaMId, $sepaKey);
-$configCollection->add($sepaDdConfig);
-
+// #### Basic configuration
 // The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
 $baseUrl = 'https://api-test.wirecard.com';
 $httpUser = '70000-APITEST-AP';
 $httpPass = 'qD2wzQ_hrc!8';
 
 // A default currency can also be provided.
-$config = new Config\Config($baseUrl, $httpUser, $httpPass, $configCollection, 'EUR');
+$config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
+
+// SEPA configuration
+// Create and add a configuration object with the settings for SEPA.
+$sepaMId = '4c901196-eff7-411e-82a3-5ef6b6860d64';
+$sepaKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
+$sepaDdConfig = new Config\SepaConfig(SepaTransaction::DIRECT_DEBIT, $sepaMId, $sepaKey);
+
+// In order to execute a pay transaction you also have to provide your creditor ID.
+$sepaDdConfig->setCreditorId('DE98ZZZ09999999999');
+$config->add($sepaDdConfig);
 
 
 // ## Transaction

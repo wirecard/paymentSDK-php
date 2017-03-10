@@ -18,30 +18,28 @@ use Wirecard\PaymentSdk\TransactionService;
 
 
 // ### Config
-
-// Since payment method may have a different merchant ID, a config collection is created.
-$configCollection = new Config\PaymentMethodConfigCollection();
-
-// Create and add a configuration object with the settings for credit card.
-
-$ccardMId = '9105bb4f-ae68-4768-9c3b-3eda968f57ea';
-$ccardKey = 'd1efed51-4cb9-46a5-ba7b-0fdc87a66544';
-$ccardConfig = new Config\PaymentMethodConfig(CreditCardTransaction::NAME, $ccardMId, $ccardKey);
-$configCollection->add($ccardConfig);
-
-// For 3-D Secure transactions a different merchant account ID is required.
-$ccard3dMId = '33f6d473-3036-4ca5-acb5-8c64dac862d1';
-$ccard3dKey = '9e0130f6-2e1e-4185-b0d5-dc69079c75cc';
-$ccard3dConfig = new Config\PaymentMethodConfig(ThreeDCreditCardTransaction::NAME, $ccard3dMId, $ccard3dKey);
-$configCollection->add($ccard3dConfig);
-
+// #### Basic configuration
 // The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
 $baseUrl = 'https://api-test.wirecard.com';
 $httpUser = '70000-APILUHN-CARD';
 $httpPass = '8mhwavKVb91T';
 
 // A default currency can also be provided.
-$config = new Config\Config($baseUrl, $httpUser, $httpPass, $configCollection, 'EUR');
+$config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
+
+// #### Configuration for credit card SSL
+// Create and add a configuration object with the settings for credit card.
+$ccardMId = '9105bb4f-ae68-4768-9c3b-3eda968f57ea';
+$ccardKey = 'd1efed51-4cb9-46a5-ba7b-0fdc87a66544';
+$ccardConfig = new Config\PaymentMethodConfig(CreditCardTransaction::NAME, $ccardMId, $ccardKey);
+$config->add($ccardConfig);
+
+// #### Configuration for credit card 3-D
+// For 3-D Secure transactions a different merchant account ID is required.
+$ccard3dMId = '33f6d473-3036-4ca5-acb5-8c64dac862d1';
+$ccard3dKey = '9e0130f6-2e1e-4185-b0d5-dc69079c75cc';
+$ccard3dConfig = new Config\PaymentMethodConfig(ThreeDCreditCardTransaction::NAME, $ccard3dMId, $ccard3dKey);
+$config->add($ccard3dConfig);
 
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);

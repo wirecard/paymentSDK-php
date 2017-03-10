@@ -87,34 +87,31 @@ class Config
     private $httpPassword;
 
     /**
-     * @var PaymentMethodConfigCollection
-     */
-    private $paymentMethodConfigs;
-
-    /**
      * @var string
      */
     private $defaultCurrency;
+
+    /**
+     * @var array
+     */
+    private $paymentMethodConfigs = [];
 
     /**
      * Config constructor.
      * @param string $baseUrl
      * @param string $httpUser
      * @param string $httpPassword
-     * @param PaymentMethodConfigCollection $paymentMethodConfigs
      * @param string $defaultCurrency
      */
     public function __construct(
         $baseUrl,
         $httpUser,
         $httpPassword,
-        PaymentMethodConfigCollection $paymentMethodConfigs,
         $defaultCurrency = 'EUR'
     ) {
         $this->baseUrl = $baseUrl;
         $this->httpUser = $httpUser;
         $this->httpPassword = $httpPassword;
-        $this->paymentMethodConfigs = $paymentMethodConfigs;
         $this->defaultCurrency = $defaultCurrency;
     }
 
@@ -143,14 +140,6 @@ class Config
     }
 
     /**
-     * @return PaymentMethodConfigCollection
-     */
-    public function getPaymentMethodConfigs()
-    {
-        return $this->paymentMethodConfigs;
-    }
-
-    /**
      * @return string
      */
     public function getDefaultCurrency()
@@ -159,11 +148,22 @@ class Config
     }
 
     /**
-     * @param $paymentMethodName
+     * @param PaymentMethodConfig $paymentMethodConfig
+     * @return $this
+     */
+    public function add(PaymentMethodConfig $paymentMethodConfig)
+    {
+        $this->paymentMethodConfigs[$paymentMethodConfig->getPaymentMethodName()] = $paymentMethodConfig;
+
+        return $this;
+    }
+
+    /**
+     * @param string $paymentMethodName
      * @return PaymentMethodConfig
      */
     public function get($paymentMethodName)
     {
-        return $this->getPaymentMethodConfigs()->get($paymentMethodName);
+        return $this->paymentMethodConfigs[$paymentMethodName];
     }
 }
