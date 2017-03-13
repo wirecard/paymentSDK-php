@@ -25,7 +25,9 @@ rm -rf ${UPLOAD_DIRECTORY}/**/* || exit 0
 wget -q http://apigen.org/apigen.phar
 
 # ApiGen: generate the reference
-php -f apigen.phar -- generate -s src -d ${UPLOAD_DIRECTORY}/docs --template-theme="bootstrap"
+php -f apigen.phar generate -s src -d ${UPLOAD_DIRECTORY}/docs --template-theme="bootstrap"
+
+ls -alR ${UPLOAD_DIRECTORY}
 
 # Add custom styles
 cat docs/apigen.css >> ${UPLOAD_DIRECTORY}/docs/resources/style.css
