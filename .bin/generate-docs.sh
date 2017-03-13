@@ -38,7 +38,7 @@ groc -o ${UPLOAD_DIRECTORY}/ examples/*/*.php
 
 # Copy the main pages to UPLOAD_DIRECTORY
 cp docs/* ${UPLOAD_DIRECTORY}/
-cp examples/*.html examples/*.css ${UPLOAD_DIRECTORY}/examples/
+cp examples/*.html ${UPLOAD_DIRECTORY}/examples/
 
 # Prepare the cloned repository for push
 cd ${UPLOAD_DIRECTORY}
