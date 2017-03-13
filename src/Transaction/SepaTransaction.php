@@ -37,6 +37,7 @@ use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
 class SepaTransaction extends Transaction implements Reservable
 {
+    const NAME = 'sepa';
     const DIRECT_DEBIT = 'sepadirectdebit';
     const CREDIT_TRANSFER = 'sepacredit';
 
