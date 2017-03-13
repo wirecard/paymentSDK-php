@@ -38,8 +38,8 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 // Create and add a configuration object with the settings for SEPA
 $sepaMId = '4c901196-eff7-411e-82a3-5ef6b6860d64';
 $sepaKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
-$sepaCtConfig = new Config\PaymentMethodConfig(SepaTransaction::CREDIT_TRANSFER, $sepaMId, $sepaKey);
-$config->add($sepaCtConfig);
+$sepaConfig = new Config\PaymentMethodConfig(SepaTransaction::NAME, $sepaMId, $sepaKey);
+$config->add($sepaConfig);
 
 // ## Transaction
 
