@@ -1,0 +1,12 @@
+.attributes code>code:before, .list code:before {
+    content: "\ ";
+}
+
+.attributes code>code:after, .list code:after {
+    content: "\A";
+    white-space: pre;
+    display: block;
+    height: 0;
+}
+
+
