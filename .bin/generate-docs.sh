@@ -1,4 +1,10 @@
 #!/bin/bash
+
+if [ -z "$CREATE_DOCS" ]; then
+    echo "Skipping generation of documentation ..."
+    exit 0;
+fi
+
 set -e # Exit with nonzero exit code if anything fails
 
 SOURCE_BRANCH="master"
@@ -12,15 +18,20 @@ SHA=`git rev-parse --verify HEAD`
 
 # Clone the existing gh-pages for this repo into ${UPLOAD_DIRECTORY}/
 # Create a new empty branch if gh-pages doesn't exist yet (should only happen on first deploy)
+
+echo "Clone GitHub repository:"
 git clone -q ${REPO} ${UPLOAD_DIRECTORY}
 cd ${UPLOAD_DIRECTORY}
 git checkout ${TARGET_BRANCH} || git checkout --orphan ${TARGET_BRANCH}
 cd ..
 
 # Clean UPLOAD_DIRECTORY existing contents
+echo "Cleanup ..."
 rm -rf ${UPLOAD_DIRECTORY}/**/* || exit 0
 
 ## Compile the docs
+echo "Create reference with ApiGen:"
+
 # ApiGen: Download
 wget -q http://apigen.org/apigen.phar
 
@@ -32,7 +43,9 @@ ls -alR ${UPLOAD_DIRECTORY}
 # Add custom styles
 cat docs/apigen.css >> ${UPLOAD_DIRECTORY}/docs/resources/style.css
 
+
 # groc: install
+echo "Create example documentation with groc:"
 npm install -q groc
 
 # groc: generate the examples
@@ -43,6 +56,7 @@ cp docs/* ${UPLOAD_DIRECTORY}/
 cp examples/*.html ${UPLOAD_DIRECTORY}/examples/
 
 # Prepare the cloned repository for push
+echo "Upload documentation to GitHub Pages:"
 cd ${UPLOAD_DIRECTORY}
 git config user.name "Travis CI"
 git config user.email "wirecard@travis-ci.org"

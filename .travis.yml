@@ -24,6 +24,7 @@ matrix:
   - php: 7
     env:
     - CHECK_CS=true
+    - CREATE_DOCS=true
   - php: 7.1
     env:
     - SONAR_SCAN=true
