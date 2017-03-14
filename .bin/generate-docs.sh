@@ -12,22 +12,32 @@ SHA=`git rev-parse --verify HEAD`
 
 # Clone the existing gh-pages for this repo into ${UPLOAD_DIRECTORY}/
 # Create a new empty branch if gh-pages doesn't exist yet (should only happen on first deploy)
+
+echo "Clone GitHub repository:"
 git clone -q ${REPO} ${UPLOAD_DIRECTORY}
 cd ${UPLOAD_DIRECTORY}
 git checkout ${TARGET_BRANCH} || git checkout --orphan ${TARGET_BRANCH}
 cd ..
 
 # Clean UPLOAD_DIRECTORY existing contents
+echo "Cleanup ..."
 rm -rf ${UPLOAD_DIRECTORY}/**/* || exit 0
 
 ## Compile the docs
+echo "Create reference with ApiGen:"
+
 # ApiGen: Download
 wget -q http://apigen.org/apigen.phar
 
 # ApiGen: generate the reference
-php -f apigen.phar -- generate -s src -d ${UPLOAD_DIRECTORY}/docs --template-theme="bootstrap"
+php -f apigen.phar generate -s src -d ${UPLOAD_DIRECTORY}/docs --template-theme="bootstrap"
+
+# Add custom styles
+cat docs/apigen.css >> ${UPLOAD_DIRECTORY}/docs/resources/style.css
+
 
 # groc: install
+echo "Create example documentation with groc:"
 npm install -q groc
 
 # groc: generate the examples
@@ -35,9 +45,10 @@ groc -o ${UPLOAD_DIRECTORY}/ examples/*/*.php
 
 # Copy the main pages to UPLOAD_DIRECTORY
 cp docs/* ${UPLOAD_DIRECTORY}/
-cp examples/*.html examples/*.css ${UPLOAD_DIRECTORY}/examples/
+cp examples/*.html ${UPLOAD_DIRECTORY}/examples/
 
 # Prepare the cloned repository for push
+echo "Upload documentation to GitHub Pages:"
 cd ${UPLOAD_DIRECTORY}
 git config user.name "Travis CI"
 git config user.email "wirecard@travis-ci.org"

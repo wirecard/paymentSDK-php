@@ -1,5 +1,5 @@
 {
-  "name": "wirecard/paymentSDK-php",
+  "name": "wirecard/payment-sdk-php",
   "description": "PHP SDK for the payment processing ReST API of Wirecard",
   "minimum-stability": "dev",
   "license": "GPL-3.0",

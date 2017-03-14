@@ -24,6 +24,7 @@ matrix:
   - php: 7
     env:
     - CHECK_CS=true
+    - CREATE_DOCS=true
   - php: 7.1
     env:
     - SONAR_SCAN=true
@@ -45,7 +46,7 @@ after_script:
 before_deploy:
   - bash .bin/generate-release-package.sh $TRAVIS_TAG
   - ls -lah target
-  - bash .bin/generate-docs.sh
+  - if [[ $CREATE_DOCS == 'true' ]]; then bash .bin/generate-docs.sh ; fi
 
 deploy:
   provider: releases
