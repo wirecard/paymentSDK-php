@@ -32,6 +32,8 @@
 
 namespace Wirecard\PaymentSdk\Config;
 
+use Wirecard\PaymentSdk\Transaction\SepaTransaction;
+
 class SepaConfig extends PaymentMethodConfig
 {
     /**
@@ -40,11 +42,29 @@ class SepaConfig extends PaymentMethodConfig
     private $creditorId;
 
     /**
+     * SepaConfig constructor.
+     * @param string $merchantAccountId
+     * @param string $secret
+     */
+    public function __construct($merchantAccountId, $secret)
+    {
+        parent::__construct(SepaTransaction::NAME, $merchantAccountId, $secret);
+    }
+
+    /**
      * @param string $creditorId
      */
     public function setCreditorId($creditorId)
     {
         $this->creditorId = $creditorId;
+    }
+
+    /**
+     * @param string $paymentMethodName
+     */
+    public function setPaymentMethodName($paymentMethodName)
+    {
+        $this->paymentMethodName = $paymentMethodName;
     }
 
     public function mappedProperties()
