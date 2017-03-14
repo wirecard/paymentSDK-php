@@ -1,10 +1,4 @@
 #!/bin/bash
-
-if [ -z "$CREATE_DOCS" ]; then
-    echo "Skipping generation of documentation ..."
-    exit 0;
-fi
-
 set -e # Exit with nonzero exit code if anything fails
 
 SOURCE_BRANCH="master"
