@@ -66,14 +66,6 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function payDataProvider()
-    {
-        return [
-            [null, Transaction::TYPE_DEBIT],
-            [Transaction::TYPE_AUTHORIZATION, Transaction::TYPE_CAPTURE_AUTHORIZATION]
-        ];
-    }
-
 
     /**
      * @param float $amount
@@ -95,6 +87,14 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
         $data = $this->tx->mappedProperties();
 
         $this->assertEquals($expected, $data['transaction-type']);
+    }
+
+    public function payDataProvider()
+    {
+        return [
+            [null, Transaction::TYPE_DEBIT],
+            [Transaction::TYPE_AUTHORIZATION, Transaction::TYPE_CAPTURE_AUTHORIZATION]
+        ];
     }
 
     /**
@@ -131,26 +131,29 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx->mappedProperties();
     }
 
-    public function testGetRetrieveTransactionTypeCancelAuthorization()
+    public function debitDataProvider()
     {
-        $this->tx->setParentTransactionType(Transaction::TYPE_AUTHORIZATION);
-        $this->tx->setOperation('cancel');
-        $this->tx->mappedProperties();
-
-        $data = $this->tx->mappedProperties();
-
-        $this->assertEquals(Transaction::TYPE_VOID_AUTHORIZATION, $data['transaction-type']);
+        return [
+            [Transaction::TYPE_AUTHORIZATION, Transaction::TYPE_VOID_AUTHORIZATION],
+            [Transaction::TYPE_DEBIT, 'refund-debit'],
+            [Transaction::TYPE_CAPTURE_AUTHORIZATION, 'refund-capture']
+        ];
     }
 
-    public function testGetRetrieveTransactionTypeCancelDebit()
+    /**
+     * @param string $parentTransactionType
+     * @param string $expected
+     * @dataProvider debitDataProvider
+     */
+    public function testGetRetrieveTransactionTypeCancel($parentTransactionType, $expected)
     {
-        $this->tx->setParentTransactionType(Transaction::TYPE_DEBIT);
+        $this->tx->setParentTransactionType($parentTransactionType);
         $this->tx->setOperation('cancel');
         $this->tx->mappedProperties();
 
         $data = $this->tx->mappedProperties();
 
-        $this->assertEquals('refund-debit', $data['transaction-type']);
+        $this->assertEquals($expected, $data['transaction-type']);
     }
 
     public function testGetEndpointWithParent()
