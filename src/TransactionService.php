@@ -300,7 +300,7 @@ class TransactionService
 
         $response = $this->getHttpClient()->request(
             'POST',
-            $this->config->getBaseUrl() . $transaction::ENDPOINT,
+            $this->config->getBaseUrl() . $transaction->getEndpoint(),
             [
                 'auth' => [
                     $this->config->getHttpUser(),

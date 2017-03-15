@@ -44,7 +44,8 @@ abstract class Transaction
     const PARAM_PAYMENT = 'payment';
     const PARAM_TRANSACTION_TYPE = 'transaction-type';
     const PARAM_PARENT_TRANSACTION_ID = 'parent-transaction-id';
-    const ENDPOINT = '/engine/rest/paymentmethods/';
+    const ENDPOINT_PAYMENTS = '/engine/rest/payments/';
+    const ENDPOINT_PAYMENT_METHODS = '/engine/rest/paymentmethods/';
     const NAME = '';
     const TYPE_AUTHORIZATION = 'authorization';
     const TYPE_REFERENCED_AUTHORIZATION = 'referenced-authorization';
@@ -52,8 +53,6 @@ abstract class Transaction
     const TYPE_VOID_AUTHORIZATION = 'void-authorization';
     const TYPE_CREDIT = 'credit';
     const TYPE_DEBIT = 'debit';
-    const TYPE_PENDING_CREDIT = 'pending-credit';
-    const TYPE_PENDING_DEBIT = 'pending-debit';
 
     /**
      * @var AccountHolder
@@ -210,6 +209,14 @@ abstract class Transaction
     public function getConfigKey()
     {
         return $this::NAME;
+    }
+
+    /**
+     * return string
+     */
+    public function getEndpoint()
+    {
+        return $this::ENDPOINT_PAYMENT_METHODS;
     }
 
     /**

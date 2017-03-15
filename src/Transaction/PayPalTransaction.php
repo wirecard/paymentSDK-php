@@ -107,7 +107,7 @@ class PayPalTransaction extends Transaction implements Reservable
                 $transactionType = $this::TYPE_VOID_AUTHORIZATION;
                 break;
             case $this::TYPE_DEBIT:
-                $transactionType = 'void-debit';
+                $transactionType = 'refund-debit';
                 break;
             default:
                 throw new MandatoryFieldMissingException(
@@ -116,5 +116,17 @@ class PayPalTransaction extends Transaction implements Reservable
         }
 
         return $transactionType;
+    }
+
+    /**
+     * return string
+     */
+    public function getEndpoint()
+    {
+        if (null !== $this->parentTransactionId) {
+            return $this::ENDPOINT_PAYMENTS;
+        } else {
+            return $this::ENDPOINT_PAYMENT_METHODS;
+        }
     }
 }

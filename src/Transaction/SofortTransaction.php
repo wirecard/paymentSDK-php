@@ -32,6 +32,7 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
 class SofortTransaction extends Transaction
@@ -65,6 +66,7 @@ class SofortTransaction extends Transaction
     }
 
     /**
+     * @throws UnsupportedOperationException
      * @return array
      */
     protected function mappedSpecificProperties()
@@ -78,8 +80,8 @@ class SofortTransaction extends Transaction
     }
 
     /**
+     * @throws UnsupportedOperationException
      * @return string
-     * @throws \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
      */
     public function getConfigKey()
     {
@@ -98,8 +100,8 @@ class SofortTransaction extends Transaction
     }
 
     /**
+     * @throws UnsupportedOperationException
      * @return string
-     * @throws \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
      */
     private function retrieveTransactionType()
     {

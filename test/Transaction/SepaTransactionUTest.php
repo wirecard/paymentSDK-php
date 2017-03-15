@@ -148,7 +148,7 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
     private function getExpectedResultPayIbanOnly()
     {
         return [
-            'transaction-type' => 'pending-debit',
+            'transaction-type' => 'debit',
             'requested-amount' => [
                 'currency' => 'EUR',
                 'value' => '55.5'

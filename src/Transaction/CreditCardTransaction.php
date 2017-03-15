@@ -44,7 +44,6 @@ use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
  */
 class CreditCardTransaction extends Transaction implements Reservable
 {
-    const ENDPOINT = '/engine/rest/payments/';
     const NAME = 'creditcard';
     const TYPE_PURCHASE = 'purchase';
     const TYPE_REFERENCED_PURCHASE = 'referenced-purchase';
@@ -164,6 +163,14 @@ class CreditCardTransaction extends Transaction implements Reservable
         }
 
         return $transactionType;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEndpoint()
+    {
+        return $this::ENDPOINT_PAYMENTS;
     }
 
     /**

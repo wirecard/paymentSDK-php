@@ -32,7 +32,9 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
+use Wirecard\PaymentSdk\Transaction\Transaction;
 
 class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
 {
@@ -53,5 +55,60 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
     {
         $this->tx->setOperation('non-existing');
         $this->tx->mappedProperties();
+    }
+
+    public function testGetRetrieveTransactionTypeReserve()
+    {
+        $redirect = $this->createMock(Redirect::class);
+        $redirect->method('getCancelUrl')->willReturn('cancel-url');
+        $redirect->method('getSuccessUrl')->willReturn('success-url');
+        
+        $this->tx->setRedirect($redirect);
+        $this->tx->setOperation('reserve');
+        $data = $this->tx->mappedProperties();
+
+        $this->assertEquals(Transaction::TYPE_AUTHORIZATION, $data['transaction-type']);
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
+     */
+    public function testGetRetrieveTransactionTypeCancelWithoutParent()
+    {
+        $this->tx->setOperation('cancel');
+        $this->tx->mappedProperties();
+    }
+
+    public function testGetRetrieveTransactionTypeCancelAuthorization()
+    {
+        $this->tx->setParentTransactionType(Transaction::TYPE_AUTHORIZATION);
+        $this->tx->setOperation('cancel');
+        $this->tx->mappedProperties();
+
+        $data = $this->tx->mappedProperties();
+
+        $this->assertEquals(Transaction::TYPE_VOID_AUTHORIZATION, $data['transaction-type']);
+    }
+
+    public function testGetRetrieveTransactionTypeCancelDebit()
+    {
+        $this->tx->setParentTransactionType(Transaction::TYPE_DEBIT);
+        $this->tx->setOperation('cancel');
+        $this->tx->mappedProperties();
+
+        $data = $this->tx->mappedProperties();
+
+        $this->assertEquals('refund-debit', $data['transaction-type']);
+    }
+
+    public function testGetEndpointWithParent()
+    {
+        $this->tx->setParentTransactionId('gfghfgh');
+        $this->assertEquals(Transaction::ENDPOINT_PAYMENTS, $this->tx->getEndpoint());
+    }
+
+    public function testGetEndpoint()
+    {
+        $this->assertEquals(Transaction::ENDPOINT_PAYMENT_METHODS, $this->tx->getEndpoint());
     }
 }

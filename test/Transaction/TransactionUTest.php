@@ -65,4 +65,9 @@ class TransactionUTest extends \PHPUnit_Framework_TestCase
         $mapped = $this->tx->mappedProperties(Operation::PAY);
         $this->assertEquals('Doe', $mapped['account-holder']['last-name']);
     }
+
+    public function testGetEndpoint()
+    {
+        $this->assertEquals(Transaction::ENDPOINT_PAYMENT_METHODS, $this->tx->getEndpoint());
+    }
 }
