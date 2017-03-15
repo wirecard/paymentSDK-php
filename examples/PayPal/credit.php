@@ -2,8 +2,8 @@
 
 // # Credit via PayPal
 
-// To transfer funds to a credit card via a credit operation, a token for the corresponding credit card is required.
-// A request with the token ID and the account holder name is sent.
+// To transfer funds to a PayPal account via a credit operation, information on the receiver are required.
+// A request is sent with the account holder information.
 
 // ## Required objects
 
