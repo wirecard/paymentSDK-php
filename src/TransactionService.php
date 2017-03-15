@@ -315,10 +315,11 @@ class TransactionService
                 'body' => $requestBody
             ]
         );
-        $this->getLogger()->debug($response);
+        $responseContent = $response->getBody()->getContents();
+        $this->getLogger()->debug($responseContent);
 
         $data = $transaction instanceof ThreeDCreditCardTransaction ? $transaction : null;
-        return $this->getResponseMapper()->map($response->getBody()->getContents(), $operation, $data);
+        return $this->getResponseMapper()->map($responseContent, $operation, $data);
     }
 
     /**
