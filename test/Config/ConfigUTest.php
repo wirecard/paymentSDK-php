@@ -32,6 +32,7 @@
 
 namespace WirecardTest\PaymentSdk\Config;
 
+use Monolog\Logger;
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
@@ -51,6 +52,7 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
             'httpUser',
             'httpPassword'
         );
+        $this->config->setLogLevel(Logger::ERROR);
     }
 
     public function testGetBaseUrl()
