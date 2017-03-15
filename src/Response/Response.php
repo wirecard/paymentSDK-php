@@ -32,13 +32,16 @@
 
 namespace Wirecard\PaymentSdk\Response;
 
+use SimpleXMLElement;
+use Wirecard\PaymentSdk\Entity\Status;
 use Wirecard\PaymentSdk\Entity\StatusCollection;
+use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 
 /**
  * Class Response
  * @package Wirecard\PaymentSdk\Response
  */
-abstract class Response
+class Response
 {
     /**
      * @var string
@@ -51,14 +54,40 @@ abstract class Response
     private $statusCollection;
 
     /**
+     * @var string
+     */
+    private $requestId;
+
+    /**
+     * @var SimpleXMLElement
+     */
+    protected $simpleXml;
+
+    /**
+     * @var string
+     */
+    protected $transactionType;
+
+    /**
      * Response constructor.
      * @param string $rawData
-     * @param StatusCollection $statusCollection
      */
-    public function __construct($rawData, StatusCollection $statusCollection)
+    public function __construct($rawData)
     {
         $this->rawData = $rawData;
-        $this->statusCollection = $statusCollection;
+
+        $oldErrorHandling = libxml_use_internal_errors(true);
+        $this->simpleXml = simplexml_load_string($rawData);
+        //reset to old value after string is loaded
+        libxml_use_internal_errors($oldErrorHandling);
+
+        if (!$this->simpleXml instanceof \SimpleXMLElement) {
+            throw new MalformedResponseException('Response is not a valid xml string.');
+        }
+
+        $this->statusCollection = $this->findStatusCollection();
+        $this->transactionType = $this->findElement('transaction-type');
+        $this->requestId = $this->findElement('request-id');
     }
 
     /**
@@ -77,5 +106,79 @@ abstract class Response
     public function getStatusCollection()
     {
         return $this->statusCollection;
+    }
+
+    /**
+     * @param string $element
+     * @return string
+     * @throws MalformedResponseException
+     */
+    public function findElement($element)
+    {
+        if (isset($this->simpleXml->{$element})) {
+            return (string)$this->simpleXml->{$element};
+        } else {
+            throw new MalformedResponseException('Missing '.$element.' in response');
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getRequestId()
+    {
+        return $this->requestId;
+    }
+
+    /**
+     * get the collection of status returned by elastic engine
+     * @return StatusCollection
+     * @throws MalformedResponseException
+     */
+    private function findStatusCollection()
+    {
+        $collection = new StatusCollection();
+
+        /**
+         * @var $statuses \SimpleXMLElement
+         */
+        $statuses = $this->simpleXml->statuses;
+        if (count($statuses->status) > 0) {
+            foreach ($statuses->status as $statusNode) {
+                /**
+                 * @var $statusNode \SimpleXMLElement
+                 */
+                $attributes = $statusNode->attributes();
+
+                if ((string)$attributes['code'] !== '') {
+                    $code = (string)$attributes['code'];
+                } else {
+                    throw new MalformedResponseException('Missing status code in response.');
+                }
+                if ((string)$attributes['description'] !== '') {
+                    $description = (string)$attributes['description'];
+                } else {
+                    throw new MalformedResponseException('Missing status description in response.');
+                }
+                if ((string)$attributes['severity'] !== '') {
+                    $severity = (string)$attributes['severity'];
+                } else {
+                    throw new MalformedResponseException('Missing status severity in response.');
+                }
+                $status = new Status($code, $description, $severity);
+                $collection->add($status);
+            }
+        }
+
+        return $collection;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getTransactionType()
+    {
+        return $this->transactionType;
     }
 }

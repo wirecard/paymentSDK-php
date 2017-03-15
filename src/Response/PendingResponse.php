@@ -40,28 +40,4 @@ namespace Wirecard\PaymentSdk\Response;
  */
 class PendingResponse extends Response
 {
-    /**
-     * @var string
-     */
-    private $requestId;
-
-    /**
-     * PendingResponse constructor.
-     * @param string $rawData
-     * @param \Wirecard\PaymentSdk\Entity\StatusCollection $statusCollection
-     * @param $requestId
-     */
-    public function __construct($rawData, $statusCollection, $requestId)
-    {
-        parent::__construct($rawData, $statusCollection);
-        $this->requestId = $requestId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRequestId()
-    {
-        return $this->requestId;
-    }
 }

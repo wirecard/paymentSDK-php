@@ -32,8 +32,6 @@
 
 namespace Wirecard\PaymentSdk\Response;
 
-use Wirecard\PaymentSdk\Entity\StatusCollection;
-
 /**
  * Class InteractionResponse
  * @package Wirecard\PaymentSdk\Response
@@ -57,14 +55,12 @@ class InteractionResponse extends Response
     /**
      * InteractionResponse constructor.
      * @param string $rawData - JSON string holding the raw response data
-     * @param StatusCollection $statusCollection
-     * @param string $transactionId - unique transaction id for followups
      * @param string $redirectUrl - Redirect url of the external service provider
      */
-    public function __construct($rawData, $statusCollection, $transactionId, $redirectUrl)
+    public function __construct($rawData, $redirectUrl)
     {
-        parent::__construct($rawData, $statusCollection);
-        $this->transactionId = $transactionId;
+        parent::__construct($rawData);
+        $this->transactionId = $this->findElement('transaction-id');
         $this->redirectUrl = $redirectUrl;
     }
 
