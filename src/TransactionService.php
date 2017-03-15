@@ -201,8 +201,8 @@ class TransactionService
         $requestData = array(
             'request_time_stamp' => gmdate('YmdHis'),
             'request_id' => call_user_func($this->getRequestIdGenerator(), 64),
+            'transaction_type' => 'authorization-only',
             'merchant_account_id' => $this->config->get(CreditCardTransaction::NAME)->getMerchantAccountId(),
-            'transaction_type' => 'tokenize',
             'requested_amount' => 0,
             'requested_amount_currency' => $this->config->getDefaultCurrency(),
             'payment_method' => 'creditcard',
