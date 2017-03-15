@@ -134,4 +134,20 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('USD', $this->config->getDefaultCurrency());
     }
+
+    public function testSetLogLevel()
+    {
+        $this->config = new Config(
+            'http://www.example.com',
+            'httpUser',
+            'httpPassword',
+            'USD'
+        );
+        $logLevel = 20;
+
+        $this->config->setLogLevel($logLevel);
+
+        $this->assertEquals($this->config->getLogLevel(), $logLevel);
+    }
+
 }
