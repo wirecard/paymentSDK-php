@@ -39,9 +39,12 @@ class InteractionResponseUTest extends \PHPUnit_Framework_TestCase
 {
     private $redirectUrl = 'http://www.example.com/redirect';
 
-    private $rawData = '{\'raw\': \'data\'}';
+    private $rawData = '<raw>
+                        <transaction-id>1-2-3</transaction-id>
+                        <request-id>123</request-id>
+                        <transaction-type>failed-transaction</transaction-type>
+                    </raw>';
 
-    private $transactionId = '42';
     private $statusCollection;
 
     /**
@@ -54,29 +57,12 @@ class InteractionResponseUTest extends \PHPUnit_Framework_TestCase
         $this->statusCollection = new StatusCollection();
         $this->response = new InteractionResponse(
             $this->rawData,
-            $this->statusCollection,
-            $this->transactionId,
             $this->redirectUrl
         );
-    }
-
-    public function testGetRawResponse()
-    {
-        $this->assertEquals($this->rawData, $this->response->getRawData());
-    }
-
-    public function testGetStatusCollection()
-    {
-        $this->assertEquals($this->statusCollection, $this->response->getStatusCollection());
     }
 
     public function testGetRedirectUrl()
     {
         $this->assertEquals($this->redirectUrl, $this->response->getRedirectUrl());
-    }
-
-    public function testGetTransactionId()
-    {
-        $this->assertEquals($this->transactionId, $this->response->getTransactionId());
     }
 }

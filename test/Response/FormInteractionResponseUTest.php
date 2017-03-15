@@ -34,18 +34,17 @@ namespace WirecardTest\PaymentSdk\Response;
 
 use Wirecard\PaymentSdk\Entity\FormFieldMap;
 use Wirecard\PaymentSdk\Response\FormInteractionResponse;
-use Wirecard\PaymentSdk\Entity\StatusCollection;
 
 class FormInteractionResponseUTest extends \PHPUnit_Framework_TestCase
 {
-    private $rawData = '<raw></raw>';
+    private $rawData = '<raw>
+                        <transaction-id>1-2-3</transaction-id>
+                        <request-id>123</request-id>
+                        <transaction-type>failed-transaction</transaction-type>
+                    </raw>';
 
     private $url = 'https://www.example.com/redirect';
 
-    /**
-     * @var StatusCollection
-     */
-    private $statusCollection;
 
     /**
      * @var FormFieldMap
@@ -59,25 +58,20 @@ class FormInteractionResponseUTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->statusCollection = $this->createMock(StatusCollection::class);
         $this->formFields = $this->createMock(FormFieldMap::class);
 
         $this->response = new FormInteractionResponse(
             $this->rawData,
-            $this->statusCollection,
             $this->url,
             $this->formFields
         );
+
+        $this->response->setFormFields($this->formFields);
     }
 
     public function testGetRawResponse()
     {
         $this->assertEquals($this->rawData, $this->response->getRawData());
-    }
-
-    public function testGetStatusCollection()
-    {
-        $this->assertEquals($this->statusCollection, $this->response->getStatusCollection());
     }
 
     public function testGetRedirectUrl()

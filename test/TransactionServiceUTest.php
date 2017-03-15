@@ -267,6 +267,8 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
                     '<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>myid</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status code="200" description="test: payment OK" severity="information"/>
                         </statuses>
@@ -283,6 +285,8 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
                     [],
                     '<payment>
                         <transaction-state>failure</transaction-state>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status code="42" description="my test" severity="information"/>
                         </statuses>

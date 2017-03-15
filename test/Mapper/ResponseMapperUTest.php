@@ -75,6 +75,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
     {
         $response = '<payment>
                         <transaction-state>failed</transaction-state>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status code="200" description="UnitTest" severity="warning" />
                             <status code="500" description="UnitTest Error" severity="error" />
@@ -94,6 +96,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $response = '<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status code="200" description="UnitTest" severity="warning" />
                         </statuses>
@@ -119,6 +123,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $response = '<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="201.0000" 
@@ -145,6 +151,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $response = base64_encode('<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="201.0000" 
@@ -172,6 +180,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
                         <transaction-type>check-enrollment</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="201.0000" 
@@ -202,6 +211,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
                         <transaction-type>check-enrollment</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="201.0000" 
@@ -236,6 +246,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         <transaction-state>success</transaction-state>
                         <transaction-type>check-enrollment</transaction-type>
                         <transaction-id>12345</transaction-id>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="201.0000" 
@@ -266,6 +277,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $payload = '<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <request-id>123</request-id>
+                        <transaction-type>debit</transaction-type>
                         <statuses>
                             <status 
                             code="201.0000" 
@@ -292,6 +305,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
             ['<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="201.0000" 
@@ -303,6 +318,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
             ['<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="201.0000" 
@@ -316,6 +333,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
             ['<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="201.0000" 
@@ -331,6 +350,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
             ['<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <payment-methods>
                             <payment-method name="paypal"></payment-method>
                         </payment-methods>
@@ -339,6 +360,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
             ['<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses></statuses>
                         <payment-methods>
                             <payment-method name="paypal"></payment-method>
@@ -347,6 +370,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 
             ['<payment>
                         <transaction-state>success</transaction-state>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <transaction-id>12345</transaction-id>
                         <statuses>
                             <status 
@@ -367,6 +392,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
             ['<payment>
                            <transaction-state>success</transaction-state>
                            <transaction-id>12345</transaction-id>
+                           <transaction-type>debit</transaction-type>
+                           <request-id>123</request-id>
                            <statuses>
                                <status 
                                code="305.0000" 
@@ -383,6 +410,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
             ['<payment>
                            <transaction-state>success</transaction-state>
                            <transaction-id>12345</transaction-id>
+                           <transaction-type>debit</transaction-type>
+                           <request-id>123</request-id>
                            <statuses>
                                <status 
                                code="305.0000" 
@@ -400,6 +429,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
             ['<payment>
                            <transaction-state>success</transaction-state>
                            <transaction-id>12345</transaction-id>
+                           <transaction-type>debit</transaction-type>
+                           <request-id>123</request-id>
                            <statuses>
                                <status 
                                code="305.0000" 
@@ -424,6 +455,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $response = '<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="305.0000" 
@@ -455,6 +488,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $response = '<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="305.0000" 
@@ -485,6 +520,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
     {
         $response = '<payment>
                         <transaction-state>in-progress</transaction-state>
+                        <transaction-type>debit</transaction-type>
                         <request-id>1234</request-id>
                     </payment>';
         /**
@@ -528,6 +564,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $response = '<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="305.0000" 
@@ -553,6 +591,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $response = '<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="305.0000" 
@@ -578,6 +618,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $response = '<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="305.0000" 
@@ -607,6 +649,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $response = '<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="305.0000" 
@@ -637,6 +681,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         <transaction-state>success</transaction-state>
                         <transaction-type>check-enrollment</transaction-type>
                         <transaction-id>12345</transaction-id>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="201.0000" 
@@ -662,6 +707,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         <transaction-state>success</transaction-state>
                         <transaction-type>check-enrollment</transaction-type>
                         <transaction-id>12345</transaction-id>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="201.0000" 
@@ -689,6 +735,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         <transaction-state>success</transaction-state>
                         <transaction-type>check-enrollment</transaction-type>
                         <transaction-id>12345</transaction-id>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="201.0000" 
