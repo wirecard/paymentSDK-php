@@ -267,14 +267,15 @@ class TransactionService
     {
         if ($this->logger === null) {
             $this->logger = new Logger('wirecard_payment_sdk');
-            $this->logger->pushHandler(new ErrorLogHandler());
+            $errorHandler = new ErrorLogHandler(ErrorLogHandler::OPERATING_SYSTEM, $this->config->getLogLevel());
+            $this->logger->pushHandler($errorHandler);
         }
 
         return $this->logger;
     }
 
     /**
-     * @param Transaction $transaction
+     * @param Transaction|Reservable $transaction
      * @param string $operation
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
      */
@@ -297,6 +298,7 @@ class TransactionService
         }
 
         $requestBody = $this->getRequestMapper()->map($transaction);
+        $this->getLogger()->debug($requestBody);
 
         $response = $this->getHttpClient()->request(
             'POST',
@@ -315,7 +317,10 @@ class TransactionService
         );
 
         $data = $transaction instanceof ThreeDCreditCardTransaction ? $transaction : null;
-        return $this->getResponseMapper()->map($response->getBody()->getContents(), $operation, $data);
+
+        $output = $this->getResponseMapper()->map($response->getBody()->getContents(), $operation, $data);
+        $this->getLogger()->debug($output->getRawData());
+        return $output;
     }
 
     /**
