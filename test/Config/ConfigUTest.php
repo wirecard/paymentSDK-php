@@ -151,5 +151,4 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($this->config->getLogLevel(), $logLevel);
     }
-
 }
