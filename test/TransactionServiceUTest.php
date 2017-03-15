@@ -39,13 +39,13 @@ use GuzzleHttp\Psr7\Response;
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Entity\StatusCollection;
+use Wirecard\PaymentSdk\Exception\MalformedResponseException;
+use Wirecard\PaymentSdk\Response\InteractionResponse;
+use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
-use Wirecard\PaymentSdk\Entity\Redirect;
-use Wirecard\PaymentSdk\Response\InteractionResponse;
-use Wirecard\PaymentSdk\Exception\MalformedResponseException;
-use Wirecard\PaymentSdk\Entity\StatusCollection;
-use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
@@ -412,7 +412,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(
             'request_id'                => 'abc123',
             'merchant_account_id'       => self::MAID,
-            'transaction_type'          => 'tokenize',
+            'transaction_type'          => 'authorization-only',
             'requested_amount'          => 0,
             'requested_amount_currency' => $this->config->getDefaultCurrency(),
             'payment_method'            => 'creditcard',
