@@ -209,7 +209,7 @@ class TransactionService
             'request_time_stamp' => gmdate('YmdHis'),
             'request_id' => call_user_func($this->getRequestIdGenerator(), 64),
             'merchant_account_id' => $this->getConfig()->get(CreditCardTransaction::class)->getMerchantAccountId(),
-            'transaction_type' => 'tokenize',
+            'transaction_type' => 'authorization-only',
             'requested_amount' => 0,
             'requested_amount_currency' => $this->getConfig()->getDefaultCurrency(),
             'payment_method' => 'creditcard',
