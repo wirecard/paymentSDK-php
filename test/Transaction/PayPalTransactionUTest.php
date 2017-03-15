@@ -32,6 +32,7 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
@@ -57,17 +58,34 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx->mappedProperties();
     }
 
-    public function testGetRetrieveTransactionTypeReserve()
+    public function reserveDataProvider()
+    {
+        return [
+            [1.0, Transaction::TYPE_AUTHORIZATION],
+            [0.0, 'authorization-only']
+        ];
+    }
+
+    /**
+     * @param float $amount
+     * @param string $expected
+     * @dataProvider reserveDataProvider
+     */
+    public function testGetRetrieveTransactionTypeReserve($amount, $expected)
     {
         $redirect = $this->createMock(Redirect::class);
         $redirect->method('getCancelUrl')->willReturn('cancel-url');
         $redirect->method('getSuccessUrl')->willReturn('success-url');
-        
+
+        $money = $this->createMock(Money::class);
+        $money->method('getAmount')->willReturn($amount);
+
         $this->tx->setRedirect($redirect);
+        $this->tx->setAmount($money);
         $this->tx->setOperation('reserve');
         $data = $this->tx->mappedProperties();
 
-        $this->assertEquals(Transaction::TYPE_AUTHORIZATION, $data['transaction-type']);
+        $this->assertEquals($expected, $data['transaction-type']);
     }
 
     /**

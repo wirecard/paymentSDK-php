@@ -31,6 +31,8 @@ function getUrl($path)
     return dirname(sprintf('%s://%s%s', $protocol, $host, $request)) . '/' . $path;
 }
 
+// If there was a previous transaction, use the ID of this parent transaction as reference.
+$parentTransactionId = array_key_exists('parentTransactionId', $_POST) ? $_POST['parentTransactionId'] : null;
 
 // ### Money object
 // Use the money object as amount which has to be payed by the consumer.
@@ -50,6 +52,7 @@ $paypalTransaction = new PayPalTransaction();
 $paypalTransaction->setNotificationUrl($notificationUrl);
 $paypalTransaction->setRedirect($redirectUrls);
 $paypalTransaction->setAmount($amount);
+$paypalTransaction->setParentTransactionId($parentTransactionId);
 
 // ### Config
 // #### Basic configuration

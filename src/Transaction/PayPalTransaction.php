@@ -81,7 +81,11 @@ class PayPalTransaction extends Transaction implements Reservable
     {
         switch ($this->operation) {
             case Operation::RESERVE:
-                $transactionType = $this::TYPE_AUTHORIZATION;
+                if ($this->amount->getAmount() === 0.0) {
+                    $transactionType = 'authorization-only';
+                } else {
+                    $transactionType = $this::TYPE_AUTHORIZATION;
+                }
                 break;
             case Operation::CANCEL:
                 $transactionType = $this->retrieveTransactionTypeForCancel();
@@ -123,7 +127,7 @@ class PayPalTransaction extends Transaction implements Reservable
      */
     public function getEndpoint()
     {
-        if (null !== $this->parentTransactionId) {
+        if (null !== $this->parentTransactionId && $this->operation !== Operation::RESERVE) {
             return $this::ENDPOINT_PAYMENTS;
         } else {
             return $this::ENDPOINT_PAYMENT_METHODS;
