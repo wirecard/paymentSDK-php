@@ -1,7 +1,7 @@
 <?php
 
-// # PayPal payment transaction
-// This example displays the usage payments for payment method PayPal.
+// # Sofortbanking payment transaction
+// This example displays the usage payments for payment method Sofortbanking.
 
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
@@ -10,8 +10,8 @@ use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Entity\Money;
-use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Transaction\SofortTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 /**
@@ -37,19 +37,16 @@ function getUrl($path)
 $amount = new Money(12.59, 'EUR');
 
 // ### Redirect URLs
-// The redirect URLs determine where the consumer should be redirected by PayPal after approval/cancellation.
+// The redirect URLs determine where the consumer should be redirected by Sofortbanking after approval/cancellation.
 $redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
 
-// ### Notification URL
-// As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
-$notificationUrl = getUrl('notify.php');
-
 // ### Transaction
-// The PayPal transaction holds all transaction relevant data for the payment process.
-$paypalTransaction = new PayPalTransaction();
-$paypalTransaction->setNotificationUrl($notificationUrl);
-$paypalTransaction->setRedirect($redirectUrls);
-$paypalTransaction->setAmount($amount);
+// The SofortTransaction object holds all transaction relevant data for the payment process.
+// The required fields are: amount, descriptor, success and cancel redirect URL-s
+$sofortTransaction = new SofortTransaction();
+$sofortTransaction->setRedirect($redirectUrls);
+$sofortTransaction->setDescriptor('test');
+$sofortTransaction->setAmount($amount);
 
 // ### Config
 // #### Basic configuration
@@ -61,17 +58,18 @@ $httpPass = 'qD2wzQ_hrc!8';
 // A default currency can also be provided.
 $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
-// Config for PayPal
-// Create and add a configuration object with the PayPal settings
-$paypalMId = '9abf05c1-c266-46ae-8eac-7f87ca97af28';
-$paypalKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
-$paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalMId, $paypalKey);
-$config->add($paypalConfig);
+// Configuration for Sofortbanking
+// Create and add a configuration object with the Sofortbanking settings
+$sofortMId = 'f19d17a2-01ae-11e2-9085-005056a96a54';
+$sofortSecretKey = 'ad39d9d9-2712-4abd-9016-cdeb60dc3c8f';
+$sofortConfig = new Config\PaymentMethodConfig(SofortTransaction::NAME, $sofortMId, $sofortSecretKey);
+$config->add($sofortConfig);
+
 
 // ### Transaction Service
 // The service is used to execute the payment operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
-$response = $transactionService->pay($paypalTransaction);
+$response = $transactionService->pay($sofortTransaction);
 
 // ### Response handling
 // The response of the service must be handled depending on it's class

@@ -25,55 +25,18 @@
  *
  * Customers are responsible for testing the plugin's functionality before starting productive
  * operation.
+ *
  * By installing the plugin into the shop system the customer agrees to these terms of use.
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk\Config;
+namespace Wirecard\PaymentSdk\Exception;
 
-use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
-use Wirecard\PaymentSdk\Config\PaymentMethodConfigCollection;
-
-class PaymentMethodConfigCollectionUTest extends \PHPUnit_Framework_TestCase
+/**
+ * Class UnconfiguredPaymentMethodException
+ * @package Wirecard\PaymentSdk\Exception
+ */
+class UnconfiguredPaymentMethodException extends \UnexpectedValueException
 {
-    const PAYMENT_METHOD_NAME = 'Test';
-    /**
-     * @var PaymentMethodConfigCollection
-     */
-    private $instance;
 
-    /**
-     * @var PaymentMethodConfig
-     */
-    private $paymentMethodConfig;
-
-    public function setUp()
-    {
-        $this->instance = new PaymentMethodConfigCollection();
-        $this->paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
-        $this->paymentMethodConfig->method('getPaymentMethodName')->willReturn(self::PAYMENT_METHOD_NAME);
-    }
-
-    public function testAdd()
-    {
-
-        $this->instance->add($this->paymentMethodConfig);
-
-        $this->assertAttributeEquals(
-            array(self::PAYMENT_METHOD_NAME => $this->paymentMethodConfig),
-            'paymentMethodConfigs',
-            $this->instance
-        );
-    }
-
-    public function testGet()
-    {
-        $this->instance->add($this->paymentMethodConfig);
-        $this->assertEquals($this->paymentMethodConfig, $this->instance->get(self::PAYMENT_METHOD_NAME));
-    }
-
-    public function testGetIterator()
-    {
-        $this->assertInstanceOf(\ArrayIterator::class, $this->instance->getIterator());
-    }
 }

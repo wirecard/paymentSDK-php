@@ -22,23 +22,21 @@ use Wirecard\PaymentSdk\TransactionService;
 $tokenId = '4304509873471003';
 
 // ### Config
-
-// Since each payment method may have a different merchant ID, a config collection is created.
-$configCollection = new Config\PaymentMethodConfigCollection();
-
-// Create and add a configuration object with the settings for credit card.
-$ccardMId = '33f6d473-3036-4ca5-acb5-8c64dac862d1';
-$ccardKey = '9e0130f6-2e1e-4185-b0d5-dc69079c75cc';
-$ccardConfig = new Config\PaymentMethodConfig(CreditCardTransaction::class, $ccardMId, $ccardKey);
-$configCollection->add($ccardConfig);
-
+// #### Basic configuration
 // The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
 $baseUrl = 'https://api-test.wirecard.com';
 $httpUser = '70000-APILUHN-CARD';
 $httpPass = '8mhwavKVb91T';
 
 // A default currency can also be provided.
-$config = new Config\Config($baseUrl, $httpUser, $httpPass, $configCollection, 'EUR');
+$config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
+
+// #### Configuration for credit card SSL
+// Create and add a configuration object with the settings for credit card.
+$ccardMId = '33f6d473-3036-4ca5-acb5-8c64dac862d1';
+$ccardKey = '9e0130f6-2e1e-4185-b0d5-dc69079c75cc';
+$ccardConfig = new Config\PaymentMethodConfig(CreditCardTransaction::NAME, $ccardMId, $ccardKey);
+$config->add($ccardConfig);
 
 // Create a money object as amount which has to be payed by the consumer.
 $amount = new Money(10.59, 'EUR');

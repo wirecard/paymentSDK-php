@@ -33,73 +33,105 @@
 namespace WirecardTest\PaymentSdk\Config;
 
 use Wirecard\PaymentSdk\Config\Config;
-use Wirecard\PaymentSdk\Config\PaymentMethodConfigCollection;
+use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
+use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
+use Wirecard\PaymentSdk\Transaction\SepaTransaction;
 
 class ConfigUTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Config
      */
-    private $instance;
-
-    /**
-     * @var PaymentMethodConfigCollection
-     */
-    private $paymentMethodConfigs;
+    private $config;
 
     public function setUp()
     {
-        $this->paymentMethodConfigs = $this->createMock(PaymentMethodConfigCollection::class);
-        $this->paymentMethodConfigs->method('get')->willReturn('test');
-
-        $this->instance = new Config(
+        $this->config = new Config(
             'http://www.example.com',
             'httpUser',
-            'httpPassword',
-            $this->paymentMethodConfigs
+            'httpPassword'
         );
     }
 
     public function testGetBaseUrl()
     {
-        $this->assertEquals('http://www.example.com', $this->instance->getBaseUrl());
+        $this->assertEquals('http://www.example.com', $this->config->getBaseUrl());
     }
 
     public function testGetHttpUser()
     {
-        $this->assertEquals('httpUser', $this->instance->getHttpUser());
+        $this->assertEquals('httpUser', $this->config->getHttpUser());
     }
 
     public function testGetHttpPassword()
     {
-        $this->assertEquals('httpPassword', $this->instance->getHttpPassword());
+        $this->assertEquals('httpPassword', $this->config->getHttpPassword());
     }
 
     public function testGetDefaultCurrency()
     {
-        $this->assertEquals('EUR', $this->instance->getDefaultCurrency());
+        $this->assertEquals('EUR', $this->config->getDefaultCurrency());
     }
 
-    public function testGetPaymentMethodConfigs()
+    public function testGetStraightforwardCase()
     {
-        $this->assertEquals($this->paymentMethodConfigs, $this->instance->getPaymentMethodConfigs());
+        $payPalConfig = new PaymentMethodConfig(PayPalTransaction::NAME, 'mid', 'key');
+        $this->config->add($payPalConfig);
+
+        $this->assertEquals($payPalConfig, $this->config->get(PayPalTransaction::NAME));
     }
 
-    public function testGet()
+    public function testGetFallback()
     {
-        $this->assertEquals('test', $this->instance->get('hi'));
+        $sepaConfig = new PaymentMethodConfig(SepaTransaction::NAME, 'mid', 'key');
+        $this->config->add($sepaConfig);
+
+        $this->assertEquals($sepaConfig, $this->config->get(SepaTransaction::DIRECT_DEBIT));
+        $this->assertEquals($sepaConfig, $this->config->get(SepaTransaction::CREDIT_TRANSFER));
+    }
+
+    public function testGetUseSpecificIfExistsAndNotFallback()
+    {
+        $sepaConfig = new PaymentMethodConfig(SepaTransaction::NAME, 'mid', 'key');
+        $ddConfig = new PaymentMethodConfig(SepaTransaction::DIRECT_DEBIT, 'dd_mid', 'other_key');
+        $this->config->add($sepaConfig);
+        $this->config->add($ddConfig);
+
+        $this->assertEquals($ddConfig, $this->config->get(SepaTransaction::DIRECT_DEBIT));
+        $this->assertEquals($sepaConfig, $this->config->get(SepaTransaction::CREDIT_TRANSFER));
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException
+     */
+    public function testGetUnknownPaymentMethod()
+    {
+        $payPalConfig = new PaymentMethodConfig(PayPalTransaction::NAME, 'mid', 'key');
+        $this->config->add($payPalConfig);
+
+        $this->config->get('unknown_payment_method');
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException
+     */
+    public function testGetUnknownPaymentMethodBecauseFallbackAlsoUnknown()
+    {
+        $payPalConfig = new PaymentMethodConfig(PayPalTransaction::NAME, 'mid', 'key');
+        $this->config->add($payPalConfig);
+
+        $this->config->get(SepaTransaction::DIRECT_DEBIT);
     }
 
     public function testSetDefaultCurrency()
     {
-        $this->instance = new Config(
+        $this->config = new Config(
             'http://www.example.com',
             'httpUser',
             'httpPassword',
-            $this->paymentMethodConfigs,
             'USD'
         );
 
-        $this->assertEquals('USD', $this->instance->getDefaultCurrency());
+        $this->assertEquals('USD', $this->config->getDefaultCurrency());
     }
 }

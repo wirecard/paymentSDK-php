@@ -32,52 +32,36 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\Mandate;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
-class SepaTransaction extends Transaction implements Reservable
+class SofortTransaction extends Transaction
 {
-    const NAME = 'sepa';
-    const DIRECT_DEBIT = 'sepadirectdebit';
-    const CREDIT_TRANSFER = 'sepacredit';
+    const NAME = 'sofortbanking';
+
+    /**
+     * @var Redirect
+     */
+    private $redirect;
 
     /**
      * @var string
      */
-    private $iban;
+    private $descriptor;
 
     /**
-     * @var string
+     * @param Redirect $redirect
      */
-    private $bic;
-
-    /**
-     * @var Mandate
-     */
-    private $mandate;
-
-    /**
-     * @param string $iban
-     */
-    public function setIban($iban)
+    public function setRedirect($redirect)
     {
-        $this->iban = $iban;
+        $this->redirect = $redirect;
     }
 
     /**
-     * @param string $bic
+     * @param string $descriptor
      */
-    public function setBic($bic)
+    public function setDescriptor($descriptor)
     {
-        $this->bic = $bic;
-    }
-
-    /**
-     * @param Mandate $mandate
-     */
-    public function setMandate($mandate)
-    {
-        $this->mandate = $mandate;
+        $this->descriptor = $descriptor;
     }
 
     /**
@@ -85,61 +69,48 @@ class SepaTransaction extends Transaction implements Reservable
      */
     protected function mappedSpecificProperties()
     {
-        $result = [
-            self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType()
+        return [
+            self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType(),
+            'cancel-redirect-url' => $this->redirect->getCancelUrl(),
+            'success-redirect-url' => $this->redirect->getSuccessUrl(),
+            'descriptor' => $this->descriptor
         ];
-
-        if (null !== $this->iban) {
-            $result['bank-account'] = [
-                'iban' => $this->iban
-            ];
-            if (null !== $this->bic) {
-                $result['bank-account']['bic'] = $this->bic;
-            }
-        }
-
-        if (null !== $this->mandate) {
-            $result['mandate'] = $this->mandate->mappedProperties();
-        }
-
-        return $result;
     }
 
     /**
      * @return string
+     * @throws \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
      */
     public function getConfigKey()
     {
-        if (Operation::CREDIT === $this->operation || parent::TYPE_CREDIT == $this->parentTransactionType ||
-            parent::TYPE_PENDING_CREDIT == $this->parentTransactionType) {
-            return self::CREDIT_TRANSFER;
+        if (null !== $this->parentTransactionId) {
+            switch ($this->operation) {
+                case Operation::PAY:
+                    return SepaTransaction::DIRECT_DEBIT;
+                case Operation::CREDIT:
+                    return SepaTransaction::CREDIT_TRANSFER;
+                default:
+                    throw new UnsupportedOperationException();
+            }
         }
 
-        return self::DIRECT_DEBIT;
+        return parent::getConfigKey();
     }
 
     /**
-     * @return mixed|string
+     * @return string
+     * @throws \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
      */
     private function retrieveTransactionType()
     {
-        if (Operation::CANCEL === $this->operation) {
-            if (!in_array($this->parentTransactionType, [parent::TYPE_PENDING_DEBIT, parent::TYPE_PENDING_CREDIT])) {
-                throw new UnsupportedOperationException();
-            }
-            return 'void-' . $this->parentTransactionType;
-        }
-
-        $txTypeMapping = [
-            Operation::RESERVE => parent::TYPE_AUTHORIZATION,
-            Operation::PAY => parent::TYPE_PENDING_DEBIT,
-            Operation::CREDIT => parent::TYPE_PENDING_CREDIT
+        $transactionTypes = [
+            Operation::PAY => $this::TYPE_DEBIT
         ];
 
-        if (!array_key_exists($this->operation, $txTypeMapping)) {
+        if (!array_key_exists($this->operation, $transactionTypes)) {
             throw new UnsupportedOperationException();
         }
 
-        return $txTypeMapping[$this->operation];
+        return $transactionTypes[$this->operation];
     }
 }
