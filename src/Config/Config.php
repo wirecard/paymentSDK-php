@@ -212,6 +212,4 @@ class Config
 
         throw new UnconfiguredPaymentMethodException();
     }
-
-
 }
