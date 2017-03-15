@@ -41,8 +41,8 @@ $response = $service->handleResponse($_POST);
 if ($response instanceof SuccessResponse) {
     $xmlResponse = new SimpleXMLElement($response->getRawData());
     $transactionType = (string)$xmlResponse->{'transaction-type'};
-    if (isset($transactionType)) {
-        echo ucfirst($transactionType);
+    if (isset($transactionType) && $transactionType==='authorization') {
+        echo "Reservation";
     } else {
         echo "Payment";
     }
