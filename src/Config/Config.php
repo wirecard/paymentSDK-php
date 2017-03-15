@@ -123,6 +123,8 @@ class Config
         $this->httpUser = $httpUser;
         $this->httpPassword = $httpPassword;
         $this->defaultCurrency = $defaultCurrency;
+
+        // During development the default debug level is set to DEBUG
         $this->logLevel = Logger::DEBUG;
     }
 
