@@ -38,7 +38,7 @@ class PaymentMethodConfig implements MappableEntity
     /**
      * @var string
      */
-    private $paymentMethodName;
+    protected $paymentMethodName;
 
     /**
      * @var string

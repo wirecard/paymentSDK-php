@@ -41,7 +41,9 @@ use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
  */
 class ThreeDCreditCardTransaction extends CreditCardTransaction
 {
+    const NAME = '3dcreditcard';
     const TYPE_CHECK_ENROLLMENT = 'check-enrollment';
+
     /**
      * @var string
      */
@@ -69,14 +71,6 @@ class ThreeDCreditCardTransaction extends CreditCardTransaction
         $this->termUrl = $termUrl;
 
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPaRes()
-    {
-        return $this->paRes;
     }
 
     /**
@@ -173,5 +167,27 @@ class ThreeDCreditCardTransaction extends CreditCardTransaction
         }
 
         return $transactionType;
+    }
+
+    /**
+     * @return string
+     *
+     * For 3D transactions we have to use a different config,
+     * but we have to send the payment method name 'creditcard' to the Engine.
+     */
+    protected function paymentMethodNameForRequest()
+    {
+        return parent::NAME;
+    }
+
+    /**
+     *
+     * @throws \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
+     */
+    protected function validate()
+    {
+        if ($this->paRes === null) {
+            parent::validate();
+        }
     }
 }

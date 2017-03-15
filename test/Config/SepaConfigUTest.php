@@ -37,11 +37,25 @@ use Wirecard\PaymentSdk\Transaction\SepaTransaction;
 
 class SepaConfigUTest extends \PHPUnit_Framework_TestCase
 {
+    public function testDefaultPaymentMethodName()
+    {
+        $conf = new SepaConfig('accountId', 'secret');
+
+        $this->assertEquals(SepaTransaction::NAME, $conf->getPaymentMethodName());
+    }
+
+    public function testSetPaymentMethodName()
+    {
+        $conf = new SepaConfig('accountId', 'secret');
+        $conf->setPaymentMethodName(SepaTransaction::CREDIT_TRANSFER);
+
+        $this->assertEquals(SepaTransaction::CREDIT_TRANSFER, $conf->getPaymentMethodName());
+    }
 
     public function testMappedProperties()
     {
         $accountId = 'accountId';
-        $conf = new SepaConfig(SepaTransaction::DIRECT_DEBIT, $accountId, 'secret');
+        $conf = new SepaConfig($accountId, 'secret');
         $creditorId = '555-cred-id';
         $conf->setCreditorId($creditorId);
 

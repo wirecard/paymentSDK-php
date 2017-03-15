@@ -210,14 +210,12 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
     public function testRetrievePaymentMethodNamePay()
     {
         $this->tx->setOperation(Operation::PAY);
-        $this->assertEquals(SepaTransaction::DIRECT_DEBIT, $this->tx->retrievePaymentMethodName());
         $this->assertEquals(SepaTransaction::DIRECT_DEBIT, $this->tx->getConfigKey());
     }
 
     public function testRetrievePaymentMethodNameCredit()
     {
         $this->tx->setOperation(Operation::CREDIT);
-        $this->assertEquals(SepaTransaction::CREDIT_TRANSFER, $this->tx->retrievePaymentMethodName());
         $this->assertEquals(SepaTransaction::CREDIT_TRANSFER, $this->tx->getConfigKey());
     }
 

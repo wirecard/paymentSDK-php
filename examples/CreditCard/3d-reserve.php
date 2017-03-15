@@ -45,33 +45,32 @@ $redirectUrl = getUrl('return.php?status=success');
 
 
 // ### Config
-
-// Since each payment method may have a different merchant ID, a config collection is created.
-$configCollection = new Config\PaymentMethodConfigCollection();
-
-// Create and add a configuration object with the settings for credit card.
-// For 3-D Secure transactions a different merchant account ID is required
-// than for the previously executed _seamlessRenderForm_.
-$ccard3dMId = '33f6d473-3036-4ca5-acb5-8c64dac862d1';
-$ccard3dKey = '9e0130f6-2e1e-4185-b0d5-dc69079c75cc';
-$ccard3dConfig = new Config\PaymentMethodConfig(ThreeDCreditCardTransaction::class, $ccard3dMId, $ccard3dKey);
-$configCollection->add($ccard3dConfig);
-
+// #### Basic configuration
 // The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
 $baseUrl = 'https://api-test.wirecard.com';
 $httpUser = '70000-APILUHN-CARD';
 $httpPass = '8mhwavKVb91T';
 
 // A default currency can also be provided.
-$config = new Config\Config($baseUrl, $httpUser, $httpPass, $configCollection, 'EUR');
+$config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
+
+// #### Configuration for credit card
+// Create and add a configuration object with the settings for credit card.
+// For 3-D Secure transactions a different merchant account ID is required
+// than for the previously executed _seamlessRenderForm_.
+$ccard3dMId = '33f6d473-3036-4ca5-acb5-8c64dac862d1';
+$ccard3dKey = '9e0130f6-2e1e-4185-b0d5-dc69079c75cc';
+$ccard3dConfig = new Config\PaymentMethodConfig(ThreeDCreditCardTransaction::NAME, $ccard3dMId, $ccard3dKey);
+$config->add($ccard3dConfig);
+
+
+// ### Transaction
 
 // The 3-D credit card transaction contains all relevant data for the payment process.
 $tx = new ThreeDCreditCardTransaction();
 $tx->setAmount($amount);
 $tx->setTokenId($tokenId);
 $tx->setTermUrl($redirectUrl);
-
-// ### Transaction
 
 // The service is used to execute the reservation (authorization) operation itself. A response object is returned.
 $transactionService = new TransactionService($config);

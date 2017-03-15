@@ -39,7 +39,7 @@ use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
  * Class PayPalTransaction
  * @package Wirecard\PaymentSdk\Transaction
  */
-class PayPalTransaction extends Transaction
+class PayPalTransaction extends Transaction implements Reservable
 {
     const NAME = 'paypal';
 
@@ -74,7 +74,7 @@ class PayPalTransaction extends Transaction
     private function retrieveTransactionType()
     {
         $transactionTypes = [
-            Operation::PAY => 'debit'
+            Operation::PAY => $this::TYPE_DEBIT
         ];
 
         if (!array_key_exists($this->operation, $transactionTypes)) {

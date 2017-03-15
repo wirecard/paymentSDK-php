@@ -1,6 +1,6 @@
 <?php
-// # PayPal return after transaction
-// The consumer gets redirected to this page after a PayPal transaction.
+// # Sofortbanking return after transaction
+// The consumer gets redirected to this page after a Sofortbanking transaction.
 
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
@@ -8,7 +8,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
+use Wirecard\PaymentSdk\Transaction\SofortTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 // ### Config
@@ -21,13 +21,12 @@ $httpPass = 'qD2wzQ_hrc!8';
 // A default currency can also be provided.
 $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
-// Config for PayPal
-// Create and add a configuration object with the PayPal settings
-$paypalMId = '9abf05c1-c266-46ae-8eac-7f87ca97af28';
-$paypalKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
-$paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalMId, $paypalKey);
-$config->add($paypalConfig);
-
+// Configuration for Sofortbanking
+// Create and add a configuration object with the Sofortbanking settings
+$sofortMId = 'f19d17a2-01ae-11e2-9085-005056a96a54';
+$sofortSecretKey = 'ad39d9d9-2712-4abd-9016-cdeb60dc3c8f';
+$sofortConfig = new Config\PaymentMethodConfig(SofortTransaction::NAME, $sofortMId, $sofortSecretKey);
+$config->add($sofortConfig);
 
 // ### Transaction Service
 // The `TransactionService` is used to determine the response from the service provider.
@@ -42,18 +41,17 @@ if ($response instanceof SuccessResponse) {
     echo sprintf('Payment with id %s successfully completed.<br>', $response->getTransactionId());
     $txDetailsLink = sprintf(
         'https://api-test.wirecard.com/engine/rest/merchants/%s/payments/%s',
-        $paypalMId,
+        $sofortMId,
         $response->getTransactionId()
     );
     ?>
 
     <a href="<?= $txDetailsLink ?>">View transaction details</a>
-
-    <?php
+<?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
-// In our example we iterate over all errors and echo them out.
-// You should display them as error, warning or information based on the given severity.
+    // In our example we iterate over all errors and echo them out.
+    // You should display them as error, warning or information based on the given severity.
     foreach ($response->getStatusCollection() as $status) {
         /**
          * @var $status \Wirecard\PaymentSdk\Entity\Status

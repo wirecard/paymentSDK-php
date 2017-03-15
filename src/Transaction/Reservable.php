@@ -25,44 +25,20 @@
  *
  * Customers are responsible for testing the plugin's functionality before starting productive
  * operation.
+ *
  * By installing the plugin into the shop system the customer agrees to these terms of use.
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Config;
+namespace Wirecard\PaymentSdk\Transaction;
 
-class PaymentMethodConfigCollection implements \IteratorAggregate
+/**
+ * Interface Reservable
+ * @package Wirecard\PaymentSdk\Transaction
+ *
+ * Empty interface for payment methods which support a 'reserve' operation.
+ */
+interface Reservable
 {
-    /**
-     * @var array
-     */
-    private $paymentMethodConfigs = [];
 
-    /**
-     * @param PaymentMethodConfig $paymentMethodConfig
-     * @return $this
-     */
-    public function add(PaymentMethodConfig $paymentMethodConfig)
-    {
-        $this->paymentMethodConfigs[$paymentMethodConfig->getPaymentMethodName()] = $paymentMethodConfig;
-
-        return $this;
-    }
-
-    /**
-     * @param string $paymentMethodName
-     * @return PaymentMethodConfig
-     */
-    public function get($paymentMethodName)
-    {
-        return $this->paymentMethodConfigs[$paymentMethodName];
-    }
-
-    /**
-     * @return \ArrayIterator
-     */
-    public function getIterator()
-    {
-        return new \ArrayIterator($this->paymentMethodConfigs);
-    }
 }
