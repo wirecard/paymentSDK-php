@@ -62,6 +62,7 @@
 
 namespace Wirecard\PaymentSdk\Config;
 
+use Monolog\Logger;
 use Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException;
 use Wirecard\PaymentSdk\Transaction\SepaTransaction;
 
@@ -100,6 +101,12 @@ class Config
     private $paymentMethodConfigs = [];
 
     /**
+     * @var int
+     */
+    private $logLevel;
+
+
+    /**
      * Config constructor.
      * @param string $baseUrl
      * @param string $httpUser
@@ -116,6 +123,9 @@ class Config
         $this->httpUser = $httpUser;
         $this->httpPassword = $httpPassword;
         $this->defaultCurrency = $defaultCurrency;
+
+        // During development the default debug level is set to DEBUG
+        $this->logLevel = Logger::DEBUG;
     }
 
     /**
@@ -148,6 +158,22 @@ class Config
     public function getDefaultCurrency()
     {
         return $this->defaultCurrency;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLogLevel()
+    {
+        return $this->logLevel;
+    }
+
+    /**
+     * @param int $logLevel
+     */
+    public function setLogLevel($logLevel)
+    {
+        $this->logLevel = $logLevel;
     }
 
     /**

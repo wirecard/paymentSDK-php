@@ -36,6 +36,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
+use Monolog\Logger;
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Entity\Money;
@@ -75,6 +76,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->config->method('get')->willReturn($paymentMethodConfig);
         $this->config->method('getBaseUrl')->willReturn('http://engine.ok');
         $this->config->method('getDefaultCurrency')->willReturn('EUR');
+        $this->config->method('getLogLevel')->willReturn(Logger::ERROR);
 
         $this->instance = new TransactionService($this->config);
     }
