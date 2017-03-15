@@ -66,6 +66,15 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    public function payDataProvider()
+    {
+        return [
+            [null, Transaction::TYPE_DEBIT],
+            [Transaction::TYPE_AUTHORIZATION, Transaction::TYPE_CAPTURE_AUTHORIZATION]
+        ];
+    }
+
+
     /**
      * @param float $amount
      * @param string $expected
@@ -87,6 +96,31 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $data['transaction-type']);
     }
+
+    /**
+     * @param string $parentTransactionType
+     * @param string $expected
+     * @dataProvider payDataProvider
+     */
+    public function testGetRetrieveTransactionTypePay($parentTransactionType, $expected)
+    {
+        $amount = 1.00;
+        $redirect = $this->createMock(Redirect::class);
+        $redirect->method('getCancelUrl')->willReturn('cancel-url');
+        $redirect->method('getSuccessUrl')->willReturn('success-url');
+
+        $money = $this->createMock(Money::class);
+        $money->method('getAmount')->willReturn($amount);
+
+        $this->tx->setRedirect($redirect);
+        $this->tx->setAmount($money);
+        $this->tx->setParentTransactionType($parentTransactionType);
+        $this->tx->setOperation('pay');
+        $data = $this->tx->mappedProperties();
+
+        $this->assertEquals($expected, $data['transaction-type']);
+    }
+
 
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
