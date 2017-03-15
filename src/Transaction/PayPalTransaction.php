@@ -33,6 +33,7 @@
 namespace Wirecard\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
 /**
@@ -57,30 +58,63 @@ class PayPalTransaction extends Transaction implements Reservable
     }
 
     /**
+     * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return array
      */
     protected function mappedSpecificProperties()
     {
-        return [
-            self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType(),
-            'cancel-redirect-url' => $this->redirect->getCancelUrl(),
-            'success-redirect-url' => $this->redirect->getSuccessUrl()
-        ];
+        $data = [self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType()];
+
+        if ($this->operation !== Operation::CANCEL) {
+            $data['cancel-redirect-url'] = $this->redirect->getCancelUrl();
+            $data['success-redirect-url'] = $this->redirect->getSuccessUrl();
+        }
+
+        return $data;
     }
 
     /**
+     * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return string
      */
     private function retrieveTransactionType()
     {
-        $transactionTypes = [
-            Operation::PAY => $this::TYPE_DEBIT
-        ];
-
-        if (!array_key_exists($this->operation, $transactionTypes)) {
-            throw new UnsupportedOperationException();
+        switch ($this->operation) {
+            case Operation::RESERVE:
+                $transactionType = $this::TYPE_AUTHORIZATION;
+                break;
+            case Operation::CANCEL:
+                $transactionType = $this->retrieveTransactionTypeForCancel();
+                break;
+            case Operation::PAY:
+                $transactionType = $this::TYPE_DEBIT;
+                break;
+            default:
+                throw new UnsupportedOperationException();
         }
 
-        return $transactionTypes[$this->operation];
+        return $transactionType;
+    }
+
+    /**
+     * @throws MandatoryFieldMissingException
+     * @return string
+     */
+    protected function retrieveTransactionTypeForCancel()
+    {
+        switch ($this->parentTransactionType) {
+            case $this::TYPE_AUTHORIZATION:
+                $transactionType = $this::TYPE_VOID_AUTHORIZATION;
+                break;
+            case $this::TYPE_DEBIT:
+                $transactionType = 'void-debit';
+                break;
+            default:
+                throw new MandatoryFieldMissingException(
+                    'Parent transaction type is missing for cancel operation'
+                );
+        }
+
+        return $transactionType;
     }
 }

@@ -1,8 +1,11 @@
 <?php
-// # PayPal return after transaction
-// The consumer gets redirected to this page after a PayPal transaction.
 
-// To include the necessary files, we use the composer for PSR-4 autoloading.
+// # Cancelling a transaction
+
+// To cancel a transaction, a cancel request with the parent transaction is sent.
+
+// ## Required objects
+
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
@@ -15,8 +18,8 @@ use Wirecard\PaymentSdk\TransactionService;
 // #### Basic configuration
 // The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
 $baseUrl = 'https://api-test.wirecard.com';
-$httpUser = '70000-APITEST-AP';
-$httpPass = 'qD2wzQ_hrc!8';
+$httpUser = '70000-APILUHN-CARD';
+$httpPass = '8mhwavKVb91T';
 
 // A default currency can also be provided.
 $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
@@ -28,36 +31,25 @@ $paypalKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
 $paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalMId, $paypalKey);
 $config->add($paypalConfig);
 
+// The _TransactionService_ is used to generate the request data needed for the generation of the UI.
+$transactionService = new TransactionService($config);
+$tx = new PayPalTransaction();
+$tx->setParentTransactionId($_POST['parentTransactionId']);
+$response = $transactionService->cancel($tx);
 
-// ### Transaction Service
-// The `TransactionService` is used to determine the response from the service provider.
-$service = new TransactionService($config);
+// ## Response handling
 
-$response = $service->handleResponse($_POST);
-
-// ### Payment results
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
-    echo sprintf('Payment with id %s successfully completed.<br>', $response->getTransactionId());
-    $txDetailsLink = sprintf(
-        'https://api-test.wirecard.com/engine/rest/merchants/%s/payments/%s',
-        $paypalMId,
-        $response->getTransactionId()
-    );
+    echo sprintf('Successfully cancelled.<br> Transaction ID: %s<br>', $response->getTransactionId());
     ?>
 
-    <a href="<?= $txDetailsLink ?>">View transaction details</a>
-
-    <form action="cancel.php" method="post">
-        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="submit" value="cancel">
-    </form>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
-// In our example we iterate over all errors and echo them out.
-// You should display them as error, warning or information based on the given severity.
+    // In our example we iterate over all errors and echo them out.
+    // You should display them as error, warning or information based on the given severity.
     foreach ($response->getStatusCollection() as $status) {
         /**
          * @var $status \Wirecard\PaymentSdk\Entity\Status
