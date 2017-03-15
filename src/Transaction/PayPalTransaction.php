@@ -74,7 +74,7 @@ class PayPalTransaction extends Transaction implements Reservable
     private function retrieveTransactionType()
     {
         $transactionTypes = [
-            Operation::PAY => 'debit'
+            Operation::PAY => $this::TYPE_DEBIT
         ];
 
         if (!array_key_exists($this->operation, $transactionTypes)) {
