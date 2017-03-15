@@ -89,9 +89,9 @@ class SofortTransaction extends Transaction
                     return SepaTransaction::DIRECT_DEBIT;
                 case Operation::CREDIT:
                     return SepaTransaction::CREDIT_TRANSFER;
+                default:
+                    throw new UnsupportedOperationException();
             }
-
-            throw new UnsupportedOperationException();
         }
 
         return parent::getConfigKey();
