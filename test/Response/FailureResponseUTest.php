@@ -65,5 +65,4 @@ class FailureResponseUTest extends \PHPUnit_Framework_TestCase
 
         new FailureResponse($invalidData);
     }
-
 }

@@ -56,6 +56,4 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals('transaction', $this->response->getTransactionType());
     }
-
-
 }
