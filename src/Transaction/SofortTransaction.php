@@ -67,20 +67,6 @@ class SofortTransaction extends Transaction
 
     /**
      * @throws UnsupportedOperationException
-     * @return array
-     */
-    protected function mappedSpecificProperties()
-    {
-        return [
-            self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType(),
-            'cancel-redirect-url' => $this->redirect->getCancelUrl(),
-            'success-redirect-url' => $this->redirect->getSuccessUrl(),
-            'descriptor' => $this->descriptor
-        ];
-    }
-
-    /**
-     * @throws UnsupportedOperationException
      * @return string
      */
     public function getConfigKey()
@@ -101,18 +87,23 @@ class SofortTransaction extends Transaction
 
     /**
      * @throws UnsupportedOperationException
+     * @return array
+     */
+    protected function mappedSpecificProperties()
+    {
+        return [
+            self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType(),
+            'cancel-redirect-url' => $this->redirect->getCancelUrl(),
+            'success-redirect-url' => $this->redirect->getSuccessUrl(),
+            'descriptor' => $this->descriptor
+        ];
+    }
+
+    /**
      * @return string
      */
-    private function retrieveTransactionType()
+    protected function retrieveTransactionTypeForPay()
     {
-        $transactionTypes = [
-            Operation::PAY => $this::TYPE_DEBIT
-        ];
-
-        if (!array_key_exists($this->operation, $transactionTypes)) {
-            throw new UnsupportedOperationException();
-        }
-
-        return $transactionTypes[$this->operation];
+            return $this::TYPE_DEBIT;
     }
 }

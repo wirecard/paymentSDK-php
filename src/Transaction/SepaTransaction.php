@@ -122,28 +122,37 @@ class SepaTransaction extends Transaction implements Reservable
     }
 
     /**
-     * @throws UnsupportedOperationException
-     * @return mixed|string
+     * @return string
      */
-    private function retrieveTransactionType()
+    protected function retrieveTransactionTypeForReserve()
     {
-        if (Operation::CANCEL === $this->operation) {
-            if (!in_array($this->parentTransactionType, [$this::TYPE_PENDING_DEBIT, $this::TYPE_PENDING_CREDIT])) {
-                throw new UnsupportedOperationException();
-            }
-            return 'void-' . $this->parentTransactionType;
-        }
+        return $this::TYPE_AUTHORIZATION;
+    }
 
-        $txTypeMapping = [
-            Operation::RESERVE => parent::TYPE_AUTHORIZATION,
-            Operation::PAY => $this::TYPE_DEBIT,
-            Operation::CREDIT => $this::TYPE_CREDIT
-        ];
+    /**
+     * @return string
+     */
+    protected function retrieveTransactionTypeForPay()
+     {
+         return $this::TYPE_DEBIT;
+     }
 
-        if (!array_key_exists($this->operation, $txTypeMapping)) {
+    /**
+     * @return string
+     */
+    protected function retrieveTransactionTypeForCancel()
+    {
+        if (!in_array($this->parentTransactionType, [$this::TYPE_PENDING_DEBIT, $this::TYPE_PENDING_CREDIT])) {
             throw new UnsupportedOperationException();
         }
-
-        return $txTypeMapping[$this->operation];
+        return 'void-' . $this->parentTransactionType;
     }
+
+    /**
+     * @return string
+     */
+    protected function retrieveTransactionTypeForCredit()
+     {
+         return $this::TYPE_CREDIT;
+     }
 }

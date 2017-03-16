@@ -82,6 +82,18 @@ class PayPalTransaction extends Transaction implements Reservable
     }
 
     /**
+     * return string
+     */
+    public function getEndpoint()
+    {
+        if (null !== $this->parentTransactionId && $this->operation !== Operation::RESERVE) {
+            return $this::ENDPOINT_PAYMENTS;
+        } else {
+            return $this::ENDPOINT_PAYMENT_METHODS;
+        }
+    }
+
+    /**
      * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return array
      */
@@ -91,7 +103,8 @@ class PayPalTransaction extends Transaction implements Reservable
         $data = [self::PARAM_TRANSACTION_TYPE => $transactionType];
 
         if (null !== $this->itemCollection && ($transactionType === $this::TYPE_AUTHORIZATION
-                || $transactionType === $this::TYPE_DEBIT)) {
+                || $transactionType === $this::TYPE_DEBIT)
+        ) {
             $data['order-items'] = $this->itemCollection->mappedProperties();
         }
 
@@ -104,33 +117,27 @@ class PayPalTransaction extends Transaction implements Reservable
     }
 
     /**
-     * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return string
      */
-    private function retrieveTransactionType()
+    protected function retrieveTransactionTypeForReserve()
     {
-        switch ($this->operation) {
-            case Operation::RESERVE:
-                if ($this->amount->getAmount() === 0.0) {
-                    $transactionType = 'authorization-only';
-                } else {
-                    $transactionType = $this::TYPE_AUTHORIZATION;
-                }
-                break;
-            case Operation::CANCEL:
-                $transactionType = $this->retrieveTransactionTypeForCancel();
-                break;
-            case Operation::PAY:
-                $transactionType = $this->retrieveTransactionTypeForPay();
-                break;
-            case Operation::CREDIT:
-                $transactionType = 'pending-credit';
-                break;
-            default:
-                throw new UnsupportedOperationException();
+        if ($this->amount->getAmount() === 0.0) {
+            return 'authorization-only';
+        } else {
+            return $this::TYPE_AUTHORIZATION;
         }
+    }
 
-        return $transactionType;
+    /**
+     * @return string
+     */
+    protected function retrieveTransactionTypeForPay()
+    {
+        if ($this->parentTransactionType) {
+            return $this::TYPE_CAPTURE_AUTHORIZATION;
+        } else {
+            return $this::TYPE_DEBIT;
+        }
     }
 
     /**
@@ -161,24 +168,8 @@ class PayPalTransaction extends Transaction implements Reservable
     /**
      * @return string
      */
-    protected function retrieveTransactionTypeForPay()
+    protected function retrieveTransactionTypeForCredit()
     {
-        if ($this->parentTransactionType) {
-            return $this::TYPE_CAPTURE_AUTHORIZATION;
-        } else {
-            return $this::TYPE_DEBIT;
-        }
-    }
-
-    /**
-     * return string
-     */
-    public function getEndpoint()
-    {
-        if (null !== $this->parentTransactionId && $this->operation !== Operation::RESERVE) {
-            return $this::ENDPOINT_PAYMENTS;
-        } else {
-            return $this::ENDPOINT_PAYMENT_METHODS;
-        }
+        return 'pending-credit';
     }
 }
