@@ -32,38 +32,30 @@
 
 namespace WirecardTest\PaymentSdk\Response;
 
-use Wirecard\PaymentSdk\Response\FailureResponse;
-use Wirecard\PaymentSdk\Response\Response;
+use Wirecard\PaymentSdk\Response\SuccessResponse;
 
-class FailureResponseUTest extends \PHPUnit_Framework_TestCase
+class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var FailureResponse
+     * @var SuccessResponse
      */
     private $response;
 
     public function setUp()
     {
         $rawData = '<raw>
+                        <transaction-id>1</transaction-id>
                         <request-id>123</request-id>
+                        <transaction-type>transaction</transaction-type>
                         <statuses><status code="1" description="a" severity="0"></status></statuses>
                     </raw>';
-        $this->response = new FailureResponse($rawData);
+        $this->response = new SuccessResponse($rawData);
     }
 
-    public function testFailureResponseIsResponse()
+    public function testGetTransactionType()
     {
-        $this->assertInstanceOf(Response::class, $this->response);
+        $this->assertEquals('transaction', $this->response->getTransactionType());
     }
 
-    /**
-     * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
-     */
-    public function testMalformedXmlException()
-    {
-        $invalidData = '<xml>';
-
-        new FailureResponse($invalidData);
-    }
 
 }
