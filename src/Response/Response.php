@@ -89,7 +89,6 @@ abstract class Response
         $this->rawData = $rawData;
         $this->simpleXml = $simpleXml;
         $this->statusCollection = $this->findStatusCollection();
-        $this->transactionType = $this->findElement('transaction-type');
         $this->requestId = $this->findElement('request-id');
     }
 

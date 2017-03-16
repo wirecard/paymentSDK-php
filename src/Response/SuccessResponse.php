@@ -59,6 +59,7 @@ class SuccessResponse extends Response
         parent::__construct($rawData);
         $this->transactionId = $this->findElement('transaction-id');
         $this->providerTransactionId = $this->findProviderTransactionId();
+        $this->transactionType = $this->findElement('transaction-type');
     }
 
     /**
