@@ -121,7 +121,7 @@ class PayPalTransaction extends Transaction implements Reservable
                 $transactionType = $this->retrieveTransactionTypeForCancel();
                 break;
             case Operation::PAY:
-                $transactionType = $this::TYPE_DEBIT;
+                $transactionType = $this->retrieveTransactionTypeForPay();
                 break;
             default:
                 throw new UnsupportedOperationException();
@@ -143,6 +143,9 @@ class PayPalTransaction extends Transaction implements Reservable
             case $this::TYPE_DEBIT:
                 $transactionType = 'refund-debit';
                 break;
+            case $this::TYPE_CAPTURE_AUTHORIZATION:
+                $transactionType = 'refund-capture';
+                break;
             default:
                 throw new MandatoryFieldMissingException(
                     'Parent transaction type is missing for cancel operation'
@@ -150,6 +153,18 @@ class PayPalTransaction extends Transaction implements Reservable
         }
 
         return $transactionType;
+    }
+
+    /**
+     * @return string
+     */
+    protected function retrieveTransactionTypeForPay()
+    {
+        if ($this->parentTransactionType) {
+            return $this::TYPE_CAPTURE_AUTHORIZATION;
+        } else {
+            return $this::TYPE_DEBIT;
+        }
     }
 
     /**
