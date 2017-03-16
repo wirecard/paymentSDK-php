@@ -52,7 +52,11 @@ $config->add($paypalConfig);
 
 // ### Money object
 // Use the money object as amount which has to be payed by the consumer.
-$amount = new Money(12.59, 'EUR');
+if (array_key_exists('amount', $_POST)) {
+    $amount = new Money((float)$_POST['amount'], 'EUR');
+} else {
+    $amount = new Money(12.59, 'EUR');
+}
 
 // ### Redirect URLs
 // The redirect URLs determine where the consumer should be redirected by PayPal after approval/cancellation.
@@ -63,19 +67,15 @@ $redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return
 $notificationUrl = getUrl('notify.php');
 
 // ### Transaction
-
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
 
 $paypalTransaction = new PayPalTransaction();
-$paypalTransaction->setParentTransactionId($_POST['parentTransactionId']);
 $paypalTransaction->setNotificationUrl($notificationUrl);
 $paypalTransaction->setRedirect($redirectUrls);
 $paypalTransaction->setAmount($amount);
-
-
-if (array_key_exists('amount', $_POST)) {
-    $paypalTransaction->setAmount(new \Wirecard\PaymentSdk\Entity\Money((float)$_POST['amount'], 'EUR'));
+if (array_key_exists('parentTransactionId', $_POST)) {
+    $paypalTransaction->setParentTransactionId($_POST['parentTransactionId']);
 }
 
 $response = $transactionService->pay($paypalTransaction);
