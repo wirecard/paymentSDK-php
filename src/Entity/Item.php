@@ -183,6 +183,4 @@ class Item implements MappableEntity
 
         return $data;
     }
-
-
 }
