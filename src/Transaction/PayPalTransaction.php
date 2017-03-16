@@ -123,6 +123,9 @@ class PayPalTransaction extends Transaction implements Reservable
             case Operation::PAY:
                 $transactionType = $this->retrieveTransactionTypeForPay();
                 break;
+            case Operation::CREDIT:
+                $transactionType = 'pending-credit';
+                break;
             default:
                 throw new UnsupportedOperationException();
         }

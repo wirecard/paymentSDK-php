@@ -137,6 +137,24 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRetrieveTransactionTypePay($parentTransactionType, $expected)
     {
+        $redirect = $this->createMock(Redirect::class);
+        $redirect->method('getCancelUrl')->willReturn('cancel-url');
+        $redirect->method('getSuccessUrl')->willReturn('success-url');
+
+        $money = $this->createMock(Money::class);
+        $money->method('getAmount')->willReturn(1.00);
+
+        $this->tx->setRedirect($redirect);
+        $this->tx->setAmount($money);
+        $this->tx->setParentTransactionType($parentTransactionType);
+        $this->tx->setOperation('pay');
+        $data = $this->tx->mappedProperties();
+
+        $this->assertEquals($expected, $data['transaction-type']);
+    }
+
+    public function testGetRetrieveTransactionTypeCredit()
+    {
         $amount = 1.00;
         $redirect = $this->createMock(Redirect::class);
         $redirect->method('getCancelUrl')->willReturn('cancel-url');
@@ -147,11 +165,12 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
 
         $this->tx->setRedirect($redirect);
         $this->tx->setAmount($money);
-        $this->tx->setParentTransactionType($parentTransactionType);
-        $this->tx->setOperation('pay');
+
+        $this->tx->setOperation('credit');
+
         $data = $this->tx->mappedProperties();
 
-        $this->assertEquals($expected, $data['transaction-type']);
+        $this->assertEquals('pending-credit', $data['transaction-type']);
     }
 
 
@@ -182,7 +201,6 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
     {
         $this->tx->setParentTransactionType($parentTransactionType);
         $this->tx->setOperation('cancel');
-        $this->tx->mappedProperties();
 
         $data = $this->tx->mappedProperties();
 

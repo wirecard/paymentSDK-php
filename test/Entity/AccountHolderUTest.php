@@ -66,4 +66,32 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
             $this->accountHolder->mappedProperties()
         );
     }
+
+    public function testGetMappedPropertiesLastNameAndEmail()
+    {
+        $email = 'Jane@doe.com';
+        $this->accountHolder->setEmail($email);
+
+        $this->assertEquals(
+            [
+                'last-name' => self::LASTNAME,
+                'email' => $email
+            ],
+            $this->accountHolder->mappedProperties()
+        );
+    }
+
+    public function testGetMappedPropertiesLastNameAndPhone()
+    {
+        $phone = '+123 456 789';
+        $this->accountHolder->setPhone($phone);
+
+        $this->assertEquals(
+            [
+                'last-name' => self::LASTNAME,
+                'phone' => $phone
+            ],
+            $this->accountHolder->mappedProperties()
+        );
+    }
 }
