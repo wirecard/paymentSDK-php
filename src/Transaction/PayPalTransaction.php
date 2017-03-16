@@ -32,6 +32,7 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Entity\ItemCollection;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
@@ -50,6 +51,11 @@ class PayPalTransaction extends Transaction implements Reservable
     private $redirect;
 
     /**
+     * @var ItemCollection
+     */
+    private $itemCollection;
+
+    /**
      * @param Redirect $redirect
      */
     public function setRedirect($redirect)
@@ -58,12 +64,36 @@ class PayPalTransaction extends Transaction implements Reservable
     }
 
     /**
+     * @return ItemCollection
+     */
+    public function getItemCollection()
+    {
+        return $this->itemCollection;
+    }
+
+    /**
+     * @param ItemCollection $itemCollection
+     * @return PayPalTransaction
+     */
+    public function setItemCollection($itemCollection)
+    {
+        $this->itemCollection = $itemCollection;
+        return $this;
+    }
+
+    /**
      * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return array
      */
     protected function mappedSpecificProperties()
     {
-        $data = [self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType()];
+        $transactionType = $this->retrieveTransactionType();
+        $data = [self::PARAM_TRANSACTION_TYPE => $transactionType];
+
+        if (null !== $this->itemCollection && ($transactionType === $this::TYPE_AUTHORIZATION
+                || $transactionType === $this::TYPE_DEBIT)) {
+            $data['order-items'] = $this->itemCollection->mappedProperties();
+        }
 
         if ($this->operation !== Operation::CANCEL) {
             $data['cancel-redirect-url'] = $this->redirect->getCancelUrl();
