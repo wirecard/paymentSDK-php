@@ -1,14 +1,12 @@
 <?php
-
 // # Credit via PayPal
-
 // To transfer funds to a PayPal account via a credit operation, information on the receiver are required.
 // A request is sent with the account holder information.
 
 // ## Required objects
-
 // To include the necessary files, use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/../inc/common.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
@@ -19,23 +17,6 @@ use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
-/**
- * @param $path
- * @return string
- */
-function getUrl($path)
-{
-    $protocol = 'http';
-
-    if ($_SERVER['SERVER_PORT'] === 443 || (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) === 'on')) {
-        $protocol .= 's';
-    }
-
-    $host = $_SERVER['HTTP_HOST'];
-    $request = $_SERVER['PHP_SELF'];
-    return dirname(sprintf('%s://%s%s', $protocol, $host, $request)) . '/' . $path;
-}
-
 // ### Config
 // #### Basic configuration
 // The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
@@ -43,10 +24,11 @@ $baseUrl = 'https://api-test.wirecard.com';
 $httpUser = '70000-APITEST-AP';
 $httpPass = 'qD2wzQ_hrc!8';
 
+// The configuration is stored in an object, containing the connection settings set above.
 // A default currency can also be provided.
 $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
-// Config for PayPal
+// #### Config for PayPal
 // Create and add a configuration object with the PayPal settings
 $paypalMId = '9abf05c1-c266-46ae-8eac-7f87ca97af28';
 $paypalKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
@@ -68,18 +50,20 @@ $notificationUrl = getUrl('notify.php');
 $accountHolder = new AccountHolder();
 $accountHolder->setEmail("customer@wirecard.com");
 
-// ### Transaction
+
+// ## Transaction
+
 // The PayPal transaction holds all transaction relevant data for the payment process.
-$paypalTransaction = new PayPalTransaction();
-$paypalTransaction->setNotificationUrl($notificationUrl);
-$paypalTransaction->setRedirect($redirectUrls);
-$paypalTransaction->setAmount($amount);
-$paypalTransaction->setAccountHolder($accountHolder);
+$transaction = new PayPalTransaction();
+$transaction->setNotificationUrl($notificationUrl);
+$transaction->setRedirect($redirectUrls);
+$transaction->setAmount($amount);
+$transaction->setAccountHolder($accountHolder);
 
 // ### Transaction Service
 // The service is used to execute the payment operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
-$response = $transactionService->credit($paypalTransaction);
+$response = $transactionService->credit($transaction);
 
 // ## Response handling
 

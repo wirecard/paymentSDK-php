@@ -7,6 +7,7 @@
 // ## Required objects
 
 require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/../inc/common.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Entity\Money;
@@ -16,23 +17,6 @@ use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
-/**
- * @param $path
- * @return string
- */
-function getUrl($path)
-{
-    $protocol = 'http';
-
-    if ($_SERVER['SERVER_PORT'] === 443 || (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) === 'on')) {
-        $protocol .= 's';
-    }
-
-    $host = $_SERVER['HTTP_HOST'];
-    $request = $_SERVER['PHP_SELF'];
-    return dirname(sprintf('%s://%s%s', $protocol, $host, $request)) . '/' . $path;
-}
-
 // ### Config
 // #### Basic configuration
 // The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
@@ -40,6 +24,7 @@ $baseUrl = 'https://api-test.wirecard.com';
 $httpUser = '70000-APILUHN-CARD';
 $httpPass = '8mhwavKVb91T';
 
+// The configuration is stored in an object, containing the connection settings set above.
 // A default currency can also be provided.
 $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
@@ -50,7 +35,9 @@ $paypalKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
 $paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalMId, $paypalKey);
 $config->add($paypalConfig);
 
-// ### Money object
+
+// ### Transaction related objects
+
 // Use the money object as amount which has to be payed by the consumer.
 if (array_key_exists('amount', $_POST)) {
     $amount = new Money((float)$_POST['amount'], 'EUR');
@@ -58,27 +45,28 @@ if (array_key_exists('amount', $_POST)) {
     $amount = new Money(12.59, 'EUR');
 }
 
-// ### Redirect URLs
 // The redirect URLs determine where the consumer should be redirected by PayPal after approval/cancellation.
 $redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
 
-// ### Notification URL
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
 $notificationUrl = getUrl('notify.php');
 
-// ### Transaction
-// The _TransactionService_ is used to generate the request data needed for the generation of the UI.
-$transactionService = new TransactionService($config);
 
-$paypalTransaction = new PayPalTransaction();
-$paypalTransaction->setNotificationUrl($notificationUrl);
-$paypalTransaction->setRedirect($redirectUrls);
-$paypalTransaction->setAmount($amount);
+// ## Transaction
+
+$transaction = new PayPalTransaction();
+$transaction->setNotificationUrl($notificationUrl);
+$transaction->setRedirect($redirectUrls);
+$transaction->setAmount($amount);
 if (array_key_exists('parentTransactionId', $_POST)) {
-    $paypalTransaction->setParentTransactionId($_POST['parentTransactionId']);
+    $transaction->setParentTransactionId($_POST['parentTransactionId']);
 }
 
-$response = $transactionService->pay($paypalTransaction);
+// ### Transaction service
+// The _TransactionService_ is used to generate the request data needed for the generation of the UI.
+$transactionService = new TransactionService($config);
+$response = $transactionService->pay($transaction);
+
 
 // ## Response handling
 

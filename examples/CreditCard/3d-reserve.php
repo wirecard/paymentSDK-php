@@ -23,7 +23,8 @@ $baseUrl = 'https://api-test.wirecard.com';
 $httpUser = '70000-APILUHN-CARD';
 $httpPass = '8mhwavKVb91T';
 
-// The configuration is stored in an object, which requires default currency can also be provided.
+// The configuration is stored in an object, containing the connection settings set above.
+// A default currency can also be provided.
 $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
 // #### Configuration for Credit Card 3-D
