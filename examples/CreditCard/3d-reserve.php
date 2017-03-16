@@ -7,6 +7,7 @@
 
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/../inc/customs.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -14,23 +15,6 @@ use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
-
-/**
- * @param $path
- * @return string
- */
-function getUrl($path)
-{
-    $protocol = 'http';
-
-    if ($_SERVER['SERVER_PORT'] === 443 || (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) === 'on')) {
-        $protocol .= 's';
-    }
-
-    $host = $_SERVER['HTTP_HOST'];
-    $request = $_SERVER['PHP_SELF'];
-    return dirname(sprintf('%s://%s%s', $protocol, $host, $request)) . '/' . $path;
-}
 
 // Create a money object as amount which has to be payed by the consumer.
 $amount = new Money(12.59, 'EUR');
