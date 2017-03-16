@@ -44,7 +44,14 @@ $response = $service->handleResponse($_POST);
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
-    echo sprintf('Payment with id %s successfully completed.<br>', $response->getTransactionId());
+    $xmlResponse = new SimpleXMLElement($response->getRawData());
+    $transactionType = (string)$xmlResponse->{'transaction-type'};
+    if (isset($transactionType) && $transactionType==='authorization') {
+        echo "Reservation";
+    } else {
+        echo "Payment";
+    }
+    echo sprintf(' with id %s successfully completed.<br>', $response->getTransactionId());
     $txDetailsLink = sprintf(
         'https://api-test.wirecard.com/engine/rest/merchants/%s/payments/%s',
         $paypalMId,
@@ -58,7 +65,16 @@ if ($response instanceof SuccessResponse) {
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <input type="submit" value="cancel">
     </form>
+
     <?php
+    if ($transactionType === 'authorization') { ?>
+        <form action="pay-based-on-reserve.php" method="post">
+        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+        <input type="hidden" name="transaction-type" value="<?= (string)$xmlResponse->{'transaction-type'} ?>"/>
+        <input type="submit" value="capture the payment">
+    </form>
+    <?php
+    }
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
 // In our example we iterate over all errors and echo them out.

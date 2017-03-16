@@ -32,6 +32,7 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Entity\ItemCollection;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
@@ -66,6 +67,38 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    public function testSetItemCollection()
+    {
+        $collection = new ItemCollection();
+
+        $this->tx->setItemCollection($collection);
+
+        $this->assertAttributeEquals($collection, 'itemCollection', $this->tx);
+    }
+
+    public function testGetItemCollection()
+    {
+        $collection = new ItemCollection();
+
+        $this->tx->setItemCollection($collection);
+
+        $this->assertEquals($collection, $this->tx->getItemCollection());
+    }
+
+    public function testMappedPropertiesSetsOrderItems()
+    {
+        $redirect = $this->createMock(Redirect::class);
+        $redirect->method('getCancelUrl')->willReturn('cancel-url');
+        $redirect->method('getSuccessUrl')->willReturn('success-url');
+
+        $this->tx->setItemCollection(new ItemCollection());
+        $this->tx->setOperation('pay');
+        $this->tx->setRedirect($redirect);
+        $data = $this->tx->mappedProperties();
+
+        $this->assertArrayHasKey('order-items', $data);
+    }
+
     /**
      * @param float $amount
      * @param string $expected
@@ -88,6 +121,58 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $data['transaction-type']);
     }
 
+    public function payDataProvider()
+    {
+        return [
+            [null, Transaction::TYPE_DEBIT],
+            [Transaction::TYPE_AUTHORIZATION, Transaction::TYPE_CAPTURE_AUTHORIZATION]
+        ];
+    }
+
+    /**
+     * @param string $parentTransactionType
+     * @param string $expected
+     * @dataProvider payDataProvider
+     */
+    public function testGetRetrieveTransactionTypePay($parentTransactionType, $expected)
+    {
+        $redirect = $this->createMock(Redirect::class);
+        $redirect->method('getCancelUrl')->willReturn('cancel-url');
+        $redirect->method('getSuccessUrl')->willReturn('success-url');
+
+        $money = $this->createMock(Money::class);
+        $money->method('getAmount')->willReturn(1.00);
+
+        $this->tx->setRedirect($redirect);
+        $this->tx->setAmount($money);
+        $this->tx->setParentTransactionType($parentTransactionType);
+        $this->tx->setOperation('pay');
+        $data = $this->tx->mappedProperties();
+
+        $this->assertEquals($expected, $data['transaction-type']);
+    }
+
+    public function testGetRetrieveTransactionTypeCredit()
+    {
+        $amount = 1.00;
+        $redirect = $this->createMock(Redirect::class);
+        $redirect->method('getCancelUrl')->willReturn('cancel-url');
+        $redirect->method('getSuccessUrl')->willReturn('success-url');
+
+        $money = $this->createMock(Money::class);
+        $money->method('getAmount')->willReturn($amount);
+
+        $this->tx->setRedirect($redirect);
+        $this->tx->setAmount($money);
+
+        $this->tx->setOperation('credit');
+
+        $data = $this->tx->mappedProperties();
+
+        $this->assertEquals('pending-credit', $data['transaction-type']);
+    }
+
+
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
      */
@@ -97,26 +182,28 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx->mappedProperties();
     }
 
-    public function testGetRetrieveTransactionTypeCancelAuthorization()
+    public function debitDataProvider()
     {
-        $this->tx->setParentTransactionType(Transaction::TYPE_AUTHORIZATION);
-        $this->tx->setOperation('cancel');
-        $this->tx->mappedProperties();
-
-        $data = $this->tx->mappedProperties();
-
-        $this->assertEquals(Transaction::TYPE_VOID_AUTHORIZATION, $data['transaction-type']);
+        return [
+            [Transaction::TYPE_AUTHORIZATION, Transaction::TYPE_VOID_AUTHORIZATION],
+            [Transaction::TYPE_DEBIT, 'refund-debit'],
+            [Transaction::TYPE_CAPTURE_AUTHORIZATION, 'refund-capture']
+        ];
     }
 
-    public function testGetRetrieveTransactionTypeCancelDebit()
+    /**
+     * @param string $parentTransactionType
+     * @param string $expected
+     * @dataProvider debitDataProvider
+     */
+    public function testGetRetrieveTransactionTypeCancel($parentTransactionType, $expected)
     {
-        $this->tx->setParentTransactionType(Transaction::TYPE_DEBIT);
+        $this->tx->setParentTransactionType($parentTransactionType);
         $this->tx->setOperation('cancel');
-        $this->tx->mappedProperties();
 
         $data = $this->tx->mappedProperties();
 
-        $this->assertEquals('refund-debit', $data['transaction-type']);
+        $this->assertEquals($expected, $data['transaction-type']);
     }
 
     public function testGetEndpointWithParent()

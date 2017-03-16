@@ -45,6 +45,22 @@ $redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
 $notificationUrl = getUrl('notify.php');
 
+// ### Order items
+// Create your items.
+$item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Money(2.59, 'EUR'), 1);
+$item1->setArticleNumber('A1');
+$item1->setDescription('My first item');
+
+$item2 = new \Wirecard\PaymentSdk\Entity\Item('Item 2', new Money(5, 'EUR'), 2);
+$item2->setArticleNumber('B2');
+$item2->setDescription('My second item');
+$item2->setTaxAmount(new Money(1, 'EUR'));
+
+// Create an item collection to store the items
+$itemCollection = new \Wirecard\PaymentSdk\Entity\ItemCollection();
+$itemCollection->add($item1);
+$itemCollection->add($item2);
+
 
 // ## Transaction
 

@@ -30,68 +30,58 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk\Entity;
+namespace Wirecard\PaymentSdk\Entity;
 
-use Wirecard\PaymentSdk\Entity\AccountHolder;
+use Traversable;
 
-class AccountHolderUTest extends \PHPUnit_Framework_TestCase
+/**
+ * Class ItemCollection
+ * @package Wirecard\PaymentSdk\Entity
+ */
+class ItemCollection implements \IteratorAggregate, MappableEntity
 {
-    const LASTNAME = 'Doe';
+    /**
+     * @var array
+     */
+    private $items = [];
 
     /**
-     * @var AccountHolder
+     * Retrieve an external iterator
+     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
+     * @return Traversable An instance of an object implementing <b>Iterator</b> or
+     * <b>Traversable</b>
+     * @since 5.0.0
      */
-    private $accountHolder;
-
-    public function setUp()
+    public function getIterator()
     {
-        $this->accountHolder = new AccountHolder(self::LASTNAME);
+        return new \ArrayIterator($this->items);
     }
 
-    public function testGetMappedPropertiesOnlyLastName()
+    /**
+     * @param Item $item
+     * @return $this
+     */
+    public function add(Item $item)
     {
-        $this->assertEquals([ 'last-name' => self::LASTNAME ], $this->accountHolder->mappedProperties());
+        $this->items[] = $item;
+
+        return $this;
     }
 
-    public function testGetMappedPropertiesLastAndFirstName()
+    /**
+     * @return array
+     */
+    public function mappedProperties()
     {
-        $firstName = 'Jane';
-        $this->accountHolder->setFirstName($firstName);
+        $data = ['order-item' => []];
 
-        $this->assertEquals(
-            [
-                'last-name' => self::LASTNAME,
-                'first-name' => $firstName
-            ],
-            $this->accountHolder->mappedProperties()
-        );
-    }
+        /**
+         * @var Item $item
+         */
+        foreach ($this->getIterator() as $item) {
+            $data['order-item'][] = $item->mappedProperties();
+        }
 
-    public function testGetMappedPropertiesLastNameAndEmail()
-    {
-        $email = 'Jane@doe.com';
-        $this->accountHolder->setEmail($email);
-
-        $this->assertEquals(
-            [
-                'last-name' => self::LASTNAME,
-                'email' => $email
-            ],
-            $this->accountHolder->mappedProperties()
-        );
-    }
-
-    public function testGetMappedPropertiesLastNameAndPhone()
-    {
-        $phone = '+123 456 789';
-        $this->accountHolder->setPhone($phone);
-
-        $this->assertEquals(
-            [
-                'last-name' => self::LASTNAME,
-                'phone' => $phone
-            ],
-            $this->accountHolder->mappedProperties()
-        );
+        return $data;
     }
 }
