@@ -70,7 +70,7 @@ abstract class Response
     public function __construct($simpleXml)
     {
         $this->simpleXml = $simpleXml;
-        $this->statusCollection = $this->findStatusCollection();
+        $this->statusCollection = $this->generateStatusCollection();
         $this->requestId = $this->findElement('request-id');
     }
 
@@ -119,14 +119,13 @@ abstract class Response
      * @return StatusCollection
      * @throws MalformedResponseException
      */
-    private function findStatusCollection()
+    private function generateStatusCollection()
     {
         $collection = new StatusCollection();
 
         /**
          * @var $statuses \SimpleXMLElement
          */
-        var_dump($this->simpleXml);
         if (!isset($this->simpleXml->{'statuses'})) {
             throw new MalformedResponseException('Missing statuses in response.');
         }
