@@ -56,4 +56,20 @@ class FailureResponseUTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf(Response::class, $this->response);
     }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
+     */
+    public function testMalformedXmlException()
+    {
+        $invalidData = '<xml>';
+
+        new FailureResponse($invalidData);
+    }
+
+
+    public function testGetTransactionType()
+    {
+        $this->assertEquals('failed-transaction', $this->response->getTransactionType());
+    }
 }
