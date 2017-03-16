@@ -24,7 +24,7 @@ $baseUrl = 'https://api-test.wirecard.com';
 $httpUser = '70000-APITEST-AP';
 $httpPass = 'qD2wzQ_hrc!8';
 
-// The configuration is stored in an object, containing the connection settings set above.
+// The configuration is stored in an object containing the connection settings set above.
 // A default currency can also be provided.
 $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
