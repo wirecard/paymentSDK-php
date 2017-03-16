@@ -52,11 +52,11 @@ class SuccessResponse extends Response
 
     /**
      * SuccessResponse constructor.
-     * @param string $rawData
+     * @param \SimpleXMLElement $simpleXml
      */
-    public function __construct($rawData)
+    public function __construct($simpleXml)
     {
-        parent::__construct($rawData);
+        parent::__construct($simpleXml);
         $this->transactionId = $this->findElement('transaction-id');
         $this->providerTransactionId = $this->findProviderTransactionId();
         $this->transactionType = $this->findElement('transaction-type');

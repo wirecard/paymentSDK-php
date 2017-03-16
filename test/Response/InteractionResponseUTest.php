@@ -46,6 +46,11 @@ class InteractionResponseUTest extends \PHPUnit_Framework_TestCase
                         <statuses><status code="1" description="a" severity="0"></status></statuses>
                     </raw>';
 
+    /**
+     * @var \SimpleXMLElement
+     */
+    private $simpleXml;
+
     private $statusCollection;
 
     /**
@@ -56,8 +61,9 @@ class InteractionResponseUTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->statusCollection = new StatusCollection();
+        $this->simpleXml = simplexml_load_string($this->rawData);
         $this->response = new InteractionResponse(
-            $this->rawData,
+            $this->simpleXml,
             $this->redirectUrl
         );
     }

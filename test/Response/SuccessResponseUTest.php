@@ -43,13 +43,14 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $rawData = '<raw>
+        $simpleXml = simplexml_load_string('<raw>
                         <transaction-id>1</transaction-id>
                         <request-id>123</request-id>
                         <transaction-type>transaction</transaction-type>
                         <statuses><status code="1" description="a" severity="0"></status></statuses>
-                    </raw>';
-        $this->response = new SuccessResponse($rawData);
+                    </raw>');
+
+        $this->response = new SuccessResponse($simpleXml);
     }
 
     public function testGetTransactionType()

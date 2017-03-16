@@ -54,12 +54,12 @@ class InteractionResponse extends Response
 
     /**
      * InteractionResponse constructor.
-     * @param string $rawData - JSON string holding the raw response data
+     * @param \SimpleXmlElement $simpleXml
      * @param string $redirectUrl - Redirect url of the external service provider
      */
-    public function __construct($rawData, $redirectUrl)
+    public function __construct($simpleXml, $redirectUrl)
     {
-        parent::__construct($rawData);
+        parent::__construct($simpleXml);
         $this->transactionId = $this->findElement('transaction-id');
         $this->redirectUrl = $redirectUrl;
     }

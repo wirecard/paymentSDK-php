@@ -189,7 +189,7 @@ class TransactionService
         if (array_key_exists('eppresponse', $payload)) {
             return $this->getResponseMapper()->map($payload['eppresponse']);
         } else {
-            throw new MalformedResponseException('Missing response in payload');
+            throw new MalformedResponseException('Missing response in payload.');
         }
     }
 

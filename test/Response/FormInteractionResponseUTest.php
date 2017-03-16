@@ -37,15 +37,12 @@ use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 
 class FormInteractionResponseUTest extends \PHPUnit_Framework_TestCase
 {
-    private $rawData = '<raw>
-                        <transaction-id>1-2-3</transaction-id>
-                        <request-id>123</request-id>
-                        <transaction-type>failed-transaction</transaction-type>
-                        <statuses><status code="1" description="a" severity="0"></status></statuses>
-                    </raw>';
+    /**
+     * @var \SimpleXMLElement
+     */
+    private $simpleXml;
 
     private $url = 'https://www.example.com/redirect';
-
 
     /**
      * @var FormFieldMap
@@ -60,11 +57,16 @@ class FormInteractionResponseUTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->formFields = $this->createMock(FormFieldMap::class);
+        $this->simpleXml = simplexml_load_string('<raw>
+                        <transaction-id>1-2-3</transaction-id>
+                        <request-id>123</request-id>
+                        <transaction-type>failed-transaction</transaction-type>
+                        <statuses><status code="1" description="a" severity="0"></status></statuses>
+                    </raw>');
 
         $this->response = new FormInteractionResponse(
-            $this->rawData,
-            $this->url,
-            $this->formFields
+            $this->simpleXml,
+            $this->url
         );
 
         $this->response->setFormFields($this->formFields);
@@ -72,7 +74,7 @@ class FormInteractionResponseUTest extends \PHPUnit_Framework_TestCase
 
     public function testGetRawResponse()
     {
-        $this->assertEquals($this->rawData, $this->response->getRawData());
+        $this->assertEquals($this->simpleXml->asXml(), $this->response->getRawData());
     }
 
     public function testGetRedirectUrl()

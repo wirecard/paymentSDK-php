@@ -44,11 +44,6 @@ use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 abstract class Response
 {
     /**
-     * @var string
-     */
-    private $rawData;
-
-    /**
      * @var StatusCollection
      */
     private $statusCollection;
@@ -70,23 +65,10 @@ abstract class Response
 
     /**
      * Response constructor.
-     * @param string $rawData
+     * @param $simpleXml SimpleXMLElement
      */
-    public function __construct($rawData)
+    public function __construct($simpleXml)
     {
-        $decodedResponse = base64_decode($rawData);
-        $rawData = (base64_encode($decodedResponse) === $rawData) ? $decodedResponse : $rawData;
-
-        //we need to use internal_errors, because we don't want to throw errors on invalid xml responses
-        $oldErrorHandling = libxml_use_internal_errors(true);
-        $simpleXml = simplexml_load_string($rawData);
-        //reset to old value after string is loaded
-        libxml_use_internal_errors($oldErrorHandling);
-        if (!$simpleXml instanceof \SimpleXMLElement) {
-            throw new MalformedResponseException('Response is not a valid xml string.');
-        }
-
-        $this->rawData = $rawData;
         $this->simpleXml = $simpleXml;
         $this->statusCollection = $this->findStatusCollection();
         $this->requestId = $this->findElement('request-id');
@@ -99,7 +81,7 @@ abstract class Response
      */
     public function getRawData()
     {
-        return $this->rawData;
+        return $this->simpleXml->asXML();
     }
 
     /**
@@ -144,6 +126,7 @@ abstract class Response
         /**
          * @var $statuses \SimpleXMLElement
          */
+        var_dump($this->simpleXml);
         if (!isset($this->simpleXml->{'statuses'})) {
             throw new MalformedResponseException('Missing statuses in response.');
         }

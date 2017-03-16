@@ -44,25 +44,15 @@ class FailureResponseUTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $rawData = '<raw>
+        $simpleXml = simplexml_load_string('<raw>
                         <request-id>123</request-id>
                         <statuses><status code="1" description="a" severity="0"></status></statuses>
-                    </raw>';
-        $this->response = new FailureResponse($rawData);
+                    </raw>');
+        $this->response = new FailureResponse($simpleXml);
     }
 
     public function testFailureResponseIsResponse()
     {
         $this->assertInstanceOf(Response::class, $this->response);
-    }
-
-    /**
-     * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
-     */
-    public function testMalformedXmlException()
-    {
-        $invalidData = '<xml>';
-
-        new FailureResponse($invalidData);
     }
 }

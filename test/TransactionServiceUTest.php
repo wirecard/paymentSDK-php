@@ -340,16 +340,15 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
     public function testHandleNotificationHappyPath()
     {
-        $validXmlContent = '<xml>
-                    <payment></payment>
+        $validXmlContent = '<payment>
                     <transaction-type>none</transaction-type>
                     <request-id>1</request-id>
                     <transaction-id>2</transaction-id>
                     <statuses><status code="1" description="a" severity="0"></status></statuses>
-                </xml>';
+                </payment>';
 
         $responseMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\ResponseMapper');
-        $interactionResponse = new InteractionResponse($validXmlContent, 'http://y.z');
+        $interactionResponse = new InteractionResponse(simplexml_load_string($validXmlContent), 'http://y.z');
         $responseMapper->method('map')->with($validXmlContent)->willReturn($interactionResponse);
 
         $this->instance = new TransactionService($this->config, null, null, null, $responseMapper);
@@ -385,9 +384,10 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
                     <statuses><status code="1" description="a" severity="0"></status></statuses>
                 </xml>')
         ];
+        $simpleXml = simplexml_load_string(base64_decode($validContent['eppresponse']));
 
         $responseMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\ResponseMapper');
-        $interactionResponse = new InteractionResponse($validContent['eppresponse'], 'http://y.z');
+        $interactionResponse = new InteractionResponse($simpleXml, 'http://y.z');
         $responseMapper->method('map')->with($validContent['eppresponse'])->willReturn($interactionResponse);
 
         $this->instance = new TransactionService($this->config, null, null, null, $responseMapper);
@@ -446,7 +446,8 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $validContent = [
             'MD' => base64_encode(json_encode($md)),
             'PaRes' => 'arbitrary PaRes',
-            'eppresponse' => '<xml></xml>'
+            'eppresponse' => '<xml></xml>',
+
         ];
 
         $transaction = new ThreeDCreditCardTransaction();
@@ -521,7 +522,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
                 <transaction-type></transaction-type>
                 <statuses><status code="1" description="a" severity="0"></status></statuses>
             </xml>';
-        $successResponse = new SuccessResponse($xmlResponse, 'y');
+        $successResponse = new SuccessResponse(simplexml_load_string($xmlResponse), 'y');
         $responseMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\ResponseMapper');
         $responseMapper->method('map')->with($httpResponseContent)->willReturn($successResponse);
 

@@ -87,11 +87,11 @@ class ResponseMapper
 
         switch ($state) {
             case 'success':
-                return $this->mapSuccessResponse($xmlResponse, $operation, $transaction);
+                return $this->mapSuccessResponse($operation, $transaction);
             case 'in-progress':
-                return new PendingResponse($xmlResponse);
+                return new PendingResponse($this->simpleXml);
             default:
-                return new FailureResponse($xmlResponse);
+                return new FailureResponse($this->simpleXml);
         }
     }
 
@@ -185,27 +185,25 @@ class ResponseMapper
     }
 
     /**
-     * @param $xmlResponse
      * @param string $operation
      * @param ThreeDCreditCardTransaction $transaction
      * @return FormInteractionResponse|InteractionResponse|SuccessResponse
      * @throws MalformedResponseException
      */
     private function mapSuccessResponse(
-        $xmlResponse,
         $operation,
         ThreeDCreditCardTransaction $transaction = null
     ) {
         if ((string)$this->simpleXml->{'transaction-type'} === ThreeDCreditCardTransaction::TYPE_CHECK_ENROLLMENT) {
-            return $this->mapThreeDResponse($xmlResponse, $operation, $transaction);
+            return $this->mapThreeDResponse($this->simpleXml, $operation, $transaction);
         }
 
         $paymentMethod = $this->getPaymentMethod();
         $redirectUrl = $this->getRedirectUrl($paymentMethod);
         if ($redirectUrl !== null) {
-            return new InteractionResponse($xmlResponse, $redirectUrl);
+            return new InteractionResponse($this->simpleXml, $redirectUrl);
         } else {
-            return new SuccessResponse($xmlResponse);
+            return new SuccessResponse($this->simpleXml);
         }
     }
 }
