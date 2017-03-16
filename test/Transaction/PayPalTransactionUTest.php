@@ -32,6 +32,7 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Entity\ItemCollection;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
@@ -64,6 +65,38 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
             [1.0, Transaction::TYPE_AUTHORIZATION],
             [0.0, 'authorization-only']
         ];
+    }
+
+    public function testSetItemCollection()
+    {
+        $collection = new ItemCollection();
+
+        $this->tx->setItemCollection($collection);
+
+        $this->assertAttributeEquals($collection, 'itemCollection', $this->tx);
+    }
+
+    public function testGetItemCollection()
+    {
+        $collection = new ItemCollection();
+
+        $this->tx->setItemCollection($collection);
+
+        $this->assertEquals($collection, $this->tx->getItemCollection());
+    }
+
+    public function testMappedPropertiesSetsOrderItems()
+    {
+        $redirect = $this->createMock(Redirect::class);
+        $redirect->method('getCancelUrl')->willReturn('cancel-url');
+        $redirect->method('getSuccessUrl')->willReturn('success-url');
+
+        $this->tx->setItemCollection(new ItemCollection());
+        $this->tx->setOperation('pay');
+        $this->tx->setRedirect($redirect);
+        $data = $this->tx->mappedProperties();
+
+        $this->assertArrayHasKey('order-items', $data);
     }
 
     /**
