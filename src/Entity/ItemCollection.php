@@ -78,7 +78,7 @@ class ItemCollection implements \IteratorAggregate, MappableEntity
         /**
          * @var Item $item
          */
-        foreach($this->getIterator() as $item) {
+        foreach ($this->getIterator() as $item) {
             $data['order-item'][] = $item->mappedProperties();
         }
 
