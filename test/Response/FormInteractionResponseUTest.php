@@ -41,6 +41,7 @@ class FormInteractionResponseUTest extends \PHPUnit_Framework_TestCase
                         <transaction-id>1-2-3</transaction-id>
                         <request-id>123</request-id>
                         <transaction-type>failed-transaction</transaction-type>
+                        <statuses><status code="1" description="a" severity="0"></status></statuses>
                     </raw>';
 
     private $url = 'https://www.example.com/redirect';

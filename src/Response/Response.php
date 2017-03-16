@@ -41,7 +41,7 @@ use Wirecard\PaymentSdk\Exception\MalformedResponseException;
  * Class Response
  * @package Wirecard\PaymentSdk\Response
  */
-class Response
+abstract class Response
 {
     /**
      * @var string
@@ -74,17 +74,20 @@ class Response
      */
     public function __construct($rawData)
     {
-        $this->rawData = $rawData;
+        $decodedResponse = base64_decode($rawData);
+        $rawData = (base64_encode($decodedResponse) === $rawData) ? $decodedResponse : $rawData;
 
+        //we need to use internal_errors, because we don't want to throw errors on invalid xml responses
         $oldErrorHandling = libxml_use_internal_errors(true);
-        $this->simpleXml = simplexml_load_string($rawData);
+        $simpleXml = simplexml_load_string($rawData);
         //reset to old value after string is loaded
         libxml_use_internal_errors($oldErrorHandling);
-
-        if (!$this->simpleXml instanceof \SimpleXMLElement) {
+        if (!$simpleXml instanceof \SimpleXMLElement) {
             throw new MalformedResponseException('Response is not a valid xml string.');
         }
 
+        $this->rawData = $rawData;
+        $this->simpleXml = $simpleXml;
         $this->statusCollection = $this->findStatusCollection();
         $this->transactionType = $this->findElement('transaction-type');
         $this->requestId = $this->findElement('request-id');
@@ -118,7 +121,7 @@ class Response
         if (isset($this->simpleXml->{$element})) {
             return (string)$this->simpleXml->{$element};
         } else {
-            throw new MalformedResponseException('Missing '.$element.' in response');
+            throw new MalformedResponseException('Missing '.$element.' in response.');
         }
     }
 
@@ -142,9 +145,12 @@ class Response
         /**
          * @var $statuses \SimpleXMLElement
          */
-        $statuses = $this->simpleXml->statuses;
-        if (count($statuses->status) > 0) {
-            foreach ($statuses->status as $statusNode) {
+        if (!isset($this->simpleXml->{'statuses'})) {
+            throw new MalformedResponseException('Missing statuses in response.');
+        }
+        $statuses = $this->simpleXml->{'statuses'};
+        if (count($statuses->{'status'}) > 0) {
+            foreach ($statuses->{'status'} as $statusNode) {
                 /**
                  * @var $statusNode \SimpleXMLElement
                  */

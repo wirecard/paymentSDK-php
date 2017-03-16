@@ -522,6 +522,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         <transaction-state>in-progress</transaction-state>
                         <transaction-type>debit</transaction-type>
                         <request-id>1234</request-id>
+                        <statuses><status code="1" description="a" severity="0"></status></statuses>
                     </payment>';
         /**
          * @var $mapped PendingResponse
