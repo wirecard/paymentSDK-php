@@ -16,6 +16,24 @@ use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\TransactionService;
 
+// ### Config
+// #### Basic configuration
+// The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
+$baseUrl = 'https://api-test.wirecard.com';
+$httpUser = '70000-APILUHN-CARD';
+$httpPass = '8mhwavKVb91T';
+
+// A default currency can also be provided.
+$config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
+
+// #### Configuration for credit card SSL
+// Create and add a configuration object with the settings for credit card.
+$ccardMAID = '9105bb4f-ae68-4768-9c3b-3eda968f57ea';
+$ccardKey = 'd1efed51-4cb9-46a5-ba7b-0fdc87a66544';
+$ccardConfig = new Config\PaymentMethodConfig(CreditCardTransaction::NAME, $ccardMAID, $ccardKey);
+$config->add($ccardConfig);
+
+// ### Transaction related objects
 // Create a money object as amount which has to be payed by the consumer.
 $amount = new Money(12.59, 'EUR');
 
@@ -30,23 +48,6 @@ if ($parentTransactionId === null && $tokenId === null) {
     $tokenId = '5168216323601006';
 }
 
-// ### Config
-// #### Basic configuration
-// The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
-$baseUrl = 'https://api-test.wirecard.com';
-$httpUser = '70000-APILUHN-CARD';
-$httpPass = '8mhwavKVb91T';
-
-// A default currency can also be provided.
-$config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
-
-// #### Configuration for credit card SSL
-// Create and add a configuration object with the settings for credit card.
-$ccardMId = '9105bb4f-ae68-4768-9c3b-3eda968f57ea';
-$ccardKey = 'd1efed51-4cb9-46a5-ba7b-0fdc87a66544';
-$ccardConfig = new Config\PaymentMethodConfig(CreditCardTransaction::NAME, $ccardMId, $ccardKey);
-$config->add($ccardConfig);
-
 
 // ## Transaction
 
@@ -56,6 +57,8 @@ $transaction = new CreditCardTransaction();
 $transaction->setTokenId($tokenId);
 $transaction->setAmount($amount);
 $transaction->setParentTransactionId($parentTransactionId);
+
+// ### Transaction Service
 // The service is used to execute the reservation (authorization) operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
 $response = $transactionService->reserve($transaction);
@@ -69,7 +72,7 @@ if ($response instanceof SuccessResponse) {
     echo sprintf('Payment with id %s successfully completed.<br>', $response->getTransactionId());
     $txDetailsLink = sprintf(
         'https://api-test.wirecard.com/engine/rest/merchants/%s/payments/%s',
-        $ccardMId,
+        $ccardMAID,
         $response->getTransactionId()
     );
     ?>

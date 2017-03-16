@@ -7,14 +7,12 @@
 // to take place on the client-side, so that the credit card data is not processed and/or stored anywhere else.
 
 // ## Required libraries and objects
-
 // To include the necessary files, use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
-
 
 // ### Config
 // #### Basic configuration
@@ -26,13 +24,17 @@ $httpPass = '8mhwavKVb91T';
 // A default currency can also be provided.
 $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
-// #### Configuration for credit card SSL
+// #### Configuration for Credit Card SSL
 // Create and add a configuration object with the settings for credit card.
-$ccardMId = '9105bb4f-ae68-4768-9c3b-3eda968f57ea';
+$ccardMAID = '9105bb4f-ae68-4768-9c3b-3eda968f57ea';
 $ccardKey = 'd1efed51-4cb9-46a5-ba7b-0fdc87a66544';
-$ccardConfig = new Config\PaymentMethodConfig(CreditCardTransaction::NAME, $ccardMId, $ccardKey);
+$ccardConfig = new Config\PaymentMethodConfig(CreditCardTransaction::NAME, $ccardMAID, $ccardKey);
 $config->add($ccardConfig);
 
+
+// ## Transaction
+
+// ### Transaction Service
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
 
