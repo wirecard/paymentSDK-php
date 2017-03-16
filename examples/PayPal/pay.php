@@ -1,11 +1,11 @@
 <?php
-
 // # PayPal payment transaction
 // This example displays the usage payments for payment method PayPal.
 
+// ## Required objects
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
-require __DIR__ . '/../inc/customs.php';
+require __DIR__ . '/../inc/common.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -14,25 +14,6 @@ use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\TransactionService;
-
-// ### Money object
-// Use the money object as amount which has to be payed by the consumer.
-$amount = new Money(12.59, 'EUR');
-
-// ### Redirect URLs
-// The redirect URLs determine where the consumer should be redirected by PayPal after approval/cancellation.
-$redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
-
-// ### Notification URL
-// As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
-$notificationUrl = getUrl('notify.php');
-
-// ### Transaction
-// The PayPal transaction holds all transaction relevant data for the payment process.
-$paypalTransaction = new PayPalTransaction();
-$paypalTransaction->setNotificationUrl($notificationUrl);
-$paypalTransaction->setRedirect($redirectUrls);
-$paypalTransaction->setAmount($amount);
 
 // ### Config
 // #### Basic configuration
@@ -44,17 +25,36 @@ $httpPass = 'qD2wzQ_hrc!8';
 // A default currency can also be provided.
 $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
-// Config for PayPal
+// #### PayPal
 // Create and add a configuration object with the PayPal settings
-$paypalMId = '9abf05c1-c266-46ae-8eac-7f87ca97af28';
+$paypalMAID = '9abf05c1-c266-46ae-8eac-7f87ca97af28';
 $paypalKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
-$paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalMId, $paypalKey);
+$paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalMAID, $paypalKey);
 $config->add($paypalConfig);
+
+// ### Transaction related objects
+// Use the money object as amount which has to be payed by the consumer.
+$amount = new Money(12.59, 'EUR');
+
+// The redirect URLs determine where the consumer should be redirected by PayPal after approval/cancellation.
+$redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
+
+// As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
+$notificationUrl = getUrl('notify.php');
+
+
+// ## Transaction
+
+// The PayPal transaction holds all transaction relevant data for the payment process.
+$transaction = new PayPalTransaction();
+$transaction->setNotificationUrl($notificationUrl);
+$transaction->setRedirect($redirectUrls);
+$transaction->setAmount($amount);
 
 // ### Transaction Service
 // The service is used to execute the payment operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
-$response = $transactionService->pay($paypalTransaction);
+$response = $transactionService->pay($transaction);
 
 // ### Response handling
 // The response of the service must be handled depending on it's class

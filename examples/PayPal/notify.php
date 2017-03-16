@@ -2,8 +2,10 @@
 // # PayPal notification
 // Wirecard sends a server-to-server request regarding any changes in the transaction status.
 
+// ## Required objects
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
+
 
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -23,12 +25,15 @@ $httpPass = 'qD2wzQ_hrc!8';
 // A default currency can also be provided.
 $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
-// Config for PayPal
+// #### PayPal
 // Create and add a configuration object with the PayPal settings
-$paypalMId = '9abf05c1-c266-46ae-8eac-7f87ca97af28';
+$paypalMAID = '9abf05c1-c266-46ae-8eac-7f87ca97af28';
 $paypalKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
-$paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalMId, $paypalKey);
+$paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalMAID, $paypalKey);
 $config->add($paypalConfig);
+
+
+// ## Transaction
 
 // ### Transaction Service
 // The `TransactionService` is used to determine the response from the service provider.
