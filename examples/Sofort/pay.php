@@ -1,11 +1,11 @@
 <?php
-
 // # Sofortbanking payment transaction
 // This example displays the usage payments for payment method Sofortbanking.
 
+// ## Required objects
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
-require __DIR__ . '/../inc/customs.php';
+require __DIR__ . '/../inc/common.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -14,22 +14,6 @@ use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\SofortTransaction;
 use Wirecard\PaymentSdk\TransactionService;
-
-// ### Money object
-// Use the money object as amount which has to be payed by the consumer.
-$amount = new Money(12.59, 'EUR');
-
-// ### Redirect URLs
-// The redirect URLs determine where the consumer should be redirected by Sofortbanking after approval/cancellation.
-$redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
-
-// ### Transaction
-// The SofortTransaction object holds all transaction relevant data for the payment process.
-// The required fields are: amount, descriptor, success and cancel redirect URL-s
-$sofortTransaction = new SofortTransaction();
-$sofortTransaction->setRedirect($redirectUrls);
-$sofortTransaction->setDescriptor('test');
-$sofortTransaction->setAmount($amount);
 
 // ### Config
 // #### Basic configuration
@@ -48,13 +32,32 @@ $sofortSecretKey = 'ad39d9d9-2712-4abd-9016-cdeb60dc3c8f';
 $sofortConfig = new Config\PaymentMethodConfig(SofortTransaction::NAME, $sofortMId, $sofortSecretKey);
 $config->add($sofortConfig);
 
+// ### Transaction related objects
+
+// Use the money object as amount which has to be payed by the consumer.
+$amount = new Money(12.59, 'EUR');
+
+// The redirect URLs determine where the consumer should be redirected by Sofortbanking after approval/cancellation.
+$redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
+
+
+// ## Transaction
+
+// The SofortTransaction object holds all transaction relevant data for the payment process.
+// The required fields are: amount, descriptor, success and cancel redirect URL-s
+$transaction = new SofortTransaction();
+$transaction->setRedirect($redirectUrls);
+$transaction->setDescriptor('test');
+$transaction->setAmount($amount);
 
 // ### Transaction Service
 // The service is used to execute the payment operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
-$response = $transactionService->pay($sofortTransaction);
+$response = $transactionService->pay($transaction);
 
-// ### Response handling
+
+// ## Response handling
+
 // The response of the service must be handled depending on it's class
 // In case of an `InteractionResponse`, a browser interaction by the consumer is required
 // in order to continue the payment process. In this example we proceed with a header redirect

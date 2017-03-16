@@ -2,6 +2,7 @@
 // # Sofortbanking return after transaction
 // The consumer gets redirected to this page after a Sofortbanking transaction.
 
+// ## Required objects
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -28,13 +29,17 @@ $sofortSecretKey = 'ad39d9d9-2712-4abd-9016-cdeb60dc3c8f';
 $sofortConfig = new Config\PaymentMethodConfig(SofortTransaction::NAME, $sofortMId, $sofortSecretKey);
 $config->add($sofortConfig);
 
+
+// ## Transaction
+
 // ### Transaction Service
 // The `TransactionService` is used to determine the response from the service provider.
 $service = new TransactionService($config);
-
 $response = $service->handleResponse($_POST);
 
-// ### Payment results
+
+// ## Payment results
+
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
