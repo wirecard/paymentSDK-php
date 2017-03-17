@@ -200,7 +200,11 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
     /**
+     * @param $operation
+     * @param $parentTransactionType
+     * @param $expectedType
      * @dataProvider threeDProvider
      */
     public function testThreeDCreditCardTransaction($operation, $parentTransactionType, $expectedType)

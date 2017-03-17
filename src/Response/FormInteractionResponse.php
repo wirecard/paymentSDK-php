@@ -33,7 +33,6 @@
 namespace Wirecard\PaymentSdk\Response;
 
 use Wirecard\PaymentSdk\Entity\FormFieldMap;
-use Wirecard\PaymentSdk\Entity\StatusCollection;
 
 /**
  * Class FormInteractionResponse
@@ -48,22 +47,25 @@ class FormInteractionResponse extends Response
     private $url;
 
     /**
+     * @var string
+     */
+    private $transactionId;
+
+    /**
      * @var FormFieldMap
      */
     private $formFields;
 
     /**
      * FormInteractionResponse constructor.
-     * @param string $rawData
-     * @param StatusCollection $statusCollection
+     * @param \SimpleXMLElement $simpleXml
      * @param $url
-     * @param FormFieldMap $formFields
      */
-    public function __construct($rawData, StatusCollection $statusCollection, $url, FormFieldMap $formFields)
+    public function __construct($simpleXml, $url)
     {
-        $this->formFields = $formFields;
         $this->url = $url;
-        parent::__construct($rawData, $statusCollection);
+        parent::__construct($simpleXml);
+        $this->transactionId = $this->findElement('transaction-id');
     }
 
     /**
@@ -88,5 +90,21 @@ class FormInteractionResponse extends Response
     public function getFormFields()
     {
         return $this->formFields;
+    }
+
+    /**
+     * @param FormFieldMap $formFields
+     */
+    public function setFormFields($formFields)
+    {
+        $this->formFields = $formFields;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTransactionId()
+    {
+        return $this->transactionId;
     }
 }
