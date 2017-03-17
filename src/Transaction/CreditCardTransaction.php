@@ -141,9 +141,9 @@ class CreditCardTransaction extends Transaction implements Reservable
             case 'refund-capture':
             case 'refund-purchase':
             case $this::TYPE_CREDIT:
-            case $this::TYPE_PURCHASE:
                 $transactionType = 'void-' . $this->parentTransactionType;
                 break;
+            case $this::TYPE_PURCHASE:
             case $this::TYPE_REFERENCED_PURCHASE:
                 $transactionType = 'void-purchase';
                 break;
