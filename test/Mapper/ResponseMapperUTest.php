@@ -75,6 +75,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
     {
         $response = '<payment>
                         <transaction-state>failed</transaction-state>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status code="200" description="UnitTest" severity="warning" />
                             <status code="500" description="UnitTest Error" severity="error" />
@@ -91,16 +93,18 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 
     public function testTransactionStateSuccessReturnsFilledInteractionResponseObject()
     {
-        $response = '<payment>
+        $response = simplexml_load_string('<?xml version="1.0"?><payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
-                            <status code="200" description="UnitTest" severity="warning" />
+                            <status code="200" description="UnitTest" severity="warning"/>
                         </statuses>
                         <payment-methods>
-                            <payment-method name="paypal" url="http://www.example.com/redirect-url"></payment-method>
+                            <payment-method name="paypal" url="http://www.example.com/redirect-url"/>
                         </payment-methods>
-                    </payment>';
+                    </payment>')->asXML();
 
         /**
          * @var $mapped InteractionResponse
@@ -116,9 +120,11 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 
     public function testTransactionStateSuccessReturnsFilledSuccessResponseObject()
     {
-        $response = '<payment>
+        $response = $response = simplexml_load_string('<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="201.0000" 
@@ -129,7 +135,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         <payment-methods>
                             <payment-method name="paypal"></payment-method>
                         </payment-methods>
-                    </payment>';
+                    </payment>')->asXML();
 
         $mapped = $this->mapper->map($response);
         $this->assertInstanceOf(SuccessResponse::class, $mapped);
@@ -142,9 +148,11 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 
     public function testBase64encodedTransactionStateSuccessReturnsFilledSuccessResponseObject()
     {
-        $response = base64_encode('<payment>
+        $response = base64_encode(simplexml_load_string('<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="201.0000" 
@@ -155,7 +163,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         <payment-methods>
                             <payment-method name="paypal"></payment-method>
                         </payment-methods>
-                    </payment>');
+                    </payment>')->asXML());
 
         $mapped = $this->mapper->map($response);
         $this->assertInstanceOf(SuccessResponse::class, $mapped);
@@ -168,10 +176,11 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 
     public function testWithValidResponseThreeDTransactionReturnsFormInteractionResponse()
     {
-        $payload = '<payment>
+        $payload = simplexml_load_string('<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
                         <transaction-type>check-enrollment</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="201.0000" 
@@ -184,7 +193,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                             <acs-url>https://www.example.com/acs</acs-url>
                             <pareq>request</pareq>
                         </three-d>
-                    </payment>';
+                    </payment>')->asXML();
         $transaction = new ThreeDCreditCardTransaction();
 
         /**
@@ -198,10 +207,11 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 
     public function testWithValidResponseThreeDTransactionReturnsFormInteractionResponseWithMd()
     {
-        $payload = '<payment>
+        $payload = simplexml_load_string('<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
                         <transaction-type>check-enrollment</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="201.0000" 
@@ -214,7 +224,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                             <acs-url>https://www.example.com/acs</acs-url>
                             <pareq>request</pareq>
                         </three-d>
-                    </payment>';
+                    </payment>')->asXML();
         $transaction = new ThreeDCreditCardTransaction();
 
         /**
@@ -232,10 +242,11 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 
     public function testWithValidResponseThreeDTransactionReturnsFormInteractionResponseWithTermUrl()
     {
-        $payload = '<payment>
+        $payload = simplexml_load_string('<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-type>check-enrollment</transaction-type>
                         <transaction-id>12345</transaction-id>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="201.0000" 
@@ -248,7 +259,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                             <acs-url>https://www.example.com/acs</acs-url>
                             <pareq>request</pareq>
                         </three-d>
-                    </payment>';
+                    </payment>')->asXML();
         $transaction = new ThreeDCreditCardTransaction();
         $transaction->setTermUrl('dummy URL');
 
@@ -263,9 +274,11 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 
     public function testWithValidResponseCreditCardTransactionReturnsSuccessResponse()
     {
-        $payload = '<payment>
+        $payload = simplexml_load_string('<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <request-id>123</request-id>
+                        <transaction-type>debit</transaction-type>
                         <statuses>
                             <status 
                             code="201.0000" 
@@ -274,7 +287,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                             severity="information"/>
                         </statuses>
                         <card-token></card-token>
-                    </payment>';
+                    </payment>')->asXML();
         $transaction = new CreditCardTransaction();
 
         /**
@@ -289,9 +302,11 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
     public function invalidResponseProvider()
     {
         return [
-            ['<payment>
+            [simplexml_load_string('<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="201.0000" 
@@ -299,10 +314,12 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                             provider-transaction-id="W0RWI653B31MAU649" 
                             severity="information"/>
                         </statuses>
-                    </payment>', null],
-            ['<payment>
+                    </payment>')->asXML(), null],
+            [simplexml_load_string('<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="201.0000" 
@@ -312,10 +329,12 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         </statuses>
                         <payment-methods>
                         </payment-methods>
-                    </payment>', null],
-            ['<payment>
+                    </payment>')->asXML(), null],
+            [simplexml_load_string('<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="201.0000" 
@@ -327,26 +346,32 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                             <payment-method name="paypal"></payment-method>
                             <payment-method name="eft"></payment-method>
                         </payment-methods>
-                    </payment>', null],
-            ['<payment>
+                    </payment>')->asXML(), null],
+            [simplexml_load_string('<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <payment-methods>
                             <payment-method name="paypal"></payment-method>
                         </payment-methods>
-                    </payment>', null],
+                    </payment>')->asXML(), null],
 
-            ['<payment>
+            [simplexml_load_string('<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses></statuses>
                         <payment-methods>
                             <payment-method name="paypal"></payment-method>
                         </payment-methods>
-                    </payment>', null],
+                    </payment>')->asXML(), null],
 
-            ['<payment>
+            [simplexml_load_string('<payment>
                         <transaction-state>success</transaction-state>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <transaction-id>12345</transaction-id>
                         <statuses>
                             <status 
@@ -363,10 +388,12 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         <payment-methods>
                             <payment-method name="paypal"></payment-method>
                         </payment-methods>
-                    </payment>', null],
-            ['<payment>
+                    </payment>')->asXML(), null],
+            [simplexml_load_string('<payment>
                            <transaction-state>success</transaction-state>
                            <transaction-id>12345</transaction-id>
+                           <transaction-type>debit</transaction-type>
+                           <request-id>123</request-id>
                            <statuses>
                                <status 
                                code="305.0000" 
@@ -379,10 +406,12 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                                provider-transaction-id="W0RWI653B31MAU649" 
                                severity="information"/>
                            </statuses>
-                  </payment>', $this->createMock(ThreeDCreditCardTransaction::class)],
-            ['<payment>
+                  </payment>')->asXML(), $this->createMock(ThreeDCreditCardTransaction::class)],
+            [simplexml_load_string('<payment>
                            <transaction-state>success</transaction-state>
                            <transaction-id>12345</transaction-id>
+                           <transaction-type>debit</transaction-type>
+                           <request-id>123</request-id>
                            <statuses>
                                <status 
                                code="305.0000" 
@@ -396,10 +425,12 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                                severity="information"/>
                            </statuses>
                            <three-d></three-d>
-                  </payment>', $this->createMock(ThreeDCreditCardTransaction::class)],
-            ['<payment>
+                  </payment>')->asXML(), $this->createMock(ThreeDCreditCardTransaction::class)],
+            [simplexml_load_string('<payment>
                            <transaction-state>success</transaction-state>
                            <transaction-id>12345</transaction-id>
+                           <transaction-type>debit</transaction-type>
+                           <request-id>123</request-id>
                            <statuses>
                                <status 
                                code="305.0000" 
@@ -415,15 +446,17 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                            <three-d>
                                <acs-url>https://www.example.com/acs</acs-url>
                            </three-d>
-                  </payment>', $this->createMock(ThreeDCreditCardTransaction::class)],
+                  </payment>')->asXML(), $this->createMock(ThreeDCreditCardTransaction::class)],
         ];
     }
 
     public function testMoreStatusesWithTheSameProviderTransactionIdReturnsSuccess()
     {
-        $response = '<payment>
+        $response = simplexml_load_string('<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="305.0000" 
@@ -439,7 +472,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         <payment-methods>
                             <payment-method name="paypal"></payment-method>
                         </payment-methods>
-                    </payment>';
+                    </payment>')->asXML();
 
         $mapped = $this->mapper->map($response);
         $this->assertInstanceOf(SuccessResponse::class, $mapped);
@@ -452,9 +485,11 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 
     public function testMoreStatusesOnlyOneHasProviderTransactionIdReturnsSuccess()
     {
-        $response = '<payment>
+        $response = simplexml_load_string('<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="305.0000" 
@@ -469,7 +504,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         <payment-methods>
                             <payment-method name="paypal"></payment-method>
                         </payment-methods>
-                    </payment>';
+                    </payment>')->asXML();
 
         $mapped = $this->mapper->map($response);
         $this->assertInstanceOf(SuccessResponse::class, $mapped);
@@ -483,10 +518,12 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 
     public function testTransactionStateInProgressReturnsPendingResponseObject()
     {
-        $response = '<payment>
+        $response = simplexml_load_string('<payment>
                         <transaction-state>in-progress</transaction-state>
+                        <transaction-type>debit</transaction-type>
                         <request-id>1234</request-id>
-                    </payment>';
+                        <statuses><status code="1" description="a" severity="0"></status></statuses>
+                    </payment>')->asXML();
         /**
          * @var $mapped PendingResponse
          */
@@ -528,6 +565,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $response = '<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="305.0000" 
@@ -553,6 +592,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $response = '<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="305.0000" 
@@ -578,6 +619,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $response = '<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="305.0000" 
@@ -607,6 +650,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $response = '<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>12345</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="305.0000" 
@@ -637,6 +682,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         <transaction-state>success</transaction-state>
                         <transaction-type>check-enrollment</transaction-type>
                         <transaction-id>12345</transaction-id>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="201.0000" 
@@ -662,6 +708,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         <transaction-state>success</transaction-state>
                         <transaction-type>check-enrollment</transaction-type>
                         <transaction-id>12345</transaction-id>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="201.0000" 
@@ -689,6 +736,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         <transaction-state>success</transaction-state>
                         <transaction-type>check-enrollment</transaction-type>
                         <transaction-id>12345</transaction-id>
+                        <request-id>123</request-id>
                         <statuses>
                             <status 
                             code="201.0000" 

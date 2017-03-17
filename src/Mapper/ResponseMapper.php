@@ -32,13 +32,12 @@
 
 namespace Wirecard\PaymentSdk\Mapper;
 
+use SimpleXMLElement;
 use Wirecard\PaymentSdk\Entity\FormFieldMap;
 use Wirecard\PaymentSdk\Response\PendingResponse;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
-use Wirecard\PaymentSdk\Entity\Status;
-use Wirecard\PaymentSdk\Entity\StatusCollection;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\FormInteractionResponse;
@@ -54,6 +53,11 @@ use Wirecard\PaymentSdk\Transaction\Transaction;
 class ResponseMapper
 {
     /**
+     * @var SimpleXMLElement
+     */
+    protected $simpleXml;
+
+    /**
      * map the xml Response from engine to ResponseObjects
      *
      * @param string $xmlResponse
@@ -68,114 +72,38 @@ class ResponseMapper
         $xmlResponse = (base64_encode($decodedResponse) === $xmlResponse) ? $decodedResponse : $xmlResponse;
         //we need to use internal_errors, because we don't want to throw errors on invalid xml responses
         $oldErrorHandling = libxml_use_internal_errors(true);
-        $response = simplexml_load_string($xmlResponse);
+        $this->simpleXml = simplexml_load_string($xmlResponse);
         //reset to old value after string is loaded
         libxml_use_internal_errors($oldErrorHandling);
-        if (!$response instanceof \SimpleXMLElement) {
+        if (!$this->simpleXml instanceof \SimpleXMLElement) {
             throw new MalformedResponseException('Response is not a valid xml string.');
         }
 
-        //we have to string cast all fields, otherwise the contain SimpleXMLElements
-
-        if (isset($response->{'transaction-state'})) {
-            $state = (string)$response->{'transaction-state'};
+        if (isset($this->simpleXml->{'transaction-state'})) {
+            $state = (string)$this->simpleXml->{'transaction-state'};
         } else {
-            throw new MalformedResponseException('Missing transaction state in response.');
+            throw new MalformedResponseException('Missing transaction-state in response.');
         }
 
-        $statusCollection = $this->getStatusCollection($response);
         switch ($state) {
             case 'success':
-                return $this->mapSuccessResponse($xmlResponse, $response, $statusCollection, $operation, $transaction);
+                return $this->mapSuccessResponse($operation, $transaction);
             case 'in-progress':
-                return new PendingResponse($xmlResponse, $statusCollection, $this->getRequestId($response));
+                return new PendingResponse($this->simpleXml);
             default:
-                return new FailureResponse($xmlResponse, $statusCollection);
+                return new FailureResponse($this->simpleXml);
         }
     }
 
     /**
-     * get the collection of status returned by elastic engine
-     * @param \SimpleXMLElement $payment
-     * @return StatusCollection
-     * @throws MalformedResponseException
-     */
-    private function getStatusCollection($payment)
-    {
-        $collection = new StatusCollection();
-
-        /**
-         * @var $statuses \SimpleXMLElement
-         */
-        $statuses = $payment->statuses;
-        if (count($statuses->status) > 0) {
-            foreach ($statuses->status as $statusNode) {
-                /**
-                 * @var $statusNode \SimpleXMLElement
-                 */
-                $attributes = $statusNode->attributes();
-
-                if ((string)$attributes['code'] !== '') {
-                    $code = (string)$attributes['code'];
-                } else {
-                    throw new MalformedResponseException('Missing status code in response.');
-                }
-                if ((string)$attributes['description'] !== '') {
-                    $description = (string)$attributes['description'];
-                } else {
-                    throw new MalformedResponseException('Missing status description in response.');
-                }
-                if ((string)$attributes['severity'] !== '') {
-                    $severity = (string)$attributes['severity'];
-                } else {
-                    throw new MalformedResponseException('Missing status severity in response.');
-                }
-                $status = new Status($code, $description, $severity);
-                $collection->add($status);
-            }
-        }
-
-        return $collection;
-    }
-
-    /**
-     * @param \SimpleXMLElement $response
-     * @return string
-     * @throws MalformedResponseException
-     */
-    private function getTransactionId(\SimpleXMLElement $response)
-    {
-        if (isset($response->{'transaction-id'})) {
-            return (string)$response->{'transaction-id'};
-        } else {
-            throw new MalformedResponseException('Missing transaction-id in response');
-        }
-    }
-
-    /**
-     * @param \SimpleXMLElement $response
-     * @return string
-     * @throws MalformedResponseException
-     */
-    private function getRequestId(\SimpleXMLElement $response)
-    {
-        if (isset($response->{'request-id'})) {
-            return (string)$response->{'request-id'};
-        } else {
-            throw new MalformedResponseException('Missing request-id in response.');
-        }
-    }
-
-    /**
-     * @param \SimpleXMLElement $response
      * @return mixed
      * @throws MalformedResponseException
      */
-    private function getPaymentMethod(\SimpleXMLElement $response)
+    private function getPaymentMethod()
     {
-        if (isset($response->{'payment-methods'})) {
-            $paymentMethods = $response->{'payment-methods'};
-        } elseif (isset($response->{'card-token'})) {
+        if (isset($this->simpleXml->{'payment-methods'})) {
+            $paymentMethods = $this->simpleXml->{'payment-methods'};
+        } elseif (isset($this->simpleXml->{'card-token'})) {
             return new \SimpleXMLElement('<payment-methods>
                                               <payment-method name="creditcard"></payment-method>
                                           </payment-methods>');
@@ -210,30 +138,7 @@ class ResponseMapper
     }
 
     /**
-     * @param $xmlResponse
-     * @return string
-     * @throws MalformedResponseException
-     */
-    private function getProviderTransactionId($xmlResponse)
-    {
-        $result = null;
-        foreach ($xmlResponse->{'statuses'}->{'status'} as $status) {
-            if ($result === null) {
-                $result = $status['provider-transaction-id'];
-            }
-
-            if (strcmp($result, $status['provider-transaction-id']) !== 0) {
-                throw new MalformedResponseException('More different provider transaction ID-s in response.');
-            }
-        }
-
-        return (string)$result;
-    }
-
-    /**
      * @param $payload
-     * @param $response
-     * @param $status
      * @param $operation
      * @param ThreeDCreditCardTransaction $transaction
      * @throws MalformedResponseException
@@ -241,21 +146,22 @@ class ResponseMapper
      */
     private function mapThreeDResponse(
         $payload,
-        $response,
-        $status,
         $operation,
         ThreeDCreditCardTransaction $transaction
     ) {
-        if (!isset($response->{'three-d'})) {
+        if (!isset($this->simpleXml->{'three-d'})) {
             throw new MalformedResponseException('Missing three-d element in enrollment-check response.');
         } else {
-            $threeD = $response->{'three-d'};
+            $threeD = $this->simpleXml->{'three-d'};
         }
         if (!isset($threeD->{'acs-url'})) {
             throw new MalformedResponseException('Missing acs redirect url in enrollment-check response.');
         } else {
             $redirectUrl = (string)$threeD->{'acs-url'};
         }
+
+        $response = new FormInteractionResponse($payload, $redirectUrl);
+
         $fields = new FormFieldMap();
         $fields->add('TermUrl', $transaction->getTermUrl());
         if (!isset($threeD->{'pareq'})) {
@@ -267,49 +173,37 @@ class ResponseMapper
         $fields->add(
             'MD',
             base64_encode(json_encode([
-                'enrollment-check-transaction-id' => (string)$this->getTransactionId($response),
+                'enrollment-check-transaction-id' => $response->getTransactionId(),
                 'operation-type' => ($operation === Operation::RESERVE)
                     ? Transaction::TYPE_AUTHORIZATION : CreditCardTransaction::TYPE_PURCHASE
             ]))
         );
 
-        return new FormInteractionResponse($payload, $status, $redirectUrl, $fields);
+        $response->setFormFields($fields);
+
+        return $response;
     }
 
     /**
-     * @param $xmlResponse
-     * @param $response
-     * @param $statusCollection
      * @param string $operation
      * @param ThreeDCreditCardTransaction $transaction
      * @return FormInteractionResponse|InteractionResponse|SuccessResponse
      * @throws MalformedResponseException
      */
     private function mapSuccessResponse(
-        $xmlResponse,
-        $response,
-        $statusCollection,
         $operation,
         ThreeDCreditCardTransaction $transaction = null
     ) {
-        if ((string)$response->{'transaction-type'} === ThreeDCreditCardTransaction::TYPE_CHECK_ENROLLMENT) {
-            return $this->mapThreeDResponse($xmlResponse, $response, $statusCollection, $operation, $transaction);
+        if ((string)$this->simpleXml->{'transaction-type'} === ThreeDCreditCardTransaction::TYPE_CHECK_ENROLLMENT) {
+            return $this->mapThreeDResponse($this->simpleXml, $operation, $transaction);
         }
 
-        $transactionId = $this->getTransactionId($response);
-
-        $paymentMethod = $this->getPaymentMethod($response);
+        $paymentMethod = $this->getPaymentMethod();
         $redirectUrl = $this->getRedirectUrl($paymentMethod);
         if ($redirectUrl !== null) {
-            return new InteractionResponse($xmlResponse, $statusCollection, $transactionId, $redirectUrl);
+            return new InteractionResponse($this->simpleXml, $redirectUrl);
         } else {
-            $providerTransactionId = $this->getProviderTransactionId($response);
-            return new SuccessResponse(
-                $xmlResponse,
-                $statusCollection,
-                $transactionId,
-                $providerTransactionId
-            );
+            return new SuccessResponse($this->simpleXml);
         }
     }
 }

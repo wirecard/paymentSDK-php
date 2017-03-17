@@ -32,6 +32,8 @@
 
 namespace Wirecard\PaymentSdk\Response;
 
+use Wirecard\PaymentSdk\Exception\MalformedResponseException;
+
 /**
  * Class SuccessResponse
  * @package Wirecard\PaymentSdk\Response
@@ -50,17 +52,36 @@ class SuccessResponse extends Response
 
     /**
      * SuccessResponse constructor.
-     * @param string $rawData
-     * @param \Wirecard\PaymentSdk\Entity\StatusCollection $statusCollection
-     * @param string $transactionId
-     * @param string $providerTransactionId
+     * @param \SimpleXMLElement $simpleXml
      */
-    public function __construct($rawData, $statusCollection, $transactionId, $providerTransactionId)
+    public function __construct($simpleXml)
     {
-        parent::__construct($rawData, $statusCollection);
-        $this->transactionId = $transactionId;
-        $this->providerTransactionId = $providerTransactionId;
+        parent::__construct($simpleXml);
+        $this->transactionId = $this->findElement('transaction-id');
+        $this->providerTransactionId = $this->findProviderTransactionId();
+        $this->transactionType = $this->findElement('transaction-type');
     }
+
+    /**
+     * @return string
+     * @throws MalformedResponseException
+     */
+    private function findProviderTransactionId()
+    {
+        $result = null;
+        foreach ($this->simpleXml->{'statuses'}->{'status'} as $status) {
+            if ($result === null) {
+                $result = $status['provider-transaction-id'];
+            }
+
+            if (strcmp($result, $status['provider-transaction-id']) !== 0) {
+                throw new MalformedResponseException('More different provider transaction ID-s in response.');
+            }
+        }
+
+        return (string)$result;
+    }
+
 
     /**
      * @return string

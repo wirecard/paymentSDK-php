@@ -67,6 +67,7 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+
     public function testSetItemCollection()
     {
         $collection = new ItemCollection();
