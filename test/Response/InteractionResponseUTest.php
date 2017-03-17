@@ -32,8 +32,8 @@
 
 namespace WirecardTest\PaymentSdk\Response;
 
-use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Entity\StatusCollection;
+use Wirecard\PaymentSdk\Response\InteractionResponse;
 
 class InteractionResponseUTest extends \PHPUnit_Framework_TestCase
 {
