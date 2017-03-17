@@ -254,6 +254,9 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $this->mapper->map($creditCardTransaction);
     }
 
+    /**
+     * @return array
+     */
     public function testCancelProvider()
     {
         return [
@@ -262,11 +265,27 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
                 Transaction::TYPE_VOID_AUTHORIZATION
             ],
             [
+                Transaction::TYPE_REFERENCED_AUTHORIZATION,
+                Transaction::TYPE_VOID_AUTHORIZATION
+            ],
+            [
+                'refund-capture',
+                'void-refund-capture'
+            ],
+            [
+                'refund-purchase',
+                'void-refund-purchase'
+            ],
+            [
                 Transaction::TYPE_CREDIT,
                 'void-credit'
             ],
             [
                 CreditCardTransaction::TYPE_PURCHASE,
+                'void-purchase'
+            ],
+            [
+                CreditCardTransaction::TYPE_REFERENCED_PURCHASE,
                 'void-purchase'
             ],
             [
