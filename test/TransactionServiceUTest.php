@@ -40,15 +40,24 @@ use Monolog\Logger;
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Exception\MalformedResponseException;
+use Wirecard\PaymentSdk\Response\InteractionResponse;
+use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
-use Wirecard\PaymentSdk\Entity\Redirect;
-use Wirecard\PaymentSdk\Response\InteractionResponse;
-use Wirecard\PaymentSdk\Exception\MalformedResponseException;
-use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
+/**
+ * Class TransactionServiceUTest
+ * @package WirecardTest\PaymentSdk
+ * @method getLogger
+ * @method getHttpClient
+ * @method getRequestMapper
+ * @method getResponseMapper
+ * @method getRequestIdGenerator
+ */
 class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 {
     const HANDLER = 'handler';
@@ -108,53 +117,57 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
     public function testGetLogger()
     {
-        $reflection = new \ReflectionClass(get_class($this->instance));
-        $method = $reflection->getMethod('getLogger');
-        $method->setAccessible(true);
+        $helper = function () {
+            return $this->getLogger();
+        };
 
-        $this->assertInstanceOf('\Psr\Log\LoggerInterface', $method->invokeArgs($this->instance, array()));
+        $method = $helper->bindTo($this->instance, $this->instance);
+
+        $this->assertInstanceOf('\Psr\Log\LoggerInterface', $method());
     }
 
     public function testGetHttpClient()
     {
-        $reflection = new \ReflectionClass(get_class($this->instance));
-        $method = $reflection->getMethod('getHttpClient');
-        $method->setAccessible(true);
+        $helper = function () {
+            return $this->getHttpClient();
+        };
 
-        $this->assertInstanceOf('\GuzzleHttp\Client', $method->invokeArgs($this->instance, array()));
+        $method = $helper->bindTo($this->instance, $this->instance);
+
+        $this->assertInstanceOf('\GuzzleHttp\Client', $method());
     }
 
     public function testGetRequestMapper()
     {
-        $reflection = new \ReflectionClass(get_class($this->instance));
-        $method = $reflection->getMethod('getRequestMapper');
-        $method->setAccessible(true);
+        $helper = function () {
+            return $this->getRequestMapper();
+        };
 
-        $this->assertInstanceOf(
-            '\Wirecard\PaymentSdk\Mapper\RequestMapper',
-            $method->invokeArgs($this->instance, array())
-        );
+        $method = $helper->bindTo($this->instance, $this->instance);
+
+        $this->assertInstanceOf('\Wirecard\PaymentSdk\Mapper\RequestMapper', $method());
     }
 
     public function testGetResponseMapper()
     {
-        $reflection = new \ReflectionClass(get_class($this->instance));
-        $method = $reflection->getMethod('getResponseMapper');
-        $method->setAccessible(true);
+        $helper = function () {
+            return $this->getResponseMapper();
+        };
 
-        $this->assertInstanceOf(
-            '\Wirecard\PaymentSdk\Mapper\ResponseMapper',
-            $method->invokeArgs($this->instance, array())
-        );
+        $method = $helper->bindTo($this->instance, $this->instance);
+
+        $this->assertInstanceOf('\Wirecard\PaymentSdk\Mapper\ResponseMapper', $method());
     }
 
     public function testGetRequestIdGenerator()
     {
-        $reflection = new \ReflectionClass(get_class($this->instance));
-        $method = $reflection->getMethod('getRequestIdGenerator');
-        $method->setAccessible(true);
+        $helper = function () {
+            return $this->getRequestIdGenerator();
+        };
 
-        $this->assertInstanceOf('Closure', $method->invokeArgs($this->instance, array()));
+        $method = $helper->bindTo($this->instance, $this->instance);
+
+        $this->assertInstanceOf('Closure', $method());
     }
 
     /**
