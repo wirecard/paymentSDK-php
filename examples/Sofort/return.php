@@ -53,6 +53,15 @@ if ($response instanceof SuccessResponse) {
     ?>
 
     <a href="<?= $txDetailsLink ?>">View transaction details</a>
+    <form action="../Sepa/pay.php" method="post">
+        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+        <input type="submit" value="Execute a new payment based on this">
+    </form>
+
+    <form action="../Sepa/credit.php" method="post">
+        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+        <input type="submit" value="Execute a credit based on this">
+    </form>
 <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
