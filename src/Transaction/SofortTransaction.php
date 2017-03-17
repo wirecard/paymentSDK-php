@@ -83,26 +83,6 @@ class SofortTransaction extends Transaction
      * @throws UnsupportedOperationException
      * @return string
      */
-    public function getConfigKey()
-    {
-        if (null !== $this->parentTransactionId) {
-            switch ($this->operation) {
-                case Operation::PAY:
-                    return SepaTransaction::DIRECT_DEBIT;
-                case Operation::CREDIT:
-                    return SepaTransaction::CREDIT_TRANSFER;
-                default:
-                    throw new UnsupportedOperationException();
-            }
-        }
-
-        return parent::getConfigKey();
-    }
-
-    /**
-     * @throws UnsupportedOperationException
-     * @return string
-     */
     private function retrieveTransactionType()
     {
         $transactionTypes = [
