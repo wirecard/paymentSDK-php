@@ -49,7 +49,7 @@ class TransactionUTest extends \PHPUnit_Framework_TestCase
      * @param $transactionType
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    public function getMockWithoutRetrieveMethod($method, $transactionType)
+    private function getMockWithoutRetrieveMethod($method, $transactionType)
     {
         /**
          * @var $txMock \PHPUnit_Framework_MockObject_MockObject
