@@ -108,57 +108,53 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
     public function testGetLogger()
     {
-        $helper = function () {
-            return $this->getLogger();
-        };
+        $reflection = new \ReflectionClass(get_class($this->instance));
+        $method = $reflection->getMethod('getLogger');
+        $method->setAccessible(true);
 
-        $method = $helper->bindTo($this->instance, $this->instance);
-
-        $this->assertInstanceOf('\Psr\Log\LoggerInterface', $method());
+        $this->assertInstanceOf('\Psr\Log\LoggerInterface', $method->invokeArgs($this->instance, array()));
     }
 
     public function testGetHttpClient()
     {
-        $helper = function () {
-            return $this->getHttpClient();
-        };
+        $reflection = new \ReflectionClass(get_class($this->instance));
+        $method = $reflection->getMethod('getHttpClient');
+        $method->setAccessible(true);
 
-        $method = $helper->bindTo($this->instance, $this->instance);
-
-        $this->assertInstanceOf('\GuzzleHttp\Client', $method());
+        $this->assertInstanceOf('\GuzzleHttp\Client', $method->invokeArgs($this->instance, array()));
     }
 
     public function testGetRequestMapper()
     {
-        $helper = function () {
-            return $this->getRequestMapper();
-        };
+        $reflection = new \ReflectionClass(get_class($this->instance));
+        $method = $reflection->getMethod('getRequestMapper');
+        $method->setAccessible(true);
 
-        $method = $helper->bindTo($this->instance, $this->instance);
-
-        $this->assertInstanceOf('\Wirecard\PaymentSdk\Mapper\RequestMapper', $method());
+        $this->assertInstanceOf(
+            '\Wirecard\PaymentSdk\Mapper\RequestMapper',
+            $method->invokeArgs($this->instance, array())
+        );
     }
 
     public function testGetResponseMapper()
     {
-        $helper = function () {
-            return $this->getResponseMapper();
-        };
+        $reflection = new \ReflectionClass(get_class($this->instance));
+        $method = $reflection->getMethod('getResponseMapper');
+        $method->setAccessible(true);
 
-        $method = $helper->bindTo($this->instance, $this->instance);
-
-        $this->assertInstanceOf('\Wirecard\PaymentSdk\Mapper\ResponseMapper', $method());
+        $this->assertInstanceOf(
+            '\Wirecard\PaymentSdk\Mapper\ResponseMapper',
+            $method->invokeArgs($this->instance, array())
+        );
     }
 
     public function testGetRequestIdGenerator()
     {
-        $helper = function () {
-            return $this->getRequestIdGenerator();
-        };
+        $reflection = new \ReflectionClass(get_class($this->instance));
+        $method = $reflection->getMethod('getRequestIdGenerator');
+        $method->setAccessible(true);
 
-        $method = $helper->bindTo($this->instance, $this->instance);
-
-        $this->assertInstanceOf('Closure', $method());
+        $this->assertInstanceOf('Closure', $method->invokeArgs($this->instance, array()));
     }
 
     /**
