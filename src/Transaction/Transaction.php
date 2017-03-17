@@ -199,6 +199,8 @@ abstract class Transaction
             $result['consumer-id'] = $this->consumerId;
         }
 
+        $result[self::PARAM_TRANSACTION_TYPE] = $this->retrieveTransactionType();
+
         return array_merge($result, $this->mappedSpecificProperties());
     }
 

@@ -43,17 +43,39 @@ class TransactionUTest extends \PHPUnit_Framework_TestCase
      */
     private $tx;
 
+
+    /**
+     * @param $method
+     * @param $transactionType
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
+    public function getMockWithoutRetrieveMethod($method, $transactionType)
+    {
+        /**
+         * @var $txMock \PHPUnit_Framework_MockObject_MockObject
+         */
+        $txMock = $this->getMockBuilder(Transaction::class)
+            ->setMethods([$method])
+            ->getMockForAbstractClass();
+        $txMock->expects($this->any())
+            ->method($method)
+            ->will($this->returnValue($transactionType));
+        $txMock->method('mappedSpecificProperties')->willReturn([]);
+        return $txMock;
+    }
+
     public function setUp()
     {
-        $this->tx = $this->getMockForAbstractClass(Transaction::class);
+        $this->tx = $this->getMockWithoutRetrieveMethod('retrieveTransactionTypeForPay', Transaction::TYPE_DEBIT);
         $this->tx->method('mappedSpecificProperties')->willReturn([]);
+
     }
 
     public function testMappingForConsumerId()
     {
         $this->tx->setConsumerId('b4');
-
-        $mapped = $this->tx->mappedProperties(Operation::PAY);
+        $this->tx->setOperation(Operation::PAY);
+        $mapped = $this->tx->mappedProperties();
 
         $this->assertEquals('b4', $mapped['consumer-id']);
     }
@@ -62,7 +84,8 @@ class TransactionUTest extends \PHPUnit_Framework_TestCase
     {
         $accountholder = new AccountHolder('Doe');
         $this->tx->setAccountHolder($accountholder);
-        $mapped = $this->tx->mappedProperties(Operation::PAY);
+        $this->tx->setOperation(Operation::PAY);
+        $mapped = $this->tx->mappedProperties();
         $this->assertEquals('Doe', $mapped['account-holder']['last-name']);
     }
 
@@ -70,4 +93,88 @@ class TransactionUTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(Transaction::ENDPOINT_PAYMENT_METHODS, $this->tx->getEndpoint());
     }
+
+
+    public function operationsProvider()
+    {
+        return [
+            [
+                Operation::RESERVE,
+                'retrieveTransactionTypeForReserve',
+                Transaction::TYPE_AUTHORIZATION,
+            ],
+            [
+                Operation::PAY,
+                'retrieveTransactionTypeForPay',
+                Transaction::TYPE_DEBIT,
+            ],
+            [
+                Operation::CANCEL,
+                'retrieveTransactionTypeForCancel',
+                Transaction::TYPE_VOID_AUTHORIZATION,
+            ],
+            [
+                Operation::CREDIT,
+                'retrieveTransactionTypeForCredit',
+                Transaction::TYPE_CREDIT,
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider operationsProvider
+     * @param $operation string
+     * @param $method string
+     * @param $transactionType string
+     */
+    public function testRetrieveTransactionTypeCallsFunctions($operation, $method, $transactionType)
+    {
+        $txMock = $this->getMockWithoutRetrieveMethod($method, $transactionType);
+        $txMock->expects($this->once())->method($method);
+        /**
+         * @var $tx Transaction
+         */
+        $tx = $txMock;
+        $tx->setOperation($operation);
+        $tx->mappedProperties();
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
+     */
+    public function testGetRetrieveTransactionTypeForReserveThrowsException()
+    {
+        $this->tx->setOperation(Operation::RESERVE);
+        $this->tx->mappedProperties();
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
+     */
+    public function testGetRetrieveTransactionTypeForPayThrowsException()
+    {
+        $tx = $this->getMockForAbstractClass(Transaction::class);
+        $tx->method('mappedSpecificProperties')->willReturn([]);
+        $tx->setOperation(Operation::PAY);
+        $tx->mappedProperties();
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
+     */
+    public function testGetRetrieveTransactionTypeForCancelThrowsException()
+    {
+        $this->tx->setOperation(Operation::CANCEL);
+        $this->tx->mappedProperties();
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
+     */
+    public function testGetRetrieveTransactionTypeForCreditThrowsException()
+    {
+        $this->tx->setOperation(Operation::CREDIT);
+        $this->tx->mappedProperties();
+    }
+
 }

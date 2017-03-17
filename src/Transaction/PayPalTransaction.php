@@ -100,7 +100,7 @@ class PayPalTransaction extends Transaction implements Reservable
     protected function mappedSpecificProperties()
     {
         $transactionType = $this->retrieveTransactionType();
-        $data = [self::PARAM_TRANSACTION_TYPE => $transactionType];
+        $data = array();
 
         if (null !== $this->itemCollection && ($transactionType === $this::TYPE_AUTHORIZATION
                 || $transactionType === $this::TYPE_DEBIT)

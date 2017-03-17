@@ -76,8 +76,7 @@ class CreditCardTransaction extends Transaction implements Reservable
     protected function mappedSpecificProperties()
     {
         $this->validate();
-
-        $result[self::PARAM_TRANSACTION_TYPE] = $this->retrieveTransactionType();
+        $result = array();
 
         if (null !== $this->tokenId) {
             $result['card-token'] = [

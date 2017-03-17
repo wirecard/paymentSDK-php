@@ -92,7 +92,6 @@ class SofortTransaction extends Transaction
     protected function mappedSpecificProperties()
     {
         return [
-            self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType(),
             'cancel-redirect-url' => $this->redirect->getCancelUrl(),
             'success-redirect-url' => $this->redirect->getSuccessUrl(),
             'descriptor' => $this->descriptor

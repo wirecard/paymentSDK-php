@@ -87,9 +87,7 @@ class SepaTransaction extends Transaction implements Reservable
      */
     protected function mappedSpecificProperties()
     {
-        $result = [
-            self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType()
-        ];
+        $result = array();
 
         if (null !== $this->iban) {
             $result['bank-account'] = [
