@@ -32,13 +32,13 @@
 
 namespace WirecardTest\PaymentSdk\Mapper;
 
-use Wirecard\PaymentSdk\Response\PendingResponse;
-use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
+use Wirecard\PaymentSdk\Mapper\ResponseMapper;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
-use Wirecard\PaymentSdk\Mapper\ResponseMapper;
+use Wirecard\PaymentSdk\Response\PendingResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
+use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 
@@ -80,12 +80,11 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                             <status code="500" description="UnitTest Error" severity="error" />
                         </statuses>
                     </payment>';
-        /**
-         * @var $mapped FailureResponse
-         */
         $mapped = $this->mapper->map($response);
         $this->assertInstanceOf(FailureResponse::class, $mapped);
-
+        /**
+         * @var FailureResponse $mapped
+         */
         $this->assertCount(2, $mapped->getStatusCollection());
     }
 
@@ -101,13 +100,11 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                             <payment-method name="paypal" url="http://www.example.com/redirect-url"></payment-method>
                         </payment-methods>
                     </payment>';
-
-        /**
-         * @var $mapped InteractionResponse
-         */
         $mapped = $this->mapper->map($response);
         $this->assertInstanceOf(InteractionResponse::class, $mapped);
-
+        /**
+         * @var InteractionResponse $mapped
+         */
         $this->assertEquals('12345', $mapped->getTransactionId());
         $this->assertEquals('http://www.example.com/redirect-url', $mapped->getRedirectUrl());
         $this->assertCount(1, $mapped->getStatusCollection());
@@ -133,7 +130,9 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 
         $mapped = $this->mapper->map($response);
         $this->assertInstanceOf(SuccessResponse::class, $mapped);
-
+        /**
+         * @var SuccessResponse $mapped
+         */
         $this->assertEquals('12345', $mapped->getTransactionId());
         $this->assertEquals('W0RWI653B31MAU649', $mapped->getProviderTransactionId());
         $this->assertCount(1, $mapped->getStatusCollection());
@@ -159,7 +158,9 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 
         $mapped = $this->mapper->map($response);
         $this->assertInstanceOf(SuccessResponse::class, $mapped);
-
+        /**
+         * @var SuccessResponse $mapped
+         */
         $this->assertEquals('12345', $mapped->getTransactionId());
         $this->assertEquals('W0RWI653B31MAU649', $mapped->getProviderTransactionId());
         $this->assertCount(1, $mapped->getStatusCollection());
@@ -188,7 +189,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $transaction = new ThreeDCreditCardTransaction();
 
         /**
-         * @var $mapped FormInteractionResponse
+         * @var FormInteractionResponse $mapped
          */
         $mapped = $this->mapper->map($payload, Operation::RESERVE, $transaction);
 
@@ -218,7 +219,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $transaction = new ThreeDCreditCardTransaction();
 
         /**
-         * @var $mapped FormInteractionResponse
+         * @var FormInteractionResponse $mapped
          */
         $mapped = $this->mapper->map($payload, Operation::RESERVE, $transaction);
 
@@ -253,7 +254,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $transaction->setTermUrl('dummy URL');
 
         /**
-         * @var $mapped FormInteractionResponse
+         * @var FormInteractionResponse $mapped
          */
         $mapped = $this->mapper->map($payload, Operation::RESERVE, $transaction);
 
@@ -278,7 +279,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $transaction = new CreditCardTransaction();
 
         /**
-         * @var $mapped FormInteractionResponse
+         * @var FormInteractionResponse $mapped
          */
         $mapped = $this->mapper->map($payload, $transaction);
 
@@ -419,6 +420,9 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    /**
+     *
+     */
     public function testMoreStatusesWithTheSameProviderTransactionIdReturnsSuccess()
     {
         $response = '<payment>
@@ -443,7 +447,9 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 
         $mapped = $this->mapper->map($response);
         $this->assertInstanceOf(SuccessResponse::class, $mapped);
-
+        /**
+         * @var SuccessResponse $mapped
+         */
         $this->assertEquals('12345', $mapped->getTransactionId());
         $this->assertEquals('xxx', $mapped->getProviderTransactionId());
         $this->assertCount(2, $mapped->getStatusCollection());
@@ -473,7 +479,9 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 
         $mapped = $this->mapper->map($response);
         $this->assertInstanceOf(SuccessResponse::class, $mapped);
-
+        /**
+         * @var SuccessResponse $mapped
+         */
         $this->assertEquals('12345', $mapped->getTransactionId());
         $this->assertEquals('xxx', $mapped->getProviderTransactionId());
         $this->assertCount(2, $mapped->getStatusCollection());
@@ -488,7 +496,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         <request-id>1234</request-id>
                     </payment>';
         /**
-         * @var $mapped PendingResponse
+         * @var PendingResponse $mapped
          */
         $mapped = $this->mapper->map($response);
         $this->assertInstanceOf(PendingResponse::class, $mapped);

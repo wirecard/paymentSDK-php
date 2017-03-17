@@ -47,6 +47,10 @@ class FailureResponseUTest extends \PHPUnit_Framework_TestCase
     {
         $rawData = '<raw></raw>';
         $status = $this->createMock(StatusCollection::class);
+
+        /**
+         * @var StatusCollection $status
+         */
         $this->response = new FailureResponse($rawData, $status);
     }
 
