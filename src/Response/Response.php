@@ -162,6 +162,9 @@ abstract class Response
 
 
     /**
+     * Get the transaction type of the response
+     *
+     * The transaction type is set in the request and should therefore be identical in the response.
      * @return mixed
      */
     public function getTransactionType()
