@@ -103,7 +103,6 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         <payment-methods>
                             <payment-method name="paypal" url="http://www.example.com/redirect-url"/>
                         </payment-methods>
-                    </payment>';
                     </payment>')->asXML();
 
         /**

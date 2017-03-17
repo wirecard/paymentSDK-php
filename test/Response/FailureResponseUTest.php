@@ -44,12 +44,6 @@ class FailureResponseUTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $rawData = '<raw></raw>';
-        $status = $this->createMock(StatusCollection::class);
-        /**
-         * @var StatusCollection $status
-         */
-        $this->response = new FailureResponse($rawData, $status);
         $simpleXml = simplexml_load_string('<raw>
                         <request-id>123</request-id>
                         <statuses><status code="1" description="a" severity="0"></status></statuses>
