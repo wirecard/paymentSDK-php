@@ -111,21 +111,7 @@ class ThreeDCreditCardTransaction extends CreditCardTransaction
             return $this->operation;
         }
 
-        switch ($this->operation) {
-            case Operation::RESERVE:
-                $transactionType = $this->retrieveTransactionTypeForReserve();
-                break;
-            case Operation::CANCEL:
-                $transactionType = $this->retrieveTransactionTypeForCancel();
-                break;
-            case Operation::PAY:
-                $transactionType = $this->retrieveTransactionTypeForPay();
-                break;
-            default:
-                throw new UnsupportedOperationException();
-        }
-
-        return $transactionType;
+        return parent::retrieveTransactionType();
     }
 
     /**

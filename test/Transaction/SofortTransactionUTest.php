@@ -35,7 +35,6 @@ namespace WirecardTest\PaymentSdk\Transaction;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\Operation;
-use Wirecard\PaymentSdk\Transaction\SepaTransaction;
 use Wirecard\PaymentSdk\Transaction\SofortTransaction;
 
 class SofortTransactionUTest extends \PHPUnit_Framework_TestCase

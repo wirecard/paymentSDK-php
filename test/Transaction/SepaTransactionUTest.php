@@ -37,6 +37,7 @@ use Wirecard\PaymentSdk\Entity\Mandate;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\SepaTransaction;
+use Wirecard\PaymentSdk\Transaction\Transaction;
 
 class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
 {
@@ -244,5 +245,13 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
     private function today()
     {
         return gmdate('Y-m-d');
+    }
+
+    public function testRetrieveTransactionTypeForCredit()
+    {
+        $this->tx->setOperation(Operation::CREDIT);
+        $data = $this->tx->mappedProperties();
+
+        $this->assertEquals(Transaction::TYPE_CREDIT, $data['transaction-type']);
     }
 }

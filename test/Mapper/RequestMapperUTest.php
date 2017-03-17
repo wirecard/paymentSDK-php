@@ -34,12 +34,12 @@ namespace WirecardTest\PaymentSdk\Mapper;
 
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
-use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Entity\Money;
-use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Entity\Redirect;
-use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Mapper\RequestMapper;
+use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
+use Wirecard\PaymentSdk\Transaction\Operation;
+use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
@@ -254,6 +254,9 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $this->mapper->map($creditCardTransaction);
     }
 
+    /**
+     * @return array
+     */
     public function testCancelProvider()
     {
         return [
@@ -262,11 +265,27 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
                 Transaction::TYPE_VOID_AUTHORIZATION
             ],
             [
+                Transaction::TYPE_REFERENCED_AUTHORIZATION,
+                Transaction::TYPE_VOID_AUTHORIZATION
+            ],
+            [
+                'refund-capture',
+                'void-refund-capture'
+            ],
+            [
+                'refund-purchase',
+                'void-refund-purchase'
+            ],
+            [
                 Transaction::TYPE_CREDIT,
                 'void-credit'
             ],
             [
                 CreditCardTransaction::TYPE_PURCHASE,
+                'void-purchase'
+            ],
+            [
+                CreditCardTransaction::TYPE_REFERENCED_PURCHASE,
                 'void-purchase'
             ],
             [
@@ -472,7 +491,9 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $dummyPaymentMethodConfig = new PaymentMethodConfig('dummy', self::MAID, 'secret');
         $config = $this->createMock(Config::class);
         $config->method('get')->willReturn($dummyPaymentMethodConfig);
-
+        /**
+         * @var Config $config
+         */
         $requestIdGeneratorMock = $this->createRequestIdGeneratorMock();
         return new RequestMapper($config, $requestIdGeneratorMock);
     }

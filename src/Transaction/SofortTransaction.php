@@ -80,19 +80,10 @@ class SofortTransaction extends Transaction
     }
 
     /**
-     * @throws UnsupportedOperationException
      * @return string
      */
-    private function retrieveTransactionType()
+    protected function retrieveTransactionTypeForPay()
     {
-        $transactionTypes = [
-            Operation::PAY => $this::TYPE_DEBIT
-        ];
-
-        if (!array_key_exists($this->operation, $transactionTypes)) {
-            throw new UnsupportedOperationException();
-        }
-
-        return $transactionTypes[$this->operation];
+            return $this::TYPE_DEBIT;
     }
 }

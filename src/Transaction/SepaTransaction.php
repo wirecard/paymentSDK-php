@@ -38,10 +38,9 @@ use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 class SepaTransaction extends Transaction implements Reservable
 {
     const NAME = 'sepa';
+
     const DIRECT_DEBIT = 'sepadirectdebit';
     const CREDIT_TRANSFER = 'sepacredit';
-    const TYPE_PENDING_CREDIT = 'pending-credit';
-    const TYPE_PENDING_DEBIT = 'pending-debit';
 
     /**
      * @var string
@@ -88,9 +87,7 @@ class SepaTransaction extends Transaction implements Reservable
      */
     protected function mappedSpecificProperties()
     {
-        $result = [
-            self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType()
-        ];
+        $result = array();
 
         if (null !== $this->iban) {
             $result['bank-account'] = [
@@ -114,7 +111,8 @@ class SepaTransaction extends Transaction implements Reservable
     public function getConfigKey()
     {
         if (Operation::CREDIT === $this->operation || $this::TYPE_CREDIT === $this->parentTransactionType
-            || $this::TYPE_PENDING_CREDIT === $this->parentTransactionType) {
+            || $this::TYPE_PENDING_CREDIT === $this->parentTransactionType
+        ) {
             return self::CREDIT_TRANSFER;
         }
 
@@ -122,28 +120,37 @@ class SepaTransaction extends Transaction implements Reservable
     }
 
     /**
-     * @throws UnsupportedOperationException
-     * @return mixed|string
+     * @return string
      */
-    private function retrieveTransactionType()
+    protected function retrieveTransactionTypeForReserve()
     {
-        if (Operation::CANCEL === $this->operation) {
-            if (!in_array($this->parentTransactionType, [$this::TYPE_PENDING_DEBIT, $this::TYPE_PENDING_CREDIT])) {
-                throw new UnsupportedOperationException();
-            }
-            return 'void-' . $this->parentTransactionType;
-        }
+        return $this::TYPE_AUTHORIZATION;
+    }
 
-        $txTypeMapping = [
-            Operation::RESERVE => parent::TYPE_AUTHORIZATION,
-            Operation::PAY => $this::TYPE_DEBIT,
-            Operation::CREDIT => $this::TYPE_CREDIT
-        ];
+    /**
+     * @return string
+     */
+    protected function retrieveTransactionTypeForPay()
+    {
+        return $this::TYPE_DEBIT;
+    }
 
-        if (!array_key_exists($this->operation, $txTypeMapping)) {
+    /**
+     * @return string
+     */
+    protected function retrieveTransactionTypeForCancel()
+    {
+        if (!in_array($this->parentTransactionType, [$this::TYPE_PENDING_DEBIT, $this::TYPE_PENDING_CREDIT])) {
             throw new UnsupportedOperationException();
         }
+        return 'void-' . $this->parentTransactionType;
+    }
 
-        return $txTypeMapping[$this->operation];
+    /**
+     * @return string
+     */
+    protected function retrieveTransactionTypeForCredit()
+    {
+        return $this::TYPE_CREDIT;
     }
 }

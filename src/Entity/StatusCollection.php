@@ -33,7 +33,6 @@
 namespace Wirecard\PaymentSdk\Entity;
 
 use Traversable;
-use Wirecard\PaymentSdk\Entity\Status;
 
 /**
  * Class StatusCollection

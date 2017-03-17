@@ -34,6 +34,8 @@ namespace Wirecard\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
+use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
 /**
  * Interface Transaction
@@ -51,8 +53,11 @@ abstract class Transaction
     const TYPE_REFERENCED_AUTHORIZATION = 'referenced-authorization';
     const TYPE_CAPTURE_AUTHORIZATION = 'capture-authorization';
     const TYPE_VOID_AUTHORIZATION = 'void-authorization';
+    const TYPE_PENDING_CREDIT = 'pending-credit';
     const TYPE_CREDIT = 'credit';
+    const TYPE_PENDING_DEBIT = 'pending-debit';
     const TYPE_DEBIT = 'debit';
+
 
     /**
      * @var AccountHolder
@@ -107,19 +112,19 @@ abstract class Transaction
     }
 
     /**
-     * @param string $parentTransactionId
-     */
-    public function setParentTransactionId($parentTransactionId)
-    {
-        $this->parentTransactionId = $parentTransactionId;
-    }
-
-    /**
      * @return string
      */
     public function getParentTransactionId()
     {
         return $this->parentTransactionId;
+    }
+
+    /**
+     * @param string $parentTransactionId
+     */
+    public function setParentTransactionId($parentTransactionId)
+    {
+        $this->parentTransactionId = $parentTransactionId;
     }
 
     /**
@@ -194,13 +199,18 @@ abstract class Transaction
             $result['consumer-id'] = $this->consumerId;
         }
 
+        $result[self::PARAM_TRANSACTION_TYPE] = $this->retrieveTransactionType();
+
         return array_merge($result, $this->mappedSpecificProperties());
     }
 
     /**
-     * @return array
+     * @return string
      */
-    abstract protected function mappedSpecificProperties();
+    protected function paymentMethodNameForRequest()
+    {
+        return $this->getConfigKey();
+    }
 
     /**
      * @param string|null
@@ -212,6 +222,11 @@ abstract class Transaction
     }
 
     /**
+     * @return array
+     */
+    abstract protected function mappedSpecificProperties();
+
+    /**
      * return string
      */
     public function getEndpoint()
@@ -220,10 +235,62 @@ abstract class Transaction
     }
 
     /**
+     * @throws UnsupportedOperationException|MandatoryFieldMissingException
      * @return string
      */
-    protected function paymentMethodNameForRequest()
+    protected function retrieveTransactionType()
     {
-        return $this->getConfigKey();
+        switch ($this->operation) {
+            case Operation::RESERVE:
+                return $this->retrieveTransactionTypeForReserve();
+                break;
+            case Operation::PAY:
+                return $this->retrieveTransactionTypeForPay();
+                break;
+            case Operation::CANCEL:
+                return $this->retrieveTransactionTypeForCancel();
+                break;
+            case Operation::CREDIT:
+                return $this->retrieveTransactionTypeForCredit();
+                break;
+            default:
+                throw new UnsupportedOperationException();
+        }
+    }
+
+    /**
+     * @throws UnsupportedOperationException
+     * @return string
+     */
+    protected function retrieveTransactionTypeForReserve()
+    {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * @throws UnsupportedOperationException
+     * @return string
+     */
+    protected function retrieveTransactionTypeForPay()
+    {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * @throws UnsupportedOperationException
+     * @return string
+     */
+    protected function retrieveTransactionTypeForCancel()
+    {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * @throws UnsupportedOperationException
+     * @return string
+     */
+    protected function retrieveTransactionTypeForCredit()
+    {
+        throw new UnsupportedOperationException();
     }
 }

@@ -40,15 +40,24 @@ use Monolog\Logger;
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Exception\MalformedResponseException;
+use Wirecard\PaymentSdk\Response\InteractionResponse;
+use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
-use Wirecard\PaymentSdk\Entity\Redirect;
-use Wirecard\PaymentSdk\Response\InteractionResponse;
-use Wirecard\PaymentSdk\Exception\MalformedResponseException;
-use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
+/**
+ * Class TransactionServiceUTest
+ * @package WirecardTest\PaymentSdk
+ * @method getLogger
+ * @method getHttpClient
+ * @method getRequestMapper
+ * @method getResponseMapper
+ * @method getRequestIdGenerator
+ */
 class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 {
     const HANDLER = 'handler';

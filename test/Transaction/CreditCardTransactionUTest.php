@@ -62,6 +62,7 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
      */
     public function testMapPropertiesNoTokenIdNoParentTransactionId()
     {
+        $this->tx->setOperation('reserve');
         $this->tx->mappedProperties();
     }
 }
