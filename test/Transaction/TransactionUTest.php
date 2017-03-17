@@ -68,7 +68,6 @@ class TransactionUTest extends \PHPUnit_Framework_TestCase
     {
         $this->tx = $this->getMockWithoutRetrieveMethod('retrieveTransactionTypeForPay', Transaction::TYPE_DEBIT);
         $this->tx->method('mappedSpecificProperties')->willReturn([]);
-
     }
 
     public function testMappingForConsumerId()
@@ -176,5 +175,4 @@ class TransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx->setOperation(Operation::CREDIT);
         $this->tx->mappedProperties();
     }
-
 }
