@@ -1,12 +1,11 @@
 <?php
-
 // # Cancelling a transaction
-
 // To cancel a transaction, a cancel request with the parent transaction is sent.
 
 // ## Required objects
-
+// To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
+
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -18,27 +17,32 @@ use Wirecard\PaymentSdk\TransactionService;
 // #### Basic configuration
 // The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
 $baseUrl = 'https://api-test.wirecard.com';
-$httpUser = '70000-APILUHN-CARD';
-$httpPass = '8mhwavKVb91T';
+$httpUser = '70000-APITEST-AP';
+$httpPass = 'qD2wzQ_hrc!8';
 
+// The configuration is stored in an object containing the connection settings set above.
 // A default currency can also be provided.
 $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
-// Config for PayPal
+// #### PayPal
 // Create and add a configuration object with the PayPal settings
-$paypalMId = '9abf05c1-c266-46ae-8eac-7f87ca97af28';
+$paypalMAID = '9abf05c1-c266-46ae-8eac-7f87ca97af28';
 $paypalKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
-$paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalMId, $paypalKey);
+$paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalMAID, $paypalKey);
 $config->add($paypalConfig);
 
+
+// ## Transaction
+
+$transaction = new PayPalTransaction();
+$transaction->setParentTransactionId($_POST['parentTransactionId']);
+
+// ### Transaction Service
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
-$tx = new PayPalTransaction();
-$tx->setParentTransactionId($_POST['parentTransactionId']);
-$response = $transactionService->cancel($tx);
+$response = $transactionService->cancel($transaction);
 
 // ## Response handling
-
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {

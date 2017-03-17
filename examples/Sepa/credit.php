@@ -1,8 +1,8 @@
 <?php
+// # SEPA credit transfer
 
-// # SEPA credit
-
-// To include the necessary files, use the composer for PSR-4 autoloading.
+// ## Required objects
+// To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
@@ -14,16 +14,6 @@ use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\SepaTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
-// Create a money object as amount which has to be payed by the consumer.
-$amount = null;
-if (!empty($_POST['amount'])) {
-    $amount = new Money((float)$_POST['amount'], 'EUR');
-}
-
-if (empty($_POST['amount']) && empty($_POST['parentTransactionId'])) {
-    $amount = new Money(10, 'EUR');
-}
-
 // ### Config
 // #### Basic configuration
 // The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
@@ -31,6 +21,7 @@ $baseUrl = 'https://api-test.wirecard.com';
 $httpUser = '70000-APITEST-AP';
 $httpPass = 'qD2wzQ_hrc!8';
 
+// The configuration is stored in an object containing the connection settings set above.
 // A default currency can also be provided.
 $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
@@ -40,6 +31,22 @@ $sepaMId = '4c901196-eff7-411e-82a3-5ef6b6860d64';
 $sepaKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
 $sepaConfig = new Config\PaymentMethodConfig(SepaTransaction::NAME, $sepaMId, $sepaKey);
 $config->add($sepaConfig);
+
+
+// ### Transaction related objects
+// Create a money object as amount which has to be payed by the consumer.
+$amount = null;
+if (empty($_POST['amount']) && empty($_POST['parentTransactionId'])) {
+    $amount = new Money(10, 'EUR');
+}
+
+// The account holder (first name, last name) is required.
+$accountHolder = new AccountHolder('Doe');
+$accountHolder->setFirstName('Jane');
+
+// A mandate with ID and signed date is required.
+$mandate = new Mandate('12345678');
+
 
 // ## Transaction
 
@@ -61,18 +68,14 @@ if (array_key_exists('parentTransactionId', $_POST)) {
     $transaction->setParentTransactionId($_POST['parentTransactionId']);
 }
 
-// The account holder (first name, last name) is required.
-$accountHolder = new AccountHolder('Doe');
-$accountHolder->setFirstName('Jane');
 $transaction->setAccountHolder($accountHolder);
-
-// A mandate with ID and signed date is required.
-$mandate = new Mandate('12345678');
 $transaction->setMandate($mandate);
 
+// ### Transaction Service
 // The service is used to execute the credit (pending-credit) operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
 $response = $transactionService->credit($transaction);
+
 
 // ## Response handling
 

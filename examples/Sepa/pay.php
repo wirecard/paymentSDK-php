@@ -1,10 +1,10 @@
 <?php
-
 // # SEPA amount payment
 // The method `pay` of the _transactionService_ provides the means
 // to execute a payment with an amount (also known as debit).
 
-// To include the necessary files, use the composer for PSR-4 autoloading.
+// ## Required objects
+// To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
@@ -16,16 +16,6 @@ use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\SepaTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
-// Create a money object as amount which has to be payed by the consumer.
-$amount = null;
-if (!empty($_POST['amount'])) {
-    $amount = new Money((float)$_POST['amount'], 'EUR');
-}
-
-if (empty($_POST['amount']) && empty($_POST['parentTransactionId'])) {
-    $amount = new Money(12.59, 'EUR');
-}
-
 // ### Config
 // #### Basic configuration
 // The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
@@ -33,6 +23,7 @@ $baseUrl = 'https://api-test.wirecard.com';
 $httpUser = '70000-APITEST-AP';
 $httpPass = 'qD2wzQ_hrc!8';
 
+// The configuration is stored in an object containing the connection settings set above.
 // A default currency can also be provided.
 $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
@@ -46,39 +37,51 @@ $sepaConfig = new Config\SepaConfig($sepaMId, $sepaKey);
 $sepaConfig->setCreditorId('DE98ZZZ09999999999');
 $config->add($sepaConfig);
 
+// ### Transaction related objects
 
-// ## Transaction
-
-// Create a `SepaTransaction` object, which contains all relevant data for the payment process.
-$transaction = new SepaTransaction();
-if (null !== $amount) {
-    $transaction->setAmount($amount);
+// Create a money object as amount which has to be payed by the consumer.
+$amount = null;
+if (!empty($_POST['amount'])) {
+    $amount = new Money((float)$_POST['amount'], 'EUR');
 }
 
-if (array_key_exists('iban', $_POST)) {
-    $transaction->setIban($_POST['iban']);
-
-    if (null !== $_POST['bic']) {
-        $transaction->setBic($_POST['bic']);
-    }
-}
-
-if (array_key_exists('parentTransactionId', $_POST)) {
-    $transaction->setParentTransactionId($_POST['parentTransactionId']);
+if (empty($_POST['amount']) && empty($_POST['parentTransactionId'])) {
+    $amount = new Money(12.59, 'EUR');
 }
 
 // The account holder (first name, last name) is required.
 $accountHolder = new AccountHolder('Doe');
 $accountHolder->setFirstName('Jane');
-$transaction->setAccountHolder($accountHolder);
 
 // A mandate with ID and signed date is required.
 $mandate = new Mandate('12345678');
-$transaction->setMandate($mandate);
 
+
+// ## Transaction
+
+// Create a `SepaTransaction` object, which contains all relevant data for the payment process.
+$tx = new SepaTransaction();
+if (null !== $amount) {
+    $tx->setAmount($amount);
+}
+if (array_key_exists('iban', $_POST)) {
+    $tx->setIban($_POST['iban']);
+
+    if (null !== $_POST['bic']) {
+        $tx->setBic($_POST['bic']);
+    }
+}
+if (array_key_exists('parentTransactionId', $_POST)) {
+    $tx->setParentTransactionId($_POST['parentTransactionId']);
+}
+$tx->setAccountHolder($accountHolder);
+$tx->setMandate($mandate);
+
+// ### Transaction Service
 // The service is used to execute the pay (pending-debit) operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
-$response = $transactionService->pay($transaction);
+$response = $transactionService->pay($tx);
+
 
 // ## Response handling
 
