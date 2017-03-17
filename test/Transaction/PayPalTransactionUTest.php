@@ -91,6 +91,9 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
         $redirect->method('getCancelUrl')->willReturn('cancel-url');
         $redirect->method('getSuccessUrl')->willReturn('success-url');
 
+        /**
+         * @var Redirect $redirect
+         */
         $this->tx->setItemCollection(new ItemCollection());
         $this->tx->setOperation('pay');
         $this->tx->setRedirect($redirect);
@@ -113,6 +116,10 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
         $money = $this->createMock(Money::class);
         $money->method('getAmount')->willReturn($amount);
 
+        /**
+         * @var Redirect $redirect
+         * @var Money $money
+         */
         $this->tx->setRedirect($redirect);
         $this->tx->setAmount($money);
         $this->tx->setOperation('reserve');
@@ -143,6 +150,10 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
         $money = $this->createMock(Money::class);
         $money->method('getAmount')->willReturn(1.00);
 
+        /**
+         * @var Redirect $redirect
+         * @var Money $money
+         */
         $this->tx->setRedirect($redirect);
         $this->tx->setAmount($money);
         $this->tx->setParentTransactionType($parentTransactionType);
@@ -162,6 +173,10 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
         $money = $this->createMock(Money::class);
         $money->method('getAmount')->willReturn($amount);
 
+        /**
+         * @var Redirect $redirect
+         * @var Money $money
+         */
         $this->tx->setRedirect($redirect);
         $this->tx->setAmount($money);
 
