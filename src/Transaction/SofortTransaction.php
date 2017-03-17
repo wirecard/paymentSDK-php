@@ -67,6 +67,20 @@ class SofortTransaction extends Transaction
 
     /**
      * @throws UnsupportedOperationException
+     * @return array
+     */
+    protected function mappedSpecificProperties()
+    {
+        return [
+            self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType(),
+            'cancel-redirect-url' => $this->redirect->getCancelUrl(),
+            'success-redirect-url' => $this->redirect->getSuccessUrl(),
+            'descriptor' => $this->descriptor
+        ];
+    }
+
+    /**
+     * @throws UnsupportedOperationException
      * @return string
      */
     public function getConfigKey()
@@ -83,19 +97,6 @@ class SofortTransaction extends Transaction
         }
 
         return parent::getConfigKey();
-    }
-
-    /**
-     * @throws UnsupportedOperationException
-     * @return array
-     */
-    protected function mappedSpecificProperties()
-    {
-        return [
-            'cancel-redirect-url' => $this->redirect->getCancelUrl(),
-            'success-redirect-url' => $this->redirect->getSuccessUrl(),
-            'descriptor' => $this->descriptor
-        ];
     }
 
     /**
