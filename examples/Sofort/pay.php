@@ -28,9 +28,9 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
 // Configuration for Sofortbanking
 // Create and add a configuration object with the Sofortbanking settings
-$sofortMId = 'f19d17a2-01ae-11e2-9085-005056a96a54';
+$sofortMAID = 'f19d17a2-01ae-11e2-9085-005056a96a54';
 $sofortSecretKey = 'ad39d9d9-2712-4abd-9016-cdeb60dc3c8f';
-$sofortConfig = new Config\PaymentMethodConfig(SofortTransaction::NAME, $sofortMId, $sofortSecretKey);
+$sofortConfig = new Config\PaymentMethodConfig(SofortTransaction::NAME, $sofortMAID, $sofortSecretKey);
 $config->add($sofortConfig);
 
 // ### Transaction related objects

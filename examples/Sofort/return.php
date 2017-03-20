@@ -25,9 +25,9 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
 // Configuration for Sofortbanking
 // Create and add a configuration object with the Sofortbanking settings
-$sofortMId = 'f19d17a2-01ae-11e2-9085-005056a96a54';
+$sofortMAID = 'f19d17a2-01ae-11e2-9085-005056a96a54';
 $sofortSecretKey = 'ad39d9d9-2712-4abd-9016-cdeb60dc3c8f';
-$sofortConfig = new Config\PaymentMethodConfig(SofortTransaction::NAME, $sofortMId, $sofortSecretKey);
+$sofortConfig = new Config\PaymentMethodConfig(SofortTransaction::NAME, $sofortMAID, $sofortSecretKey);
 $config->add($sofortConfig);
 
 
@@ -44,14 +44,15 @@ $response = $service->handleResponse($_POST);
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
-    echo sprintf('Payment with id %s successfully completed.<br>', $response->getTransactionId());
+    echo 'Payment successfully completed.<br>';
     $txDetailsLink = sprintf(
         'https://api-test.wirecard.com/engine/rest/merchants/%s/payments/%s',
-        $sofortMId,
+        $sofortMAID,
         $response->getTransactionId()
     );
     ?>
-
+    Transaction ID: <a href="<?= $txDetailsLink ?>"><?= $response->getTransactionId() ?></a>
+    <br>
     <a href="<?= $txDetailsLink ?>">View transaction details</a>
     <form action="../Sepa/pay.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
