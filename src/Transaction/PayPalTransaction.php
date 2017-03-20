@@ -113,6 +113,11 @@ class PayPalTransaction extends Transaction implements Reservable
             $data['success-redirect-url'] = $this->redirect->getSuccessUrl();
         }
 
+        if ($transactionType === 'authorization-only') {
+            $data['periodic']['periodic-type'] = 'recurring';
+            $data['periodic']['sequence-type'] = 'first';
+        }
+
         return $data;
     }
 
