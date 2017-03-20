@@ -29,9 +29,9 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 // If you have separate configurations for SEPA direct debit and SEPA credit transfer,
 // create two PaymentMethodConfig objects
 // with the keys SepaTransaction::DIRECT_DEBIT and SepaTransaction::CREDIT_TRANSFER respectively.
-$sepaMId = '4c901196-eff7-411e-82a3-5ef6b6860d64';
+$sepaMAID = '4c901196-eff7-411e-82a3-5ef6b6860d64';
 $sepaKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
-$sepaConfig = new Config\PaymentMethodConfig(SepaTransaction::NAME, $sepaMId, $sepaKey);
+$sepaConfig = new Config\PaymentMethodConfig(SepaTransaction::NAME, $sepaMAID, $sepaKey);
 $config->add($sepaConfig);
 
 
@@ -51,17 +51,15 @@ $response = $transactionService->cancel($transaction);
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
-    echo sprintf('Successfully cancelled.<br> Transaction ID: %s<br>', $response->getTransactionId());
-
+    echo 'Payment successfully cancelled.<br>';
     $txDetailsLink = sprintf(
         'https://api-test.wirecard.com/engine/rest/merchants/%s/payments/%s',
-        $sepaMId,
+        $sepaMAID,
         $response->getTransactionId()
     );
     ?>
-
-    <a href="<?= $txDetailsLink ?>">View transaction details</a>
-
+    Transaction ID: <a href="<?= $txDetailsLink ?>"><?= $response->getTransactionId() ?></a>
+    <br>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {

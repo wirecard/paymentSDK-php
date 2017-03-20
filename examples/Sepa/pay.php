@@ -29,11 +29,11 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
 // SEPA configuration
 // Create and add a configuration object with the settings for SEPA.
-$sepaMId = '4c901196-eff7-411e-82a3-5ef6b6860d64';
+$sepaMAID = '4c901196-eff7-411e-82a3-5ef6b6860d64';
 $sepaKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
 // In order to execute a pay transaction you also have to provide your creditor ID.
 // For this reason we have to use a specific SepaConfig object.
-$sepaConfig = new Config\SepaConfig($sepaMId, $sepaKey);
+$sepaConfig = new Config\SepaConfig($sepaMAID, $sepaKey);
 $sepaConfig->setCreditorId('DE98ZZZ09999999999');
 $config->add($sepaConfig);
 
@@ -89,15 +89,14 @@ $response = $transactionService->pay($tx);
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
-    echo sprintf('Payment with id %s successfully completed.<br>', $response->getTransactionId());
+    echo 'Payment successfully completed.<br>';
     $txDetailsLink = sprintf(
         'https://api-test.wirecard.com/engine/rest/merchants/%s/payments/%s',
-        $sepaMId,
+        $sepaMAID,
         $response->getTransactionId()
     );
     ?>
-
-    <a href="<?= $txDetailsLink ?>">View transaction details</a>
+    Transaction ID: <a href="<?= $txDetailsLink ?>"><?= $response->getTransactionId() ?></a>
     <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
