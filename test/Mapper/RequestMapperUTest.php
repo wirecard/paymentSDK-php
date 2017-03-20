@@ -58,7 +58,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
     {
         $this->mapper = $this->createRequestMapper();
     }
-    
+
     public function testPayPalTransaction()
     {
         $expectedResult = ['payment' => [
