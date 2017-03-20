@@ -90,8 +90,14 @@ if ($response instanceof FormInteractionResponse):
         <input type="submit" value="Redirect to 3-D Secure page"></form>
     <?php
 elseif ($response instanceof SuccessResponse):
-    echo sprintf('Payment with id %s successfully completed.<br>', $response->getTransactionId());
+    echo 'Payment successfully completed.<br>';
+    $txDetailsLink = sprintf(
+        'https://api-test.wirecard.com/engine/rest/merchants/%s/payments/%s',
+        $ccard3dMAID,
+        $response->getTransactionId()
+    );
     ?>
+    Transaction ID: <a href="<?= $txDetailsLink ?>"><?= $response->getTransactionId() ?></a>
     <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>

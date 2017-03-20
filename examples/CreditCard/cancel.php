@@ -27,9 +27,9 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
 // #### Configuration for Credit Card SSL
 // Create and add a configuration object with the settings for credit card.
-$ccardMId = '9105bb4f-ae68-4768-9c3b-3eda968f57ea';
+$ccardMAID = '9105bb4f-ae68-4768-9c3b-3eda968f57ea';
 $ccardKey = 'd1efed51-4cb9-46a5-ba7b-0fdc87a66544';
-$ccardConfig = new Config\PaymentMethodConfig(CreditCardTransaction::NAME, $ccardMId, $ccardKey);
+$ccardConfig = new Config\PaymentMethodConfig(CreditCardTransaction::NAME, $ccardMAID, $ccardKey);
 $config->add($ccardConfig);
 
 // #### Configuration for Credit Card 3-D
@@ -62,9 +62,20 @@ $response = $transactionService->cancel($transaction);
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
-    echo sprintf('Successfully cancelled.<br> Transaction ID: %s<br>', $response->getTransactionId());
+    echo 'Payment successfully cancelled.<br>';
+    if (isset($_POST['transaction-type']) && $_POST['transaction-type'] === 'ssl') {
+        $maid = $ccardMAID;
+    } else {
+        $maid = $ccard3dMAID;
+    }
+    $txDetailsLink = sprintf(
+        'https://api-test.wirecard.com/engine/rest/merchants/%s/payments/%s',
+        $maid,
+        $response->getTransactionId()
+    );
     ?>
-
+    Transaction ID: <a href="<?= $txDetailsLink ?>"><?= $response->getTransactionId() ?></a>
+    <br>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {

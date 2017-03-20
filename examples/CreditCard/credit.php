@@ -67,8 +67,14 @@ $response = $transactionService->credit($transaction);
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
-    echo sprintf('Funds successfully transfered.<br> Transaction ID: %s<br>', $response->getTransactionId());
+    echo 'Funds successfully transfered.<br>';
+    $txDetailsLink = sprintf(
+        'https://api-test.wirecard.com/engine/rest/merchants/%s/payments/%s',
+        $ccardMAID,
+        $response->getTransactionId()
+    );
     ?>
+    Transaction ID: <a href="<?= $txDetailsLink ?>"><?= $response->getTransactionId() ?></a>
     <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
