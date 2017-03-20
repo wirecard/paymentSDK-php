@@ -35,7 +35,7 @@ $config->add($paypalConfig);
 
 // ### Transaction related objects
 // Use the money object as amount which has to be payed by the consumer.
-$amount = new Money(12.59, 'EUR');
+$amount = new Money(0.0, 'EUR');
 
 // If there was a previous transaction, use the ID of this parent transaction as reference.
 $parentTransactionId = array_key_exists('parentTransactionId', $_POST) ? $_POST['parentTransactionId'] : null;
@@ -71,6 +71,7 @@ $tx->setNotificationUrl($notificationUrl);
 $tx->setRedirect($redirectUrls);
 $tx->setAmount($amount);
 $tx->setParentTransactionId($parentTransactionId);
+$tx->setItemCollection($itemCollection);
 
 // ### Transaction Service
 // The service is used to execute the reserve operation itself. A response object is returned.
