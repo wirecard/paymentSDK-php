@@ -62,15 +62,6 @@ class AccountHolder implements MappableEntity
     private $phone;
 
     /**
-     * AccountHolder constructor.
-     * @param $lastName
-     */
-    public function __construct($lastName = null)
-    {
-        $this->lastName = $lastName;
-    }
-
-    /**
      * @param string $firstName
      */
     public function setFirstName($firstName)
@@ -84,6 +75,14 @@ class AccountHolder implements MappableEntity
     public function setEmail($email)
     {
         $this->email = $email;
+    }
+
+    /**
+     * @param string $lastName
+     */
+    public function setLastName(string $lastName)
+    {
+        $this->lastName = $lastName;
     }
 
     /**

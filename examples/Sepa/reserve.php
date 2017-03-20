@@ -39,7 +39,8 @@ $config->add($sepaConfig);
 // Create a money object as amount which has to be payed by the consumer.
 $amount = new Money(7, 'EUR');
 
-$accountHolder = new AccountHolder('Doe');
+$accountHolder = new AccountHolder();
+$accountHolder->setLastName('Doe');
 $accountHolder->setFirstName('Jane');
 
 

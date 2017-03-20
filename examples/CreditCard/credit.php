@@ -41,7 +41,8 @@ $config->add($ccardConfig);
 $amount = new Money(10.59, 'EUR');
 
 // The account holder last name is required for credit.
-$accountHolder = new AccountHolder('Doe');
+$accountHolder = new AccountHolder();
+$accountHolder->setLastName('Doe');
 
 
 // ## Transaction
