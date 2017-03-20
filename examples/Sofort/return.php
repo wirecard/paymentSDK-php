@@ -45,15 +45,9 @@ $response = $service->handleResponse($_POST);
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo 'Payment successfully completed.<br>';
-    $txDetailsLink = sprintf(
-        'https://api-test.wirecard.com/engine/rest/merchants/%s/payments/%s',
-        $sofortMAID,
-        $response->getTransactionId()
-    );
+    echo getTransactionLink($sofortMAID, $response->getTransactionId());
     ?>
-    Transaction ID: <a href="<?= $txDetailsLink ?>"><?= $response->getTransactionId() ?></a>
     <br>
-    <a href="<?= $txDetailsLink ?>">View transaction details</a>
     <form action="../Sepa/pay.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <input type="submit" value="Execute a new payment based on this">

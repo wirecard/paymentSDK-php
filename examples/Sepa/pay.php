@@ -6,6 +6,7 @@
 // ## Required objects
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/../inc/common.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
@@ -90,13 +91,8 @@ $response = $transactionService->pay($tx);
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo 'Payment successfully completed.<br>';
-    $txDetailsLink = sprintf(
-        'https://api-test.wirecard.com/engine/rest/merchants/%s/payments/%s',
-        $sepaMAID,
-        $response->getTransactionId()
-    );
+    echo getTransactionLink($sepaMAID, $response->getTransactionId());
     ?>
-    Transaction ID: <a href="<?= $txDetailsLink ?>"><?= $response->getTransactionId() ?></a>
     <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
@@ -110,6 +106,7 @@ if ($response instanceof SuccessResponse) {
 
     <form action="credit.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+        <label for="amount">Amount:</label>
         <input id="amount" name="amount" style="width:100px" />
         <p>
             <input type="submit" value="Execute a fund / credit based on this">

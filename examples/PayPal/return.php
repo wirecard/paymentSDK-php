@@ -5,7 +5,7 @@
 // ## Required objects
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
-
+require __DIR__ . '/../inc/common.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -53,13 +53,8 @@ if ($response instanceof SuccessResponse) {
         echo "Payment";
     }
     echo ' successfully completed.<br>';
-    $txDetailsLink = sprintf(
-        'https://api-test.wirecard.com/engine/rest/merchants/%s/payments/%s',
-        $paypalMAID,
-        $response->getTransactionId()
-    );
+    echo getTransactionLink($paypalMAID, $response->getTransactionId());
     ?>
-    Transaction ID: <a href="<?= $txDetailsLink ?>"><?= $response->getTransactionId() ?></a>
     <br>
     <?php
     if ($response->getTransactionType() !== 'authorization-only') {

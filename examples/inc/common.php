@@ -15,3 +15,16 @@ function getUrl($path)
     $request = $_SERVER['PHP_SELF'];
     return dirname(sprintf('%s://%s%s', $protocol, $host, $request)) . '/' . $path;
 }
+
+
+function getTransactionLink($maid, $transactionId)
+{
+    $output = sprintf(
+        'Transaction ID: <a href="https://api-test.wirecard.com/engine/rest/merchants/%s/payments/%s">',
+        $maid,
+        $transactionId
+    );
+    $output .= $transactionId;
+    $output .= '</a>';
+    return $output;
+}
