@@ -42,6 +42,11 @@ use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 
+/**
+ * Class ResponseMapperUTest
+ * @package WirecardTest\PaymentSdk\Mapper
+ * @method getPaymentMethod
+ */
 class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 {
     const STATUSES = 'statuses';
@@ -121,22 +126,17 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 
     public function testCardTokenReturnsPaymentMethodCreditCard()
     {
-        $response = simplexml_load_string('<?xml version="1.0"?><payment>
-                        <transaction-state>success</transaction-state>
-                        <transaction-id>12345</transaction-id>
-                        <transaction-type>debit</transaction-type>
-                        <request-id>123</request-id>
-                        <card-token>asdf</card-token>
-                        <statuses>
-                            <status code="200" description="UnitTest" severity="warning"/>
-                        </statuses>
-                    </payment>')->asXML();
+        $helper = function () {
+            $this->simpleXml = new \SimpleXMLElement('<xml><card-token>123</card-token></xml>');
+            return $this->getPaymentMethod();
+        };
+        $method = $helper->bindTo($this->mapper, $this->mapper);
 
-        /**
-         * @var $mapped SuccessResponse
-         */
-        $mapped = $this->mapper->map($response);
-        $this->assertEquals($response, $mapped->getRawData());
+        $expected = new \SimpleXMLElement('<payment-methods>
+                                              <payment-method name="creditcard"></payment-method>
+                                          </payment-methods>');
+
+        $this->assertEquals($expected, $method());
     }
 
     public function testTransactionStateSuccessReturnsFilledSuccessResponseObject()
