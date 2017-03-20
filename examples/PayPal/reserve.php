@@ -28,14 +28,14 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
 // #### PayPal
 // Create and add a configuration object with the PayPal settings
-$paypalMId = '9abf05c1-c266-46ae-8eac-7f87ca97af28';
+$paypalMAID = '9abf05c1-c266-46ae-8eac-7f87ca97af28';
 $paypalKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
-$paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalMId, $paypalKey);
+$paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalMAID, $paypalKey);
 $config->add($paypalConfig);
 
 // ### Transaction related objects
 // Use the money object as amount which has to be payed by the consumer.
-$amount = new Money(0.0, 'EUR');
+$amount = new Money(12.59, 'EUR');
 
 // If there was a previous transaction, use the ID of this parent transaction as reference.
 $parentTransactionId = array_key_exists('parentTransactionId', $_POST) ? $_POST['parentTransactionId'] : null;

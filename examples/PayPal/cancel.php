@@ -46,9 +46,14 @@ $response = $transactionService->cancel($transaction);
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
-    echo sprintf('Successfully cancelled.<br> Transaction ID: %s<br>', $response->getTransactionId());
+    echo 'Payment successfully completed.<br>';
+    $txDetailsLink = sprintf(
+        'https://api-test.wirecard.com/engine/rest/merchants/%s/payments/%s',
+        $paypalMAID,
+        $response->getTransactionId()
+    );
     ?>
-
+    Transaction ID: <a href="<?= $txDetailsLink ?>"><?= $response->getTransactionId() ?></a>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {

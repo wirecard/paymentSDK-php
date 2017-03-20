@@ -30,9 +30,9 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
 // #### Config for PayPal
 // Create and add a configuration object with the PayPal settings
-$paypalMId = '9abf05c1-c266-46ae-8eac-7f87ca97af28';
+$paypalMAID = '9abf05c1-c266-46ae-8eac-7f87ca97af28';
 $paypalKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
-$paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalMId, $paypalKey);
+$paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalMAID, $paypalKey);
 $config->add($paypalConfig);
 
 // Use the money object as amount which has to be payed by the consumer.
@@ -70,7 +70,15 @@ $response = $transactionService->credit($transaction);
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
-    echo sprintf('Funds successfully transfered.<br> Transaction ID: %s<br>', $response->getTransactionId());
+    echo 'Funds successfully transferred.<br>';
+    $txDetailsLink = sprintf(
+        'https://api-test.wirecard.com/engine/rest/merchants/%s/payments/%s',
+        $paypalMAID,
+        $response->getTransactionId()
+    );
+    ?>
+    Transaction ID: <a href="<?= $txDetailsLink ?>"><?= $response->getTransactionId() ?></a>
+    <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
     // In our example we iterate over all errors and echo them out.

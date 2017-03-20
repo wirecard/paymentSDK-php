@@ -26,9 +26,9 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
 // #### PayPal
 // Create and add a configuration object with the PayPal settings
-$paypalMId = '9abf05c1-c266-46ae-8eac-7f87ca97af28';
+$paypalMAID = '9abf05c1-c266-46ae-8eac-7f87ca97af28';
 $paypalKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
-$paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalMId, $paypalKey);
+$paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalMAID, $paypalKey);
 $config->add($paypalConfig);
 
 
@@ -52,22 +52,24 @@ if ($response instanceof SuccessResponse) {
     } else {
         echo "Payment";
     }
-    echo sprintf(' with id %s successfully completed.<br>', $response->getTransactionId());
+    echo ' successfully completed.<br>';
     $txDetailsLink = sprintf(
         'https://api-test.wirecard.com/engine/rest/merchants/%s/payments/%s',
-        $paypalMId,
+        $paypalMAID,
         $response->getTransactionId()
     );
     ?>
-
-    <a href="<?= $txDetailsLink ?>">View transaction details</a>
-
-    <form action="cancel.php" method="post">
-        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="submit" value="cancel">
-    </form>
-
+    Transaction ID: <a href="<?= $txDetailsLink ?>"><?= $response->getTransactionId() ?></a>
+    <br>
     <?php
+    if ($response->getTransactionType() !== 'authorization-only') {
+        ?>
+        <form action="cancel.php" method="post">
+            <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+            <input type="submit" value="cancel">
+        </form>
+        <?php
+    }
     if ($transactionType === 'authorization') { ?>
         <form action="pay-based-on-reserve.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
