@@ -44,7 +44,6 @@ use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
  */
 class CreditCardTransaction extends Transaction implements Reservable
 {
-    const ENDPOINT = '/engine/rest/payments/';
     const NAME = 'creditcard';
     const TYPE_PURCHASE = 'purchase';
     const TYPE_REFERENCED_PURCHASE = 'referenced-purchase';
@@ -63,14 +62,21 @@ class CreditCardTransaction extends Transaction implements Reservable
     }
 
     /**
+     * @return string
+     */
+    public function getEndpoint()
+    {
+        return $this::ENDPOINT_PAYMENTS;
+    }
+
+    /**
      * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return array
      */
     protected function mappedSpecificProperties()
     {
         $this->validate();
-
-        $result[self::PARAM_TRANSACTION_TYPE] = $this->retrieveTransactionType();
+        $result = array();
 
         if (null !== $this->tokenId) {
             $result['card-token'] = [
@@ -82,61 +88,16 @@ class CreditCardTransaction extends Transaction implements Reservable
     }
 
     /**
-     * @throws UnsupportedOperationException|MandatoryFieldMissingException
-     * @return string
+     *
+     * @throws \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
      */
-    protected function retrieveTransactionType()
+    protected function validate()
     {
-        switch ($this->operation) {
-            case Operation::RESERVE:
-                $transactionType = $this->retrieveTransactionTypeForReserve();
-                break;
-            case Operation::CANCEL:
-                $transactionType = $this->retrieveTransactionTypeForCancel();
-                break;
-            case Operation::PAY:
-                $transactionType = $this->retrieveTransactionTypeForPay();
-                break;
-            case Operation::CREDIT:
-                $transactionType = $this::TYPE_CREDIT;
-                break;
-            default:
-                throw new UnsupportedOperationException();
+        if ($this->tokenId === null && $this->parentTransactionId === null) {
+            throw new MandatoryFieldMissingException(
+                'At least one of these two parameters has to be provided: token ID, parent transaction ID.'
+            );
         }
-
-        return $transactionType;
-    }
-
-    /**
-     * @throws MandatoryFieldMissingException
-     * @return string
-     */
-    protected function retrieveTransactionTypeForCancel()
-    {
-        switch ($this->parentTransactionType) {
-            case $this::TYPE_AUTHORIZATION:
-            case $this::TYPE_REFERENCED_AUTHORIZATION:
-                $transactionType = $this::TYPE_VOID_AUTHORIZATION;
-                break;
-            case 'refund-capture':
-            case 'refund-purchase':
-            case 'credit':
-                $transactionType = 'void-' . $this->parentTransactionType;
-                break;
-            case $this::TYPE_PURCHASE:
-            case $this::TYPE_REFERENCED_PURCHASE:
-                $transactionType = 'void-purchase';
-                break;
-            case $this::TYPE_CAPTURE_AUTHORIZATION:
-                $transactionType = 'void-capture';
-                break;
-            default:
-                throw new MandatoryFieldMissingException(
-                    'Parent transaction type is missing for cancel operation'
-                );
-        }
-
-        return $transactionType;
     }
 
     /**
@@ -167,15 +128,42 @@ class CreditCardTransaction extends Transaction implements Reservable
     }
 
     /**
-     *
-     * @throws \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
+     * @throws MandatoryFieldMissingException
+     * @return string
      */
-    protected function validate()
+    protected function retrieveTransactionTypeForCancel()
     {
-        if ($this->tokenId === null && $this->parentTransactionId === null) {
-            throw new MandatoryFieldMissingException(
-                'At least one of these two parameters has to be provided: token ID, parent transaction ID.'
-            );
+        switch ($this->parentTransactionType) {
+            case $this::TYPE_AUTHORIZATION:
+            case $this::TYPE_REFERENCED_AUTHORIZATION:
+                $transactionType = $this::TYPE_VOID_AUTHORIZATION;
+                break;
+            case 'refund-capture':
+            case 'refund-purchase':
+            case $this::TYPE_CREDIT:
+                $transactionType = 'void-' . $this->parentTransactionType;
+                break;
+            case $this::TYPE_PURCHASE:
+            case $this::TYPE_REFERENCED_PURCHASE:
+                $transactionType = 'void-purchase';
+                break;
+            case $this::TYPE_CAPTURE_AUTHORIZATION:
+                $transactionType = 'void-capture';
+                break;
+            default:
+                throw new MandatoryFieldMissingException(
+                    'Parent transaction type is missing for cancel operation'
+                );
         }
+
+        return $transactionType;
+    }
+
+    /**
+     * @return string
+     */
+    protected function retrieveTransactionTypeForCredit()
+    {
+        return $this::TYPE_CREDIT;
     }
 }

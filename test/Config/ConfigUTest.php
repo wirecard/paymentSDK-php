@@ -32,6 +32,7 @@
 
 namespace WirecardTest\PaymentSdk\Config;
 
+use Monolog\Logger;
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
@@ -51,6 +52,7 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
             'httpUser',
             'httpPassword'
         );
+        $this->config->setLogLevel(Logger::ERROR);
     }
 
     public function testGetBaseUrl()
@@ -133,5 +135,20 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals('USD', $this->config->getDefaultCurrency());
+    }
+
+    public function testSetLogLevel()
+    {
+        $this->config = new Config(
+            'http://www.example.com',
+            'httpUser',
+            'httpPassword',
+            'USD'
+        );
+        $logLevel = 20;
+
+        $this->config->setLogLevel($logLevel);
+
+        $this->assertEquals($this->config->getLogLevel(), $logLevel);
     }
 }

@@ -36,11 +36,11 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
+use Monolog\Logger;
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Entity\Redirect;
-use Wirecard\PaymentSdk\Entity\StatusCollection;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
@@ -49,6 +49,15 @@ use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
+/**
+ * Class TransactionServiceUTest
+ * @package WirecardTest\PaymentSdk
+ * @method getLogger
+ * @method getHttpClient
+ * @method getRequestMapper
+ * @method getResponseMapper
+ * @method getRequestIdGenerator
+ */
 class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 {
     const HANDLER = 'handler';
@@ -75,6 +84,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->config->method('get')->willReturn($paymentMethodConfig);
         $this->config->method('getBaseUrl')->willReturn('http://engine.ok');
         $this->config->method('getDefaultCurrency')->willReturn('EUR');
+        $this->config->method('getLogLevel')->willReturn(Logger::ERROR);
 
         $this->instance = new TransactionService($this->config);
     }
@@ -265,6 +275,8 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
                     '<payment>
                         <transaction-state>success</transaction-state>
                         <transaction-id>myid</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status code="200" description="test: payment OK" severity="information"/>
                         </statuses>
@@ -281,6 +293,8 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
                     [],
                     '<payment>
                         <transaction-state>failure</transaction-state>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
                         <statuses>
                             <status code="42" description="my test" severity="information"/>
                         </statuses>
@@ -335,10 +349,15 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
     public function testHandleNotificationHappyPath()
     {
-        $validXmlContent = '<xml><payment></payment></xml>';
+        $validXmlContent = '<payment>
+                    <transaction-type>none</transaction-type>
+                    <request-id>1</request-id>
+                    <transaction-id>2</transaction-id>
+                    <statuses><status code="1" description="a" severity="0"></status></statuses>
+                </payment>';
 
         $responseMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\ResponseMapper');
-        $interactionResponse = new InteractionResponse('dummy', new StatusCollection(), 'x', 'y');
+        $interactionResponse = new InteractionResponse(simplexml_load_string($validXmlContent), 'http://y.z');
         $responseMapper->method('map')->with($validXmlContent)->willReturn($interactionResponse);
 
         $this->instance = new TransactionService($this->config, null, null, null, $responseMapper);
@@ -366,11 +385,18 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
     public function testHandleResponseHappyPath()
     {
         $validContent = [
-            'eppresponse' => base64_encode('<xml><payment></payment></xml>')
+            'eppresponse' => base64_encode('<xml>
+                    <payment></payment>
+                    <transaction-type>none</transaction-type>
+                    <request-id>1</request-id>
+                    <transaction-id>2</transaction-id>
+                    <statuses><status code="1" description="a" severity="0"></status></statuses>
+                </xml>')
         ];
+        $simpleXml = simplexml_load_string(base64_decode($validContent['eppresponse']));
 
         $responseMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\ResponseMapper');
-        $interactionResponse = new InteractionResponse('dummy', new StatusCollection(), 'x', 'y');
+        $interactionResponse = new InteractionResponse($simpleXml, 'http://y.z');
         $responseMapper->method('map')->with($validContent['eppresponse'])->willReturn($interactionResponse);
 
         $this->instance = new TransactionService($this->config, null, null, null, $responseMapper);
@@ -428,7 +454,9 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         $validContent = [
             'MD' => base64_encode(json_encode($md)),
-            'PaRes' => 'arbitrary PaRes'
+            'PaRes' => 'arbitrary PaRes',
+            'eppresponse' => '<xml></xml>',
+
         ];
 
         $transaction = new ThreeDCreditCardTransaction();
@@ -497,7 +525,13 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $httpResponseContent = 'content';
         $httpResponseBody->method('getContents')->willReturn($httpResponseContent);
 
-        $successResponse = new SuccessResponse('dummy', new StatusCollection(), 'x', 'y');
+        $xmlResponse = '<xml>
+                <transaction-id></transaction-id>
+                <request-id></request-id>
+                <transaction-type></transaction-type>
+                <statuses><status code="1" description="a" severity="0"></status></statuses>
+            </xml>';
+        $successResponse = new SuccessResponse(simplexml_load_string($xmlResponse), 'y');
         $responseMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\ResponseMapper');
         $responseMapper->method('map')->with($httpResponseContent)->willReturn($successResponse);
 

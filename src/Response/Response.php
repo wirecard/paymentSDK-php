@@ -32,7 +32,10 @@
 
 namespace Wirecard\PaymentSdk\Response;
 
+use SimpleXMLElement;
+use Wirecard\PaymentSdk\Entity\Status;
 use Wirecard\PaymentSdk\Entity\StatusCollection;
+use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 
 /**
  * Class Response
@@ -41,24 +44,34 @@ use Wirecard\PaymentSdk\Entity\StatusCollection;
 abstract class Response
 {
     /**
-     * @var string
-     */
-    private $rawData;
-
-    /**
      * @var StatusCollection
      */
     private $statusCollection;
 
     /**
-     * Response constructor.
-     * @param string $rawData
-     * @param StatusCollection $statusCollection
+     * @var string
      */
-    public function __construct($rawData, StatusCollection $statusCollection)
+    private $requestId;
+
+    /**
+     * @var SimpleXMLElement
+     */
+    protected $simpleXml;
+
+    /**
+     * @var string
+     */
+    protected $transactionType;
+
+    /**
+     * Response constructor.
+     * @param $simpleXml SimpleXMLElement
+     */
+    public function __construct($simpleXml)
     {
-        $this->rawData = $rawData;
-        $this->statusCollection = $statusCollection;
+        $this->simpleXml = $simpleXml;
+        $this->statusCollection = $this->generateStatusCollection();
+        $this->requestId = $this->findElement('request-id');
     }
 
     /**
@@ -68,7 +81,7 @@ abstract class Response
      */
     public function getRawData()
     {
-        return $this->rawData;
+        return $this->simpleXml->asXML();
     }
 
     /**
@@ -77,5 +90,85 @@ abstract class Response
     public function getStatusCollection()
     {
         return $this->statusCollection;
+    }
+
+    /**
+     * @param string $element
+     * @return string
+     * @throws MalformedResponseException
+     */
+    public function findElement($element)
+    {
+        if (isset($this->simpleXml->{$element})) {
+            return (string)$this->simpleXml->{$element};
+        } else {
+            throw new MalformedResponseException('Missing '.$element.' in response.');
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getRequestId()
+    {
+        return $this->requestId;
+    }
+
+    /**
+     * get the collection of status returned by elastic engine
+     * @return StatusCollection
+     * @throws MalformedResponseException
+     */
+    private function generateStatusCollection()
+    {
+        $collection = new StatusCollection();
+
+        /**
+         * @var $statuses \SimpleXMLElement
+         */
+        if (!isset($this->simpleXml->{'statuses'})) {
+            throw new MalformedResponseException('Missing statuses in response.');
+        }
+        $statuses = $this->simpleXml->{'statuses'};
+        if (count($statuses->{'status'}) > 0) {
+            foreach ($statuses->{'status'} as $statusNode) {
+                /**
+                 * @var $statusNode \SimpleXMLElement
+                 */
+                $attributes = $statusNode->attributes();
+
+                if ((string)$attributes['code'] !== '') {
+                    $code = (string)$attributes['code'];
+                } else {
+                    throw new MalformedResponseException('Missing status code in response.');
+                }
+                if ((string)$attributes['description'] !== '') {
+                    $description = (string)$attributes['description'];
+                } else {
+                    throw new MalformedResponseException('Missing status description in response.');
+                }
+                if ((string)$attributes['severity'] !== '') {
+                    $severity = (string)$attributes['severity'];
+                } else {
+                    throw new MalformedResponseException('Missing status severity in response.');
+                }
+                $status = new Status($code, $description, $severity);
+                $collection->add($status);
+            }
+        }
+
+        return $collection;
+    }
+
+
+    /**
+     * Get the transaction type of the response
+     *
+     * The transaction type is set in the request and should therefore be identical in the response.
+     * @return mixed
+     */
+    public function getTransactionType()
+    {
+        return $this->transactionType;
     }
 }

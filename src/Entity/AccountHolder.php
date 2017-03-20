@@ -52,13 +52,14 @@ class AccountHolder implements MappableEntity
 
 
     /**
-     * AccountHolder constructor.
-     * @param $lastName
+     * @var string;
      */
-    public function __construct($lastName)
-    {
-        $this->lastName = $lastName;
-    }
+    private $email;
+
+    /**
+     * @var string
+     */
+    private $phone;
 
     /**
      * @param string $firstName
@@ -69,14 +70,49 @@ class AccountHolder implements MappableEntity
     }
 
     /**
+     * @param string $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @param string $lastName
+     */
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName;
+    }
+
+    /**
+     * @param mixed $phone
+     */
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
+    }
+
+    /**
      * @return array
      */
     public function mappedProperties()
     {
-        $result = [ 'last-name'=> $this->lastName ];
+        $result = array();
+
+        if (null !== $this->lastName) {
+            $result['last-name'] = $this->lastName;
+        }
         if (null !== $this->firstName) {
             $result['first-name'] = $this->firstName;
         }
+        if (null !== $this->email) {
+            $result['email'] = $this->email;
+        }
+        if (null !== $this->phone) {
+            $result['phone'] = $this->phone;
+        }
+
         return $result;
     }
 }

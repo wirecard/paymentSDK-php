@@ -30,60 +30,58 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Transaction;
+namespace Wirecard\PaymentSdk\Entity;
 
-use Wirecard\PaymentSdk\Entity\Redirect;
-use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
+use Traversable;
 
-class SofortTransaction extends Transaction
+/**
+ * Class ItemCollection
+ * @package Wirecard\PaymentSdk\Entity
+ */
+class ItemCollection implements \IteratorAggregate, MappableEntity
 {
-    const NAME = 'sofortbanking';
+    /**
+     * @var array
+     */
+    private $items = [];
 
     /**
-     * @var Redirect
+     * Retrieve an external iterator
+     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
+     * @return Traversable An instance of an object implementing <b>Iterator</b> or
+     * <b>Traversable</b>
+     * @since 5.0.0
      */
-    private $redirect;
-
-    /**
-     * @var string
-     */
-    private $descriptor;
-
-    /**
-     * @param Redirect $redirect
-     */
-    public function setRedirect($redirect)
+    public function getIterator()
     {
-        $this->redirect = $redirect;
+        return new \ArrayIterator($this->items);
     }
 
     /**
-     * @param string $descriptor
+     * @param Item $item
+     * @return $this
      */
-    public function setDescriptor($descriptor)
+    public function add(Item $item)
     {
-        $this->descriptor = $descriptor;
+        $this->items[] = $item;
+
+        return $this;
     }
 
     /**
-     * @throws UnsupportedOperationException
      * @return array
      */
-    protected function mappedSpecificProperties()
+    public function mappedProperties()
     {
-        return [
-            self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType(),
-            'cancel-redirect-url' => $this->redirect->getCancelUrl(),
-            'success-redirect-url' => $this->redirect->getSuccessUrl(),
-            'descriptor' => $this->descriptor
-        ];
-    }
+        $data = ['order-item' => []];
 
-    /**
-     * @return string
-     */
-    protected function retrieveTransactionTypeForPay()
-    {
-            return $this::TYPE_DEBIT;
+        /**
+         * @var Item $item
+         */
+        foreach ($this->getIterator() as $item) {
+            $data['order-item'][] = $item->mappedProperties();
+        }
+
+        return $data;
     }
 }

@@ -4,10 +4,10 @@
 // To reserve and capture an amount for a credit card with 3-D secure, you need to use a different transaction object
 // in contrast to a transaction with SSL only.
 
-// # Required objects
-
+// ## Required objects
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/../inc/common.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Entity\Money;
@@ -17,23 +17,26 @@ use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
-/**
- * @param $path
- * @return string
- */
-function getUrl($path)
-{
-    $protocol = 'http';
+// ### Config
+// #### Connection
+// The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
+$baseUrl = 'https://api-test.wirecard.com';
+$httpUser = '70000-APILUHN-CARD';
+$httpPass = '8mhwavKVb91T';
 
-    if ($_SERVER['SERVER_PORT'] === 443 || (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) === 'on')) {
-        $protocol .= 's';
-    }
+// The configuration is stored in an object containing the connection settings set above.
+// A default currency can also be provided.
+$config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
-    $host = $_SERVER['HTTP_HOST'];
-    $request = $_SERVER['PHP_SELF'];
-    return dirname(sprintf('%s://%s%s', $protocol, $host, $request)) . '/' . $path;
-}
+// #### Credit Card 3-D
+// Create and add a configuration object with the settings for credit card.
+// For 3-D Secure transactions the corresponding merchant account ID is required.
+$ccard3dMAID = '33f6d473-3036-4ca5-acb5-8c64dac862d1';
+$ccard3dKey = '9e0130f6-2e1e-4185-b0d5-dc69079c75cc';
+$ccard3dConfig = new Config\PaymentMethodConfig(ThreeDCreditCardTransaction::NAME, $ccard3dMAID, $ccard3dKey);
+$config->add($ccard3dConfig);
 
+// ### Transaction related objects
 // Create a money object as amount which has to be payed by the consumer.
 $amount = new Money(12.59, 'EUR');
 
@@ -53,38 +56,23 @@ if ($parentTransactionId === null && $tokenId === null) {
 $redirectUrl = getUrl('return.php?status=success');
 
 
-// ### Config
-
-// The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
-$baseUrl = 'https://api-test.wirecard.com';
-$httpUser = '70000-APILUHN-CARD';
-$httpPass = '8mhwavKVb91T';
-
-// A default currency can also be provided.
-$config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
-
-// Create and add a configuration object with the settings for credit card.
-// For 3-D Secure transactions the corresponding merchant account ID is required.
-$ccard3dMId = '33f6d473-3036-4ca5-acb5-8c64dac862d1';
-$ccard3dKey = '9e0130f6-2e1e-4185-b0d5-dc69079c75cc';
-$ccard3dConfig = new Config\PaymentMethodConfig(ThreeDCreditCardTransaction::NAME, $ccard3dMId, $ccard3dKey);
-$config->add($ccard3dConfig);
+// ## Transaction
 
 // The 3-D credit card transaction contains all relevant data for the payment process.
-$tx = new ThreeDCreditCardTransaction();
-$tx->setAmount($amount);
-$tx->setTokenId($tokenId);
-$tx->setTermUrl($redirectUrl);
-$tx->setParentTransactionId($parentTransactionId);
+$transaction = new ThreeDCreditCardTransaction();
+$transaction->setAmount($amount);
+$transaction->setTokenId($tokenId);
+$transaction->setTermUrl($redirectUrl);
+$transaction->setParentTransactionId($parentTransactionId);
 
-// ### Transaction
-
+// ### Transaction Service
 // The service is used to execute the payment (authorization + capture) operation itself.
 // A response object is returned.
 $transactionService = new TransactionService($config);
-$response = $transactionService->pay($tx);
+$response = $transactionService->pay($transaction);
 
-// ### Response handling
+
+// ## Response handling
 
 // The response from the service can be used for disambiguation.
 // If a redirect of the customer is required a `FormInteractionResponse` object is returned.
@@ -102,8 +90,14 @@ if ($response instanceof FormInteractionResponse):
         <input type="submit" value="Redirect to 3-D Secure page"></form>
     <?php
 elseif ($response instanceof SuccessResponse):
-    echo sprintf('Payment with id %s successfully completed.<br>', $response->getTransactionId());
+    echo 'Payment successfully completed.<br>';
+    $txDetailsLink = sprintf(
+        'https://api-test.wirecard.com/engine/rest/merchants/%s/payments/%s',
+        $ccard3dMAID,
+        $response->getTransactionId()
+    );
     ?>
+    Transaction ID: <a href="<?= $txDetailsLink ?>"><?= $response->getTransactionId() ?></a>
     <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>

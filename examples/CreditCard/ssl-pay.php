@@ -1,12 +1,9 @@
 <?php
-
 // # Credit card purchase
-
 // The method `pay` of the _transactionService_ provides the means
 // to reserve and capture an amount (also known as authorization and capture).
 
 // ## Required objects
-
 // To include the necessary files, use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -17,6 +14,25 @@ use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
+// ### Config
+// #### Basic configuration
+// The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
+$baseUrl = 'https://api-test.wirecard.com';
+$httpUser = '70000-APILUHN-CARD';
+$httpPass = '8mhwavKVb91T';
+
+// The configuration is stored in an object containing the connection settings set above.
+// A default currency can also be provided.
+$config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
+
+// #### Configuration for credit card SSL
+// Create and add a configuration object with the settings for credit card.
+$ccardMAID = '9105bb4f-ae68-4768-9c3b-3eda968f57ea';
+$ccardKey = 'd1efed51-4cb9-46a5-ba7b-0fdc87a66544';
+$ccardConfig = new Config\PaymentMethodConfig(CreditCardTransaction::NAME, $ccardMAID, $ccardKey);
+$config->add($ccardConfig);
+
+// ### Transaction related objects
 // Create a money object as amount which has to be payed by the consumer.
 $amount = new Money(12.59, 'EUR');
 
@@ -31,23 +47,6 @@ if ($parentTransactionId === null && $tokenId === null) {
     $tokenId = '5168216323601006';
 }
 
-// ### Config
-// #### Basic configuration
-// The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
-$baseUrl = 'https://api-test.wirecard.com';
-$httpUser = '70000-APILUHN-CARD';
-$httpPass = '8mhwavKVb91T';
-
-// A default currency can also be provided.
-$config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
-
-// #### Configuration for credit card SSL
-// Create and add a configuration object with the settings for credit card.
-$ccardMId = '9105bb4f-ae68-4768-9c3b-3eda968f57ea';
-$ccardKey = 'd1efed51-4cb9-46a5-ba7b-0fdc87a66544';
-$ccardConfig = new Config\PaymentMethodConfig(CreditCardTransaction::NAME, $ccardMId, $ccardKey);
-$config->add($ccardConfig);
-
 
 // ## Transaction
 
@@ -57,9 +56,11 @@ $transaction = new CreditCardTransaction();
 $transaction->setTokenId($tokenId);
 $transaction->setAmount($amount);
 $transaction->setParentTransactionId($parentTransactionId);
+
+// ### Transaction Service
 // The service is used to execute the payment (authorization + capture) operation itself.
-// A response object is returned.
 $transactionService = new TransactionService($config);
+// A response object is returned.
 $response = $transactionService->pay($transaction);
 
 
@@ -68,17 +69,15 @@ $response = $transactionService->pay($transaction);
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
-    echo sprintf('Payment with id %s successfully completed.<br>', $response->getTransactionId());
+    echo 'Payment successfully completed.<br>';
     $txDetailsLink = sprintf(
         'https://api-test.wirecard.com/engine/rest/merchants/%s/payments/%s',
-        $ccardMId,
+        $ccardMAID,
         $response->getTransactionId()
     );
     ?>
-
-    <a href="<?= $txDetailsLink ?>">View transaction details</a>
-
-    <br><br>
+    Transaction ID: <a href="<?= $txDetailsLink ?>"><?= $response->getTransactionId() ?></a>
+    <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <input type="hidden" name="transaction-type" value="ssl"/>

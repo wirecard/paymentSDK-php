@@ -34,7 +34,6 @@ namespace WirecardTest\PaymentSdk\Response;
 
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\Response;
-use Wirecard\PaymentSdk\Entity\StatusCollection;
 
 class FailureResponseUTest extends \PHPUnit_Framework_TestCase
 {
@@ -45,9 +44,11 @@ class FailureResponseUTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $rawData = '<raw></raw>';
-        $status = $this->createMock(StatusCollection::class);
-        $this->response = new FailureResponse($rawData, $status);
+        $simpleXml = simplexml_load_string('<raw>
+                        <request-id>123</request-id>
+                        <statuses><status code="1" description="a" severity="0"></status></statuses>
+                    </raw>');
+        $this->response = new FailureResponse($simpleXml);
     }
 
     public function testFailureResponseIsResponse()

@@ -8,7 +8,7 @@
  *
  * They have been tested and approved for full functionality in the standard configuration
  * (status on delivery) of the corresponding shop system. They are under General Public
- * License Version 3 (GPLv3) and can be used, developed and passed on to third parties under
+ * License Version 2 (GPLv2) and can be used, developed and passed on to third parties under
  * the same terms.
  *
  * However, Wirecard CEE does not provide any guarantee or accept any liability for any errors
@@ -30,60 +30,31 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Transaction;
+namespace WirecardTest\PaymentSdk\Response;
 
-use Wirecard\PaymentSdk\Entity\Redirect;
-use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
+use Wirecard\PaymentSdk\Response\SuccessResponse;
 
-class SofortTransaction extends Transaction
+class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
 {
-    const NAME = 'sofortbanking';
-
     /**
-     * @var Redirect
+     * @var SuccessResponse
      */
-    private $redirect;
+    private $response;
 
-    /**
-     * @var string
-     */
-    private $descriptor;
-
-    /**
-     * @param Redirect $redirect
-     */
-    public function setRedirect($redirect)
+    public function setUp()
     {
-        $this->redirect = $redirect;
+        $simpleXml = simplexml_load_string('<raw>
+                        <transaction-id>1</transaction-id>
+                        <request-id>123</request-id>
+                        <transaction-type>transaction</transaction-type>
+                        <statuses><status code="1" description="a" severity="0"></status></statuses>
+                    </raw>');
+
+        $this->response = new SuccessResponse($simpleXml);
     }
 
-    /**
-     * @param string $descriptor
-     */
-    public function setDescriptor($descriptor)
+    public function testGetTransactionType()
     {
-        $this->descriptor = $descriptor;
-    }
-
-    /**
-     * @throws UnsupportedOperationException
-     * @return array
-     */
-    protected function mappedSpecificProperties()
-    {
-        return [
-            self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType(),
-            'cancel-redirect-url' => $this->redirect->getCancelUrl(),
-            'success-redirect-url' => $this->redirect->getSuccessUrl(),
-            'descriptor' => $this->descriptor
-        ];
-    }
-
-    /**
-     * @return string
-     */
-    protected function retrieveTransactionTypeForPay()
-    {
-            return $this::TYPE_DEBIT;
+        $this->assertEquals('transaction', $this->response->getTransactionType());
     }
 }

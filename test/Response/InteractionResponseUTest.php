@@ -32,16 +32,25 @@
 
 namespace WirecardTest\PaymentSdk\Response;
 
-use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Entity\StatusCollection;
+use Wirecard\PaymentSdk\Response\InteractionResponse;
 
 class InteractionResponseUTest extends \PHPUnit_Framework_TestCase
 {
     private $redirectUrl = 'http://www.example.com/redirect';
 
-    private $rawData = '{\'raw\': \'data\'}';
+    private $rawData = '<raw>
+                        <transaction-id>1-2-3</transaction-id>
+                        <request-id>123</request-id>
+                        <transaction-type>failed-transaction</transaction-type>
+                        <statuses><status code="1" description="a" severity="0"></status></statuses>
+                    </raw>';
 
-    private $transactionId = '42';
+    /**
+     * @var \SimpleXMLElement
+     */
+    private $simpleXml;
+
     private $statusCollection;
 
     /**
@@ -52,31 +61,15 @@ class InteractionResponseUTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->statusCollection = new StatusCollection();
+        $this->simpleXml = simplexml_load_string($this->rawData);
         $this->response = new InteractionResponse(
-            $this->rawData,
-            $this->statusCollection,
-            $this->transactionId,
+            $this->simpleXml,
             $this->redirectUrl
         );
-    }
-
-    public function testGetRawResponse()
-    {
-        $this->assertEquals($this->rawData, $this->response->getRawData());
-    }
-
-    public function testGetStatusCollection()
-    {
-        $this->assertEquals($this->statusCollection, $this->response->getStatusCollection());
     }
 
     public function testGetRedirectUrl()
     {
         $this->assertEquals($this->redirectUrl, $this->response->getRedirectUrl());
-    }
-
-    public function testGetTransactionId()
-    {
-        $this->assertEquals($this->transactionId, $this->response->getTransactionId());
     }
 }

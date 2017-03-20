@@ -189,7 +189,7 @@ class TransactionService
         if (array_key_exists('eppresponse', $payload)) {
             return $this->getResponseMapper()->map($payload['eppresponse']);
         } else {
-            throw new MalformedResponseException('Missing response in payload');
+            throw new MalformedResponseException('Missing response in payload.');
         }
     }
 
@@ -267,14 +267,15 @@ class TransactionService
     {
         if ($this->logger === null) {
             $this->logger = new Logger('wirecard_payment_sdk');
-            $this->logger->pushHandler(new ErrorLogHandler());
+            $errorHandler = new ErrorLogHandler(ErrorLogHandler::OPERATING_SYSTEM, $this->config->getLogLevel());
+            $this->logger->pushHandler($errorHandler);
         }
 
         return $this->logger;
     }
 
     /**
-     * @param Transaction $transaction
+     * @param Transaction|Reservable $transaction
      * @param string $operation
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
      */
@@ -297,10 +298,11 @@ class TransactionService
         }
 
         $requestBody = $this->getRequestMapper()->map($transaction);
+        $this->getLogger()->debug($requestBody);
 
         $response = $this->getHttpClient()->request(
             'POST',
-            $this->config->getBaseUrl() . $transaction::ENDPOINT,
+            $this->config->getBaseUrl() . $transaction->getEndpoint(),
             [
                 'auth' => [
                     $this->config->getHttpUser(),
@@ -313,9 +315,11 @@ class TransactionService
                 'body' => $requestBody
             ]
         );
+        $responseContent = $response->getBody()->getContents();
+        $this->getLogger()->debug($responseContent);
 
         $data = $transaction instanceof ThreeDCreditCardTransaction ? $transaction : null;
-        return $this->getResponseMapper()->map($response->getBody()->getContents(), $operation, $data);
+        return $this->getResponseMapper()->map($responseContent, $operation, $data);
     }
 
     /**

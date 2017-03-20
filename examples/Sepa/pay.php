@@ -1,10 +1,10 @@
 <?php
-
 // # SEPA amount payment
 // The method `pay` of the _transactionService_ provides the means
 // to execute a payment with an amount (also known as debit).
 
-// To include the necessary files, use the composer for PSR-4 autoloading.
+// ## Required objects
+// To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
@@ -16,6 +16,29 @@ use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\SepaTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
+// ### Config
+// #### Basic configuration
+// The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
+$baseUrl = 'https://api-test.wirecard.com';
+$httpUser = '70000-APITEST-AP';
+$httpPass = 'qD2wzQ_hrc!8';
+
+// The configuration is stored in an object containing the connection settings set above.
+// A default currency can also be provided.
+$config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
+
+// SEPA configuration
+// Create and add a configuration object with the settings for SEPA.
+$sepaMAID = '4c901196-eff7-411e-82a3-5ef6b6860d64';
+$sepaKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
+// In order to execute a pay transaction you also have to provide your creditor ID.
+// For this reason we have to use a specific SepaConfig object.
+$sepaConfig = new Config\SepaConfig($sepaMAID, $sepaKey);
+$sepaConfig->setCreditorId('DE98ZZZ09999999999');
+$config->add($sepaConfig);
+
+// ### Transaction related objects
+
 // Create a money object as amount which has to be payed by the consumer.
 $amount = null;
 if (!empty($_POST['amount'])) {
@@ -26,74 +49,54 @@ if (empty($_POST['amount']) && empty($_POST['parentTransactionId'])) {
     $amount = new Money(12.59, 'EUR');
 }
 
-// ### Config
-// #### Basic configuration
-// The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
-$baseUrl = 'https://api-test.wirecard.com';
-$httpUser = '70000-APITEST-AP';
-$httpPass = 'qD2wzQ_hrc!8';
+// The account holder (first name, last name) is required.
+$accountHolder = new AccountHolder();
+$accountHolder->setLastName('Doe');
+$accountHolder->setFirstName('Jane');
 
-// A default currency can also be provided.
-$config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
-
-// SEPA configuration
-// Create and add a configuration object with the settings for SEPA.
-$sepaMId = '4c901196-eff7-411e-82a3-5ef6b6860d64';
-$sepaKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
-// In order to execute a pay transaction you also have to provide your creditor ID.
-// For this reason we have to use a specific SepaConfig object.
-$sepaConfig = new Config\SepaConfig($sepaMId, $sepaKey);
-$sepaConfig->setCreditorId('DE98ZZZ09999999999');
-$config->add($sepaConfig);
+// A mandate with ID and signed date is required.
+$mandate = new Mandate('12345678');
 
 
 // ## Transaction
 
 // Create a `SepaTransaction` object, which contains all relevant data for the payment process.
-$transaction = new SepaTransaction();
+$tx = new SepaTransaction();
 if (null !== $amount) {
-    $transaction->setAmount($amount);
+    $tx->setAmount($amount);
 }
-
 if (array_key_exists('iban', $_POST)) {
-    $transaction->setIban($_POST['iban']);
+    $tx->setIban($_POST['iban']);
 
     if (null !== $_POST['bic']) {
-        $transaction->setBic($_POST['bic']);
+        $tx->setBic($_POST['bic']);
     }
 }
-
 if (array_key_exists('parentTransactionId', $_POST)) {
-    $transaction->setParentTransactionId($_POST['parentTransactionId']);
+    $tx->setParentTransactionId($_POST['parentTransactionId']);
 }
+$tx->setAccountHolder($accountHolder);
+$tx->setMandate($mandate);
 
-// The account holder (first name, last name) is required.
-$accountHolder = new AccountHolder('Doe');
-$accountHolder->setFirstName('Jane');
-$transaction->setAccountHolder($accountHolder);
-
-// A mandate with ID and signed date is required.
-$mandate = new Mandate('12345678');
-$transaction->setMandate($mandate);
-
+// ### Transaction Service
 // The service is used to execute the pay (pending-debit) operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
-$response = $transactionService->pay($transaction);
+$response = $transactionService->pay($tx);
+
 
 // ## Response handling
 
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
-    echo sprintf('Payment with id %s successfully completed.<br>', $response->getTransactionId());
+    echo 'Payment successfully completed.<br>';
     $txDetailsLink = sprintf(
         'https://api-test.wirecard.com/engine/rest/merchants/%s/payments/%s',
-        $sepaMId,
+        $sepaMAID,
         $response->getTransactionId()
     );
     ?>
-
-    <a href="<?= $txDetailsLink ?>">View transaction details</a>
+    Transaction ID: <a href="<?= $txDetailsLink ?>"><?= $response->getTransactionId() ?></a>
     <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>

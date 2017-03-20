@@ -32,7 +32,9 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Entity\ItemCollection;
 use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
 /**
@@ -49,6 +51,11 @@ class PayPalTransaction extends Transaction implements Reservable
     private $redirect;
 
     /**
+     * @var ItemCollection
+     */
+    private $itemCollection;
+
+    /**
      * @param Redirect $redirect
      */
     public function setRedirect($redirect)
@@ -57,30 +64,117 @@ class PayPalTransaction extends Transaction implements Reservable
     }
 
     /**
+     * @return ItemCollection
+     */
+    public function getItemCollection()
+    {
+        return $this->itemCollection;
+    }
+
+    /**
+     * @param ItemCollection $itemCollection
+     * @return PayPalTransaction
+     */
+    public function setItemCollection($itemCollection)
+    {
+        $this->itemCollection = $itemCollection;
+        return $this;
+    }
+
+    /**
+     * return string
+     */
+    public function getEndpoint()
+    {
+        if (null !== $this->parentTransactionId && $this->operation !== Operation::RESERVE) {
+            return $this::ENDPOINT_PAYMENTS;
+        } else {
+            return $this::ENDPOINT_PAYMENT_METHODS;
+        }
+    }
+
+    /**
+     * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return array
      */
     protected function mappedSpecificProperties()
     {
-        return [
-            self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType(),
-            'cancel-redirect-url' => $this->redirect->getCancelUrl(),
-            'success-redirect-url' => $this->redirect->getSuccessUrl()
-        ];
+        $transactionType = $this->retrieveTransactionType();
+        $data = array();
+
+        if (null !== $this->itemCollection && ($transactionType === $this::TYPE_AUTHORIZATION
+                || $transactionType === $this::TYPE_DEBIT)
+        ) {
+            $data['order-items'] = $this->itemCollection->mappedProperties();
+        }
+
+        if ($this->operation !== Operation::CANCEL) {
+            $data['cancel-redirect-url'] = $this->redirect->getCancelUrl();
+            $data['success-redirect-url'] = $this->redirect->getSuccessUrl();
+        }
+
+        if ($transactionType === 'authorization-only') {
+            $data['periodic']['periodic-type'] = 'recurring';
+            $data['periodic']['sequence-type'] = 'first';
+        }
+
+        return $data;
     }
 
     /**
      * @return string
      */
-    private function retrieveTransactionType()
+    protected function retrieveTransactionTypeForReserve()
     {
-        $transactionTypes = [
-            Operation::PAY => $this::TYPE_DEBIT
-        ];
+        if ($this->amount->getAmount() === 0.0) {
+            return 'authorization-only';
+        } else {
+            return $this::TYPE_AUTHORIZATION;
+        }
+    }
 
-        if (!array_key_exists($this->operation, $transactionTypes)) {
-            throw new UnsupportedOperationException();
+    /**
+     * @return string
+     */
+    protected function retrieveTransactionTypeForPay()
+    {
+        if ($this->parentTransactionType) {
+            return $this::TYPE_CAPTURE_AUTHORIZATION;
+        } else {
+            return $this::TYPE_DEBIT;
+        }
+    }
+
+    /**
+     * @throws MandatoryFieldMissingException
+     * @return string
+     */
+    protected function retrieveTransactionTypeForCancel()
+    {
+        switch ($this->parentTransactionType) {
+            case $this::TYPE_AUTHORIZATION:
+                $transactionType = $this::TYPE_VOID_AUTHORIZATION;
+                break;
+            case $this::TYPE_DEBIT:
+                $transactionType = 'refund-debit';
+                break;
+            case $this::TYPE_CAPTURE_AUTHORIZATION:
+                $transactionType = 'refund-capture';
+                break;
+            default:
+                throw new MandatoryFieldMissingException(
+                    'Parent transaction type is missing for cancel operation'
+                );
         }
 
-        return $transactionTypes[$this->operation];
+        return $transactionType;
+    }
+
+    /**
+     * @return string
+     */
+    protected function retrieveTransactionTypeForCredit()
+    {
+        return 'pending-credit';
     }
 }

@@ -32,7 +32,10 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
+use Wirecard\PaymentSdk\Transaction\Operation;
+use Wirecard\PaymentSdk\Transaction\Transaction;
 
 class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
 {
@@ -62,6 +65,231 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
      */
     public function testMapPropertiesNoTokenIdNoParentTransactionId()
     {
+        $this->tx->setOperation('reserve');
         $this->tx->mappedProperties();
+    }
+
+    public function testSslCreditCardTransactionWithTokenId()
+    {
+        $_SERVER['REMOTE_ADDR'] = 'test IP';
+
+        $expectedResult = [
+            'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
+            'requested-amount' => ['currency' => 'EUR', 'value' => 24],
+            'transaction-type' => 'authorization',
+            'card-token' => [
+                'token-id' => '21'
+            ],
+            'ip-address' => 'test IP'
+        ];
+
+        $transaction = new CreditCardTransaction();
+        $transaction->setTokenId('21');
+        $transaction->setAmount(new Money(24, 'EUR'));
+        $transaction->setOperation(Operation::RESERVE);
+
+        $result = $transaction->mappedProperties();
+
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    public function testSslCreditCardTransactionWithParentTransactionId()
+    {
+
+        $expectedResult = [
+            'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
+            'requested-amount' => ['currency' => 'EUR', 'value' => 24],
+            'parent-transaction-id' => 'parent5',
+            'transaction-type' => 'referenced-authorization',
+        ];
+
+        $transaction = new CreditCardTransaction();
+        $transaction->setAmount(new Money(24, 'EUR'));
+        $transaction->setParentTransactionId('parent5');
+        $transaction->setParentTransactionType(Transaction::TYPE_AUTHORIZATION);
+        $transaction->setOperation(Operation::RESERVE);
+        $result = $transaction->mappedProperties();
+
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
+     */
+    public function testSslCreditCardTransactionWithoutTokenIdAndParentTransactionId()
+    {
+        $transaction = new CreditCardTransaction();
+        $transaction->setAmount(new Money(24, 'EUR'));
+        $transaction->setOperation(Operation::RESERVE);
+        $transaction->mappedProperties();
+    }
+
+    public function testSslCreditCardTransactionWithBothTokenIdAndParentTransactionId()
+    {
+        $_SERVER['REMOTE_ADDR'] = 'test IP';
+
+        $expectedResult = [
+            'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
+            'requested-amount' => ['currency' => 'EUR', 'value' => 24],
+            'parent-transaction-id' => 'parent5',
+            'ip-address' => 'test IP',
+            'transaction-type' => 'referenced-authorization',
+            'card-token' => [
+                'token-id' => '33'
+            ],
+        ];
+
+        $transaction = new CreditCardTransaction();
+        $transaction->setTokenId('33');
+        $transaction->setAmount(new Money(24, 'EUR'));
+        $transaction->setParentTransactionId('parent5');
+        $transaction->setParentTransactionType(Transaction::TYPE_AUTHORIZATION);
+        $transaction->setOperation(Operation::RESERVE);
+        $result = $transaction->mappedProperties();
+
+        $this->assertEquals($expectedResult, $result);
+    }
+
+
+    /**
+     * @return array
+     */
+    public function testCancelProvider()
+    {
+        return [
+            [
+                Transaction::TYPE_AUTHORIZATION,
+                Transaction::TYPE_VOID_AUTHORIZATION
+            ],
+            [
+                Transaction::TYPE_REFERENCED_AUTHORIZATION,
+                Transaction::TYPE_VOID_AUTHORIZATION
+            ],
+            [
+                'refund-capture',
+                'void-refund-capture'
+            ],
+            [
+                'refund-purchase',
+                'void-refund-purchase'
+            ],
+            [
+                Transaction::TYPE_CREDIT,
+                'void-credit'
+            ],
+            [
+                CreditCardTransaction::TYPE_PURCHASE,
+                'void-purchase'
+            ],
+            [
+                CreditCardTransaction::TYPE_REFERENCED_PURCHASE,
+                'void-purchase'
+            ],
+            [
+                Transaction::TYPE_CAPTURE_AUTHORIZATION,
+                'void-capture'
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider testCancelProvider
+     * @param $transactionType
+     * @param $cancelType
+     */
+    public function testCancel($transactionType, $cancelType)
+    {
+        $transaction = new CreditCardTransaction();
+        $transaction->setParentTransactionId('642');
+        $transaction->setParentTransactionType($transactionType);
+        $transaction->setOperation(Operation::CANCEL);
+        $_SERVER['REMOTE_ADDR'] = 'test';
+
+        $result = $transaction->mappedProperties();
+
+        $expectedResult = [
+            'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
+            'parent-transaction-id' => '642',
+            'ip-address' => 'test',
+            'transaction-type' => $cancelType,
+        ];
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    public function testPayProvider()
+    {
+        return [
+            [
+                Transaction::TYPE_AUTHORIZATION,
+                Transaction::TYPE_CAPTURE_AUTHORIZATION
+            ],
+            [
+                CreditCardTransaction::TYPE_PURCHASE,
+                CreditCardTransaction::TYPE_REFERENCED_PURCHASE
+            ],
+            [
+                null,
+                CreditCardTransaction::TYPE_PURCHASE
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider testPayProvider
+     * @param $transactionType
+     * @param $payType
+     */
+    public function testPay($transactionType, $payType)
+    {
+        $transaction = new CreditCardTransaction();
+        $transaction->setParentTransactionId('642');
+        $transaction->setParentTransactionType($transactionType);
+        $transaction->setOperation(Operation::PAY);
+        $_SERVER['REMOTE_ADDR'] = 'test';
+
+        $result = $transaction->mappedProperties();
+
+        $expectedResult = [
+            'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
+            'parent-transaction-id' => '642',
+            'ip-address' => 'test',
+            'transaction-type' => $payType,
+        ];
+        $this->assertEquals($expectedResult, $result);
+    }
+
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
+     */
+    public function testCancelInvalidParentTransaction()
+    {
+        $transaction = new CreditCardTransaction();
+        $transaction->setParentTransactionId('642');
+        $transaction->setParentTransactionType('test');
+        $transaction->setOperation(Operation::CANCEL);
+        $_SERVER['REMOTE_ADDR'] = 'test';
+
+        $transaction->mappedProperties();
+    }
+
+    public function testCredit()
+    {
+        $transaction = new CreditCardTransaction();
+        $transaction->setParentTransactionId('642');
+        $transaction->setParentTransactionType(Transaction::TYPE_CREDIT);
+        $transaction->setOperation(Operation::CREDIT);
+
+        $_SERVER['REMOTE_ADDR'] = 'test';
+
+        $result = $transaction->mappedProperties();
+
+        $expectedResult = [
+            'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
+            'parent-transaction-id' => '642',
+            'ip-address' => 'test',
+            'transaction-type' => 'credit',
+        ];
+        $this->assertEquals($expectedResult, $result);
     }
 }

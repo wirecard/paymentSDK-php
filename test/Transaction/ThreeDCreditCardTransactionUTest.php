@@ -31,8 +31,10 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
+use Wirecard\PaymentSdk\Transaction\Transaction;
 
 class ThreeDCreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
 {
@@ -106,6 +108,130 @@ class ThreeDCreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
      */
     public function testMapPropertiesNoTokenIdNoParentTransactionIdNoPaRes()
     {
+        $this->tx->setOperation('reserve');
         $this->tx->mappedProperties();
+    }
+
+    public function threeDProvider()
+    {
+        return [
+            [
+                Operation::CANCEL,
+                Transaction::TYPE_AUTHORIZATION,
+                Transaction::TYPE_VOID_AUTHORIZATION
+            ],
+            [
+                Operation::RESERVE,
+                null,
+                ThreeDCreditCardTransaction::TYPE_CHECK_ENROLLMENT
+            ],
+            [
+                Operation::RESERVE,
+                ThreeDCreditCardTransaction::TYPE_CHECK_ENROLLMENT,
+                Transaction::TYPE_AUTHORIZATION
+            ],
+            [
+                Operation::RESERVE,
+                Transaction::TYPE_AUTHORIZATION,
+                Transaction::TYPE_REFERENCED_AUTHORIZATION
+            ],
+        ];
+    }
+
+    /**
+     * @param $operation
+     * @param $parentTransactionType
+     * @param $expectedType
+     * @dataProvider threeDProvider
+     */
+    public function testThreeDCreditCardTransaction($operation, $parentTransactionType, $expectedType)
+    {
+        $_SERVER['REMOTE_ADDR'] = 'test IP';
+
+        $expectedResult = [
+            'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
+            'requested-amount' => ['currency' => 'EUR', 'value' => 24],
+            'parent-transaction-id' => 'parent54',
+            'ip-address' => 'test IP',
+            'transaction-type' => $expectedType,
+            'card-token' => [
+                'token-id' => '21'
+            ]
+        ];
+
+        $money = new Money(24, 'EUR');
+        $transaction = new ThreeDCreditCardTransaction();
+        $transaction->setTokenId('21');
+        $transaction->setTermUrl('https://example.com/r');
+        $transaction->setAmount($money);
+        $transaction->setParentTransactionId('parent54');
+        $transaction->setParentTransactionType($parentTransactionType);
+        $transaction->setOperation($operation);
+        $result = $transaction->mappedProperties();
+
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    public function testPay3dProvider()
+    {
+        return [
+            [
+                Transaction::TYPE_AUTHORIZATION,
+                Transaction::TYPE_CAPTURE_AUTHORIZATION
+            ],
+            [
+                ThreeDCreditCardTransaction::TYPE_PURCHASE,
+                ThreeDCreditCardTransaction::TYPE_REFERENCED_PURCHASE
+            ],
+            [
+                ThreeDCreditCardTransaction::TYPE_CHECK_ENROLLMENT,
+                ThreeDCreditCardTransaction::TYPE_PURCHASE
+            ],
+            [
+                null,
+                ThreeDCreditCardTransaction::TYPE_CHECK_ENROLLMENT
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider testPay3dProvider
+     * @param $transactionType
+     * @param $payType
+     */
+    public function testPay3d($transactionType, $payType)
+    {
+        $transaction = new ThreeDCreditCardTransaction();
+        $transaction->setParentTransactionId('642');
+        $transaction->setParentTransactionType($transactionType);
+        $transaction->setOperation(Operation::PAY);
+        $_SERVER['REMOTE_ADDR'] = 'test';
+
+        $result = $transaction->mappedProperties();
+
+        $expectedResult = [
+            'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
+            'parent-transaction-id' => '642',
+            'ip-address' => 'test',
+            'transaction-type' => $payType,
+        ];
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
+     */
+    public function testThreeDCreditCardTransactionThrowsUnsupportedOperationException()
+    {
+        $_SERVER['REMOTE_ADDR'] = 'test IP';
+
+        $money = new Money(24, 'EUR');
+        $transaction = new ThreeDCreditCardTransaction();
+        $transaction->setTokenId('21');
+        $transaction->setTermUrl('https://example.com/r');
+        $transaction->setAmount($money);
+        $transaction->setParentTransactionId('parent54');
+        $transaction->setOperation('test');
+        $transaction->mappedProperties();
     }
 }

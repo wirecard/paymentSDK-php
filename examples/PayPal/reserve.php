@@ -1,6 +1,6 @@
 <?php
-// # PayPal payment transaction
-// This example displays the usage payments for payment method PayPal.
+// # PayPal reserve transaction
+// This example displays the usage of reserve method for payment method PayPal.
 
 // ## Required objects
 // To include the necessary files, we use the composer for PSR-4 autoloading.
@@ -37,30 +37,53 @@ $config->add($paypalConfig);
 // Use the money object as amount which has to be payed by the consumer.
 $amount = new Money(12.59, 'EUR');
 
-// The redirect URLs determine where the consumer should be redirected by PayPal after approval/cancellation.
+// If there was a previous transaction, use the ID of this parent transaction as reference.
+$parentTransactionId = array_key_exists('parentTransactionId', $_POST) ? $_POST['parentTransactionId'] : null;
+
+// The redirect URLs determine where the consumer should be redirected by PayPal after the reserve.
 $redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
 
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
 $notificationUrl = getUrl('notify.php');
 
+// #### Order items
+// Create your items.
+$item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Money(2.59, 'EUR'), 1);
+$item1->setArticleNumber('A1');
+$item1->setDescription('My first item');
+
+$item2 = new \Wirecard\PaymentSdk\Entity\Item('Item 2', new Money(5, 'EUR'), 2);
+$item2->setArticleNumber('B2');
+$item2->setDescription('My second item');
+$item2->setTaxAmount(new Money(1, 'EUR'));
+
+// Create an item collection to store the items.
+$itemCollection = new \Wirecard\PaymentSdk\Entity\ItemCollection();
+$itemCollection->add($item1);
+$itemCollection->add($item2);
+
 
 // ## Transaction
 
-// The PayPal transaction holds all transaction relevant data for the payment process.
-$transaction = new PayPalTransaction();
-$transaction->setNotificationUrl($notificationUrl);
-$transaction->setRedirect($redirectUrls);
-$transaction->setAmount($amount);
+// The PayPal transaction holds all transaction relevant data for the reserve process.
+$tx = new PayPalTransaction();
+$tx->setNotificationUrl($notificationUrl);
+$tx->setRedirect($redirectUrls);
+$tx->setAmount($amount);
+$tx->setParentTransactionId($parentTransactionId);
+$tx->setItemCollection($itemCollection);
 
 // ### Transaction Service
-// The service is used to execute the payment operation itself. A response object is returned.
+// The service is used to execute the reserve operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
-$response = $transactionService->pay($transaction);
+$response = $transactionService->reserve($tx);
 
-// ### Response handling
+
+// ## Response handling
+
 // The response of the service must be handled depending on it's class
 // In case of an `InteractionResponse`, a browser interaction by the consumer is required
-// in order to continue the payment process. In this example we proceed with a header redirect
+// in order to continue the reserve process. In this example we proceed with a header redirect
 // to the given _redirectUrl_. IFrame integration using this URL is also possible.
 if ($response instanceof InteractionResponse) {
     header('location: ' . $response->getRedirectUrl());

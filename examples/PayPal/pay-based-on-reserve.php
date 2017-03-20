@@ -1,22 +1,21 @@
 <?php
-// # Credit to a credit card
-// To transfer funds to a credit card via a credit operation, a token for the corresponding credit card is required.
-// A request with the token ID and the account holder name is sent.
+
+// # Payment after a reservation
+
+// Enter the ID of the successful reserve transaction and start a pay transaction with it.
 
 // ## Required objects
-// To include the necessary files, use the composer for PSR-4 autoloading.
+
 require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/../inc/common.php';
 
 use Wirecard\PaymentSdk\Config;
-use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
+use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\TransactionService;
-
-// Define the token for the credit card where the amount should be credited.
-$tokenId = '4304509873471003';
 
 // ### Config
 // #### Basic configuration
@@ -29,37 +28,44 @@ $httpPass = '8mhwavKVb91T';
 // A default currency can also be provided.
 $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
-// #### Configuration for Credit Card SSL
-// Create and add a configuration object with the settings for credit card.
-$ccardMAID = '33f6d473-3036-4ca5-acb5-8c64dac862d1';
-$ccardKey = '9e0130f6-2e1e-4185-b0d5-dc69079c75cc';
-$ccardConfig = new Config\PaymentMethodConfig(CreditCardTransaction::NAME, $ccardMAID, $ccardKey);
-$config->add($ccardConfig);
+// #### Configuration for PayPal
+// Create and add a configuration object with the PayPal settings
+$paypalMAID = '9abf05c1-c266-46ae-8eac-7f87ca97af28';
+$paypalKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
+$paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalMAID, $paypalKey);
+$config->add($paypalConfig);
+
 
 // ### Transaction related objects
-// Create a money object as amount which has to be payed by the consumer.
-$amount = new Money(10.59, 'EUR');
 
-// The account holder last name is required for credit.
-$accountHolder = new AccountHolder();
-$accountHolder->setLastName('Doe');
+// Use the money object as amount which has to be payed by the consumer.
+if (array_key_exists('amount', $_POST)) {
+    $amount = new Money((float)$_POST['amount'], 'EUR');
+} else {
+    $amount = new Money(12.59, 'EUR');
+}
+
+// The redirect URLs determine where the consumer should be redirected by PayPal after approval/cancellation.
+$redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
+
+// As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
+$notificationUrl = getUrl('notify.php');
 
 
 // ## Transaction
 
-$transaction = new CreditCardTransaction();
+$transaction = new PayPalTransaction();
+$transaction->setNotificationUrl($notificationUrl);
+$transaction->setRedirect($redirectUrls);
 $transaction->setAmount($amount);
+if (array_key_exists('parentTransactionId', $_POST)) {
+    $transaction->setParentTransactionId($_POST['parentTransactionId']);
+}
 
-// To credit an amount a token ID and the corresponding account holder is required.
-$transaction->setTokenId($tokenId);
-$transaction->setAccountHolder($accountHolder);
-
-// ### Transaction Service
-// The _TransactionService_ is used to generate the request data.
+// ### Transaction service
+// The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
-
-// The method `credit` is used to transfer funds to the credit card.
-$response = $transactionService->credit($transaction);
+$response = $transactionService->pay($transaction);
 
 
 // ## Response handling
@@ -67,10 +73,10 @@ $response = $transactionService->credit($transaction);
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
-    echo 'Funds successfully transfered.<br>';
+    echo 'Payment successfully completed.<br>';
     $txDetailsLink = sprintf(
         'https://api-test.wirecard.com/engine/rest/merchants/%s/payments/%s',
-        $ccardMAID,
+        $paypalMAID,
         $response->getTransactionId()
     );
     ?>
@@ -78,8 +84,8 @@ if ($response instanceof SuccessResponse) {
     <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="hidden" name="transaction-type" value="3d"/>
-        <input type="submit" value="cancel the credit">
+        <input type="hidden" name="transaction-type" value="<?= $_POST['transaction-type'] ?>"/>
+        <input type="submit" value="cancel the capture">
     </form>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.

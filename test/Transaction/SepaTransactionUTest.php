@@ -37,6 +37,7 @@ use Wirecard\PaymentSdk\Entity\Mandate;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\SepaTransaction;
+use Wirecard\PaymentSdk\Transaction\Transaction;
 
 class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
 {
@@ -63,7 +64,8 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->amount = new Money(55.5, 'EUR');
-        $this->accountHolder = new AccountHolder(self::LAST_NAME);
+        $this->accountHolder = new AccountHolder();
+        $this->accountHolder->setLastName(self::LAST_NAME);
         $this->accountHolder->setFirstName(self::FIRST_NAME);
 
         $this->tx = new SepaTransaction();
@@ -148,7 +150,7 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
     private function getExpectedResultPayIbanOnly()
     {
         return [
-            'transaction-type' => 'pending-debit',
+            'transaction-type' => 'debit',
             'requested-amount' => [
                 'currency' => 'EUR',
                 'value' => '55.5'
@@ -244,5 +246,13 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
     private function today()
     {
         return gmdate('Y-m-d');
+    }
+
+    public function testRetrieveTransactionTypeForCredit()
+    {
+        $this->tx->setOperation(Operation::CREDIT);
+        $data = $this->tx->mappedProperties();
+
+        $this->assertEquals(Transaction::TYPE_CREDIT, $data['transaction-type']);
     }
 }
