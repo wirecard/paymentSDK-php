@@ -80,7 +80,7 @@ class AccountHolder implements MappableEntity
     /**
      * @param string $lastName
      */
-    public function setLastName(string $lastName)
+    public function setLastName($lastName)
     {
         $this->lastName = $lastName;
     }
