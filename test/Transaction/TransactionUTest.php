@@ -81,7 +81,8 @@ class TransactionUTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAccountHolder()
     {
-        $accountholder = new AccountHolder('Doe');
+        $accountholder = new AccountHolder();
+        $accountholder->setLastName('Doe');
         $this->tx->setAccountHolder($accountholder);
         $this->tx->setOperation(Operation::PAY);
         $mapped = $this->tx->mappedProperties();
