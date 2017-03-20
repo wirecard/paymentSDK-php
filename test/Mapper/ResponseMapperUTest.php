@@ -42,6 +42,11 @@ use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 
+/**
+ * Class ResponseMapperUTest
+ * @package WirecardTest\PaymentSdk\Mapper
+ * @method getPaymentMethod
+ */
 class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 {
     const STATUSES = 'statuses';
@@ -117,6 +122,21 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('http://www.example.com/redirect-url', $mapped->getRedirectUrl());
         $this->assertCount(1, $mapped->getStatusCollection());
         $this->assertEquals($response, $mapped->getRawData());
+    }
+
+    public function testCardTokenReturnsPaymentMethodCreditCard()
+    {
+        $helper = function () {
+            $this->simpleXml = new \SimpleXMLElement('<xml><card-token>123</card-token></xml>');
+            return $this->getPaymentMethod();
+        };
+        $method = $helper->bindTo($this->mapper, $this->mapper);
+
+        $expected = new \SimpleXMLElement('<payment-methods>
+                                              <payment-method name="creditcard"></payment-method>
+                                          </payment-methods>');
+
+        $this->assertEquals($expected, $method());
     }
 
     public function testTransactionStateSuccessReturnsFilledSuccessResponseObject()

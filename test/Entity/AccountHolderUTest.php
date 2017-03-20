@@ -36,8 +36,6 @@ use Wirecard\PaymentSdk\Entity\AccountHolder;
 
 class AccountHolderUTest extends \PHPUnit_Framework_TestCase
 {
-    const LASTNAME = 'Doe';
-
     /**
      * @var AccountHolder
      */
@@ -45,22 +43,19 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->accountHolder = new AccountHolder(self::LASTNAME);
-    }
-
-    public function testGetMappedPropertiesOnlyLastName()
-    {
-        $this->assertEquals([ 'last-name' => self::LASTNAME ], $this->accountHolder->mappedProperties());
+        $this->accountHolder = new AccountHolder();
     }
 
     public function testGetMappedPropertiesLastAndFirstName()
     {
         $firstName = 'Jane';
+        $lastName = 'Doe';
+        $this->accountHolder->setLastName($lastName);
         $this->accountHolder->setFirstName($firstName);
 
         $this->assertEquals(
             [
-                'last-name' => self::LASTNAME,
+                'last-name' => $lastName,
                 'first-name' => $firstName
             ],
             $this->accountHolder->mappedProperties()
@@ -74,7 +69,6 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             [
-                'last-name' => self::LASTNAME,
                 'email' => $email
             ],
             $this->accountHolder->mappedProperties()
@@ -88,7 +82,6 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             [
-                'last-name' => self::LASTNAME,
                 'phone' => $phone
             ],
             $this->accountHolder->mappedProperties()

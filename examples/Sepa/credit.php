@@ -41,7 +41,8 @@ if (empty($_POST['amount']) && empty($_POST['parentTransactionId'])) {
 }
 
 // The account holder (first name, last name) is required.
-$accountHolder = new AccountHolder('Doe');
+$accountHolder = new AccountHolder();
+$accountHolder->setLastName('Doe');
 $accountHolder->setFirstName('Jane');
 
 // A mandate with ID and signed date is required.

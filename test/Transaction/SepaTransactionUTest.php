@@ -64,7 +64,8 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->amount = new Money(55.5, 'EUR');
-        $this->accountHolder = new AccountHolder(self::LAST_NAME);
+        $this->accountHolder = new AccountHolder();
+        $this->accountHolder->setLastName(self::LAST_NAME);
         $this->accountHolder->setFirstName(self::FIRST_NAME);
 
         $this->tx = new SepaTransaction();
