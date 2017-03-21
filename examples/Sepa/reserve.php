@@ -69,7 +69,7 @@ $response = $transactionService->reserve($transaction);
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo 'Reservation successfully completed.<br>';
-    echo getTransactionLink($sepaMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $sepaMAID, $response->getTransactionId());
     ?>
     <br>
     <form action="pay.php" method="post">
@@ -77,7 +77,7 @@ if ($response instanceof SuccessResponse) {
         <label for="amount">Amount:</label><br>
         <input id="amount" name="amount" style="width:100px" />
         <p>
-            <input type="submit" value="Execute a new payment based on this reservation">
+            <input type="submit" value="Request a new payment based on this reservation">
         </p>
     </form>
     <?php

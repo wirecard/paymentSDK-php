@@ -16,14 +16,10 @@ function getUrl($path)
     return dirname(sprintf('%s://%s%s', $protocol, $host, $request)) . '/' . $path;
 }
 
-
-function getTransactionLink($maid, $transactionId)
+function getTransactionLink($baseUrl, $maid, $transactionId)
 {
-    $output = sprintf(
-        'Transaction ID: <a href="https://api-test.wirecard.com/engine/rest/merchants/%s/payments/%s">',
-        $maid,
-        $transactionId
-    );
+    $output = 'Transaction ID: ';
+    $output .= sprintf('<a href="' . $baseUrl . '/engine/rest/merchants/%s/payments/%s">', $maid, $transactionId);
     $output .= $transactionId;
     $output .= '</a>';
     return $output;

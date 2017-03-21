@@ -91,13 +91,13 @@ if ($response instanceof FormInteractionResponse):
     <?php
 elseif ($response instanceof SuccessResponse):
     echo 'Payment successfully completed.<br>';
-    echo getTransactionLink($ccard3dMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $ccard3dMAID, $response->getTransactionId());
     ?>
     <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <input type="hidden" name="transaction-type" value="3d"/>
-        <input type="submit" value="cancel the payment">
+        <input type="submit" value="Cancel the payment">
     </form>
 
     <?php

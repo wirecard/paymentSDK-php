@@ -46,17 +46,17 @@ $response = $service->handleResponse($_POST);
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo 'Payment successfully completed.<br>';
-    echo getTransactionLink($sofortMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $sofortMAID, $response->getTransactionId());
     ?>
     <br>
     <form action="../Sepa/pay.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="submit" value="Execute a new payment based on this payment">
+        <input type="submit" value="Request a new payment based on this payment">
     </form>
 
     <form action="../Sepa/credit.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="submit" value="Execute a credit based on this payment">
+        <input type="submit" value="Request a credit based on this payment">
     </form>
 <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
