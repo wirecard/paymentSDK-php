@@ -5,7 +5,7 @@
 // ## Required objects
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
-
+require __DIR__ . '/../inc/common.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -48,25 +48,20 @@ if ($response instanceof SuccessResponse) {
     $xmlResponse = new SimpleXMLElement($response->getRawData());
     $transactionType = $response->getTransactionType();
     if ($transactionType === 'authorization') {
-        echo "Reservation";
+        echo 'Reservation';
     } else {
-        echo "Payment";
+        echo 'Payment';
     }
     echo ' successfully completed.<br>';
-    $txDetailsLink = sprintf(
-        'https://api-test.wirecard.com/engine/rest/merchants/%s/payments/%s',
-        $paypalMAID,
-        $response->getTransactionId()
-    );
+    echo getTransactionLink($paypalMAID, $response->getTransactionId());
     ?>
-    Transaction ID: <a href="<?= $txDetailsLink ?>"><?= $response->getTransactionId() ?></a>
     <br>
     <?php
     if ($response->getTransactionType() !== 'authorization-only') {
         ?>
         <form action="cancel.php" method="post">
             <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-            <input type="submit" value="cancel">
+            <input type="submit" value="Cancel">
         </form>
         <?php
     }
@@ -74,7 +69,7 @@ if ($response instanceof SuccessResponse) {
         <form action="pay-based-on-reserve.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <input type="hidden" name="transaction-type" value="<?= $transactionType ?>"/>
-        <input type="submit" value="capture the payment">
+            <input type="submit" value="Capture the payment">
     </form>
     <?php
     }

@@ -8,6 +8,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 
 use Wirecard\PaymentSdk\Config;
+use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -30,7 +31,7 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 // Create and add a configuration object with the Sofortbanking settings
 $sofortMAID = 'f19d17a2-01ae-11e2-9085-005056a96a54';
 $sofortSecretKey = 'ad39d9d9-2712-4abd-9016-cdeb60dc3c8f';
-$sofortConfig = new Config\PaymentMethodConfig(SofortTransaction::NAME, $sofortMAID, $sofortSecretKey);
+$sofortConfig = new PaymentMethodConfig(SofortTransaction::NAME, $sofortMAID, $sofortSecretKey);
 $config->add($sofortConfig);
 
 // ### Transaction related objects

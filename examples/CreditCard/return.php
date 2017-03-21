@@ -5,6 +5,7 @@
 // ## Required objects
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/../inc/common.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -56,18 +57,13 @@ $response = $transactionService->handleResponse($_POST);
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo 'Payment successfully completed.<br>';
-    $txDetailsLink = sprintf(
-        'https://api-test.wirecard.com/engine/rest/merchants/%s/payments/%s',
-        $ccardMAID,
-        $response->getTransactionId()
-    );
+    echo getTransactionLink($ccardMAID, $response->getTransactionId());
     ?>
-    Transaction ID: <a href="<?= $txDetailsLink ?>"><?= $response->getTransactionId() ?></a>
     <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <input type="hidden" name="transaction-type" value="3d">
-        <input type="submit" value="cancel the payment">
+        <input type="submit" value="Cancel the payment">
     </form>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.

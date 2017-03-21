@@ -91,13 +91,8 @@ if ($response instanceof FormInteractionResponse):
     <?php
 elseif ($response instanceof SuccessResponse):
     echo 'Payment successfully completed.<br>';
-    $txDetailsLink = sprintf(
-        'https://api-test.wirecard.com/engine/rest/merchants/%s/payments/%s',
-        $ccard3dMAID,
-        $response->getTransactionId()
-    );
+    echo getTransactionLink($ccard3dMAID, $response->getTransactionId());
     ?>
-    Transaction ID: <a href="<?= $txDetailsLink ?>"><?= $response->getTransactionId() ?></a>
     <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>

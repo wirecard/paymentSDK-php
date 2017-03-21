@@ -1,12 +1,10 @@
 <?php
-
 // # Payment after a reservation
-
 // Enter the ID of the successful reserve transaction and start a pay transaction with it.
 
 // ## Required objects
-
 require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/../inc/common.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -65,18 +63,13 @@ $response = $transactionService->pay($transaction);
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo 'Payment successfully completed.<br>';
-    $txDetailsLink = sprintf(
-        'https://api-test.wirecard.com/engine/rest/merchants/%s/payments/%s',
-        $ccardMAID,
-        $response->getTransactionId()
-    );
+    echo getTransactionLink($ccardMAID, $response->getTransactionId());
     ?>
-    Transaction ID: <a href="<?= $txDetailsLink ?>"><?= $response->getTransactionId() ?></a>
     <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <input type="hidden" name="transaction-type" value="<?= $_POST['transaction-type'] ?>"/>
-        <input type="submit" value="cancel the capture">
+        <input type="submit" value="Cancel the capture">
     </form>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
