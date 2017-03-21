@@ -62,6 +62,6 @@ if ($notification instanceof SuccessResponse) {
         $severity = ucfirst($status->getSeverity());
         $code = $status->getCode();
         $description = $status->getDescription();
-        $log->warning(sprintf('%s with code %s and message "%s" occured.<br>', $severity, $code, $description));
+        $log->warning(sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description));
     }
 }
