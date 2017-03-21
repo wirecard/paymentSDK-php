@@ -63,7 +63,7 @@ if ($response instanceof SuccessResponse) {
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <input type="hidden" name="transaction-type" value="3d">
-        <input type="submit" value="cancel the payment">
+        <input type="submit" value="Cancel the payment">
     </form>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.

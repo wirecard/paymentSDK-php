@@ -9,6 +9,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 
 use Wirecard\PaymentSdk\Config;
+use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\SepaTransaction;
@@ -32,7 +33,7 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 // with the keys SepaTransaction::DIRECT_DEBIT and SepaTransaction::CREDIT_TRANSFER respectively.
 $sepaMAID = '4c901196-eff7-411e-82a3-5ef6b6860d64';
 $sepaKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
-$sepaConfig = new Config\PaymentMethodConfig(SepaTransaction::NAME, $sepaMAID, $sepaKey);
+$sepaConfig = new PaymentMethodConfig(SepaTransaction::NAME, $sepaMAID, $sepaKey);
 $config->add($sepaConfig);
 
 

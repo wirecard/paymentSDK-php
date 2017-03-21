@@ -7,6 +7,7 @@
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
+use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\SofortTransaction;
@@ -27,7 +28,7 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 // Create and add a configuration object with the Sofortbanking settings
 $sofortMAID = 'f19d17a2-01ae-11e2-9085-005056a96a54';
 $sofortSecretKey = 'ad39d9d9-2712-4abd-9016-cdeb60dc3c8f';
-$sofortConfig = new Config\PaymentMethodConfig(SofortTransaction::NAME, $sofortMAID, $sofortSecretKey);
+$sofortConfig = new PaymentMethodConfig(SofortTransaction::NAME, $sofortMAID, $sofortSecretKey);
 $config->add($sofortConfig);
 
 
@@ -50,12 +51,12 @@ if ($response instanceof SuccessResponse) {
     <br>
     <form action="../Sepa/pay.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="submit" value="Execute a new payment based on this">
+        <input type="submit" value="Execute a new payment based on this payment">
     </form>
 
     <form action="../Sepa/credit.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="submit" value="Execute a credit based on this">
+        <input type="submit" value="Execute a credit based on this payment">
     </form>
 <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.

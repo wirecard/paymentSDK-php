@@ -1,11 +1,9 @@
 <?php
-
 // # Credit card reservation
 // The method `reserve` of the _transactionService_ provides the means
 // to reserve an amount (also known as authorization).
 
 // ## Required objects
-
 // To include the necessary files, use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
@@ -78,12 +76,12 @@ if ($response instanceof SuccessResponse) {
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <input type="hidden" name="transaction-type" value="ssl"/>
-        <input type="submit" value="cancel the payment">
+        <input type="submit" value="Cancel the payment">
     </form>
     <form action="pay-based-on-reserve.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <input type="hidden" name="transaction-type" value="ssl"/>
-        <input type="submit" value="capture the payment">
+        <input type="submit" value="Capture the payment">
     </form>
 
     <?php

@@ -9,6 +9,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 
 use Wirecard\PaymentSdk\Config;
+use Wirecard\PaymentSdk\Config\SepaConfig;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -32,7 +33,7 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 $sepaMAID = '4c901196-eff7-411e-82a3-5ef6b6860d64';
 $sepaKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
 // For reserve transactions you can use a PaymentConfig object or a SepaConfig object as well.
-$sepaConfig = new Config\SepaConfig($sepaMAID, $sepaKey);
+$sepaConfig = new SepaConfig($sepaMAID, $sepaKey);
 $config->add($sepaConfig);
 
 // ### Transaction related objects
@@ -76,7 +77,7 @@ if ($response instanceof SuccessResponse) {
         <label for="amount">Amount:</label><br>
         <input id="amount" name="amount" style="width:100px" />
         <p>
-            <input type="submit" value="Execute a new payment based on this">
+            <input type="submit" value="Execute a new payment based on this reservation">
         </p>
     </form>
     <?php

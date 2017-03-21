@@ -96,12 +96,12 @@ if ($response instanceof SuccessResponse) {
     <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="submit" value="cancel the payment">
+        <input type="submit" value="Cancel the payment">
     </form>
 
     <form action="pay.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="submit" value="Execute a new payment based on this">
+        <input type="submit" value="Execute a new payment based on this payment">
     </form>
 
     <form action="credit.php" method="post">
@@ -109,7 +109,7 @@ if ($response instanceof SuccessResponse) {
         <label for="amount">Amount:</label>
         <input id="amount" name="amount" style="width:100px" />
         <p>
-            <input type="submit" value="Execute a fund / credit based on this">
+            <input type="submit" value="Execute a credit based on this payment">
         </p>
     </form>
     <?php

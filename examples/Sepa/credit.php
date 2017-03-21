@@ -7,6 +7,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 
 use Wirecard\PaymentSdk\Config;
+use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Mandate;
 use Wirecard\PaymentSdk\Entity\Money;
@@ -30,7 +31,7 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 // Create and add a configuration object with the settings for SEPA
 $sepaMAID = '4c901196-eff7-411e-82a3-5ef6b6860d64';
 $sepaKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
-$sepaConfig = new Config\PaymentMethodConfig(SepaTransaction::NAME, $sepaMAID, $sepaKey);
+$sepaConfig = new PaymentMethodConfig(SepaTransaction::NAME, $sepaMAID, $sepaKey);
 $config->add($sepaConfig);
 
 
@@ -90,11 +91,11 @@ if ($response instanceof SuccessResponse) {
     <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="submit" value="cancel the credit">
+        <input type="submit" value="Cancel the credit">
     </form>
     <form action="credit.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="submit" value="Execute a new credit based on this">
+        <input type="submit" value="Execute a new credit based on this credit">
     </form>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
