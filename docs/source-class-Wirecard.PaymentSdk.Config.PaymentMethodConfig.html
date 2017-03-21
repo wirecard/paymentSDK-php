@@ -92,10 +92,11 @@
 			<ul>
 				<li><a href="class-Wirecard.PaymentSdk.Config.Config.html">Wirecard\PaymentSdk\Config\Config</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Config.PaymentMethodConfig.html">Wirecard\PaymentSdk\Config\PaymentMethodConfig</a></li>
-				<li><a href="class-Wirecard.PaymentSdk.Config.PaymentMethodConfigCollection.html">Wirecard\PaymentSdk\Config\PaymentMethodConfigCollection</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Config.SepaConfig.html">Wirecard\PaymentSdk\Config\SepaConfig</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.AccountHolder.html">Wirecard\PaymentSdk\Entity\AccountHolder</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.FormFieldMap.html">Wirecard\PaymentSdk\Entity\FormFieldMap</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.Item.html">Wirecard\PaymentSdk\Entity\Item</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.ItemCollection.html">Wirecard\PaymentSdk\Entity\ItemCollection</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Mandate.html">Wirecard\PaymentSdk\Entity\Mandate</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Money.html">Wirecard\PaymentSdk\Entity\Money</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Redirect.html">Wirecard\PaymentSdk\Entity\Redirect</a></li>
@@ -113,6 +114,7 @@
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.Operation.html">Wirecard\PaymentSdk\Transaction\Operation</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.PayPalTransaction.html">Wirecard\PaymentSdk\Transaction\PayPalTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html">Wirecard\PaymentSdk\Transaction\SepaTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.SofortTransaction.html">Wirecard\PaymentSdk\Transaction\SofortTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.ThreeDCreditCardTransaction.html">Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.TransactionService.html">Wirecard\PaymentSdk\TransactionService</a></li>
@@ -121,6 +123,7 @@
 			<h3>Interfaces</h3>
 			<ul>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.MappableEntity.html">Wirecard\PaymentSdk\Entity\MappableEntity</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.Reservable.html">Wirecard\PaymentSdk\Transaction\Reservable</a></li>
 			</ul>
 
 
@@ -128,6 +131,7 @@
 			<ul>
 				<li><a href="class-Wirecard.PaymentSdk.Exception.MalformedResponseException.html">Wirecard\PaymentSdk\Exception\MalformedResponseException</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Exception.MandatoryFieldMissingException.html">Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Exception.UnconfiguredPaymentMethodException.html">Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Exception.UnsupportedOperationException.html">Wirecard\PaymentSdk\Exception\UnsupportedOperationException</a></li>
 			</ul>
 
@@ -180,7 +184,7 @@
 </span><span id="38" class="l"><a href="#38"> 38 </a>    <span class="php-comment">/**
 </span></span><span id="39" class="l"><a href="#39"> 39 </a><span class="php-comment">     * @var string
 </span></span><span id="40" class="l"><a href="#40"> 40 </a><span class="php-comment">     */</span>
-</span><span id="41" class="l"><a href="#41"> 41 </a>    <span class="php-keyword1">private</span> <span class="php-var">$paymentMethodName</span>;
+</span><span id="41" class="l"><a href="#41"> 41 </a>    <span class="php-keyword1">protected</span> <span class="php-var">$paymentMethodName</span>;
 </span><span id="42" class="l"><a href="#42"> 42 </a>
 </span><span id="43" class="l"><a href="#43"> 43 </a>    <span class="php-comment">/**
 </span></span><span id="44" class="l"><a href="#44"> 44 </a><span class="php-comment">     * @var string
@@ -249,6 +253,6 @@
 	</div>
 </div>
 <script src="resources/combined.js?cfd636dbffd7235c2f8960621ad1ba069499eba1"></script>
-<script src="elementlist.js?dcea314e7819ae4eece9367e452f6f43a4df7140"></script>
+<script src="elementlist.js?8fbd967446d29525d6da974b82fcea8ddbf31e9d"></script>
 </body>
 </html>

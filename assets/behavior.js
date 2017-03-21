@@ -47,40 +47,81 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                     "title": "3-D Secure purchase for credit card",
                     "slug": "3-d-secure-purchase-for-credit-card"
                   },
-                  "depth": 1
-                }, {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Required objects",
-                    "slug": "required-objects"
-                  },
                   "depth": 1,
                   "children": [
                     {
                       "type": "heading",
                       "data": {
-                        "level": 3,
-                        "title": "Config",
-                        "slug": "config"
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
                       },
-                      "depth": 3
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Connection",
+                                "slug": "connection"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Credit Card 3-D",
+                                "slug": "credit-card-3-d"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3
+                        }
+                      ]
                     }, {
                       "type": "heading",
                       "data": {
-                        "level": 3,
+                        "level": 2,
                         "title": "Transaction",
                         "slug": "transaction"
                       },
-                      "depth": 3
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
                     }, {
                       "type": "heading",
                       "data": {
-                        "level": 3,
+                        "level": 2,
                         "title": "Response handling",
                         "slug": "response-handling"
                       },
-                      "depth": 3
+                      "depth": 2
                     }
                   ]
                 }
@@ -111,40 +152,81 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                     "title": "Reservation for credit card with 3-D secure",
                     "slug": "reservation-for-credit-card-with-3-d-secure"
                   },
-                  "depth": 1
-                }, {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Required objects",
-                    "slug": "required-objects"
-                  },
                   "depth": 1,
                   "children": [
                     {
                       "type": "heading",
                       "data": {
-                        "level": 3,
-                        "title": "Config",
-                        "slug": "config"
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
                       },
-                      "depth": 3
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Configuration for Credit Card 3-D",
+                                "slug": "configuration-for-credit-card-3-d"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3
+                        }
+                      ]
                     }, {
                       "type": "heading",
                       "data": {
-                        "level": 3,
+                        "level": 2,
                         "title": "Transaction",
                         "slug": "transaction"
                       },
-                      "depth": 3
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
                     }, {
                       "type": "heading",
                       "data": {
-                        "level": 3,
+                        "level": 2,
                         "title": "Response handling",
                         "slug": "response-handling"
                       },
-                      "depth": 3
+                      "depth": 2
                     }
                   ]
                 }
@@ -192,6 +274,52 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                             "level": 3,
                             "title": "Config",
                             "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Configuration for Credit Card SSL",
+                                "slug": "configuration-for-credit-card-ssl"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Configuration for Credit Card 3-D",
+                                "slug": "configuration-for-credit-card-3-d"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
                           },
                           "depth": 3
                         }
@@ -251,6 +379,44 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                             "level": 3,
                             "title": "Config",
                             "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Configuration for Credit Card SSL",
+                                "slug": "configuration-for-credit-card-ssl"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
                           },
                           "depth": 3
                         }, {
@@ -319,6 +485,52 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                             "title": "Config",
                             "slug": "config"
                           },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Configuration for Credit Card SSL",
+                                "slug": "configuration-for-credit-card-ssl"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
                           "depth": 3
                         }
                       ]
@@ -377,6 +589,52 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                             "level": 3,
                             "title": "Config",
                             "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Configuration for Credit Card SSL",
+                                "slug": "configuration-for-credit-card-ssl"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Configuration for Credit Card 3-D",
+                                "slug": "configuration-for-credit-card-3-d"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
                           },
                           "depth": 3
                         }
@@ -437,6 +695,52 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                             "title": "Config",
                             "slug": "config"
                           },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Configuration for Credit Card SSL",
+                                "slug": "configuration-for-credit-card-ssl"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Configuration for Credit Card 3-D",
+                                "slug": "configuration-for-credit-card-3-d"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
                           "depth": 3
                         }
                       ]
@@ -496,6 +800,33 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                             "title": "Config",
                             "slug": "config"
                           },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Configuration for credit card SSL",
+                                "slug": "configuration-for-credit-card-ssl"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
                           "depth": 3
                         }
                       ]
@@ -506,7 +837,18 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                         "title": "Transaction",
                         "slug": "transaction"
                       },
-                      "depth": 2
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
                     }, {
                       "type": "heading",
                       "data": {
@@ -563,6 +905,33 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                             "title": "Config",
                             "slug": "config"
                           },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Configuration for credit card SSL",
+                                "slug": "configuration-for-credit-card-ssl"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
                           "depth": 3
                         }
                       ]
@@ -573,7 +942,18 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                         "title": "Transaction",
                         "slug": "transaction"
                       },
-                      "depth": 2
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
                     }, {
                       "type": "heading",
                       "data": {
@@ -607,6 +987,216 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "foldPrefix": "^",
                   "name": "PHP"
                 },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/PayPal/cancel.php",
+                "projectPath": "examples/PayPal/cancel.php",
+                "targetPath": "examples/PayPal/cancel",
+                "pageTitle": "examples/PayPal/cancel",
+                "title": "cancel"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Cancelling a transaction",
+                    "slug": "cancelling-a-transaction"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "PayPal",
+                                "slug": "paypal"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/PayPal/credit.php",
+                "projectPath": "examples/PayPal/credit.php",
+                "targetPath": "examples/PayPal/credit",
+                "pageTitle": "examples/PayPal/credit",
+                "title": "credit"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Credit via PayPal",
+                    "slug": "credit-via-paypal"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Config for PayPal",
+                                "slug": "config-for-paypal"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Redirect URLs",
+                            "slug": "redirect-urls"
+                          },
+                          "depth": 3
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Notification URL",
+                            "slug": "notification-url"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
                 "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/PayPal/notify.php",
                 "projectPath": "examples/PayPal/notify.php",
                 "targetPath": "examples/PayPal/notify",
@@ -627,27 +1217,68 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                     {
                       "type": "heading",
                       "data": {
-                        "level": 3,
-                        "title": "Config",
-                        "slug": "config"
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
                       },
-                      "depth": 3
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "PayPal",
+                                "slug": "paypal"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }
+                      ]
                     }, {
                       "type": "heading",
                       "data": {
-                        "level": 3,
-                        "title": "Transaction Service",
-                        "slug": "transaction-service"
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
                       },
-                      "depth": 3
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 3,
-                        "title": "Notification status",
-                        "slug": "notification-status"
-                      },
-                      "depth": 3
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Notification status",
+                            "slug": "notification-status"
+                          },
+                          "depth": 3
+                        }
+                      ]
                     }
                   ]
                 }
@@ -683,59 +1314,297 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                     {
                       "type": "heading",
                       "data": {
-                        "level": 3,
-                        "title": "Money object",
-                        "slug": "money-object"
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
                       },
-                      "depth": 3
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "PayPal",
+                                "slug": "paypal"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3
+                        }
+                      ]
                     }, {
                       "type": "heading",
                       "data": {
-                        "level": 3,
-                        "title": "Redirect URLs",
-                        "slug": "redirect-urls"
-                      },
-                      "depth": 3
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 3,
-                        "title": "Notification URL",
-                        "slug": "notification-url"
-                      },
-                      "depth": 3
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 3,
+                        "level": 2,
                         "title": "Transaction",
                         "slug": "transaction"
                       },
-                      "depth": 3
-                    }, {
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/PayPal/pay-based-on-reserve.php",
+                "projectPath": "examples/PayPal/pay-based-on-reserve.php",
+                "targetPath": "examples/PayPal/pay-based-on-reserve",
+                "pageTitle": "examples/PayPal/pay-based-on-reserve",
+                "title": "pay-based-on-reserve"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Payment after a reservation",
+                    "slug": "payment-after-a-reservation"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
                       "type": "heading",
                       "data": {
-                        "level": 3,
-                        "title": "Config",
-                        "slug": "config"
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
                       },
-                      "depth": 3
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Configuration for PayPal",
+                                "slug": "configuration-for-paypal"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3
+                        }
+                      ]
                     }, {
                       "type": "heading",
                       "data": {
-                        "level": 3,
-                        "title": "Transaction Service",
-                        "slug": "transaction-service"
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
                       },
-                      "depth": 3
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
                     }, {
                       "type": "heading",
                       "data": {
-                        "level": 3,
+                        "level": 2,
                         "title": "Response handling",
                         "slug": "response-handling"
                       },
-                      "depth": 3
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/PayPal/reserve.php",
+                "projectPath": "examples/PayPal/reserve.php",
+                "targetPath": "examples/PayPal/reserve",
+                "pageTitle": "examples/PayPal/reserve",
+                "title": "reserve"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "PayPal reserve transaction",
+                    "slug": "paypal-reserve-transaction"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "PayPal",
+                                "slug": "paypal"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Order items",
+                                "slug": "order-items"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
                     }
                   ]
                 }
@@ -771,27 +1640,68 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                     {
                       "type": "heading",
                       "data": {
-                        "level": 3,
-                        "title": "Config",
-                        "slug": "config"
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
                       },
-                      "depth": 3
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "PayPal",
+                                "slug": "paypal"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }
+                      ]
                     }, {
                       "type": "heading",
                       "data": {
-                        "level": 3,
-                        "title": "Transaction Service",
-                        "slug": "transaction-service"
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
                       },
-                      "depth": 3
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
                     }, {
                       "type": "heading",
                       "data": {
-                        "level": 3,
+                        "level": 2,
                         "title": "Payment results",
                         "slug": "payment-results"
                       },
-                      "depth": 3
+                      "depth": 2
                     }
                   ]
                 }
@@ -850,17 +1760,47 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                             "title": "Config",
                             "slug": "config"
                           },
-                          "depth": 3
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "SEPA configuration",
+                                "slug": "sepa-configuration"
+                              },
+                              "depth": 4
+                            }
+                          ]
                         }
                       ]
                     }, {
                       "type": "heading",
                       "data": {
                         "level": 2,
-                        "title": "Cancelling the transaction",
-                        "slug": "cancelling-the-transaction"
+                        "title": "Transaction",
+                        "slug": "transaction"
                       },
-                      "depth": 2
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
                     }, {
                       "type": "heading",
                       "data": {
@@ -896,19 +1836,57 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "type": "heading",
                   "data": {
                     "level": 1,
-                    "title": "SEPA credit",
-                    "slug": "sepa-credit"
+                    "title": "SEPA credit transfer",
+                    "slug": "sepa-credit-transfer"
                   },
                   "depth": 1,
                   "children": [
                     {
                       "type": "heading",
                       "data": {
-                        "level": 3,
-                        "title": "Config",
-                        "slug": "config"
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
                       },
-                      "depth": 3
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "SEPA configuration",
+                                "slug": "sepa-configuration"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3
+                        }
+                      ]
                     }, {
                       "type": "heading",
                       "data": {
@@ -916,7 +1894,18 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                         "title": "Transaction",
                         "slug": "transaction"
                       },
-                      "depth": 2
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
                     }, {
                       "type": "heading",
                       "data": {
@@ -960,11 +1949,41 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                     {
                       "type": "heading",
                       "data": {
-                        "level": 3,
-                        "title": "Config",
-                        "slug": "config"
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
                       },
-                      "depth": 3
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3
+                        }
+                      ]
                     }, {
                       "type": "heading",
                       "data": {
@@ -972,7 +1991,18 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                         "title": "Transaction",
                         "slug": "transaction"
                       },
-                      "depth": 2
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
                     }, {
                       "type": "heading",
                       "data": {
@@ -1029,6 +2059,25 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                             "title": "Config",
                             "slug": "config"
                           },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
                           "depth": 3
                         }
                       ]
@@ -1039,7 +2088,18 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                         "title": "Transaction",
                         "slug": "transaction"
                       },
-                      "depth": 2
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
                     }, {
                       "type": "heading",
                       "data": {
@@ -1050,6 +2110,241 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                       "depth": 2
                     }
                   ]
+                }
+              ]
+            }
+          ]
+        }, {
+          "type": "folder",
+          "data": {
+            "path": "examples/Sofort",
+            "title": "Sofort"
+          },
+          "depth": 2,
+          "children": [
+            {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Sofort/pay.php",
+                "projectPath": "examples/Sofort/pay.php",
+                "targetPath": "examples/Sofort/pay",
+                "pageTitle": "examples/Sofort/pay",
+                "title": "pay"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Sofortbanking payment transaction",
+                    "slug": "sofortbanking-payment-transaction"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Sofort/return.php",
+                "projectPath": "examples/Sofort/return.php",
+                "targetPath": "examples/Sofort/return",
+                "pageTitle": "examples/Sofort/return",
+                "title": "return"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Sofortbanking return after transaction",
+                    "slug": "sofortbanking-return-after-transaction"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Payment results",
+                        "slug": "payment-results"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }, {
+          "type": "folder",
+          "data": {
+            "path": "examples/inc",
+            "title": "inc"
+          },
+          "depth": 2,
+          "children": [
+            {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/common.php",
+                "projectPath": "examples/inc/common.php",
+                "targetPath": "examples/inc/common",
+                "pageTitle": "examples/inc/common",
+                "title": "common"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Custom functions",
+                    "slug": "custom-functions"
+                  },
+                  "depth": 1
                 }
               ]
             }

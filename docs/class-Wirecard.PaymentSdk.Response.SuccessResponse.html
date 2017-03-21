@@ -146,7 +146,7 @@
 		<b>Namespace:</b> <a href="namespace-Wirecard.html">Wirecard</a>\<a href="namespace-Wirecard.PaymentSdk.html">PaymentSdk</a>\<a href="namespace-Wirecard.PaymentSdk.Response.html">Response</a><br>
 		<b>Package:</b> Wirecard\PaymentSdk\Response<br>
 
-			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.Response.SuccessResponse.html#35-80" title="Go to source code">Response/SuccessResponse.php</a>
+			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.Response.SuccessResponse.html#37-101" title="Go to source code">Response/SuccessResponse.php</a>
 		<br>
 	</div>
 
@@ -166,7 +166,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#___construct">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Response.SuccessResponse.html#51-63" title="Go to source code">__construct</a>( <span>string <var>$rawData</var></span>, <span><code><a href="class-Wirecard.PaymentSdk.Entity.StatusCollection.html">Wirecard\PaymentSdk\Entity\StatusCollection</a></code> <var>$statusCollection</var></span>, <span>string <var>$transactionId</var></span>, <span>string <var>$providerTransactionId</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Response.SuccessResponse.html#53-63" title="Go to source code">__construct</a>( <span>SimpleXMLElement <var>$simpleXml</var></span> )</code>
 
 			<div class="description short">
 				<p>SuccessResponse constructor.</p>
@@ -178,13 +178,7 @@
 
 					<h4>Parameters</h4>
 					<div class="list"><dl>
-						<dt><var>$rawData</var></dt>
-						<dd></dd>
-						<dt><var>$statusCollection</var></dt>
-						<dd></dd>
-						<dt><var>$transactionId</var></dt>
-						<dd></dd>
-						<dt><var>$providerTransactionId</var></dt>
+						<dt><var>$simpleXml</var></dt>
 						<dd></dd>
 					</dl></div>
 
@@ -208,7 +202,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getTransactionId">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Response.SuccessResponse.html#65-71" title="Go to source code">getTransactionId</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Response.SuccessResponse.html#86-92" title="Go to source code">getTransactionId</a>( )</code>
 
 			<div class="description short">
 				
@@ -241,7 +235,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getProviderTransactionId">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Response.SuccessResponse.html#73-79" title="Go to source code">getProviderTransactionId</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Response.SuccessResponse.html#94-100" title="Go to source code">getProviderTransactionId</a>( )</code>
 
 			<div class="description short">
 				
@@ -269,8 +263,11 @@
 		<div class="panel panel-default">
 	        <div class="panel-heading"><h3>Methods inherited from <a href="class-Wirecard.PaymentSdk.Response.Response.html#methods">Wirecard\PaymentSdk\Response\Response</a></h3></div>
 			<p class="elementList">
+				<code><a href="class-Wirecard.PaymentSdk.Response.Response.html#_findElement">findElement()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Response.Response.html#_getRawData">getRawData()</a></code>, 
-				<code><a href="class-Wirecard.PaymentSdk.Response.Response.html#_getStatusCollection">getStatusCollection()</a></code>
+				<code><a href="class-Wirecard.PaymentSdk.Response.Response.html#_getRequestId">getRequestId()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.Response.Response.html#_getStatusCollection">getStatusCollection()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.Response.Response.html#_getTransactionType">getTransactionType()</a></code>
 			</p>
 		</div>
 
@@ -278,6 +275,22 @@
 
 
 
+
+
+
+
+
+		<div class="panel panel-default">
+            <div class="panel-heading"><h2>Properties summary</h2></div>
+		</div>
+
+		<div class="panel panel-default">
+            <div class="panel-heading"><h3>Properties inherited from <a href="class-Wirecard.PaymentSdk.Response.Response.html#properties">Wirecard\PaymentSdk\Response\Response</a></h3></div>
+			<p class="elementList">
+				<code><a href="class-Wirecard.PaymentSdk.Response.Response.html#$simpleXml"><var>$simpleXml</var></a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.Response.Response.html#$transactionType"><var>$transactionType</var></a></code>
+			</p>
+		</div>
 
 
 

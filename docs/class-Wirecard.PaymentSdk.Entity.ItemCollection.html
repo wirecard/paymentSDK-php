@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 
-	<title>Class Wirecard\PaymentSdk\Config\PaymentMethodConfigCollection</title>
+	<title>Class Wirecard\PaymentSdk\Entity\ItemCollection</title>
 
 	<link rel="stylesheet" href="resources/bootstrap.min.css?973e37a8502921d56bc02bb55321f45b072b6f71">
 	<link rel="stylesheet" href="resources/style.css?49f43d3208c5d7e33fa16d36107a345bf11cc00d">
@@ -28,7 +28,7 @@
 
 				<ul class="nav navbar-nav">
 					<li>
-						<a href="namespace-Wirecard.PaymentSdk.Config.html" title="Summary of Wirecard\PaymentSdk\Config"><span>Namespace</span></a>
+						<a href="namespace-Wirecard.PaymentSdk.Entity.html" title="Summary of Wirecard\PaymentSdk\Entity"><span>Namespace</span></a>
 					</li>
 					<li class="active">
 <span>Class</span>					</li>
@@ -58,11 +58,11 @@
 							PaymentSdk<span></span>
 						</a>
 							<ul>
-					<li class="active">
+					<li>
 						<a href="namespace-Wirecard.PaymentSdk.Config.html">
 							Config						</a>
 							</li>
-					<li>
+					<li class="active">
 						<a href="namespace-Wirecard.PaymentSdk.Entity.html">
 							Entity						</a>
 							</li>
@@ -90,12 +90,21 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
-				<li><a href="class-Wirecard.PaymentSdk.Config.Config.html">Config</a></li>
-				<li><a href="class-Wirecard.PaymentSdk.Config.PaymentMethodConfig.html">PaymentMethodConfig</a></li>
-				<li class="active"><a href="class-Wirecard.PaymentSdk.Config.PaymentMethodConfigCollection.html">PaymentMethodConfigCollection</a></li>
-				<li><a href="class-Wirecard.PaymentSdk.Config.SepaConfig.html">SepaConfig</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.AccountHolder.html">AccountHolder</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.FormFieldMap.html">FormFieldMap</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.Item.html">Item</a></li>
+				<li class="active"><a href="class-Wirecard.PaymentSdk.Entity.ItemCollection.html">ItemCollection</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.Mandate.html">Mandate</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.Money.html">Money</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.Redirect.html">Redirect</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.Status.html">Status</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.StatusCollection.html">StatusCollection</a></li>
 			</ul>
 
+			<h3>Interfaces</h3>
+			<ul>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.MappableEntity.html">MappableEntity</a></li>
+			</ul>
 
 
 
@@ -109,15 +118,20 @@
 <div id="right">
 	<div id="rightInner">
 <div id="content" class="class">
-	<h1>Class PaymentMethodConfigCollection</h1>
+	<h1>Class ItemCollection</h1>
 
 
+	<div class="description">
+	<p>Class ItemCollection</p>
+	</div>
 
 	<dl class="tree well">
 		<dd style="padding-left:0px">
-<b><span>Wirecard\PaymentSdk\Config\PaymentMethodConfigCollection</span></b>			
+<b><span>Wirecard\PaymentSdk\Entity\ItemCollection</span></b>			
 			 implements 
-<span>IteratorAggregate</span>
+<span>IteratorAggregate</span>, 
+			
+				<a href="class-Wirecard.PaymentSdk.Entity.MappableEntity.html"><span>Wirecard\PaymentSdk\Entity\MappableEntity</span></a>
 			
 			
 		</dd>
@@ -133,10 +147,10 @@
 	<div class="alert alert-info">
 		
 		
-		<b>Namespace:</b> <a href="namespace-Wirecard.html">Wirecard</a>\<a href="namespace-Wirecard.PaymentSdk.html">PaymentSdk</a>\<a href="namespace-Wirecard.PaymentSdk.Config.html">Config</a><br>
-		
+		<b>Namespace:</b> <a href="namespace-Wirecard.html">Wirecard</a>\<a href="namespace-Wirecard.PaymentSdk.html">PaymentSdk</a>\<a href="namespace-Wirecard.PaymentSdk.Entity.html">Entity</a><br>
+		<b>Package:</b> Wirecard\PaymentSdk\Entity<br>
 
-			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.Config.PaymentMethodConfigCollection.html#34-68" title="Go to source code">Config/PaymentMethodConfigCollection.php</a>
+			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.Entity.ItemCollection.html#37-87" title="Go to source code">Entity/ItemCollection.php</a>
 		<br>
 	</div>
 
@@ -145,6 +159,50 @@
 		<div class="panel panel-default">
 			<div class="panel-heading"><h2>Methods summary</h2></div>
 			<table class="summary table table-bordered table-striped methods" id="methods">
+		<tr data-order="getIterator" id="_getIterator">
+
+			<td class="attributes"><code>
+				 public 
+				Traversable
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getIterator">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.ItemCollection.html#48-58" title="Go to source code">getIterator</a>( )</code>
+
+			<div class="description short">
+				<p>Retrieve an external iterator</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Retrieve an external iterator</p>
+
+
+
+					<h4>Returns</h4>
+					<div class="list">
+						Traversable<br><p>An instance of an object implementing <b>Iterator</b> or
+<b>Traversable</b></p>
+					</div>
+
+
+					<h4>Since</h4>
+					<div class="list">
+							5.0.0<br>
+					</div>
+					<h4>Link</h4>
+					<div class="list">
+							<a href="http://php.net/manual/en/iteratoraggregate.getiterator.php">http://php.net/manual/en/iteratoraggregate.getiterator.php</a><br>
+					</div>
+
+
+					<h4>Implementation of</h4>
+					<div class="list"><code>IteratorAggregate::getIterator()</code></div>
+			</div>
+			</div></td>
+		</tr>
 		<tr data-order="add" id="_add">
 
 			<td class="attributes"><code>
@@ -156,7 +214,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_add">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Config.PaymentMethodConfigCollection.html#41-50" title="Go to source code">add</a>( <span><code><a href="class-Wirecard.PaymentSdk.Config.PaymentMethodConfig.html">Wirecard\PaymentSdk\Config\PaymentMethodConfig</a></code> <var>$paymentMethodConfig</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.ItemCollection.html#60-69" title="Go to source code">add</a>( <span><code><a href="class-Wirecard.PaymentSdk.Entity.Item.html">Wirecard\PaymentSdk\Entity\Item</a></code> <var>$item</var></span> )</code>
 
 			<div class="description short">
 				
@@ -168,7 +226,7 @@
 
 					<h4>Parameters</h4>
 					<div class="list"><dl>
-						<dt><var>$paymentMethodConfig</var></dt>
+						<dt><var>$item</var></dt>
 						<dd></dd>
 					</dl></div>
 
@@ -183,56 +241,18 @@
 			</div>
 			</div></td>
 		</tr>
-		<tr data-order="get" id="_get">
+		<tr data-order="mappedProperties" id="_mappedProperties">
 
 			<td class="attributes"><code>
 				 public 
-				<code><a href="class-Wirecard.PaymentSdk.Config.PaymentMethodConfig.html">Wirecard\PaymentSdk\Config\PaymentMethodConfig</a></code>
+				array
 				
 				</code>
 			</td>
 
 			<td class="name"><div>
-			<a class="anchor" href="#_get">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Config.PaymentMethodConfigCollection.html#52-59" title="Go to source code">get</a>( <span>string <var>$paymentMethodName</var></span> )</code>
-
-			<div class="description short">
-				
-			</div>
-
-			<div class="description detailed hidden">
-				
-
-
-					<h4>Parameters</h4>
-					<div class="list"><dl>
-						<dt><var>$paymentMethodName</var></dt>
-						<dd></dd>
-					</dl></div>
-
-					<h4>Returns</h4>
-					<div class="list">
-						<code><a href="class-Wirecard.PaymentSdk.Config.PaymentMethodConfig.html">Wirecard\PaymentSdk\Config\PaymentMethodConfig</a></code>
-					</div>
-
-
-
-
-			</div>
-			</div></td>
-		</tr>
-		<tr data-order="getIterator" id="_getIterator">
-
-			<td class="attributes"><code>
-				 public 
-				ArrayIterator
-				
-				</code>
-			</td>
-
-			<td class="name"><div>
-			<a class="anchor" href="#_getIterator">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Config.PaymentMethodConfigCollection.html#61-67" title="Go to source code">getIterator</a>( )</code>
+			<a class="anchor" href="#_mappedProperties">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.ItemCollection.html#71-86" title="Go to source code">mappedProperties</a>( )</code>
 
 			<div class="description short">
 				
@@ -245,14 +265,14 @@
 
 					<h4>Returns</h4>
 					<div class="list">
-						ArrayIterator
+						array
 					</div>
 
 
 
 
 					<h4>Implementation of</h4>
-					<div class="list"><code>IteratorAggregate::getIterator()</code></div>
+					<div class="list"><code><a href="class-Wirecard.PaymentSdk.Entity.MappableEntity.html#_mappedProperties">Wirecard\PaymentSdk\Entity\MappableEntity::mappedProperties()</a></code></div>
 			</div>
 			</div></td>
 		</tr>
