@@ -69,7 +69,7 @@ if ($response instanceof SuccessResponse) {
     } else {
         $maid = $ccard3dMAID;
     }
-    echo getTransactionLink($maid, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $maid, $response->getTransactionId());
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
     // In our example we iterate over all errors and echo them out.

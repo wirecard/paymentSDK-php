@@ -53,7 +53,7 @@ if ($response instanceof SuccessResponse) {
         echo 'Payment';
     }
     echo ' successfully completed.<br>';
-    echo getTransactionLink($paypalMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $paypalMAID, $response->getTransactionId());
     ?>
     <br>
     <?php

@@ -72,7 +72,7 @@ $response = $transactionService->pay($transaction);
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo 'Payment successfully completed.<br>';
-    echo getTransactionLink($paypalMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $paypalMAID, $response->getTransactionId());
     ?>
     <br>
     <form action="cancel.php" method="post">

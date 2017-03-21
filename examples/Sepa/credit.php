@@ -86,7 +86,7 @@ $response = $transactionService->credit($transaction);
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo 'Credit successfully completed.<br>';
-    echo getTransactionLink($sepaMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $sepaMAID, $response->getTransactionId());
     ?>
     <br>
     <form action="cancel.php" method="post">
@@ -95,7 +95,7 @@ if ($response instanceof SuccessResponse) {
     </form>
     <form action="credit.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="submit" value="Execute a new credit based on this credit">
+        <input type="submit" value="Request a new credit based on this credit">
     </form>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
