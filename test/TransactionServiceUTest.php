@@ -126,50 +126,6 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\Psr\Log\LoggerInterface', $method());
     }
 
-    public function testGetHttpClient()
-    {
-        $helper = function () {
-            return $this->getHttpClient();
-        };
-
-        $method = $helper->bindTo($this->instance, $this->instance);
-
-        $this->assertInstanceOf('\GuzzleHttp\Client', $method());
-    }
-
-    public function testGetRequestMapper()
-    {
-        $helper = function () {
-            return $this->getRequestMapper();
-        };
-
-        $method = $helper->bindTo($this->instance, $this->instance);
-
-        $this->assertInstanceOf('\Wirecard\PaymentSdk\Mapper\RequestMapper', $method());
-    }
-
-    public function testGetResponseMapper()
-    {
-        $helper = function () {
-            return $this->getResponseMapper();
-        };
-
-        $method = $helper->bindTo($this->instance, $this->instance);
-
-        $this->assertInstanceOf('\Wirecard\PaymentSdk\Mapper\ResponseMapper', $method());
-    }
-
-    public function testGetRequestIdGenerator()
-    {
-        $helper = function () {
-            return $this->getRequestIdGenerator();
-        };
-
-        $method = $helper->bindTo($this->instance, $this->instance);
-
-        $this->assertInstanceOf('Closure', $method());
-    }
-
     /**
      * @param $response
      * @param $class
@@ -495,15 +451,20 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($successResponse, $result);
     }
 
-
-    public function testRequestIdGeneratorRandomness()
+    public function testRequestIdRandomness()
     {
-        $this->instance = new TransactionService($this->config, null, null, null, null, null);
+        $bindHelper = function () {
+            return $this->requestIdGenerator;
+        };
 
-        $requestId = call_user_func($this->instance->getRequestIdGenerator());
+        $bound = $bindHelper->bindTo($this->instance, $this->instance);
+
+        $requestId = call_user_func($bound());
         usleep(1);
-        $laterRequestId = call_user_func($this->instance->getRequestIdGenerator());
+        $laterRequestId = call_user_func($bound());
 
+        $this->assertTrue(is_string($requestId));
+        $this->assertTrue(is_string($laterRequestId));
         $this->assertNotEquals($requestId, $laterRequestId);
     }
 
