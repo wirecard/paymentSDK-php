@@ -54,6 +54,7 @@ class IdealTransactionUTest extends \PHPUnit_Framework_TestCase
         $redirect = new Redirect(self::SUCCESS_URL, self::CANCEL_URL);
         $this->tx = new IdealTransaction();
         $this->tx->setRedirect($redirect);
+        $this->tx->setBic(self::BIC);
         $this->tx->setAmount(new Money(33, 'USD'));
     }
 
@@ -83,6 +84,7 @@ class IdealTransactionUTest extends \PHPUnit_Framework_TestCase
             ],
             'cancel-redirect-url' => self::CANCEL_URL,
             'success-redirect-url' => self::SUCCESS_URL,
+            'bank-account' => ['bic' => self::BIC]
         ];
 
         $this->tx->setOperation(Operation::PAY);
