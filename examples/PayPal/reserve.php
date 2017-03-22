@@ -100,6 +100,6 @@ if ($response instanceof InteractionResponse) {
         $severity = ucfirst($status->getSeverity());
         $code = $status->getCode();
         $description = $status->getDescription();
-        echo sprintf('%s with code %s and message "%s" occured.<br>', $severity, $code, $description);
+        echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 }
