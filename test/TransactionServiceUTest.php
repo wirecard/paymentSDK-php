@@ -451,6 +451,23 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($successResponse, $result);
     }
 
+    public function testRequestIdRandomness()
+    {
+        $bindHelper = function () {
+            return $this->requestIdGenerator;
+        };
+
+        $bound = $bindHelper->bindTo($this->instance, $this->instance);
+
+        $requestId = call_user_func($bound());
+        usleep(1);
+        $laterRequestId = call_user_func($bound());
+
+        $this->assertTrue(is_string($requestId));
+        $this->assertTrue(is_string($laterRequestId));
+        $this->assertNotEquals($requestId, $laterRequestId);
+    }
+
     /**
      * @param $tx
      * @return SuccessResponse
