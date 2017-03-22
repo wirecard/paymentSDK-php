@@ -41,6 +41,18 @@ class PaysafecardTransaction extends Transaction implements Reservable
     const NAME = 'paysafecard';
 
     /**
+     * return string
+     */
+    public function getEndpoint()
+    {
+        if ($this->operation === Operation::RESERVE) {
+            return $this::ENDPOINT_PAYMENT_METHODS;
+        } else {
+            return $this::ENDPOINT_PAYMENTS;
+        }
+    }
+
+    /**
      * @return array
      */
     protected function mappedSpecificProperties()
