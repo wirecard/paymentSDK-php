@@ -30,61 +30,65 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Transaction;
+namespace WirecardTest\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Transaction\IdealTransaction;
+use Wirecard\PaymentSdk\Transaction\Operation;
 
-/**
- * Class IdealTransaction
- * @package Wirecard\PaymentSdk\Transaction
- */
-class IdealTransaction extends Transaction
+class IdealTransactionUTest extends \PHPUnit_Framework_TestCase
 {
-    const NAME = 'ideal';
+    const BIC = 'INGBNL2A';
+    const SUCCESS_URL = 'http://www.example.com/success';
+    const CANCEL_URL = 'http://www.example.com/cancel';
+    const DESCRIPTOR = 'dummy description';
 
     /**
-     * @var string
+     * @var IdealTransaction
      */
-    private $bic;
+    private $tx;
 
-    /**
-     * @var Redirect
-     */
-    private $redirect;
-
-    /**
-     * @param string $bic
-     */
-    public function setBic($bic)
+    public function setUp()
     {
-        $this->bic = $bic;
+        $redirect = new Redirect(self::SUCCESS_URL, self::CANCEL_URL);
+        $this->tx = new IdealTransaction();
+        $this->tx->setRedirect($redirect);
+        $this->tx->setAmount(new Money(33, 'USD'));
     }
 
     /**
-     * @param Redirect $redirect
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
      */
-    public function setRedirect($redirect)
+    public function testMapPropertiesUnsupportedOperation()
     {
-        $this->redirect = $redirect;
+        $this->tx->setOperation('non-existing');
+        $this->tx->mappedProperties();
     }
 
-    protected function mappedSpecificProperties()
+    public function testMappedProperties()
     {
-        $result = [
-            'cancel-redirect-url' => $this->redirect->getCancelUrl(),
-            'success-redirect-url' => $this->redirect->getSuccessUrl(),
+        $expectedResult = [
+            'transaction-type' => 'debit',
+            'requested-amount' => [
+                'currency' => 'USD',
+                'value' => '33'
+            ],
+            'payment-methods' => [
+                'payment-method' => [
+                    0 => [
+                        'name' => 'ideal'
+                    ]
+                ]
+            ],
+            'cancel-redirect-url' => self::CANCEL_URL,
+            'success-redirect-url' => self::SUCCESS_URL,
         ];
-        if (null !== $this->bic) {
-            $result['bank-account']['bic'] = $this->bic;
-        }
-        return $result;
-    }
 
-    /**
-     * @return string
-     */
-    protected function retrieveTransactionTypeForPay()
-    {
-        return $this::TYPE_DEBIT;
+        $this->tx->setOperation(Operation::PAY);
+
+        $result = $this->tx->mappedProperties();
+
+        $this->assertEquals($expectedResult, $result);
     }
 }
