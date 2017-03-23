@@ -87,10 +87,8 @@ class IdealTransaction extends Transaction
      */
     protected function mappedSpecificProperties()
     {
-        $successUrl = $this->redirect->getSuccessUrl()
-            . (parse_url($this->redirect->getSuccessUrl(), PHP_URL_QUERY) ? '&' : '?')
-            . 'request_id=' . $this->requestId;
-
+        $join = (parse_url($this->redirect->getSuccessUrl(), PHP_URL_QUERY) ? '&' : '?');
+        $successUrl = $this->redirect->getSuccessUrl() . $join . 'request_id=' . $this->requestId;
         $result = [
             'cancel-redirect-url' => $this->redirect->getCancelUrl(),
             'success-redirect-url' => $successUrl,
