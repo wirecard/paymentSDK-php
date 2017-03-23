@@ -1,5 +1,5 @@
 <?php
-// # PayPal notification
+// # Paysafecard notification
 // Wirecard sends a server-to-server request regarding any changes in the transaction status.
 
 // ## Required objects
@@ -12,7 +12,7 @@ use Monolog\Logger;
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
+use Wirecard\PaymentSdk\Transaction\PaysafecardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 // ### Config

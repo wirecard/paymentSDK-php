@@ -1,18 +1,16 @@
 <?php
-// # PayPal notification
-// Wirecard sends a server-to-server request regarding any changes in the transaction status.
+// # Cancelling a transaction
+// To cancel a transaction, a cancel request with the parent transaction is sent.
 
 // ## Required objects
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/../inc/common.php';
 
-
-use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
+use Wirecard\PaymentSdk\Transaction\PaysafecardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 // ### Config
@@ -36,32 +34,31 @@ $config->add($paysafecardConfig);
 
 // ## Transaction
 
+$transaction = new PaysafecardTransaction();
+$transaction->setParentTransactionId($_POST['parentTransactionId']);
+
 // ### Transaction Service
-// The `TransactionService` is used to determine the response from the service provider.
-$service = new TransactionService($config);
+// The _TransactionService_ is used to generate the request data needed for the generation of the UI.
+$transactionService = new TransactionService($config);
+$response = $transactionService->cancel($transaction);
 
-// We use Monolog as logger. Set up a logger for the notifications.
-$log = new Logger('Wirecard notifications');
-$log->pushHandler(new StreamHandler(__DIR__ . '/../../logs/notify.log', Logger::INFO));
-
-// ### Notification status
-// The notification are transmitted as _POST_ request and is handled via the `handleNotification` method.
-$notification = $service->handleNotification(file_get_contents('php://input'));
-
-// Log the notification for a successful transaction.
-if ($notification instanceof SuccessResponse) {
-    $log->info(sprintf('Transaction with id %s was successful.', $notification->getTransactionId()));
-// Log the notification for a failed transaction.
-} elseif ($notification instanceof FailureResponse) {
+// ## Response handling
+// The response from the service can be used for disambiguation.
+// In case of a successful transaction, a `SuccessResponse` object is returned.
+if ($response instanceof SuccessResponse) {
+    echo 'Reserve successfully cancelled.<br>';
+    echo getTransactionLink($baseUrl, $paysafecardMAID, $response->getTransactionId());
+// In case of a failed transaction, a `FailureResponse` object is returned.
+} elseif ($response instanceof FailureResponse) {
     // In our example we iterate over all errors and echo them out.
     // You should display them as error, warning or information based on the given severity.
-    foreach ($notification->getStatusCollection() as $status) {
+    foreach ($response->getStatusCollection() as $status) {
         /**
          * @var $status \Wirecard\PaymentSdk\Entity\Status
          */
         $severity = ucfirst($status->getSeverity());
         $code = $status->getCode();
         $description = $status->getDescription();
-        $log->warning(sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description));
+        echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 }
