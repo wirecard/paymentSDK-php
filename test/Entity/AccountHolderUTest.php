@@ -91,11 +91,8 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
 
     public function testMappedPropertiesWithAddress()
     {
-        $addr = new Address();
-        $addr->setCountryCode('AT');
-        $addr->setCity('Graz');
+        $addr = new Address('AT', 'Graz', 'Reininghausstraße 13a');
         $addr->setPostalCode('8020');
-        $addr->setStreet1('Reininghausstraße 13a');
 
         $this->accountHolder->setAddress($addr);
 

@@ -68,27 +68,15 @@ class Address implements MappableEntity
     private $postalCode;
 
     /**
+     * Address constructor.
      * @param string $countryCode
+     * @param string $city
+     * @param string $street1
      */
-    public function setCountryCode($countryCode)
+    public function __construct($countryCode, $city, $street1)
     {
         $this->countryCode = $countryCode;
-    }
-
-    /**
-     * @param string $city
-     */
-    public function setCity($city)
-    {
         $this->city = $city;
-    }
-
-    /**
-     * @param string $street1
-     * Enter the name of the street here.
-     */
-    public function setStreet1($street1)
-    {
         $this->street1 = $street1;
     }
 

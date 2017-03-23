@@ -47,11 +47,7 @@ class AddressUTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->addr = new Address();
-
-        $this->addr->setCountryCode(self::AT_COUNTRY_CODE);
-        $this->addr->setCity(self::GRAZ);
-        $this->addr->setStreet1(self::DUMMY_ADDRESS);
+        $this->addr = new Address(self::AT_COUNTRY_CODE, self::GRAZ, self::DUMMY_ADDRESS);
     }
 
     public function testMappingOnlyRequiredFields()
@@ -96,8 +92,9 @@ class AddressUTest extends \PHPUnit_Framework_TestCase
     public function testMappingWithVeryLongStreet1()
     {
         // @codingStandardsIgnoreStart
-        $this->addr->setStreet1('This is a long street name in order to test an improbable but possible input. And to verify that it is split into the two fieldsWith this sentence the 2nd part starts.');
+        $street1 = 'This is a long street name in order to test an improbable but possible input. And to verify that it is split into the two fieldsWith this sentence the 2nd part starts.';
         // @codingStandardsIgnoreEnd
+        $this->addr = new Address(self::AT_COUNTRY_CODE, self::GRAZ, $street1);
 
         $expectedResult = [
             // @codingStandardsIgnoreStart
@@ -114,13 +111,15 @@ class AddressUTest extends \PHPUnit_Framework_TestCase
     public function testMappingWithVeryLongStreet1WithStreet2()
     {
         // @codingStandardsIgnoreStart
-        $this->addr->setStreet1('This is a long street name in order to test an improbable but possible input. And to verify that it is not split, if street2 is also given.');
+        $street1 = 'This is a long street name in order to test an improbable but possible input. And to verify that it is not split, if street2 is also given.';
         // @codingStandardsIgnoreEnd
+        $this->addr = new Address(self::AT_COUNTRY_CODE, self::GRAZ, $street1);
         $this->addr->setStreet2('some suffix');
 
         $expectedResult = [
+            'street1' =>
             // @codingStandardsIgnoreStart
-            'street1' => 'This is a long street name in order to test an improbable but possible input. And to verify that it is not split, if street2 is also given.',
+                'This is a long street name in order to test an improbable but possible input. And to verify that it is not split, if street2 is also given.',
             // @codingStandardsIgnoreEnd
             'city' => self::GRAZ,
             'country' => self::AT_COUNTRY_CODE,
