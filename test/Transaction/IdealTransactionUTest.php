@@ -39,7 +39,7 @@ use Wirecard\PaymentSdk\Transaction\Operation;
 
 class IdealTransactionUTest extends \PHPUnit_Framework_TestCase
 {
-    const BIC = 'INGBNL2A';
+    const BANK = 'ING';
     const SUCCESS_URL = 'http://www.example.com/?status=success';
     const CANCEL_URL = 'http://www.example.com/cancel';
     const DESCRIPTOR = 'dummy description';
@@ -54,7 +54,7 @@ class IdealTransactionUTest extends \PHPUnit_Framework_TestCase
         $redirect = new Redirect(self::SUCCESS_URL, self::CANCEL_URL);
         $this->tx = new IdealTransaction();
         $this->tx->setRedirect($redirect);
-        $this->tx->setBic(self::BIC);
+        $this->tx->setBic(self::BANK);
         $this->tx->setAmount(new Money(33, 'USD'));
         $this->tx->setDescriptor(self::DESCRIPTOR);
     }
@@ -85,7 +85,7 @@ class IdealTransactionUTest extends \PHPUnit_Framework_TestCase
             ],
             'cancel-redirect-url' => self::CANCEL_URL,
             'success-redirect-url' => self::SUCCESS_URL . '&request_id=',
-            'bank-account' => ['bic' => self::BIC],
+            'bank-account' => ['bic' => 'INGBNL2A'],
             'descriptor' => self::DESCRIPTOR
 
         ];
