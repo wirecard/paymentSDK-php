@@ -61,6 +61,7 @@ class IdealTransaction extends Transaction
 
     /**
      * @param string $bank
+     * @throws MandatoryFieldMissingException
      */
     public function setBic($bank)
     {

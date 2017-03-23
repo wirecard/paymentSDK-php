@@ -68,6 +68,14 @@ class IdealTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx->mappedProperties();
     }
 
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
+     */
+    public function testSetBicThrowsUnsupportedBank()
+    {
+        $this->tx->setBic('asdf');
+    }
+
     public function testMappedProperties()
     {
         $expectedResult = [
