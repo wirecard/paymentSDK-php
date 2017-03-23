@@ -36,7 +36,7 @@ use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
 /**
- * Class PayPalTransaction
+ * Class PaysafecardTransaction
  * @package Wirecard\PaymentSdk\Transaction
  */
 class PaysafecardTransaction extends Transaction implements Reservable

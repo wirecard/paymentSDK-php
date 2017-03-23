@@ -35,35 +35,24 @@ namespace WirecardTest\PaymentSdk\Transaction;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\Operation;
-use Wirecard\PaymentSdk\Transaction\SofortTransaction;
+use Wirecard\PaymentSdk\Transaction\PaysafecardTransaction;
 
-class SofortTransactionUTest extends \PHPUnit_Framework_TestCase
+class PaysafecardTransactionUTest extends \PHPUnit_Framework_TestCase
 {
     const SUCCESS_URL = 'http://www.example.com/success';
     const CANCEL_URL = 'http://www.example.com/cancel';
-    const DESCRIPTOR = 'dummy description';
 
     /**
-     * @var SofortTransaction
+     * @var PaysafecardTransaction
      */
     private $tx;
 
     public function setUp()
     {
         $redirect = new Redirect(self::SUCCESS_URL, self::CANCEL_URL);
-        $this->tx = new SofortTransaction();
+        $this->tx = new PaysafecardTransaction();
         $this->tx->setRedirect($redirect);
-        $this->tx->setDescriptor(self::DESCRIPTOR);
         $this->tx->setAmount(new Money(33, 'USD'));
-    }
-
-    /**
-     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
-     */
-    public function testMapPropertiesUnsupportedOperation()
-    {
-        $this->tx->setOperation('non-existing');
-        $this->tx->mappedProperties();
     }
 
     public function testMappedProperties()
@@ -77,13 +66,12 @@ class SofortTransactionUTest extends \PHPUnit_Framework_TestCase
             'payment-methods' => [
                 'payment-method' => [
                     0 => [
-                        'name' => 'sofortbanking'
+                        'name' => 'paysafecard'
                     ]
                 ]
             ],
             'cancel-redirect-url' => self::CANCEL_URL,
             'success-redirect-url' => self::SUCCESS_URL,
-            'descriptor' => self::DESCRIPTOR
         ];
 
         $this->tx->setOperation(Operation::PAY);
@@ -91,5 +79,80 @@ class SofortTransactionUTest extends \PHPUnit_Framework_TestCase
         $result = $this->tx->mappedProperties();
 
         $this->assertEquals($expectedResult, $result);
+    }
+
+    public function testMappedPropertiesMinimum()
+    {
+        $tx = new PaysafecardTransaction();
+        $expectedResult = [
+            'transaction-type' => 'authorization',
+            'payment-methods' => [
+                'payment-method' => [
+                    0 => [
+                        'name' => 'paysafecard'
+                    ]
+                ]
+            ]
+        ];
+
+        $tx->setOperation(Operation::RESERVE);
+
+        $result = $tx->mappedProperties();
+
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    public function endpointDataProvider()
+    {
+        return [
+            [Operation::RESERVE, PaysafecardTransaction::ENDPOINT_PAYMENT_METHODS],
+            [Operation::PAY, PaysafecardTransaction::ENDPOINT_PAYMENT_METHODS],
+            [Operation::CANCEL, PaysafecardTransaction::ENDPOINT_PAYMENTS],
+        ];
+    }
+
+    /**
+     * @param $operation
+     * @param $expected
+     * @dataProvider endpointDataProvider
+     */
+    public function testGetEndpoint($operation, $expected)
+    {
+        $this->tx->setOperation($operation);
+        $this->assertEquals($expected, $this->tx->getEndpoint());
+    }
+
+    public function testGetEndpointWithParentTransactionIdAndPay()
+    {
+        $this->tx->setOperation(Operation::PAY);
+        $this->tx->setParentTransactionId('1435');
+        $this->assertEquals(PaysafecardTransaction::ENDPOINT_PAYMENTS, $this->tx->getEndpoint());
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
+     */
+    public function testCancelThrowsException()
+    {
+        $this->tx->setOperation(Operation::CANCEL);
+        $this->tx->mappedProperties();
+    }
+
+    public function testCancel()
+    {
+        $this->tx->setOperation(Operation::CANCEL);
+        $this->tx->setParentTransactionType(PaysafecardTransaction::TYPE_AUTHORIZATION);
+        $data = $this->tx->mappedProperties();
+
+        $this->assertEquals('void-authorization', $data['transaction-type']);
+    }
+
+    public function testCapture()
+    {
+        $this->tx->setOperation(Operation::PAY);
+        $this->tx->setParentTransactionType(PaysafecardTransaction::TYPE_AUTHORIZATION);
+        $data = $this->tx->mappedProperties();
+
+        $this->assertEquals('capture-authorization', $data['transaction-type']);
     }
 }

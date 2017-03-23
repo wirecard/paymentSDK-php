@@ -48,7 +48,7 @@ $notificationUrl = getUrl('notify.php');
 
 // ## Transaction
 
-// The PayPal transaction holds all transaction relevant data for the reserve process.
+// The Paysafecard transaction holds all transaction relevant data for the reserve process.
 $tx = new PaysafecardTransaction();
 $tx->setNotificationUrl($notificationUrl);
 $tx->setRedirect($redirectUrls);
