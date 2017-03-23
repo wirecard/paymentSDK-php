@@ -45,6 +45,7 @@ use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Response\Response;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
+use Wirecard\PaymentSdk\Transaction\IdealTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\Reservable;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
@@ -184,6 +185,14 @@ class TransactionService
     {
         if (array_key_exists('MD', $payload) && array_key_exists('PaRes', $payload)) {
             return $this->processAuthFrom3DResponse($payload);
+        }
+
+        if (
+            array_key_exists('ec', $payload) &&
+            array_key_exists('trxid', $payload) &&
+            array_key_exists('request_id', $payload)
+        ) {
+            return $this->processFromIdealResponse($payload);
         }
 
         if (array_key_exists('eppresponse', $payload)) {
@@ -352,6 +361,36 @@ class TransactionService
     }
 
     /**
+     * @param $requestId
+     * @param $paymentMethod
+     * @return string
+     */
+    private function getXmlTransactionByRequestId($requestId, $paymentMethod)
+    {
+        $response = $this->getHttpClient()->request(
+            'GET',
+            $this->config->getBaseUrl() .
+            '/engine/rest/merchants/' .
+            $this->config->get($paymentMethod)->getMerchantAccountId() .
+            '/payments/search?payment.request-id=' .
+            $requestId,
+            [
+                'auth' => [
+                    $this->config->getHttpUser(),
+                    $this->config->getHttpPassword()
+                ],
+                'headers' => [
+                    'Content-Type' => self::APPLICATION_JSON,
+                    'Accept' => 'application/xml'
+                ]
+            ]
+        );
+
+        return $response->getBody()->getContents();
+    }
+
+
+    /**
      * @param array $payload
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
      */
@@ -364,5 +403,15 @@ class TransactionService
         $transaction->setPaRes($payload['PaRes']);
 
         return $this->process($transaction, $md['operation-type']);
+    }
+
+    /**
+     * @param array $payload
+     * @return Response
+     */
+    private function processFromIdealResponse($payload)
+    {
+        $transaction = $this->getXmlTransactionByRequestId($payload['request_id'], IdealTransaction::NAME);
+        return $this->getResponseMapper()->map($transaction);
     }
 }
