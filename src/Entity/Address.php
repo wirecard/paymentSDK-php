@@ -33,76 +33,65 @@
 namespace Wirecard\PaymentSdk\Entity;
 
 /**
- * Class Money
+ * Class Address
  * @package Wirecard\PaymentSdk\Entity
  *
- * An immutable entity representing an account holder.
+ * An entity representing a physical address.
  */
-class AccountHolder implements MappableEntity
+class Address implements MappableEntity
 {
     /**
      * @var string
+     *
+     * The 2-character code of the country.
      */
-    private $lastName;
+    private $countryCode;
 
     /**
      * @var string
      */
-    private $firstName;
-
-    /**
-     * @var Address
-     */
-    private $address;
-
-    /**
-     * @var string;
-     */
-    private $email;
+    private $city;
 
     /**
      * @var string
      */
-    private $phone;
+    private $street;
 
     /**
-     * @param string $firstName
+     * @var string
      */
-    public function setFirstName($firstName)
+    private $postalCode;
+
+    /**
+     * @param string $countryCode
+     */
+    public function setCountryCode($countryCode)
     {
-        $this->firstName = $firstName;
+        $this->countryCode = $countryCode;
     }
 
     /**
-     * @param string $email
+     * @param string $city
      */
-    public function setEmail($email)
+    public function setCity($city)
     {
-        $this->email = $email;
+        $this->city = $city;
     }
 
     /**
-     * @param string $lastName
+     * @param string $street
      */
-    public function setLastName($lastName)
+    public function setStreet($street)
     {
-        $this->lastName = $lastName;
+        $this->street = $street;
     }
 
     /**
-     * @param mixed $phone
+     * @param string $postalCode
      */
-    public function setPhone($phone)
+    public function setPostalCode($postalCode)
     {
-        $this->phone = $phone;
-    }
-
-    /**
-     * @param Address $address
-     */
-    public function setAddress($address)
-    {
-        $this->address = $address;
+        $this->postalCode = $postalCode;
     }
 
     /**
@@ -110,25 +99,11 @@ class AccountHolder implements MappableEntity
      */
     public function mappedProperties()
     {
-        $result = array();
-
-        if (null !== $this->lastName) {
-            $result['last-name'] = $this->lastName;
-        }
-        if (null !== $this->firstName) {
-            $result['first-name'] = $this->firstName;
-        }
-        if (null !== $this->email) {
-            $result['email'] = $this->email;
-        }
-        if (null !== $this->phone) {
-            $result['phone'] = $this->phone;
-        }
-
-        if (null !== $this->address) {
-            $result['address'] = $this->address->mappedProperties();
-        }
-
-        return $result;
+        return [
+            'street1' => $this->street,
+            'city' => $this->city,
+            'country' => $this->countryCode,
+            'postal-code' => $this->postalCode
+        ];
     }
 }

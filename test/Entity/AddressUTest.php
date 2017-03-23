@@ -32,64 +32,11 @@
 
 namespace WirecardTest\PaymentSdk\Entity;
 
-use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Address;
 
-class AccountHolderUTest extends \PHPUnit_Framework_TestCase
+class AddressUTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var AccountHolder
-     */
-    private $accountHolder;
-
-    public function setUp()
-    {
-        $this->accountHolder = new AccountHolder();
-    }
-
-    public function testGetMappedPropertiesLastAndFirstName()
-    {
-        $firstName = 'Jane';
-        $lastName = 'Doe';
-        $this->accountHolder->setLastName($lastName);
-        $this->accountHolder->setFirstName($firstName);
-
-        $this->assertEquals(
-            [
-                'last-name' => $lastName,
-                'first-name' => $firstName
-            ],
-            $this->accountHolder->mappedProperties()
-        );
-    }
-
-    public function testGetMappedPropertiesLastNameAndEmail()
-    {
-        $email = 'Jane@doe.com';
-        $this->accountHolder->setEmail($email);
-
-        $this->assertEquals(
-            [
-                'email' => $email
-            ],
-            $this->accountHolder->mappedProperties()
-        );
-    }
-
-    public function testGetMappedPropertiesLastNameAndPhone()
-    {
-        $phone = '+123 456 789';
-        $this->accountHolder->setPhone($phone);
-
-        $this->assertEquals(
-            [
-                'phone' => $phone
-            ],
-            $this->accountHolder->mappedProperties()
-        );
-    }
-
-    public function testMappedPropertiesWithAddress()
+    public function testMapping()
     {
         $addr = new Address();
         $addr->setCountryCode('AT');
@@ -97,17 +44,13 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
         $addr->setPostalCode('8020');
         $addr->setStreet('Reininghausstraße 13a');
 
-        $this->accountHolder->setAddress($addr);
-
         $expectedResult = [
-            'address' => [
-                'street1' => 'Reininghausstraße 13a',
-                'city' => 'Graz',
-                'country' => 'AT',
-                'postal-code' => '8020'
-            ]
+            'street1' => 'Reininghausstraße 13a',
+            'city' => 'Graz',
+            'country' => 'AT',
+            'postal-code' => '8020'
         ];
 
-        $this->assertEquals($expectedResult, $this->accountHolder->mappedProperties());
+        $this->assertEquals($expectedResult, $addr->mappedProperties());
     }
 }
