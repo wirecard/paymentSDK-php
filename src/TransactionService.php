@@ -116,10 +116,19 @@ class TransactionService
     ) {
         $this->config = $config;
         $this->logger = $logger;
-        $this->httpClient = $httpClient;
-        $this->requestMapper = $requestMapper;
-        $this->responseMapper = $responseMapper;
-        $this->requestIdGenerator = $requestIdGenerator;
+        $this->httpClient = $httpClient !== null ? $httpClient : new Client(['http_errors' => false]);
+
+        if ($requestIdGenerator !== null) {
+            $this->requestIdGenerator = $requestIdGenerator;
+        } else {
+            $this->requestIdGenerator = function ($length = 32) {
+                return substr(bin2hex(openssl_random_pseudo_bytes($length)), 0, $length);
+            };
+        }
+
+        $this->requestMapper =
+            $requestMapper !== null ? $requestMapper : new RequestMapper($this->config, $this->requestIdGenerator);
+        $this->responseMapper = $responseMapper !== null ? $responseMapper : new ResponseMapper();
 
         $this->httpHeader = array(
             'auth' => [
@@ -134,63 +143,13 @@ class TransactionService
     }
 
     /**
-     * @return Client
-     */
-    protected function getHttpClient()
-    {
-        if ($this->httpClient === null) {
-            $this->httpClient = new Client(['http_errors' => false]);
-        }
-
-        return $this->httpClient;
-    }
-
-    /**
-     * @return RequestMapper
-     */
-    protected function getRequestMapper()
-    {
-        if ($this->requestMapper === null) {
-            $this->requestMapper = new RequestMapper($this->config, $this->getRequestIdGenerator());
-        }
-
-        return $this->requestMapper;
-    }
-
-    /**
-     * @return \Closure
-     */
-    public function getRequestIdGenerator()
-    {
-        if ($this->requestIdGenerator === null) {
-            $this->requestIdGenerator = function ($length = 32) {
-                return substr(bin2hex(openssl_random_pseudo_bytes($length)), 0, $length);
-            };
-        }
-
-        return $this->requestIdGenerator;
-    }
-
-    /**
-     * @return ResponseMapper
-     */
-    protected function getResponseMapper()
-    {
-        if ($this->responseMapper === null) {
-            $this->responseMapper = new ResponseMapper();
-        }
-
-        return $this->responseMapper;
-    }
-
-    /**
      * @param string $xmlResponse
      * @return FailureResponse|InteractionResponse|SuccessResponse|Response
      * @throws \Wirecard\PaymentSdk\Exception\MalformedResponseException
      */
     public function handleNotification($xmlResponse)
     {
-        return $this->getResponseMapper()->map($xmlResponse);
+        return $this->responseMapper->map($xmlResponse);
     }
 
     /**
@@ -212,7 +171,7 @@ class TransactionService
         }
 
         if (array_key_exists('eppresponse', $payload)) {
-            return $this->getResponseMapper()->map($payload['eppresponse']);
+            return $this->responseMapper->map($payload['eppresponse']);
         } else {
             throw new MalformedResponseException('Missing response in payload.');
         }
@@ -225,13 +184,14 @@ class TransactionService
     {
         $requestData = array(
             'request_time_stamp' => gmdate('YmdHis'),
-            'request_id' => call_user_func($this->getRequestIdGenerator(), 64),
+            'request_id' => call_user_func($this->requestIdGenerator, 64),
             'transaction_type' => 'authorization-only',
             'merchant_account_id' => $this->config->get(CreditCardTransaction::NAME)->getMerchantAccountId(),
             'requested_amount' => 0,
             'requested_amount_currency' => $this->config->getDefaultCurrency(),
             'payment_method' => 'creditcard',
         );
+
         $requestData['request_signature'] = hash(
             'sha256',
             trim(
@@ -310,7 +270,7 @@ class TransactionService
         $request = $this->httpHeader;
         $request['body'] = $requestBody;
 
-        $response = $this->getHttpClient()
+        $response = $this->httpClient
             ->request('POST', $endpoint, $request)
             ->getBody()->getContents();
 
@@ -329,7 +289,7 @@ class TransactionService
         $request = $this->httpHeader;
         $request['header']['Accept'] = $acceptJson ? 'application/json' : 'application/xml';
 
-        $response = $this->getHttpClient()
+        $response = $this->httpClient
             ->request('GET', $endpoint, $request)
             ->getBody()->getContents();
 
@@ -364,13 +324,12 @@ class TransactionService
             }
         }
 
-        $requestBody = $this->getRequestMapper()->map($transaction);
-
+        $requestBody = $this->requestMapper->map($transaction);
         $endpoint = $this->config->getBaseUrl() . $transaction->getEndpoint();
         $responseContent = $this->sendPostRequest($endpoint, $requestBody);
 
         $data = $transaction instanceof ThreeDCreditCardTransaction ? $transaction : null;
-        return $this->getResponseMapper()->map($responseContent, $operation, $data);
+        return $this->responseMapper->map($responseContent, $operation, $data);
     }
 
     /**
@@ -416,6 +375,6 @@ class TransactionService
             '/payments/search?payment.request-id=' . $payload['request_id'];
         $transaction = $this->sendGetRequest($endpoint);
 
-        return $this->getResponseMapper()->map($transaction);
+        return $this->responseMapper->map($transaction);
     }
 }
