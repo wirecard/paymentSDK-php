@@ -33,76 +33,68 @@
 namespace Wirecard\PaymentSdk\Entity;
 
 /**
- * Class Money
+ * Class Address
  * @package Wirecard\PaymentSdk\Entity
  *
- * An immutable entity representing an account holder.
+ * An entity representing a physical address.
  */
-class AccountHolder implements MappableEntity
+class Address implements MappableEntity
 {
     /**
      * @var string
+     *
+     * The 2-character code of the country.
      */
-    private $lastName;
+    private $countryCode;
 
     /**
      * @var string
      */
-    private $firstName;
-
-    /**
-     * @var Address
-     */
-    private $address;
-
-    /**
-     * @var string;
-     */
-    private $email;
+    private $city;
 
     /**
      * @var string
      */
-    private $phone;
+    private $street1;
 
     /**
-     * @param string $firstName
+     * @var string
      */
-    public function setFirstName($firstName)
+    private $street2;
+
+    /**
+     * @var string
+     */
+    private $postalCode;
+
+    /**
+     * Address constructor.
+     * @param string $countryCode
+     * @param string $city
+     * @param string $street1
+     */
+    public function __construct($countryCode, $city, $street1)
     {
-        $this->firstName = $firstName;
+        $this->countryCode = $countryCode;
+        $this->city = $city;
+        $this->street1 = $street1;
     }
 
     /**
-     * @param string $email
+     * @param string $street2
+     * Enter the house number incl. suffixes here.
      */
-    public function setEmail($email)
+    public function setStreet2($street2)
     {
-        $this->email = $email;
+        $this->street2 = $street2;
     }
 
     /**
-     * @param string $lastName
+     * @param string $postalCode
      */
-    public function setLastName($lastName)
+    public function setPostalCode($postalCode)
     {
-        $this->lastName = $lastName;
-    }
-
-    /**
-     * @param mixed $phone
-     */
-    public function setPhone($phone)
-    {
-        $this->phone = $phone;
-    }
-
-    /**
-     * @param Address $address
-     */
-    public function setAddress($address)
-    {
-        $this->address = $address;
+        $this->postalCode = $postalCode;
     }
 
     /**
@@ -110,23 +102,23 @@ class AccountHolder implements MappableEntity
      */
     public function mappedProperties()
     {
-        $result = array();
+        $result = [
+            'street1' => $this->street1,
+            'city' => $this->city,
+            'country' => $this->countryCode
+        ];
 
-        if (null !== $this->lastName) {
-            $result['last-name'] = $this->lastName;
-        }
-        if (null !== $this->firstName) {
-            $result['first-name'] = $this->firstName;
-        }
-        if (null !== $this->email) {
-            $result['email'] = $this->email;
-        }
-        if (null !== $this->phone) {
-            $result['phone'] = $this->phone;
+        if (null !== $this->postalCode) {
+            $result['postal-code'] = $this->postalCode;
         }
 
-        if (null !== $this->address) {
-            $result['address'] = $this->address->mappedProperties();
+        if (null !== $this->street2) {
+            $result['street2'] = $this->street2;
+        } else {
+            if (strlen($this->street1) > 128) {
+                $result['street1'] = substr($this->street1, 0, 128);
+                $result['street2'] = substr($this->street1, 128);
+            }
         }
 
         return $result;
