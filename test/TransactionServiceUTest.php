@@ -382,7 +382,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->instance->handleNotification($invalidXmlContent);
     }
 
-    public function testHandleResponseHappyPath()
+    public function testHandle3DResponseHappyPath()
     {
         $validContent = [
             'eppresponse' => base64_encode('<xml>
@@ -406,6 +406,32 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($interactionResponse, $result);
     }
 
+    public function testHandleResponseIdealHappyPath()
+    {
+        $validContent = [
+            'ec' => '123',
+            'trxid' => '456',
+            'request_id' => '789'
+        ];
+
+        $responseMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\ResponseMapper');
+        $response = $this->createMock('Wirecard\PaymentSdk\Response\SuccessResponse');
+        $responseMapper->method('map')->willReturn($response);
+
+        $httpClient = $this->createMock('GuzzleHttp\Client');
+        $httpResponse = $this->createMock('Psr\Http\Message\ResponseInterface');
+        $streamInterface = $this->createMock('Psr\Http\Message\StreamInterface');
+        $streamInterface->method('getContents')->willReturn('<xml></xml>');
+        $httpResponse->method('getBody')->willReturn($streamInterface);
+        $httpClient->method('request')->willReturn($httpResponse);
+
+        $this->instance = new TransactionService($this->config, null, $httpClient, null, $responseMapper);
+
+        $result = $this->instance->handleResponse($validContent);
+
+        $this->assertEquals($response, $result);
+    }
+
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
      */
@@ -419,6 +445,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         $this->instance->handleResponse($invalidXmlContent);
     }
+
 
     public function testGetDataForCreditCardUi()
     {
