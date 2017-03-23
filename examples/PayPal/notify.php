@@ -26,12 +26,12 @@ $httpPass = 'qD2wzQ_hrc!8';
 // A default currency can also be provided.
 $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
-// #### Paysafecard
-// Create and add a configuration object with the Paysafecard settings
-$paysafecardMAID = '4c0de18e-4c20-40a7-a5d8-5178f0fe95bd';
-$paysafecardKey = 'bb1f2975-827b-4aa8-bec6-405191d85fa5';
-$paysafecardConfig = new Config\PaymentMethodConfig(PaysafecardTransaction::NAME, $paysafecardMAID, $paysafecardKey);
-$config->add($paysafecardConfig);
+// #### PayPal
+// Create and add a configuration object with the PayPal settings
+$paypalMAID = '9abf05c1-c266-46ae-8eac-7f87ca97af28';
+$paypalKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
+$paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalMAID, $paypalKey);
+$config->add($paypalConfig);
 
 
 // ## Transaction
