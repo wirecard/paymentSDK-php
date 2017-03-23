@@ -37,9 +37,8 @@ $config->add($IdealConfig);
 // ### Transaction Service
 // The `TransactionService` is used to determine the response from the service provider.
 $service = new TransactionService($config);
+$response = $service->handleResponse($_GET);
 
-//$response = $service->handleResponse($_GET);
-$response = '';
 
 // ## Payment results
 

@@ -61,7 +61,7 @@ $transaction->setAmount($amount);
 $transaction->setBic('INGBNL2A');
 $transaction->setAccountHolder($accountHolder);
 $transaction->setNotificationUrl($notificationUrl);
-
+$transaction->setDescriptor('customer-statement');
 
 // ### Transaction Service
 // The service is used to execute the payment operation itself. A response object is returned.

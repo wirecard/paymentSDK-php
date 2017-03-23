@@ -72,6 +72,7 @@ class RequestMapper
         $commonProperties = [
             'request-id' => $requestId
         ];
+        $transaction->setRequestId($requestId);
 
         $configKey = $transaction->getConfigKey();
         $paymentMethodConfig = $this->config->get($configKey);

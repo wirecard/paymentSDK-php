@@ -53,11 +53,24 @@ class IdealTransaction extends Transaction
     private $redirect;
 
     /**
+     * @var string
+     */
+    private $descriptor;
+
+    /**
      * @param string $bic
      */
     public function setBic($bic)
     {
         $this->bic = $bic;
+    }
+
+    /**
+     * @param string $descriptor
+     */
+    public function setDescriptor($descriptor)
+    {
+        $this->descriptor = $descriptor;
     }
 
     /**
@@ -68,11 +81,15 @@ class IdealTransaction extends Transaction
         $this->redirect = $redirect;
     }
 
+    /**
+     * @return array
+     * @internal param null $requestId
+     */
     protected function mappedSpecificProperties()
     {
         $result = [
             'cancel-redirect-url' => $this->redirect->getCancelUrl(),
-            'success-redirect-url' => $this->redirect->getSuccessUrl(),
+            'success-redirect-url' => $this->redirect->getSuccessUrl() . '&request_id=' . $this->requestId,
         ];
         if (null !== $this->bic) {
             $result['bank-account']['bic'] = $this->bic;
