@@ -33,6 +33,7 @@
 namespace WirecardTest\PaymentSdk\Entity;
 
 use Wirecard\PaymentSdk\Entity\AccountHolder;
+use Wirecard\PaymentSdk\Entity\Address;
 
 class AccountHolderUTest extends \PHPUnit_Framework_TestCase
 {
@@ -86,5 +87,24 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
             ],
             $this->accountHolder->mappedProperties()
         );
+    }
+
+    public function testMappedPropertiesWithAddress()
+    {
+        $addr = new Address('AT', 'Graz', 'Reininghausstraße 13a');
+        $addr->setPostalCode('8020');
+
+        $this->accountHolder->setAddress($addr);
+
+        $expectedResult = [
+            'address' => [
+                'street1' => 'Reininghausstraße 13a',
+                'city' => 'Graz',
+                'country' => 'AT',
+                'postal-code' => '8020'
+            ]
+        ];
+
+        $this->assertEquals($expectedResult, $this->accountHolder->mappedProperties());
     }
 }
