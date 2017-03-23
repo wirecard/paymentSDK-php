@@ -204,8 +204,7 @@ class TransactionService
             return $this->processAuthFrom3DResponse($payload);
         }
 
-        if (
-            array_key_exists('ec', $payload) &&
+        if (array_key_exists('ec', $payload) &&
             array_key_exists('trxid', $payload) &&
             array_key_exists('request_id', $payload)
         ) {
