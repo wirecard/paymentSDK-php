@@ -87,12 +87,19 @@ class IdealTransaction extends Transaction
      */
     protected function mappedSpecificProperties()
     {
+        $successUrl = $this->redirect->getSuccessUrl()
+            . (parse_url($this->redirect->getSuccessUrl(), PHP_URL_QUERY) ? '&' : '?')
+            . 'request_id=' . $this->requestId;
+
         $result = [
             'cancel-redirect-url' => $this->redirect->getCancelUrl(),
-            'success-redirect-url' => $this->redirect->getSuccessUrl() . '&request_id=' . $this->requestId,
+            'success-redirect-url' => $successUrl,
         ];
         if (null !== $this->bic) {
             $result['bank-account']['bic'] = $this->bic;
+        }
+        if (null !== $this->descriptor) {
+            $result['descriptor'] = $this->descriptor;
         }
         return $result;
     }
