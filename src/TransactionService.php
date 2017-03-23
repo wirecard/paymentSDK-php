@@ -92,6 +92,12 @@ class TransactionService
     private $requestIdGenerator;
 
     /**
+     * @var array
+     */
+    private $httpHeader;
+
+
+    /**
      * TransactionService constructor.
      * @param Config $config
      * @param LoggerInterface|null $logger
@@ -114,6 +120,17 @@ class TransactionService
         $this->requestMapper = $requestMapper;
         $this->responseMapper = $responseMapper;
         $this->requestIdGenerator = $requestIdGenerator;
+
+        $this->httpHeader = array(
+            'auth' => [
+                $this->config->getHttpUser(),
+                $this->config->getHttpPassword()
+            ],
+            'headers' => [
+                'Content-Type' => self::APPLICATION_JSON,
+                'Accept' => 'application/xml'
+            ]
+        );
     }
 
     /**
@@ -216,7 +233,6 @@ class TransactionService
             'requested_amount_currency' => $this->config->getDefaultCurrency(),
             'payment_method' => 'creditcard',
         );
-
         $requestData['request_signature'] = hash(
             'sha256',
             trim(
@@ -284,6 +300,49 @@ class TransactionService
     }
 
     /**
+     * @param $endpoint
+     * @param string $requestBody
+     * @return string
+     */
+    private function sendPostRequest($endpoint, $requestBody)
+    {
+        $this->getLogger()->debug("Request body: " . $requestBody);
+
+        $request = $this->httpHeader;
+        $request['body'] = $requestBody;
+
+        $response = $this->getHttpClient()
+            ->request('POST', $endpoint, $request)
+            ->getBody()->getContents();
+
+        $this->getLogger()->debug($response);
+
+        return $response;
+    }
+
+    /**
+     * @param $endpoint
+     * @param bool $acceptJson
+     * @return string|array
+     */
+    private function sendGetRequest($endpoint, $acceptJson = false)
+    {
+        $request = $this->httpHeader;
+        $request['header']['Accept'] = $acceptJson ? 'application/json' : 'application/xml';
+
+        $response = $this->getHttpClient()
+            ->request('GET', $endpoint, $request)
+            ->getBody()->getContents();
+
+        $this->getLogger()->debug('GET response: ' . $response);
+
+        if ($acceptJson) {
+            return json_decode($response, true);
+        }
+        return $response;
+    }
+
+    /**
      * @param Transaction|Reservable $transaction
      * @param string $operation
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
@@ -307,25 +366,9 @@ class TransactionService
         }
 
         $requestBody = $this->getRequestMapper()->map($transaction);
-        $this->getLogger()->debug($requestBody);
 
-        $response = $this->getHttpClient()->request(
-            'POST',
-            $this->config->getBaseUrl() . $transaction->getEndpoint(),
-            [
-                'auth' => [
-                    $this->config->getHttpUser(),
-                    $this->config->getHttpPassword()
-                ],
-                'headers' => [
-                    'Content-Type' => self::APPLICATION_JSON,
-                    'Accept' => 'application/xml'
-                ],
-                'body' => $requestBody
-            ]
-        );
-        $responseContent = $response->getBody()->getContents();
-        $this->getLogger()->debug($responseContent);
+        $endpoint = $this->config->getBaseUrl() . $transaction->getEndpoint();
+        $responseContent = $this->sendPostRequest($endpoint, $requestBody);
 
         $data = $transaction instanceof ThreeDCreditCardTransaction ? $transaction : null;
         return $this->getResponseMapper()->map($responseContent, $operation, $data);
@@ -338,57 +381,14 @@ class TransactionService
      */
     private function getTransactionByTransactionId($transactionId, $paymentMethod)
     {
-        $response = $this->getHttpClient()->request(
-            'GET',
+        $endpoint =
             $this->config->getBaseUrl() .
             '/engine/rest/merchants/' .
             $this->config->get($paymentMethod)->getMerchantAccountId() .
-            '/payments/' .
-            $transactionId,
-            [
-                'auth' => [
-                    $this->config->getHttpUser(),
-                    $this->config->getHttpPassword()
-                ],
-                'headers' => [
-                    'Content-Type' => self::APPLICATION_JSON,
-                    'Accept' => self::APPLICATION_JSON
-                ]
-            ]
-        );
+            '/payments/' . $transactionId;
 
-        return json_decode($response->getBody()->getContents(), true);
+        return $this->sendGetRequest($endpoint, true);
     }
-
-    /**
-     * @param $requestId
-     * @param $paymentMethod
-     * @return string
-     */
-    private function getXmlTransactionByRequestId($requestId, $paymentMethod)
-    {
-        $response = $this->getHttpClient()->request(
-            'GET',
-            $this->config->getBaseUrl() .
-            '/engine/rest/merchants/' .
-            $this->config->get($paymentMethod)->getMerchantAccountId() .
-            '/payments/search?payment.request-id=' .
-            $requestId,
-            [
-                'auth' => [
-                    $this->config->getHttpUser(),
-                    $this->config->getHttpPassword()
-                ],
-                'headers' => [
-                    'Content-Type' => self::APPLICATION_JSON,
-                    'Accept' => 'application/xml'
-                ]
-            ]
-        );
-
-        return $response->getBody()->getContents();
-    }
-
 
     /**
      * @param array $payload
@@ -411,7 +411,12 @@ class TransactionService
      */
     private function processFromIdealResponse($payload)
     {
-        $transaction = $this->getXmlTransactionByRequestId($payload['request_id'], IdealTransaction::NAME);
+        $endpoint =
+            $this->config->getBaseUrl() . '/engine/rest/merchants/' .
+            $this->config->get(IdealTransaction::NAME)->getMerchantAccountId() .
+            '/payments/search?payment.request-id=' . $payload['request_id'];
+        $transaction = $this->sendGetRequest($endpoint);
+
         return $this->getResponseMapper()->map($transaction);
     }
 }
