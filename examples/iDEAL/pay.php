@@ -10,12 +10,14 @@ require __DIR__ . '/../inc/common.php';
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
+use Wirecard\PaymentSdk\Entity\IdealBic;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Transaction\IdealTransaction;
 use Wirecard\PaymentSdk\TransactionService;
+
 
 // ### Config
 // #### Basic configuration
@@ -58,7 +60,7 @@ $accountHolder->setFirstName('John');
 $transaction = new IdealTransaction();
 $transaction->setRedirect($redirectUrls);
 $transaction->setAmount($amount);
-$transaction->setBic('INGBNL2A');
+$transaction->setBic(IdealBic::ING);
 $transaction->setAccountHolder($accountHolder);
 $transaction->setNotificationUrl($notificationUrl);
 $transaction->setDescriptor('customer-statement');
