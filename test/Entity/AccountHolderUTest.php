@@ -95,7 +95,7 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
         $addr->setCountryCode('AT');
         $addr->setCity('Graz');
         $addr->setPostalCode('8020');
-        $addr->setStreet('Reininghausstraße 13a');
+        $addr->setStreet1('Reininghausstraße 13a');
 
         $this->accountHolder->setAddress($addr);
 

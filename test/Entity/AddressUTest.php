@@ -36,21 +36,97 @@ use Wirecard\PaymentSdk\Entity\Address;
 
 class AddressUTest extends \PHPUnit_Framework_TestCase
 {
-    public function testMapping()
+    const AT_COUNTRY_CODE = 'AT';
+    const GRAZ = 'Graz';
+    const DUMMY_ADDRESS = 'Reininghausstraße 13a';
+
+    /**
+     * @var Address
+     */
+    private $addr;
+
+    protected function setUp()
     {
-        $addr = new Address();
-        $addr->setCountryCode('AT');
-        $addr->setCity('Graz');
-        $addr->setPostalCode('8020');
-        $addr->setStreet('Reininghausstraße 13a');
+        $this->addr = new Address();
+
+        $this->addr->setCountryCode(self::AT_COUNTRY_CODE);
+        $this->addr->setCity(self::GRAZ);
+        $this->addr->setStreet1(self::DUMMY_ADDRESS);
+    }
+
+    public function testMappingOnlyRequiredFields()
+    {
+        $expectedResult = [
+            'street1' => self::DUMMY_ADDRESS,
+            'city' => self::GRAZ,
+            'country' => self::AT_COUNTRY_CODE,
+        ];
+
+        $this->assertEquals($expectedResult, $this->addr->mappedProperties());
+    }
+
+    public function testMappingWithPostalCode()
+    {
+        $this->addr->setPostalCode('8020');
 
         $expectedResult = [
-            'street1' => 'Reininghausstraße 13a',
-            'city' => 'Graz',
-            'country' => 'AT',
+            'street1' => self::DUMMY_ADDRESS,
+            'city' => self::GRAZ,
+            'country' => self::AT_COUNTRY_CODE,
             'postal-code' => '8020'
         ];
 
-        $this->assertEquals($expectedResult, $addr->mappedProperties());
+        $this->assertEquals($expectedResult, $this->addr->mappedProperties());
+    }
+
+    public function testMappingWithStreet2()
+    {
+        $this->addr->setStreet2('1st floor');
+
+        $expectedResult = [
+            'street1' => self::DUMMY_ADDRESS,
+            'city' => self::GRAZ,
+            'country' => self::AT_COUNTRY_CODE,
+            'street2' => '1st floor'
+        ];
+
+        $this->assertEquals($expectedResult, $this->addr->mappedProperties());
+    }
+
+    public function testMappingWithVeryLongStreet1()
+    {
+        // @codingStandardsIgnoreStart
+        $this->addr->setStreet1('This is a long street name in order to test an improbable but possible input. And to verify that it is split into the two fieldsWith this sentence the 2nd part starts.');
+        // @codingStandardsIgnoreEnd
+
+        $expectedResult = [
+            // @codingStandardsIgnoreStart
+            'street1' => 'This is a long street name in order to test an improbable but possible input. And to verify that it is split into the two fields',
+            // @codingStandardsIgnoreEnd
+            'city' => self::GRAZ,
+            'country' => self::AT_COUNTRY_CODE,
+            'street2' => 'With this sentence the 2nd part starts.'
+        ];
+
+        $this->assertEquals($expectedResult, $this->addr->mappedProperties());
+    }
+
+    public function testMappingWithVeryLongStreet1WithStreet2()
+    {
+        // @codingStandardsIgnoreStart
+        $this->addr->setStreet1('This is a long street name in order to test an improbable but possible input. And to verify that it is not split, if street2 is also given.');
+        // @codingStandardsIgnoreEnd
+        $this->addr->setStreet2('some suffix');
+
+        $expectedResult = [
+            // @codingStandardsIgnoreStart
+            'street1' => 'This is a long street name in order to test an improbable but possible input. And to verify that it is not split, if street2 is also given.',
+            // @codingStandardsIgnoreEnd
+            'city' => self::GRAZ,
+            'country' => self::AT_COUNTRY_CODE,
+            'street2' => 'some suffix'
+        ];
+
+        $this->assertEquals($expectedResult, $this->addr->mappedProperties());
     }
 }

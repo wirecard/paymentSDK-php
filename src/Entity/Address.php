@@ -55,7 +55,12 @@ class Address implements MappableEntity
     /**
      * @var string
      */
-    private $street;
+    private $street1;
+
+    /**
+     * @var string
+     */
+    private $street2;
 
     /**
      * @var string
@@ -79,11 +84,21 @@ class Address implements MappableEntity
     }
 
     /**
-     * @param string $street
+     * @param string $street1
+     * Enter the name of the street here.
      */
-    public function setStreet($street)
+    public function setStreet1($street1)
     {
-        $this->street = $street;
+        $this->street1 = $street1;
+    }
+
+    /**
+     * @param string $street2
+     * Enter the house number incl. suffixes here.
+     */
+    public function setStreet2($street2)
+    {
+        $this->street2 = $street2;
     }
 
     /**
@@ -99,11 +114,25 @@ class Address implements MappableEntity
      */
     public function mappedProperties()
     {
-        return [
-            'street1' => $this->street,
+        $result = [
+            'street1' => $this->street1,
             'city' => $this->city,
-            'country' => $this->countryCode,
-            'postal-code' => $this->postalCode
+            'country' => $this->countryCode
         ];
+
+        if (null !== $this->postalCode) {
+            $result['postal-code'] = $this->postalCode;
+        }
+
+        if (null !== $this->street2) {
+            $result['street2'] = $this->street2;
+        } else {
+            if (strlen($this->street1) > 128) {
+                $result['street1'] = substr($this->street1, 0, 128);
+                $result['street2'] = substr($this->street1, 128);
+            }
+        }
+
+        return $result;
     }
 }
