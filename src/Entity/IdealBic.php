@@ -35,14 +35,14 @@ use MyCLabs\Enum\Enum;
 
 class IdealBic extends Enum
 {
-    const ABN_AMRO_BANK = 'ABNANL2A';
-    const ASN_BANK = 'ASNBNL21';
-    const BUNG = 'BUNQNL2A';
-    const ING = 'INGBNL2A';
-    const KNAB = 'KNABNL2H';
-    const RABOBANK = 'RABONL2U';
-    const REGIO_BANK = 'RGGINL21';
-    const SNS_BANK = 'SNSBNL2A';
-    const TRIODOS_BANK = 'TRIONL2U';
-    const VAN_LANSCHOT_BANKIERS = 'FVLBNL22';
+    const ABNANL2A = 'ABN Amro Bank';
+    const ASNBNL21 = 'ASN Bank';
+    const BUNQNL2A = 'bunq';
+    const INGBNL2A = 'ING';
+    const KNABNL2H = 'Knab';
+    const RABONL2U = 'Rabobank';
+    const RGGINL21 = 'Regio Bank';
+    const SNSBNL2A = 'SNS Bank';
+    const TRIONL2U = 'Triodos Bank';
+    const FVLBNL22 = 'Van Lanschot Bankiers';
 }

@@ -60,7 +60,7 @@ $accountHolder->setFirstName('John');
 $transaction = new IdealTransaction();
 $transaction->setRedirect($redirectUrls);
 $transaction->setAmount($amount);
-$transaction->setBic(IdealBic::ING);
+$transaction->setBic(IdealBic::INGBNL2A);
 $transaction->setAccountHolder($accountHolder);
 $transaction->setNotificationUrl($notificationUrl);
 $transaction->setDescriptor('customer-statement');

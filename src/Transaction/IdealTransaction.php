@@ -32,7 +32,9 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Entity\IdealBic;
 use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 
 /**
  * Class IdealTransaction
@@ -58,11 +60,14 @@ class IdealTransaction extends Transaction
     private $descriptor;
 
     /**
-     * @param string $bic
+     * @param string $bank
      */
-    public function setBic($bic)
+    public function setBic($bank)
     {
-        $this->bic = $bic;
+        $this->bic = IdealBic::search($bank);
+        if (!$this->bic) {
+            throw new MandatoryFieldMissingException('Bank does not participate in iDEAL or does not exist.');
+        }
     }
 
     /**
