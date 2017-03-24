@@ -60,10 +60,12 @@ class RatepayInstallTransaction extends Transaction implements Reservable
 
     /**
      * @param Redirect $redirect
+     * @return RatepayInstallTransaction
      */
     public function setRedirect($redirect)
     {
         $this->redirect = $redirect;
+        return $this;
     }
 
     /**
@@ -91,12 +93,17 @@ class RatepayInstallTransaction extends Transaction implements Reservable
      */
     protected function mappedSpecificProperties()
     {
-        return [
+        $result = [
             'order-number' => $this->orderNumber,
             'order-items' => $this->itemCollection->mappedProperties(),
             'cancel-redirect-url' => $this->redirect->getCancelUrl(),
             'success-redirect-url' => $this->redirect->getSuccessUrl(),
         ];
+        if ($this->redirect->getFailureUrl()) {
+            $result['redirect-url'] = $this->redirect->getFailureUrl();
+        }
+
+        return $result;
     }
 
     /**

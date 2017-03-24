@@ -1,6 +1,6 @@
 <?php
-// # Ratepay installment reserve transaction
-// This example displays the usage of reserve method for payment method Ratepay installment.
+// # RatePAY installment reserve transaction
+// This example displays the usage of reserve method for payment method RatePAY installment.
 
 // ## Required objects
 // To include the necessary files, we use the composer for PSR-4 autoloading.
@@ -26,20 +26,28 @@ $httpPass = 'qD2wzQ_hrc!8';
 // A default currency can also be provided.
 $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
-// #### Ratepay installment
-// Create and add a configuration object with the Ratepay installment settings
+// #### RatePAY installment
+// Create and add a configuration object with the RatePAY installment settings
 $ratepayInstallMAID = '73ce088c-b195-4977-8ea8-0be32cca9c2e';
 $ratepayInstallKey = 'd92724cf-5508-44fd-ad67-695e149212d5';
 
-$ratepayInstallConfig = new Config\PaymentMethodConfig(RatepayInstallTransaction::NAME, $ratepayInstallMAID, $ratepayInstallKey);
+$ratepayInstallConfig = new Config\PaymentMethodConfig(
+    RatepayInstallTransaction::NAME,
+    $ratepayInstallMAID,
+    $ratepayInstallKey
+);
 $config->add($ratepayInstallConfig);
 
 // ### Transaction related objects
 // Use the money object as amount which has to be payed by the consumer.
 $amount = new Money(2400, 'EUR');
 
-// The redirect URLs determine where the consumer should be redirected by Ratepay installment after the reserve.
-$redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
+// The redirect URLs determine where the consumer should be redirected by RatePAY installment after the reserve.
+$redirectUrls = new Redirect(
+    getUrl('return.php?status=success'),
+    getUrl('return.php?status=cancel'),
+    getUrl('return.php?status=failure')
+);
 
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
 $notificationUrl = getUrl('notify.php');
@@ -78,7 +86,7 @@ $accountHolder->setAddress($address);
 
 // ## Transaction
 
-// The Ratepay installment transaction holds all transaction relevant data for the reserve process.
+// The RatePAY installment transaction holds all transaction relevant data for the reserve process.
 $tx = new RatepayInstallTransaction();
 $tx->setNotificationUrl($notificationUrl);
 $tx->setRedirect($redirectUrls);

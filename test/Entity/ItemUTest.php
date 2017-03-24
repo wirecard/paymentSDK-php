@@ -141,11 +141,26 @@ class ItemUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->amount, $this->item->getTaxAmount());
     }
 
+    public function testSetTaxRate()
+    {
+        $rate = '0.2';
+        $this->item->setTaxRate($rate);
+        $this->assertAttributeEquals($rate, 'taxRate', $this->item);
+    }
+
+    public function testGetTaxRate()
+    {
+        $rate = '0.2';
+        $this->item->setTaxRate($rate);
+        $this->assertEquals($rate, $this->item->getTaxRate());
+    }
+
     public function testMappedProperties()
     {
         $this->item->setTaxAmount($this->amount);
         $this->item->setArticleNumber('1232f5445');
         $this->item->setDescription('dthfbvdfg');
+        $this->item->setTaxRate('0.2');
 
         $expected = [
             'name' => $this->item->getName(),
@@ -159,7 +174,8 @@ class ItemUTest extends \PHPUnit_Framework_TestCase
                 'value' => $this->item->getTaxAmount()->getAmount(),
                 'currency' => $this->item->getTaxAmount()->getCurrency()
             ],
-            'quantity' => $this->item->getQuantity()
+            'quantity' => $this->item->getQuantity(),
+            'tax-rate' => '0.2'
         ];
 
         $this->assertEquals($expected, $this->item->mappedProperties());

@@ -141,15 +141,21 @@ class TransactionService
      */
     public function handleResponse(array $payload)
     {
+        // 3-D Secure PaRes return
         if (array_key_exists('MD', $payload) && array_key_exists('PaRes', $payload)) {
             return $this->processAuthFrom3DResponse($payload);
         }
 
         if (array_key_exists('eppresponse', $payload)) {
             return $this->responseMapper->map($payload['eppresponse']);
-        } else {
-            throw new MalformedResponseException('Missing response in payload.');
         }
+
+        // RatePAY installment
+        if (array_key_exists('base64payload', $payload) && array_key_exists('psp_name', $payload)) {
+            return $this->responseMapper->map($payload['base64payload']);
+        }
+
+        throw new MalformedResponseException('Missing response in payload.');
     }
 
     /**
