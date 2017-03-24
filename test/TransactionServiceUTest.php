@@ -433,7 +433,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $md = 'content';
 
         $validContent = [
-            'base64payload' => base64_encode($md),
+            'base64payload' => $md,
             'psp_name' => 'engine_payments'
         ];
 
