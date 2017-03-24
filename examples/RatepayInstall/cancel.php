@@ -42,6 +42,9 @@ $config->add($ratepayInstallConfig);
 // Use the money object as amount which has to be payed by the consumer.
 $amount = new Money(2400, 'EUR');
 
+// The order number
+$orderNumber = 'A2';
+
 
 // #### Order items
 // Create your items.
@@ -64,6 +67,7 @@ $itemCollection->add($item2);
 $transaction = new RatepayInstallTransaction();
 $transaction->setParentTransactionId($_POST['parentTransactionId']);
 $transaction->setAmount($amount);
+$transaction->setOrderNumber($orderNumber);
 $transaction->setItemCollection($itemCollection);
 
 // ### Transaction Service

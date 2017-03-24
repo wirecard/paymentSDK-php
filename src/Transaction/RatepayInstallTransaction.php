@@ -98,11 +98,10 @@ class RatepayInstallTransaction extends Transaction implements Reservable
     {
         $transactionType = $this->retrieveTransactionType();
 
-        $result['order-items'] = $this->itemCollection->mappedProperties();
-
-        if (null !== $this->orderNumber) {
-            $result['order-number'] = $this->orderNumber;
-        }
+        $result = [
+            'order-number' => $this->orderNumber,
+            'order-items' => $this->itemCollection->mappedProperties()
+        ];
 
         if ($transactionType === $this::TYPE_AUTHORIZATION) {
             $result['cancel-redirect-url'] = $this->redirect->getCancelUrl();
