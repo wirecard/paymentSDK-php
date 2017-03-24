@@ -36,7 +36,6 @@ use Wirecard\PaymentSdk\Entity\ItemCollection;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
-use Wirecard\PaymentSdk\Transaction\RatepayInstallTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
 class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
@@ -59,6 +58,15 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx->setOperation('non-existing');
         $this->tx->mappedProperties();
     }
+
+    public function reserveDataProvider()
+    {
+        return [
+            [1.0, Transaction::TYPE_AUTHORIZATION],
+            [0.0, 'authorization-only']
+        ];
+    }
+
 
     public function testSetItemCollection()
     {
@@ -86,10 +94,13 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('order-items', $data);
     }
 
-    public function testGetRetrieveTransactionTypeReserve()
+    /**
+     * @param float $amount
+     * @param string $expected
+     * @dataProvider reserveDataProvider
+     */
+    public function testGetRetrieveTransactionTypeReserve($amount, $expected)
     {
-        $amount = 1.0;
-        $expected = RatepayInstallTransaction::TYPE_AUTHORIZATION;
         $redirect = $this->createMock(Redirect::class);
         $redirect->method('getCancelUrl')->willReturn('cancel-url');
         $redirect->method('getSuccessUrl')->willReturn('success-url');
