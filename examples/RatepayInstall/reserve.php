@@ -31,7 +31,11 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 $ratepayInstallMAID = '73ce088c-b195-4977-8ea8-0be32cca9c2e';
 $ratepayInstallKey = 'd92724cf-5508-44fd-ad67-695e149212d5';
 
-$ratepayInstallConfig = new Config\PaymentMethodConfig(RatepayInstallTransaction::NAME, $ratepayInstallMAID, $ratepayInstallKey);
+$ratepayInstallConfig = new Config\PaymentMethodConfig(
+    RatepayInstallTransaction::NAME,
+    $ratepayInstallMAID,
+    $ratepayInstallKey
+);
 $config->add($ratepayInstallConfig);
 
 // ### Transaction related objects
@@ -39,7 +43,11 @@ $config->add($ratepayInstallConfig);
 $amount = new Money(2400, 'EUR');
 
 // The redirect URLs determine where the consumer should be redirected by Ratepay installment after the reserve.
-$redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
+$redirectUrls = new Redirect(
+    getUrl('return.php?status=success'),
+    getUrl('return.php?status=cancel'),
+    getUrl('return.php?status=failure')
+);
 
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
 $notificationUrl = getUrl('notify.php');

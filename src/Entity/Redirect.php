@@ -54,11 +54,13 @@ class Redirect
      * Redirect constructor.
      * @param string $successUrl
      * @param string $cancelUrl
+     * @param null $failureUrl
      */
-    public function __construct($successUrl, $cancelUrl)
+    public function __construct($successUrl, $cancelUrl, $failureUrl = null)
     {
         $this->successUrl = $successUrl;
         $this->cancelUrl = $cancelUrl;
+        $this->failureUrl = $failureUrl;
     }
 
     /**
@@ -75,5 +77,13 @@ class Redirect
     public function getCancelUrl()
     {
         return $this->cancelUrl;
+    }
+
+    /**
+     * @return null
+     */
+    public function getFailureUrl()
+    {
+        return $this->failureUrl;
     }
 }

@@ -35,20 +35,19 @@ namespace WirecardTest\PaymentSdk\Transaction;
 use Wirecard\PaymentSdk\Entity\ItemCollection;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Entity\Redirect;
-use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayInstallTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
-class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
+class RatepayInstallTransactionUTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PayPalTransaction
+     * @var RatepayInstallTransaction
      */
     private $tx;
 
     public function setUp()
     {
-        $this->tx = new PayPalTransaction();
+        $this->tx = new RatepayInstallTransaction();
     }
 
     /**
@@ -59,6 +58,15 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx->setOperation('non-existing');
         $this->tx->mappedProperties();
     }
+
+    public function reserveDataProvider()
+    {
+        return [
+            [1.0, Transaction::TYPE_AUTHORIZATION],
+            [0.0, 'authorization-only']
+        ];
+    }
+
 
     public function testSetItemCollection()
     {
@@ -86,10 +94,13 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('order-items', $data);
     }
 
-    public function testGetRetrieveTransactionTypeReserve()
+    /**
+     * @param float $amount
+     * @param string $expected
+     * @dataProvider reserveDataProvider
+     */
+    public function testGetRetrieveTransactionTypeReserve($amount, $expected)
     {
-        $amount = 1.0;
-        $expected = RatepayInstallTransaction::TYPE_AUTHORIZATION;
         $redirect = $this->createMock(Redirect::class);
         $redirect->method('getCancelUrl')->willReturn('cancel-url');
         $redirect->method('getSuccessUrl')->willReturn('success-url');
@@ -127,6 +138,7 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
         $redirect = $this->createMock(Redirect::class);
         $redirect->method('getCancelUrl')->willReturn('cancel-url');
         $redirect->method('getSuccessUrl')->willReturn('success-url');
+        $redirect->method('getFailureUrl')->willReturn('failure-url');
 
         $money = $this->createMock(Money::class);
         $money->method('getAmount')->willReturn(1.00);
@@ -150,6 +162,7 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
         $redirect = $this->createMock(Redirect::class);
         $redirect->method('getCancelUrl')->willReturn('cancel-url');
         $redirect->method('getSuccessUrl')->willReturn('success-url');
+        $redirect->method('getFailureUrl')->willReturn('failure-url');
 
         $money = $this->createMock(Money::class);
         $money->method('getAmount')->willReturn($amount);

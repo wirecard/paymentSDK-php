@@ -145,6 +145,10 @@ class TransactionService
             return $this->processAuthFrom3DResponse($payload);
         }
 
+        if (array_key_exists('base64payload', $payload) && array_key_exists('psp_name', $payload)) {
+            return $this->processRatepayInstallmentResponse($payload);
+        }
+
         if (array_key_exists('eppresponse', $payload)) {
             return $this->responseMapper->map($payload['eppresponse']);
         } else {
@@ -323,5 +327,17 @@ class TransactionService
         $transaction->setPaRes($payload['PaRes']);
 
         return $this->process($transaction, $md['operation-type']);
+    }
+
+
+    /**
+     * @param array $payload
+     * @return Response
+     */
+    private function processRatepayInstallmentResponse($payload)
+    {
+        $response = base64_decode($payload['base64payload']);
+
+        return $this->responseMapper->map($response);
     }
 }
