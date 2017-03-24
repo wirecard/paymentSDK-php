@@ -336,8 +336,6 @@ class TransactionService
      */
     private function processRatepayInstallmentResponse($payload)
     {
-        $response = base64_decode($payload['base64payload']);
-
-        return $this->responseMapper->map($response);
+        return $this->responseMapper->map($payload['base64payload']);
     }
 }

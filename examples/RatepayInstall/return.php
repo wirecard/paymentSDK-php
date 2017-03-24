@@ -62,7 +62,7 @@ if ($response instanceof SuccessResponse) {
     ?>
     <br>
     <?php
-    if ($response->getTransactionType() !== 'authorization-only') {
+    if ($response->getTransactionType() !== 'authorization') {
         ?>
         <form action="cancel.php" method="post">
             <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
