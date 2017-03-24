@@ -129,6 +129,26 @@ class RatepayInstallTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Transaction::TYPE_AUTHORIZATION, $data['transaction-type']);
     }
 
+    public function testGetRetrieveTransactionTypeCancel()
+    {
+        $this->tx->setOperation(Operation::CANCEL);
+        $this->tx->setItemCollection(new ItemCollection());
+        $this->tx->setParentTransactionType(Transaction::TYPE_AUTHORIZATION);
+        $data = $this->tx->mappedProperties();
+        $this->assertEquals(Transaction::TYPE_VOID_AUTHORIZATION, $data['transaction-type']);
+    }
+
+    /**
+     *
+     * @expectedException \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
+     */
+    public function testGetRetrieveTransactionTypeCancelThrowsException()
+    {
+        $this->tx->setOperation(Operation::CANCEL);
+        $this->tx->setItemCollection(new ItemCollection());
+        $this->tx->mappedProperties();
+    }
+
 
     public function endpointDataProvider()
     {

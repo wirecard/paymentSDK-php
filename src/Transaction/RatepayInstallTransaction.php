@@ -34,6 +34,8 @@ namespace Wirecard\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\ItemCollection;
 use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
+use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
 /**
  * Class RatepayInstallTransaction
@@ -89,18 +91,26 @@ class RatepayInstallTransaction extends Transaction implements Reservable
     }
 
     /**
+     * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return array
      */
     protected function mappedSpecificProperties()
     {
-        $result = [
-            'order-number' => $this->orderNumber,
-            'order-items' => $this->itemCollection->mappedProperties(),
-            'cancel-redirect-url' => $this->redirect->getCancelUrl(),
-            'success-redirect-url' => $this->redirect->getSuccessUrl(),
-        ];
-        if ($this->redirect->getFailureUrl()) {
-            $result['redirect-url'] = $this->redirect->getFailureUrl();
+        $transactionType = $this->retrieveTransactionType();
+
+        $result['order-items'] = $this->itemCollection->mappedProperties();
+
+        if (null !== $this->orderNumber) {
+            $result['order-number'] = $this->orderNumber;
+        }
+
+        if ($transactionType === $this::TYPE_AUTHORIZATION) {
+            $result['cancel-redirect-url'] = $this->redirect->getCancelUrl();
+            $result['success-redirect-url'] =$this->redirect->getSuccessUrl();
+
+            if ($this->redirect->getFailureUrl()) {
+                $result['redirect-url'] = $this->redirect->getFailureUrl();
+            }
         }
 
         return $result;
@@ -112,6 +122,19 @@ class RatepayInstallTransaction extends Transaction implements Reservable
     protected function retrieveTransactionTypeForReserve()
     {
         return $this::TYPE_AUTHORIZATION;
+    }
+
+    /**
+     * @throws MandatoryFieldMissingException
+     * @return string
+     */
+    protected function retrieveTransactionTypeForCancel()
+    {
+        if ($this->parentTransactionType === $this::TYPE_AUTHORIZATION) {
+            return $this::TYPE_VOID_AUTHORIZATION;
+        }
+
+        throw new MandatoryFieldMissingException('Parent transaction type is missing for cancel operation');
     }
 
     /**
