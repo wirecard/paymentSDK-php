@@ -77,15 +77,6 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->assertAttributeEquals($collection, 'itemCollection', $this->tx);
     }
 
-    public function testGetItemCollection()
-    {
-        $collection = new ItemCollection();
-
-        $this->tx->setItemCollection($collection);
-
-        $this->assertEquals($collection, $this->tx->getItemCollection());
-    }
-
     public function testMappedPropertiesSetsOrderItems()
     {
         $redirect = $this->createMock(Redirect::class);

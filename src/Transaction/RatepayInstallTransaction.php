@@ -33,9 +33,10 @@
 namespace Wirecard\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\ItemCollection;
+use Wirecard\PaymentSdk\Entity\Redirect;
 
 /**
- * Class PayPalTransaction
+ * Class RatepayInstallTransaction
  * @package Wirecard\PaymentSdk\Transaction
  */
 class RatepayInstallTransaction extends Transaction implements Reservable
@@ -43,16 +44,26 @@ class RatepayInstallTransaction extends Transaction implements Reservable
     const NAME = 'ratepay-install';
 
     /**
+     * @var string
+     */
+    private $orderNumber;
+
+    /**
      * @var ItemCollection
      */
     private $itemCollection;
 
     /**
-     * @return ItemCollection
+     * @var Redirect
      */
-    public function getItemCollection()
+    private $redirect;
+
+    /**
+     * @param Redirect $redirect
+     */
+    public function setRedirect($redirect)
     {
-        return $this->itemCollection;
+        $this->redirect = $redirect;
     }
 
     /**
@@ -66,12 +77,45 @@ class RatepayInstallTransaction extends Transaction implements Reservable
     }
 
     /**
+     * @param string $orderNumber
+     * @return RatepayInstallTransaction
+     */
+    public function setOrderNumber($orderNumber)
+    {
+        $this->orderNumber = $orderNumber;
+        return $this;
+    }
+
+    /**
      * @return array
      */
     protected function mappedSpecificProperties()
     {
-        $result = array();
+        return [
+            'order-number' => $this->orderNumber,
+            'order-items' => $this->itemCollection->mappedProperties(),
+            'cancel-redirect-url' => $this->redirect->getCancelUrl(),
+            'success-redirect-url' => $this->redirect->getSuccessUrl(),
+        ];
+    }
 
-        return $result;
+    /**
+     * @return string
+     */
+    protected function retrieveTransactionTypeForReserve()
+    {
+        return $this::TYPE_AUTHORIZATION;
+    }
+
+    /**
+     * return string
+     */
+    public function getEndpoint()
+    {
+        if ($this->operation === Operation::RESERVE) {
+            return $this::ENDPOINT_PAYMENT_METHODS;
+        } else {
+            return $this::ENDPOINT_PAYMENTS;
+        }
     }
 }
