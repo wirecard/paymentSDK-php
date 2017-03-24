@@ -46,6 +46,7 @@ use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayInstallTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
@@ -419,6 +420,25 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $transaction->setParentTransactionId($md['enrollment-check-transaction-id']);
         $transaction->setOperation('authorization');
         $transaction->setPaRes($validContent['PaRes']);
+
+        $successResponse = $this->mockProcessingRequest($transaction);
+
+        $result = $this->instance->handleResponse($validContent);
+
+        $this->assertEquals($successResponse, $result);
+    }
+
+    public function testHandleRatepayResponse()
+    {
+        $md = 'content';
+
+        $validContent = [
+            'base64payload' => base64_encode($md),
+            'psp_name' => 'engine_payments'
+        ];
+
+        $transaction = new RatepayInstallTransaction();
+        $transaction->setOperation('reserve');
 
         $successResponse = $this->mockProcessingRequest($transaction);
 
