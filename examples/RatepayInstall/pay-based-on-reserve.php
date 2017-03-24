@@ -41,13 +41,6 @@ $config->add($ratepayInstallConfig);
 
 // ### Transaction related objects
 
-// Use the money object as amount which has to be payed by the consumer.
-if (array_key_exists('amount', $_POST)) {
-    $amount = new Money((float)$_POST['amount'], 'EUR');
-} else {
-    $amount = new Money(2400, 'EUR');
-}
-
 // The redirect URLs determine where the consumer should be redirected by PayPal after approval/cancellation.
 $redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
 
@@ -69,8 +62,6 @@ $item2->setTaxRate(0.2);
 
 // Create an item collection to store the items.
 $itemCollection = new \Wirecard\PaymentSdk\Entity\ItemCollection();
-$itemCollection->add($item1);
-$itemCollection->add($item2);
 
 // #### Account holder with address
 $address = new \Wirecard\PaymentSdk\Entity\Address('DE', 'Berlin', 'Berlin');
@@ -91,18 +82,64 @@ $accountHolder->setAddress($address);
 $tx = new RatepayInstallTransaction();
 $tx->setNotificationUrl($notificationUrl);
 $tx->setRedirect($redirectUrls);
-$tx->setAmount($amount);
 $tx->setItemCollection($itemCollection);
 $tx->setOrderNumber($orderNumber);
 $tx->setAccountHolder($accountHolder);
 if (array_key_exists('parentTransactionId', $_POST)) {
+    $parentTransactionId = $_POST['parentTransactionId'];
     $tx->setParentTransactionId($_POST['parentTransactionId']);
+} else {
+    $parentTransactionId = '';
+};
+
+if (array_key_exists('item_to_capture', $_POST)) {
+    switch ($_POST['item_to_capture']) {
+        case '1':
+            $itemCollection->add($item1);
+            $amount = new Money(400, 'EUR');
+            break;
+        case '2':
+            $itemCollection->add($item2);
+            $amount = new Money(2000, 'EUR');
+            break;
+        default:
+            $itemCollection->add($item1);
+            $itemCollection->add($item2);
+            $amount = new Money(2400, 'EUR');
+    }
+    $tx->setAmount($amount);
 }
+
 
 // ### Transaction service
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
-$response = $transactionService->pay($tx);
+
+if (array_key_exists('item_to_capture', $_POST)) {
+    $response = $transactionService->pay($tx);
+} else {
+    $response = null;
+}
+
+// ## Select the item to capture
+?>
+    Select the item to capture:
+    <form action="pay-based-on-reserve.php" method="post">
+        <input type="hidden" name="parentTransactionId" value="<?= $parentTransactionId ?>"/>
+        <input type="hidden" name="item_to_capture" value="all"/>
+        <input type="submit" value="Capture all items">
+    </form>
+    <form action="pay-based-on-reserve.php" method="post">
+        <input type="hidden" name="parentTransactionId" value="<?= $parentTransactionId ?>"/>
+        <input type="hidden" name="item_to_capture" value="1"/>
+        <input type="submit" value="Capture item 1">
+    </form>
+    <form action="pay-based-on-reserve.php" method="post">
+        <input type="hidden" name="parentTransactionId" value="<?= $parentTransactionId ?>"/>
+        <input type="hidden" name="item_to_capture" value="2"/>
+        <input type="submit" value="Capture item 2">
+    </form>
+<?php
 
 
 // ## Response handling
