@@ -125,15 +125,30 @@ class RatepayInstallTransaction extends Transaction implements Reservable
 
     /**
      * @throws MandatoryFieldMissingException
+     * @return mixed
+     */
+    protected function retrieveTransactionTypeForPay()
+    {
+        if ($this->parentTransactionId) {
+            return $this::TYPE_CAPTURE_AUTHORIZATION;
+        } else {
+            throw new MandatoryFieldMissingException('Parent transaction id is missing for pay operation.');
+        }
+    }
+
+    /**
+     * @throws MandatoryFieldMissingException
      * @return string
      */
     protected function retrieveTransactionTypeForCancel()
     {
         if ($this->parentTransactionType === $this::TYPE_AUTHORIZATION) {
             return $this::TYPE_VOID_AUTHORIZATION;
+        } elseif ($this->parentTransactionType === $this::TYPE_CAPTURE_AUTHORIZATION) {
+            return 'refund-capture';
+        } else {
+            throw new MandatoryFieldMissingException('No transaction type available to cancel the given transaction.');
         }
-
-        throw new MandatoryFieldMissingException('Parent transaction type is missing for cancel operation');
     }
 
     /**

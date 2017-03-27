@@ -293,7 +293,7 @@ class TransactionService
     private function sendGetRequest($endpoint, $acceptJson = false)
     {
         $request = $this->httpHeader;
-        $request['header']['Accept'] = $acceptJson ? 'application/json' : 'application/xml';
+        $request['headers']['Accept'] = $acceptJson ? self::APPLICATION_JSON : 'application/xml';
 
         $response = $this->httpClient
             ->request('GET', $endpoint, $request)

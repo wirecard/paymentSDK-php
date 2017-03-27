@@ -40,7 +40,12 @@ $config->add($ratepayInstallConfig);
 
 // ### Transaction related objects
 // Use the money object as amount which has to be payed by the consumer.
-$amount = new Money(2400, 'EUR');
+if (array_key_exists('amount', $_POST)) {
+    $amountValue = $_POST['amount'];
+} else {
+    $amountValue = 2400;
+}
+$amount = new Money($amountValue, 'EUR');
 
 // The order number
 $orderNumber = 'A2';
@@ -79,7 +84,7 @@ $response = $transactionService->cancel($transaction);
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
-    echo 'Payment successfully completed.<br>';
+    echo 'Payment successfully cancelled.<br>';
     echo getTransactionLink($baseUrl, $ratepayInstallMAID, $response->getTransactionId());
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {

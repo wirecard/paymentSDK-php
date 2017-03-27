@@ -116,6 +116,14 @@ class AccountHolder implements MappableEntity
     }
 
     /**
+     * @param string $crmId
+     */
+    public function setCrmId($crmId)
+    {
+        $this->crmId = $crmId;
+    }
+
+    /**
      * @param \DateTime $dateOfBirth
      * @return AccountHolder
      */
@@ -123,14 +131,6 @@ class AccountHolder implements MappableEntity
     {
         $this->dateOfBirth = $dateOfBirth;
         return $this;
-    }
-
-    /**
-     * @param string $crmId
-     */
-    public function setCrmId($crmId)
-    {
-        $this->crmId = $crmId;
     }
 
     /**
@@ -151,7 +151,6 @@ class AccountHolder implements MappableEntity
         if (null !== $this->email) {
             $result['email'] = $this->email;
         }
-
 
         if (null !== $this->dateOfBirth) {
             $result['date-of-birth'] = $this->dateOfBirth->format('d-m-Y');
