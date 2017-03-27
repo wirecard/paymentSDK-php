@@ -159,6 +159,7 @@ class TransactionService
      */
     public function handleResponse(array $payload)
     {
+        // 3-D Secure PaRes return
         if (array_key_exists('MD', $payload) && array_key_exists('PaRes', $payload)) {
             return $this->processAuthFrom3DResponse($payload);
         }
@@ -172,9 +173,14 @@ class TransactionService
 
         if (array_key_exists('eppresponse', $payload)) {
             return $this->responseMapper->map($payload['eppresponse']);
-        } else {
-            throw new MalformedResponseException('Missing response in payload.');
         }
+
+        // RatePAY installment
+        if (array_key_exists('base64payload', $payload) && array_key_exists('psp_name', $payload)) {
+            return $this->responseMapper->map($payload['base64payload']);
+        }
+
+        throw new MalformedResponseException('Missing response in payload.');
     }
 
     /**
@@ -287,7 +293,7 @@ class TransactionService
     private function sendGetRequest($endpoint, $acceptJson = false)
     {
         $request = $this->httpHeader;
-        $request['header']['Accept'] = $acceptJson ? 'application/json' : 'application/xml';
+        $request['headers']['Accept'] = $acceptJson ? self::APPLICATION_JSON : 'application/xml';
 
         $response = $this->httpClient
             ->request('GET', $endpoint, $request)

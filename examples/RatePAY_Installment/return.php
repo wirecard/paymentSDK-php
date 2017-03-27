@@ -1,6 +1,6 @@
 <?php
-// # PayPal return after transaction
-// The consumer gets redirected to this page after a PayPal transaction.
+// # RatePay installment return after transaction
+// The consumer gets redirected to this page after a RatePay installment transaction.
 
 // ## Required objects
 // To include the necessary files, we use the composer for PSR-4 autoloading.
@@ -10,7 +10,7 @@ require __DIR__ . '/../inc/common.php';
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 // ### Config
@@ -24,12 +24,17 @@ $httpPass = 'qD2wzQ_hrc!8';
 // A default currency can also be provided.
 $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
-// #### PayPal
-// Create and add a configuration object with the PayPal settings
-$paypalMAID = '9abf05c1-c266-46ae-8eac-7f87ca97af28';
-$paypalKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
-$paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalMAID, $paypalKey);
-$config->add($paypalConfig);
+// #### RatePay installment
+// Create and add a configuration object with the RatePay installment settings
+$ratepayInstallMAID = '73ce088c-b195-4977-8ea8-0be32cca9c2e';
+$ratepayInstallKey = 'd92724cf-5508-44fd-ad67-695e149212d5';
+
+$ratepayInstallConfig = new Config\PaymentMethodConfig(
+    RatepayInstallmentTransaction::NAME,
+    $ratepayInstallMAID,
+    $ratepayInstallKey
+);
+$config->add($ratepayInstallConfig);
 
 
 // ## Transaction
@@ -47,32 +52,27 @@ $response = $service->handleResponse($_POST);
 if ($response instanceof SuccessResponse) {
     $xmlResponse = new SimpleXMLElement($response->getRawData());
     $transactionType = $response->getTransactionType();
-    if ($transactionType === 'authorization') {
-        echo 'Reservation';
-    } else {
-        echo 'Payment';
-    }
-    echo ' successfully completed.<br>';
-    echo getTransactionLink($baseUrl, $paypalMAID, $response->getTransactionId());
+    echo 'Reservation successfully completed.<br>';
+    echo getTransactionLink($baseUrl, $ratepayInstallMAID, $response->getTransactionId());
     ?>
+    <form action="pay-based-on-reserve.php" method="post">
+        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+        <input type="submit" value="Capture the reservation">
+    </form>
     <br>
+    <form action="cancel.php" method="post">
+        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+        <label for="amount">Amount to cancel:</label>
+        <input type="text" name="amount" id="amount" value="2400"/>
+        <input type="submit" value="Cancel">
+    </form>
+    <form action="credit.php" method="post">
+        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+        <label for="amount">Amount to credit:</label>
+        <input type="text" name="amount" id="amount" value="100"/>
+        <input type="submit" value="Credit">
+    </form>
     <?php
-    if ($response->getTransactionType() !== 'authorization-only') {
-        ?>
-        <form action="cancel.php" method="post">
-            <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-            <input type="submit" value="Cancel">
-        </form>
-        <?php
-    }
-    if ($transactionType === 'authorization') { ?>
-        <form action="pay-based-on-reserve.php" method="post">
-            <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-            <input type="hidden" name="transaction-type" value="<?= $transactionType ?>"/>
-            <input type="submit" value="Capture the payment">
-        </form>
-        <?php
-    }
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
 // In our example we iterate over all errors and echo them out.

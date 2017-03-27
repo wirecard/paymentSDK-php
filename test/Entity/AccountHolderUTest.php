@@ -33,6 +33,7 @@
 namespace WirecardTest\PaymentSdk\Entity;
 
 use Wirecard\PaymentSdk\Entity\AccountHolder;
+use Wirecard\PaymentSdk\Entity\Address;
 
 class AccountHolderUTest extends \PHPUnit_Framework_TestCase
 {
@@ -88,7 +89,26 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetMappedPropertieCrmId()
+    public function testMappedPropertiesWithAddress()
+    {
+        $addr = new Address('AT', 'Graz', 'Reininghausstraße 13a');
+        $addr->setPostalCode('8020');
+
+        $this->accountHolder->setAddress($addr);
+
+        $expectedResult = [
+            'address' => [
+                'street1' => 'Reininghausstraße 13a',
+                'city' => 'Graz',
+                'country' => 'AT',
+                'postal-code' => '8020'
+            ]
+        ];
+
+        $this->assertEquals($expectedResult, $this->accountHolder->mappedProperties());
+    }
+
+    public function testGetMappedPropertiesCrmId()
     {
         $crmId = '1243df';
         $this->accountHolder->setCrmId($crmId);
@@ -96,6 +116,19 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             [
                 'merchant-crm-id' => $crmId
+            ],
+            $this->accountHolder->mappedProperties()
+        );
+    }
+
+    public function testGetMappedPropertiesDateOfBirth()
+    {
+        $dateOfBirth = new \DateTime('2016-01-01');
+        $this->accountHolder->setDateOfBirth($dateOfBirth);
+
+        $this->assertEquals(
+            [
+                'date-of-birth' => $dateOfBirth->format('d-m-Y')
             ],
             $this->accountHolder->mappedProperties()
         );

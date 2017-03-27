@@ -33,57 +33,94 @@
 namespace Wirecard\PaymentSdk\Entity;
 
 /**
- * Class Redirect
+ * Class Address
  * @package Wirecard\PaymentSdk\Entity
  *
- * An immutable entity representing redirect URL-s.
+ * An entity representing a physical address.
  */
-class Redirect
+class Address implements MappableEntity
 {
     /**
      * @var string
+     *
+     * The 2-character code of the country.
      */
-    private $successUrl;
+    private $countryCode;
 
     /**
      * @var string
      */
-    private $cancelUrl;
+    private $city;
 
     /**
-     * Redirect constructor.
-     * @param string $successUrl
-     * @param string $cancelUrl
-     * @param null $failureUrl
+     * @var string
      */
-    public function __construct($successUrl, $cancelUrl, $failureUrl = null)
+    private $street1;
+
+    /**
+     * @var string
+     */
+    private $street2;
+
+    /**
+     * @var string
+     */
+    private $postalCode;
+
+    /**
+     * Address constructor.
+     * @param string $countryCode
+     * @param string $city
+     * @param string $street1
+     */
+    public function __construct($countryCode, $city, $street1)
     {
-        $this->successUrl = $successUrl;
-        $this->cancelUrl = $cancelUrl;
-        $this->failureUrl = $failureUrl;
+        $this->countryCode = $countryCode;
+        $this->city = $city;
+        $this->street1 = $street1;
     }
 
     /**
-     * @return string
+     * @param string $street2
+     * Enter the house number incl. suffixes here.
      */
-    public function getSuccessUrl()
+    public function setStreet2($street2)
     {
-        return $this->successUrl;
+        $this->street2 = $street2;
     }
 
     /**
-     * @return string
+     * @param string $postalCode
      */
-    public function getCancelUrl()
+    public function setPostalCode($postalCode)
     {
-        return $this->cancelUrl;
+        $this->postalCode = $postalCode;
     }
 
     /**
-     * @return null
+     * @return array
      */
-    public function getFailureUrl()
+    public function mappedProperties()
     {
-        return $this->failureUrl;
+        $result = [
+            'street1' => $this->street1,
+            'city' => $this->city,
+            'country' => $this->countryCode
+        ];
+
+        if (null !== $this->postalCode) {
+            $result['postal-code'] = $this->postalCode;
+        }
+
+        if (null !== $this->street2) {
+            $result['street2'] = $this->street2;
+        } else {
+            if (strlen($this->street1) > 128) {
+                $result['street1'] = substr($this->street1, 0, 128);
+                $result['street2'] = substr($this->street1, 128);
+            }
+        }
+
+        return $result;
     }
 }

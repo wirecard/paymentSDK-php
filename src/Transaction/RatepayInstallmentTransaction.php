@@ -38,17 +38,17 @@ use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
 /**
- * Class PayPalTransaction
+ * Class RatepayInstallTransaction
  * @package Wirecard\PaymentSdk\Transaction
  */
-class PayPalTransaction extends Transaction implements Reservable
+class RatepayInstallmentTransaction extends Transaction implements Reservable
 {
-    const NAME = 'paypal';
+    const NAME = 'ratepay-install';
 
     /**
-     * @var Redirect
+     * @var string
      */
-    private $redirect;
+    private $orderNumber;
 
     /**
      * @var ItemCollection
@@ -56,16 +56,23 @@ class PayPalTransaction extends Transaction implements Reservable
     private $itemCollection;
 
     /**
+     * @var Redirect
+     */
+    private $redirect;
+
+    /**
      * @param Redirect $redirect
+     * @return RatepayInstallmentTransaction
      */
     public function setRedirect($redirect)
     {
         $this->redirect = $redirect;
+        return $this;
     }
 
     /**
      * @param ItemCollection $itemCollection
-     * @return PayPalTransaction
+     * @return RatepayInstallmentTransaction
      */
     public function setItemCollection($itemCollection)
     {
@@ -74,15 +81,13 @@ class PayPalTransaction extends Transaction implements Reservable
     }
 
     /**
-     * return string
+     * @param string $orderNumber
+     * @return RatepayInstallmentTransaction
      */
-    public function getEndpoint()
+    public function setOrderNumber($orderNumber)
     {
-        if (null !== $this->parentTransactionId && $this->operation !== Operation::RESERVE) {
-            return $this::ENDPOINT_PAYMENTS;
-        } else {
-            return $this::ENDPOINT_PAYMENT_METHODS;
-        }
+        $this->orderNumber = $orderNumber;
+        return $this;
     }
 
     /**
@@ -92,25 +97,22 @@ class PayPalTransaction extends Transaction implements Reservable
     protected function mappedSpecificProperties()
     {
         $transactionType = $this->retrieveTransactionType();
-        $data = array();
 
-        if (null !== $this->itemCollection && ($transactionType === $this::TYPE_AUTHORIZATION
-                || $transactionType === $this::TYPE_DEBIT)
-        ) {
-            $data['order-items'] = $this->itemCollection->mappedProperties();
+        $result = [
+            'order-number' => $this->orderNumber,
+            'order-items' => $this->itemCollection->mappedProperties()
+        ];
+
+        if ($transactionType === $this::TYPE_AUTHORIZATION) {
+            $result['cancel-redirect-url'] = $this->redirect->getCancelUrl();
+            $result['success-redirect-url'] = $this->redirect->getSuccessUrl();
+
+            if ($this->redirect->getFailureUrl()) {
+                $result['redirect-url'] = $this->redirect->getFailureUrl();
+            }
         }
 
-        if ($this->operation !== Operation::CANCEL) {
-            $data['cancel-redirect-url'] = $this->redirect->getCancelUrl();
-            $data['success-redirect-url'] = $this->redirect->getSuccessUrl();
-        }
-
-        if ($transactionType === 'authorization-only') {
-            $data['periodic']['periodic-type'] = 'recurring';
-            $data['periodic']['sequence-type'] = 'first';
-        }
-
-        return $data;
+        return $result;
     }
 
     /**
@@ -118,22 +120,19 @@ class PayPalTransaction extends Transaction implements Reservable
      */
     protected function retrieveTransactionTypeForReserve()
     {
-        if ($this->amount->getAmount() === 0.0) {
-            return 'authorization-only';
-        } else {
-            return $this::TYPE_AUTHORIZATION;
-        }
+        return $this::TYPE_AUTHORIZATION;
     }
 
     /**
-     * @return string
+     * @throws MandatoryFieldMissingException
+     * @return mixed
      */
     protected function retrieveTransactionTypeForPay()
     {
-        if ($this->parentTransactionType) {
+        if ($this->parentTransactionId) {
             return $this::TYPE_CAPTURE_AUTHORIZATION;
         } else {
-            return $this::TYPE_DEBIT;
+            throw new MandatoryFieldMissingException('Parent transaction id is missing for pay operation.');
         }
     }
 
@@ -143,30 +142,33 @@ class PayPalTransaction extends Transaction implements Reservable
      */
     protected function retrieveTransactionTypeForCancel()
     {
-        switch ($this->parentTransactionType) {
-            case $this::TYPE_AUTHORIZATION:
-                $transactionType = $this::TYPE_VOID_AUTHORIZATION;
-                break;
-            case $this::TYPE_DEBIT:
-                $transactionType = 'refund-debit';
-                break;
-            case $this::TYPE_CAPTURE_AUTHORIZATION:
-                $transactionType = 'refund-capture';
-                break;
-            default:
-                throw new MandatoryFieldMissingException(
-                    'Parent transaction type is missing for cancel operation'
-                );
+        if ($this->parentTransactionType === $this::TYPE_AUTHORIZATION) {
+            return $this::TYPE_VOID_AUTHORIZATION;
+        } elseif ($this->parentTransactionType === $this::TYPE_CAPTURE_AUTHORIZATION) {
+            return 'refund-capture';
+        } else {
+            throw new MandatoryFieldMissingException('No transaction type available to cancel the given transaction.');
         }
-
-        return $transactionType;
     }
+
 
     /**
      * @return string
      */
     protected function retrieveTransactionTypeForCredit()
     {
-        return 'pending-credit';
+        return $this::TYPE_CREDIT;
+    }
+
+    /**
+     * return string
+     */
+    public function getEndpoint()
+    {
+        if ($this->operation === Operation::RESERVE) {
+            return $this::ENDPOINT_PAYMENT_METHODS;
+        } else {
+            return $this::ENDPOINT_PAYMENTS;
+        }
     }
 }

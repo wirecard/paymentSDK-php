@@ -50,6 +50,10 @@ class AccountHolder implements MappableEntity
      */
     private $firstName;
 
+    /**
+     * @var Address
+     */
+    private $address;
 
     /**
      * @var string;
@@ -60,6 +64,11 @@ class AccountHolder implements MappableEntity
      * @var string
      */
     private $phone;
+
+    /**
+     * @var \DateTime
+     */
+    private $dateOfBirth;
 
     /**
      * @var string
@@ -99,11 +108,29 @@ class AccountHolder implements MappableEntity
     }
 
     /**
+     * @param Address $address
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
+    }
+
+    /**
      * @param string $crmId
      */
     public function setCrmId($crmId)
     {
         $this->crmId = $crmId;
+    }
+
+    /**
+     * @param \DateTime $dateOfBirth
+     * @return AccountHolder
+     */
+    public function setDateOfBirth(\DateTime $dateOfBirth)
+    {
+        $this->dateOfBirth = $dateOfBirth;
+        return $this;
     }
 
     /**
@@ -125,8 +152,16 @@ class AccountHolder implements MappableEntity
             $result['email'] = $this->email;
         }
 
+        if (null !== $this->dateOfBirth) {
+            $result['date-of-birth'] = $this->dateOfBirth->format('d-m-Y');
+        }
+
         if (null !== $this->phone) {
             $result['phone'] = $this->phone;
+        }
+
+        if (null !== $this->address) {
+            $result['address'] = $this->address->mappedProperties();
         }
 
         if (null !== $this->crmId) {
