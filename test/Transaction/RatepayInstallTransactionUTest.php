@@ -183,6 +183,15 @@ class RatepayInstallTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx->mappedProperties();
     }
 
+    public function testGetRetrieveTransactionTypeCredit()
+    {
+        $this->tx->setOperation(Operation::CREDIT);
+        $this->tx->setItemCollection(new ItemCollection());
+        $data = $this->tx->mappedProperties();
+        $this->assertEquals('credit', $data['transaction-type']);
+    }
+
+
     public function endpointDataProvider()
     {
         return [
