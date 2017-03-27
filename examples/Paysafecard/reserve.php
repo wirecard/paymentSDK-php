@@ -8,6 +8,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 
 use Wirecard\PaymentSdk\Config;
+use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -45,6 +46,11 @@ $redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return
 
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
 $notificationUrl = getUrl('notify.php');
+
+//Account holder with last name and the crm id of your customer
+$accountHolder = new AccountHolder();
+$accountHolder->setCrmId(20);
+$accountHolder->setLastName('Doe');
 
 // ## Transaction
 
