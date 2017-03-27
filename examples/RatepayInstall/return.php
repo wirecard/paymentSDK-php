@@ -66,6 +66,12 @@ if ($response instanceof SuccessResponse) {
         <input type="text" name="amount" id="amount" value="2400"/>
         <input type="submit" value="Cancel">
     </form>
+    <form action="credit.php" method="post">
+        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+        <label for="amount">Amount to credit:</label>
+        <input type="text" name="amount" id="amount" value="100"/>
+        <input type="submit" value="Credit">
+    </form>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {

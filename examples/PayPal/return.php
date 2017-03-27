@@ -67,11 +67,11 @@ if ($response instanceof SuccessResponse) {
     }
     if ($transactionType === 'authorization') { ?>
         <form action="pay-based-on-reserve.php" method="post">
-        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="hidden" name="transaction-type" value="<?= $transactionType ?>"/>
+            <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+            <input type="hidden" name="transaction-type" value="<?= $transactionType ?>"/>
             <input type="submit" value="Capture the payment">
-    </form>
-    <?php
+        </form>
+        <?php
     }
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {

@@ -151,6 +151,15 @@ class RatepayInstallTransaction extends Transaction implements Reservable
         }
     }
 
+
+    /**
+     * @return string
+     */
+    protected function retrieveTransactionTypeForCredit()
+    {
+        return $this::TYPE_CREDIT;
+    }
+
     /**
      * return string
      */
