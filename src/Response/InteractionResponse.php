@@ -32,6 +32,8 @@
 
 namespace Wirecard\PaymentSdk\Response;
 
+use Wirecard\PaymentSdk\Exception\MalformedResponseException;
+
 /**
  * Class InteractionResponse
  * @package Wirecard\PaymentSdk\Response
@@ -56,6 +58,7 @@ class InteractionResponse extends Response
      * InteractionResponse constructor.
      * @param \SimpleXmlElement $simpleXml
      * @param string $redirectUrl - Redirect url of the external service provider
+     * @throws MalformedResponseException
      */
     public function __construct($simpleXml, $redirectUrl)
     {

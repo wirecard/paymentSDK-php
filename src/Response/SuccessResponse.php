@@ -53,6 +53,7 @@ class SuccessResponse extends Response
     /**
      * SuccessResponse constructor.
      * @param \SimpleXMLElement $simpleXml
+     * @throws MalformedResponseException
      */
     public function __construct($simpleXml)
     {

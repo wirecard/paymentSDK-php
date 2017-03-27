@@ -33,6 +33,7 @@
 namespace Wirecard\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
 class SofortTransaction extends Transaction
@@ -67,6 +68,7 @@ class SofortTransaction extends Transaction
 
     /**
      * @throws UnsupportedOperationException
+     * @throws MandatoryFieldMissingException
      * @return array
      */
     protected function mappedSpecificProperties()
