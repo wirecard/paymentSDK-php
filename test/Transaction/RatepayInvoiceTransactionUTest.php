@@ -73,6 +73,7 @@ class RatepayInvoiceTransactionUTest extends \PHPUnit_Framework_TestCase
     public function testMappedPropertiesSetsOrderItems()
     {
         $this->tx->setOperation(Operation::RESERVE);
+        $this->tx->setItemCollection(new ItemCollection());
         $data = $this->tx->mappedProperties();
 
         $this->assertArrayHasKey('order-items', $data);
