@@ -71,6 +71,11 @@ class AccountHolder implements MappableEntity
     private $dateOfBirth;
 
     /**
+     * @var string
+     */
+    private $crmId;
+
+    /**
      * @param string $firstName
      */
     public function setFirstName($firstName)
@@ -108,6 +113,14 @@ class AccountHolder implements MappableEntity
     public function setAddress($address)
     {
         $this->address = $address;
+    }
+
+    /**
+     * @param string $crmId
+     */
+    public function setCrmId($crmId)
+    {
+        $this->crmId = $crmId;
     }
 
     /**
@@ -149,6 +162,10 @@ class AccountHolder implements MappableEntity
 
         if (null !== $this->address) {
             $result['address'] = $this->address->mappedProperties();
+        }
+
+        if (null !== $this->crmId) {
+            $result['merchant-crm-id'] = $this->crmId;
         }
 
         return $result;
