@@ -197,6 +197,8 @@ abstract class Transaction
     }
 
     /**
+     * @throws MandatoryFieldMissingException
+     * @throws UnsupportedOperationException
      * @return array
      *
      * A template method for the mapping of the transaction properties:
@@ -278,20 +280,22 @@ abstract class Transaction
     {
         switch ($this->operation) {
             case Operation::RESERVE:
-                return $this->retrieveTransactionTypeForReserve();
+                $transactionType = $this->retrieveTransactionTypeForReserve();
                 break;
             case Operation::PAY:
-                return $this->retrieveTransactionTypeForPay();
+                $transactionType = $this->retrieveTransactionTypeForPay();
                 break;
             case Operation::CANCEL:
-                return $this->retrieveTransactionTypeForCancel();
+                $transactionType = $this->retrieveTransactionTypeForCancel();
                 break;
             case Operation::CREDIT:
-                return $this->retrieveTransactionTypeForCredit();
+                $transactionType = $this->retrieveTransactionTypeForCredit();
                 break;
             default:
                 throw new UnsupportedOperationException();
         }
+
+        return $transactionType;
     }
 
     /**

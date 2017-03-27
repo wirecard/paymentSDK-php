@@ -119,9 +119,9 @@ class ResponseMapper
 
         if (count($paymentMethod) === 1) {
             return $paymentMethod[0];
-        } else {
-            throw new MalformedResponseException('More payment methods in response.');
         }
+
+        throw new MalformedResponseException('More payment methods in response.');
     }
 
     /**
@@ -132,9 +132,9 @@ class ResponseMapper
     {
         if (isset($paymentMethod['url'])) {
             return (string)$paymentMethod['url'];
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**
@@ -151,14 +151,15 @@ class ResponseMapper
     ) {
         if (!isset($this->simpleXml->{'three-d'})) {
             throw new MalformedResponseException('Missing three-d element in enrollment-check response.');
-        } else {
-            $threeD = $this->simpleXml->{'three-d'};
         }
+
+        $threeD = $this->simpleXml->{'three-d'};
+
         if (!isset($threeD->{'acs-url'})) {
             throw new MalformedResponseException('Missing acs redirect url in enrollment-check response.');
-        } else {
-            $redirectUrl = (string)$threeD->{'acs-url'};
         }
+
+        $redirectUrl = (string)$threeD->{'acs-url'};
 
         $response = new FormInteractionResponse($payload, $redirectUrl);
 
@@ -166,9 +167,9 @@ class ResponseMapper
         $fields->add('TermUrl', $transaction->getTermUrl());
         if (!isset($threeD->{'pareq'})) {
             throw new MalformedResponseException('Missing pareq in enrollment-check response.');
-        } else {
-            $fields->add('PaReq', (string)$threeD->{'pareq'});
         }
+
+        $fields->add('PaReq', (string)$threeD->{'pareq'});
 
         $fields->add(
             'MD',
@@ -202,8 +203,8 @@ class ResponseMapper
         $redirectUrl = $this->getRedirectUrl($paymentMethod);
         if ($redirectUrl !== null) {
             return new InteractionResponse($this->simpleXml, $redirectUrl);
-        } else {
-            return new SuccessResponse($this->simpleXml);
         }
+
+        return new SuccessResponse($this->simpleXml);
     }
 }

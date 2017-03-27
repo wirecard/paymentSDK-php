@@ -32,8 +32,6 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
-
 class SofortTransaction extends Transaction
 {
     const NAME = 'sofortbanking';
@@ -52,7 +50,6 @@ class SofortTransaction extends Transaction
     }
 
     /**
-     * @throws UnsupportedOperationException
      * @return array
      */
     protected function mappedSpecificProperties()

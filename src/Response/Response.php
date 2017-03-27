@@ -66,6 +66,7 @@ abstract class Response
     /**
      * Response constructor.
      * @param $simpleXml SimpleXMLElement
+     * @throws MalformedResponseException
      */
     public function __construct($simpleXml)
     {
@@ -101,9 +102,9 @@ abstract class Response
     {
         if (isset($this->simpleXml->{$element})) {
             return (string)$this->simpleXml->{$element};
-        } else {
-            throw new MalformedResponseException('Missing '.$element.' in response.');
         }
+
+        throw new MalformedResponseException('Missing '.$element.' in response.');
     }
 
     /**

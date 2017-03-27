@@ -33,6 +33,7 @@
 namespace Wirecard\PaymentSdk\Response;
 
 use Wirecard\PaymentSdk\Entity\FormFieldMap;
+use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 
 /**
  * Class FormInteractionResponse
@@ -60,6 +61,7 @@ class FormInteractionResponse extends Response
      * FormInteractionResponse constructor.
      * @param \SimpleXMLElement $simpleXml
      * @param string $url
+     * @throws MalformedResponseException
      */
     public function __construct($simpleXml, $url)
     {

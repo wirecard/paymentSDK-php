@@ -38,6 +38,7 @@ use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
+use Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException;
 use Wirecard\PaymentSdk\Mapper\RequestMapper;
 use Wirecard\PaymentSdk\Mapper\ResponseMapper;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -60,6 +61,7 @@ use Wirecard\PaymentSdk\Transaction\Transaction;
 class TransactionService
 {
     const APPLICATION_JSON = 'application/json';
+    const REQUEST_ID = 'request_id';
 
     /**
      * @var Config
@@ -154,43 +156,56 @@ class TransactionService
 
     /**
      * @param array $payload
-     * @return FailureResponse|InteractionResponse|SuccessResponse|Response
      * @throws MalformedResponseException
+     * @throws UnconfiguredPaymentMethodException
+     * @throws \RuntimeException
+     * @return FailureResponse|InteractionResponse|SuccessResponse|Response
      */
     public function handleResponse(array $payload)
     {
+        $data = null;
+
         // 3-D Secure PaRes return
         if (array_key_exists('MD', $payload) && array_key_exists('PaRes', $payload)) {
-            return $this->processAuthFrom3DResponse($payload);
+            $data = $this->processAuthFrom3DResponse($payload);
         }
 
-        if (array_key_exists('ec', $payload) &&
+        if (null === $data &&
+            array_key_exists('ec', $payload) &&
             array_key_exists('trxid', $payload) &&
-            array_key_exists('request_id', $payload)
+            array_key_exists(self::REQUEST_ID, $payload)
         ) {
-            return $this->processFromIdealResponse($payload);
+            $data = $this->processFromIdealResponse($payload);
         }
 
-        if (array_key_exists('eppresponse', $payload)) {
-            return $this->responseMapper->map($payload['eppresponse']);
+        if (null === $data && array_key_exists('eppresponse', $payload)) {
+            $data = $this->responseMapper->map($payload['eppresponse']);
         }
 
         // RatePAY installment
-        if (array_key_exists('base64payload', $payload) && array_key_exists('psp_name', $payload)) {
-            return $this->responseMapper->map($payload['base64payload']);
+        if (null === $data &&
+            array_key_exists('base64payload', $payload) &&
+            array_key_exists('psp_name', $payload)
+        ) {
+            $data = $this->responseMapper->map($payload['base64payload']);
+        }
+
+        if ($data instanceof Response) {
+            return $data;
         }
 
         throw new MalformedResponseException('Missing response in payload.');
     }
 
     /**
+     * @throws UnconfiguredPaymentMethodException
      * @return string
      */
     public function getDataForCreditCardUi()
     {
         $requestData = array(
             'request_time_stamp' => gmdate('YmdHis'),
-            'request_id' => call_user_func($this->requestIdGenerator, 64),
+            self::REQUEST_ID => call_user_func($this->requestIdGenerator, 64),
             'transaction_type' => 'authorization-only',
             'merchant_account_id' => $this->config->get(CreditCardTransaction::NAME)->getMerchantAccountId(),
             'requested_amount' => 0,
@@ -202,7 +217,7 @@ class TransactionService
             'sha256',
             trim(
                 $requestData['request_time_stamp'] .
-                $requestData['request_id'] .
+                $requestData[self::REQUEST_ID] .
                 $requestData['merchant_account_id'] .
                 $requestData['transaction_type'] .
                 $requestData['requested_amount'] .
@@ -216,6 +231,9 @@ class TransactionService
 
     /**
      * @param Reservable $transaction
+     * @throws MalformedResponseException
+     * @throws UnconfiguredPaymentMethodException
+     * @throws \RuntimeException
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
      */
     public function reserve(Reservable $transaction)
@@ -225,6 +243,9 @@ class TransactionService
 
     /**
      * @param Transaction $transaction
+     * @throws MalformedResponseException
+     * @throws UnconfiguredPaymentMethodException
+     * @throws \RuntimeException
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
      */
     public function pay(Transaction $transaction)
@@ -234,6 +255,9 @@ class TransactionService
 
     /**
      * @param Transaction $transaction
+     * @throws MalformedResponseException
+     * @throws UnconfiguredPaymentMethodException
+     * @throws \RuntimeException
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
      */
     public function cancel(Transaction $transaction)
@@ -243,6 +267,9 @@ class TransactionService
 
     /**
      * @param Transaction $transaction
+     * @throws MalformedResponseException
+     * @throws UnconfiguredPaymentMethodException
+     * @throws \RuntimeException
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
      */
     public function credit(Transaction $transaction)
@@ -267,11 +294,12 @@ class TransactionService
     /**
      * @param $endpoint
      * @param string $requestBody
+     * @throws \RuntimeException
      * @return string
      */
     private function sendPostRequest($endpoint, $requestBody)
     {
-        $this->getLogger()->debug("Request body: " . $requestBody);
+        $this->getLogger()->debug('Request body: ' . $requestBody);
 
         $request = $this->httpHeader;
         $request['body'] = $requestBody;
@@ -288,6 +316,7 @@ class TransactionService
     /**
      * @param $endpoint
      * @param bool $acceptJson
+     * @throws \RuntimeException
      * @return string|array
      */
     private function sendGetRequest($endpoint, $acceptJson = false)
@@ -310,6 +339,9 @@ class TransactionService
     /**
      * @param Transaction|Reservable $transaction
      * @param string $operation
+     * @throws UnconfiguredPaymentMethodException
+     * @throws MalformedResponseException
+     * @throws \RuntimeException
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
      */
     public function process(Transaction $transaction, $operation)
@@ -341,6 +373,8 @@ class TransactionService
     /**
      * @param $transactionId
      * @param $paymentMethod
+     * @throws UnconfiguredPaymentMethodException
+     * @throws \RuntimeException
      * @return null|array
      */
     private function getTransactionByTransactionId($transactionId, $paymentMethod)
@@ -356,6 +390,9 @@ class TransactionService
 
     /**
      * @param array $payload
+     * @throws MalformedResponseException
+     * @throws UnconfiguredPaymentMethodException
+     * @throws \RuntimeException
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
      */
     private function processAuthFrom3DResponse($payload)
@@ -371,6 +408,9 @@ class TransactionService
 
     /**
      * @param array $payload
+     * @throws UnconfiguredPaymentMethodException
+     * @throws MalformedResponseException
+     * @throws \RuntimeException
      * @return Response
      */
     private function processFromIdealResponse($payload)
@@ -378,7 +418,7 @@ class TransactionService
         $endpoint =
             $this->config->getBaseUrl() . '/engine/rest/merchants/' .
             $this->config->get(IdealTransaction::NAME)->getMerchantAccountId() .
-            '/payments/search?payment.request-id=' . $payload['request_id'];
+            '/payments/search?payment.request-id=' . $payload[self::REQUEST_ID];
         $transaction = $this->sendGetRequest($endpoint);
 
         return $this->responseMapper->map($transaction);

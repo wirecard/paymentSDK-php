@@ -51,9 +51,10 @@ class PaysafecardTransaction extends Transaction implements Reservable
         if ($this->operation === Operation::RESERVE ||
             ($this->operation === Operation::PAY && null === $this->parentTransactionId)) {
             return self::ENDPOINT_PAYMENT_METHODS;
-        } else {
-            return self::ENDPOINT_PAYMENTS;
         }
+
+        return self::ENDPOINT_PAYMENTS;
+
     }
 
     /**

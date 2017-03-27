@@ -50,9 +50,9 @@ class PayPalTransaction extends Transaction implements Reservable
     {
         if (null !== $this->parentTransactionId && $this->operation !== Operation::RESERVE) {
             return self::ENDPOINT_PAYMENTS;
-        } else {
-            return self::ENDPOINT_PAYMENT_METHODS;
         }
+
+        return self::ENDPOINT_PAYMENT_METHODS;
     }
 
     /**
@@ -79,9 +79,9 @@ class PayPalTransaction extends Transaction implements Reservable
     {
         if ($this->amount->getAmount() === 0.0) {
             return self::TYPE_AUTHORIZATION_ONLY;
-        } else {
-            return self::TYPE_AUTHORIZATION;
         }
+
+        return self::TYPE_AUTHORIZATION;
     }
 
     /**
@@ -91,9 +91,9 @@ class PayPalTransaction extends Transaction implements Reservable
     {
         if ($this->parentTransactionType) {
             return self::TYPE_CAPTURE_AUTHORIZATION;
-        } else {
-            return self::TYPE_DEBIT;
         }
+
+        return $this::TYPE_DEBIT;
     }
 
     /**
