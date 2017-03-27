@@ -155,7 +155,7 @@ class RatepayInstallmentTransactionUTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
      */
     public function testGetRetrieveTransactionTypeCancelThrowsException()
     {
