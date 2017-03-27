@@ -34,20 +34,21 @@ namespace WirecardTest\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\ItemCollection;
 use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\Operation;
-use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
-class RatepayInvoiceTransactionUTest extends \PHPUnit_Framework_TestCase
+class RatepayTransactionUTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var RatepayInvoiceTransaction
+     * @var RatepayTransaction
      */
     private $tx;
 
     public function setUp()
     {
-        $this->tx = new RatepayInvoiceTransaction();
+        $this->tx = new RatepayTransaction();
     }
 
     /**
@@ -69,11 +70,37 @@ class RatepayInvoiceTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->assertAttributeEquals($collection, 'itemCollection', $this->tx);
     }
 
+    public function testSetFailureUrl()
+    {
+        $redirect = $this->createMock(Redirect::class);
+        $redirect->method('getCancelUrl')->willReturn('cancel-url');
+        $redirect->method('getSuccessUrl')->willReturn('success-url');
+        $redirect->method('getFailureUrl')->willReturn('failure-url');
+
+        /**
+         * @var Redirect $redirect
+         */
+        $this->tx->setItemCollection(new ItemCollection());
+        $this->tx->setOperation(Operation::RESERVE);
+        $this->tx->setRedirect($redirect);
+        $data = $this->tx->mappedProperties();
+
+        $this->assertArrayHasKey('redirect-url', $data);
+    }
+
 
     public function testMappedPropertiesSetsOrderItems()
     {
-        $this->tx->setOperation(Operation::RESERVE);
+        $redirect = $this->createMock(Redirect::class);
+        $redirect->method('getCancelUrl')->willReturn('cancel-url');
+        $redirect->method('getSuccessUrl')->willReturn('success-url');
+
+        /**
+         * @var Redirect $redirect
+         */
         $this->tx->setItemCollection(new ItemCollection());
+        $this->tx->setOperation(Operation::RESERVE);
+        $this->tx->setRedirect($redirect);
         $data = $this->tx->mappedProperties();
 
         $this->assertArrayHasKey('order-items', $data);
@@ -83,12 +110,18 @@ class RatepayInvoiceTransactionUTest extends \PHPUnit_Framework_TestCase
     {
         $this->tx->setItemCollection(new ItemCollection());
 
+        $redirect = $this->createMock(Redirect::class);
+        $redirect->method('getCancelUrl')->willReturn('cancel-url');
+        $redirect->method('getSuccessUrl')->willReturn('success-url');
+
         $money = $this->createMock(Money::class);
         $money->method('getAmount')->willReturn(1.0);
 
         /**
+         * @var Redirect $redirect
          * @var Money $money
          */
+        $this->tx->setRedirect($redirect);
         $this->tx->setAmount($money);
         $this->tx->setOperation(Operation::RESERVE);
         $data = $this->tx->mappedProperties();
@@ -174,9 +207,9 @@ class RatepayInvoiceTransactionUTest extends \PHPUnit_Framework_TestCase
     public function endpointDataProvider()
     {
         return [
-            [Operation::RESERVE, RatepayInvoiceTransaction::ENDPOINT_PAYMENT_METHODS],
-            [Operation::PAY, RatepayInvoiceTransaction::ENDPOINT_PAYMENTS],
-            [Operation::CANCEL, RatepayInvoiceTransaction::ENDPOINT_PAYMENTS],
+            [Operation::RESERVE, RatepayTransaction::ENDPOINT_PAYMENT_METHODS],
+            [Operation::PAY, RatepayTransaction::ENDPOINT_PAYMENTS],
+            [Operation::CANCEL, RatepayTransaction::ENDPOINT_PAYMENTS],
         ];
     }
 
@@ -194,8 +227,16 @@ class RatepayInvoiceTransactionUTest extends \PHPUnit_Framework_TestCase
     public function testSetOrderNumber()
     {
         $orderNr = 123;
+        $redirect = $this->createMock(Redirect::class);
+        $redirect->method('getCancelUrl')->willReturn('cancel-url');
+        $redirect->method('getSuccessUrl')->willReturn('success-url');
+
+        /**
+         * @var Redirect $redirect
+         */
         $this->tx->setItemCollection(new ItemCollection());
         $this->tx->setOperation(Operation::RESERVE);
+        $this->tx->setRedirect($redirect);
         $this->tx->setOrderNumber($orderNr);
         $data = $this->tx->mappedProperties();
 
