@@ -90,9 +90,7 @@ class SepaTransaction extends Transaction implements Reservable
         $result = array();
 
         if (null !== $this->iban) {
-            $result['bank-account'] = [
-                'iban' => $this->iban
-            ];
+            $result['bank-account'] = ['iban' => $this->iban];
             if (null !== $this->bic) {
                 $result['bank-account']['bic'] = $this->bic;
             }
@@ -110,7 +108,8 @@ class SepaTransaction extends Transaction implements Reservable
      */
     public function getConfigKey()
     {
-        if (Operation::CREDIT === $this->operation || $this::TYPE_CREDIT === $this->parentTransactionType
+        if (Operation::CREDIT === $this->operation
+            || $this::TYPE_CREDIT === $this->parentTransactionType
             || $this::TYPE_PENDING_CREDIT === $this->parentTransactionType
         ) {
             return self::CREDIT_TRANSFER;
