@@ -32,31 +32,14 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\Redirect;
-use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
-use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
-
 class SofortTransaction extends Transaction
 {
     const NAME = 'sofortbanking';
 
     /**
-     * @var Redirect
-     */
-    private $redirect;
-
-    /**
      * @var string
      */
     private $descriptor;
-
-    /**
-     * @param Redirect $redirect
-     */
-    public function setRedirect($redirect)
-    {
-        $this->redirect = $redirect;
-    }
 
     /**
      * @param string $descriptor
@@ -67,16 +50,11 @@ class SofortTransaction extends Transaction
     }
 
     /**
-     * @throws UnsupportedOperationException
-     * @throws MandatoryFieldMissingException
      * @return array
      */
     protected function mappedSpecificProperties()
     {
         return [
-            self::PARAM_TRANSACTION_TYPE => $this->retrieveTransactionType(),
-            'cancel-redirect-url' => $this->redirect->getCancelUrl(),
-            'success-redirect-url' => $this->redirect->getSuccessUrl(),
             'descriptor' => $this->descriptor
         ];
     }

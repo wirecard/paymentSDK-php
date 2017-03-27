@@ -150,7 +150,7 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
     private function getExpectedResultPayIbanOnly()
     {
         return [
-            'transaction-type' => 'debit',
+            'transaction-type' => Transaction::TYPE_DEBIT,
             'requested-amount' => [
                 'currency' => 'EUR',
                 'value' => '55.5'
@@ -200,10 +200,20 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
+     */
+    public function testGetRetrieveTransactionTypeCancelWithoutParentTransactionThrowsException()
+    {
+        $this->tx->setOperation(Operation::CANCEL);
+        $this->tx->mappedProperties();
+    }
+
+    /**
      * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
      */
     public function testMappedPropertiesUnsupportedCancelOperation()
     {
+        $this->tx->setParentTransactionId('1');
         $this->tx->setParentTransactionType('authorization');
         $this->tx->setOperation(Operation::CANCEL);
         $this->tx->mappedProperties();

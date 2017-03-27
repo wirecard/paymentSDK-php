@@ -81,7 +81,7 @@ class RatepayInstallmentTransactionUTest extends \PHPUnit_Framework_TestCase
          * @var Redirect $redirect
          */
         $this->tx->setItemCollection(new ItemCollection());
-        $this->tx->setOperation('reserve');
+        $this->tx->setOperation(Operation::RESERVE);
         $this->tx->setRedirect($redirect);
         $data = $this->tx->mappedProperties();
 
@@ -99,7 +99,7 @@ class RatepayInstallmentTransactionUTest extends \PHPUnit_Framework_TestCase
          * @var Redirect $redirect
          */
         $this->tx->setItemCollection(new ItemCollection());
-        $this->tx->setOperation('reserve');
+        $this->tx->setOperation(Operation::RESERVE);
         $this->tx->setRedirect($redirect);
         $data = $this->tx->mappedProperties();
 
@@ -123,7 +123,7 @@ class RatepayInstallmentTransactionUTest extends \PHPUnit_Framework_TestCase
          */
         $this->tx->setRedirect($redirect);
         $this->tx->setAmount($money);
-        $this->tx->setOperation('reserve');
+        $this->tx->setOperation(Operation::RESERVE);
         $data = $this->tx->mappedProperties();
 
         $this->assertEquals(Transaction::TYPE_AUTHORIZATION, $data['transaction-type']);
@@ -149,6 +149,7 @@ class RatepayInstallmentTransactionUTest extends \PHPUnit_Framework_TestCase
     {
         $this->tx->setOperation(Operation::CANCEL);
         $this->tx->setItemCollection(new ItemCollection());
+        $this->tx->setParentTransactionId('1');
         $this->tx->setParentTransactionType($transactionType);
         $data = $this->tx->mappedProperties();
         $this->assertEquals($expected, $data['transaction-type']);
@@ -157,8 +158,19 @@ class RatepayInstallmentTransactionUTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
      */
+    public function testGetRetrieveTransactionTypeCancelWithoutParentTransactionThrowsException()
+    {
+        $this->tx->setOperation(Operation::CANCEL);
+        $this->tx->setItemCollection(new ItemCollection());
+        $this->tx->mappedProperties();
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
+     */
     public function testGetRetrieveTransactionTypeCancelThrowsException()
     {
+        $this->tx->setParentTransactionId('1');
         $this->tx->setOperation(Operation::CANCEL);
         $this->tx->setItemCollection(new ItemCollection());
         $this->tx->mappedProperties();
@@ -223,7 +235,7 @@ class RatepayInstallmentTransactionUTest extends \PHPUnit_Framework_TestCase
          * @var Redirect $redirect
          */
         $this->tx->setItemCollection(new ItemCollection());
-        $this->tx->setOperation('reserve');
+        $this->tx->setOperation(Operation::RESERVE);
         $this->tx->setRedirect($redirect);
         $this->tx->setOrderNumber($orderNr);
         $data = $this->tx->mappedProperties();

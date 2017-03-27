@@ -32,7 +32,7 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
 /**
@@ -44,29 +44,16 @@ class PaysafecardTransaction extends Transaction implements Reservable
     const NAME = 'paysafecard';
 
     /**
-     * @var Redirect
-     */
-    private $redirect;
-
-    /**
-     * @param Redirect $redirect
-     */
-    public function setRedirect($redirect)
-    {
-        $this->redirect = $redirect;
-    }
-
-    /**
      * return string
      */
     public function getEndpoint()
     {
         if ($this->operation === Operation::RESERVE ||
             ($this->operation === Operation::PAY && null === $this->parentTransactionId)) {
-            return $this::ENDPOINT_PAYMENT_METHODS;
+            return self::ENDPOINT_PAYMENT_METHODS;
         }
 
-        return $this::ENDPOINT_PAYMENTS;
+        return self::ENDPOINT_PAYMENTS;
     }
 
     /**
@@ -74,13 +61,6 @@ class PaysafecardTransaction extends Transaction implements Reservable
      */
     protected function mappedSpecificProperties()
     {
-        if (null !== $this->redirect) {
-            return [
-                'cancel-redirect-url' => $this->redirect->getCancelUrl(),
-                'success-redirect-url' => $this->redirect->getSuccessUrl()
-            ];
-        }
-
         return [];
     }
 
@@ -89,7 +69,7 @@ class PaysafecardTransaction extends Transaction implements Reservable
      */
     protected function retrieveTransactionTypeForReserve()
     {
-        return $this::TYPE_AUTHORIZATION;
+        return self::TYPE_AUTHORIZATION;
     }
 
     /**
@@ -98,20 +78,23 @@ class PaysafecardTransaction extends Transaction implements Reservable
     protected function retrieveTransactionTypeForPay()
     {
         if ($this->parentTransactionType === $this::TYPE_AUTHORIZATION) {
-            return $this::TYPE_CAPTURE_AUTHORIZATION;
+            return self::TYPE_CAPTURE_AUTHORIZATION;
         }
 
         return $this::TYPE_DEBIT;
     }
 
     /**
-     * @throws UnsupportedOperationException
+     * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return string
      */
     protected function retrieveTransactionTypeForCancel()
     {
+        if (!$this->parentTransactionId) {
+            throw new MandatoryFieldMissingException('No transaction for cancellation set.');
+        }
         if ($this->parentTransactionType !== $this::TYPE_AUTHORIZATION) {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException('The transaction can not be canceled.');
         }
 
         return 'void-' . $this->parentTransactionType;

@@ -108,7 +108,7 @@ class ThreeDCreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
      */
     public function testMapPropertiesNoTokenIdNoParentTransactionIdNoPaRes()
     {
-        $this->tx->setOperation('reserve');
+        $this->tx->setOperation(Operation::RESERVE);
         $this->tx->mappedProperties();
     }
 

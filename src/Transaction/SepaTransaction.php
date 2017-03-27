@@ -33,6 +33,7 @@
 namespace Wirecard\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\Mandate;
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
 class SepaTransaction extends Transaction implements Reservable
@@ -90,9 +91,7 @@ class SepaTransaction extends Transaction implements Reservable
         $result = array();
 
         if (null !== $this->iban) {
-            $result['bank-account'] = [
-                'iban' => $this->iban
-            ];
+            $result['bank-account'] = ['iban' => $this->iban];
             if (null !== $this->bic) {
                 $result['bank-account']['bic'] = $this->bic;
             }
@@ -110,7 +109,8 @@ class SepaTransaction extends Transaction implements Reservable
      */
     public function getConfigKey()
     {
-        if (Operation::CREDIT === $this->operation || $this::TYPE_CREDIT === $this->parentTransactionType
+        if (Operation::CREDIT === $this->operation
+            || $this::TYPE_CREDIT === $this->parentTransactionType
             || $this::TYPE_PENDING_CREDIT === $this->parentTransactionType
         ) {
             return self::CREDIT_TRANSFER;
@@ -136,13 +136,16 @@ class SepaTransaction extends Transaction implements Reservable
     }
 
     /**
-     * @throws UnsupportedOperationException
+     * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return string
      */
     protected function retrieveTransactionTypeForCancel()
     {
+        if (!$this->parentTransactionId) {
+            throw new MandatoryFieldMissingException('No transaction for cancellation set.');
+        }
         if (!in_array($this->parentTransactionType, [$this::TYPE_PENDING_DEBIT, $this::TYPE_PENDING_CREDIT], false)) {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException('The transaction can not be canceled.');
         }
         return 'void-' . $this->parentTransactionType;
     }

@@ -33,7 +33,9 @@
 namespace Wirecard\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\AccountHolder;
+use Wirecard\PaymentSdk\Entity\ItemCollection;
 use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
@@ -50,6 +52,7 @@ abstract class Transaction
     const ENDPOINT_PAYMENT_METHODS = '/engine/rest/paymentmethods/';
     const NAME = '';
     const TYPE_AUTHORIZATION = 'authorization';
+    const TYPE_AUTHORIZATION_ONLY = 'authorization-only';
     const TYPE_REFERENCED_AUTHORIZATION = 'referenced-authorization';
     const TYPE_CAPTURE_AUTHORIZATION = 'capture-authorization';
     const TYPE_VOID_AUTHORIZATION = 'void-authorization';
@@ -57,7 +60,9 @@ abstract class Transaction
     const TYPE_CREDIT = 'credit';
     const TYPE_PENDING_DEBIT = 'pending-debit';
     const TYPE_DEBIT = 'debit';
-
+    const TYPE_REFUND_CAPTURE = 'refund-capture';
+    const TYPE_REFUND_DEBIT = 'refund-debit';
+    const TYPE_VOID_CAPTURE = 'void-capture';
 
     /**
      * @var AccountHolder
@@ -73,6 +78,11 @@ abstract class Transaction
      * @var string
      */
     protected $consumerId;
+
+    /**
+     * @var ItemCollection
+     */
+    protected $itemCollection;
 
     /**
      * @var string
@@ -100,6 +110,11 @@ abstract class Transaction
     protected $requestId;
 
     /**
+     * @var Redirect
+     */
+    protected $redirect;
+
+    /**
      * @param AccountHolder $accountHolder
      */
     public function setAccountHolder($accountHolder)
@@ -113,6 +128,16 @@ abstract class Transaction
     public function setAmount($amount)
     {
         $this->amount = $amount;
+    }
+
+    /**
+     * @param ItemCollection $itemCollection
+     * @return Transaction
+     */
+    public function setItemCollection(ItemCollection $itemCollection)
+    {
+        $this->itemCollection = $itemCollection;
+        return $this;
     }
 
     /**
@@ -186,11 +211,11 @@ abstract class Transaction
             'name' => $this->paymentMethodNameForRequest()
         ]]]];
 
-        if ($this->amount) {
+        if ($this->amount instanceof Money) {
             $result['requested-amount'] = $this->amount->mappedProperties();
         }
 
-        if ($this->accountHolder) {
+        if ($this->accountHolder instanceof AccountHolder) {
             $result['account-holder'] = $this->accountHolder->mappedProperties();
         }
 
@@ -207,6 +232,18 @@ abstract class Transaction
                 'notification' => [['url' => $this->notificationUrl]]
             ];
             $result['notifications'] = $onlyNotificationUrl;
+        }
+
+        if ($this->redirect instanceof Redirect) {
+            $result['cancel-redirect-url'] = $this->redirect->getCancelUrl();
+            $result['success-redirect-url'] = $this->redirect->getSuccessUrl();
+            if ($this->redirect->getFailureUrl()) {
+                $result['redirect-url'] = $this->redirect->getFailureUrl();
+            }
+        }
+
+        if ($this->itemCollection instanceof ItemCollection) {
+            $result['order-items'] = $this->itemCollection->mappedProperties();
         }
 
         if (null !== $this->consumerId) {
@@ -233,19 +270,6 @@ abstract class Transaction
     public function getConfigKey()
     {
         return $this::NAME;
-    }
-
-    /**
-     * @return array
-     */
-    abstract protected function mappedSpecificProperties();
-
-    /**
-     * return string
-     */
-    public function getEndpoint()
-    {
-        return $this::ENDPOINT_PAYMENT_METHODS;
     }
 
     /**
@@ -308,5 +332,28 @@ abstract class Transaction
     protected function retrieveTransactionTypeForCredit()
     {
         throw new UnsupportedOperationException();
+    }
+
+    /**
+     * @return array
+     */
+    abstract protected function mappedSpecificProperties();
+
+    /**
+     * return string
+     */
+    public function getEndpoint()
+    {
+        return $this::ENDPOINT_PAYMENT_METHODS;
+    }
+
+    /**
+     * @param Redirect $redirect
+     * @return Transaction
+     */
+    public function setRedirect(Redirect $redirect)
+    {
+        $this->redirect = $redirect;
+        return $this;
     }
 }

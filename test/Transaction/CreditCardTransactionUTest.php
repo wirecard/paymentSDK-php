@@ -65,7 +65,7 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
      */
     public function testMapPropertiesNoTokenIdNoParentTransactionId()
     {
-        $this->tx->setOperation('reserve');
+        $this->tx->setOperation(Operation::RESERVE);
         $this->tx->mappedProperties();
     }
 
@@ -258,9 +258,19 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
-
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
+     */
+    public function testCancelNoParentId()
+    {
+        $transaction = new CreditCardTransaction();
+        $transaction->setOperation(Operation::CANCEL);
+        $transaction->mappedProperties();
+    }
+
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
      */
     public function testCancelInvalidParentTransaction()
     {

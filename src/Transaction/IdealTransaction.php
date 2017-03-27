@@ -33,7 +33,6 @@
 namespace Wirecard\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\IdealBic;
-use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 
 /**
@@ -48,11 +47,6 @@ class IdealTransaction extends Transaction
      * @var string
      */
     private $bic;
-
-    /**
-     * @var Redirect
-     */
-    private $redirect;
 
     /**
      * @var string
@@ -80,14 +74,6 @@ class IdealTransaction extends Transaction
     }
 
     /**
-     * @param Redirect $redirect
-     */
-    public function setRedirect($redirect)
-    {
-        $this->redirect = $redirect;
-    }
-
-    /**
      * @return array
      * @internal param null $requestId
      */
@@ -95,16 +81,15 @@ class IdealTransaction extends Transaction
     {
         $join = (parse_url($this->redirect->getSuccessUrl(), PHP_URL_QUERY) ? '&' : '?');
         $successUrl = $this->redirect->getSuccessUrl() . $join . 'request_id=' . $this->requestId;
-        $result = [
-            'cancel-redirect-url' => $this->redirect->getCancelUrl(),
-            'success-redirect-url' => $successUrl,
-        ];
+        $result['success-redirect-url'] = $successUrl;
+
         if (null !== $this->bic) {
             $result['bank-account']['bic'] = $this->bic;
         }
         if (null !== $this->descriptor) {
             $result['descriptor'] = $this->descriptor;
         }
+
         return $result;
     }
 
@@ -113,6 +98,6 @@ class IdealTransaction extends Transaction
      */
     protected function retrieveTransactionTypeForPay()
     {
-        return $this::TYPE_DEBIT;
+        return self::TYPE_DEBIT;
     }
 }

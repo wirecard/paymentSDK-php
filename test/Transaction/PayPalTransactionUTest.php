@@ -35,6 +35,7 @@ namespace WirecardTest\PaymentSdk\Transaction;
 use Wirecard\PaymentSdk\Entity\ItemCollection;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
@@ -114,7 +115,7 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
          */
         $this->tx->setRedirect($redirect);
         $this->tx->setAmount($money);
-        $this->tx->setOperation('reserve');
+        $this->tx->setOperation(Operation::RESERVE);
         $data = $this->tx->mappedProperties();
 
         $this->assertEquals($expected, $data['transaction-type']);
@@ -179,13 +180,22 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('pending-credit', $data['transaction-type']);
     }
 
-
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
      */
-    public function testGetRetrieveTransactionTypeCancelWithoutParent()
+    public function testGetRetrieveTransactionTypeCancelWithoutParentTransaction()
     {
-        $this->tx->setOperation('cancel');
+        $this->tx->setOperation(Operation::CANCEL);
+        $this->tx->mappedProperties();
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
+     */
+    public function testGetRetrieveTransactionTypeCancelWithInvalidParentTransactionType()
+    {
+        $this->tx->setOperation(Operation::CANCEL);
+        $this->tx->setParentTransactionId('1');
         $this->tx->mappedProperties();
     }
 
@@ -193,8 +203,8 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [Transaction::TYPE_AUTHORIZATION, Transaction::TYPE_VOID_AUTHORIZATION],
-            [Transaction::TYPE_DEBIT, 'refund-debit'],
-            [Transaction::TYPE_CAPTURE_AUTHORIZATION, 'refund-capture']
+            [Transaction::TYPE_DEBIT, Transaction::TYPE_REFUND_DEBIT],
+            [Transaction::TYPE_CAPTURE_AUTHORIZATION, Transaction::TYPE_REFUND_CAPTURE]
         ];
     }
 
@@ -205,8 +215,9 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRetrieveTransactionTypeCancel($parentTransactionType, $expected)
     {
+        $this->tx->setParentTransactionId('1');
         $this->tx->setParentTransactionType($parentTransactionType);
-        $this->tx->setOperation('cancel');
+        $this->tx->setOperation(Operation::CANCEL);
 
         $data = $this->tx->mappedProperties();
 

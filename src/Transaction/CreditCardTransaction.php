@@ -47,6 +47,8 @@ class CreditCardTransaction extends Transaction implements Reservable
     const NAME = 'creditcard';
     const TYPE_PURCHASE = 'purchase';
     const TYPE_REFERENCED_PURCHASE = 'referenced-purchase';
+    const TYPE_REFUND_PURCHASE = 'refund-purchase';
+    const TYPE_VOID_PURCHASE = 'void-purchase';
 
     /**
      * @var string
@@ -66,7 +68,7 @@ class CreditCardTransaction extends Transaction implements Reservable
      */
     public function getEndpoint()
     {
-        return $this::ENDPOINT_PAYMENTS;
+        return self::ENDPOINT_PAYMENTS;
     }
 
     /**
@@ -114,46 +116,47 @@ class CreditCardTransaction extends Transaction implements Reservable
     protected function retrieveTransactionTypeForPay()
     {
         switch ($this->parentTransactionType) {
-            case $this::TYPE_AUTHORIZATION:
-                $transactionType = $this::TYPE_CAPTURE_AUTHORIZATION;
+            case self::TYPE_AUTHORIZATION:
+                $transactionType = self::TYPE_CAPTURE_AUTHORIZATION;
                 break;
-            case $this::TYPE_PURCHASE:
-                $transactionType = $this::TYPE_REFERENCED_PURCHASE;
+            case self::TYPE_PURCHASE:
+                $transactionType = self::TYPE_REFERENCED_PURCHASE;
                 break;
             default:
-                $transactionType = $this::TYPE_PURCHASE;
+                $transactionType = self::TYPE_PURCHASE;
         }
 
         return $transactionType;
     }
 
     /**
-     * @throws MandatoryFieldMissingException
+     * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return string
      */
     protected function retrieveTransactionTypeForCancel()
     {
+        if (!$this->parentTransactionId) {
+            throw new MandatoryFieldMissingException('No transaction for cancellation set.');
+        }
         switch ($this->parentTransactionType) {
-            case $this::TYPE_AUTHORIZATION:
-            case $this::TYPE_REFERENCED_AUTHORIZATION:
+            case self::TYPE_AUTHORIZATION:
+            case self::TYPE_REFERENCED_AUTHORIZATION:
                 $transactionType = $this::TYPE_VOID_AUTHORIZATION;
                 break;
-            case 'refund-capture':
-            case 'refund-purchase':
-            case $this::TYPE_CREDIT:
+            case self::TYPE_REFUND_CAPTURE:
+            case self::TYPE_REFUND_PURCHASE:
+            case self::TYPE_CREDIT:
                 $transactionType = 'void-' . $this->parentTransactionType;
                 break;
-            case $this::TYPE_PURCHASE:
-            case $this::TYPE_REFERENCED_PURCHASE:
-                $transactionType = 'void-purchase';
+            case self::TYPE_PURCHASE:
+            case self::TYPE_REFERENCED_PURCHASE:
+                $transactionType = self::TYPE_VOID_PURCHASE;
                 break;
-            case $this::TYPE_CAPTURE_AUTHORIZATION:
-                $transactionType = 'void-capture';
+            case self::TYPE_CAPTURE_AUTHORIZATION:
+                $transactionType = self::TYPE_VOID_CAPTURE;
                 break;
             default:
-                throw new MandatoryFieldMissingException(
-                    'Parent transaction type is missing for cancel operation'
-                );
+                throw new UnsupportedOperationException('The transaction can not be canceled.');
         }
 
         return $transactionType;
@@ -164,6 +167,6 @@ class CreditCardTransaction extends Transaction implements Reservable
      */
     protected function retrieveTransactionTypeForCredit()
     {
-        return $this::TYPE_CREDIT;
+        return self::TYPE_CREDIT;
     }
 }

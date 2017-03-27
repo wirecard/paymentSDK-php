@@ -32,8 +32,6 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\ItemCollection;
-use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
@@ -51,36 +49,6 @@ class RatepayInstallmentTransaction extends Transaction implements Reservable
     private $orderNumber;
 
     /**
-     * @var ItemCollection
-     */
-    private $itemCollection;
-
-    /**
-     * @var Redirect
-     */
-    private $redirect;
-
-    /**
-     * @param Redirect $redirect
-     * @return RatepayInstallmentTransaction
-     */
-    public function setRedirect($redirect)
-    {
-        $this->redirect = $redirect;
-        return $this;
-    }
-
-    /**
-     * @param ItemCollection $itemCollection
-     * @return RatepayInstallmentTransaction
-     */
-    public function setItemCollection($itemCollection)
-    {
-        $this->itemCollection = $itemCollection;
-        return $this;
-    }
-
-    /**
      * @param string $orderNumber
      * @return RatepayInstallmentTransaction
      */
@@ -96,21 +64,9 @@ class RatepayInstallmentTransaction extends Transaction implements Reservable
      */
     protected function mappedSpecificProperties()
     {
-        $transactionType = $this->retrieveTransactionType();
-
         $result = [
             'order-number' => $this->orderNumber,
-            'order-items' => $this->itemCollection->mappedProperties()
         ];
-
-        if ($transactionType === $this::TYPE_AUTHORIZATION) {
-            $result['cancel-redirect-url'] = $this->redirect->getCancelUrl();
-            $result['success-redirect-url'] = $this->redirect->getSuccessUrl();
-
-            if ($this->redirect->getFailureUrl()) {
-                $result['redirect-url'] = $this->redirect->getFailureUrl();
-            }
-        }
 
         return $result;
     }
@@ -120,7 +76,7 @@ class RatepayInstallmentTransaction extends Transaction implements Reservable
      */
     protected function retrieveTransactionTypeForReserve()
     {
-        return $this::TYPE_AUTHORIZATION;
+        return self::TYPE_AUTHORIZATION;
     }
 
     /**
@@ -130,25 +86,28 @@ class RatepayInstallmentTransaction extends Transaction implements Reservable
     protected function retrieveTransactionTypeForPay()
     {
         if ($this->parentTransactionId) {
-            return $this::TYPE_CAPTURE_AUTHORIZATION;
+            return self::TYPE_CAPTURE_AUTHORIZATION;
         }
 
         throw new MandatoryFieldMissingException('Parent transaction id is missing for pay operation.');
     }
 
     /**
-     * @throws MandatoryFieldMissingException
+     * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return string
      */
     protected function retrieveTransactionTypeForCancel()
     {
-        if ($this->parentTransactionType === $this::TYPE_AUTHORIZATION) {
-            return $this::TYPE_VOID_AUTHORIZATION;
-        } elseif ($this->parentTransactionType === $this::TYPE_CAPTURE_AUTHORIZATION) {
-            return 'refund-capture';
-        } else {
-            throw new MandatoryFieldMissingException('No transaction type available to cancel the given transaction.');
+        if (!$this->parentTransactionId) {
+            throw new MandatoryFieldMissingException('No transaction for cancellation set.');
         }
+        if ($this->parentTransactionType === $this::TYPE_AUTHORIZATION) {
+            return self::TYPE_VOID_AUTHORIZATION;
+        } elseif ($this->parentTransactionType === $this::TYPE_CAPTURE_AUTHORIZATION) {
+            return self::TYPE_REFUND_CAPTURE;
+        }
+
+        throw new UnsupportedOperationException('The transaction can not be canceled.');
     }
 
 
@@ -157,7 +116,7 @@ class RatepayInstallmentTransaction extends Transaction implements Reservable
      */
     protected function retrieveTransactionTypeForCredit()
     {
-        return $this::TYPE_CREDIT;
+        return self::TYPE_CREDIT;
     }
 
     /**
@@ -166,9 +125,9 @@ class RatepayInstallmentTransaction extends Transaction implements Reservable
     public function getEndpoint()
     {
         if ($this->operation === Operation::RESERVE) {
-            return $this::ENDPOINT_PAYMENT_METHODS;
+            return self::ENDPOINT_PAYMENT_METHODS;
         }
 
-        return $this::ENDPOINT_PAYMENTS;
+        return self::ENDPOINT_PAYMENTS;
     }
 }
