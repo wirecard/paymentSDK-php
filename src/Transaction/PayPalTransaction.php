@@ -97,11 +97,14 @@ class PayPalTransaction extends Transaction implements Reservable
     }
 
     /**
-     * @throws UnsupportedOperationException
+     * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return string
      */
     protected function retrieveTransactionTypeForCancel()
     {
+        if (!$this->parentTransactionId) {
+            throw new MandatoryFieldMissingException('No transaction for cancellation set.');
+        }
         switch ($this->parentTransactionType) {
             case self::TYPE_AUTHORIZATION:
                 $transactionType = $this::TYPE_VOID_AUTHORIZATION;
@@ -113,7 +116,7 @@ class PayPalTransaction extends Transaction implements Reservable
                 $transactionType = self::TYPE_REFUND_CAPTURE;
                 break;
             default:
-                throw new UnsupportedOperationException('No transaction type available to cancel the transaction.');
+                throw new UnsupportedOperationException('The transaction can not be canceled.');
         }
 
         return $transactionType;

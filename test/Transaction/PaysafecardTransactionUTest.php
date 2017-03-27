@@ -36,6 +36,7 @@ use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\PaysafecardTransaction;
+use Wirecard\PaymentSdk\Transaction\Transaction;
 
 class PaysafecardTransactionUTest extends \PHPUnit_Framework_TestCase
 {
@@ -58,7 +59,7 @@ class PaysafecardTransactionUTest extends \PHPUnit_Framework_TestCase
     public function testMappedProperties()
     {
         $expectedResult = [
-            'transaction-type' => 'debit',
+            'transaction-type' => Transaction::TYPE_DEBIT,
             'requested-amount' => [
                 'currency' => 'USD',
                 'value' => '33'
@@ -130,17 +131,28 @@ class PaysafecardTransactionUTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
+     * @expectedException \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
      */
-    public function testCancelThrowsException()
+    public function testCancelWithoutParentIdThrowsException()
     {
         $this->tx->setOperation(Operation::CANCEL);
+        $this->tx->mappedProperties();
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
+     */
+    public function testCancelWithInvalidParentTransactionTypeThrowsException()
+    {
+        $this->tx->setOperation(Operation::CANCEL);
+        $this->tx->setParentTransactionId('1');
         $this->tx->mappedProperties();
     }
 
     public function testCancel()
     {
         $this->tx->setOperation(Operation::CANCEL);
+        $this->tx->setParentTransactionId('1');
         $this->tx->setParentTransactionType(PaysafecardTransaction::TYPE_AUTHORIZATION);
         $data = $this->tx->mappedProperties();
 

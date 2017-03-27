@@ -32,6 +32,7 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
 /**
@@ -84,13 +85,16 @@ class PaysafecardTransaction extends Transaction implements Reservable
     }
 
     /**
-     * @throws UnsupportedOperationException
+     * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return string
      */
     protected function retrieveTransactionTypeForCancel()
     {
+        if (!$this->parentTransactionId) {
+            throw new MandatoryFieldMissingException('No transaction for cancellation set.');
+        }
         if ($this->parentTransactionType !== $this::TYPE_AUTHORIZATION) {
-            throw new UnsupportedOperationException('No transaction type available to cancel the transaction.');
+            throw new UnsupportedOperationException('The transaction can not be canceled.');
         }
 
         return 'void-' . $this->parentTransactionType;

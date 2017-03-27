@@ -36,6 +36,7 @@ use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\SofortTransaction;
+use Wirecard\PaymentSdk\Transaction\Transaction;
 
 class SofortTransactionUTest extends \PHPUnit_Framework_TestCase
 {
@@ -69,7 +70,7 @@ class SofortTransactionUTest extends \PHPUnit_Framework_TestCase
     public function testMappedProperties()
     {
         $expectedResult = [
-            'transaction-type' => 'debit',
+            'transaction-type' => Transaction::TYPE_DEBIT,
             'requested-amount' => [
                 'currency' => 'USD',
                 'value' => '33'

@@ -130,11 +130,14 @@ class CreditCardTransaction extends Transaction implements Reservable
     }
 
     /**
-     * @throws MandatoryFieldMissingException
+     * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return string
      */
     protected function retrieveTransactionTypeForCancel()
     {
+        if (!$this->parentTransactionId) {
+            throw new MandatoryFieldMissingException('No transaction for cancellation set.');
+        }
         switch ($this->parentTransactionType) {
             case self::TYPE_AUTHORIZATION:
             case self::TYPE_REFERENCED_AUTHORIZATION:
@@ -153,7 +156,7 @@ class CreditCardTransaction extends Transaction implements Reservable
                 $transactionType = self::TYPE_VOID_CAPTURE;
                 break;
             default:
-                throw new MandatoryFieldMissingException('No transaction type available to cancel the transaction.');
+                throw new UnsupportedOperationException('The transaction can not be canceled.');
         }
 
         return $transactionType;

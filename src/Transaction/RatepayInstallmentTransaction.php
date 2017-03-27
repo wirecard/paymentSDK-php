@@ -93,17 +93,20 @@ class RatepayInstallmentTransaction extends Transaction implements Reservable
     }
 
     /**
-     * @throws UnsupportedOperationException
+     * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return string
      */
     protected function retrieveTransactionTypeForCancel()
     {
+        if (!$this->parentTransactionId) {
+            throw new MandatoryFieldMissingException('No transaction for cancellation set.');
+        }
         if ($this->parentTransactionType === $this::TYPE_AUTHORIZATION) {
             return self::TYPE_VOID_AUTHORIZATION;
         } elseif ($this->parentTransactionType === $this::TYPE_CAPTURE_AUTHORIZATION) {
             return self::TYPE_REFUND_CAPTURE;
         } else {
-            throw new UnsupportedOperationException('No transaction type available to cancel the transaction.');
+            throw new UnsupportedOperationException('The transaction can not be canceled.');
         }
     }
 

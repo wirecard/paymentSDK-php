@@ -36,6 +36,7 @@ use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\IdealTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
+use Wirecard\PaymentSdk\Transaction\Transaction;
 
 class IdealTransactionUTest extends \PHPUnit_Framework_TestCase
 {
@@ -79,7 +80,7 @@ class IdealTransactionUTest extends \PHPUnit_Framework_TestCase
     public function testMappedProperties()
     {
         $expectedResult = [
-            'transaction-type' => 'debit',
+            'transaction-type' => Transaction::TYPE_DEBIT,
             'requested-amount' => [
                 'currency' => 'USD',
                 'value' => '33'
@@ -87,7 +88,7 @@ class IdealTransactionUTest extends \PHPUnit_Framework_TestCase
             'payment-methods' => [
                 'payment-method' => [
                     0 => [
-                        'name' => 'ideal'
+                        'name' => IdealTransaction::NAME
                     ]
                 ]
             ],
