@@ -77,7 +77,7 @@ class PaysafecardTransaction extends Transaction implements Reservable
      */
     protected function retrieveTransactionTypeForPay()
     {
-        if ($this->parentTransactionType === $this::TYPE_AUTHORIZATION) {
+        if ($this->parentTransactionType === self::TYPE_AUTHORIZATION) {
             return self::TYPE_CAPTURE_AUTHORIZATION;
         }
 
@@ -93,7 +93,7 @@ class PaysafecardTransaction extends Transaction implements Reservable
         if (!$this->parentTransactionId) {
             throw new MandatoryFieldMissingException('No transaction for cancellation set.');
         }
-        if ($this->parentTransactionType !== $this::TYPE_AUTHORIZATION) {
+        if ($this->parentTransactionType !== self::TYPE_AUTHORIZATION) {
             throw new UnsupportedOperationException('The transaction can not be canceled.');
         }
 

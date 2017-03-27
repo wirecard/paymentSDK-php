@@ -269,7 +269,7 @@ abstract class Transaction
      */
     public function getConfigKey()
     {
-        return $this::NAME;
+        return self::NAME;
     }
 
     /**
@@ -344,7 +344,7 @@ abstract class Transaction
      */
     public function getEndpoint()
     {
-        return $this::ENDPOINT_PAYMENT_METHODS;
+        return self::ENDPOINT_PAYMENT_METHODS;
     }
 
     /**

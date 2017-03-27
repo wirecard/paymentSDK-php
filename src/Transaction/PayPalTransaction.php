@@ -93,7 +93,7 @@ class PayPalTransaction extends Transaction implements Reservable
             return self::TYPE_CAPTURE_AUTHORIZATION;
         }
 
-        return $this::TYPE_DEBIT;
+        return self::TYPE_DEBIT;
     }
 
     /**
@@ -107,7 +107,7 @@ class PayPalTransaction extends Transaction implements Reservable
         }
         switch ($this->parentTransactionType) {
             case self::TYPE_AUTHORIZATION:
-                $transactionType = $this::TYPE_VOID_AUTHORIZATION;
+                $transactionType = self::TYPE_VOID_AUTHORIZATION;
                 break;
             case self::TYPE_DEBIT:
                 $transactionType = self::TYPE_REFUND_DEBIT;

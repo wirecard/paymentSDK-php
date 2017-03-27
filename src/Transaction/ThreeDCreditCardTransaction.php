@@ -120,14 +120,14 @@ class ThreeDCreditCardTransaction extends CreditCardTransaction
     protected function retrieveTransactionTypeForReserve()
     {
         switch ($this->parentTransactionType) {
-            case $this::TYPE_AUTHORIZATION:
-                $transactionType = $this::TYPE_REFERENCED_AUTHORIZATION;
+            case self::TYPE_AUTHORIZATION:
+                $transactionType = self::TYPE_REFERENCED_AUTHORIZATION;
                 break;
-            case $this::TYPE_CHECK_ENROLLMENT:
-                $transactionType = $this::TYPE_AUTHORIZATION;
+            case self::TYPE_CHECK_ENROLLMENT:
+                $transactionType = self::TYPE_AUTHORIZATION;
                 break;
             default:
-                $transactionType = $this::TYPE_CHECK_ENROLLMENT;
+                $transactionType = self::TYPE_CHECK_ENROLLMENT;
         }
 
         return $transactionType;
@@ -139,17 +139,17 @@ class ThreeDCreditCardTransaction extends CreditCardTransaction
     protected function retrieveTransactionTypeForPay()
     {
         switch ($this->parentTransactionType) {
-            case $this::TYPE_AUTHORIZATION:
-                $transactionType = $this::TYPE_CAPTURE_AUTHORIZATION;
+            case self::TYPE_AUTHORIZATION:
+                $transactionType = self::TYPE_CAPTURE_AUTHORIZATION;
                 break;
-            case $this::TYPE_PURCHASE:
-                $transactionType = $this::TYPE_REFERENCED_PURCHASE;
+            case self::TYPE_PURCHASE:
+                $transactionType = self::TYPE_REFERENCED_PURCHASE;
                 break;
-            case $this::TYPE_CHECK_ENROLLMENT:
-                $transactionType = $this::TYPE_PURCHASE;
+            case self::TYPE_CHECK_ENROLLMENT:
+                $transactionType = self::TYPE_PURCHASE;
                 break;
             default:
-                $transactionType = $this::TYPE_CHECK_ENROLLMENT;
+                $transactionType = self::TYPE_CHECK_ENROLLMENT;
         }
 
         return $transactionType;

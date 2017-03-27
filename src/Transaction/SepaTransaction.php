@@ -110,8 +110,8 @@ class SepaTransaction extends Transaction implements Reservable
     public function getConfigKey()
     {
         if (Operation::CREDIT === $this->operation
-            || $this::TYPE_CREDIT === $this->parentTransactionType
-            || $this::TYPE_PENDING_CREDIT === $this->parentTransactionType
+            || self::TYPE_CREDIT === $this->parentTransactionType
+            || self::TYPE_PENDING_CREDIT === $this->parentTransactionType
         ) {
             return self::CREDIT_TRANSFER;
         }
@@ -124,7 +124,7 @@ class SepaTransaction extends Transaction implements Reservable
      */
     protected function retrieveTransactionTypeForReserve()
     {
-        return $this::TYPE_AUTHORIZATION;
+        return self::TYPE_AUTHORIZATION;
     }
 
     /**
@@ -132,7 +132,7 @@ class SepaTransaction extends Transaction implements Reservable
      */
     protected function retrieveTransactionTypeForPay()
     {
-        return $this::TYPE_DEBIT;
+        return self::TYPE_DEBIT;
     }
 
     /**
@@ -144,7 +144,7 @@ class SepaTransaction extends Transaction implements Reservable
         if (!$this->parentTransactionId) {
             throw new MandatoryFieldMissingException('No transaction for cancellation set.');
         }
-        if (!in_array($this->parentTransactionType, [$this::TYPE_PENDING_DEBIT, $this::TYPE_PENDING_CREDIT], false)) {
+        if (!in_array($this->parentTransactionType, [self::TYPE_PENDING_DEBIT, self::TYPE_PENDING_CREDIT], false)) {
             throw new UnsupportedOperationException('The transaction can not be canceled.');
         }
         return 'void-' . $this->parentTransactionType;
@@ -155,6 +155,6 @@ class SepaTransaction extends Transaction implements Reservable
      */
     protected function retrieveTransactionTypeForCredit()
     {
-        return $this::TYPE_CREDIT;
+        return self::TYPE_CREDIT;
     }
 }

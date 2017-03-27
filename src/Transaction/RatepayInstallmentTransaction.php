@@ -101,9 +101,9 @@ class RatepayInstallmentTransaction extends Transaction implements Reservable
         if (!$this->parentTransactionId) {
             throw new MandatoryFieldMissingException('No transaction for cancellation set.');
         }
-        if ($this->parentTransactionType === $this::TYPE_AUTHORIZATION) {
+        if ($this->parentTransactionType === self::TYPE_AUTHORIZATION) {
             return self::TYPE_VOID_AUTHORIZATION;
-        } elseif ($this->parentTransactionType === $this::TYPE_CAPTURE_AUTHORIZATION) {
+        } elseif ($this->parentTransactionType === self::TYPE_CAPTURE_AUTHORIZATION) {
             return self::TYPE_REFUND_CAPTURE;
         }
 
