@@ -87,9 +87,9 @@ class RatepayInstallmentTransaction extends Transaction implements Reservable
     {
         if ($this->parentTransactionId) {
             return self::TYPE_CAPTURE_AUTHORIZATION;
-        } else {
-            throw new MandatoryFieldMissingException('Parent transaction id is missing for pay operation.');
         }
+
+        throw new MandatoryFieldMissingException('Parent transaction id is missing for pay operation.');
     }
 
     /**
@@ -105,9 +105,9 @@ class RatepayInstallmentTransaction extends Transaction implements Reservable
             return self::TYPE_VOID_AUTHORIZATION;
         } elseif ($this->parentTransactionType === $this::TYPE_CAPTURE_AUTHORIZATION) {
             return self::TYPE_REFUND_CAPTURE;
-        } else {
-            throw new UnsupportedOperationException('The transaction can not be canceled.');
         }
+
+        throw new UnsupportedOperationException('The transaction can not be canceled.');
     }
 
 
@@ -126,8 +126,8 @@ class RatepayInstallmentTransaction extends Transaction implements Reservable
     {
         if ($this->operation === Operation::RESERVE) {
             return self::ENDPOINT_PAYMENT_METHODS;
-        } else {
-            return self::ENDPOINT_PAYMENTS;
         }
+
+        return self::ENDPOINT_PAYMENTS;
     }
 }
