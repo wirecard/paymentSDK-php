@@ -54,7 +54,6 @@ class PaysafecardTransaction extends Transaction implements Reservable
         }
 
         return self::ENDPOINT_PAYMENTS;
-
     }
 
     /**
