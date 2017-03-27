@@ -439,7 +439,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $validContent = [
             'MD' => base64_encode(json_encode($md)),
             'PaRes' => 'arbitrary PaRes',
-            'eppresponse' => '<xml></xml>',
+            'eppresponse' => 'content',
 
         ];
 

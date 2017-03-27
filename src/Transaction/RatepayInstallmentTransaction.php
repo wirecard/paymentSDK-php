@@ -131,9 +131,9 @@ class RatepayInstallmentTransaction extends Transaction implements Reservable
     {
         if ($this->parentTransactionId) {
             return $this::TYPE_CAPTURE_AUTHORIZATION;
-        } else {
-            throw new MandatoryFieldMissingException('Parent transaction id is missing for pay operation.');
         }
+
+        throw new MandatoryFieldMissingException('Parent transaction id is missing for pay operation.');
     }
 
     /**
@@ -167,8 +167,8 @@ class RatepayInstallmentTransaction extends Transaction implements Reservable
     {
         if ($this->operation === Operation::RESERVE) {
             return $this::ENDPOINT_PAYMENT_METHODS;
-        } else {
-            return $this::ENDPOINT_PAYMENTS;
         }
+
+        return $this::ENDPOINT_PAYMENTS;
     }
 }
