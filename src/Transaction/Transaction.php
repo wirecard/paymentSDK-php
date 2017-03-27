@@ -269,7 +269,7 @@ abstract class Transaction
      */
     public function getConfigKey()
     {
-        return self::NAME;
+        return $this::NAME;
     }
 
     /**
