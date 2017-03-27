@@ -45,6 +45,7 @@ use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Response\Response;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
+use Wirecard\PaymentSdk\Transaction\IdealTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\Reservable;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
@@ -91,6 +92,12 @@ class TransactionService
     private $requestIdGenerator;
 
     /**
+     * @var array
+     */
+    private $httpHeader;
+
+
+    /**
      * TransactionService constructor.
      * @param Config $config
      * @param LoggerInterface|null $logger
@@ -122,6 +129,17 @@ class TransactionService
         $this->requestMapper =
             $requestMapper !== null ? $requestMapper : new RequestMapper($this->config, $this->requestIdGenerator);
         $this->responseMapper = $responseMapper !== null ? $responseMapper : new ResponseMapper();
+
+        $this->httpHeader = array(
+            'auth' => [
+                $this->config->getHttpUser(),
+                $this->config->getHttpPassword()
+            ],
+            'headers' => [
+                'Content-Type' => self::APPLICATION_JSON,
+                'Accept' => 'application/xml'
+            ]
+        );
     }
 
     /**
@@ -143,6 +161,13 @@ class TransactionService
     {
         if (array_key_exists('MD', $payload) && array_key_exists('PaRes', $payload)) {
             return $this->processAuthFrom3DResponse($payload);
+        }
+
+        if (array_key_exists('ec', $payload) &&
+            array_key_exists('trxid', $payload) &&
+            array_key_exists('request_id', $payload)
+        ) {
+            return $this->processFromIdealResponse($payload);
         }
 
         if (array_key_exists('eppresponse', $payload)) {
@@ -234,6 +259,49 @@ class TransactionService
     }
 
     /**
+     * @param $endpoint
+     * @param string $requestBody
+     * @return string
+     */
+    private function sendPostRequest($endpoint, $requestBody)
+    {
+        $this->getLogger()->debug("Request body: " . $requestBody);
+
+        $request = $this->httpHeader;
+        $request['body'] = $requestBody;
+
+        $response = $this->httpClient
+            ->request('POST', $endpoint, $request)
+            ->getBody()->getContents();
+
+        $this->getLogger()->debug($response);
+
+        return $response;
+    }
+
+    /**
+     * @param $endpoint
+     * @param bool $acceptJson
+     * @return string|array
+     */
+    private function sendGetRequest($endpoint, $acceptJson = false)
+    {
+        $request = $this->httpHeader;
+        $request['header']['Accept'] = $acceptJson ? 'application/json' : 'application/xml';
+
+        $response = $this->httpClient
+            ->request('GET', $endpoint, $request)
+            ->getBody()->getContents();
+
+        $this->getLogger()->debug('GET response: ' . $response);
+
+        if ($acceptJson) {
+            return json_decode($response, true);
+        }
+        return $response;
+    }
+
+    /**
      * @param Transaction|Reservable $transaction
      * @param string $operation
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
@@ -257,25 +325,8 @@ class TransactionService
         }
 
         $requestBody = $this->requestMapper->map($transaction);
-        $this->getLogger()->debug($requestBody);
-
-        $response = $this->httpClient->request(
-            'POST',
-            $this->config->getBaseUrl() . $transaction->getEndpoint(),
-            [
-                'auth' => [
-                    $this->config->getHttpUser(),
-                    $this->config->getHttpPassword()
-                ],
-                'headers' => [
-                    'Content-Type' => self::APPLICATION_JSON,
-                    'Accept' => 'application/xml'
-                ],
-                'body' => $requestBody
-            ]
-        );
-        $responseContent = $response->getBody()->getContents();
-        $this->getLogger()->debug($responseContent);
+        $endpoint = $this->config->getBaseUrl() . $transaction->getEndpoint();
+        $responseContent = $this->sendPostRequest($endpoint, $requestBody);
 
         $data = $transaction instanceof ThreeDCreditCardTransaction ? $transaction : null;
         return $this->responseMapper->map($responseContent, $operation, $data);
@@ -288,26 +339,13 @@ class TransactionService
      */
     private function getTransactionByTransactionId($transactionId, $paymentMethod)
     {
-        $response = $this->httpClient->request(
-            'GET',
+        $endpoint =
             $this->config->getBaseUrl() .
             '/engine/rest/merchants/' .
             $this->config->get($paymentMethod)->getMerchantAccountId() .
-            '/payments/' .
-            $transactionId,
-            [
-                'auth' => [
-                    $this->config->getHttpUser(),
-                    $this->config->getHttpPassword()
-                ],
-                'headers' => [
-                    'Content-Type' => self::APPLICATION_JSON,
-                    'Accept' => self::APPLICATION_JSON
-                ]
-            ]
-        );
+            '/payments/' . $transactionId;
 
-        return json_decode($response->getBody()->getContents(), true);
+        return $this->sendGetRequest($endpoint, true);
     }
 
     /**
@@ -323,5 +361,20 @@ class TransactionService
         $transaction->setPaRes($payload['PaRes']);
 
         return $this->process($transaction, $md['operation-type']);
+    }
+
+    /**
+     * @param array $payload
+     * @return Response
+     */
+    private function processFromIdealResponse($payload)
+    {
+        $endpoint =
+            $this->config->getBaseUrl() . '/engine/rest/merchants/' .
+            $this->config->get(IdealTransaction::NAME)->getMerchantAccountId() .
+            '/payments/search?payment.request-id=' . $payload['request_id'];
+        $transaction = $this->sendGetRequest($endpoint);
+
+        return $this->responseMapper->map($transaction);
     }
 }

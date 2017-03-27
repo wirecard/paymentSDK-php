@@ -25,67 +25,24 @@
  *
  * Customers are responsible for testing the plugin's functionality before starting productive
  * operation.
- *
  * By installing the plugin into the shop system the customer agrees to these terms of use.
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Mapper;
+namespace Wirecard\PaymentSdk\Entity;
 
-use Wirecard\PaymentSdk\Config\Config;
-use Wirecard\PaymentSdk\Transaction\Transaction;
+use MyCLabs\Enum\Enum;
 
-/**
- * Class RequestMapper
- * @package Wirecard\PaymentSdk\Mapper
- */
-class RequestMapper
+class IdealBic extends Enum
 {
-    /**
-     * @var Config
-     */
-    private $config;
-
-    /**
-     * @var \Closure
-     */
-    private $requestIdGenerator;
-
-    /**
-     * RequestMapper constructor.
-     * @param Config $config
-     * @param \Closure $requestIdGenerator
-     */
-    public function __construct(Config $config, \Closure $requestIdGenerator)
-    {
-        $this->config = $config;
-        $this->requestIdGenerator = $requestIdGenerator;
-    }
-
-    /**
-     * @param Transaction $transaction
-     * @return string The transaction in JSON format.
-     */
-    public function map(Transaction $transaction)
-    {
-        $requestId = call_user_func($this->requestIdGenerator);
-        $commonProperties = [
-            'request-id' => $requestId
-        ];
-        $transaction->setRequestId($requestId);
-
-        $configKey = $transaction->getConfigKey();
-        $paymentMethodConfig = $this->config->get($configKey);
-        $paymentMethodConfigProperties = $paymentMethodConfig->mappedProperties();
-
-        $allProperties = array_merge(
-            $commonProperties,
-            $transaction->mappedProperties(),
-            $paymentMethodConfigProperties
-        );
-
-        $result = [Transaction::PARAM_PAYMENT => $allProperties];
-
-        return json_encode($result);
-    }
+    const ABNANL2A = 'ABN Amro Bank';
+    const ASNBNL21 = 'ASN Bank';
+    const BUNQNL2A = 'bunq';
+    const INGBNL2A = 'ING';
+    const KNABNL2H = 'Knab';
+    const RABONL2U = 'Rabobank';
+    const RGGINL21 = 'Regio Bank';
+    const SNSBNL2A = 'SNS Bank';
+    const TRIONL2U = 'Triodos Bank';
+    const FVLBNL22 = 'Van Lanschot Bankiers';
 }
