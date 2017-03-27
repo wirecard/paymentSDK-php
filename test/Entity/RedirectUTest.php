@@ -38,7 +38,7 @@ class RedirectUTest extends \PHPUnit_Framework_TestCase
 {
     const SUCCESS_URL = 'http://www.example.com/success';
     const CANCEL_URL = 'http://www.example.com/cancel';
-    const REDIRECT_URL = 'http://www.example.com/redirect';
+    const FAILURE_URL = 'http://www.example.com/redirect';
     /**
      * @var Redirect
      */
@@ -46,7 +46,7 @@ class RedirectUTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->redirect = new Redirect(self::SUCCESS_URL, self::CANCEL_URL, self::REDIRECT_URL);
+        $this->redirect = new Redirect(self::SUCCESS_URL, self::CANCEL_URL, self::FAILURE_URL);
     }
 
     public function testGetSuccessUrl()
@@ -61,6 +61,6 @@ class RedirectUTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFailureUrl()
     {
-        $this->assertEquals(self::REDIRECT_URL, $this->redirect->getFailureUrl());
+        $this->assertEquals(self::FAILURE_URL, $this->redirect->getFailureUrl());
     }
 }
