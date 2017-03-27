@@ -36,12 +36,12 @@ use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
 /**
- * Class RatepayInstallmentTransaction
+ * Class RatepayInvoiceTransaction
  * @package Wirecard\PaymentSdk\Transaction
  */
-class RatepayInstallmentTransaction extends Transaction implements Reservable
+class RatepayInvoiceTransaction extends Transaction implements Reservable
 {
-    const NAME = 'ratepay-install';
+    const NAME = 'ratepay-invoice';
 
     /**
      * @var string
@@ -50,7 +50,7 @@ class RatepayInstallmentTransaction extends Transaction implements Reservable
 
     /**
      * @param string $orderNumber
-     * @return RatepayInstallmentTransaction
+     * @return RatepayInvoiceTransaction
      */
     public function setOrderNumber($orderNumber)
     {

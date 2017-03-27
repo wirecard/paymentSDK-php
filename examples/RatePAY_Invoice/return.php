@@ -1,6 +1,6 @@
 <?php
-// # RatePAY installment return after transaction
-// The consumer gets redirected to this page after a RatePAY installment transaction.
+// # RatePay invoice return after transaction
+// The consumer gets redirected to this page after a RatePay invoice transaction.
 
 // ## Required objects
 // To include the necessary files, we use the composer for PSR-4 autoloading.
@@ -10,7 +10,7 @@ require __DIR__ . '/../inc/common.php';
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 // ### Config
@@ -24,17 +24,17 @@ $httpPass = 'qD2wzQ_hrc!8';
 // A default currency can also be provided.
 $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
-// #### RatePAY installment
-// Create and add a configuration object with the RatePAY installment settings
-$ratepayInstallMAID = '73ce088c-b195-4977-8ea8-0be32cca9c2e';
-$ratepayInstallKey = 'd92724cf-5508-44fd-ad67-695e149212d5';
+// #### RatePay invoice
+// Create and add a configuration object with the RatePay invoice settings
+$ratepayInvoiceMAID = '73ce088c-b195-4977-8ea8-0be32cca9c2e';
+$ratepayInvoiceKey = 'd92724cf-5508-44fd-ad67-695e149212d5';
 
-$ratepayInstallConfig = new Config\PaymentMethodConfig(
-    RatepayInstallmentTransaction::NAME,
-    $ratepayInstallMAID,
-    $ratepayInstallKey
+$ratepayInvoiceConfig = new Config\PaymentMethodConfig(
+    RatepayInvoiceTransaction::NAME,
+    $ratepayInvoiceMAID,
+    $ratepayInvoiceKey
 );
-$config->add($ratepayInstallConfig);
+$config->add($ratepayInvoiceConfig);
 
 
 // ## Transaction
@@ -53,7 +53,7 @@ if ($response instanceof SuccessResponse) {
     $xmlResponse = new SimpleXMLElement($response->getRawData());
     $transactionType = $response->getTransactionType();
     echo 'Reservation successfully completed.<br>';
-    echo getTransactionLink($baseUrl, $ratepayInstallMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $ratepayInvoiceMAID, $response->getTransactionId());
     ?>
     <form action="pay-based-on-reserve.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
