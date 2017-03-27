@@ -119,7 +119,7 @@ class AccountHolder implements MappableEntity
      * @param \DateTime $dateOfBirth
      * @return AccountHolder
      */
-    public function setDateOfBirth($dateOfBirth)
+    public function setDateOfBirth(\DateTime $dateOfBirth)
     {
         $this->dateOfBirth = $dateOfBirth;
         return $this;
