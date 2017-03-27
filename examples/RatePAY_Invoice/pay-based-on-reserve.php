@@ -9,7 +9,6 @@ require __DIR__ . '/../inc/common.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Entity\Money;
-use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
@@ -40,9 +39,6 @@ $config->add($ratepayInvoiceConfig);
 
 
 // ### Transaction related objects
-
-// The redirect URLs determine where the consumer should be redirected by PayPal after approval/cancellation.
-$redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
 
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
 $notificationUrl = getUrl('notify.php');
@@ -79,15 +75,14 @@ $accountHolder->setAddress($address);
 // ## Transaction
 
 // The RatePAY invoice transaction holds all transaction relevant data for the reserve process.
-$tx = new RatepayInvoiceTransaction();
-$tx->setNotificationUrl($notificationUrl);
-$tx->setRedirect($redirectUrls);
-$tx->setItemCollection($itemCollection);
-$tx->setOrderNumber($orderNumber);
-$tx->setAccountHolder($accountHolder);
+$transaction = new RatepayInvoiceTransaction();
+$transaction->setNotificationUrl($notificationUrl);
+$transaction->setItemCollection($itemCollection);
+$transaction->setOrderNumber($orderNumber);
+$transaction->setAccountHolder($accountHolder);
 if (array_key_exists('parentTransactionId', $_POST)) {
     $parentTransactionId = $_POST['parentTransactionId'];
-    $tx->setParentTransactionId($_POST['parentTransactionId']);
+    $transaction->setParentTransactionId($_POST['parentTransactionId']);
 } else {
     $parentTransactionId = '';
 };
@@ -107,7 +102,7 @@ if (array_key_exists('item_to_capture', $_POST)) {
             $itemCollection->add($item2);
             $amount = new Money(2400, 'EUR');
     }
-    $tx->setAmount($amount);
+    $transaction->setAmount($amount);
 }
 
 
@@ -116,7 +111,7 @@ if (array_key_exists('item_to_capture', $_POST)) {
 $transactionService = new TransactionService($config);
 
 if (array_key_exists('item_to_capture', $_POST)) {
-    $response = $transactionService->pay($tx);
+    $response = $transactionService->pay($transaction);
 } else {
     $response = null;
 }

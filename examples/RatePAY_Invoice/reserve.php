@@ -9,9 +9,8 @@ require __DIR__ . '/../inc/common.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Entity\Money;
-use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
-use Wirecard\PaymentSdk\Response\InteractionResponse;
+use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
@@ -28,8 +27,8 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
 // #### RatePAY invoice
 // Create and add a configuration object with the RatePAY invoice settings
-$ratepayInvoiceMAID = '73ce088c-b195-4977-8ea8-0be32cca9c2e';
-$ratepayInvoiceKey = 'd92724cf-5508-44fd-ad67-695e149212d5';
+$ratepayInvoiceMAID = 'c35733ea-ca79-4781-a5c3-74ce9746eac9';
+$ratepayInvoiceKey = 'e27da925-69cf-4e9e-a716-c9a001600199';
 
 $ratepayInvoiceConfig = new Config\PaymentMethodConfig(
     RatepayInvoiceTransaction::NAME,
@@ -41,13 +40,6 @@ $config->add($ratepayInvoiceConfig);
 // ### Transaction related objects
 // Use the money object as amount which has to be payed by the consumer.
 $amount = new Money(2400, 'EUR');
-
-// The redirect URLs determine where the consumer should be redirected by RatePAY invoice after the reserve.
-$redirectUrls = new Redirect(
-    getUrl('return.php?status=success'),
-    getUrl('return.php?status=cancel'),
-    getUrl('return.php?status=failure')
-);
 
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
 $notificationUrl = getUrl('notify.php');
@@ -89,7 +81,6 @@ $accountHolder->setAddress($address);
 // The RatePAY invoice transaction holds all transaction relevant data for the reserve process.
 $tx = new RatepayInvoiceTransaction();
 $tx->setNotificationUrl($notificationUrl);
-$tx->setRedirect($redirectUrls);
 $tx->setAmount($amount);
 $tx->setItemCollection($itemCollection);
 $tx->setOrderNumber($orderNumber);
@@ -107,9 +98,28 @@ $response = $transactionService->reserve($tx);
 // In case of an `InteractionResponse`, a browser interaction by the consumer is required
 // in order to continue the reserve process. In this example we proceed with a header redirect
 // to the given _redirectUrl_. IFrame integration using this URL is also possible.
-if ($response instanceof InteractionResponse) {
-    header('location: ' . $response->getRedirectUrl());
-    exit;
+if ($response instanceof SuccessResponse) {
+    echo 'Reservation successfully completed.<br>';
+    echo getTransactionLink($baseUrl, $ratepayInvoiceMAID, $response->getTransactionId());
+    ?>
+    <form action="pay-based-on-reserve.php" method="post">
+        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+        <input type="submit" value="Capture the reservation">
+    </form>
+    <br>
+    <form action="cancel.php" method="post">
+        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+        <label for="amount">Amount to cancel:</label>
+        <input type="text" name="amount" id="amount" value="2400"/>
+        <input type="submit" value="Cancel">
+    </form>
+    <form action="credit.php" method="post">
+        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+        <label for="amount">Amount to credit:</label>
+        <input type="text" name="amount" id="amount" value="100"/>
+        <input type="submit" value="Credit">
+    </form>
+    <?php
 // The failure state is represented by a FailureResponse object.
 // In this case the returned errors should be stored in your system.
 } elseif ($response instanceof FailureResponse) {
