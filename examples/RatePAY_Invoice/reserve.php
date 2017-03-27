@@ -79,17 +79,17 @@ $accountHolder->setAddress($address);
 // ## Transaction
 
 // The RatePAY invoice transaction holds all transaction relevant data for the reserve process.
-$tx = new RatepayInvoiceTransaction();
-$tx->setNotificationUrl($notificationUrl);
-$tx->setAmount($amount);
-$tx->setItemCollection($itemCollection);
-$tx->setOrderNumber($orderNumber);
-$tx->setAccountHolder($accountHolder);
+$transaction = new RatepayInvoiceTransaction();
+$transaction->setNotificationUrl($notificationUrl);
+$transaction->setAmount($amount);
+$transaction->setItemCollection($itemCollection);
+$transaction->setOrderNumber($orderNumber);
+$transaction->setAccountHolder($accountHolder);
 
 // ### Transaction Service
 // The service is used to execute the reserve operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
-$response = $transactionService->reserve($tx);
+$response = $transactionService->reserve($transaction);
 
 
 // ## Response handling

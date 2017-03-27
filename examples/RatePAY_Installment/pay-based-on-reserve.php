@@ -79,15 +79,15 @@ $accountHolder->setAddress($address);
 // ## Transaction
 
 // The RatePAY installment transaction holds all transaction relevant data for the reserve process.
-$tx = new RatepayInstallmentTransaction();
-$tx->setNotificationUrl($notificationUrl);
-$tx->setRedirect($redirectUrls);
-$tx->setItemCollection($itemCollection);
-$tx->setOrderNumber($orderNumber);
-$tx->setAccountHolder($accountHolder);
+$transaction = new RatepayInstallmentTransaction();
+$transaction->setNotificationUrl($notificationUrl);
+$transaction->setRedirect($redirectUrls);
+$transaction->setItemCollection($itemCollection);
+$transaction->setOrderNumber($orderNumber);
+$transaction->setAccountHolder($accountHolder);
 if (array_key_exists('parentTransactionId', $_POST)) {
     $parentTransactionId = $_POST['parentTransactionId'];
-    $tx->setParentTransactionId($_POST['parentTransactionId']);
+    $transaction->setParentTransactionId($_POST['parentTransactionId']);
 } else {
     $parentTransactionId = '';
 };
@@ -107,7 +107,7 @@ if (array_key_exists('item_to_capture', $_POST)) {
             $itemCollection->add($item2);
             $amount = new Money(2400, 'EUR');
     }
-    $tx->setAmount($amount);
+    $transaction->setAmount($amount);
 }
 
 
@@ -116,7 +116,7 @@ if (array_key_exists('item_to_capture', $_POST)) {
 $transactionService = new TransactionService($config);
 
 if (array_key_exists('item_to_capture', $_POST)) {
-    $response = $transactionService->pay($tx);
+    $response = $transactionService->pay($transaction);
 } else {
     $response = null;
 }
