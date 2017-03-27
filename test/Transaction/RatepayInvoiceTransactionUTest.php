@@ -34,7 +34,6 @@ namespace WirecardTest\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\ItemCollection;
 use Wirecard\PaymentSdk\Entity\Money;
-use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
@@ -70,37 +69,10 @@ class RatepayInvoiceTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->assertAttributeEquals($collection, 'itemCollection', $this->tx);
     }
 
-    public function testSetFailureUrl()
-    {
-        $redirect = $this->createMock(Redirect::class);
-        $redirect->method('getCancelUrl')->willReturn('cancel-url');
-        $redirect->method('getSuccessUrl')->willReturn('success-url');
-        $redirect->method('getFailureUrl')->willReturn('failure-url');
-
-        /**
-         * @var Redirect $redirect
-         */
-        $this->tx->setItemCollection(new ItemCollection());
-        $this->tx->setOperation(Operation::RESERVE);
-        $this->tx->setRedirect($redirect);
-        $data = $this->tx->mappedProperties();
-
-        $this->assertArrayHasKey('redirect-url', $data);
-    }
-
 
     public function testMappedPropertiesSetsOrderItems()
     {
-        $redirect = $this->createMock(Redirect::class);
-        $redirect->method('getCancelUrl')->willReturn('cancel-url');
-        $redirect->method('getSuccessUrl')->willReturn('success-url');
-
-        /**
-         * @var Redirect $redirect
-         */
-        $this->tx->setItemCollection(new ItemCollection());
         $this->tx->setOperation(Operation::RESERVE);
-        $this->tx->setRedirect($redirect);
         $data = $this->tx->mappedProperties();
 
         $this->assertArrayHasKey('order-items', $data);
@@ -110,18 +82,12 @@ class RatepayInvoiceTransactionUTest extends \PHPUnit_Framework_TestCase
     {
         $this->tx->setItemCollection(new ItemCollection());
 
-        $redirect = $this->createMock(Redirect::class);
-        $redirect->method('getCancelUrl')->willReturn('cancel-url');
-        $redirect->method('getSuccessUrl')->willReturn('success-url');
-
         $money = $this->createMock(Money::class);
         $money->method('getAmount')->willReturn(1.0);
 
         /**
-         * @var Redirect $redirect
          * @var Money $money
          */
-        $this->tx->setRedirect($redirect);
         $this->tx->setAmount($money);
         $this->tx->setOperation(Operation::RESERVE);
         $data = $this->tx->mappedProperties();
@@ -227,16 +193,8 @@ class RatepayInvoiceTransactionUTest extends \PHPUnit_Framework_TestCase
     public function testSetOrderNumber()
     {
         $orderNr = 123;
-        $redirect = $this->createMock(Redirect::class);
-        $redirect->method('getCancelUrl')->willReturn('cancel-url');
-        $redirect->method('getSuccessUrl')->willReturn('success-url');
-
-        /**
-         * @var Redirect $redirect
-         */
         $this->tx->setItemCollection(new ItemCollection());
         $this->tx->setOperation(Operation::RESERVE);
-        $this->tx->setRedirect($redirect);
         $this->tx->setOrderNumber($orderNr);
         $data = $this->tx->mappedProperties();
 
