@@ -41,7 +41,7 @@ use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
  * Class RatepayInstallTransaction
  * @package Wirecard\PaymentSdk\Transaction
  */
-class RatepayInstallTransaction extends Transaction implements Reservable
+class RatepayInstallmentTransaction extends Transaction implements Reservable
 {
     const NAME = 'ratepay-install';
 
@@ -62,7 +62,7 @@ class RatepayInstallTransaction extends Transaction implements Reservable
 
     /**
      * @param Redirect $redirect
-     * @return RatepayInstallTransaction
+     * @return RatepayInstallmentTransaction
      */
     public function setRedirect($redirect)
     {
@@ -72,7 +72,7 @@ class RatepayInstallTransaction extends Transaction implements Reservable
 
     /**
      * @param ItemCollection $itemCollection
-     * @return RatepayInstallTransaction
+     * @return RatepayInstallmentTransaction
      */
     public function setItemCollection($itemCollection)
     {
@@ -82,7 +82,7 @@ class RatepayInstallTransaction extends Transaction implements Reservable
 
     /**
      * @param string $orderNumber
-     * @return RatepayInstallTransaction
+     * @return RatepayInstallmentTransaction
      */
     public function setOrderNumber($orderNumber)
     {
@@ -105,7 +105,7 @@ class RatepayInstallTransaction extends Transaction implements Reservable
 
         if ($transactionType === $this::TYPE_AUTHORIZATION) {
             $result['cancel-redirect-url'] = $this->redirect->getCancelUrl();
-            $result['success-redirect-url'] =$this->redirect->getSuccessUrl();
+            $result['success-redirect-url'] = $this->redirect->getSuccessUrl();
 
             if ($this->redirect->getFailureUrl()) {
                 $result['redirect-url'] = $this->redirect->getFailureUrl();
