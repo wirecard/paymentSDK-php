@@ -80,6 +80,11 @@ abstract class Transaction
     protected $consumerId;
 
     /**
+     * @var ItemCollection
+     */
+    protected $itemCollection;
+
+    /**
      * @var string
      */
     protected $notificationUrl;
@@ -103,14 +108,11 @@ abstract class Transaction
      * @var string
      */
     protected $requestId;
+
     /**
      * @var Redirect
      */
     protected $redirect;
-    /**
-     * @var ItemCollection
-     */
-    protected $itemCollection;
 
     /**
      * @param AccountHolder $accountHolder
@@ -126,6 +128,16 @@ abstract class Transaction
     public function setAmount($amount)
     {
         $this->amount = $amount;
+    }
+
+    /**
+     * @param ItemCollection $itemCollection
+     * @return Transaction
+     */
+    public function setItemCollection(ItemCollection $itemCollection)
+    {
+        $this->itemCollection = $itemCollection;
+        return $this;
     }
 
     /**
@@ -338,16 +350,6 @@ abstract class Transaction
     public function setRedirect(Redirect $redirect)
     {
         $this->redirect = $redirect;
-        return $this;
-    }
-
-    /**
-     * @param ItemCollection $itemCollection
-     * @return Transaction
-     */
-    public function setItemCollection(ItemCollection $itemCollection)
-    {
-        $this->itemCollection = $itemCollection;
         return $this;
     }
 }
