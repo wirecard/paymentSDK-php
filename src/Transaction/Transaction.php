@@ -72,7 +72,7 @@ abstract class Transaction
     /**
      * @var string
      */
-    protected $parentTransactionId;
+    protected $consumerId;
 
     /**
      * @var string
@@ -82,7 +82,12 @@ abstract class Transaction
     /**
      * @var string
      */
-    protected $consumerId;
+    protected $operation;
+
+    /**
+     * @var string
+     */
+    protected $parentTransactionId;
 
     /**
      * @var string
@@ -92,8 +97,7 @@ abstract class Transaction
     /**
      * @var string
      */
-    protected $operation;
-
+    protected $requestId;
 
     /**
      * @param AccountHolder $accountHolder
@@ -133,6 +137,14 @@ abstract class Transaction
     public function setParentTransactionType($parentTransactionType)
     {
         $this->parentTransactionType = $parentTransactionType;
+    }
+
+    /**
+     * @param mixed $requestId
+     */
+    public function setRequestId($requestId)
+    {
+        $this->requestId = $requestId;
     }
 
     /**
