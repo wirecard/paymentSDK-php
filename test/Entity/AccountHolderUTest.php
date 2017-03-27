@@ -108,14 +108,14 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $this->accountHolder->mappedProperties());
     }
 
-    public function testGetMappedPropertiesDateOfBirth()
+    public function testGetMappedPropertieCrmId()
     {
-        $dateOfBirth = new \DateTime('2016-01-01');
-        $this->accountHolder->setDateOfBirth($dateOfBirth);
+        $crmId = '1243df';
+        $this->accountHolder->setCrmId($crmId);
 
         $this->assertEquals(
             [
-                'date-of-birth' => $dateOfBirth->format('d-m-Y')
+                'merchant-crm-id' => $crmId
             ],
             $this->accountHolder->mappedProperties()
         );
