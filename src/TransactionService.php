@@ -170,19 +170,23 @@ class TransactionService
             $data = $this->processAuthFrom3DResponse($payload);
         }
 
-        if (array_key_exists('ec', $payload) &&
+        if (null === $data &&
+            array_key_exists('ec', $payload) &&
             array_key_exists('trxid', $payload) &&
             array_key_exists(self::REQUEST_ID, $payload)
         ) {
             $data = $this->processFromIdealResponse($payload);
         }
 
-        if (array_key_exists('eppresponse', $payload)) {
+        if (null === $data && array_key_exists('eppresponse', $payload)) {
             $data = $this->responseMapper->map($payload['eppresponse']);
         }
 
         // RatePAY installment
-        if (array_key_exists('base64payload', $payload) && array_key_exists('psp_name', $payload)) {
+        if (null === $data &&
+            array_key_exists('base64payload', $payload) &&
+            array_key_exists('psp_name', $payload)
+        ) {
             $data = $this->responseMapper->map($payload['base64payload']);
         }
 
