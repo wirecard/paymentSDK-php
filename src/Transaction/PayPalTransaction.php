@@ -97,7 +97,7 @@ class PayPalTransaction extends Transaction implements Reservable
     }
 
     /**
-     * @throws MandatoryFieldMissingException
+     * @throws UnsupportedOperationException
      * @return string
      */
     protected function retrieveTransactionTypeForCancel()
@@ -113,9 +113,7 @@ class PayPalTransaction extends Transaction implements Reservable
                 $transactionType = self::TYPE_REFUND_CAPTURE;
                 break;
             default:
-                throw new MandatoryFieldMissingException(
-                    'Parent transaction type is missing for cancel operation.'
-                );
+                throw new UnsupportedOperationException('No transaction type available to cancel the transaction.');
         }
 
         return $transactionType;

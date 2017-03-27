@@ -136,12 +136,13 @@ class SepaTransaction extends Transaction implements Reservable
     }
 
     /**
+     * @throws UnsupportedOperationException
      * @return string
      */
     protected function retrieveTransactionTypeForCancel()
     {
         if (!in_array($this->parentTransactionType, [$this::TYPE_PENDING_DEBIT, $this::TYPE_PENDING_CREDIT])) {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException('No transaction type available to cancel the transaction.');
         }
         return 'void-' . $this->parentTransactionType;
     }

@@ -90,7 +90,7 @@ class PaysafecardTransaction extends Transaction implements Reservable
     protected function retrieveTransactionTypeForCancel()
     {
         if ($this->parentTransactionType !== $this::TYPE_AUTHORIZATION) {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException('No transaction type available to cancel the transaction.');
         }
 
         return 'void-' . $this->parentTransactionType;
