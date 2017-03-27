@@ -81,7 +81,7 @@ class PaysafecardTransaction extends Transaction implements Reservable
             return self::TYPE_CAPTURE_AUTHORIZATION;
         }
 
-        return $this::TYPE_DEBIT;
+        return self::TYPE_DEBIT;
     }
 
     /**
