@@ -129,13 +129,29 @@ class RatepayInstallTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Transaction::TYPE_AUTHORIZATION, $data['transaction-type']);
     }
 
-    public function testGetRetrieveTransactionTypeCancelForAuthorization()
+    /**
+     * @return array
+     */
+    public function cancelDataProvider()
+    {
+        return [
+            [Transaction::TYPE_AUTHORIZATION, Transaction::TYPE_VOID_AUTHORIZATION],
+            [Transaction::TYPE_CAPTURE_AUTHORIZATION, 'refund-capture'],
+        ];
+    }
+
+    /**
+     * @dataProvider cancelDataProvider
+     * @param $transactionType
+     * @param $expected
+     */
+    public function testGetRetrieveTransactionTypeCancel($transactionType, $expected)
     {
         $this->tx->setOperation(Operation::CANCEL);
         $this->tx->setItemCollection(new ItemCollection());
-        $this->tx->setParentTransactionType(Transaction::TYPE_AUTHORIZATION);
+        $this->tx->setParentTransactionType($transactionType);
         $data = $this->tx->mappedProperties();
-        $this->assertEquals(Transaction::TYPE_VOID_AUTHORIZATION, $data['transaction-type']);
+        $this->assertEquals($expected, $data['transaction-type']);
     }
 
     /**

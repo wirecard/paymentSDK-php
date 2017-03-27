@@ -154,6 +154,11 @@ if ($response instanceof SuccessResponse) {
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <input type="hidden" name="transaction-type" value="<?= $response->getTransactionType() ?>"/>
+        <?php
+        if (array_key_exists('item_to_capture', $_POST)) {
+            echo sprintf('<input type="hidden" name="amount" value="%0.2f"/>', $amount->getAmount());
+        }
+        ?>
         <input type="submit" value="Cancel the capture">
     </form>
     <?php
