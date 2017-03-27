@@ -69,9 +69,9 @@ class AccountHolder implements MappableEntity
      * @var \DateTime
      */
     private $dateOfBirth;
+     * @var string
 
     /**
-     * @var string
      */
     private $crmId;
 
@@ -131,6 +131,14 @@ class AccountHolder implements MappableEntity
     {
         $this->dateOfBirth = $dateOfBirth;
         return $this;
+    }
+
+    /**
+     * @param string $crmId
+     */
+    public function setCrmId($crmId)
+    {
+        $this->crmId = $crmId;
     }
 
     /**

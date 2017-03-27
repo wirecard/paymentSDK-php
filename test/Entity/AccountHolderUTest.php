@@ -108,7 +108,7 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $this->accountHolder->mappedProperties());
     }
 
-    public function testGetMappedPropertieCrmId()
+    public function testGetMappedPropertiesCrmId()
     {
         $crmId = '1243df';
         $this->accountHolder->setCrmId($crmId);
