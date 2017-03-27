@@ -46,7 +46,7 @@ use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
-use Wirecard\PaymentSdk\Transaction\RatepayInstallTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
@@ -464,7 +464,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
             'psp_name' => 'engine_payments'
         ];
 
-        $transaction = new RatepayInstallTransaction();
+        $transaction = new RatepayInstallmentTransaction();
         $transaction->setOperation('reserve');
 
         $successResponse = $this->mockProcessingRequest($transaction);

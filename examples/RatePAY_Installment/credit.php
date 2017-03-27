@@ -13,7 +13,7 @@ use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\RatepayInstallTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 // ### Config
@@ -33,7 +33,7 @@ $ratepayInstallMAID = '9abf05c1-c266-46ae-8eac-7f87ca97af28';
 $ratepayInstallKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
 
 $ratepayInstallConfig = new Config\PaymentMethodConfig(
-    RatepayInstallTransaction::NAME,
+    RatepayInstallmentTransaction::NAME,
     $ratepayInstallMAID,
     $ratepayInstallKey
 );
@@ -66,7 +66,7 @@ $itemCollection->add($credit1);
 // ## Transaction
 
 // The RatePAY transaction holds all transaction relevant data for the payment process.
-$transaction = new RatepayInstallTransaction();
+$transaction = new RatepayInstallmentTransaction();
 $transaction->setNotificationUrl($notificationUrl);
 $transaction->setRedirect($redirectUrls);
 $transaction->setAmount($amount);

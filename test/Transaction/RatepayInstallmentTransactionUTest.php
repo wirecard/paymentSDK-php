@@ -36,19 +36,19 @@ use Wirecard\PaymentSdk\Entity\ItemCollection;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\Operation;
-use Wirecard\PaymentSdk\Transaction\RatepayInstallTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
-class RatepayInstallTransactionUTest extends \PHPUnit_Framework_TestCase
+class RatepayInstallmentTransactionUTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var RatepayInstallTransaction
+     * @var RatepayInstallmentTransaction
      */
     private $tx;
 
     public function setUp()
     {
-        $this->tx = new RatepayInstallTransaction();
+        $this->tx = new RatepayInstallmentTransaction();
     }
 
     /**
@@ -195,9 +195,9 @@ class RatepayInstallTransactionUTest extends \PHPUnit_Framework_TestCase
     public function endpointDataProvider()
     {
         return [
-            [Operation::RESERVE, RatepayInstallTransaction::ENDPOINT_PAYMENT_METHODS],
-            [Operation::PAY, RatepayInstallTransaction::ENDPOINT_PAYMENTS],
-            [Operation::CANCEL, RatepayInstallTransaction::ENDPOINT_PAYMENTS],
+            [Operation::RESERVE, RatepayInstallmentTransaction::ENDPOINT_PAYMENT_METHODS],
+            [Operation::PAY, RatepayInstallmentTransaction::ENDPOINT_PAYMENTS],
+            [Operation::CANCEL, RatepayInstallmentTransaction::ENDPOINT_PAYMENTS],
         ];
     }
 

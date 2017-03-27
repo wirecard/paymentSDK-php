@@ -1,6 +1,6 @@
 <?php
-// # Cancelling a transaction
-// To cancel a transaction, a cancel request with the parent transaction is sent.
+// # Payment after a reservation
+// Enter the ID of the successful reserve transaction and start a pay transaction with it.
 
 // ## Required objects
 // To include the necessary files, we use the composer for PSR-4 autoloading.
@@ -11,81 +11,60 @@ use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Entity\Money;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\RatepayInstallTransaction;
+use Wirecard\PaymentSdk\Transaction\PaysafecardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 // ### Config
 // #### Basic configuration
 // The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
 $baseUrl = 'https://api-test.wirecard.com';
-$httpUser = '70000-APITEST-AP';
-$httpPass = 'qD2wzQ_hrc!8';
+$httpUser = '70000-APILUHN-CARD';
+$httpPass = '8mhwavKVb91T';
 
 // The configuration is stored in an object containing the connection settings set above.
 // A default currency can also be provided.
 $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
-// #### RatePay installment
-// Create and add a configuration object with the RatePay installment settings
-$ratepayInstallMAID = '73ce088c-b195-4977-8ea8-0be32cca9c2e';
-$ratepayInstallKey = 'd92724cf-5508-44fd-ad67-695e149212d5';
-
-$ratepayInstallConfig = new Config\PaymentMethodConfig(
-    RatepayInstallTransaction::NAME,
-    $ratepayInstallMAID,
-    $ratepayInstallKey
-);
-$config->add($ratepayInstallConfig);
+// #### Paysafecard
+// Create and add a configuration object with the Paysafecard settings
+$paysafecardMAID = '4c0de18e-4c20-40a7-a5d8-5178f0fe95bd';
+$paysafecardKey = 'bb1f2975-827b-4aa8-bec6-405191d85fa5';
+$paysafecardConfig = new Config\PaymentMethodConfig(PaysafecardTransaction::NAME, $paysafecardMAID, $paysafecardKey);
+$config->add($paysafecardConfig);
 
 
 // ### Transaction related objects
+
 // Use the money object as amount which has to be payed by the consumer.
 if (array_key_exists('amount', $_POST)) {
-    $amountValue = $_POST['amount'];
+    $amount = new Money((float)$_POST['amount'], 'EUR');
 } else {
-    $amountValue = 2400;
+    $amount = new Money(12.59, 'EUR');
 }
-$amount = new Money($amountValue, 'EUR');
-
-// The order number
-$orderNumber = 'A2';
-
-
-// #### Order items
-// Create your items.
-$item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Money(400, 'EUR'), 1);
-$item1->setArticleNumber('A1');
-$item1->setTaxRate(0.1);
-
-$item2 = new \Wirecard\PaymentSdk\Entity\Item('Item 2', new Money(1000, 'EUR'), 2);
-$item2->setArticleNumber('B2');
-$item2->setTaxRate(0.2);
-
-// Create an item collection to store the items.
-$itemCollection = new \Wirecard\PaymentSdk\Entity\ItemCollection();
-$itemCollection->add($item1);
-$itemCollection->add($item2);
-
 
 // ## Transaction
 
-$transaction = new RatepayInstallTransaction();
-$transaction->setParentTransactionId($_POST['parentTransactionId']);
+$transaction = new PaysafecardTransaction();
 $transaction->setAmount($amount);
-$transaction->setOrderNumber($orderNumber);
-$transaction->setItemCollection($itemCollection);
+if (array_key_exists('parentTransactionId', $_POST)) {
+    $transaction->setParentTransactionId($_POST['parentTransactionId']);
+}
 
-// ### Transaction Service
+// ### Transaction service
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
-$response = $transactionService->cancel($transaction);
+$response = $transactionService->pay($transaction);
+
 
 // ## Response handling
+
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
-    echo 'Payment successfully cancelled.<br>';
-    echo getTransactionLink($baseUrl, $ratepayInstallMAID, $response->getTransactionId());
+    echo 'Payment successfully completed.<br>';
+    echo getTransactionLink($baseUrl, $paysafecardMAID, $response->getTransactionId());
+    ?>
+    <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
     // In our example we iterate over all errors and echo them out.
