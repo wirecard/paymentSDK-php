@@ -84,7 +84,7 @@ $response = $transactionService->cancel($transaction);
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
-    echo 'Payment successfully completed.<br>';
+    echo 'Payment successfully cancelled.<br>';
     echo getTransactionLink($baseUrl, $ratepayInstallMAID, $response->getTransactionId());
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
