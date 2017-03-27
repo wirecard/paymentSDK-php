@@ -32,7 +32,6 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
 class SofortTransaction extends Transaction
@@ -40,22 +39,9 @@ class SofortTransaction extends Transaction
     const NAME = 'sofortbanking';
 
     /**
-     * @var Redirect
-     */
-    private $redirect;
-
-    /**
      * @var string
      */
     private $descriptor;
-
-    /**
-     * @param Redirect $redirect
-     */
-    public function setRedirect($redirect)
-    {
-        $this->redirect = $redirect;
-    }
 
     /**
      * @param string $descriptor

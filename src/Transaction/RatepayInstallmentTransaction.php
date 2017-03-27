@@ -32,8 +32,6 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\ItemCollection;
-use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
@@ -51,36 +49,6 @@ class RatepayInstallmentTransaction extends Transaction implements Reservable
     private $orderNumber;
 
     /**
-     * @var ItemCollection
-     */
-    private $itemCollection;
-
-    /**
-     * @var Redirect
-     */
-    private $redirect;
-
-    /**
-     * @param Redirect $redirect
-     * @return RatepayInstallmentTransaction
-     */
-    public function setRedirect($redirect)
-    {
-        $this->redirect = $redirect;
-        return $this;
-    }
-
-    /**
-     * @param ItemCollection $itemCollection
-     * @return RatepayInstallmentTransaction
-     */
-    public function setItemCollection($itemCollection)
-    {
-        $this->itemCollection = $itemCollection;
-        return $this;
-    }
-
-    /**
      * @param string $orderNumber
      * @return RatepayInstallmentTransaction
      */
@@ -96,21 +64,9 @@ class RatepayInstallmentTransaction extends Transaction implements Reservable
      */
     protected function mappedSpecificProperties()
     {
-        $transactionType = $this->retrieveTransactionType();
-
         $result = [
             'order-number' => $this->orderNumber,
-            'order-items' => $this->itemCollection->mappedProperties()
         ];
-
-        if ($transactionType === $this::TYPE_AUTHORIZATION) {
-            $result['cancel-redirect-url'] = $this->redirect->getCancelUrl();
-            $result['success-redirect-url'] = $this->redirect->getSuccessUrl();
-
-            if ($this->redirect->getFailureUrl()) {
-                $result['redirect-url'] = $this->redirect->getFailureUrl();
-            }
-        }
 
         return $result;
     }

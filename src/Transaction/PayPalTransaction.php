@@ -32,8 +32,6 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\ItemCollection;
-use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
@@ -44,34 +42,6 @@ use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 class PayPalTransaction extends Transaction implements Reservable
 {
     const NAME = 'paypal';
-
-    /**
-     * @var Redirect
-     */
-    private $redirect;
-
-    /**
-     * @var ItemCollection
-     */
-    private $itemCollection;
-
-    /**
-     * @param Redirect $redirect
-     */
-    public function setRedirect($redirect)
-    {
-        $this->redirect = $redirect;
-    }
-
-    /**
-     * @param ItemCollection $itemCollection
-     * @return PayPalTransaction
-     */
-    public function setItemCollection($itemCollection)
-    {
-        $this->itemCollection = $itemCollection;
-        return $this;
-    }
 
     /**
      * return string
@@ -93,17 +63,6 @@ class PayPalTransaction extends Transaction implements Reservable
     {
         $transactionType = $this->retrieveTransactionType();
         $data = array();
-
-        if (null !== $this->itemCollection && ($transactionType === $this::TYPE_AUTHORIZATION
-                || $transactionType === $this::TYPE_DEBIT)
-        ) {
-            $data['order-items'] = $this->itemCollection->mappedProperties();
-        }
-
-        if ($this->operation !== Operation::CANCEL) {
-            $data['cancel-redirect-url'] = $this->redirect->getCancelUrl();
-            $data['success-redirect-url'] = $this->redirect->getSuccessUrl();
-        }
 
         if ($transactionType === 'authorization-only') {
             $data['periodic']['periodic-type'] = 'recurring';

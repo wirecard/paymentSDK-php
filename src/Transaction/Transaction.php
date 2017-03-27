@@ -33,7 +33,9 @@
 namespace Wirecard\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\AccountHolder;
+use Wirecard\PaymentSdk\Entity\ItemCollection;
 use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
@@ -98,6 +100,14 @@ abstract class Transaction
      * @var string
      */
     protected $requestId;
+    /**
+     * @var Redirect
+     */
+    protected $redirect;
+    /**
+     * @var ItemCollection
+     */
+    protected $itemCollection;
 
     /**
      * @param AccountHolder $accountHolder
@@ -207,6 +217,18 @@ abstract class Transaction
             $result['notifications'] = $onlyNotificationUrl;
         }
 
+        if (null !== $this->redirect) {
+            $result['cancel-redirect-url'] = $this->redirect->getCancelUrl();
+            $result['success-redirect-url'] = $this->redirect->getSuccessUrl();
+            if ($this->redirect->getFailureUrl()) {
+                $result['redirect-url'] = $this->redirect->getFailureUrl();
+            }
+        }
+
+        if (null !== $this->itemCollection) {
+            $result['order-items'] = $this->itemCollection->mappedProperties();
+        }
+
         if (null !== $this->consumerId) {
             $result['consumer-id'] = $this->consumerId;
         }
@@ -231,19 +253,6 @@ abstract class Transaction
     public function getConfigKey()
     {
         return $this::NAME;
-    }
-
-    /**
-     * @return array
-     */
-    abstract protected function mappedSpecificProperties();
-
-    /**
-     * return string
-     */
-    public function getEndpoint()
-    {
-        return $this::ENDPOINT_PAYMENT_METHODS;
     }
 
     /**
@@ -304,5 +313,38 @@ abstract class Transaction
     protected function retrieveTransactionTypeForCredit()
     {
         throw new UnsupportedOperationException();
+    }
+
+    /**
+     * @return array
+     */
+    abstract protected function mappedSpecificProperties();
+
+    /**
+     * return string
+     */
+    public function getEndpoint()
+    {
+        return $this::ENDPOINT_PAYMENT_METHODS;
+    }
+
+    /**
+     * @param Redirect $redirect
+     * @return Transaction
+     */
+    public function setRedirect($redirect)
+    {
+        $this->redirect = $redirect;
+        return $this;
+    }
+
+    /**
+     * @param ItemCollection $itemCollection
+     * @return Transaction
+     */
+    public function setItemCollection($itemCollection)
+    {
+        $this->itemCollection = $itemCollection;
+        return $this;
     }
 }

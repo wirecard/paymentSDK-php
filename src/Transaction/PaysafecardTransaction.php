@@ -32,7 +32,6 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
 /**
@@ -42,19 +41,6 @@ use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 class PaysafecardTransaction extends Transaction implements Reservable
 {
     const NAME = 'paysafecard';
-
-    /**
-     * @var Redirect
-     */
-    private $redirect;
-
-    /**
-     * @param Redirect $redirect
-     */
-    public function setRedirect($redirect)
-    {
-        $this->redirect = $redirect;
-    }
 
     /**
      * return string
@@ -74,13 +60,6 @@ class PaysafecardTransaction extends Transaction implements Reservable
      */
     protected function mappedSpecificProperties()
     {
-        if (null !== $this->redirect) {
-            return [
-                'cancel-redirect-url' => $this->redirect->getCancelUrl(),
-                'success-redirect-url' => $this->redirect->getSuccessUrl()
-            ];
-        }
-
         return [];
     }
 
