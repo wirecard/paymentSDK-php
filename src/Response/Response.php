@@ -72,7 +72,9 @@ abstract class Response
     {
         $this->simpleXml = $simpleXml;
         $this->statusCollection = $this->generateStatusCollection();
-        $this->requestId = $this->findElement('request-id');
+        if (!($this instanceof FailureResponse)) {
+            $this->requestId = $this->findElement('request-id');
+        }
     }
 
     /**
