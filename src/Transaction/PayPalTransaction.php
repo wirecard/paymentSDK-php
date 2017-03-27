@@ -64,14 +64,6 @@ class PayPalTransaction extends Transaction implements Reservable
     }
 
     /**
-     * @return ItemCollection
-     */
-    public function getItemCollection()
-    {
-        return $this->itemCollection;
-    }
-
-    /**
      * @param ItemCollection $itemCollection
      * @return PayPalTransaction
      */

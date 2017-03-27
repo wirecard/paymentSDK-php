@@ -63,6 +63,11 @@ class Item implements MappableEntity
     private $taxAmount;
 
     /**
+     * @var float
+     */
+    private $taxRate;
+
+    /**
      * @var int
      */
     private $quantity;
@@ -98,6 +103,24 @@ class Item implements MappableEntity
     {
         $this->articleNumber = $articleNumber;
         return $this;
+    }
+
+    /**
+     * @param float $taxRate
+     * @return Item
+     */
+    public function setTaxRate($taxRate)
+    {
+        $this->taxRate = $taxRate;
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTaxRate()
+    {
+        return $this->taxRate;
     }
 
     /**
@@ -174,6 +197,10 @@ class Item implements MappableEntity
         }
 
         $data['amount'] = $this->getAmount()->mappedProperties();
+
+        if (null !== $this->getTaxRate()) {
+            $data['tax-rate'] = $this->getTaxRate();
+        }
 
         if (null !== $this->getTaxAmount()) {
             $data['tax-amount'] = $this->getTaxAmount()->mappedProperties();

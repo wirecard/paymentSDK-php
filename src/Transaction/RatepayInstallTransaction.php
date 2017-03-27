@@ -33,9 +33,12 @@
 namespace Wirecard\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\ItemCollection;
+use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
+use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
 /**
- * Class PayPalTransaction
+ * Class RatepayInstallTransaction
  * @package Wirecard\PaymentSdk\Transaction
  */
 class RatepayInstallTransaction extends Transaction implements Reservable
@@ -43,16 +46,28 @@ class RatepayInstallTransaction extends Transaction implements Reservable
     const NAME = 'ratepay-install';
 
     /**
+     * @var string
+     */
+    private $orderNumber;
+
+    /**
      * @var ItemCollection
      */
     private $itemCollection;
 
     /**
-     * @return ItemCollection
+     * @var Redirect
      */
-    public function getItemCollection()
+    private $redirect;
+
+    /**
+     * @param Redirect $redirect
+     * @return RatepayInstallTransaction
+     */
+    public function setRedirect($redirect)
     {
-        return $this->itemCollection;
+        $this->redirect = $redirect;
+        return $this;
     }
 
     /**
@@ -66,12 +81,70 @@ class RatepayInstallTransaction extends Transaction implements Reservable
     }
 
     /**
+     * @param string $orderNumber
+     * @return RatepayInstallTransaction
+     */
+    public function setOrderNumber($orderNumber)
+    {
+        $this->orderNumber = $orderNumber;
+        return $this;
+    }
+
+    /**
+     * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return array
      */
     protected function mappedSpecificProperties()
     {
-        $result = array();
+        $transactionType = $this->retrieveTransactionType();
+
+        $result = [
+            'order-number' => $this->orderNumber,
+            'order-items' => $this->itemCollection->mappedProperties()
+        ];
+
+        if ($transactionType === $this::TYPE_AUTHORIZATION) {
+            $result['cancel-redirect-url'] = $this->redirect->getCancelUrl();
+            $result['success-redirect-url'] =$this->redirect->getSuccessUrl();
+
+            if ($this->redirect->getFailureUrl()) {
+                $result['redirect-url'] = $this->redirect->getFailureUrl();
+            }
+        }
 
         return $result;
+    }
+
+    /**
+     * @return string
+     */
+    protected function retrieveTransactionTypeForReserve()
+    {
+        return $this::TYPE_AUTHORIZATION;
+    }
+
+    /**
+     * @throws MandatoryFieldMissingException
+     * @return string
+     */
+    protected function retrieveTransactionTypeForCancel()
+    {
+        if ($this->parentTransactionType === $this::TYPE_AUTHORIZATION) {
+            return $this::TYPE_VOID_AUTHORIZATION;
+        }
+
+        throw new MandatoryFieldMissingException('Parent transaction type is missing for cancel operation');
+    }
+
+    /**
+     * return string
+     */
+    public function getEndpoint()
+    {
+        if ($this->operation === Operation::RESERVE) {
+            return $this::ENDPOINT_PAYMENT_METHODS;
+        } else {
+            return $this::ENDPOINT_PAYMENTS;
+        }
     }
 }
