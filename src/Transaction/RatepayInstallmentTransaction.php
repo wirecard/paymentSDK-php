@@ -32,102 +32,11 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
-use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
-
 /**
  * Class RatepayInstallmentTransaction
  * @package Wirecard\PaymentSdk\Transaction
  */
-class RatepayInstallmentTransaction extends Transaction implements Reservable
+class RatepayInstallmentTransaction extends RatepayTransaction implements Reservable
 {
     const NAME = 'ratepay-install';
-
-    /**
-     * @var string
-     */
-    private $orderNumber;
-
-    /**
-     * @param string $orderNumber
-     * @return RatepayInstallmentTransaction
-     */
-    public function setOrderNumber($orderNumber)
-    {
-        $this->orderNumber = $orderNumber;
-        return $this;
-    }
-
-    /**
-     * @throws MandatoryFieldMissingException|UnsupportedOperationException
-     * @return array
-     */
-    protected function mappedSpecificProperties()
-    {
-        $result = [
-            'order-number' => $this->orderNumber,
-        ];
-
-        return $result;
-    }
-
-    /**
-     * @return string
-     */
-    protected function retrieveTransactionTypeForReserve()
-    {
-        return self::TYPE_AUTHORIZATION;
-    }
-
-    /**
-     * @throws MandatoryFieldMissingException
-     * @return mixed
-     */
-    protected function retrieveTransactionTypeForPay()
-    {
-        if ($this->parentTransactionId) {
-            return self::TYPE_CAPTURE_AUTHORIZATION;
-        }
-
-        throw new MandatoryFieldMissingException('Parent transaction id is missing for pay operation.');
-    }
-
-    /**
-     * @throws MandatoryFieldMissingException|UnsupportedOperationException
-     * @return string
-     */
-    protected function retrieveTransactionTypeForCancel()
-    {
-        if (!$this->parentTransactionId) {
-            throw new MandatoryFieldMissingException('No transaction for cancellation set.');
-        }
-        if ($this->parentTransactionType === self::TYPE_AUTHORIZATION) {
-            return self::TYPE_VOID_AUTHORIZATION;
-        } elseif ($this->parentTransactionType === self::TYPE_CAPTURE_AUTHORIZATION) {
-            return self::TYPE_REFUND_CAPTURE;
-        }
-
-        throw new UnsupportedOperationException('The transaction can not be canceled.');
-    }
-
-
-    /**
-     * @return string
-     */
-    protected function retrieveTransactionTypeForCredit()
-    {
-        return self::TYPE_CREDIT;
-    }
-
-    /**
-     * return string
-     */
-    public function getEndpoint()
-    {
-        if ($this->operation === Operation::RESERVE) {
-            return self::ENDPOINT_PAYMENT_METHODS;
-        }
-
-        return self::ENDPOINT_PAYMENTS;
-    }
 }
