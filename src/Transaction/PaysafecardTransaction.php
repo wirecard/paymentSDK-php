@@ -49,9 +49,9 @@ class PaysafecardTransaction extends Transaction implements Reservable
     {
         if ($this->operation === Operation::RESERVE ||
             ($this->operation === Operation::PAY && null === $this->parentTransactionId)) {
-            return $this::ENDPOINT_PAYMENT_METHODS;
+            return self::ENDPOINT_PAYMENT_METHODS;
         } else {
-            return $this::ENDPOINT_PAYMENTS;
+            return self::ENDPOINT_PAYMENTS;
         }
     }
 
@@ -68,7 +68,7 @@ class PaysafecardTransaction extends Transaction implements Reservable
      */
     protected function retrieveTransactionTypeForReserve()
     {
-        return $this::TYPE_AUTHORIZATION;
+        return self::TYPE_AUTHORIZATION;
     }
 
     /**
@@ -77,7 +77,7 @@ class PaysafecardTransaction extends Transaction implements Reservable
     protected function retrieveTransactionTypeForPay()
     {
         if ($this->parentTransactionType === $this::TYPE_AUTHORIZATION) {
-            return $this::TYPE_CAPTURE_AUTHORIZATION;
+            return self::TYPE_CAPTURE_AUTHORIZATION;
         }
 
         return $this::TYPE_DEBIT;

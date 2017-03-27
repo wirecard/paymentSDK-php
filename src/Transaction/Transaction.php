@@ -52,6 +52,7 @@ abstract class Transaction
     const ENDPOINT_PAYMENT_METHODS = '/engine/rest/paymentmethods/';
     const NAME = '';
     const TYPE_AUTHORIZATION = 'authorization';
+    const TYPE_AUTHORIZATION_ONLY = 'authorization-only';
     const TYPE_REFERENCED_AUTHORIZATION = 'referenced-authorization';
     const TYPE_CAPTURE_AUTHORIZATION = 'capture-authorization';
     const TYPE_VOID_AUTHORIZATION = 'void-authorization';
@@ -59,7 +60,9 @@ abstract class Transaction
     const TYPE_CREDIT = 'credit';
     const TYPE_PENDING_DEBIT = 'pending-debit';
     const TYPE_DEBIT = 'debit';
-
+    const TYPE_REFUND_CAPTURE = 'refund-capture';
+    const TYPE_REFUND_DEBIT = 'refund-debit';
+    const TYPE_VOID_CAPTURE = 'void-capture';
 
     /**
      * @var AccountHolder
@@ -194,11 +197,11 @@ abstract class Transaction
             'name' => $this->paymentMethodNameForRequest()
         ]]]];
 
-        if ($this->amount) {
+        if ($this->amount instanceof Money) {
             $result['requested-amount'] = $this->amount->mappedProperties();
         }
 
-        if ($this->accountHolder) {
+        if ($this->accountHolder instanceof AccountHolder) {
             $result['account-holder'] = $this->accountHolder->mappedProperties();
         }
 
@@ -217,7 +220,7 @@ abstract class Transaction
             $result['notifications'] = $onlyNotificationUrl;
         }
 
-        if (null !== $this->redirect) {
+        if ($this->redirect instanceof Redirect) {
             $result['cancel-redirect-url'] = $this->redirect->getCancelUrl();
             $result['success-redirect-url'] = $this->redirect->getSuccessUrl();
             if ($this->redirect->getFailureUrl()) {
@@ -225,7 +228,7 @@ abstract class Transaction
             }
         }
 
-        if (null !== $this->itemCollection) {
+        if ($this->itemCollection instanceof ItemCollection) {
             $result['order-items'] = $this->itemCollection->mappedProperties();
         }
 
@@ -332,7 +335,7 @@ abstract class Transaction
      * @param Redirect $redirect
      * @return Transaction
      */
-    public function setRedirect($redirect)
+    public function setRedirect(Redirect $redirect)
     {
         $this->redirect = $redirect;
         return $this;
@@ -342,7 +345,7 @@ abstract class Transaction
      * @param ItemCollection $itemCollection
      * @return Transaction
      */
-    public function setItemCollection($itemCollection)
+    public function setItemCollection(ItemCollection $itemCollection)
     {
         $this->itemCollection = $itemCollection;
         return $this;

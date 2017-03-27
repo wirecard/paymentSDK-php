@@ -76,7 +76,7 @@ class RatepayInstallmentTransaction extends Transaction implements Reservable
      */
     protected function retrieveTransactionTypeForReserve()
     {
-        return $this::TYPE_AUTHORIZATION;
+        return self::TYPE_AUTHORIZATION;
     }
 
     /**
@@ -86,7 +86,7 @@ class RatepayInstallmentTransaction extends Transaction implements Reservable
     protected function retrieveTransactionTypeForPay()
     {
         if ($this->parentTransactionId) {
-            return $this::TYPE_CAPTURE_AUTHORIZATION;
+            return self::TYPE_CAPTURE_AUTHORIZATION;
         } else {
             throw new MandatoryFieldMissingException('Parent transaction id is missing for pay operation.');
         }
@@ -99,11 +99,11 @@ class RatepayInstallmentTransaction extends Transaction implements Reservable
     protected function retrieveTransactionTypeForCancel()
     {
         if ($this->parentTransactionType === $this::TYPE_AUTHORIZATION) {
-            return $this::TYPE_VOID_AUTHORIZATION;
+            return self::TYPE_VOID_AUTHORIZATION;
         } elseif ($this->parentTransactionType === $this::TYPE_CAPTURE_AUTHORIZATION) {
-            return 'refund-capture';
+            return self::TYPE_REFUND_CAPTURE;
         } else {
-            throw new MandatoryFieldMissingException('No transaction type available to cancel the given transaction.');
+            throw new MandatoryFieldMissingException('No transaction type available to cancel the transaction.');
         }
     }
 
@@ -113,7 +113,7 @@ class RatepayInstallmentTransaction extends Transaction implements Reservable
      */
     protected function retrieveTransactionTypeForCredit()
     {
-        return $this::TYPE_CREDIT;
+        return self::TYPE_CREDIT;
     }
 
     /**
@@ -122,9 +122,9 @@ class RatepayInstallmentTransaction extends Transaction implements Reservable
     public function getEndpoint()
     {
         if ($this->operation === Operation::RESERVE) {
-            return $this::ENDPOINT_PAYMENT_METHODS;
+            return self::ENDPOINT_PAYMENT_METHODS;
         } else {
-            return $this::ENDPOINT_PAYMENTS;
+            return self::ENDPOINT_PAYMENTS;
         }
     }
 }
