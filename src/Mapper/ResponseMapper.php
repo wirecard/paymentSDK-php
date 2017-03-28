@@ -61,12 +61,11 @@ class ResponseMapper
      * map the xml Response from engine to ResponseObjects
      *
      * @param string $xmlResponse
-     * @param string $operation
      * @param ThreeDCreditCardTransaction $transaction
      * @return Response
      * @throws MalformedResponseException
      */
-    public function map($xmlResponse, $operation = null, ThreeDCreditCardTransaction $transaction = null)
+    public function map($xmlResponse, ThreeDCreditCardTransaction $transaction = null)
     {
         $decodedResponse = base64_decode($xmlResponse);
         $xmlResponse = (base64_encode($decodedResponse) === $xmlResponse) ? $decodedResponse : $xmlResponse;
@@ -87,7 +86,7 @@ class ResponseMapper
 
         switch ($state) {
             case 'success':
-                return $this->mapSuccessResponse($operation, $transaction);
+                return $this->mapSuccessResponse($transaction);
             case 'in-progress':
                 return new PendingResponse($this->simpleXml);
             default:
@@ -139,14 +138,12 @@ class ResponseMapper
 
     /**
      * @param $payload
-     * @param $operation
      * @param ThreeDCreditCardTransaction $transaction
      * @throws MalformedResponseException
      * @return FormInteractionResponse
      */
     private function mapThreeDResponse(
         $payload,
-        $operation,
         ThreeDCreditCardTransaction $transaction
     ) {
         if (!isset($this->simpleXml->{'three-d'})) {
@@ -175,8 +172,7 @@ class ResponseMapper
             'MD',
             base64_encode(json_encode([
                 'enrollment-check-transaction-id' => $response->getTransactionId(),
-                'operation-type' => ($operation === Operation::RESERVE)
-                    ? Transaction::TYPE_AUTHORIZATION : CreditCardTransaction::TYPE_PURCHASE
+                'operation-type' => $transaction->retrieveOperationType()
             ]))
         );
 
@@ -186,17 +182,14 @@ class ResponseMapper
     }
 
     /**
-     * @param string $operation
      * @param ThreeDCreditCardTransaction $transaction
      * @return FormInteractionResponse|InteractionResponse|SuccessResponse
      * @throws MalformedResponseException
      */
-    private function mapSuccessResponse(
-        $operation,
-        ThreeDCreditCardTransaction $transaction = null
-    ) {
+    private function mapSuccessResponse(ThreeDCreditCardTransaction $transaction = null)
+    {
         if ((string)$this->simpleXml->{'transaction-type'} === ThreeDCreditCardTransaction::TYPE_CHECK_ENROLLMENT) {
-            return $this->mapThreeDResponse($this->simpleXml, $operation, $transaction);
+            return $this->mapThreeDResponse($this->simpleXml, $transaction);
         }
 
         $paymentMethod = $this->getPaymentMethod();

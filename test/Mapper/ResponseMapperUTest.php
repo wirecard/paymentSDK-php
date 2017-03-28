@@ -224,7 +224,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         /**
          * @var FormInteractionResponse $mapped
          */
-        $mapped = $this->mapper->map($payload, Operation::RESERVE, $transaction);
+        $mapped = $this->mapper->map($payload, $transaction);
 
         $this->assertInstanceOf(FormInteractionResponse::class, $mapped);
         $this->assertEquals($payload, $mapped->getRawData());
@@ -251,11 +251,12 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         </three-d>
                     </payment>')->asXML();
         $transaction = new ThreeDCreditCardTransaction();
+        $transaction->setOperation(Operation::RESERVE);
 
         /**
          * @var FormInteractionResponse $mapped
          */
-        $mapped = $this->mapper->map($payload, Operation::RESERVE, $transaction);
+        $mapped = $this->mapper->map($payload, $transaction);
 
         $this->assertInstanceOf(FormInteractionResponse::class, $mapped);
         $this->assertEquals($payload, $mapped->getRawData());
@@ -291,7 +292,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         /**
          * @var FormInteractionResponse $mapped
          */
-        $mapped = $this->mapper->map($payload, Operation::RESERVE, $transaction);
+        $mapped = $this->mapper->map($payload, $transaction);
 
         $this->assertInstanceOf(FormInteractionResponse::class, $mapped);
         $this->assertEquals('dummy URL', $mapped->getFormFields()->getIterator()['TermUrl']);
@@ -313,12 +314,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         </statuses>
                         <card-token></card-token>
                     </payment>')->asXML();
-        $transaction = new CreditCardTransaction();
 
-        /**
-         * @var FormInteractionResponse $mapped
-         */
-        $mapped = $this->mapper->map($payload, $transaction);
+        $mapped = $this->mapper->map($payload);
 
         $this->assertInstanceOf(SuccessResponse::class, $mapped);
         $this->assertEquals($payload, $mapped->getRawData());
@@ -726,7 +723,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                     </payment>';
         $transaction = new ThreeDCreditCardTransaction();
 
-        $this->mapper->map($payload, Operation::RESERVE, $transaction);
+        $this->mapper->map($payload, $transaction);
     }
 
 
@@ -755,7 +752,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                     </payment>';
         $transaction = new ThreeDCreditCardTransaction();
 
-        $this->mapper->map($payload, Operation::RESERVE, $transaction);
+        $this->mapper->map($payload, $transaction);
     }
 
     /**
@@ -783,10 +780,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                     </payment>';
         $transaction = new ThreeDCreditCardTransaction();
 
-        $this->mapper->map($payload, Operation::RESERVE, $transaction);
+        $this->mapper->map($payload, $transaction);
     }
-
-
 
     public function malformedResponseProvider()
     {

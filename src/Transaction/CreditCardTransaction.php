@@ -169,4 +169,9 @@ class CreditCardTransaction extends Transaction implements Reservable
     {
         return self::TYPE_CREDIT;
     }
+
+    public function retrieveOperationType()
+    {
+        return ($this->operation === Operation::RESERVE) ? self::TYPE_AUTHORIZATION : self::TYPE_PURCHASE;
+    }
 }
