@@ -114,13 +114,16 @@ class Config
 
         // During development the default debug level is set to DEBUG
         $this->logLevel = Logger::DEBUG;
+
+        $this->shopSystem = 'paymentSDK';
+        $this->shopSystemVersion = '';
     }
 
     /**
      * @param string $shopSystem
-     * @param $shopSystemVersion
+     * @param string $shopSystemVersion
      */
-    public function setShopSystem($shopSystem, $shopSystemVersion)
+    public function setShopInfo($shopSystem, $shopSystemVersion)
     {
         $this->shopSystem = $shopSystem;
         $this->shopSystemVersion = $shopSystemVersion;
@@ -128,9 +131,9 @@ class Config
 
     /**
      * @param string $pluginName
-     * @param $pluginVersion
+     * @param string $pluginVersion
      */
-    public function setPlugin($pluginName, $pluginVersion)
+    public function setPluginInfo($pluginName, $pluginVersion)
     {
         $this->pluginName = $pluginName;
         $this->pluginVersion = $pluginVersion;
@@ -189,12 +192,10 @@ class Config
      */
     public function getShopHeader()
     {
-        $data = array();
-
-        if ($this->shopSystem && $this->shopSystemVersion) {
-            $data['shop-system-name'] = $this->shopSystem;
-            $data['shop-system-version'] = $this->shopSystemVersion;
-        }
+        $data = array(
+            'shop-system-name' => $this->shopSystem,
+            'shop-system-version' => $this->shopSystemVersion
+        );
 
         if ($this->pluginName && $this->pluginVersion) {
             $data['plugin-name'] = $this->pluginName;
