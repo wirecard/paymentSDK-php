@@ -32,30 +32,30 @@
 
 namespace WirecardTest\PaymentSdk\Entity;
 
-use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Amount;
 
-class MoneyUTest extends \PHPUnit_Framework_TestCase
+class AmountUTest extends \PHPUnit_Framework_TestCase
 {
-    const AMOUNT = 42.21;
+    const VALUE = 42.21;
     const EUR = 'EUR';
 
     /**
-     * @var Money
+     * @var Amount
      */
-    private $money;
+    private $amount;
 
     public function setUp()
     {
-        $this->money = new Money(self::AMOUNT, self::EUR);
+        $this->amount = new Amount(self::VALUE, self::EUR);
     }
 
-    public function testGetAmount()
+    public function testGetValue()
     {
-        $this->assertEquals(self::AMOUNT, $this->money->getAmount());
+        $this->assertEquals(self::VALUE, $this->amount->getValue());
     }
 
     public function testGetCurrency()
     {
-        $this->assertEquals(self::EUR, $this->money->getCurrency());
+        $this->assertEquals(self::EUR, $this->amount->getCurrency());
     }
 }

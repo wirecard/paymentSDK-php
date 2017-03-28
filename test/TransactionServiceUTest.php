@@ -39,7 +39,7 @@ use GuzzleHttp\Psr7\Response;
 use Monolog\Logger;
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
-use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
@@ -217,7 +217,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $payPalTransaction = new PayPalTransaction();
         $payPalTransaction->setNotificationUrl('notUrl');
         $payPalTransaction->setRedirect($redirect);
-        $payPalTransaction->setAmount(new Money(20.23, 'EUR'));
+        $payPalTransaction->setAmount(new Amount(20.23, 'EUR'));
 
         return $payPalTransaction;
     }

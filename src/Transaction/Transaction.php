@@ -34,7 +34,7 @@ namespace Wirecard\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\ItemCollection;
-use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
@@ -70,7 +70,7 @@ abstract class Transaction
     protected $accountHolder;
 
     /**
-     * @var Money
+     * @var Amount
      */
     protected $amount;
 
@@ -123,7 +123,7 @@ abstract class Transaction
     }
 
     /**
-     * @param Money $amount
+     * @param Amount $amount
      */
     public function setAmount($amount)
     {
@@ -211,7 +211,7 @@ abstract class Transaction
             'name' => $this->paymentMethodNameForRequest()
         ]]]];
 
-        if ($this->amount instanceof Money) {
+        if ($this->amount instanceof Amount) {
             $result['requested-amount'] = $this->amount->mappedProperties();
         }
 

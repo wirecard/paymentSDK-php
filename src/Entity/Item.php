@@ -53,12 +53,12 @@ class Item implements MappableEntity
     private $articleNumber;
 
     /**
-     * @var Money
+     * @var Amount
      */
     private $amount;
 
     /**
-     * @var Money
+     * @var Amount
      */
     private $taxAmount;
 
@@ -75,10 +75,10 @@ class Item implements MappableEntity
     /**
      * Item constructor.
      * @param string $name
-     * @param Money $amount
+     * @param Amount $amount
      * @param int $quantity
      */
-    public function __construct($name, Money $amount, $quantity)
+    public function __construct($name, Amount $amount, $quantity)
     {
         $this->name = $name;
         $this->amount = $amount;
@@ -124,7 +124,7 @@ class Item implements MappableEntity
     }
 
     /**
-     * @param Money $taxAmount
+     * @param Amount $taxAmount
      * @return Item
      */
     public function setTaxAmount($taxAmount)
@@ -158,7 +158,7 @@ class Item implements MappableEntity
     }
 
     /**
-     * @return Money
+     * @return Amount
      */
     public function getAmount()
     {
@@ -166,7 +166,7 @@ class Item implements MappableEntity
     }
 
     /**
-     * @return Money
+     * @return Amount
      */
     public function getTaxAmount()
     {

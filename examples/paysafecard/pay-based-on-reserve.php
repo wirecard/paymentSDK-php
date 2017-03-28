@@ -8,7 +8,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 
 use Wirecard\PaymentSdk\Config;
-use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\PaysafecardTransaction;
@@ -35,11 +35,11 @@ $config->add($paysafecardConfig);
 
 // ### Transaction related objects
 
-// Use the money object as amount which has to be payed by the consumer.
+// Use the amount object as amount which has to be payed by the consumer.
 if (array_key_exists('amount', $_POST)) {
-    $amount = new Money((float)$_POST['amount'], 'EUR');
+    $amount = new Amount((float)$_POST['amount'], 'EUR');
 } else {
-    $amount = new Money(12.59, 'EUR');
+    $amount = new Amount(12.59, 'EUR');
 }
 
 // ## Transaction

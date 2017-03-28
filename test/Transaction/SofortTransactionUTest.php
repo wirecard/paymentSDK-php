@@ -32,7 +32,7 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\SofortTransaction;
@@ -55,7 +55,7 @@ class SofortTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx = new SofortTransaction();
         $this->tx->setRedirect($redirect);
         $this->tx->setDescriptor(self::DESCRIPTOR);
-        $this->tx->setAmount(new Money(33, 'USD'));
+        $this->tx->setAmount(new Amount(33, 'USD'));
     }
 
     /**

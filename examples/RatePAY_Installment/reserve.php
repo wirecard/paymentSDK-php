@@ -8,7 +8,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 
 use Wirecard\PaymentSdk\Config;
-use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
@@ -39,8 +39,8 @@ $ratepayConfig = new Config\PaymentMethodConfig(
 $config->add($ratepayConfig);
 
 // ### Transaction related objects
-// Use the money object as amount which has to be payed by the consumer.
-$amount = new Money(2400, 'EUR');
+// Use the amount object as amount which has to be payed by the consumer.
+$amount = new Amount(2400, 'EUR');
 
 // The redirect URLs determine where the consumer should be redirected by RatePAY installment after the reserve.
 $redirectUrls = new Redirect(
@@ -57,11 +57,11 @@ $orderNumber = 'A2';
 
 // #### Order items
 // Create your items.
-$item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Money(400, 'EUR'), 1);
+$item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(400, 'EUR'), 1);
 $item1->setArticleNumber('A1');
 $item1->setTaxRate(0.1);
 
-$item2 = new \Wirecard\PaymentSdk\Entity\Item('Item 2', new Money(1000, 'EUR'), 2);
+$item2 = new \Wirecard\PaymentSdk\Entity\Item('Item 2', new Amount(1000, 'EUR'), 2);
 $item2->setArticleNumber('B2');
 $item2->setTaxRate(0.2);
 

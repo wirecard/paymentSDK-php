@@ -33,17 +33,17 @@
 namespace Wirecard\PaymentSdk\Entity;
 
 /**
- * Class Money
+ * Class Amount
  * @package Wirecard\PaymentSdk\Entity
  *
- * An immutable entity representing a money: amount and currency.
+ * An immutable entity representing an amount: value and currency.
  */
-class Money implements MappableEntity
+class Amount implements MappableEntity
 {
     /**
      * @var float
      */
-    private $amount;
+    private $value;
 
     /**
      * @var string
@@ -51,22 +51,22 @@ class Money implements MappableEntity
     private $currency;
 
     /**
-     * Money constructor.
-     * @param float $amount
+     * Amount constructor.
+     * @param float $value
      * @param string $currency
      */
-    public function __construct($amount, $currency)
+    public function __construct($value, $currency)
     {
-        $this->amount = $amount;
+        $this->value = $value;
         $this->currency = $currency;
     }
 
     /**
      * @return float
      */
-    public function getAmount()
+    public function getValue()
     {
-        return $this->amount;
+        return $this->value;
     }
 
     /**
@@ -84,7 +84,7 @@ class Money implements MappableEntity
     {
         return [
             'currency' => $this->currency,
-            'value' => $this->amount
+            'value' => $this->value
         ];
     }
 }
