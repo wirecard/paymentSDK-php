@@ -195,6 +195,27 @@ class Config
         $this->logLevel = $logLevel;
     }
 
+    public function getShopHeader()
+    {
+        $data = array();
+
+        if ($this->shopSystem && $this->shopSystemVersion) {
+            $data['shop-system-name'] = $this->shopSystem;
+            $data['shop-system-version'] = $this->shopSystemVersion;
+        }
+
+        if ($this->pluginName && $this->pluginVersion) {
+            $data['plugin-version'] = $this->pluginVersion;
+            $data['plugin-name'] = $this->pluginName;
+        }
+
+        if ($this->integrationType) {
+            $data['integration-type'] = $this->integrationType;
+        }
+
+        return $data;
+    }
+
     /**
      * @param PaymentMethodConfig $paymentMethodConfig
      * @return $this
