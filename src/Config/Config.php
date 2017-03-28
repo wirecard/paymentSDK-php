@@ -95,11 +95,6 @@ class Config
     private $pluginVersion;
 
     /**
-     * @var string
-     */
-    private $integrationType;
-
-    /**
      * Config constructor.
      * @param string $baseUrl
      * @param string $httpUser
@@ -137,14 +132,6 @@ class Config
     {
         $this->pluginName = $pluginName;
         $this->pluginVersion = $pluginVersion;
-    }
-
-    /**
-     * @param string $integrationType
-     */
-    public function setIntegrationType($integrationType)
-    {
-        $this->integrationType = $integrationType;
     }
 
     /**
@@ -207,10 +194,6 @@ class Config
         if ($this->pluginName && $this->pluginVersion) {
             $data['plugin-version'] = $this->pluginVersion;
             $data['plugin-name'] = $this->pluginName;
-        }
-
-        if ($this->integrationType) {
-            $data['integration-type'] = $this->integrationType;
         }
 
         return $data;
