@@ -25,17 +25,17 @@ $httpPass = 'qD2wzQ_hrc!8';
 // A default currency can also be provided.
 $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
-// #### RatePay installment
-// Create and add a configuration object with the RatePay installment settings
-$ratepayInstallMAID = '73ce088c-b195-4977-8ea8-0be32cca9c2e';
-$ratepayInstallKey = 'd92724cf-5508-44fd-ad67-695e149212d5';
+// #### RatePAY installment
+// Create and add a configuration object with the RatePAY installment settings
+$ratepayMAID = '73ce088c-b195-4977-8ea8-0be32cca9c2e';
+$ratepayKey = 'd92724cf-5508-44fd-ad67-695e149212d5';
 
-$ratepayInstallConfig = new Config\PaymentMethodConfig(
+$ratepayConfig = new Config\PaymentMethodConfig(
     RatepayInstallmentTransaction::NAME,
-    $ratepayInstallMAID,
-    $ratepayInstallKey
+    $ratepayMAID,
+    $ratepayKey
 );
-$config->add($ratepayInstallConfig);
+$config->add($ratepayConfig);
 
 
 // ### Transaction related objects
@@ -85,7 +85,7 @@ $response = $transactionService->cancel($transaction);
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo 'Payment successfully cancelled.<br>';
-    echo getTransactionLink($baseUrl, $ratepayInstallMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $ratepayMAID, $response->getTransactionId());
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
     // In our example we iterate over all errors and echo them out.
