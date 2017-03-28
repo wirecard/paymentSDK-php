@@ -1,19 +1,17 @@
 <?php
-// # Credit via RatePAY
-// To transfer funds via a credit operation, information on the receiver are required.
-// A request is sent with the account holder information.
+// # Cancelling a transaction
+// To cancel a transaction, a cancel request with the parent transaction is sent.
 
 // ## Required objects
-// To include the necessary files, use the composer for PSR-4 autoloading.
+// To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Entity\Money;
-use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 // ### Config
@@ -27,64 +25,66 @@ $httpPass = 'qD2wzQ_hrc!8';
 // A default currency can also be provided.
 $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
-// #### Config for RatePAY
-// Create and add a configuration object with the RatePAY settings
-$ratepayMAID = '9abf05c1-c266-46ae-8eac-7f87ca97af28';
-$ratepayKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
+// #### RatePay invoice
+// Create and add a configuration object with the RatePay invoice settings
+$ratepayMAID = '73ce088c-b195-4977-8ea8-0be32cca9c2e';
+$ratepayKey = 'd92724cf-5508-44fd-ad67-695e149212d5';
 
-$ratepayConfig = new Config\PaymentMethodConfig(
-    RatepayInstallmentTransaction::NAME,
+$ratepayInvoiceConfig = new Config\PaymentMethodConfig(
+    RatepayInvoiceTransaction::NAME,
     $ratepayMAID,
     $ratepayKey
 );
-$config->add($ratepayConfig);
+$config->add($ratepayInvoiceConfig);
 
+
+// ### Transaction related objects
 // Use the money object as amount which has to be payed by the consumer.
 if (array_key_exists('amount', $_POST)) {
     $amountValue = $_POST['amount'];
 } else {
-    $amountValue = 100;
+    $amountValue = 2400;
 }
 $amount = new Money($amountValue, 'EUR');
 
-// ### Redirect URLs
-// The redirect URLs determine where the consumer should be redirected by RatePAY after approval/cancellation.
-$redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
+// The order number
+$orderNumber = 'A2';
 
-// ### Notification URL
-// As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
-$notificationUrl = getUrl('notify.php');
 
-$credit1 = new \Wirecard\PaymentSdk\Entity\Item('Credit 1', $amount, 1);
-$credit1->setArticleNumber('C1');
-$credit1->setTaxRate(0.0);
+// #### Order items
+// Create your items.
+$item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Money(400, 'EUR'), 1);
+$item1->setArticleNumber('A1');
+$item1->setTaxRate(0.1);
 
+$item2 = new \Wirecard\PaymentSdk\Entity\Item('Item 2', new Money(1000, 'EUR'), 2);
+$item2->setArticleNumber('B2');
+$item2->setTaxRate(0.2);
+
+// Create an item collection to store the items.
 $itemCollection = new \Wirecard\PaymentSdk\Entity\ItemCollection();
-$itemCollection->add($credit1);
+$itemCollection->add($item1);
+$itemCollection->add($item2);
 
 
 // ## Transaction
 
-// The RatePAY transaction holds all transaction relevant data for the payment process.
-$transaction = new RatepayInstallmentTransaction();
-$transaction->setNotificationUrl($notificationUrl);
-$transaction->setRedirect($redirectUrls);
-$transaction->setAmount($amount);
+$transaction = new RatepayInvoiceTransaction();
 $transaction->setParentTransactionId($_POST['parentTransactionId']);
+$transaction->setAmount($amount);
+$transaction->setOrderNumber($orderNumber);
 $transaction->setItemCollection($itemCollection);
 
-
 // ### Transaction Service
-// The service is used to execute the payment operation itself. A response object is returned.
+// The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
-$response = $transactionService->credit($transaction);
+$response = $transactionService->cancel($transaction);
 
 // ## Response handling
-
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
-    echo 'Funds successfully transferred.<br>';
+    echo 'Payment successfully cancelled.<br>';
     echo getTransactionLink($baseUrl, $ratepayMAID, $response->getTransactionId());
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {

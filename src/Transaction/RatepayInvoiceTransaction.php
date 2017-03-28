@@ -33,10 +33,10 @@
 namespace Wirecard\PaymentSdk\Transaction;
 
 /**
- * Class RatepayInstallmentTransaction
+ * Class RatepayInvoiceTransaction
  * @package Wirecard\PaymentSdk\Transaction
  */
-class RatepayInstallmentTransaction extends RatepayTransaction implements Reservable
+class RatepayInvoiceTransaction extends RatepayTransaction implements Reservable
 {
-    const NAME = 'ratepay-install';
+    const NAME = 'ratepay-invoice';
 }

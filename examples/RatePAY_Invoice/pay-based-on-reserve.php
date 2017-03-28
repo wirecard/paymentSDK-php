@@ -9,10 +9,9 @@ require __DIR__ . '/../inc/common.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Entity\Money;
-use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 // ### Config
@@ -26,13 +25,13 @@ $httpPass = 'qD2wzQ_hrc!8';
 // A default currency can also be provided.
 $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
-// #### RatePAY installment
-// Create and add a configuration object with the RatePAY installment settings
+// #### RatePAY invoice
+// Create and add a configuration object with the RatePAY invoice settings
 $ratepayMAID = '73ce088c-b195-4977-8ea8-0be32cca9c2e';
 $ratepayKey = 'd92724cf-5508-44fd-ad67-695e149212d5';
 
 $ratepayConfig = new Config\PaymentMethodConfig(
-    RatepayInstallmentTransaction::NAME,
+    RatepayInvoiceTransaction::NAME,
     $ratepayMAID,
     $ratepayKey
 );
@@ -40,9 +39,6 @@ $config->add($ratepayConfig);
 
 
 // ### Transaction related objects
-
-// The redirect URLs determine where the consumer should be redirected by PayPal after approval/cancellation.
-$redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
 
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
 $notificationUrl = getUrl('notify.php');
@@ -78,13 +74,13 @@ $accountHolder->setAddress($address);
 
 // ## Transaction
 
-// The RatePAY installment transaction holds all transaction relevant data for the reserve process.
-$transaction = new RatepayInstallmentTransaction();
+// The RatePAY invoice transaction holds all transaction relevant data for the reserve process.
+$transaction = new RatepayInvoiceTransaction();
 $transaction->setNotificationUrl($notificationUrl);
-$transaction->setRedirect($redirectUrls);
 $transaction->setItemCollection($itemCollection);
 $transaction->setOrderNumber($orderNumber);
 $transaction->setAccountHolder($accountHolder);
+
 if (array_key_exists('parentTransactionId', $_POST)) {
     $parentTransactionId = $_POST['parentTransactionId'];
     $transaction->setParentTransactionId($_POST['parentTransactionId']);
