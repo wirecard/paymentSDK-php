@@ -48,7 +48,7 @@ if ('3d' === $_POST['transaction-type']) {
 }
 $transaction->setParentTransactionId($_POST['parentTransactionId']);
 if (array_key_exists('amount', $_POST)) {
-    $transaction->setAmount(new \Wirecard\PaymentSdk\Entity\Money((float)$_POST['amount'], 'EUR'));
+    $transaction->setAmount(new \Wirecard\PaymentSdk\Entity\Amount((float)$_POST['amount'], 'EUR'));
 }
 
 // ### Transaction Service

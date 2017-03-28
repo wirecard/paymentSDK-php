@@ -64,7 +64,7 @@ namespace WirecardTest\PaymentSdk\Entity;
 
 use Wirecard\PaymentSdk\Entity\Item;
 use Wirecard\PaymentSdk\Entity\ItemCollection;
-use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Amount;
 
 class ItemCollectionUTest extends \PHPUnit_Framework_TestCase
 {
@@ -80,7 +80,7 @@ class ItemCollectionUTest extends \PHPUnit_Framework_TestCase
 
     public function testAdd()
     {
-        $item = new Item('test', new Money(1, 'EUR'), 1);
+        $item = new Item('test', new Amount(1, 'EUR'), 1);
         $this->itemCollection->add($item);
 
         $this->assertAttributeEquals([$item], 'items', $this->itemCollection);
@@ -93,7 +93,7 @@ class ItemCollectionUTest extends \PHPUnit_Framework_TestCase
 
     public function testMappedProperties()
     {
-        $item = new Item('test', new Money(1, 'EUR'), 1);
+        $item = new Item('test', new Amount(1, 'EUR'), 1);
         $this->itemCollection->add($item);
 
         $expected = [
@@ -101,7 +101,7 @@ class ItemCollectionUTest extends \PHPUnit_Framework_TestCase
                 [
                     'name' => $item->getName(),
                     'amount' => [
-                        'value' => $item->getAmount()->getAmount(),
+                        'value' => $item->getAmount()->getValue(),
                         'currency' => $item->getAmount()->getCurrency()
                     ],
                     'quantity' => $item->getQuantity()

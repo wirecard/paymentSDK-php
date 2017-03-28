@@ -11,7 +11,7 @@ use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\IdealBic;
-use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
@@ -39,8 +39,8 @@ $config->add($IdealConfig);
 
 // ### Transaction related objects
 
-// Use the money object as amount which has to be payed by the consumer.
-$amount = new Money(12.59, 'EUR');
+// Use the amount object as amount which has to be payed by the consumer.
+$amount = new Amount(12.59, 'EUR');
 
 // The redirect URLs determine where the consumer should be redirected by iDEAL after approval/cancellation.
 $redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));

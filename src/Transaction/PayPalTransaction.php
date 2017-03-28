@@ -77,7 +77,7 @@ class PayPalTransaction extends Transaction implements Reservable
      */
     protected function retrieveTransactionTypeForReserve()
     {
-        if ($this->amount->getAmount() === 0.0) {
+        if ($this->amount->getValue() === 0.0) {
             return self::TYPE_AUTHORIZATION_ONLY;
         }
 

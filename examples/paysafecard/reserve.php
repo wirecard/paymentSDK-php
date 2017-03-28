@@ -9,7 +9,7 @@ require __DIR__ . '/../inc/common.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
-use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
@@ -35,8 +35,8 @@ $paysafecardConfig = new Config\PaymentMethodConfig(PaysafecardTransaction::NAME
 $config->add($paysafecardConfig);
 
 // ### Transaction related objects
-// Use the money object as amount which has to be payed by the consumer.
-$amount = new Money(12.59, 'EUR');
+// Use the amount object as amount which has to be payed by the consumer.
+$amount = new Amount(12.59, 'EUR');
 
 // If there was a previous transaction, use the ID of this parent transaction as reference.
 $parentTransactionId = array_key_exists('parentTransactionId', $_POST) ? $_POST['parentTransactionId'] : null;

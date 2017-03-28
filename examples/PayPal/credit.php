@@ -10,7 +10,7 @@ require __DIR__ . '/../inc/common.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
-use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
@@ -35,8 +35,8 @@ $paypalKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
 $paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalMAID, $paypalKey);
 $config->add($paypalConfig);
 
-// Use the money object as amount which has to be payed by the consumer.
-$amount = new Money(12.59, 'EUR');
+// Use the amount object as amount which has to be payed by the consumer.
+$amount = new Amount(12.59, 'EUR');
 
 // ### Redirect URLs
 // The redirect URLs determine where the consumer should be redirected by PayPal after approval/cancellation.
