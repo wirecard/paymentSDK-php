@@ -10,10 +10,9 @@ require __DIR__ . '/../inc/common.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Entity\Money;
-use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 // ### Config
@@ -33,7 +32,7 @@ $ratepayMAID = '9abf05c1-c266-46ae-8eac-7f87ca97af28';
 $ratepayKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
 
 $ratepayConfig = new Config\PaymentMethodConfig(
-    RatepayInstallmentTransaction::NAME,
+    RatepayInvoiceTransaction::NAME,
     $ratepayMAID,
     $ratepayKey
 );
@@ -46,10 +45,6 @@ if (array_key_exists('amount', $_POST)) {
     $amountValue = 100;
 }
 $amount = new Money($amountValue, 'EUR');
-
-// ### Redirect URLs
-// The redirect URLs determine where the consumer should be redirected by RatePAY after approval/cancellation.
-$redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
 
 // ### Notification URL
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
@@ -66,9 +61,8 @@ $itemCollection->add($credit1);
 // ## Transaction
 
 // The RatePAY transaction holds all transaction relevant data for the payment process.
-$transaction = new RatepayInstallmentTransaction();
+$transaction = new RatepayInvoiceTransaction();
 $transaction->setNotificationUrl($notificationUrl);
-$transaction->setRedirect($redirectUrls);
 $transaction->setAmount($amount);
 $transaction->setParentTransactionId($_POST['parentTransactionId']);
 $transaction->setItemCollection($itemCollection);
