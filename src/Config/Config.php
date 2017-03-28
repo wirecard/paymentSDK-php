@@ -184,6 +184,9 @@ class Config
         $this->logLevel = $logLevel;
     }
 
+    /**
+     * @return array
+     */
     public function getShopHeader()
     {
         $data = array();
@@ -194,8 +197,8 @@ class Config
         }
 
         if ($this->pluginName && $this->pluginVersion) {
-            $data['plugin-version'] = $this->pluginVersion;
             $data['plugin-name'] = $this->pluginName;
+            $data['plugin-version'] = $this->pluginVersion;
         }
 
         return $data;

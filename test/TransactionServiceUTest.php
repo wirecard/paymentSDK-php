@@ -86,6 +86,8 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->config->method('getBaseUrl')->willReturn('http://engine.ok');
         $this->config->method('getDefaultCurrency')->willReturn('EUR');
         $this->config->method('getLogLevel')->willReturn(Logger::ERROR);
+        $this->config->method('getShopHeader')->willReturn(array());
+
 
         $this->instance = new TransactionService($this->config);
     }

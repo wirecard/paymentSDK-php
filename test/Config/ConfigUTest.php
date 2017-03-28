@@ -146,9 +146,24 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
             'USD'
         );
         $logLevel = 20;
-
         $this->config->setLogLevel($logLevel);
 
         $this->assertEquals($this->config->getLogLevel(), $logLevel);
+    }
+
+    public function testGetShopHeaderSetPlugin()
+    {
+        $expected = array('plugin-name' => 'plugin', 'plugin-version' => '1.0');
+        $this->config->setPlugin($expected['plugin-name'], $expected['plugin-version']);
+
+        $this->assertEquals($expected, $this->config->getShopHeader());
+    }
+
+    public function testGetShopHeaderSetShop()
+    {
+        $expected = array('shop-system-name' => 'testshop', 'shop-system-version' => '1.1');
+        $this->config->setShopSystem($expected['shop-system-name'], $expected['shop-system-version']);
+
+        $this->assertEquals($expected, $this->config->getShopHeader());
     }
 }

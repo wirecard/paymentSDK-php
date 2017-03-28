@@ -303,8 +303,7 @@ class TransactionService
     {
         $this->getLogger()->debug('Request body: ' . $requestBody);
 
-        $requestHeader = $this->httpHeader;
-        $requestHeader = array_merge($requestHeader, $this->config->getShopHeader());
+        $requestHeader = array_merge($this->httpHeader, $this->config->getShopHeader());
         $requestHeader['body'] = $requestBody;
 
         $response = $this->httpClient
@@ -324,9 +323,8 @@ class TransactionService
      */
     private function sendGetRequest($endpoint, $acceptJson = false)
     {
-        $requestHeader = $this->httpHeader;
+        $requestHeader = array_merge($this->httpHeader, $this->config->getShopHeader());
         $requestHeader['headers']['Accept'] = $acceptJson ? self::APPLICATION_JSON : 'application/xml';
-        $requestHeader = array_merge($requestHeader, $this->config->getShopHeader());
 
         $response = $this->httpClient
             ->request('GET', $endpoint, $requestHeader)
