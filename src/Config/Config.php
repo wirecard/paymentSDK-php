@@ -74,6 +74,30 @@ class Config
      */
     private $logLevel;
 
+    /**
+     * @var string
+     */
+    private $shopSystem;
+
+    /**
+     * @var string
+     */
+    private $shopSystemVersion;
+
+    /**
+     * @var string
+     */
+    private $pluginName;
+
+    /**
+     * @var string
+     */
+    private $pluginVersion;
+
+    /**
+     * @var string
+     */
+    private $integrationType;
 
     /**
      * Config constructor.
@@ -95,6 +119,32 @@ class Config
 
         // During development the default debug level is set to DEBUG
         $this->logLevel = Logger::DEBUG;
+    }
+
+    /**
+     * @param string $shopSystem
+     */
+    public function setShopSystem($shopSystem, $shopSystemVersion)
+    {
+        $this->shopSystem = $shopSystem;
+        $this->shopSystemVersion = $shopSystemVersion;
+    }
+
+    /**
+     * @param string $pluginName
+     */
+    public function setPlugin($pluginName, $pluginVersion)
+    {
+        $this->pluginName = $pluginName;
+        $this->pluginVersion = $pluginVersion;
+    }
+
+    /**
+     * @param string $integrationType
+     */
+    public function setIntegrationType($integrationType)
+    {
+        $this->integrationType = $integrationType;
     }
 
     /**
