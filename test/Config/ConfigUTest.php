@@ -156,7 +156,7 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
         $expected = array('plugin-name' => 'plugin', 'plugin-version' => '1.0');
         $this->config->setPlugin($expected['plugin-name'], $expected['plugin-version']);
 
-        $this->assertEquals($expected, $this->config->getShopHeader());
+        $this->assertEquals(array('headers' => $expected), $this->config->getShopHeader());
     }
 
     public function testGetShopHeaderSetShop()
@@ -164,6 +164,6 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
         $expected = array('shop-system-name' => 'testshop', 'shop-system-version' => '1.1');
         $this->config->setShopSystem($expected['shop-system-name'], $expected['shop-system-version']);
 
-        $this->assertEquals($expected, $this->config->getShopHeader());
+        $this->assertEquals(array('headers' => $expected), $this->config->getShopHeader());
     }
 }

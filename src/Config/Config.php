@@ -201,7 +201,7 @@ class Config
             $data['plugin-version'] = $this->pluginVersion;
         }
 
-        return $data;
+        return array('headers' => $data);
     }
 
     /**
