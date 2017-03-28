@@ -27,15 +27,15 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
 // #### RatePAY invoice
 // Create and add a configuration object with the RatePAY invoice settings
-$ratepayInvoiceMAID = '73ce088c-b195-4977-8ea8-0be32cca9c2e';
-$ratepayInvoiceKey = 'd92724cf-5508-44fd-ad67-695e149212d5';
+$ratepayMAID = '73ce088c-b195-4977-8ea8-0be32cca9c2e';
+$ratepayKey = 'd92724cf-5508-44fd-ad67-695e149212d5';
 
-$ratepayInvoiceConfig = new Config\PaymentMethodConfig(
+$ratepayConfig = new Config\PaymentMethodConfig(
     RatepayInvoiceTransaction::NAME,
-    $ratepayInvoiceMAID,
-    $ratepayInvoiceKey
+    $ratepayMAID,
+    $ratepayKey
 );
-$config->add($ratepayInvoiceConfig);
+$config->add($ratepayConfig);
 
 
 // ### Transaction related objects
@@ -80,6 +80,7 @@ $transaction->setNotificationUrl($notificationUrl);
 $transaction->setItemCollection($itemCollection);
 $transaction->setOrderNumber($orderNumber);
 $transaction->setAccountHolder($accountHolder);
+
 if (array_key_exists('parentTransactionId', $_POST)) {
     $parentTransactionId = $_POST['parentTransactionId'];
     $transaction->setParentTransactionId($_POST['parentTransactionId']);
@@ -143,7 +144,7 @@ if (array_key_exists('item_to_capture', $_POST)) {
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo 'Payment successfully completed.<br>';
-    echo getTransactionLink($baseUrl, $ratepayInvoiceMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $ratepayMAID, $response->getTransactionId());
     ?>
     <br>
     <form action="cancel.php" method="post">

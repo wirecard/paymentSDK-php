@@ -1,6 +1,6 @@
 <?php
 // # Credit via RatePAY
-// To transfer funds to a RatePAY account via a credit operation, information on the receiver are required.
+// To transfer funds via a credit operation, information on the receiver are required.
 // A request is sent with the account holder information.
 
 // ## Required objects
@@ -29,15 +29,15 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
 // #### Config for RatePAY
 // Create and add a configuration object with the RatePAY settings
-$ratepayInstallMAID = '9abf05c1-c266-46ae-8eac-7f87ca97af28';
-$ratepayInstallKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
+$ratepayMAID = '9abf05c1-c266-46ae-8eac-7f87ca97af28';
+$ratepayKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
 
-$ratepayInstallConfig = new Config\PaymentMethodConfig(
+$ratepayConfig = new Config\PaymentMethodConfig(
     RatepayInstallmentTransaction::NAME,
-    $ratepayInstallMAID,
-    $ratepayInstallKey
+    $ratepayMAID,
+    $ratepayKey
 );
-$config->add($ratepayInstallConfig);
+$config->add($ratepayConfig);
 
 // Use the money object as amount which has to be payed by the consumer.
 if (array_key_exists('amount', $_POST)) {
@@ -85,7 +85,7 @@ $response = $transactionService->credit($transaction);
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo 'Funds successfully transferred.<br>';
-    echo getTransactionLink($baseUrl, $ratepayInstallMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $ratepayMAID, $response->getTransactionId());
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
     // In our example we iterate over all errors and echo them out.

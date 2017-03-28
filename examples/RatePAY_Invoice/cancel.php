@@ -27,13 +27,13 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
 // #### RatePay invoice
 // Create and add a configuration object with the RatePay invoice settings
-$ratepayInvoiceMAID = '73ce088c-b195-4977-8ea8-0be32cca9c2e';
-$ratepayInvoiceKey = 'd92724cf-5508-44fd-ad67-695e149212d5';
+$ratepayMAID = '73ce088c-b195-4977-8ea8-0be32cca9c2e';
+$ratepayKey = 'd92724cf-5508-44fd-ad67-695e149212d5';
 
 $ratepayInvoiceConfig = new Config\PaymentMethodConfig(
     RatepayInvoiceTransaction::NAME,
-    $ratepayInvoiceMAID,
-    $ratepayInvoiceKey
+    $ratepayMAID,
+    $ratepayKey
 );
 $config->add($ratepayInvoiceConfig);
 
@@ -85,7 +85,7 @@ $response = $transactionService->cancel($transaction);
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo 'Payment successfully cancelled.<br>';
-    echo getTransactionLink($baseUrl, $ratepayInvoiceMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $ratepayMAID, $response->getTransactionId());
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
     // In our example we iterate over all errors and echo them out.

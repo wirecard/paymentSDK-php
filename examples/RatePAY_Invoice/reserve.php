@@ -27,13 +27,13 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
 // #### RatePAY invoice
 // Create and add a configuration object with the RatePAY invoice settings
-$ratepayInvoiceMAID = 'c35733ea-ca79-4781-a5c3-74ce9746eac9';
-$ratepayInvoiceKey = 'e27da925-69cf-4e9e-a716-c9a001600199';
+$ratepayMAID = 'c35733ea-ca79-4781-a5c3-74ce9746eac9';
+$ratepayKey = 'e27da925-69cf-4e9e-a716-c9a001600199';
 
 $ratepayInvoiceConfig = new Config\PaymentMethodConfig(
     RatepayInvoiceTransaction::NAME,
-    $ratepayInvoiceMAID,
-    $ratepayInvoiceKey
+    $ratepayMAID,
+    $ratepayKey
 );
 $config->add($ratepayInvoiceConfig);
 
@@ -100,7 +100,7 @@ $response = $transactionService->reserve($transaction);
 // to the given _redirectUrl_. IFrame integration using this URL is also possible.
 if ($response instanceof SuccessResponse) {
     echo 'Reservation successfully completed.<br>';
-    echo getTransactionLink($baseUrl, $ratepayInvoiceMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $ratepayMAID, $response->getTransactionId());
     ?>
     <form action="pay-based-on-reserve.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>

@@ -28,15 +28,15 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
 // #### RatePAY installment
 // Create and add a configuration object with the RatePAY installment settings
-$ratepayInstallMAID = '73ce088c-b195-4977-8ea8-0be32cca9c2e';
-$ratepayInstallKey = 'd92724cf-5508-44fd-ad67-695e149212d5';
+$ratepayMAID = '73ce088c-b195-4977-8ea8-0be32cca9c2e';
+$ratepayKey = 'd92724cf-5508-44fd-ad67-695e149212d5';
 
-$ratepayInstallConfig = new Config\PaymentMethodConfig(
+$ratepayConfig = new Config\PaymentMethodConfig(
     RatepayInstallmentTransaction::NAME,
-    $ratepayInstallMAID,
-    $ratepayInstallKey
+    $ratepayMAID,
+    $ratepayKey
 );
-$config->add($ratepayInstallConfig);
+$config->add($ratepayConfig);
 
 // ### Transaction related objects
 // Use the money object as amount which has to be payed by the consumer.
