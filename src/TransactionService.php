@@ -165,11 +165,12 @@ class TransactionService
     {
         $data = null;
 
-        // 3-D Secure PaRes return
+        // 3-D Secure PaRes
         if (array_key_exists('MD', $payload) && array_key_exists('PaRes', $payload)) {
             $data = $this->processAuthFrom3DResponse($payload);
         }
 
+        // iDEAL
         if (null === $data &&
             array_key_exists('ec', $payload) &&
             array_key_exists('trxid', $payload) &&
@@ -178,6 +179,7 @@ class TransactionService
             $data = $this->processFromIdealResponse($payload);
         }
 
+        // PayPal
         if (null === $data && array_key_exists('eppresponse', $payload)) {
             $data = $this->responseMapper->map($payload['eppresponse']);
         }

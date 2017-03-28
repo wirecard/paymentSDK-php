@@ -107,7 +107,7 @@ class CreditCardTransaction extends Transaction implements Reservable
      */
     protected function retrieveTransactionTypeForReserve()
     {
-        return (null !== $this->parentTransactionId) ? $this::TYPE_REFERENCED_AUTHORIZATION : $this::TYPE_AUTHORIZATION;
+        return (null !== $this->parentTransactionId) ? self::TYPE_REFERENCED_AUTHORIZATION : self::TYPE_AUTHORIZATION;
     }
 
     /**
@@ -141,7 +141,7 @@ class CreditCardTransaction extends Transaction implements Reservable
         switch ($this->parentTransactionType) {
             case self::TYPE_AUTHORIZATION:
             case self::TYPE_REFERENCED_AUTHORIZATION:
-                $transactionType = $this::TYPE_VOID_AUTHORIZATION;
+                $transactionType = self::TYPE_VOID_AUTHORIZATION;
                 break;
             case self::TYPE_REFUND_CAPTURE:
             case self::TYPE_REFUND_PURCHASE:

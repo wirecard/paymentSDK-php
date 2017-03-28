@@ -64,6 +64,6 @@ class SofortTransaction extends Transaction
      */
     protected function retrieveTransactionTypeForPay()
     {
-            return $this::TYPE_DEBIT;
+        return self::TYPE_DEBIT;
     }
 }
