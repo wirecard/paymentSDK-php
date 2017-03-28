@@ -118,6 +118,7 @@ class Config
 
     /**
      * @param string $shopSystem
+     * @param $shopSystemVersion
      */
     public function setShopSystem($shopSystem, $shopSystemVersion)
     {
@@ -127,6 +128,7 @@ class Config
 
     /**
      * @param string $pluginName
+     * @param $pluginVersion
      */
     public function setPlugin($pluginName, $pluginVersion)
     {
