@@ -368,8 +368,7 @@ class TransactionService
         $endpoint = $this->config->getBaseUrl() . $transaction->getEndpoint();
         $responseContent = $this->sendPostRequest($endpoint, $requestBody);
 
-        $data = $transaction instanceof ThreeDCreditCardTransaction ? $transaction : null;
-        return $this->responseMapper->map($responseContent, $data);
+        return $this->responseMapper->map($responseContent, $transaction);
     }
 
     /**

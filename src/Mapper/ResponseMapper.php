@@ -61,11 +61,11 @@ class ResponseMapper
      * map the xml Response from engine to ResponseObjects
      *
      * @param string $xmlResponse
-     * @param ThreeDCreditCardTransaction $transaction
+     * @param Transaction $transaction
      * @return Response
      * @throws MalformedResponseException
      */
-    public function map($xmlResponse, ThreeDCreditCardTransaction $transaction = null)
+    public function map($xmlResponse, Transaction $transaction = null)
     {
         $decodedResponse = base64_decode($xmlResponse);
         $xmlResponse = (base64_encode($decodedResponse) === $xmlResponse) ? $decodedResponse : $xmlResponse;
@@ -182,11 +182,11 @@ class ResponseMapper
     }
 
     /**
-     * @param ThreeDCreditCardTransaction $transaction
+     * @param Transaction $transaction
      * @return FormInteractionResponse|InteractionResponse|SuccessResponse
      * @throws MalformedResponseException
      */
-    private function mapSuccessResponse(ThreeDCreditCardTransaction $transaction = null)
+    private function mapSuccessResponse(Transaction $transaction = null)
     {
         if ((string)$this->simpleXml->{'transaction-type'} === ThreeDCreditCardTransaction::TYPE_CHECK_ENROLLMENT) {
             return $this->mapThreeDResponse($this->simpleXml, $transaction);
