@@ -134,8 +134,12 @@ class ResponseMapper
      * @return string|null
      * @throws \Wirecard\PaymentSdk\Exception\MalformedResponseException
      */
-    private function getRedirectUrl()
+    private function getSuccessRedirectUrl()
     {
+        if (null !== $this->transaction->getSuccessUrl()) {
+            return $this->transaction->getSuccessUrl();
+        }
+
         $paymentMethod = $this->getPaymentMethod();
         if (isset($paymentMethod['url'])) {
             return (string)$paymentMethod['url'];
@@ -192,6 +196,7 @@ class ResponseMapper
 
     /**
      * @return FormInteractionResponse|InteractionResponse|SuccessResponse
+     * @throws \InvalidArgumentException
      * @throws MalformedResponseException
      */
     private function mapSuccessResponse()
@@ -200,7 +205,7 @@ class ResponseMapper
             return $this->mapThreeDResponse($this->simpleXml);
         }
 
-        $redirectUrl = $this->getRedirectUrl();
+        $redirectUrl = $this->getSuccessRedirectUrl();
         if ($redirectUrl !== null) {
             return new InteractionResponse($this->simpleXml, $redirectUrl);
         }
