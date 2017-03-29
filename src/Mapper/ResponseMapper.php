@@ -149,12 +149,11 @@ class ResponseMapper
     }
 
     /**
-     * @param $payload
-     * @throws MalformedResponseException
      * @return FormInteractionResponse
+     * @throws \Wirecard\PaymentSdk\Exception\MalformedResponseException
      * @throws \InvalidArgumentException
      */
-    private function mapThreeDResponse($payload)
+    private function mapThreeDResponse()
     {
         if (!($this->transaction instanceof ThreeDCreditCardTransaction)) {
             throw new \InvalidArgumentException('Trying to create a 3D response from a non-3D transaction.');
@@ -171,7 +170,7 @@ class ResponseMapper
 
         $redirectUrl = (string)$threeD->{'acs-url'};
 
-        $response = new FormInteractionResponse($payload, $redirectUrl);
+        $response = new FormInteractionResponse($this->simpleXml, $redirectUrl);
 
         $fields = new FormFieldMap();
         $fields->add('TermUrl', $this->transaction->getTermUrl());
@@ -202,7 +201,7 @@ class ResponseMapper
     private function mapSuccessResponse()
     {
         if ((string)$this->simpleXml->{'transaction-type'} === ThreeDCreditCardTransaction::TYPE_CHECK_ENROLLMENT) {
-            return $this->mapThreeDResponse($this->simpleXml);
+            return $this->mapThreeDResponse();
         }
 
         $redirectUrl = $this->getSuccessRedirectUrl();
