@@ -45,6 +45,11 @@ use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 class InteractionResponse extends Response
 {
     /**
+     * @var SimpleXMLElement
+     */
+    private $payload;
+
+    /**
      * @var string
      */
     private $transactionId;
@@ -63,8 +68,17 @@ class InteractionResponse extends Response
     public function __construct($simpleXml, $redirectUrl)
     {
         parent::__construct($simpleXml);
+        $this->payload = $simpleXml;
         $this->transactionId = $this->findElement('transaction-id');
         $this->redirectUrl = $redirectUrl;
+    }
+
+    /**
+     * @return SimpleXMLElement
+     */
+    public function getPayload()
+    {
+        return $this->payload;
     }
 
     /**
