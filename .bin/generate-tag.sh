@@ -12,6 +12,8 @@ if [[ ${STATUS} == "200" ]] ; then
     exit 0
 fi
 
+echo "Version is updated, creating tag ..."
+
 git config user.name "Travis CI"
 git config user.email "wirecard@travis-ci.org"
 
