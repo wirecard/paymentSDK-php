@@ -126,6 +126,27 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($response, $mapped->getRawData());
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testNon3DCheckEnrollmentThrowsError()
+    {
+        $response = simplexml_load_string('<?xml version="1.0"?><payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <transaction-type>check-enrollment</transaction-type>
+                        <request-id>123</request-id>
+                        <statuses>
+                            <status code="200" description="UnitTest" severity="warning"/>
+                        </statuses>
+                        <payment-methods>
+                            <payment-method name="paypal" url="http://www.example.com/redirect-url"/>
+                        </payment-methods>
+                    </payment>')->asXML();
+
+        $this->mapper->map($response, new PayPalTransaction());
+    }
+
     public function testCardTokenReturnsPaymentMethodCreditCard()
     {
         $helper = function () {
