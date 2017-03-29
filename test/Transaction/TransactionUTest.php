@@ -43,7 +43,6 @@ class TransactionUTest extends \PHPUnit_Framework_TestCase
      */
     private $tx;
 
-
     /**
      * @param $method
      * @param $transactionType

@@ -55,7 +55,7 @@ use Wirecard\PaymentSdk\Transaction\Transaction;
 /**
  * Class TransactionService
  *
- * This service manages communication  to the Elastic Engine
+ * This service manages communication to the Wirecard REST interface
  * @package Wirecard\PaymentSdk
  */
 class TransactionService
@@ -303,11 +303,11 @@ class TransactionService
     {
         $this->getLogger()->debug('Request body: ' . $requestBody);
 
-        $request = $this->httpHeader;
-        $request['body'] = $requestBody;
+        $requestHeader = array_merge_recursive($this->httpHeader, $this->config->getShopHeader());
+        $requestHeader['body'] = $requestBody;
 
         $response = $this->httpClient
-            ->request('POST', $endpoint, $request)
+            ->request('POST', $endpoint, $requestHeader)
             ->getBody()->getContents();
 
         $this->getLogger()->debug($response);
@@ -323,11 +323,11 @@ class TransactionService
      */
     private function sendGetRequest($endpoint, $acceptJson = false)
     {
-        $request = $this->httpHeader;
-        $request['headers']['Accept'] = $acceptJson ? self::APPLICATION_JSON : 'application/xml';
+        $requestHeader = array_merge_recursive($this->httpHeader, $this->config->getShopHeader());
+        $requestHeader['headers']['Accept'] = $acceptJson ? self::APPLICATION_JSON : 'application/xml';
 
         $response = $this->httpClient
-            ->request('GET', $endpoint, $request)
+            ->request('GET', $endpoint, $requestHeader)
             ->getBody()->getContents();
 
         $this->getLogger()->debug('GET response: ' . $response);

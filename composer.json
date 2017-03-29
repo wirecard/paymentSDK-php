@@ -12,7 +12,8 @@
   },
   "require-dev": {
     "phpunit/phpunit": "^5.7",
-    "squizlabs/php_codesniffer": "^2.7"
+    "squizlabs/php_codesniffer": "^2.7",
+    "mikey179/vfsStream": "1.6.x-dev"
   },
   "scripts": {
     "upload-coverage": "coveralls -v",

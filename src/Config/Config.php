@@ -44,6 +44,8 @@ use Wirecard\PaymentSdk\Transaction\SepaTransaction;
  */
 class Config
 {
+    const VERSION_FILE = '../../VERSION';
+
     /**
      * @var string
      */
@@ -74,6 +76,25 @@ class Config
      */
     private $logLevel;
 
+    /**
+     * @var string
+     */
+    private $shopSystem;
+
+    /**
+     * @var string
+     */
+    private $shopSystemVersion;
+
+    /**
+     * @var string
+     */
+    private $pluginName;
+
+    /**
+     * @var string
+     */
+    private $pluginVersion;
 
     /**
      * Config constructor.
@@ -95,6 +116,44 @@ class Config
 
         // During development the default debug level is set to DEBUG
         $this->logLevel = Logger::DEBUG;
+
+        $this->shopSystem = 'paymentSDK-php';
+
+        $version = $this->getVersionFromFile(self::VERSION_FILE);
+        $this->shopSystemVersion = $version;
+    }
+
+    /**
+     * @param string $versionFile
+     * @return string
+     */
+    private function getVersionFromFile($versionFile)
+    {
+        $version = '';
+        if (file_exists($versionFile)) {
+            $version = file_get_contents($versionFile, null, null, 0, 10);
+        }
+        return $version;
+    }
+
+    /**
+     * @param string $shopSystem
+     * @param string $shopSystemVersion
+     */
+    public function setShopInfo($shopSystem, $shopSystemVersion)
+    {
+        $this->shopSystem = $shopSystem;
+        $this->shopSystemVersion = $shopSystemVersion;
+    }
+
+    /**
+     * @param string $pluginName
+     * @param string $pluginVersion
+     */
+    public function setPluginInfo($pluginName, $pluginVersion)
+    {
+        $this->pluginName = $pluginName;
+        $this->pluginVersion = $pluginVersion;
     }
 
     /**
@@ -143,6 +202,24 @@ class Config
     public function setLogLevel($logLevel)
     {
         $this->logLevel = $logLevel;
+    }
+
+    /**
+     * @return array
+     */
+    public function getShopHeader()
+    {
+        $data = array(
+            'shop-system-name' => $this->shopSystem,
+            'shop-system-version' => $this->shopSystemVersion
+        );
+
+        if ($this->pluginName && $this->pluginVersion) {
+            $data['plugin-name'] = $this->pluginName;
+            $data['plugin-version'] = $this->pluginVersion;
+        }
+
+        return array('headers' => $data);
     }
 
     /**
