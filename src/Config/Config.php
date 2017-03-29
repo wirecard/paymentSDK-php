@@ -44,6 +44,8 @@ use Wirecard\PaymentSdk\Transaction\SepaTransaction;
  */
 class Config
 {
+    const VERSION_FILE = '../../VERSION';
+
     /**
      * @var string
      */
@@ -117,12 +119,21 @@ class Config
 
         $this->shopSystem = 'paymentSDK-php';
 
-        $version = '';
-        $versionFile = '../../VERSION';
-        if (file_exists($versionFile)) {
-            $version = file_get_contents($versionFile, null, null, 0, 5);
-        }
+        $version = $this->getVersionFromFile(self::VERSION_FILE);
         $this->shopSystemVersion = $version;
+    }
+
+    /**
+     * @param string $versionFile
+     * @return string
+     */
+    private function getVersionFromFile($versionFile)
+    {
+        $version = '';
+        if (file_exists($versionFile)) {
+            $version = file_get_contents($versionFile, null, null, 0, 10);
+        }
+        return $version;
     }
 
     /**
