@@ -1,8 +1,6 @@
 #!/bin/bash
 set -e # Exit with nonzero exit code if anything fails
 
-pwd
-
 REPO=`git config remote.origin.url`
 SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
 
