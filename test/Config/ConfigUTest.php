@@ -154,7 +154,7 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
     public function testGetShopHeaderSetPlugin()
     {
         $expected = array(
-            'shop-system-name' => 'paymentSDK',
+            'shop-system-name' => 'paymentSDK-php',
             'shop-system-version' => '',
             'plugin-name' => 'plugin',
             'plugin-version' => '1.0'

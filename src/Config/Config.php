@@ -115,7 +115,7 @@ class Config
         // During development the default debug level is set to DEBUG
         $this->logLevel = Logger::DEBUG;
 
-        $this->shopSystem = 'paymentSDK';
+        $this->shopSystem = 'paymentSDK-php';
         $this->shopSystemVersion = '';
     }
 
