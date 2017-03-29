@@ -68,6 +68,7 @@ class ResponseMapper
      * @param string $xmlResponse
      * @param Transaction $transaction
      * @return Response
+     * @throws \InvalidArgumentException
      * @throws MalformedResponseException
      */
     public function map($xmlResponse, Transaction $transaction = null)
