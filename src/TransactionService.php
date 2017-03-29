@@ -272,6 +272,7 @@ class TransactionService
      * @throws MalformedResponseException
      * @throws UnconfiguredPaymentMethodException
      * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
      */
     public function credit(Transaction $transaction)
@@ -344,6 +345,7 @@ class TransactionService
      * @throws UnconfiguredPaymentMethodException
      * @throws MalformedResponseException
      * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
      */
     public function process(Transaction $transaction, $operation)
@@ -394,6 +396,7 @@ class TransactionService
      * @throws MalformedResponseException
      * @throws UnconfiguredPaymentMethodException
      * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
      */
     private function processAuthFrom3DResponse($payload)
@@ -412,6 +415,7 @@ class TransactionService
      * @throws UnconfiguredPaymentMethodException
      * @throws MalformedResponseException
      * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      * @return Response
      */
     private function processFromIdealResponse($payload)

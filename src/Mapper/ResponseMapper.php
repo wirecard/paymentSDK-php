@@ -67,9 +67,9 @@ class ResponseMapper
      *
      * @param string $xmlResponse
      * @param Transaction $transaction
-     * @return Response
      * @throws \InvalidArgumentException
      * @throws MalformedResponseException
+     * @return Response
      */
     public function map($xmlResponse, Transaction $transaction = null)
     {
@@ -103,8 +103,8 @@ class ResponseMapper
     }
 
     /**
-     * @return mixed
      * @throws MalformedResponseException
+     * @return mixed
      */
     private function getPaymentMethod()
     {
@@ -132,8 +132,8 @@ class ResponseMapper
     }
 
     /**
-     * @return string|null
      * @throws \Wirecard\PaymentSdk\Exception\MalformedResponseException
+     * @return string|null
      */
     private function getSuccessRedirectUrl()
     {
@@ -150,9 +150,9 @@ class ResponseMapper
     }
 
     /**
-     * @return FormInteractionResponse
      * @throws \Wirecard\PaymentSdk\Exception\MalformedResponseException
      * @throws \InvalidArgumentException
+     * @return FormInteractionResponse
      */
     private function mapThreeDResponse()
     {
@@ -195,9 +195,9 @@ class ResponseMapper
     }
 
     /**
-     * @return FormInteractionResponse|InteractionResponse|SuccessResponse
      * @throws \InvalidArgumentException
      * @throws MalformedResponseException
+     * @return FormInteractionResponse|InteractionResponse|SuccessResponse
      */
     private function mapSuccessResponse()
     {
