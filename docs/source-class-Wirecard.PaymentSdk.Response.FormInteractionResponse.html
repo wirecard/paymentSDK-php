@@ -94,11 +94,13 @@
 				<li><a href="class-Wirecard.PaymentSdk.Config.PaymentMethodConfig.html">Wirecard\PaymentSdk\Config\PaymentMethodConfig</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Config.SepaConfig.html">Wirecard\PaymentSdk\Config\SepaConfig</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.AccountHolder.html">Wirecard\PaymentSdk\Entity\AccountHolder</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.Address.html">Wirecard\PaymentSdk\Entity\Address</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.Amount.html">Wirecard\PaymentSdk\Entity\Amount</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.FormFieldMap.html">Wirecard\PaymentSdk\Entity\FormFieldMap</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.IdealBic.html">Wirecard\PaymentSdk\Entity\IdealBic</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Item.html">Wirecard\PaymentSdk\Entity\Item</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.ItemCollection.html">Wirecard\PaymentSdk\Entity\ItemCollection</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Mandate.html">Wirecard\PaymentSdk\Entity\Mandate</a></li>
-				<li><a href="class-Wirecard.PaymentSdk.Entity.Money.html">Wirecard\PaymentSdk\Entity\Money</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Redirect.html">Wirecard\PaymentSdk\Entity\Redirect</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Status.html">Wirecard\PaymentSdk\Entity\Status</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.StatusCollection.html">Wirecard\PaymentSdk\Entity\StatusCollection</a></li>
@@ -111,8 +113,14 @@
 				<li><a href="class-Wirecard.PaymentSdk.Response.Response.html">Wirecard\PaymentSdk\Response\Response</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Response.SuccessResponse.html">Wirecard\PaymentSdk\Response\SuccessResponse</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html">Wirecard\PaymentSdk\Transaction\CreditCardTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.IdealTransaction.html">Wirecard\PaymentSdk\Transaction\IdealTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.InvoiceByWirecardTransaction.html">Wirecard\PaymentSdk\Transaction\InvoiceByWirecardTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.Operation.html">Wirecard\PaymentSdk\Transaction\Operation</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.PayPalTransaction.html">Wirecard\PaymentSdk\Transaction\PayPalTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.PaysafecardTransaction.html">Wirecard\PaymentSdk\Transaction\PaysafecardTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.RatepayInstallmentTransaction.html">Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.RatepayInvoiceTransaction.html">Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.RatepayTransaction.html">Wirecard\PaymentSdk\Transaction\RatepayTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html">Wirecard\PaymentSdk\Transaction\SepaTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.SofortTransaction.html">Wirecard\PaymentSdk\Transaction\SofortTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.ThreeDCreditCardTransaction.html">Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction</a></li>
@@ -179,82 +187,84 @@
 </span><span id="33" class="l"><a href="#33"> 33 </a><span class="php-keyword1">namespace</span> Wirecard\PaymentSdk\Response;
 </span><span id="34" class="l"><a href="#34"> 34 </a>
 </span><span id="35" class="l"><a href="#35"> 35 </a><span class="php-keyword1">use</span> Wirecard\PaymentSdk\Entity\FormFieldMap;
-</span><span id="36" class="l"><a href="#36"> 36 </a>
-</span><span id="37" class="l"><a href="#37"> 37 </a><span class="php-comment">/**
-</span></span><span id="38" class="l"><a href="#38"> 38 </a><span class="php-comment"> * Class FormInteractionResponse
-</span></span><span id="39" class="l"><a href="#39"> 39 </a><span class="php-comment"> * @package Wirecard\PaymentSdk\Response
-</span></span><span id="40" class="l"><a href="#40"> 40 </a><span class="php-comment"> *
-</span></span><span id="41" class="l"><a href="#41"> 41 </a><span class="php-comment"> */</span>
-</span><span id="42" class="l"><a href="#42"> 42 </a><span class="php-keyword1">class</span> FormInteractionResponse <span class="php-keyword1">extends</span> Response
-</span><span id="43" class="l"><a href="#43"> 43 </a>{
-</span><span id="44" class="l"><a href="#44"> 44 </a>    <span class="php-comment">/**
-</span></span><span id="45" class="l"><a href="#45"> 45 </a><span class="php-comment">     * @var string
-</span></span><span id="46" class="l"><a href="#46"> 46 </a><span class="php-comment">     */</span>
-</span><span id="47" class="l"><a href="#47"> 47 </a>    <span class="php-keyword1">private</span> <span class="php-var">$url</span>;
-</span><span id="48" class="l"><a href="#48"> 48 </a>
-</span><span id="49" class="l"><a href="#49"> 49 </a>    <span class="php-comment">/**
-</span></span><span id="50" class="l"><a href="#50"> 50 </a><span class="php-comment">     * @var string
-</span></span><span id="51" class="l"><a href="#51"> 51 </a><span class="php-comment">     */</span>
-</span><span id="52" class="l"><a href="#52"> 52 </a>    <span class="php-keyword1">private</span> <span class="php-var">$transactionId</span>;
-</span><span id="53" class="l"><a href="#53"> 53 </a>
-</span><span id="54" class="l"><a href="#54"> 54 </a>    <span class="php-comment">/**
-</span></span><span id="55" class="l"><a href="#55"> 55 </a><span class="php-comment">     * @var FormFieldMap
-</span></span><span id="56" class="l"><a href="#56"> 56 </a><span class="php-comment">     */</span>
-</span><span id="57" class="l"><a href="#57"> 57 </a>    <span class="php-keyword1">private</span> <span class="php-var">$formFields</span>;
-</span><span id="58" class="l"><a href="#58"> 58 </a>
-</span><span id="59" class="l"><a href="#59"> 59 </a>    <span class="php-comment">/**
-</span></span><span id="60" class="l"><a href="#60"> 60 </a><span class="php-comment">     * FormInteractionResponse constructor.
-</span></span><span id="61" class="l"><a href="#61"> 61 </a><span class="php-comment">     * @param \SimpleXMLElement $simpleXml
-</span></span><span id="62" class="l"><a href="#62"> 62 </a><span class="php-comment">     * @param string $url
-</span></span><span id="63" class="l"><a href="#63"> 63 </a><span class="php-comment">     */</span>
-</span><span id="64" class="l"><a href="#64"> 64 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> __construct(<span class="php-var">$simpleXml</span>, <span class="php-var">$url</span>)
-</span><span id="65" class="l"><a href="#65"> 65 </a>    {
-</span><span id="66" class="l"><a href="#66"> 66 </a>        parent::__construct(<span class="php-var">$simpleXml</span>);
-</span><span id="67" class="l"><a href="#67"> 67 </a>        <span class="php-var">$this</span>-&gt;url = <span class="php-var">$url</span>;
-</span><span id="68" class="l"><a href="#68"> 68 </a>        <span class="php-var">$this</span>-&gt;transactionId = <span class="php-var">$this</span>-&gt;findElement(<span class="php-quote">'transaction-id'</span>);
-</span><span id="69" class="l"><a href="#69"> 69 </a>    }
-</span><span id="70" class="l"><a href="#70"> 70 </a>
-</span><span id="71" class="l"><a href="#71"> 71 </a>    <span class="php-comment">/**
-</span></span><span id="72" class="l"><a href="#72"> 72 </a><span class="php-comment">     * @return string
-</span></span><span id="73" class="l"><a href="#73"> 73 </a><span class="php-comment">     */</span>
-</span><span id="74" class="l"><a href="#74"> 74 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getMethod()
-</span><span id="75" class="l"><a href="#75"> 75 </a>    {
-</span><span id="76" class="l"><a href="#76"> 76 </a>        <span class="php-keyword1">return</span> <span class="php-quote">'POST'</span>;
-</span><span id="77" class="l"><a href="#77"> 77 </a>    }
-</span><span id="78" class="l"><a href="#78"> 78 </a>
-</span><span id="79" class="l"><a href="#79"> 79 </a>    <span class="php-comment">/**
-</span></span><span id="80" class="l"><a href="#80"> 80 </a><span class="php-comment">     * @return string
-</span></span><span id="81" class="l"><a href="#81"> 81 </a><span class="php-comment">     */</span>
-</span><span id="82" class="l"><a href="#82"> 82 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getUrl()
-</span><span id="83" class="l"><a href="#83"> 83 </a>    {
-</span><span id="84" class="l"><a href="#84"> 84 </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;url;
-</span><span id="85" class="l"><a href="#85"> 85 </a>    }
-</span><span id="86" class="l"><a href="#86"> 86 </a>
-</span><span id="87" class="l"><a href="#87"> 87 </a>    <span class="php-comment">/**
-</span></span><span id="88" class="l"><a href="#88"> 88 </a><span class="php-comment">     * @return FormFieldMap
-</span></span><span id="89" class="l"><a href="#89"> 89 </a><span class="php-comment">     */</span>
-</span><span id="90" class="l"><a href="#90"> 90 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getFormFields()
-</span><span id="91" class="l"><a href="#91"> 91 </a>    {
-</span><span id="92" class="l"><a href="#92"> 92 </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;formFields;
-</span><span id="93" class="l"><a href="#93"> 93 </a>    }
-</span><span id="94" class="l"><a href="#94"> 94 </a>
-</span><span id="95" class="l"><a href="#95"> 95 </a>    <span class="php-comment">/**
-</span></span><span id="96" class="l"><a href="#96"> 96 </a><span class="php-comment">     * @param FormFieldMap $formFields
-</span></span><span id="97" class="l"><a href="#97"> 97 </a><span class="php-comment">     */</span>
-</span><span id="98" class="l"><a href="#98"> 98 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> setFormFields(<span class="php-var">$formFields</span>)
-</span><span id="99" class="l"><a href="#99"> 99 </a>    {
-</span><span id="100" class="l"><a href="#100">100 </a>        <span class="php-var">$this</span>-&gt;formFields = <span class="php-var">$formFields</span>;
-</span><span id="101" class="l"><a href="#101">101 </a>    }
-</span><span id="102" class="l"><a href="#102">102 </a>
-</span><span id="103" class="l"><a href="#103">103 </a>    <span class="php-comment">/**
-</span></span><span id="104" class="l"><a href="#104">104 </a><span class="php-comment">     * @return string
-</span></span><span id="105" class="l"><a href="#105">105 </a><span class="php-comment">     */</span>
-</span><span id="106" class="l"><a href="#106">106 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getTransactionId()
-</span><span id="107" class="l"><a href="#107">107 </a>    {
-</span><span id="108" class="l"><a href="#108">108 </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;transactionId;
-</span><span id="109" class="l"><a href="#109">109 </a>    }
-</span><span id="110" class="l"><a href="#110">110 </a>}
-</span><span id="111" class="l"><a href="#111">111 </a></span></code></pre>
+</span><span id="36" class="l"><a href="#36"> 36 </a><span class="php-keyword1">use</span> Wirecard\PaymentSdk\Exception\MalformedResponseException;
+</span><span id="37" class="l"><a href="#37"> 37 </a>
+</span><span id="38" class="l"><a href="#38"> 38 </a><span class="php-comment">/**
+</span></span><span id="39" class="l"><a href="#39"> 39 </a><span class="php-comment"> * Class FormInteractionResponse
+</span></span><span id="40" class="l"><a href="#40"> 40 </a><span class="php-comment"> * @package Wirecard\PaymentSdk\Response
+</span></span><span id="41" class="l"><a href="#41"> 41 </a><span class="php-comment"> *
+</span></span><span id="42" class="l"><a href="#42"> 42 </a><span class="php-comment"> */</span>
+</span><span id="43" class="l"><a href="#43"> 43 </a><span class="php-keyword1">class</span> FormInteractionResponse <span class="php-keyword1">extends</span> Response
+</span><span id="44" class="l"><a href="#44"> 44 </a>{
+</span><span id="45" class="l"><a href="#45"> 45 </a>    <span class="php-comment">/**
+</span></span><span id="46" class="l"><a href="#46"> 46 </a><span class="php-comment">     * @var string
+</span></span><span id="47" class="l"><a href="#47"> 47 </a><span class="php-comment">     */</span>
+</span><span id="48" class="l"><a href="#48"> 48 </a>    <span class="php-keyword1">private</span> <span class="php-var">$url</span>;
+</span><span id="49" class="l"><a href="#49"> 49 </a>
+</span><span id="50" class="l"><a href="#50"> 50 </a>    <span class="php-comment">/**
+</span></span><span id="51" class="l"><a href="#51"> 51 </a><span class="php-comment">     * @var string
+</span></span><span id="52" class="l"><a href="#52"> 52 </a><span class="php-comment">     */</span>
+</span><span id="53" class="l"><a href="#53"> 53 </a>    <span class="php-keyword1">private</span> <span class="php-var">$transactionId</span>;
+</span><span id="54" class="l"><a href="#54"> 54 </a>
+</span><span id="55" class="l"><a href="#55"> 55 </a>    <span class="php-comment">/**
+</span></span><span id="56" class="l"><a href="#56"> 56 </a><span class="php-comment">     * @var FormFieldMap
+</span></span><span id="57" class="l"><a href="#57"> 57 </a><span class="php-comment">     */</span>
+</span><span id="58" class="l"><a href="#58"> 58 </a>    <span class="php-keyword1">private</span> <span class="php-var">$formFields</span>;
+</span><span id="59" class="l"><a href="#59"> 59 </a>
+</span><span id="60" class="l"><a href="#60"> 60 </a>    <span class="php-comment">/**
+</span></span><span id="61" class="l"><a href="#61"> 61 </a><span class="php-comment">     * FormInteractionResponse constructor.
+</span></span><span id="62" class="l"><a href="#62"> 62 </a><span class="php-comment">     * @param \SimpleXMLElement $simpleXml
+</span></span><span id="63" class="l"><a href="#63"> 63 </a><span class="php-comment">     * @param string $url
+</span></span><span id="64" class="l"><a href="#64"> 64 </a><span class="php-comment">     * @throws MalformedResponseException
+</span></span><span id="65" class="l"><a href="#65"> 65 </a><span class="php-comment">     */</span>
+</span><span id="66" class="l"><a href="#66"> 66 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> __construct(<span class="php-var">$simpleXml</span>, <span class="php-var">$url</span>)
+</span><span id="67" class="l"><a href="#67"> 67 </a>    {
+</span><span id="68" class="l"><a href="#68"> 68 </a>        parent::__construct(<span class="php-var">$simpleXml</span>);
+</span><span id="69" class="l"><a href="#69"> 69 </a>        <span class="php-var">$this</span>-&gt;url = <span class="php-var">$url</span>;
+</span><span id="70" class="l"><a href="#70"> 70 </a>        <span class="php-var">$this</span>-&gt;transactionId = <span class="php-var">$this</span>-&gt;findElement(<span class="php-quote">'transaction-id'</span>);
+</span><span id="71" class="l"><a href="#71"> 71 </a>    }
+</span><span id="72" class="l"><a href="#72"> 72 </a>
+</span><span id="73" class="l"><a href="#73"> 73 </a>    <span class="php-comment">/**
+</span></span><span id="74" class="l"><a href="#74"> 74 </a><span class="php-comment">     * @return string
+</span></span><span id="75" class="l"><a href="#75"> 75 </a><span class="php-comment">     */</span>
+</span><span id="76" class="l"><a href="#76"> 76 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getMethod()
+</span><span id="77" class="l"><a href="#77"> 77 </a>    {
+</span><span id="78" class="l"><a href="#78"> 78 </a>        <span class="php-keyword1">return</span> <span class="php-quote">'POST'</span>;
+</span><span id="79" class="l"><a href="#79"> 79 </a>    }
+</span><span id="80" class="l"><a href="#80"> 80 </a>
+</span><span id="81" class="l"><a href="#81"> 81 </a>    <span class="php-comment">/**
+</span></span><span id="82" class="l"><a href="#82"> 82 </a><span class="php-comment">     * @return string
+</span></span><span id="83" class="l"><a href="#83"> 83 </a><span class="php-comment">     */</span>
+</span><span id="84" class="l"><a href="#84"> 84 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getUrl()
+</span><span id="85" class="l"><a href="#85"> 85 </a>    {
+</span><span id="86" class="l"><a href="#86"> 86 </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;url;
+</span><span id="87" class="l"><a href="#87"> 87 </a>    }
+</span><span id="88" class="l"><a href="#88"> 88 </a>
+</span><span id="89" class="l"><a href="#89"> 89 </a>    <span class="php-comment">/**
+</span></span><span id="90" class="l"><a href="#90"> 90 </a><span class="php-comment">     * @return FormFieldMap
+</span></span><span id="91" class="l"><a href="#91"> 91 </a><span class="php-comment">     */</span>
+</span><span id="92" class="l"><a href="#92"> 92 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getFormFields()
+</span><span id="93" class="l"><a href="#93"> 93 </a>    {
+</span><span id="94" class="l"><a href="#94"> 94 </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;formFields;
+</span><span id="95" class="l"><a href="#95"> 95 </a>    }
+</span><span id="96" class="l"><a href="#96"> 96 </a>
+</span><span id="97" class="l"><a href="#97"> 97 </a>    <span class="php-comment">/**
+</span></span><span id="98" class="l"><a href="#98"> 98 </a><span class="php-comment">     * @param FormFieldMap $formFields
+</span></span><span id="99" class="l"><a href="#99"> 99 </a><span class="php-comment">     */</span>
+</span><span id="100" class="l"><a href="#100">100 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> setFormFields(<span class="php-var">$formFields</span>)
+</span><span id="101" class="l"><a href="#101">101 </a>    {
+</span><span id="102" class="l"><a href="#102">102 </a>        <span class="php-var">$this</span>-&gt;formFields = <span class="php-var">$formFields</span>;
+</span><span id="103" class="l"><a href="#103">103 </a>    }
+</span><span id="104" class="l"><a href="#104">104 </a>
+</span><span id="105" class="l"><a href="#105">105 </a>    <span class="php-comment">/**
+</span></span><span id="106" class="l"><a href="#106">106 </a><span class="php-comment">     * @return string
+</span></span><span id="107" class="l"><a href="#107">107 </a><span class="php-comment">     */</span>
+</span><span id="108" class="l"><a href="#108">108 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getTransactionId()
+</span><span id="109" class="l"><a href="#109">109 </a>    {
+</span><span id="110" class="l"><a href="#110">110 </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;transactionId;
+</span><span id="111" class="l"><a href="#111">111 </a>    }
+</span><span id="112" class="l"><a href="#112">112 </a>}
+</span><span id="113" class="l"><a href="#113">113 </a></span></code></pre>
 	</div>
 
 	<div id="footer">
@@ -262,6 +272,6 @@
 	</div>
 </div>
 <script src="resources/combined.js?cfd636dbffd7235c2f8960621ad1ba069499eba1"></script>
-<script src="elementlist.js?8fbd967446d29525d6da974b82fcea8ddbf31e9d"></script>
+<script src="elementlist.js?9e271507469276c50229ebeb93f7688f14c13e0c"></script>
 </body>
 </html>

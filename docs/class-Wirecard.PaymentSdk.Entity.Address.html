@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 
-	<title>Class Wirecard\PaymentSdk\Entity\Money</title>
+	<title>Class Wirecard\PaymentSdk\Entity\Address</title>
 
 	<link rel="stylesheet" href="resources/bootstrap.min.css?973e37a8502921d56bc02bb55321f45b072b6f71">
 	<link rel="stylesheet" href="resources/style.css?49f43d3208c5d7e33fa16d36107a345bf11cc00d">
@@ -91,11 +91,13 @@
 			<h3>Classes</h3>
 			<ul>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.AccountHolder.html">AccountHolder</a></li>
+				<li class="active"><a href="class-Wirecard.PaymentSdk.Entity.Address.html">Address</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.Amount.html">Amount</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.FormFieldMap.html">FormFieldMap</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.IdealBic.html">IdealBic</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Item.html">Item</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.ItemCollection.html">ItemCollection</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Mandate.html">Mandate</a></li>
-				<li class="active"><a href="class-Wirecard.PaymentSdk.Entity.Money.html">Money</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Redirect.html">Redirect</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Status.html">Status</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.StatusCollection.html">StatusCollection</a></li>
@@ -118,16 +120,16 @@
 <div id="right">
 	<div id="rightInner">
 <div id="content" class="class">
-	<h1>Class Money</h1>
+	<h1>Class Address</h1>
 
 
 	<div class="description">
-	<p>Class Money</p>
+	<p>Class Address</p>
 	</div>
 
 	<dl class="tree well">
 		<dd style="padding-left:0px">
-<b><span>Wirecard\PaymentSdk\Entity\Money</span></b>			
+<b><span>Wirecard\PaymentSdk\Entity\Address</span></b>			
 			 implements 
 				<a href="class-Wirecard.PaymentSdk.Entity.MappableEntity.html"><span>Wirecard\PaymentSdk\Entity\MappableEntity</span></a>
 			
@@ -148,7 +150,7 @@
 		<b>Namespace:</b> <a href="namespace-Wirecard.html">Wirecard</a>\<a href="namespace-Wirecard.PaymentSdk.html">PaymentSdk</a>\<a href="namespace-Wirecard.PaymentSdk.Entity.html">Entity</a><br>
 		<b>Package:</b> Wirecard\PaymentSdk\Entity<br>
 
-			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.Entity.Money.html#35-90" title="Go to source code">Entity/Money.php</a>
+			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.Entity.Address.html#35-126" title="Go to source code">Entity/Address.php</a>
 		<br>
 	</div>
 
@@ -168,21 +170,23 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#___construct">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Money.html#53-62" title="Go to source code">__construct</a>( <span>float <var>$amount</var></span>, <span>string <var>$currency</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Address.html#70-81" title="Go to source code">__construct</a>( <span>string <var>$countryCode</var></span>, <span>string <var>$city</var></span>, <span>string <var>$street1</var></span> )</code>
 
 			<div class="description short">
-				<p>Money constructor.</p>
+				<p>Address constructor.</p>
 			</div>
 
 			<div class="description detailed hidden">
-				<p>Money constructor.</p>
+				<p>Address constructor.</p>
 
 
 					<h4>Parameters</h4>
 					<div class="list"><dl>
-						<dt><var>$amount</var></dt>
+						<dt><var>$countryCode</var></dt>
 						<dd></dd>
-						<dt><var>$currency</var></dt>
+						<dt><var>$city</var></dt>
+						<dd></dd>
+						<dt><var>$street1</var></dt>
 						<dd></dd>
 					</dl></div>
 
@@ -193,18 +197,18 @@
 			</div>
 			</div></td>
 		</tr>
-		<tr data-order="getAmount" id="_getAmount">
+		<tr data-order="setStreet2" id="_setStreet2">
 
 			<td class="attributes"><code>
 				 public 
-				float
+				
 				
 				</code>
 			</td>
 
 			<td class="name"><div>
-			<a class="anchor" href="#_getAmount">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Money.html#64-70" title="Go to source code">getAmount</a>( )</code>
+			<a class="anchor" href="#_setStreet2">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Address.html#83-90" title="Go to source code">setStreet2</a>( <span>string <var>$street2</var></span> )</code>
 
 			<div class="description short">
 				
@@ -214,11 +218,12 @@
 				
 
 
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$street2</var></dt>
+						<dd>Enter the house number incl. suffixes here.</dd>
+					</dl></div>
 
-					<h4>Returns</h4>
-					<div class="list">
-						float
-					</div>
 
 
 
@@ -226,18 +231,18 @@
 			</div>
 			</div></td>
 		</tr>
-		<tr data-order="getCurrency" id="_getCurrency">
+		<tr data-order="setPostalCode" id="_setPostalCode">
 
 			<td class="attributes"><code>
 				 public 
-				string
+				
 				
 				</code>
 			</td>
 
 			<td class="name"><div>
-			<a class="anchor" href="#_getCurrency">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Money.html#72-78" title="Go to source code">getCurrency</a>( )</code>
+			<a class="anchor" href="#_setPostalCode">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Address.html#92-98" title="Go to source code">setPostalCode</a>( <span>string <var>$postalCode</var></span> )</code>
 
 			<div class="description short">
 				
@@ -247,11 +252,12 @@
 				
 
 
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$postalCode</var></dt>
+						<dd></dd>
+					</dl></div>
 
-					<h4>Returns</h4>
-					<div class="list">
-						string
-					</div>
 
 
 
@@ -270,7 +276,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_mappedProperties">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Money.html#80-89" title="Go to source code">mappedProperties</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Address.html#100-125" title="Go to source code">mappedProperties</a>( )</code>
 
 			<div class="description short">
 				

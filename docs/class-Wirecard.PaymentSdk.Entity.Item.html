@@ -91,11 +91,13 @@
 			<h3>Classes</h3>
 			<ul>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.AccountHolder.html">AccountHolder</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.Address.html">Address</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.Amount.html">Amount</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.FormFieldMap.html">FormFieldMap</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.IdealBic.html">IdealBic</a></li>
 				<li class="active"><a href="class-Wirecard.PaymentSdk.Entity.Item.html">Item</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.ItemCollection.html">ItemCollection</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Mandate.html">Mandate</a></li>
-				<li><a href="class-Wirecard.PaymentSdk.Entity.Money.html">Money</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Redirect.html">Redirect</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Status.html">Status</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.StatusCollection.html">StatusCollection</a></li>
@@ -148,7 +150,7 @@
 		<b>Namespace:</b> <a href="namespace-Wirecard.html">Wirecard</a>\<a href="namespace-Wirecard.PaymentSdk.html">PaymentSdk</a>\<a href="namespace-Wirecard.PaymentSdk.Entity.html">Entity</a><br>
 		<b>Package:</b> Wirecard\PaymentSdk\Entity<br>
 
-			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.Entity.Item.html#34-186" title="Go to source code">Entity/Item.php</a>
+			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.Entity.Item.html#34-213" title="Go to source code">Entity/Item.php</a>
 		<br>
 	</div>
 
@@ -168,7 +170,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#___construct">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Item.html#70-81" title="Go to source code">__construct</a>( <span>string <var>$name</var></span>, <span><code><a href="class-Wirecard.PaymentSdk.Entity.Money.html">Wirecard\PaymentSdk\Entity\Money</a></code> <var>$amount</var></span>, <span>integer <var>$quantity</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Item.html#75-86" title="Go to source code">__construct</a>( <span>string <var>$name</var></span>, <span><code><a href="class-Wirecard.PaymentSdk.Entity.Amount.html">Wirecard\PaymentSdk\Entity\Amount</a></code> <var>$amount</var></span>, <span>integer <var>$quantity</var></span> )</code>
 
 			<div class="description short">
 				<p>Item constructor.</p>
@@ -206,7 +208,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setDescription">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Item.html#83-91" title="Go to source code">setDescription</a>( <span>string <var>$description</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Item.html#88-96" title="Go to source code">setDescription</a>( <span>string <var>$description</var></span> )</code>
 
 			<div class="description short">
 				
@@ -244,7 +246,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setArticleNumber">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Item.html#93-101" title="Go to source code">setArticleNumber</a>( <span>string <var>$articleNumber</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Item.html#98-106" title="Go to source code">setArticleNumber</a>( <span>string <var>$articleNumber</var></span> )</code>
 
 			<div class="description short">
 				
@@ -271,6 +273,77 @@
 			</div>
 			</div></td>
 		</tr>
+		<tr data-order="setTaxRate" id="_setTaxRate">
+
+			<td class="attributes"><code>
+				 public 
+				<code><a href="class-Wirecard.PaymentSdk.Entity.Item.html">Wirecard\PaymentSdk\Entity\Item</a></code>
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setTaxRate">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Item.html#108-116" title="Go to source code">setTaxRate</a>( <span>float <var>$taxRate</var></span> )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$taxRate</var></dt>
+						<dd></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code><a href="class-Wirecard.PaymentSdk.Entity.Item.html">Wirecard\PaymentSdk\Entity\Item</a></code>
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getTaxRate" id="_getTaxRate">
+
+			<td class="attributes"><code>
+				 public 
+				float
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getTaxRate">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Item.html#118-124" title="Go to source code">getTaxRate</a>( )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+					<h4>Returns</h4>
+					<div class="list">
+						float
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
 		<tr data-order="setTaxAmount" id="_setTaxAmount">
 
 			<td class="attributes"><code>
@@ -282,7 +355,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setTaxAmount">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Item.html#103-111" title="Go to source code">setTaxAmount</a>( <span><code><a href="class-Wirecard.PaymentSdk.Entity.Money.html">Wirecard\PaymentSdk\Entity\Money</a></code> <var>$taxAmount</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Item.html#126-134" title="Go to source code">setTaxAmount</a>( <span><code><a href="class-Wirecard.PaymentSdk.Entity.Amount.html">Wirecard\PaymentSdk\Entity\Amount</a></code> <var>$taxAmount</var></span> )</code>
 
 			<div class="description short">
 				
@@ -320,7 +393,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getName">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Item.html#113-119" title="Go to source code">getName</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Item.html#136-142" title="Go to source code">getName</a>( )</code>
 
 			<div class="description short">
 				
@@ -353,7 +426,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getDescription">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Item.html#121-127" title="Go to source code">getDescription</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Item.html#144-150" title="Go to source code">getDescription</a>( )</code>
 
 			<div class="description short">
 				
@@ -386,7 +459,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getArticleNumber">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Item.html#129-135" title="Go to source code">getArticleNumber</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Item.html#152-158" title="Go to source code">getArticleNumber</a>( )</code>
 
 			<div class="description short">
 				
@@ -412,14 +485,14 @@
 
 			<td class="attributes"><code>
 				 public 
-				<code><a href="class-Wirecard.PaymentSdk.Entity.Money.html">Wirecard\PaymentSdk\Entity\Money</a></code>
+				<code><a href="class-Wirecard.PaymentSdk.Entity.Amount.html">Wirecard\PaymentSdk\Entity\Amount</a></code>
 				
 				</code>
 			</td>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getAmount">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Item.html#137-143" title="Go to source code">getAmount</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Item.html#160-166" title="Go to source code">getAmount</a>( )</code>
 
 			<div class="description short">
 				
@@ -432,7 +505,7 @@
 
 					<h4>Returns</h4>
 					<div class="list">
-						<code><a href="class-Wirecard.PaymentSdk.Entity.Money.html">Wirecard\PaymentSdk\Entity\Money</a></code>
+						<code><a href="class-Wirecard.PaymentSdk.Entity.Amount.html">Wirecard\PaymentSdk\Entity\Amount</a></code>
 					</div>
 
 
@@ -445,14 +518,14 @@
 
 			<td class="attributes"><code>
 				 public 
-				<code><a href="class-Wirecard.PaymentSdk.Entity.Money.html">Wirecard\PaymentSdk\Entity\Money</a></code>
+				<code><a href="class-Wirecard.PaymentSdk.Entity.Amount.html">Wirecard\PaymentSdk\Entity\Amount</a></code>
 				
 				</code>
 			</td>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getTaxAmount">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Item.html#145-151" title="Go to source code">getTaxAmount</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Item.html#168-174" title="Go to source code">getTaxAmount</a>( )</code>
 
 			<div class="description short">
 				
@@ -465,7 +538,7 @@
 
 					<h4>Returns</h4>
 					<div class="list">
-						<code><a href="class-Wirecard.PaymentSdk.Entity.Money.html">Wirecard\PaymentSdk\Entity\Money</a></code>
+						<code><a href="class-Wirecard.PaymentSdk.Entity.Amount.html">Wirecard\PaymentSdk\Entity\Amount</a></code>
 					</div>
 
 
@@ -485,7 +558,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getQuantity">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Item.html#153-159" title="Go to source code">getQuantity</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Item.html#176-182" title="Go to source code">getQuantity</a>( )</code>
 
 			<div class="description short">
 				
@@ -518,7 +591,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_mappedProperties">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Item.html#161-185" title="Go to source code">mappedProperties</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Item.html#184-212" title="Go to source code">mappedProperties</a>( )</code>
 
 			<div class="description short">
 				

@@ -94,11 +94,13 @@
 				<li><a href="class-Wirecard.PaymentSdk.Config.PaymentMethodConfig.html">Wirecard\PaymentSdk\Config\PaymentMethodConfig</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Config.SepaConfig.html">Wirecard\PaymentSdk\Config\SepaConfig</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.AccountHolder.html">Wirecard\PaymentSdk\Entity\AccountHolder</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.Address.html">Wirecard\PaymentSdk\Entity\Address</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.Amount.html">Wirecard\PaymentSdk\Entity\Amount</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.FormFieldMap.html">Wirecard\PaymentSdk\Entity\FormFieldMap</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.IdealBic.html">Wirecard\PaymentSdk\Entity\IdealBic</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Item.html">Wirecard\PaymentSdk\Entity\Item</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.ItemCollection.html">Wirecard\PaymentSdk\Entity\ItemCollection</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Mandate.html">Wirecard\PaymentSdk\Entity\Mandate</a></li>
-				<li><a href="class-Wirecard.PaymentSdk.Entity.Money.html">Wirecard\PaymentSdk\Entity\Money</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Redirect.html">Wirecard\PaymentSdk\Entity\Redirect</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Status.html">Wirecard\PaymentSdk\Entity\Status</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.StatusCollection.html">Wirecard\PaymentSdk\Entity\StatusCollection</a></li>
@@ -111,8 +113,14 @@
 				<li><a href="class-Wirecard.PaymentSdk.Response.Response.html">Wirecard\PaymentSdk\Response\Response</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Response.SuccessResponse.html">Wirecard\PaymentSdk\Response\SuccessResponse</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html">Wirecard\PaymentSdk\Transaction\CreditCardTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.IdealTransaction.html">Wirecard\PaymentSdk\Transaction\IdealTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.InvoiceByWirecardTransaction.html">Wirecard\PaymentSdk\Transaction\InvoiceByWirecardTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.Operation.html">Wirecard\PaymentSdk\Transaction\Operation</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.PayPalTransaction.html">Wirecard\PaymentSdk\Transaction\PayPalTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.PaysafecardTransaction.html">Wirecard\PaymentSdk\Transaction\PaysafecardTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.RatepayInstallmentTransaction.html">Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.RatepayInvoiceTransaction.html">Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.RatepayTransaction.html">Wirecard\PaymentSdk\Transaction\RatepayTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html">Wirecard\PaymentSdk\Transaction\SepaTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.SofortTransaction.html">Wirecard\PaymentSdk\Transaction\SofortTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.ThreeDCreditCardTransaction.html">Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction</a></li>
@@ -199,53 +207,54 @@
 </span><span id="53" class="l"><a href="#53"> 53 </a>    <span class="php-comment">/**
 </span></span><span id="54" class="l"><a href="#54"> 54 </a><span class="php-comment">     * SuccessResponse constructor.
 </span></span><span id="55" class="l"><a href="#55"> 55 </a><span class="php-comment">     * @param \SimpleXMLElement $simpleXml
-</span></span><span id="56" class="l"><a href="#56"> 56 </a><span class="php-comment">     */</span>
-</span><span id="57" class="l"><a href="#57"> 57 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> __construct(<span class="php-var">$simpleXml</span>)
-</span><span id="58" class="l"><a href="#58"> 58 </a>    {
-</span><span id="59" class="l"><a href="#59"> 59 </a>        parent::__construct(<span class="php-var">$simpleXml</span>);
-</span><span id="60" class="l"><a href="#60"> 60 </a>        <span class="php-var">$this</span>-&gt;transactionId = <span class="php-var">$this</span>-&gt;findElement(<span class="php-quote">'transaction-id'</span>);
-</span><span id="61" class="l"><a href="#61"> 61 </a>        <span class="php-var">$this</span>-&gt;providerTransactionId = <span class="php-var">$this</span>-&gt;findProviderTransactionId();
-</span><span id="62" class="l"><a href="#62"> 62 </a>        <span class="php-var">$this</span>-&gt;transactionType = <span class="php-var">$this</span>-&gt;findElement(<span class="php-quote">'transaction-type'</span>);
-</span><span id="63" class="l"><a href="#63"> 63 </a>    }
-</span><span id="64" class="l"><a href="#64"> 64 </a>
-</span><span id="65" class="l"><a href="#65"> 65 </a>    <span class="php-comment">/**
-</span></span><span id="66" class="l"><a href="#66"> 66 </a><span class="php-comment">     * @return string
-</span></span><span id="67" class="l"><a href="#67"> 67 </a><span class="php-comment">     * @throws MalformedResponseException
-</span></span><span id="68" class="l"><a href="#68"> 68 </a><span class="php-comment">     */</span>
-</span><span id="69" class="l"><a href="#69"> 69 </a>    <span class="php-keyword1">private</span> <span class="php-keyword1">function</span> findProviderTransactionId()
-</span><span id="70" class="l"><a href="#70"> 70 </a>    {
-</span><span id="71" class="l"><a href="#71"> 71 </a>        <span class="php-var">$result</span> = <span class="php-keyword1">null</span>;
-</span><span id="72" class="l"><a href="#72"> 72 </a>        <span class="php-keyword1">foreach</span> (<span class="php-var">$this</span>-&gt;simpleXml-&gt;{<span class="php-quote">'statuses'</span>}-&gt;{<span class="php-quote">'status'</span>} <span class="php-keyword1">as</span> <span class="php-var">$status</span>) {
-</span><span id="73" class="l"><a href="#73"> 73 </a>            <span class="php-keyword1">if</span> (<span class="php-var">$result</span> === <span class="php-keyword1">null</span>) {
-</span><span id="74" class="l"><a href="#74"> 74 </a>                <span class="php-var">$result</span> = <span class="php-var">$status</span>[<span class="php-quote">'provider-transaction-id'</span>];
-</span><span id="75" class="l"><a href="#75"> 75 </a>            }
-</span><span id="76" class="l"><a href="#76"> 76 </a>
-</span><span id="77" class="l"><a href="#77"> 77 </a>            <span class="php-keyword1">if</span> (<span class="php-keyword2">strcmp</span>(<span class="php-var">$result</span>, <span class="php-var">$status</span>[<span class="php-quote">'provider-transaction-id'</span>]) !== <span class="php-num">0</span>) {
-</span><span id="78" class="l"><a href="#78"> 78 </a>                <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> MalformedResponseException(<span class="php-quote">'More different provider transaction ID-s in response.'</span>);
-</span><span id="79" class="l"><a href="#79"> 79 </a>            }
-</span><span id="80" class="l"><a href="#80"> 80 </a>        }
-</span><span id="81" class="l"><a href="#81"> 81 </a>
-</span><span id="82" class="l"><a href="#82"> 82 </a>        <span class="php-keyword1">return</span> (string)<span class="php-var">$result</span>;
-</span><span id="83" class="l"><a href="#83"> 83 </a>    }
-</span><span id="84" class="l"><a href="#84"> 84 </a>
+</span></span><span id="56" class="l"><a href="#56"> 56 </a><span class="php-comment">     * @throws MalformedResponseException
+</span></span><span id="57" class="l"><a href="#57"> 57 </a><span class="php-comment">     */</span>
+</span><span id="58" class="l"><a href="#58"> 58 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> __construct(<span class="php-var">$simpleXml</span>)
+</span><span id="59" class="l"><a href="#59"> 59 </a>    {
+</span><span id="60" class="l"><a href="#60"> 60 </a>        parent::__construct(<span class="php-var">$simpleXml</span>);
+</span><span id="61" class="l"><a href="#61"> 61 </a>        <span class="php-var">$this</span>-&gt;transactionId = <span class="php-var">$this</span>-&gt;findElement(<span class="php-quote">'transaction-id'</span>);
+</span><span id="62" class="l"><a href="#62"> 62 </a>        <span class="php-var">$this</span>-&gt;providerTransactionId = <span class="php-var">$this</span>-&gt;findProviderTransactionId();
+</span><span id="63" class="l"><a href="#63"> 63 </a>        <span class="php-var">$this</span>-&gt;transactionType = <span class="php-var">$this</span>-&gt;findElement(<span class="php-quote">'transaction-type'</span>);
+</span><span id="64" class="l"><a href="#64"> 64 </a>    }
+</span><span id="65" class="l"><a href="#65"> 65 </a>
+</span><span id="66" class="l"><a href="#66"> 66 </a>    <span class="php-comment">/**
+</span></span><span id="67" class="l"><a href="#67"> 67 </a><span class="php-comment">     * @return string
+</span></span><span id="68" class="l"><a href="#68"> 68 </a><span class="php-comment">     * @throws MalformedResponseException
+</span></span><span id="69" class="l"><a href="#69"> 69 </a><span class="php-comment">     */</span>
+</span><span id="70" class="l"><a href="#70"> 70 </a>    <span class="php-keyword1">private</span> <span class="php-keyword1">function</span> findProviderTransactionId()
+</span><span id="71" class="l"><a href="#71"> 71 </a>    {
+</span><span id="72" class="l"><a href="#72"> 72 </a>        <span class="php-var">$result</span> = <span class="php-keyword1">null</span>;
+</span><span id="73" class="l"><a href="#73"> 73 </a>        <span class="php-keyword1">foreach</span> (<span class="php-var">$this</span>-&gt;simpleXml-&gt;{<span class="php-quote">'statuses'</span>}-&gt;{<span class="php-quote">'status'</span>} <span class="php-keyword1">as</span> <span class="php-var">$status</span>) {
+</span><span id="74" class="l"><a href="#74"> 74 </a>            <span class="php-keyword1">if</span> (<span class="php-var">$result</span> === <span class="php-keyword1">null</span>) {
+</span><span id="75" class="l"><a href="#75"> 75 </a>                <span class="php-var">$result</span> = <span class="php-var">$status</span>[<span class="php-quote">'provider-transaction-id'</span>];
+</span><span id="76" class="l"><a href="#76"> 76 </a>            }
+</span><span id="77" class="l"><a href="#77"> 77 </a>
+</span><span id="78" class="l"><a href="#78"> 78 </a>            <span class="php-keyword1">if</span> (<span class="php-keyword2">strcmp</span>(<span class="php-var">$result</span>, <span class="php-var">$status</span>[<span class="php-quote">'provider-transaction-id'</span>]) !== <span class="php-num">0</span>) {
+</span><span id="79" class="l"><a href="#79"> 79 </a>                <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> MalformedResponseException(<span class="php-quote">'More different provider transaction ID-s in response.'</span>);
+</span><span id="80" class="l"><a href="#80"> 80 </a>            }
+</span><span id="81" class="l"><a href="#81"> 81 </a>        }
+</span><span id="82" class="l"><a href="#82"> 82 </a>
+</span><span id="83" class="l"><a href="#83"> 83 </a>        <span class="php-keyword1">return</span> (string)<span class="php-var">$result</span>;
+</span><span id="84" class="l"><a href="#84"> 84 </a>    }
 </span><span id="85" class="l"><a href="#85"> 85 </a>
-</span><span id="86" class="l"><a href="#86"> 86 </a>    <span class="php-comment">/**
-</span></span><span id="87" class="l"><a href="#87"> 87 </a><span class="php-comment">     * @return string
-</span></span><span id="88" class="l"><a href="#88"> 88 </a><span class="php-comment">     */</span>
-</span><span id="89" class="l"><a href="#89"> 89 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getTransactionId()
-</span><span id="90" class="l"><a href="#90"> 90 </a>    {
-</span><span id="91" class="l"><a href="#91"> 91 </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;transactionId;
-</span><span id="92" class="l"><a href="#92"> 92 </a>    }
-</span><span id="93" class="l"><a href="#93"> 93 </a>
-</span><span id="94" class="l"><a href="#94"> 94 </a>    <span class="php-comment">/**
-</span></span><span id="95" class="l"><a href="#95"> 95 </a><span class="php-comment">     * @return string
-</span></span><span id="96" class="l"><a href="#96"> 96 </a><span class="php-comment">     */</span>
-</span><span id="97" class="l"><a href="#97"> 97 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getProviderTransactionId()
-</span><span id="98" class="l"><a href="#98"> 98 </a>    {
-</span><span id="99" class="l"><a href="#99"> 99 </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;providerTransactionId;
-</span><span id="100" class="l"><a href="#100">100 </a>    }
-</span><span id="101" class="l"><a href="#101">101 </a>}
-</span><span id="102" class="l"><a href="#102">102 </a></span></code></pre>
+</span><span id="86" class="l"><a href="#86"> 86 </a>
+</span><span id="87" class="l"><a href="#87"> 87 </a>    <span class="php-comment">/**
+</span></span><span id="88" class="l"><a href="#88"> 88 </a><span class="php-comment">     * @return string
+</span></span><span id="89" class="l"><a href="#89"> 89 </a><span class="php-comment">     */</span>
+</span><span id="90" class="l"><a href="#90"> 90 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getTransactionId()
+</span><span id="91" class="l"><a href="#91"> 91 </a>    {
+</span><span id="92" class="l"><a href="#92"> 92 </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;transactionId;
+</span><span id="93" class="l"><a href="#93"> 93 </a>    }
+</span><span id="94" class="l"><a href="#94"> 94 </a>
+</span><span id="95" class="l"><a href="#95"> 95 </a>    <span class="php-comment">/**
+</span></span><span id="96" class="l"><a href="#96"> 96 </a><span class="php-comment">     * @return string
+</span></span><span id="97" class="l"><a href="#97"> 97 </a><span class="php-comment">     */</span>
+</span><span id="98" class="l"><a href="#98"> 98 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getProviderTransactionId()
+</span><span id="99" class="l"><a href="#99"> 99 </a>    {
+</span><span id="100" class="l"><a href="#100">100 </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;providerTransactionId;
+</span><span id="101" class="l"><a href="#101">101 </a>    }
+</span><span id="102" class="l"><a href="#102">102 </a>}
+</span><span id="103" class="l"><a href="#103">103 </a></span></code></pre>
 	</div>
 
 	<div id="footer">
@@ -253,6 +262,6 @@
 	</div>
 </div>
 <script src="resources/combined.js?cfd636dbffd7235c2f8960621ad1ba069499eba1"></script>
-<script src="elementlist.js?8fbd967446d29525d6da974b82fcea8ddbf31e9d"></script>
+<script src="elementlist.js?9e271507469276c50229ebeb93f7688f14c13e0c"></script>
 </body>
 </html>

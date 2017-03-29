@@ -12,14 +12,10 @@
     <span class="hljs-keyword">return</span> dirname(sprintf(<span class="hljs-string">'%s://%s%s'</span>, <span class="hljs-variable">$protocol</span>, <span class="hljs-variable">$host</span>, <span class="hljs-variable">$request</span>)) . <span class="hljs-string">'/'</span> . <span class="hljs-variable">$path</span>;
 }
 
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getTransactionLink</span><span class="hljs-params">(<span class="hljs-variable">$maid</span>, <span class="hljs-variable">$transactionId</span>)</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getTransactionLink</span><span class="hljs-params">(<span class="hljs-variable">$baseUrl</span>, <span class="hljs-variable">$maid</span>, <span class="hljs-variable">$transactionId</span>)</span>
 </span>{
-    <span class="hljs-variable">$output</span> = sprintf(
-        <span class="hljs-string">'Transaction ID: &lt;a href="https://api-test.wirecard.com/engine/rest/merchants/%s/payments/%s"&gt;'</span>,
-        <span class="hljs-variable">$maid</span>,
-        <span class="hljs-variable">$transactionId</span>
-    );
+    <span class="hljs-variable">$output</span> = <span class="hljs-string">'Transaction ID: '</span>;
+    <span class="hljs-variable">$output</span> .= sprintf(<span class="hljs-string">'&lt;a href="'</span> . <span class="hljs-variable">$baseUrl</span> . <span class="hljs-string">'/engine/rest/merchants/%s/payments/%s"&gt;'</span>, <span class="hljs-variable">$maid</span>, <span class="hljs-variable">$transactionId</span>);
     <span class="hljs-variable">$output</span> .= <span class="hljs-variable">$transactionId</span>;
     <span class="hljs-variable">$output</span> .= <span class="hljs-string">'&lt;/a&gt;'</span>;
     <span class="hljs-keyword">return</span> <span class="hljs-variable">$output</span>;

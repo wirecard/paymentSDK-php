@@ -91,11 +91,13 @@
 			<h3>Classes</h3>
 			<ul>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.AccountHolder.html">AccountHolder</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.Address.html">Address</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.Amount.html">Amount</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.FormFieldMap.html">FormFieldMap</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.IdealBic.html">IdealBic</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Item.html">Item</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.ItemCollection.html">ItemCollection</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Mandate.html">Mandate</a></li>
-				<li><a href="class-Wirecard.PaymentSdk.Entity.Money.html">Money</a></li>
 				<li class="active"><a href="class-Wirecard.PaymentSdk.Entity.Redirect.html">Redirect</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Status.html">Status</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.StatusCollection.html">StatusCollection</a></li>
@@ -139,7 +141,7 @@
 		<b>Namespace:</b> <a href="namespace-Wirecard.html">Wirecard</a>\<a href="namespace-Wirecard.PaymentSdk.html">PaymentSdk</a>\<a href="namespace-Wirecard.PaymentSdk.Entity.html">Entity</a><br>
 		<b>Package:</b> Wirecard\PaymentSdk\Entity<br>
 
-			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.Entity.Redirect.html#35-79" title="Go to source code">Entity/Redirect.php</a>
+			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.Entity.Redirect.html#35-89" title="Go to source code">Entity/Redirect.php</a>
 		<br>
 	</div>
 
@@ -159,7 +161,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#___construct">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Redirect.html#53-62" title="Go to source code">__construct</a>( <span>string <var>$successUrl</var></span>, <span>string <var>$cancelUrl</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Redirect.html#53-64" title="Go to source code">__construct</a>( <span>string <var>$successUrl</var></span>, <span>string <var>$cancelUrl</var></span>, <span>null <var>$failureUrl</var> = <span class="php-keyword1">null</span></span> )</code>
 
 			<div class="description short">
 				<p>Redirect constructor.</p>
@@ -174,6 +176,8 @@
 						<dt><var>$successUrl</var></dt>
 						<dd></dd>
 						<dt><var>$cancelUrl</var></dt>
+						<dd></dd>
+						<dt><var>$failureUrl</var></dt>
 						<dd></dd>
 					</dl></div>
 
@@ -195,7 +199,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getSuccessUrl">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Redirect.html#64-70" title="Go to source code">getSuccessUrl</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Redirect.html#66-72" title="Go to source code">getSuccessUrl</a>( )</code>
 
 			<div class="description short">
 				
@@ -228,7 +232,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getCancelUrl">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Redirect.html#72-78" title="Go to source code">getCancelUrl</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Redirect.html#74-80" title="Go to source code">getCancelUrl</a>( )</code>
 
 			<div class="description short">
 				
@@ -242,6 +246,39 @@
 					<h4>Returns</h4>
 					<div class="list">
 						string
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getFailureUrl" id="_getFailureUrl">
+
+			<td class="attributes"><code>
+				 public 
+				null
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getFailureUrl">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Redirect.html#82-88" title="Go to source code">getFailureUrl</a>( )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+					<h4>Returns</h4>
+					<div class="list">
+						null
 					</div>
 
 

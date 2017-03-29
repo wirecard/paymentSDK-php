@@ -1711,6 +1711,1085 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         }, {
           "type": "folder",
           "data": {
+            "path": "examples/RatePAY_Installment",
+            "title": "RatePAY_Installment"
+          },
+          "depth": 2,
+          "children": [
+            {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/RatePAY_Installment/cancel.php",
+                "projectPath": "examples/RatePAY_Installment/cancel.php",
+                "targetPath": "examples/RatePAY_Installment/cancel",
+                "pageTitle": "examples/RatePAY_Installment/cancel",
+                "title": "cancel"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Cancelling a transaction",
+                    "slug": "cancelling-a-transaction"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "RatePAY installment",
+                                "slug": "ratepay-installment"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Order items",
+                                "slug": "order-items"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/RatePAY_Installment/credit.php",
+                "projectPath": "examples/RatePAY_Installment/credit.php",
+                "targetPath": "examples/RatePAY_Installment/credit",
+                "pageTitle": "examples/RatePAY_Installment/credit",
+                "title": "credit"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Credit via RatePAY",
+                    "slug": "credit-via-ratepay"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Config for RatePAY",
+                                "slug": "config-for-ratepay"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Redirect URLs",
+                            "slug": "redirect-urls"
+                          },
+                          "depth": 3
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Notification URL",
+                            "slug": "notification-url"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/RatePAY_Installment/pay-based-on-reserve.php",
+                "projectPath": "examples/RatePAY_Installment/pay-based-on-reserve.php",
+                "targetPath": "examples/RatePAY_Installment/pay-based-on-reserve",
+                "pageTitle": "examples/RatePAY_Installment/pay-based-on-reserve",
+                "title": "pay-based-on-reserve"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Payment after a reservation",
+                    "slug": "payment-after-a-reservation"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "RatePAY installment",
+                                "slug": "ratepay-installment"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Order items",
+                                "slug": "order-items"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Account holder with address",
+                                "slug": "account-holder-with-address"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Select the item to capture",
+                        "slug": "select-the-item-to-capture"
+                      },
+                      "depth": 2
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/RatePAY_Installment/reserve.php",
+                "projectPath": "examples/RatePAY_Installment/reserve.php",
+                "targetPath": "examples/RatePAY_Installment/reserve",
+                "pageTitle": "examples/RatePAY_Installment/reserve",
+                "title": "reserve"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "RatePAY installment reserve transaction",
+                    "slug": "ratepay-installment-reserve-transaction"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "RatePAY installment",
+                                "slug": "ratepay-installment"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Order items",
+                                "slug": "order-items"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Account holder with address",
+                                "slug": "account-holder-with-address"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/RatePAY_Installment/return.php",
+                "projectPath": "examples/RatePAY_Installment/return.php",
+                "targetPath": "examples/RatePAY_Installment/return",
+                "pageTitle": "examples/RatePAY_Installment/return",
+                "title": "return"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "RatePAY installment return after transaction",
+                    "slug": "ratepay-installment-return-after-transaction"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "RatePAY installment",
+                                "slug": "ratepay-installment"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Payment results",
+                        "slug": "payment-results"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }, {
+          "type": "folder",
+          "data": {
+            "path": "examples/RatePAY_Invoice",
+            "title": "RatePAY_Invoice"
+          },
+          "depth": 2,
+          "children": [
+            {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/RatePAY_Invoice/cancel.php",
+                "projectPath": "examples/RatePAY_Invoice/cancel.php",
+                "targetPath": "examples/RatePAY_Invoice/cancel",
+                "pageTitle": "examples/RatePAY_Invoice/cancel",
+                "title": "cancel"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Cancelling a transaction",
+                    "slug": "cancelling-a-transaction"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "RatePay invoice",
+                                "slug": "ratepay-invoice"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Order items",
+                                "slug": "order-items"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/RatePAY_Invoice/credit.php",
+                "projectPath": "examples/RatePAY_Invoice/credit.php",
+                "targetPath": "examples/RatePAY_Invoice/credit",
+                "pageTitle": "examples/RatePAY_Invoice/credit",
+                "title": "credit"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Credit via RatePAY",
+                    "slug": "credit-via-ratepay"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Config for RatePAY",
+                                "slug": "config-for-ratepay"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Notification URL",
+                            "slug": "notification-url"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/RatePAY_Invoice/pay-based-on-reserve.php",
+                "projectPath": "examples/RatePAY_Invoice/pay-based-on-reserve.php",
+                "targetPath": "examples/RatePAY_Invoice/pay-based-on-reserve",
+                "pageTitle": "examples/RatePAY_Invoice/pay-based-on-reserve",
+                "title": "pay-based-on-reserve"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Payment after a reservation",
+                    "slug": "payment-after-a-reservation"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "RatePAY invoice",
+                                "slug": "ratepay-invoice"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Order items",
+                                "slug": "order-items"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Account holder with address",
+                                "slug": "account-holder-with-address"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Select the item to capture",
+                        "slug": "select-the-item-to-capture"
+                      },
+                      "depth": 2
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/RatePAY_Invoice/reserve.php",
+                "projectPath": "examples/RatePAY_Invoice/reserve.php",
+                "targetPath": "examples/RatePAY_Invoice/reserve",
+                "pageTitle": "examples/RatePAY_Invoice/reserve",
+                "title": "reserve"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "RatePAY invoice reserve transaction",
+                    "slug": "ratepay-invoice-reserve-transaction"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "RatePAY invoice",
+                                "slug": "ratepay-invoice"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Order items",
+                                "slug": "order-items"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Account holder with address",
+                                "slug": "account-holder-with-address"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }, {
+          "type": "folder",
+          "data": {
             "path": "examples/Sepa",
             "title": "Sepa"
           },
@@ -2313,6 +3392,299 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         }, {
           "type": "folder",
           "data": {
+            "path": "examples/iDEAL",
+            "title": "iDEAL"
+          },
+          "depth": 2,
+          "children": [
+            {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/iDEAL/notify.php",
+                "projectPath": "examples/iDEAL/notify.php",
+                "targetPath": "examples/iDEAL/notify",
+                "pageTitle": "examples/iDEAL/notify",
+                "title": "notify"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "iDEAL notification",
+                    "slug": "ideal-notification"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "iDEAL",
+                                "slug": "ideal"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Notification status",
+                            "slug": "notification-status"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/iDEAL/pay.php",
+                "projectPath": "examples/iDEAL/pay.php",
+                "targetPath": "examples/iDEAL/pay",
+                "pageTitle": "examples/iDEAL/pay",
+                "title": "pay"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "iDEAL payment transaction",
+                    "slug": "ideal-payment-transaction"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/iDEAL/return.php",
+                "projectPath": "examples/iDEAL/return.php",
+                "targetPath": "examples/iDEAL/return",
+                "pageTitle": "examples/iDEAL/return",
+                "title": "return"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "iDEAL return after transaction",
+                    "slug": "ideal-return-after-transaction"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Payment results",
+                        "slug": "payment-results"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }, {
+          "type": "folder",
+          "data": {
             "path": "examples/inc",
             "title": "inc"
           },
@@ -2345,6 +3717,622 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                     "slug": "custom-functions"
                   },
                   "depth": 1
+                }
+              ]
+            }
+          ]
+        }, {
+          "type": "folder",
+          "data": {
+            "path": "examples/paysafecard",
+            "title": "paysafecard"
+          },
+          "depth": 2,
+          "children": [
+            {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/paysafecard/cancel.php",
+                "projectPath": "examples/paysafecard/cancel.php",
+                "targetPath": "examples/paysafecard/cancel",
+                "pageTitle": "examples/paysafecard/cancel",
+                "title": "cancel"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Cancelling a transaction",
+                    "slug": "cancelling-a-transaction"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Paysafecard",
+                                "slug": "paysafecard"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/paysafecard/notify.php",
+                "projectPath": "examples/paysafecard/notify.php",
+                "targetPath": "examples/paysafecard/notify",
+                "pageTitle": "examples/paysafecard/notify",
+                "title": "notify"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Paysafecard notification",
+                    "slug": "paysafecard-notification"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Paysafecard",
+                                "slug": "paysafecard"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Notification status",
+                            "slug": "notification-status"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/paysafecard/pay.php",
+                "projectPath": "examples/paysafecard/pay.php",
+                "targetPath": "examples/paysafecard/pay",
+                "pageTitle": "examples/paysafecard/pay",
+                "title": "pay"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Paysafecard payment transaction",
+                    "slug": "paysafecard-payment-transaction"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Paysafecard",
+                                "slug": "paysafecard"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/paysafecard/pay-based-on-reserve.php",
+                "projectPath": "examples/paysafecard/pay-based-on-reserve.php",
+                "targetPath": "examples/paysafecard/pay-based-on-reserve",
+                "pageTitle": "examples/paysafecard/pay-based-on-reserve",
+                "title": "pay-based-on-reserve"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Payment after a reservation",
+                    "slug": "payment-after-a-reservation"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Paysafecard",
+                                "slug": "paysafecard"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/paysafecard/reserve.php",
+                "projectPath": "examples/paysafecard/reserve.php",
+                "targetPath": "examples/paysafecard/reserve",
+                "pageTitle": "examples/paysafecard/reserve",
+                "title": "reserve"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Paysafecard reserve transaction",
+                    "slug": "paysafecard-reserve-transaction"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Paysafecard",
+                                "slug": "paysafecard"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/paysafecard/return.php",
+                "projectPath": "examples/paysafecard/return.php",
+                "targetPath": "examples/paysafecard/return",
+                "pageTitle": "examples/paysafecard/return",
+                "title": "return"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Paysafecard return after transaction",
+                    "slug": "paysafecard-return-after-transaction"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Config",
+                            "slug": "config"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Basic configuration",
+                                "slug": "basic-configuration"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Paysafecard",
+                                "slug": "paysafecard"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Payment results",
+                        "slug": "payment-results"
+                      },
+                      "depth": 2
+                    }
+                  ]
                 }
               ]
             }
