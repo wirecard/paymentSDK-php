@@ -22,11 +22,12 @@ echo "Version is updated, creating tag ..."
 git config user.name "Travis CI"
 git config user.email "wirecard@travis-ci.org"
 
-echo "Do: git tag $VERSION"
+echo "Do: git tag ${VERSION}"
+git tag ${VERSION}
 # git commit -m "Create release tag for version $VERSION"
 
 echo "List all tags:"
 git tag
 
 # Now that we're all set up, we can push.
-echo "Do: git push ${SSH_REPO} master"
+echo "Do: git push ${SSH_REPO} master $VERSION"
