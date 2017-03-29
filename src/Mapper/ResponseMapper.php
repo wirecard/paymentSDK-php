@@ -32,6 +32,8 @@
 
 namespace Wirecard\PaymentSdk\Mapper;
 
+use RobRichards\XMLSecLibs\XMLSecEnc;
+use RobRichards\XMLSecLibs\XMLSecurityDSig;
 use SimpleXMLElement;
 use Wirecard\PaymentSdk\Entity\FormFieldMap;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
@@ -85,14 +87,56 @@ class ResponseMapper
             throw new MalformedResponseException('Missing transaction-state in response.');
         }
 
+        $validSignature = $this->validateSignature($xmlResponse);
+
         switch ($state) {
             case 'success':
-                return $this->mapSuccessResponse($operation, $transaction);
+                return $this->mapSuccessResponse($operation, $validSignature, $transaction);
             case 'in-progress':
-                return new PendingResponse($this->simpleXml);
+                return new PendingResponse($this->simpleXml, $validSignature);
             default:
-                return new FailureResponse($this->simpleXml);
+                return new FailureResponse($this->simpleXml, $validSignature);
         }
+    }
+
+    /**
+     * @param string $xmlResponse
+     * @return boolean
+     */
+    private function validateSignature($xmlResponse)
+    {
+        $result = true;
+
+        $domResponse = new \DOMDocument();
+        $domResponse->loadXML($xmlResponse);
+
+        $xmlSecDSig = new XMLSecurityDSig();
+        $dSig = $xmlSecDSig->locateSignature($domResponse);
+
+        if (!$dSig) {
+            return false;
+        }
+
+        $xmlSecDSig->canonicalizeSignedInfo();
+        $key = $xmlSecDSig->locateKey();
+
+        if (!$key) {
+            return false;
+        }
+
+        try {
+            XMLSecEnc::staticLocateKeyInfo($key, $dSig);
+
+            if (1 !== $xmlSecDSig->verify($key)) {
+                $result = false;
+            }
+
+            $xmlSecDSig->validateReference();
+        } catch (\Exception $e) {
+            $result = false;
+        }
+
+        return $result;
     }
 
     /**
@@ -187,12 +231,14 @@ class ResponseMapper
 
     /**
      * @param string $operation
+     * @param boolean $validSignature
      * @param ThreeDCreditCardTransaction $transaction
      * @return FormInteractionResponse|InteractionResponse|SuccessResponse
      * @throws MalformedResponseException
      */
     private function mapSuccessResponse(
         $operation,
+        $validSignature,
         ThreeDCreditCardTransaction $transaction = null
     ) {
         if ((string)$this->simpleXml->{'transaction-type'} === ThreeDCreditCardTransaction::TYPE_CHECK_ENROLLMENT) {
@@ -205,6 +251,6 @@ class ResponseMapper
             return new InteractionResponse($this->simpleXml, $redirectUrl);
         }
 
-        return new SuccessResponse($this->simpleXml);
+        return new SuccessResponse($this->simpleXml, $validSignature);
     }
 }
