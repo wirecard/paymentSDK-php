@@ -224,7 +224,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         /**
          * @var FormInteractionResponse $mapped
          */
-        $mapped = $this->mapper->map($payload, Operation::RESERVE, $transaction);
+        $mapped = $this->mapper->map($payload, false, Operation::RESERVE, $transaction);
 
         $this->assertInstanceOf(FormInteractionResponse::class, $mapped);
         $this->assertEquals($payload, $mapped->getRawData());
@@ -255,7 +255,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         /**
          * @var FormInteractionResponse $mapped
          */
-        $mapped = $this->mapper->map($payload, Operation::RESERVE, $transaction);
+        $mapped = $this->mapper->map($payload, false, Operation::RESERVE, $transaction);
 
         $this->assertInstanceOf(FormInteractionResponse::class, $mapped);
         $this->assertEquals($payload, $mapped->getRawData());
@@ -291,7 +291,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         /**
          * @var FormInteractionResponse $mapped
          */
-        $mapped = $this->mapper->map($payload, Operation::RESERVE, $transaction);
+        $mapped = $this->mapper->map($payload, false, Operation::RESERVE, $transaction);
 
         $this->assertInstanceOf(FormInteractionResponse::class, $mapped);
         $this->assertEquals('dummy URL', $mapped->getFormFields()->getIterator()['TermUrl']);
@@ -578,7 +578,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         /**
          * @var PendingResponse $mapped
          */
-        $mapped = $this->mapper->map($response);
+        $mapped = $this->mapper->map($response, true);
         $this->assertEquals(false, $mapped->isValidSignature());
     }
 
@@ -596,7 +596,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         /**
          * @var PendingResponse $mapped
          */
-        $mapped = $this->mapper->map($response);
+        $mapped = $this->mapper->map($response, true);
         $this->assertEquals(false, $mapped->isValidSignature());
     }
 
@@ -608,7 +608,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         /**
          * @var SuccessResponse $mapped
          */
-        $mapped = $this->mapper->map($response);
+        $mapped = $this->mapper->map($response, true);
         $this->assertEquals(true, $mapped->isValidSignature());
     }
 
@@ -774,7 +774,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                     </payment>';
         $transaction = new ThreeDCreditCardTransaction();
 
-        $this->mapper->map($payload, Operation::RESERVE, $transaction);
+        $this->mapper->map($payload, false, Operation::RESERVE, $transaction);
     }
 
 
@@ -803,7 +803,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                     </payment>';
         $transaction = new ThreeDCreditCardTransaction();
 
-        $this->mapper->map($payload, Operation::RESERVE, $transaction);
+        $this->mapper->map($payload, false, Operation::RESERVE, $transaction);
     }
 
     /**
@@ -831,7 +831,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                     </payment>';
         $transaction = new ThreeDCreditCardTransaction();
 
-        $this->mapper->map($payload, Operation::RESERVE, $transaction);
+        $this->mapper->map($payload, false, Operation::RESERVE, $transaction);
     }
 
 

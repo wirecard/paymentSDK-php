@@ -151,7 +151,7 @@ class TransactionService
      */
     public function handleNotification($xmlResponse)
     {
-        return $this->responseMapper->map($xmlResponse);
+        return $this->responseMapper->map($xmlResponse, true);
     }
 
     /**
@@ -181,7 +181,7 @@ class TransactionService
 
         // PayPal
         if (null === $data && array_key_exists('eppresponse', $payload)) {
-            $data = $this->responseMapper->map($payload['eppresponse']);
+            $data = $this->responseMapper->map($payload['eppresponse'], true);
         }
 
         // RatePAY installment
@@ -189,7 +189,7 @@ class TransactionService
             array_key_exists('base64payload', $payload) &&
             array_key_exists('psp_name', $payload)
         ) {
-            $data = $this->responseMapper->map($payload['base64payload']);
+            $data = $this->responseMapper->map($payload['base64payload'], true);
         }
 
         if ($data instanceof Response) {
@@ -369,7 +369,7 @@ class TransactionService
         $responseContent = $this->sendPostRequest($endpoint, $requestBody);
 
         $data = $transaction instanceof ThreeDCreditCardTransaction ? $transaction : null;
-        return $this->responseMapper->map($responseContent, $operation, $data);
+        return $this->responseMapper->map($responseContent, false, $operation, $data);
     }
 
     /**

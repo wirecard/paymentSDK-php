@@ -63,13 +63,18 @@ class ResponseMapper
      * map the xml Response from engine to ResponseObjects
      *
      * @param string $xmlResponse
+     * @param boolean $validateSignature
      * @param string $operation
      * @param ThreeDCreditCardTransaction $transaction
      * @return Response
      * @throws MalformedResponseException
      */
-    public function map($xmlResponse, $operation = null, ThreeDCreditCardTransaction $transaction = null)
-    {
+    public function map(
+        $xmlResponse,
+        $validateSignature = false,
+        $operation = null,
+        ThreeDCreditCardTransaction $transaction = null
+    ) {
         $decodedResponse = base64_decode($xmlResponse);
         $xmlResponse = (base64_encode($decodedResponse) === $xmlResponse) ? $decodedResponse : $xmlResponse;
         //we need to use internal_errors, because we don't want to throw errors on invalid xml responses
@@ -87,7 +92,11 @@ class ResponseMapper
             throw new MalformedResponseException('Missing transaction-state in response.');
         }
 
-        $validSignature = $this->validateSignature($xmlResponse);
+        $validSignature = true;
+
+        if ($validateSignature) {
+            $validSignature = $this->validateSignature($xmlResponse);
+        }
 
         switch ($state) {
             case 'success':
