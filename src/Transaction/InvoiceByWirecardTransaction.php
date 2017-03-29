@@ -30,61 +30,13 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Entity;
+namespace Wirecard\PaymentSdk\Transaction;
 
 /**
- * Class Money
- * @package Wirecard\PaymentSdk\Entity
- *
- * An immutable entity representing a money: amount and currency.
+ * Class InvoiceByWirecardTransaction
+ * @package Wirecard\PaymentSdk\Transaction
  */
-class Money implements MappableEntity
+class InvoiceByWirecardTransaction extends RatepayTransaction implements Reservable
 {
-    /**
-     * @var float
-     */
-    private $amount;
-
-    /**
-     * @var string
-     */
-    private $currency;
-
-    /**
-     * Money constructor.
-     * @param float $amount
-     * @param string $currency
-     */
-    public function __construct($amount, $currency)
-    {
-        $this->amount = $amount;
-        $this->currency = $currency;
-    }
-
-    /**
-     * @return float
-     */
-    public function getAmount()
-    {
-        return $this->amount;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCurrency()
-    {
-        return $this->currency;
-    }
-
-    /**
-     * @return array
-     */
-    public function mappedProperties()
-    {
-        return [
-            'currency' => $this->currency,
-            'value' => $this->amount
-        ];
-    }
+    const NAME = 'ratepay-invoice';
 }

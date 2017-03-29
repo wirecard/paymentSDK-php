@@ -33,7 +33,7 @@
 namespace Wirecard\PaymentSdk\Entity;
 
 /**
- * Class Money
+ * Class AccountHolder
  * @package Wirecard\PaymentSdk\Entity
  *
  * An immutable entity representing an account holder.

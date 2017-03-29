@@ -9,7 +9,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 
 use Wirecard\PaymentSdk\Config;
-use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
@@ -34,8 +34,8 @@ $ccardConfig = new Config\PaymentMethodConfig(CreditCardTransaction::NAME, $ccar
 $config->add($ccardConfig);
 
 // ### Transaction related objects
-// Create a money object as amount which has to be payed by the consumer.
-$amount = new Money(12.59, 'EUR');
+// Create a amount object as amount which has to be payed by the consumer.
+$amount = new Amount(12.59, 'EUR');
 
 // If there was a previous transaction, use the ID of this parent transaction as reference.
 $parentTransactionId = array_key_exists('parentTransactionId', $_POST) ? $_POST['parentTransactionId'] : null;

@@ -31,7 +31,7 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
@@ -159,11 +159,11 @@ class ThreeDCreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
             ]
         ];
 
-        $money = new Money(24, 'EUR');
+        $amount = new Amount(24, 'EUR');
         $transaction = new ThreeDCreditCardTransaction();
         $transaction->setTokenId('21');
         $transaction->setTermUrl('https://example.com/r');
-        $transaction->setAmount($money);
+        $transaction->setAmount($amount);
         $transaction->setParentTransactionId('parent54');
         $transaction->setParentTransactionType($parentTransactionType);
         $transaction->setOperation($operation);
@@ -225,11 +225,11 @@ class ThreeDCreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
     {
         $_SERVER['REMOTE_ADDR'] = 'test IP';
 
-        $money = new Money(24, 'EUR');
+        $amount = new Amount(24, 'EUR');
         $transaction = new ThreeDCreditCardTransaction();
         $transaction->setTokenId('21');
         $transaction->setTermUrl('https://example.com/r');
-        $transaction->setAmount($money);
+        $transaction->setAmount($amount);
         $transaction->setParentTransactionId('parent54');
         $transaction->setOperation('test');
         $transaction->mappedProperties();
