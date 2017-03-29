@@ -22,7 +22,7 @@ ssh-add deploy_key
 git config user.name "Travis CI"
 git config user.email "wirecard@travis-ci.org"
 
-git tag -a ${VERSION} -m "Pre-release v${VERSION}";
+git tag -a ${VERSION} -m "Pre-release version";
 
 # Now that we're all set up, we can push.
 git push ${SSH_REPO} master ${VERSION}
