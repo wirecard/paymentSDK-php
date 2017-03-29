@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "3995362494d5bda8eb717fbb51b3aa64",
+    "content-hash": "a99f2a68806d7cfa2f7463bd0a6fa820",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -264,16 +264,16 @@
         },
         {
             "name": "myclabs/php-enum",
-            "version": "1.5.0",
+            "version": "1.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/php-enum.git",
-                "reference": "e42fa9d2ae5dd660dbd0fb573d94c61e5a0dbb02"
+                "reference": "61f4a24da5be216301447f3278ea6562609d61f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/php-enum/zipball/e42fa9d2ae5dd660dbd0fb573d94c61e5a0dbb02",
-                "reference": "e42fa9d2ae5dd660dbd0fb573d94c61e5a0dbb02",
+                "url": "https://api.github.com/repos/myclabs/php-enum/zipball/61f4a24da5be216301447f3278ea6562609d61f5",
+                "reference": "61f4a24da5be216301447f3278ea6562609d61f5",
                 "shasum": ""
             },
             "require": {
@@ -304,7 +304,7 @@
             "keywords": [
                 "enum"
             ],
-            "time": "2016-10-09T21:43:05+00:00"
+            "time": "2017-03-26T10:24:21+00:00"
         },
         {
             "name": "psr/http-message",
@@ -537,47 +537,6 @@
             ],
             "description": "Prevents installation of composer packages with known security vulnerabilities: no API, simply require it",
             "time": "2017-03-16T14:24:35+00:00"
-        },
-        {
-            "name": "robrichards/xmlseclibs",
-            "version": "2.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/robrichards/xmlseclibs.git",
-                "reference": "53bb1e9cae490a8f93af41bd9df6ea897161ca05"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/robrichards/xmlseclibs/zipball/53bb1e9cae490a8f93af41bd9df6ea897161ca05",
-                "reference": "53bb1e9cae490a8f93af41bd9df6ea897161ca05",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">= 5.3"
-            },
-            "suggest": {
-                "ext/mcrypt": "MCrypt extension",
-                "ext/openssl": "OpenSSL extension"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "RobRichards\\XMLSecLibs\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "A PHP library for XML Security",
-            "homepage": "https://github.com/robrichards/xmlseclibs",
-            "keywords": [
-                "security",
-                "signature",
-                "xml",
-                "xmldsig"
-            ],
-            "time": "2016-09-08T13:15:00+00:00"
         }
     ],
     "packages-dev": [
@@ -637,16 +596,16 @@
         },
         {
             "name": "mikey179/vfsStream",
-            "version": "v1.6.0",
+            "version": "v1.6.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mikey179/vfsStream.git",
-                "reference": "73bcb605b741a7d5044b47592338c633788b0eb7"
+                "reference": "0247f57b2245e8ad2e689d7cee754b45fbabd592"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mikey179/vfsStream/zipball/73bcb605b741a7d5044b47592338c633788b0eb7",
-                "reference": "73bcb605b741a7d5044b47592338c633788b0eb7",
+                "url": "https://api.github.com/repos/mikey179/vfsStream/zipball/0247f57b2245e8ad2e689d7cee754b45fbabd592",
+                "reference": "0247f57b2245e8ad2e689d7cee754b45fbabd592",
                 "shasum": ""
             },
             "require": {
@@ -679,7 +638,7 @@
             ],
             "description": "Virtual file system to mock the real file system in unit tests.",
             "homepage": "http://vfs.bovigo.org/",
-            "time": "2015-10-06T16:59:57+00:00"
+            "time": "2016-07-18T14:02:57+00:00"
         },
         {
             "name": "myclabs/deep-copy",
