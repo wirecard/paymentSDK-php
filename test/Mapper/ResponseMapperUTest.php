@@ -32,14 +32,16 @@
 
 namespace WirecardTest\PaymentSdk\Mapper;
 
+use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Mapper\ResponseMapper;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Response\PendingResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
+use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
+use Wirecard\PaymentSdk\Transaction\SepaTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 
 /**
@@ -113,7 +115,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         /**
          * @var $mapped InteractionResponse
          */
-        $mapped = $this->mapper->map($response);
+        $mapped = $this->mapper->map($response, new PayPalTransaction());
         $this->assertInstanceOf(InteractionResponse::class, $mapped);
         /**
          * @var InteractionResponse $mapped
@@ -122,6 +124,27 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('http://www.example.com/redirect-url', $mapped->getRedirectUrl());
         $this->assertCount(1, $mapped->getStatusCollection());
         $this->assertEquals($response, $mapped->getRawData());
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testNon3DCheckEnrollmentThrowsError()
+    {
+        $response = simplexml_load_string('<?xml version="1.0"?><payment>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <transaction-type>check-enrollment</transaction-type>
+                        <request-id>123</request-id>
+                        <statuses>
+                            <status code="200" description="UnitTest" severity="warning"/>
+                        </statuses>
+                        <payment-methods>
+                            <payment-method name="paypal" url="http://www.example.com/redirect-url"/>
+                        </payment-methods>
+                    </payment>')->asXML();
+
+        $this->mapper->map($response, new PayPalTransaction());
     }
 
     public function testCardTokenReturnsPaymentMethodCreditCard()
@@ -158,7 +181,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         </payment-methods>
                     </payment>')->asXML();
 
-        $mapped = $this->mapper->map($response);
+        $mapped = $this->mapper->map($response, new PayPalTransaction());
         $this->assertInstanceOf(SuccessResponse::class, $mapped);
         /**
          * @var SuccessResponse $mapped
@@ -167,6 +190,39 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('W0RWI653B31MAU649', $mapped->getProviderTransactionId());
         $this->assertCount(1, $mapped->getStatusCollection());
         $this->assertEquals($response, $mapped->getRawData());
+    }
+
+    public function testTransactionStateSuccessReturnsInteractionResponseIfTransactionContainedASuccessUrl()
+    {
+        $response = $response = simplexml_load_string('<response>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
+                        <statuses>
+                            <status 
+                            code="201.0000" 
+                            description="paypal:The resource was successfully created." 
+                            provider-transaction-id="W0RWI653B31MAU649" 
+                            severity="information"/>
+                        </statuses>
+                        <payment-methods>
+                            <payment-method name="paypal"></payment-method>
+                        </payment-methods>
+                    </response>')->asXML();
+
+        $tx = new PayPalTransaction();
+        $successUrl = 'success';
+        $redirect = new Redirect($successUrl, null);
+        $tx->setRedirect($redirect);
+
+        $mapped = $this->mapper->map($response, $tx);
+
+        $this->assertInstanceOf(InteractionResponse::class, $mapped);
+        /**
+         * @var SuccessResponse $mapped
+         */
+        $this->assertEquals($successUrl, $mapped->getRedirectUrl());
     }
 
     public function testBase64encodedTransactionStateSuccessReturnsFilledSuccessResponseObject()
@@ -188,7 +244,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         </payment-methods>
                     </payment>')->asXML());
 
-        $mapped = $this->mapper->map($response);
+        $mapped = $this->mapper->map($response, new PayPalTransaction());
         $this->assertInstanceOf(SuccessResponse::class, $mapped);
         /**
          * @var SuccessResponse $mapped
@@ -315,7 +371,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         <card-token></card-token>
                     </payment>')->asXML();
 
-        $mapped = $this->mapper->map($payload);
+        $mapped = $this->mapper->map($payload, new PayPalTransaction());
 
         $this->assertInstanceOf(SuccessResponse::class, $mapped);
         $this->assertEquals($payload, $mapped->getRawData());
@@ -499,7 +555,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         </payment-methods>
                     </payment>')->asXML();
 
-        $mapped = $this->mapper->map($response);
+        $mapped = $this->mapper->map($response, new PayPalTransaction());
         $this->assertInstanceOf(SuccessResponse::class, $mapped);
         /**
          * @var SuccessResponse $mapped
@@ -533,7 +589,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         </payment-methods>
                     </payment>')->asXML();
 
-        $mapped = $this->mapper->map($response);
+        $mapped = $this->mapper->map($response, new PayPalTransaction());
         $this->assertInstanceOf(SuccessResponse::class, $mapped);
         /**
          * @var SuccessResponse $mapped
@@ -556,7 +612,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         /**
          * @var PendingResponse $mapped
          */
-        $mapped = $this->mapper->map($response);
+        $mapped = $this->mapper->map($response, new SepaTransaction());
         $this->assertInstanceOf(PendingResponse::class, $mapped);
         $this->assertEquals('1234', $mapped->getRequestId());
     }
@@ -569,9 +625,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
      */
     public function testMalformedResponseThrowsException($jsonResponse)
     {
-        $this->mapper->map($jsonResponse);
+        $this->mapper->map($jsonResponse, new PayPalTransaction());
     }
-
 
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
@@ -608,9 +663,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                             severity="information"/>
                         </statuses>
                     </payment>';
-        $this->mapper->map($response);
+        $this->mapper->map($response, new PayPalTransaction());
     }
-
 
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
@@ -636,7 +690,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         </statuses>
                         <payment-methods></payment-methods>
                     </payment>';
-        $this->mapper->map($response);
+        $this->mapper->map($response, new PayPalTransaction());
     }
 
     /**
@@ -666,9 +720,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                             <payment-method></payment-method>
                         </payment-methods>
                     </payment>';
-        $this->mapper->map($response);
+        $this->mapper->map($response, new PayPalTransaction());
     }
-
 
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
@@ -697,9 +750,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                             <payment-method></payment-method>
                         </payment-methods>
                     </payment>';
-        $this->mapper->map($response);
+        $this->mapper->map($response, new PayPalTransaction());
     }
-
 
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
@@ -725,7 +777,6 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 
         $this->mapper->map($payload, $transaction);
     }
-
 
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException

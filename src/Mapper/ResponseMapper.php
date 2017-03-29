@@ -58,14 +58,20 @@ class ResponseMapper
     protected $simpleXml;
 
     /**
+     * @var Transaction
+     */
+    protected $transaction;
+
+    /**
      * map the xml Response from engine to ResponseObjects
      *
      * @param string $xmlResponse
-     * @param ThreeDCreditCardTransaction $transaction
-     * @return Response
+     * @param Transaction $transaction
+     * @throws \InvalidArgumentException
      * @throws MalformedResponseException
+     * @return Response
      */
-    public function map($xmlResponse, ThreeDCreditCardTransaction $transaction = null)
+    public function map($xmlResponse, Transaction $transaction = null)
     {
         $decodedResponse = base64_decode($xmlResponse);
         $xmlResponse = (base64_encode($decodedResponse) === $xmlResponse) ? $decodedResponse : $xmlResponse;
@@ -84,9 +90,11 @@ class ResponseMapper
             throw new MalformedResponseException('Missing transaction-state in response.');
         }
 
+        $this->transaction = $transaction;
+
         switch ($state) {
             case 'success':
-                return $this->mapSuccessResponse($transaction);
+                return $this->mapSuccessResponse();
             case 'in-progress':
                 return new PendingResponse($this->simpleXml);
             default:
@@ -95,8 +103,8 @@ class ResponseMapper
     }
 
     /**
-     * @return mixed
      * @throws MalformedResponseException
+     * @return mixed
      */
     private function getPaymentMethod()
     {
@@ -124,28 +132,33 @@ class ResponseMapper
     }
 
     /**
-     * @param \SimpleXMLElement $paymentMethod
+     * @throws \Wirecard\PaymentSdk\Exception\MalformedResponseException
      * @return string|null
      */
-    private function getRedirectUrl(\SimpleXMLElement $paymentMethod)
+    private function getSuccessRedirectUrl()
     {
+        $paymentMethod = $this->getPaymentMethod();
         if (isset($paymentMethod['url'])) {
             return (string)$paymentMethod['url'];
+        }
+
+        if (null !== $this->transaction && null !== $this->transaction->getSuccessUrl()) {
+            return $this->transaction->getSuccessUrl();
         }
 
         return null;
     }
 
     /**
-     * @param $payload
-     * @param ThreeDCreditCardTransaction $transaction
-     * @throws MalformedResponseException
+     * @throws \Wirecard\PaymentSdk\Exception\MalformedResponseException
+     * @throws \InvalidArgumentException
      * @return FormInteractionResponse
      */
-    private function mapThreeDResponse(
-        $payload,
-        ThreeDCreditCardTransaction $transaction
-    ) {
+    private function mapThreeDResponse()
+    {
+        if (!($this->transaction instanceof ThreeDCreditCardTransaction)) {
+            throw new \InvalidArgumentException('Trying to create a 3D response from a non-3D transaction.');
+        }
         if (!isset($this->simpleXml->{'three-d'})) {
             throw new MalformedResponseException('Missing three-d element in enrollment-check response.');
         }
@@ -158,10 +171,10 @@ class ResponseMapper
 
         $redirectUrl = (string)$threeD->{'acs-url'};
 
-        $response = new FormInteractionResponse($payload, $redirectUrl);
+        $response = new FormInteractionResponse($this->simpleXml, $redirectUrl);
 
         $fields = new FormFieldMap();
-        $fields->add('TermUrl', $transaction->getTermUrl());
+        $fields->add('TermUrl', $this->transaction->getTermUrl());
         if (!isset($threeD->{'pareq'})) {
             throw new MalformedResponseException('Missing pareq in enrollment-check response.');
         }
@@ -172,7 +185,7 @@ class ResponseMapper
             'MD',
             base64_encode(json_encode([
                 'enrollment-check-transaction-id' => $response->getTransactionId(),
-                'operation-type' => $transaction->retrieveOperationType()
+                'operation-type' => $this->transaction->retrieveOperationType()
             ]))
         );
 
@@ -182,18 +195,17 @@ class ResponseMapper
     }
 
     /**
-     * @param ThreeDCreditCardTransaction $transaction
-     * @return FormInteractionResponse|InteractionResponse|SuccessResponse
+     * @throws \InvalidArgumentException
      * @throws MalformedResponseException
+     * @return FormInteractionResponse|InteractionResponse|SuccessResponse
      */
-    private function mapSuccessResponse(ThreeDCreditCardTransaction $transaction = null)
+    private function mapSuccessResponse()
     {
         if ((string)$this->simpleXml->{'transaction-type'} === ThreeDCreditCardTransaction::TYPE_CHECK_ENROLLMENT) {
-            return $this->mapThreeDResponse($this->simpleXml, $transaction);
+            return $this->mapThreeDResponse();
         }
 
-        $paymentMethod = $this->getPaymentMethod();
-        $redirectUrl = $this->getRedirectUrl($paymentMethod);
+        $redirectUrl = $this->getSuccessRedirectUrl();
         if ($redirectUrl !== null) {
             return new InteractionResponse($this->simpleXml, $redirectUrl);
         }
