@@ -576,22 +576,28 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
             ->method('request')->with(
                 'GET',
                 $this->anything(),
-                $this->callback(function ($o) {
-                    $headers = $o['headers'];
-                    $intersect = array_intersect($headers, self::SHOP_DATA);
-                    return empty(array_diff($intersect, self::SHOP_DATA));
-                }))
+                $this->callback(
+                    function ($o) {
+                        $headers = $o['headers'];
+                        $intersect = array_intersect($headers, self::SHOP_DATA);
+                        return empty(array_diff($intersect, self::SHOP_DATA));
+                    }
+                )
+            )
             ->willReturn($httpResponse);
 
         $client->expects($this->at(1))
             ->method('request')->with(
                 'POST',
                 $this->anything(),
-                $this->callback(function ($o) {
-                    $headers = $o['headers'];
-                    $intersect = array_intersect($headers, self::SHOP_DATA);
-                    return empty(array_diff($intersect, self::SHOP_DATA));
-                }))
+                $this->callback(
+                    function ($o) {
+                        $headers = $o['headers'];
+                        $intersect = array_intersect($headers, self::SHOP_DATA);
+                        return empty(array_diff($intersect, self::SHOP_DATA));
+                    }
+                )
+            )
             ->willReturn($httpResponse);
 
         $service = new TransactionService($this->config, null, $client, $requestMapper, $responseMapper);
