@@ -32,13 +32,13 @@
 
 namespace WirecardTest\PaymentSdk\Mapper;
 
+use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Mapper\ResponseMapper;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Response\PendingResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Transaction\SepaTransaction;
@@ -169,6 +169,39 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('W0RWI653B31MAU649', $mapped->getProviderTransactionId());
         $this->assertCount(1, $mapped->getStatusCollection());
         $this->assertEquals($response, $mapped->getRawData());
+    }
+
+    public function testTransactionStateSuccessReturnsInteractionResponseIfTransactionContainedASuccessUrl()
+    {
+        $response = $response = simplexml_load_string('<response>
+                        <transaction-state>success</transaction-state>
+                        <transaction-id>12345</transaction-id>
+                        <transaction-type>debit</transaction-type>
+                        <request-id>123</request-id>
+                        <statuses>
+                            <status 
+                            code="201.0000" 
+                            description="paypal:The resource was successfully created." 
+                            provider-transaction-id="W0RWI653B31MAU649" 
+                            severity="information"/>
+                        </statuses>
+                        <payment-methods>
+                            <payment-method name="paypal"></payment-method>
+                        </payment-methods>
+                    </response>')->asXML();
+
+        $tx = new PayPalTransaction();
+        $successUrl = 'success';
+        $redirect = new Redirect($successUrl, null);
+        $tx->setRedirect($redirect);
+
+        $mapped = $this->mapper->map($response, $tx);
+
+        $this->assertInstanceOf(InteractionResponse::class, $mapped);
+        /**
+         * @var SuccessResponse $mapped
+         */
+        $this->assertEquals($successUrl, $mapped->getRedirectUrl());
     }
 
     public function testBase64encodedTransactionStateSuccessReturnsFilledSuccessResponseObject()
