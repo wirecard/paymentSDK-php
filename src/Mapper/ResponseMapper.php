@@ -137,13 +137,13 @@ class ResponseMapper
      */
     private function getSuccessRedirectUrl()
     {
-        if (null !== $this->transaction->getSuccessUrl()) {
-            return $this->transaction->getSuccessUrl();
-        }
-
         $paymentMethod = $this->getPaymentMethod();
         if (isset($paymentMethod['url'])) {
             return (string)$paymentMethod['url'];
+        }
+
+        if (null !== $this->transaction && null !== $this->transaction->getSuccessUrl()) {
+            return $this->transaction->getSuccessUrl();
         }
 
         return null;
