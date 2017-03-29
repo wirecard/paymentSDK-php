@@ -302,4 +302,20 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
         ];
         $this->assertEquals($expectedResult, $result);
     }
+
+    public function testRetrieveOperationTypeAuthorization()
+    {
+        $tx = new CreditCardTransaction();
+        $tx->setOperation(Operation::RESERVE);
+
+        $this->assertEquals(Transaction::TYPE_AUTHORIZATION, $tx->retrieveOperationType());
+    }
+
+    public function testRetrieveOperationTypePurchase()
+    {
+        $tx = new CreditCardTransaction();
+        $tx->setOperation(Operation::PAY);
+
+        $this->assertEquals(CreditCardTransaction::TYPE_PURCHASE, $tx->retrieveOperationType());
+    }
 }
