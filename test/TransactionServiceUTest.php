@@ -63,12 +63,6 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 {
     const HANDLER = 'handler';
     const MAID = '213asdf';
-    const SHOP_DATA = array(
-        'shop-system-name' => 'paymentSDK',
-        'shop-system-version' => '1.0',
-        'plugin-name' => 'plugin',
-        'plugin-version' => '1.1'
-    );
 
     /**
      * @var TransactionService
@@ -80,11 +74,24 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
      */
     private $config;
 
+    /**
+     * @var array
+     */
+    private $shopData;
+
     public function setUp()
     {
         $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
         $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
         $paymentMethodConfig->method('mappedProperties')->willReturn([]);
+
+        $this->shopData = array(
+            'shop-system-name' => 'paymentSDK',
+            'shop-system-version' => '1.0',
+            'plugin-name' => 'plugin',
+            'plugin-version' => '1.1'
+        );
+
 
         $this->config = $this->createMock('\Wirecard\PaymentSdk\Config\Config');
         $this->config->method('getHttpUser')->willReturn('abc123');
@@ -93,7 +100,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->config->method('getBaseUrl')->willReturn('http://engine.ok');
         $this->config->method('getDefaultCurrency')->willReturn('EUR');
         $this->config->method('getLogLevel')->willReturn(Logger::ERROR);
-        $this->config->method('getShopHeader')->willReturn(array('headers' => self::SHOP_DATA));
+        $this->config->method('getShopHeader')->willReturn(array('headers' => $this->shopData));
         $this->instance = new TransactionService($this->config);
     }
 
@@ -557,6 +564,13 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
     public function testShopDataOnSendRequest()
     {
+        $shopData = $this->shopData;
+        $checkRequestForShopData = function ($callback) use ($shopData) {
+            $headers = $callback['headers'];
+            $intersect = array_intersect($headers, $shopData);
+            return empty(array_diff($intersect, $shopData));
+        };
+
         $transaction = new CreditCardTransaction();
         $transaction->setParentTransactionId('1');
         $client = $this->createMock('\GuzzleHttp\Client');
@@ -576,13 +590,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
             ->method('request')->with(
                 'GET',
                 $this->anything(),
-                $this->callback(
-                    function ($o) {
-                        $headers = $o['headers'];
-                        $intersect = array_intersect($headers, self::SHOP_DATA);
-                        return empty(array_diff($intersect, self::SHOP_DATA));
-                    }
-                )
+                $this->callback($checkRequestForShopData)
             )
             ->willReturn($httpResponse);
 
@@ -590,13 +598,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
             ->method('request')->with(
                 'POST',
                 $this->anything(),
-                $this->callback(
-                    function ($o) {
-                        $headers = $o['headers'];
-                        $intersect = array_intersect($headers, self::SHOP_DATA);
-                        return empty(array_diff($intersect, self::SHOP_DATA));
-                    }
-                )
+                $this->callback($checkRequestForShopData)
             )
             ->willReturn($httpResponse);
 

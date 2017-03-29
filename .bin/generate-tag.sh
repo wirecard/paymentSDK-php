@@ -4,15 +4,12 @@ set -e # Exit with nonzero exit code if anything fails
 REPO=`git config remote.origin.url`
 SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
 
-TAG=`git describe --tags --abbrev=0`
 VERSION=`cat VERSION`
+STATUS=`curl -s -o /dev/null -w "%{http_code}" https://api.github.com/repos/wirecard/paymentSDK-php/git/refs/tags/${VERSION}`
 
-echo "Tag and version information:"
-echo "Latest tag: $TAG"
-echo "Version set: $VERSION"
-
-if [[ ${TAG} == ${VERSION} ]] ; then
-    echo "Tag and version are different!"
+if [[ ${STATUS} == "200" ]] ; then
+    echo "Tag is up to date with version."
+    exit 0
 fi
 
 git config user.name "Travis CI"
