@@ -124,11 +124,12 @@ class ResponseMapper
     }
 
     /**
-     * @param \SimpleXMLElement $paymentMethod
      * @return string|null
+     * @throws \Wirecard\PaymentSdk\Exception\MalformedResponseException
      */
-    private function getRedirectUrl(\SimpleXMLElement $paymentMethod)
+    private function getRedirectUrl()
     {
+        $paymentMethod = $this->getPaymentMethod();
         if (isset($paymentMethod['url'])) {
             return (string)$paymentMethod['url'];
         }
@@ -192,8 +193,8 @@ class ResponseMapper
             return $this->mapThreeDResponse($this->simpleXml, $transaction);
         }
 
-        $paymentMethod = $this->getPaymentMethod();
-        $redirectUrl = $this->getRedirectUrl($paymentMethod);
+        $redirectUrl = $this->getRedirectUrl();
+        if ($transaction->getParentTransactionId())
         if ($redirectUrl !== null) {
             return new InteractionResponse($this->simpleXml, $redirectUrl);
         }
