@@ -14,15 +14,19 @@ fi
 
 echo "Version is updated, creating tag ..."
 
+#openssl aes-256-cbc -K ${encrypted_5b57bcef90c0_key} -iv ${encrypted_5b57bcef90c0_iv} -in deploy_key.enc -out deploy_key -d
+#chmod 600 deploy_key
+#eval `ssh-agent -s`
+#ssh-add deploy_key
+
 git config user.name "Travis CI"
 git config user.email "wirecard@travis-ci.org"
 
+echo "Do: git tag $VERSION"
 # git commit -m "Create release tag for version $VERSION"
 
-openssl aes-256-cbc -K ${encrypted_5b57bcef90c0_key} -iv ${encrypted_5b57bcef90c0_iv} -in deploy_key.enc -out deploy_key -d
-chmod 600 deploy_key
-eval `ssh-agent -s`
-ssh-add deploy_key
+echo "List all tags:"
+git tag
 
 # Now that we're all set up, we can push.
-# git push ${SSH_REPO} master
+echo "Do: git push ${SSH_REPO} master"
