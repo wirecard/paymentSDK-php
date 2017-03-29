@@ -12,7 +12,7 @@ if [[ ${STATUS} == "200" ]] ; then
     exit 0
 fi
 
-echo "Version is updated, creating tag ..."
+echo "Version is updated, creating tag ${VERSION}"
 
 openssl aes-256-cbc -K ${encrypted_5b57bcef90c0_key} -iv ${encrypted_5b57bcef90c0_iv} -in deploy_key.enc -out deploy_key -d
 chmod 600 deploy_key
@@ -22,7 +22,6 @@ ssh-add deploy_key
 git config user.name "Travis CI"
 git config user.email "wirecard@travis-ci.org"
 
-echo "Do: git tag ${VERSION}"
 git tag ${VERSION}
 
 # Now that we're all set up, we can push.
