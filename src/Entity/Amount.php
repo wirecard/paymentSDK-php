@@ -32,6 +32,8 @@
 
 namespace Wirecard\PaymentSdk\Entity;
 
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
+
 /**
  * Class Amount
  * @package Wirecard\PaymentSdk\Entity
@@ -52,13 +54,26 @@ class Amount implements MappableEntity
 
     /**
      * Amount constructor.
-     * @param float $value
+     * @param float|int|string $value
      * @param string $currency
+     * @throws MandatoryFieldMissingException
      */
     public function __construct($value, $currency)
     {
-        $this->value = $value;
         $this->currency = $currency;
+
+        if (is_float($value) || is_int($value)) {
+            $this->value = (float) $value;
+        } else {
+            $value = str_replace(',', '.', $value);
+            $value = preg_replace('/[.](?!\d*$)/', '', $value);
+
+            if (is_numeric($value)) {
+                $this->value = (float)$value;
+            } else {
+                throw new MandatoryFieldMissingException('Value is not a valid numeric number');
+            }
+        }
     }
 
     /**
