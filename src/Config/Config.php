@@ -116,7 +116,13 @@ class Config
         $this->logLevel = Logger::DEBUG;
 
         $this->shopSystem = 'paymentSDK-php';
-        $this->shopSystemVersion = '';
+
+        $version = '';
+        $versionFile = '../../VERSION';
+        if (file_exists($versionFile)) {
+            $version = file_get_contents($versionFile, null, null, 0, 5);
+        }
+        $this->shopSystemVersion = $version;
     }
 
     /**
