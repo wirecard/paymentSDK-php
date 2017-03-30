@@ -38,13 +38,13 @@ $ratepayConfig = new Config\PaymentMethodConfig(
 );
 $config->add($ratepayConfig);
 
-// Use the money object as amount which has to be payed by the consumer.
+// Use the amount object as amount which has to be payed by the consumer.
 if (array_key_exists('amount', $_POST)) {
     $amountValue = $_POST['amount'];
 } else {
     $amountValue = 100;
 }
-$amount = new Money($amountValue, 'EUR');
+$amount = new Amount($amountValue, 'EUR');
 
 // ### Notification URL
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.

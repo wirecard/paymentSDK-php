@@ -33,11 +33,17 @@
 namespace WirecardTest\PaymentSdk\Config;
 
 use Monolog\Logger;
+use org\bovigo\vfs\vfsStream;
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Transaction\SepaTransaction;
 
+/**
+ * Class ConfigUTest
+ * @package WirecardTest\PaymentSdk\Config
+ * @method getVersionFromFile($file)
+ */
 class ConfigUTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -146,9 +152,56 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
             'USD'
         );
         $logLevel = 20;
-
         $this->config->setLogLevel($logLevel);
 
         $this->assertEquals($this->config->getLogLevel(), $logLevel);
+    }
+
+    public function testGetShopHeaderSetPlugin()
+    {
+        $expected = array(
+            'shop-system-name' => 'paymentSDK-php',
+            'shop-system-version' => '',
+            'plugin-name' => 'plugin',
+            'plugin-version' => '1.0'
+        );
+        $this->config->setPluginInfo($expected['plugin-name'], $expected['plugin-version']);
+
+        $this->assertEquals(array('headers' => $expected), $this->config->getShopHeader());
+    }
+
+    public function testGetShopHeaderSetShop()
+    {
+        $expected = array('shop-system-name' => 'testshop', 'shop-system-version' => '1.1');
+        $this->config->setShopInfo($expected['shop-system-name'], $expected['shop-system-version']);
+
+        $this->assertEquals(array('headers' => $expected), $this->config->getShopHeader());
+    }
+
+    public function testGetVersionFromNotExistingFile()
+    {
+        $helper = function ($file) {
+            return $this->getVersionFromFile($file);
+        };
+
+        $bound = $helper->bindTo($this->config, $this->config);
+
+        $file = 'NonExistentFile';
+        $this->assertEquals('', $bound($file));
+    }
+
+    public function testGetVersionFromExistingFile()
+    {
+        $getHelper = function ($file) {
+            return $this->getVersionFromFile($file);
+        };
+        $bound = $getHelper->bindTo($this->config, $this->config);
+
+        $root = vfsStream::setup();
+        $file = vfsStream::newFile('version-test.txt')
+            ->withContent('1.0.0')
+            ->at($root);
+
+        $this->assertEquals('1.0.0', $bound($file->url()));
     }
 }

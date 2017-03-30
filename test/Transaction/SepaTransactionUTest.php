@@ -34,7 +34,7 @@ namespace WirecardTest\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Mandate;
-use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\SepaTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
@@ -52,7 +52,7 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
     private $tx;
 
     /**
-     * @var Money
+     * @var Amount
      */
     private $amount;
 
@@ -63,7 +63,7 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->amount = new Money(55.5, 'EUR');
+        $this->amount = new Amount(55.5, 'EUR');
         $this->accountHolder = new AccountHolder();
         $this->accountHolder->setLastName(self::LAST_NAME);
         $this->accountHolder->setFirstName(self::FIRST_NAME);

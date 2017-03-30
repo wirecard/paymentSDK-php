@@ -10,7 +10,7 @@ require __DIR__ . '/../inc/common.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
-use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
@@ -38,8 +38,8 @@ $ccardConfig = new Config\PaymentMethodConfig(CreditCardTransaction::NAME, $ccar
 $config->add($ccardConfig);
 
 // ### Transaction related objects
-// Create a money object as amount which has to be payed by the consumer.
-$amount = new Money(10.59, 'EUR');
+// Create a amount object as amount which has to be payed by the consumer.
+$amount = new Amount(10.59, 'EUR');
 
 // The account holder last name is required for credit.
 $accountHolder = new AccountHolder();

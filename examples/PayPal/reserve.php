@@ -8,7 +8,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 
 use Wirecard\PaymentSdk\Config;
-use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
@@ -34,8 +34,8 @@ $paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalM
 $config->add($paypalConfig);
 
 // ### Transaction related objects
-// Use the money object as amount which has to be payed by the consumer.
-$amount = new Money(12.59, 'EUR');
+// Use the amount object as amount which has to be payed by the consumer.
+$amount = new Amount(12.59, 'EUR');
 
 // If there was a previous transaction, use the ID of this parent transaction as reference.
 $parentTransactionId = array_key_exists('parentTransactionId', $_POST) ? $_POST['parentTransactionId'] : null;
@@ -48,14 +48,14 @@ $notificationUrl = getUrl('notify.php');
 
 // #### Order items
 // Create your items.
-$item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Money(2.59, 'EUR'), 1);
+$item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(2.59, 'EUR'), 1);
 $item1->setArticleNumber('A1');
 $item1->setDescription('My first item');
 
-$item2 = new \Wirecard\PaymentSdk\Entity\Item('Item 2', new Money(5, 'EUR'), 2);
+$item2 = new \Wirecard\PaymentSdk\Entity\Item('Item 2', new Amount(5, 'EUR'), 2);
 $item2->setArticleNumber('B2');
 $item2->setDescription('My second item');
-$item2->setTaxAmount(new Money(1, 'EUR'));
+$item2->setTaxAmount(new Amount(1, 'EUR'));
 
 // Create an item collection to store the items.
 $itemCollection = new \Wirecard\PaymentSdk\Entity\ItemCollection();

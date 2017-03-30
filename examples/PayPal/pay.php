@@ -8,7 +8,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 
 use Wirecard\PaymentSdk\Config;
-use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
@@ -34,8 +34,8 @@ $paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalM
 $config->add($paypalConfig);
 
 // ### Transaction related objects
-// Use the money object as amount which has to be payed by the consumer.
-$amount = new Money(12.59, 'EUR');
+// Use the amount object as amount which has to be payed by the consumer.
+$amount = new Amount(12.59, 'EUR');
 
 // The redirect URLs determine where the consumer should be redirected by PayPal after approval/cancellation.
 $redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));

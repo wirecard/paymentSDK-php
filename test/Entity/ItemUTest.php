@@ -63,7 +63,7 @@
 namespace WirecardTest\PaymentSdk\Entity;
 
 use Wirecard\PaymentSdk\Entity\Item;
-use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Amount;
 
 class ItemUTest extends \PHPUnit_Framework_TestCase
 {
@@ -71,7 +71,7 @@ class ItemUTest extends \PHPUnit_Framework_TestCase
     const QUANTITY = 1;
 
     /**
-     * @var Money
+     * @var Amount
      */
     private $amount;
 
@@ -82,7 +82,7 @@ class ItemUTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->amount = new Money(1, 'EUR');
+        $this->amount = new Amount(1, 'EUR');
         $this->item = new Item(self::NAME, $this->amount, self::QUANTITY);
     }
 
@@ -167,11 +167,11 @@ class ItemUTest extends \PHPUnit_Framework_TestCase
             'description' => $this->item->getDescription(),
             'article-number' => $this->item->getArticleNumber(),
             'amount' => [
-                'value' => $this->item->getAmount()->getAmount(),
+                'value' => $this->item->getAmount()->getValue(),
                 'currency' => $this->item->getAmount()->getCurrency()
             ],
             'tax-amount' => [
-                'value' => $this->item->getTaxAmount()->getAmount(),
+                'value' => $this->item->getTaxAmount()->getValue(),
                 'currency' => $this->item->getTaxAmount()->getCurrency()
             ],
             'quantity' => $this->item->getQuantity(),

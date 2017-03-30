@@ -32,7 +32,7 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\PaysafecardTransaction;
@@ -53,7 +53,7 @@ class PaysafecardTransactionUTest extends \PHPUnit_Framework_TestCase
         $redirect = new Redirect(self::SUCCESS_URL, self::CANCEL_URL);
         $this->tx = new PaysafecardTransaction();
         $this->tx->setRedirect($redirect);
-        $this->tx->setAmount(new Money(33, 'USD'));
+        $this->tx->setAmount(new Amount(33, 'USD'));
     }
 
     public function testMappedProperties()

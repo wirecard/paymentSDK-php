@@ -30,61 +30,66 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Entity;
+namespace WirecardTest\PaymentSdk\Entity;
 
-/**
- * Class Money
- * @package Wirecard\PaymentSdk\Entity
- *
- * An immutable entity representing a money: amount and currency.
- */
-class Money implements MappableEntity
+use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
+
+class AmountUTest extends \PHPUnit_Framework_TestCase
 {
+    const VALUE = 42.21;
+    const EUR = 'EUR';
+
     /**
-     * @var float
+     * @var Amount
      */
     private $amount;
 
-    /**
-     * @var string
-     */
-    private $currency;
-
-    /**
-     * Money constructor.
-     * @param float $amount
-     * @param string $currency
-     */
-    public function __construct($amount, $currency)
+    public function setUp()
     {
-        $this->amount = $amount;
-        $this->currency = $currency;
+        $this->amount = new Amount(self::VALUE, self::EUR);
     }
 
-    /**
-     * @return float
-     */
-    public function getAmount()
+    public function testGetValue()
     {
-        return $this->amount;
+        $this->assertEquals(self::VALUE, $this->amount->getValue());
     }
 
-    /**
-     * @return string
-     */
-    public function getCurrency()
+    public function testGetCurrency()
     {
-        return $this->currency;
+        $this->assertEquals(self::EUR, $this->amount->getCurrency());
     }
 
-    /**
-     * @return array
-     */
-    public function mappedProperties()
+    public function constructorDataProvider()
     {
         return [
-            'currency' => $this->currency,
-            'value' => $this->amount
+            ['151515.515151,6612456', 151515515151.6612456],
+            ['151515,515151.665613', 151515515151.665613],
+            ['2135345.1234365', 2135345.1234365],
+            ['1234235,21435', 1234235.21435],
+            [1, 1.0],
+            [1.235485, 1.235485]
         ];
+    }
+
+    /**
+     * @dataProvider constructorDataProvider
+     * @param $value
+     * @param $expected
+     */
+    public function testConstructor($value, $expected)
+    {
+        echo $value;
+        $amount = new Amount($value, 'EUR');
+
+        $this->assertEquals($expected, $amount->getValue());
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
+     */
+    public function testConstructorThrowsException()
+    {
+        new Amount('asdfsg124345.235,65.34523436fdg', 'EUR');
     }
 }

@@ -30,32 +30,76 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk\Entity;
+namespace Wirecard\PaymentSdk\Entity;
 
-use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 
-class MoneyUTest extends \PHPUnit_Framework_TestCase
+/**
+ * Class Amount
+ * @package Wirecard\PaymentSdk\Entity
+ *
+ * An immutable entity representing an amount: value and currency.
+ */
+class Amount implements MappableEntity
 {
-    const AMOUNT = 42.21;
-    const EUR = 'EUR';
+    /**
+     * @var float
+     */
+    private $value;
 
     /**
-     * @var Money
+     * @var string
      */
-    private $money;
+    private $currency;
 
-    public function setUp()
+    /**
+     * Amount constructor.
+     * @param float|int|string $value
+     * @param string $currency
+     * @throws MandatoryFieldMissingException
+     */
+    public function __construct($value, $currency)
     {
-        $this->money = new Money(self::AMOUNT, self::EUR);
+        $this->currency = $currency;
+
+        if (is_float($value) || is_int($value)) {
+            $this->value = (float) $value;
+        } else {
+            $value = str_replace(',', '.', $value);
+            $value = preg_replace('/[.](?!\d*$)/', '', $value);
+
+            if (is_numeric($value)) {
+                $this->value = (float)$value;
+            } else {
+                throw new MandatoryFieldMissingException('Value is not a valid numeric number');
+            }
+        }
     }
 
-    public function testGetAmount()
+    /**
+     * @return float
+     */
+    public function getValue()
     {
-        $this->assertEquals(self::AMOUNT, $this->money->getAmount());
+        return $this->value;
     }
 
-    public function testGetCurrency()
+    /**
+     * @return string
+     */
+    public function getCurrency()
     {
-        $this->assertEquals(self::EUR, $this->money->getCurrency());
+        return $this->currency;
+    }
+
+    /**
+     * @return array
+     */
+    public function mappedProperties()
+    {
+        return [
+            'currency' => $this->currency,
+            'value' => $this->value
+        ];
     }
 }
