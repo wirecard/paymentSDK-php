@@ -65,7 +65,7 @@ class FormInteractionResponse extends Response
      */
     public function __construct($simpleXml, $url)
     {
-        parent::__construct($simpleXml);
+        parent::__construct($simpleXml, true);
         $this->url = $url;
         $this->transactionId = $this->findElement('transaction-id');
     }

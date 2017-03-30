@@ -33,7 +33,7 @@
 namespace WirecardTest\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\ItemCollection;
-use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
@@ -100,21 +100,21 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
      * @param string $expected
      * @dataProvider reserveDataProvider
      */
-    public function testGetRetrieveTransactionTypeReserve($amount, $expected)
+    public function testGetRetrieveTransactionTypeReserve($value, $expected)
     {
         $redirect = $this->createMock(Redirect::class);
         $redirect->method('getCancelUrl')->willReturn('cancel-url');
         $redirect->method('getSuccessUrl')->willReturn('success-url');
 
-        $money = $this->createMock(Money::class);
-        $money->method('getAmount')->willReturn($amount);
+        $amount = $this->createMock(Amount::class);
+        $amount->method('getValue')->willReturn($value);
 
         /**
          * @var Redirect $redirect
-         * @var Money $money
+         * @var Amount $amount
          */
         $this->tx->setRedirect($redirect);
-        $this->tx->setAmount($money);
+        $this->tx->setAmount($amount);
         $this->tx->setOperation(Operation::RESERVE);
         $data = $this->tx->mappedProperties();
 
@@ -140,15 +140,15 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
         $redirect->method('getCancelUrl')->willReturn('cancel-url');
         $redirect->method('getSuccessUrl')->willReturn('success-url');
 
-        $money = $this->createMock(Money::class);
-        $money->method('getAmount')->willReturn(1.00);
+        $amount = $this->createMock(Amount::class);
+        $amount->method('getValue')->willReturn(1.00);
 
         /**
          * @var Redirect $redirect
-         * @var Money $money
+         * @var Amount $amount
          */
         $this->tx->setRedirect($redirect);
-        $this->tx->setAmount($money);
+        $this->tx->setAmount($amount);
         $this->tx->setParentTransactionType($parentTransactionType);
         $this->tx->setOperation('pay');
         $data = $this->tx->mappedProperties();
@@ -158,20 +158,19 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
 
     public function testGetRetrieveTransactionTypeCredit()
     {
-        $amount = 1.00;
         $redirect = $this->createMock(Redirect::class);
         $redirect->method('getCancelUrl')->willReturn('cancel-url');
         $redirect->method('getSuccessUrl')->willReturn('success-url');
 
-        $money = $this->createMock(Money::class);
-        $money->method('getAmount')->willReturn($amount);
+        $amount = $this->createMock(Amount::class);
+        $amount->method('getValue')->willReturn(1.00);
 
         /**
          * @var Redirect $redirect
-         * @var Money $money
+         * @var Amount $amount
          */
         $this->tx->setRedirect($redirect);
-        $this->tx->setAmount($money);
+        $this->tx->setAmount($amount);
 
         $this->tx->setOperation('credit');
 

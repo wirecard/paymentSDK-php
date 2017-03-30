@@ -10,7 +10,7 @@ use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Mandate;
-use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\SepaTransaction;
@@ -36,10 +36,10 @@ $config->add($sepaConfig);
 
 
 // ### Transaction related objects
-// Create a money object as amount which has to be payed by the consumer.
+// Create an amount object as amount which has to be payed by the consumer.
 $amount = null;
 if (empty($_POST['amount']) && empty($_POST['parentTransactionId'])) {
-    $amount = new Money(10, 'EUR');
+    $amount = new Amount(10, 'EUR');
 }
 
 // The account holder (first name, last name) is required.

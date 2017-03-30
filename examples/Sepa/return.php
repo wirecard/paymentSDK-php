@@ -1,6 +1,6 @@
 <?php
-// # RatePAY installment return after transaction
-// The consumer gets redirected to this page after a RatePAY installment transaction.
+// # SEPA return after transaction
+// The consumer gets redirected to this page after a SEPA transaction.
 
 // ## Required objects
 // To include the necessary files, we use the composer for PSR-4 autoloading.
@@ -10,7 +10,6 @@ require __DIR__ . '/../inc/common.php';
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 // ### Config
@@ -24,22 +23,15 @@ $httpPass = 'qD2wzQ_hrc!8';
 // A default currency can also be provided.
 $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
-// #### RatePAY installment
-// Create and add a configuration object with the RatePAY installment settings
-$ratepayMAID = '73ce088c-b195-4977-8ea8-0be32cca9c2e';
-$ratepayKey = 'd92724cf-5508-44fd-ad67-695e149212d5';
-
-$ratepayConfig = new Config\PaymentMethodConfig(
-    RatepayInstallmentTransaction::NAME,
-    $ratepayMAID,
-    $ratepayKey
-);
-$config->add($ratepayConfig);
-
-// Set a public key for certificate pinning used for response signature validation, this certificate needs to be always
-// up to date
-$config->setPublicKey(file_get_contents(__DIR__ . '/../inc/api-test.wirecard.com.crt'));
-
+// SEPA configuration
+// Create and add a configuration object with the settings for SEPA.
+$sepaMAID = '4c901196-eff7-411e-82a3-5ef6b6860d64';
+$sepaKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
+// In order to execute a pay transaction you also have to provide your creditor ID.
+// For this reason we have to use a specific SepaConfig object.
+$sepaConfig = new Config\SepaConfig($sepaMAID, $sepaKey);
+$sepaConfig->setCreditorId('DE98ZZZ09999999999');
+$config->add($sepaConfig);
 
 // ## Transaction
 
@@ -48,42 +40,38 @@ $config->setPublicKey(file_get_contents(__DIR__ . '/../inc/api-test.wirecard.com
 $service = new TransactionService($config);
 $response = $service->handleResponse($_POST);
 
-
-// ## Payment results
+// ## Response handling
 
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
-    $xmlResponse = new SimpleXMLElement($response->getRawData());
-    $transactionType = $response->getTransactionType();
-    echo 'Reservation successfully completed.<br>';
-    echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');
-    echo getTransactionLink($baseUrl, $ratepayMAID, $response->getTransactionId());
+    echo 'Payment successfully completed.<br>';
+    echo getTransactionLink($baseUrl, $sepaMAID, $response->getTransactionId());
     ?>
-    <form action="pay-based-on-reserve.php" method="post">
-        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="submit" value="Capture the reservation">
-    </form>
     <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <label for="amount">Amount to cancel:</label>
-        <input type="text" name="amount" id="amount" value="2400"/>
-        <input type="submit" value="Cancel">
+        <input type="submit" value="Cancel the payment">
     </form>
+
+    <form action="pay.php" method="post">
+        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+        <input type="submit" value="Request a new payment based on this payment">
+    </form>
+
     <form action="credit.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <label for="amount">Amount to credit:</label>
-        <input type="text" name="amount" id="amount" value="100"/>
-        <input type="submit" value="Credit">
+        <label for="amount">Amount:</label>
+        <input id="amount" name="amount" style="width:100px" />
+        <p>
+            <input type="submit" value="Request a credit based on this payment">
+        </p>
     </form>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
-    echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');
-
-    // In our example we iterate over all errors and echo them out.
-    // You should display them as error, warning or information based on the given severity.
+    // In our example we iterate over all errors and display them in a raw state.
+    // You should handle them based on the given severity as error, warning or information.
     foreach ($response->getStatusCollection() as $status) {
         /**
          * @var $status \Wirecard\PaymentSdk\Entity\Status

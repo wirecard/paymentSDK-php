@@ -55,7 +55,7 @@ use Wirecard\PaymentSdk\Transaction\Transaction;
 /**
  * Class TransactionService
  *
- * This service manages communication  to the Elastic Engine
+ * This service manages communication to the Wirecard REST interface
  * @package Wirecard\PaymentSdk
  */
 class TransactionService
@@ -130,7 +130,7 @@ class TransactionService
 
         $this->requestMapper =
             $requestMapper !== null ? $requestMapper : new RequestMapper($this->config, $this->requestIdGenerator);
-        $this->responseMapper = $responseMapper !== null ? $responseMapper : new ResponseMapper();
+        $this->responseMapper = $responseMapper !== null ? $responseMapper : new ResponseMapper($this->config);
 
         $this->httpHeader = array(
             'auth' => [
@@ -151,7 +151,7 @@ class TransactionService
      */
     public function handleNotification($xmlResponse)
     {
-        return $this->responseMapper->map($xmlResponse);
+        return $this->responseMapper->map($xmlResponse, true);
     }
 
     /**
@@ -181,7 +181,7 @@ class TransactionService
 
         // PayPal
         if (null === $data && array_key_exists('eppresponse', $payload)) {
-            $data = $this->responseMapper->map($payload['eppresponse']);
+            $data = $this->responseMapper->map($payload['eppresponse'], true);
         }
 
         // RatePAY installment
@@ -189,8 +189,14 @@ class TransactionService
             array_key_exists('base64payload', $payload) &&
             array_key_exists('psp_name', $payload)
         ) {
-            $data = $this->responseMapper->map($payload['base64payload']);
+            $data = $this->responseMapper->map($payload['base64payload'], true);
         }
+
+        // Synchronous payment methods
+        if (null === $data && array_key_exists('sync_response', $payload)) {
+            $data = $this->responseMapper->map($payload['sync_response'], true);
+        }
+
 
         if ($data instanceof Response) {
             return $data;
@@ -304,11 +310,11 @@ class TransactionService
     {
         $this->getLogger()->debug('Request body: ' . $requestBody);
 
-        $request = $this->httpHeader;
-        $request['body'] = $requestBody;
+        $requestHeader = array_merge_recursive($this->httpHeader, $this->config->getShopHeader());
+        $requestHeader['body'] = $requestBody;
 
         $response = $this->httpClient
-            ->request('POST', $endpoint, $request)
+            ->request('POST', $endpoint, $requestHeader)
             ->getBody()->getContents();
 
         $this->getLogger()->debug($response);
@@ -324,11 +330,11 @@ class TransactionService
      */
     private function sendGetRequest($endpoint, $acceptJson = false)
     {
-        $request = $this->httpHeader;
-        $request['headers']['Accept'] = $acceptJson ? self::APPLICATION_JSON : 'application/xml';
+        $requestHeader = array_merge_recursive($this->httpHeader, $this->config->getShopHeader());
+        $requestHeader['headers']['Accept'] = $acceptJson ? self::APPLICATION_JSON : 'application/xml';
 
         $response = $this->httpClient
-            ->request('GET', $endpoint, $request)
+            ->request('GET', $endpoint, $requestHeader)
             ->getBody()->getContents();
 
         $this->getLogger()->debug('GET response: ' . $response);
@@ -370,7 +376,7 @@ class TransactionService
         $endpoint = $this->config->getBaseUrl() . $transaction->getEndpoint();
         $responseContent = $this->sendPostRequest($endpoint, $requestBody);
 
-        return $this->responseMapper->map($responseContent, $transaction);
+        return $this->responseMapper->map($responseContent, false, $transaction);
     }
 
     /**

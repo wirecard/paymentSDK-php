@@ -32,6 +32,10 @@ $IdealSecretKey = '1b9e63b4-c132-42c3-bcbd-2d2e47ae7154';
 $IdealConfig = new PaymentMethodConfig(IdealTransaction::NAME, $IdealMAID, $IdealSecretKey);
 $config->add($IdealConfig);
 
+// Set a public key for certificate pinning used for response signature validation, this certificate needs to be always
+// up to date
+$config->setPublicKey(file_get_contents(__DIR__ . '/../inc/api-test.wirecard.com.crt'));
+
 
 // ## Transaction
 
@@ -47,11 +51,14 @@ $response = $service->handleResponse($_GET);
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo 'Payment successfully completed.<br>';
+    echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');
     echo getTransactionLink($baseUrl, $IdealMAID, $response->getTransactionId());
     ?>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
+    echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');
+
     // In our example we iterate over all errors and echo them out.
     // You should display them as error, warning or information based on the given severity.
     foreach ($response->getStatusCollection() as $status) {

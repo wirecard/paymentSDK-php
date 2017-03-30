@@ -8,7 +8,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 
 use Wirecard\PaymentSdk\Config;
-use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
@@ -48,11 +48,11 @@ $orderNumber = 'A2';
 
 // #### Order items
 // Create your items.
-$item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Money(400, 'EUR'), 1);
+$item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(400, 'EUR'), 1);
 $item1->setArticleNumber('A1');
 $item1->setTaxRate(0.1);
 
-$item2 = new \Wirecard\PaymentSdk\Entity\Item('Item 2', new Money(1000, 'EUR'), 2);
+$item2 = new \Wirecard\PaymentSdk\Entity\Item('Item 2', new Amount(1000, 'EUR'), 2);
 $item2->setArticleNumber('B2');
 $item2->setTaxRate(0.2);
 
@@ -92,16 +92,16 @@ if (array_key_exists('item_to_capture', $_POST)) {
     switch ($_POST['item_to_capture']) {
         case '1':
             $itemCollection->add($item1);
-            $amount = new Money(400, 'EUR');
+            $amount = new Amount(400, 'EUR');
             break;
         case '2':
             $itemCollection->add($item2);
-            $amount = new Money(2000, 'EUR');
+            $amount = new Amount(2000, 'EUR');
             break;
         default:
             $itemCollection->add($item1);
             $itemCollection->add($item2);
-            $amount = new Money(2400, 'EUR');
+            $amount = new Amount(2400, 'EUR');
     }
     $transaction->setAmount($amount);
 }

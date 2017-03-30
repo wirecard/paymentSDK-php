@@ -42,6 +42,7 @@ script:
 
 after_script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer upload-coverage ; fi
+  - if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then bash .bin/generate-tag.sh ; fi
 
 before_deploy:
   - bash .bin/generate-release-package.sh $TRAVIS_TAG

@@ -32,7 +32,7 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\Money;
+use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\Transaction;
@@ -85,7 +85,7 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
 
         $transaction = new CreditCardTransaction();
         $transaction->setTokenId('21');
-        $transaction->setAmount(new Money(24, 'EUR'));
+        $transaction->setAmount(new Amount(24, 'EUR'));
         $transaction->setOperation(Operation::RESERVE);
 
         $result = $transaction->mappedProperties();
@@ -104,7 +104,7 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
         ];
 
         $transaction = new CreditCardTransaction();
-        $transaction->setAmount(new Money(24, 'EUR'));
+        $transaction->setAmount(new Amount(24, 'EUR'));
         $transaction->setParentTransactionId('parent5');
         $transaction->setParentTransactionType(Transaction::TYPE_AUTHORIZATION);
         $transaction->setOperation(Operation::RESERVE);
@@ -119,7 +119,7 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
     public function testSslCreditCardTransactionWithoutTokenIdAndParentTransactionId()
     {
         $transaction = new CreditCardTransaction();
-        $transaction->setAmount(new Money(24, 'EUR'));
+        $transaction->setAmount(new Amount(24, 'EUR'));
         $transaction->setOperation(Operation::RESERVE);
         $transaction->mappedProperties();
     }
@@ -141,7 +141,7 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
 
         $transaction = new CreditCardTransaction();
         $transaction->setTokenId('33');
-        $transaction->setAmount(new Money(24, 'EUR'));
+        $transaction->setAmount(new Amount(24, 'EUR'));
         $transaction->setParentTransactionId('parent5');
         $transaction->setParentTransactionType(Transaction::TYPE_AUTHORIZATION);
         $transaction->setOperation(Operation::RESERVE);

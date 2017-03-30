@@ -41,20 +41,56 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
      */
     private $response;
 
+    /**
+     * @var \SimpleXMLElement $simpleXml
+     */
+    private $simpleXml;
+
     public function setUp()
     {
-        $simpleXml = simplexml_load_string('<raw>
+        $this->simpleXml = simplexml_load_string('<?xml version="1.0"?>
+                    <payment>
                         <transaction-id>1</transaction-id>
                         <request-id>123</request-id>
                         <transaction-type>transaction</transaction-type>
-                        <statuses><status code="1" description="a" severity="0"></status></statuses>
-                    </raw>');
-
-        $this->response = new SuccessResponse($simpleXml);
+                        <statuses>
+                            <status code="1" description="a" severity="0" />
+                        </statuses>
+                    </payment>');
+        $this->response = new SuccessResponse($this->simpleXml, false);
     }
 
     public function testGetTransactionType()
     {
         $this->assertEquals('transaction', $this->response->getTransactionType());
+    }
+
+    public function testIsValidSignature()
+    {
+        $this->assertEquals(false, $this->response->isValidSignature());
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
+     */
+    public function testMultipleDifferentProviderTransactionIdsThrowException()
+    {
+        $xml = $this->simpleXml;
+        $statuses = $xml->{'statuses'};
+        /**
+         * @var $statuses \SimpleXMLElement
+         */
+        $status2 = $statuses->addChild('status');
+        $status2->addAttribute('provider-transaction-id', '123');
+        $status2->addAttribute('code', '200');
+        $status2->addAttribute('description', 'Ok.');
+        $status2->addAttribute('severity', 'Information');
+        $status3 = $statuses->addChild('status');
+        $status3->addAttribute('provider-transaction-id', '456');
+        $status3->addAttribute('code', '200');
+        $status3->addAttribute('description', 'Ok.');
+        $status3->addAttribute('severity', 'Information');
+
+        new SuccessResponse($xml, false);
     }
 }

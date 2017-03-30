@@ -39,6 +39,9 @@ $ccard3dKey = '9e0130f6-2e1e-4185-b0d5-dc69079c75cc';
 $ccard3dConfig = new Config\PaymentMethodConfig(ThreeDCreditCardTransaction::NAME, $ccard3dMAID, $ccard3dKey);
 $config->add($ccard3dConfig);
 
+// Set a public key for certificate pinning used for response signature validation, this certificate needs to be always
+// up to date
+$config->setPublicKey(file_get_contents(__DIR__ . '/../inc/api-test.wirecard.com.crt'));
 
 // ## Transaction
 
@@ -57,6 +60,7 @@ $response = $transactionService->handleResponse($_POST);
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo 'Payment successfully completed.<br>';
+    echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');
     echo getTransactionLink($baseUrl, $ccardMAID, $response->getTransactionId());
     ?>
     <br>
@@ -68,6 +72,8 @@ if ($response instanceof SuccessResponse) {
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
+    echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');
+
     // In our example we iterate over all errors and echo them out.
     // You should display them as error, warning or information based on the given severity.
     foreach ($response->getStatusCollection() as $status) {
