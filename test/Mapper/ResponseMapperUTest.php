@@ -32,8 +32,10 @@
 
 namespace WirecardTest\PaymentSdk\Mapper;
 
-use Wirecard\PaymentSdk\Entity\Redirect;
+use PHPUnit_Framework_MockObject_MockObject;
+use SimpleXMLElement;
 use Wirecard\PaymentSdk\Config\Config;
+use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Mapper\ResponseMapper;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\FormInteractionResponse;
@@ -89,7 +91,6 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $this->config = $this->createMock(Config::class);
         $this->mapper = new ResponseMapper($this->config);
         $this->defaultResponseArray = array(
-            'xml' => true,
             'transaction-state' => 'success',
             'transaction-type' => 'debit',
             'transaction-id' => '12345',
@@ -97,43 +98,54 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
             'statuses' => [
                 ['code' => '200', 'description' => 'UnitTest', 'severity' => 'information'],
             ],
-            'payment-method' => null
         );
     }
 
-    private function getResponse($content)
+    /**
+     * @param $content
+     * @param bool $asXML
+     * @return mixed|SimpleXMLElement
+     */
+    private function getResponse($content, $asXML = true)
     {
-        $output = $content['xml'] ? '<?xml version="1.0"?>' : '';
-        $output .= '<payment>';
-        $output .= $content['transaction-state'] ? '<transaction-state>' . $content['transaction-state'] . '</transaction-state>' : '';
-        $output .= $content['transaction-type'] ? '<transaction-type>' . $content['transaction-type'] . '</transaction-type>' : '';
-        $output .= $content['transaction-id'] ? '<transaction-id>' . $content['transaction-id'] . '</transaction-id>' : '';
-        $output .= $content['request-id'] ? '<request-id>' . $content['request-id'] . '</request-id>' : '';
+        $simpleOutput = new SimpleXMLElement('<?xml version="1.0"?><payment></payment>');
+
+        foreach ($content as $contentKey => $contentValue) {
+            if (!is_array($contentValue)) {
+                $simpleOutput->addChild($contentKey, $contentValue);
+            }
+        }
 
         if ($content['statuses'] !== null) {
-            $output .= '<statuses>';
-            foreach ($content['statuses'] as $status) {
-                $output .= '<status ';
-                foreach ($status as $key => $value) {
-                    $output .= $key . '="' . $value . '" ';
+            $simpleStatuses = $simpleOutput->addChild('statuses');
+            foreach ($content['statuses'] as $statuses) {
+                $simpleStatus = $simpleStatuses->addChild('status');
+                foreach ($statuses as $key => $value) {
+                    $simpleStatus->addAttribute($key, $value);
                 }
-                $output .= '/>';
             }
-            $output .= '</statuses>';
         }
 
-        if ($content['payment-method'] !== null) {
-            $output .= '<payment-methods><payment-method ';
-            foreach ($content['payment-method'] as $key => $value) {
-                $output .= $key . '="' . $value . '" ';
+        if (isset($content['payment-method'])) {
+            $simplePaymentMethod = $simpleOutput->addChild('payment-methods')->addChild('payment-method');
+            if (is_array($content['payment-method'])) {
+                foreach ($content['payment-method'] as $key => $value) {
+                    $simplePaymentMethod->addAttribute($key, $value);
+                }
             }
-            $output .= '/>';
-            $output .= '</payment-methods>';
         }
 
-        $output .= '</payment>';
+        if (isset($content['three-d'])) {
+            $simpleThreeD = $simpleOutput->addChild('three-d');
+            foreach ($content['three-d'] as $threeDKey => $threeDValue) {
+                $simpleThreeD->addChild($threeDKey, $threeDValue);
+            }
+        }
 
-        return simplexml_load_string($output)->asXML();
+        if ($asXML === true) {
+            return $simpleOutput->asXML();
+        }
+        return $simpleOutput;
     }
 
 
@@ -213,7 +225,6 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         /**
          * @var SuccessResponse $mapped
          */
-        //$this->assertEquals('12345', $mapped->getTransactionId());
         $this->assertEquals('W0RWI653B31MAU649', $mapped->getProviderTransactionId());
         $this->assertCount(1, $mapped->getStatusCollection());
         $this->assertEquals($response, $mapped->getRawData());
@@ -221,22 +232,9 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 
     public function testBase64encodedTransactionStateSuccessReturnsFilledSuccessResponseObject()
     {
-        $response = base64_encode(simplexml_load_string('<payment>
-                        <transaction-state>success</transaction-state>
-                        <transaction-id>12345</transaction-id>
-                        <transaction-type>debit</transaction-type>
-                        <request-id>123</request-id>
-                        <statuses>
-                            <status 
-                            code="201.0000" 
-                            description="paypal:The resource was successfully created." 
-                            provider-transaction-id="W0RWI653B31MAU649" 
-                            severity="information"/>
-                        </statuses>
-                        <payment-methods>
-                            <payment-method name="paypal"></payment-method>
-                        </payment-methods>
-                    </payment>')->asXML());
+        $responseArray = $this->defaultResponseArray;
+        $responseArray['payment-method'] = array('name' => 'paypal');
+        $response = base64_encode($this->getResponse($responseArray));
 
         $mapped = $this->mapper->map($response, new PayPalTransaction());
         $this->assertInstanceOf(SuccessResponse::class, $mapped);
@@ -244,33 +242,18 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
          * @var SuccessResponse $mapped
          */
         $this->assertEquals('12345', $mapped->getTransactionId());
-        $this->assertEquals('W0RWI653B31MAU649', $mapped->getProviderTransactionId());
         $this->assertCount(1, $mapped->getStatusCollection());
         $this->assertEquals(base64_decode($response), $mapped->getRawData());
     }
 
     public function testWithValidResponseThreeDTransactionReturnsFormInteractionResponse()
     {
-        $payload = simplexml_load_string('<payment>
-                        <transaction-state>success</transaction-state>
-                        <transaction-id>12345</transaction-id>
-                        <transaction-type>check-enrollment</transaction-type>
-                        <request-id>123</request-id>
-                        <statuses>
-                            <status 
-                            code="201.0000" 
-                            description="paypal:The resource was successfully created." 
-                            provider-transaction-id="W0RWI653B31MAU649" 
-                            severity="information"/>
-                        </statuses>
-                        <card-token></card-token>
-                        <three-d>
-                            <acs-url>https://www.example.com/acs</acs-url>
-                            <pareq>request</pareq>
-                        </three-d>
-                    </payment>')->asXML();
-        $transaction = new ThreeDCreditCardTransaction();
+        $responseArray = $this->defaultResponseArray;
+        $responseArray['transaction-type'] = 'check-enrollment';
+        $responseArray['three-d'] = array('acs-url' => 'https://www.example.com/acs', 'pareq' => 'request');
+        $payload = $this->getResponse($responseArray);
 
+        $transaction = new ThreeDCreditCardTransaction();
         /**
          * @var FormInteractionResponse $mapped
          */
@@ -282,24 +265,11 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 
     public function testWithValidResponseThreeDTransactionReturnsFormInteractionResponseWithMd()
     {
-        $payload = simplexml_load_string('<payment>
-                        <transaction-state>success</transaction-state>
-                        <transaction-id>12345</transaction-id>
-                        <transaction-type>check-enrollment</transaction-type>
-                        <request-id>123</request-id>
-                        <statuses>
-                            <status 
-                            code="201.0000" 
-                            description="paypal:The resource was successfully created." 
-                            provider-transaction-id="W0RWI653B31MAU649" 
-                            severity="information"/>
-                        </statuses>
-                        <card-token></card-token>
-                        <three-d>
-                            <acs-url>https://www.example.com/acs</acs-url>
-                            <pareq>request</pareq>
-                        </three-d>
-                    </payment>')->asXML();
+        $responseArray = $this->defaultResponseArray;
+        $responseArray['transaction-type'] = 'check-enrollment';
+        $responseArray['three-d'] = array('acs-url' => 'https://www.example.com/acs', 'pareq' => 'request');
+        $payload = $this->getResponse($responseArray);
+
         $transaction = new ThreeDCreditCardTransaction();
         $transaction->setOperation(Operation::RESERVE);
 
@@ -318,24 +288,11 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 
     public function testWithValidResponseThreeDTransactionReturnsFormInteractionResponseWithTermUrl()
     {
-        $payload = simplexml_load_string('<payment>
-                        <transaction-state>success</transaction-state>
-                        <transaction-type>check-enrollment</transaction-type>
-                        <transaction-id>12345</transaction-id>
-                        <request-id>123</request-id>
-                        <statuses>
-                            <status 
-                            code="201.0000" 
-                            description="paypal:The resource was successfully created." 
-                            provider-transaction-id="W0RWI653B31MAU649" 
-                            severity="information"/>
-                        </statuses>
-                        <card-token></card-token>
-                        <three-d>
-                            <acs-url>https://www.example.com/acs</acs-url>
-                            <pareq>request</pareq>
-                        </three-d>
-                    </payment>')->asXML();
+        $responseArray = $this->defaultResponseArray;
+        $responseArray['transaction-type'] = 'check-enrollment';
+        $responseArray['three-d'] = array('acs-url' => 'https://www.example.com/acs', 'pareq' => 'request');
+        $payload = $this->getResponse($responseArray);
+
         $transaction = new ThreeDCreditCardTransaction();
         $transaction->setTermUrl('dummy URL');
 
@@ -348,24 +305,13 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('dummy URL', $mapped->getFormFields()->getIterator()['TermUrl']);
     }
 
-    public function testWithValidResponseCreditCardTransactionReturnsSuccessResponse()
+    public function testWithValidResponsePayPalTransactionReturnsSuccessResponse()
     {
-        $payload = simplexml_load_string('<payment>
-                        <transaction-state>success</transaction-state>
-                        <transaction-id>12345</transaction-id>
-                        <request-id>123</request-id>
-                        <transaction-type>debit</transaction-type>
-                        <statuses>
-                            <status 
-                            code="201.0000" 
-                            description="paypal:The resource was successfully created." 
-                            provider-transaction-id="W0RWI653B31MAU649" 
-                            severity="information"/>
-                        </statuses>
-                        <card-token></card-token>
-                    </payment>')->asXML();
+        $responseArray = $this->defaultResponseArray;
+        $responseArray['payment-method'] = array('name' => 'paypal');
+        $payload = $this->getResponse($responseArray);
 
-        $mapped = $this->mapper->map($payload,false, new PayPalTransaction());
+        $mapped = $this->mapper->map($payload, false, new PayPalTransaction());
 
         $this->assertInstanceOf(SuccessResponse::class, $mapped);
         $this->assertEquals($payload, $mapped->getRawData());
@@ -522,74 +468,53 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    /**
-     *
-     */
     public function testMoreStatusesWithTheSameProviderTransactionIdReturnsSuccess()
     {
-        $response = simplexml_load_string('<payment>
-                        <transaction-state>success</transaction-state>
-                        <transaction-id>12345</transaction-id>
-                        <transaction-type>debit</transaction-type>
-                        <request-id>123</request-id>
-                        <statuses>
-                            <status 
-                            code="305.0000" 
-                            description="paypal:Status before." 
-                            provider-transaction-id="xxx" 
-                            severity="information"/>
-                            <status 
-                            code="201.0000" 
-                            description="paypal:The resource was successfully created." 
-                            provider-transaction-id="xxx" 
-                            severity="information"/>
-                        </statuses>
-                        <payment-methods>
-                            <payment-method name="paypal"></payment-method>
-                        </payment-methods>
-                    </payment>')->asXML();
+        $responseArray = $this->defaultResponseArray;
+        $responseArray['payment-method'] = array('name' => 'paypal');
+        $responseArray['statuses'] = array(
+            ['code' => '305.0000',
+                'description' => 'paypal:Status before.',
+                'provider-transaction-id' => 'xxx',
+                'severity' => 'information'],
+            ['code' => '201.0000',
+                'description' => 'paypal:The resource was successfully created.',
+                'provider-transaction-id' => 'xxx',
+                'severity' => 'information'
+            ]
+        );
+        $response = $this->getResponse($responseArray);
 
         $mapped = $this->mapper->map($response, false, new PayPalTransaction());
         $this->assertInstanceOf(SuccessResponse::class, $mapped);
         /**
          * @var SuccessResponse $mapped
          */
-        $this->assertEquals('12345', $mapped->getTransactionId());
-        $this->assertEquals('xxx', $mapped->getProviderTransactionId());
         $this->assertCount(2, $mapped->getStatusCollection());
         $this->assertEquals($response, $mapped->getRawData());
     }
 
     public function testMoreStatusesOnlyOneHasProviderTransactionIdReturnsSuccess()
     {
-        $response = simplexml_load_string('<payment>
-                        <transaction-state>success</transaction-state>
-                        <transaction-id>12345</transaction-id>
-                        <transaction-type>debit</transaction-type>
-                        <request-id>123</request-id>
-                        <statuses>
-                            <status 
-                            code="305.0000" 
-                            description="paypal:Status before." 
-                            severity="information"/>
-                            <status 
-                            code="201.0000" 
-                            description="paypal:The resource was successfully created." 
-                            provider-transaction-id="xxx" 
-                            severity="information"/>
-                        </statuses>
-                        <payment-methods>
-                            <payment-method name="paypal"></payment-method>
-                        </payment-methods>
-                    </payment>')->asXML();
+        $responseArray = $this->defaultResponseArray;
+        $responseArray['payment-method'] = array('name' => 'paypal');
+        $responseArray['statuses'] = array(
+            ['code' => '305.0000',
+                'description' => 'paypal:Status before.',
+                'severity' => 'information'],
+            ['code' => '201.0000',
+                'description' => 'paypal:The resource was successfully created.',
+                'provider-transaction-id' => 'xxx',
+                'severity' => 'information'
+            ]
+        );
+        $response = $this->getResponse($responseArray);
 
         $mapped = $this->mapper->map($response, false, new PayPalTransaction());
         $this->assertInstanceOf(SuccessResponse::class, $mapped);
         /**
          * @var SuccessResponse $mapped
          */
-        $this->assertEquals('12345', $mapped->getTransactionId());
-        $this->assertEquals('xxx', $mapped->getProviderTransactionId());
         $this->assertCount(2, $mapped->getStatusCollection());
         $this->assertEquals($response, $mapped->getRawData());
     }
@@ -597,18 +522,15 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 
     public function testTransactionStateInProgressReturnsPendingResponseObject()
     {
-        $response = simplexml_load_string('<payment>
-                        <transaction-state>in-progress</transaction-state>
-                        <transaction-type>debit</transaction-type>
-                        <request-id>1234</request-id>
-                        <statuses><status code="1" description="a" severity="0"></status></statuses>
-                    </payment>')->asXML();
+        $responseArray = $this->defaultResponseArray;
+        $responseArray['transaction-state'] = 'in-progress';
+        $response = $this->getResponse($responseArray);
         /**
          * @var PendingResponse $mapped
          */
         $mapped = $this->mapper->map($response, false, new SepaTransaction());
         $this->assertInstanceOf(PendingResponse::class, $mapped);
-        $this->assertEquals('1234', $mapped->getRequestId());
+        $this->assertEquals('123', $mapped->getRequestId());
     }
 
     public function signaturePublicKeyProvider()
@@ -657,7 +579,12 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateSignature($expected, $publicKey, $response)
     {
-        $this->config->method('getPublicKey')->willReturn($publicKey);
+        /**
+         * @var $config PHPUnit_Framework_MockObject_MockObject
+         */
+        $config = $this->config;
+        $config->method('getPublicKey')->willReturn($publicKey);
+        $this->config = $config;
         /**
          * @var SuccessResponse $mapped
          */
@@ -678,7 +605,6 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
-     * @dataProvider malformedResponseProvider
      */
     public function testTransactionStateInProgressThrowsException()
     {
@@ -690,137 +616,71 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
-     * @dataProvider malformedResponseProvider
      */
     public function testMissingPaymentMethodsThrowsException()
     {
-        $response = '<payment>
-                        <transaction-state>success</transaction-state>
-                        <transaction-id>12345</transaction-id>
-                        <transaction-type>debit</transaction-type>
-                        <request-id>123</request-id>
-                        <statuses>
-                            <status 
-                            code="305.0000" 
-                            description="paypal:Status before." 
-                            severity="information"/>
-                            <status 
-                            code="201.0000" 
-                            description="paypal:The resource was successfully created." 
-                            provider-transaction-id="xxx" 
-                            severity="information"/>
-                        </statuses>
-                    </payment>';
+        $response = $this->getResponse($this->defaultResponseArray);
         $this->mapper->map($response, false, new PayPalTransaction());
     }
 
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
-     * @dataProvider malformedResponseProvider
      */
     public function testEmptyPaymentMethodsThrowsException()
     {
-        $response = '<payment>
-                        <transaction-state>success</transaction-state>
-                        <transaction-id>12345</transaction-id>
-                        <transaction-type>debit</transaction-type>
-                        <request-id>123</request-id>
-                        <statuses>
-                            <status 
-                            code="305.0000" 
-                            description="paypal:Status before." 
-                            severity="information"/>
-                            <status 
-                            code="201.0000" 
-                            description="paypal:The resource was successfully created." 
-                            provider-transaction-id="xxx" 
-                            severity="information"/>
-                        </statuses>
-                        <payment-methods></payment-methods>
-                    </payment>';
-        $this->mapper->map($response, false, new PayPalTransaction());
+        $xmlResponse = $this->getResponse($this->defaultResponseArray, false);
+        $xmlResponse->addChild('payment-methods');
+
+        $this->mapper->map($xmlResponse->asXML(), false, new PayPalTransaction());
     }
 
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
-     * @dataProvider malformedResponseProvider
      */
     public function testMultiplePaymentMethodsThrowsException()
     {
-        $response = '<payment>
-                        <transaction-state>success</transaction-state>
-                        <transaction-id>12345</transaction-id>
-                        <transaction-type>debit</transaction-type>
-                        <request-id>123</request-id>
-                        <statuses>
-                            <status 
-                            code="305.0000" 
-                            description="paypal:Status before." 
-                            severity="information"/>
-                            <status 
-                            code="201.0000" 
-                            description="paypal:The resource was successfully created." 
-                            provider-transaction-id="xxx" 
-                            severity="information"/>
-                        </statuses>
-                        <payment-methods>
-                            <payment-method></payment-method>
-                            <payment-method></payment-method>
-                        </payment-methods>
-                    </payment>';
-        $this->mapper->map($response, false, new PayPalTransaction());
+        $responseArray = $this->defaultResponseArray;
+        $responseArray['payment-method'] = array('name' => 'a');
+        $xmlResponse = $this->getResponse($responseArray, false);
+        /**
+         * @var $paymentMethods SimpleXMLElement
+         */
+        $paymentMethods = $xmlResponse->{'payment-methods'};
+        $paymentMethods->addChild('payment-method');
+        $this->mapper->map($xmlResponse->asXML(), false, new PayPalTransaction());
     }
 
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
-     * @dataProvider malformedResponseProvider
      */
     public function testMultipleDifferentProviderTransactionIDsThrowsException()
     {
-        $response = '<payment>
-                        <transaction-state>success</transaction-state>
-                        <transaction-id>12345</transaction-id>
-                        <transaction-type>debit</transaction-type>
-                        <request-id>123</request-id>
-                        <statuses>
-                            <status 
-                            code="305.0000" 
-                            description="paypal:Status before." 
-                            provider-transaction-id="xxx" 
-                            severity="information"/>
-                            <status 
-                            code="201.0000" 
-                            description="paypal:The resource was successfully created." 
-                            provider-transaction-id="yyy" 
-                            severity="information"/>
-                        </statuses>
-                        <payment-methods>
-                            <payment-method></payment-method>
-                        </payment-methods>
-                    </payment>';
+        $responseArray = $this->defaultResponseArray;
+        $responseArray['statuses'] = array(
+            ['code' => '305.0000',
+                'description' => 'paypal:Status before.',
+                'provider-transaction-id' => 'yyy',
+                'severity' => 'information'],
+            ['code' => '201.0000',
+                'description' => 'paypal:The resource was successfully created.',
+                'provider-transaction-id' => 'xxx',
+                'severity' => 'information'
+            ]
+        );
+        $response = $this->getResponse($this->defaultResponseArray);
+
         $this->mapper->map($response, false, new PayPalTransaction());
     }
 
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
-     * @dataProvider malformedResponseProvider
      */
     public function testMissingThreeDElementThrowsException()
     {
-        $payload = '<payment>
-                        <transaction-state>success</transaction-state>
-                        <transaction-type>check-enrollment</transaction-type>
-                        <transaction-id>12345</transaction-id>
-                        <request-id>123</request-id>
-                        <statuses>
-                            <status 
-                            code="201.0000" 
-                            description="paypal:The resource was successfully created." 
-                            provider-transaction-id="W0RWI653B31MAU649" 
-                            severity="information"/>
-                        </statuses>
-                        <card-token></card-token>
-                    </payment>';
+        $responseArray = $this->defaultResponseArray;
+        $responseArray['transaction-type'] = 'check-enrollment';
+        $payload = $this->getResponse($responseArray);
+
         $transaction = new ThreeDCreditCardTransaction();
 
         $this->mapper->map($payload, false, $transaction);
@@ -828,60 +688,47 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
-     * @dataProvider malformedResponseProvider
      */
     public function testMissingAcsElementThrowsException()
     {
-        $payload = '<payment>
-                        <transaction-state>success</transaction-state>
-                        <transaction-type>check-enrollment</transaction-type>
-                        <transaction-id>12345</transaction-id>
-                        <request-id>123</request-id>
-                        <statuses>
-                            <status 
-                            code="201.0000" 
-                            description="paypal:The resource was successfully created." 
-                            provider-transaction-id="W0RWI653B31MAU649" 
-                            severity="information"/>
-                        </statuses>
-                        <card-token></card-token>
-                        <three-d>
-                            <pareq>request</pareq>
-                        </three-d>
-                    </payment>';
-        $transaction = new ThreeDCreditCardTransaction();
+        $responseArray = $this->defaultResponseArray;
+        $responseArray['transaction-type'] = 'check-enrollment';
+        $responseArray['three-d'] = array('pareq' => 'request');
+        $payload = $this->getResponse($responseArray);
 
-        $this->mapper->map($payload, false, $transaction);
+        $this->mapper->map($payload, false, new ThreeDCreditCardTransaction());
     }
 
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
-     * @dataProvider malformedResponseProvider
      */
     public function testMissingPareqElementThrowsException()
     {
-        $payload = '<payment>
-                        <transaction-state>success</transaction-state>
-                        <transaction-type>check-enrollment</transaction-type>
-                        <transaction-id>12345</transaction-id>
-                        <request-id>123</request-id>
-                        <statuses>
-                            <status 
-                            code="201.0000" 
-                            description="paypal:The resource was successfully created." 
-                            provider-transaction-id="W0RWI653B31MAU649" 
-                            severity="information"/>
-                        </statuses>
-                        <card-token></card-token>
-                        <three-d>
-                            <acs-url>https://www.example.com/acs</acs-url>
-                        </three-d>
-                    </payment>';
-        $transaction = new ThreeDCreditCardTransaction();
+        $responseArray = $this->defaultResponseArray;
+        $responseArray['transaction-type'] = 'check-enrollment';
+        $responseArray['three-d'] = array('acs-url' => 'https://www.example.com/acs');
+        $payload = $this->getResponse($responseArray);
 
-        $this->mapper->map($payload, false, $transaction);
+        $this->mapper->map($payload, false, new ThreeDCreditCardTransaction());
     }
 
+
+    public function testGetSuccessRedirectUrlWithTransaction()
+    {
+        $responseArray = $this->defaultResponseArray;
+        $responseArray['payment-method'] = array('name' => 'paypal');
+        $response = $this->getResponse($responseArray);
+
+        $redirect = new Redirect('http://success.ful', 'http://fail.ure');
+        $transaction = new PayPalTransaction();
+        $transaction->setRedirect($redirect);
+
+        /**
+         * @var $result FormInteractionResponse
+         */
+        $result = $this->mapper->map($response, false, $transaction);
+        $this->assertEquals('http://success.ful', $result->getUrl());
+    }
 
 
     public function malformedResponseProvider()
