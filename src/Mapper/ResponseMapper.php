@@ -79,26 +79,12 @@ class ResponseMapper
         $this->transaction = $transaction;
         $this->syncResponse = false;
 
-        // If the transaction is also provided, the response can only be synchronous.
+        // If the transaction is provided, the response can only be synchronous.
+        // But if the payment method contains provides an url, we want an interaction response.
         if ($transaction !== null) {
             $this->syncResponse = true;
         }
 
-        if ($response instanceof \SimpleXMLElement) {
-            $this->simpleXml = $response;
-            return $this->mapXml();
-        }
-
-        return $this->mapPayload($response);
-    }
-
-    /**
-     * @param string $response
-     * @throws MalformedResponseException
-     * @return Response
-     */
-    private function mapPayload($response)
-    {
         // If the response is encoded, we need to first decode it.
         $decodedResponse = base64_decode($response);
         $response = (base64_encode($decodedResponse) === $response) ? $decodedResponse : $response;
@@ -112,15 +98,6 @@ class ResponseMapper
             throw new MalformedResponseException('Response is not a valid xml string.');
         }
 
-        return $this->mapXml();
-    }
-
-    /**
-     * @throws MalformedResponseException
-     * @return Response
-     */
-    private function mapXml()
-    {
         if (isset($this->simpleXml->{'transaction-state'})) {
             $state = (string)$this->simpleXml->{'transaction-state'};
         } else {
@@ -264,8 +241,8 @@ class ResponseMapper
             return new SuccessResponse($this->simpleXml);
         }
 
-        // For a synchronous result, we want to return a FormInteractionResponse.
-        if ($this->syncResponse === true) {
+        // For a synchronous result without redirect URL, we also want to return a FormInteractionResponse.
+        if ($this->syncResponse === true && !isset($this->getPaymentMethod()['url'])) {
             return $this->mapSynchronousResponse();
         }
 
