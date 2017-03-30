@@ -37,7 +37,6 @@ $ratepayConfig = new Config\PaymentMethodConfig(
 );
 $config->add($ratepayConfig);
 
-
 // ### Transaction related objects
 // Use the amount object as amount which has to be payed by the consumer.
 if (array_key_exists('amount', $_POST)) {

@@ -8,6 +8,7 @@
     "monolog/monolog": "^1.22",
     "guzzlehttp/guzzle": "^6.2",
     "myclabs/php-enum": "^1.5.0",
+    "robrichards/xmlseclibs": "^2.0",
     "roave/security-advisories": "dev-master"
   },
   "require-dev": {

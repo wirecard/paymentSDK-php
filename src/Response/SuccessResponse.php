@@ -53,11 +53,12 @@ class SuccessResponse extends Response
     /**
      * SuccessResponse constructor.
      * @param \SimpleXMLElement $simpleXml
+     * @param boolean $validSignature
      * @throws MalformedResponseException
      */
-    public function __construct($simpleXml)
+    public function __construct($simpleXml, $validSignature)
     {
-        parent::__construct($simpleXml);
+        parent::__construct($simpleXml, $validSignature);
         $this->transactionId = $this->findElement('transaction-id');
         $this->providerTransactionId = $this->findProviderTransactionId();
         $this->transactionType = $this->findElement('transaction-type');

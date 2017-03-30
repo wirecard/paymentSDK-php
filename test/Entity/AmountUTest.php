@@ -79,7 +79,6 @@ class AmountUTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructor($value, $expected)
     {
-        echo $value;
         $amount = new Amount($value, 'EUR');
 
         $this->assertEquals($expected, $amount->getValue());

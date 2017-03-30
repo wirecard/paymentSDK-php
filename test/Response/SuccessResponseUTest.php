@@ -50,11 +50,16 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
                         <statuses><status code="1" description="a" severity="0"></status></statuses>
                     </raw>');
 
-        $this->response = new SuccessResponse($simpleXml);
+        $this->response = new SuccessResponse($simpleXml, false);
     }
 
     public function testGetTransactionType()
     {
         $this->assertEquals('transaction', $this->response->getTransactionType());
+    }
+
+    public function testIsValidSignature()
+    {
+        $this->assertEquals(false, $this->response->isValidSignature());
     }
 }

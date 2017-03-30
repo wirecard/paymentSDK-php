@@ -130,7 +130,7 @@ class TransactionService
 
         $this->requestMapper =
             $requestMapper !== null ? $requestMapper : new RequestMapper($this->config, $this->requestIdGenerator);
-        $this->responseMapper = $responseMapper !== null ? $responseMapper : new ResponseMapper();
+        $this->responseMapper = $responseMapper !== null ? $responseMapper : new ResponseMapper($this->config);
 
         $this->httpHeader = array(
             'auth' => [
@@ -151,7 +151,7 @@ class TransactionService
      */
     public function handleNotification($xmlResponse)
     {
-        return $this->responseMapper->map($xmlResponse);
+        return $this->responseMapper->map($xmlResponse, true);
     }
 
     /**
@@ -181,7 +181,7 @@ class TransactionService
 
         // PayPal
         if (null === $data && array_key_exists('eppresponse', $payload)) {
-            $data = $this->responseMapper->map($payload['eppresponse']);
+            $data = $this->responseMapper->map($payload['eppresponse'], true);
         }
 
         // RatePAY installment
@@ -189,12 +189,12 @@ class TransactionService
             array_key_exists('base64payload', $payload) &&
             array_key_exists('psp_name', $payload)
         ) {
-            $data = $this->responseMapper->map($payload['base64payload']);
+            $data = $this->responseMapper->map($payload['base64payload'], true);
         }
 
         // Synchronous payment methods
         if (null === $data && array_key_exists('sync_response', $payload)) {
-            $data = $this->responseMapper->map($payload['sync_response']);
+            $data = $this->responseMapper->map($payload['sync_response'], true);
         }
 
 
@@ -376,7 +376,7 @@ class TransactionService
         $endpoint = $this->config->getBaseUrl() . $transaction->getEndpoint();
         $responseContent = $this->sendPostRequest($endpoint, $requestBody);
 
-        return $this->responseMapper->map($responseContent, $transaction);
+        return $this->responseMapper->map($responseContent, false, $transaction);
     }
 
     /**

@@ -33,6 +33,7 @@
 namespace WirecardTest\PaymentSdk\Mapper;
 
 use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Mapper\ResponseMapper;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\FormInteractionResponse;
@@ -67,6 +68,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
     const TRANSACTION_ID = 'transaction-id';
 
     const ATTRIBUTES = '@attributes';
+
     /**
      * @var ResponseMapper
      */
@@ -77,9 +79,15 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
      */
     private $defaultResponseArray;
 
+    /**
+     * @var Config
+     */
+    private $config;
+
     public function setUp()
     {
-        $this->mapper = new ResponseMapper();
+        $this->config = $this->createMock(Config::class);
+        $this->mapper = new ResponseMapper($this->config);
         $this->defaultResponseArray = array(
             'xml' => true,
             'transaction-state' => 'success',
@@ -128,8 +136,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         return simplexml_load_string($output)->asXML();
     }
 
-    public
-    function testTransactionStateFailedReturnsFailureResponseObject()
+
+    public function testTransactionStateFailedReturnsFailureResponseObject()
     {
         $responseArray = $this->defaultResponseArray;
         $responseArray['transaction-state'] = 'failed';
@@ -146,8 +154,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(2, $mapped->getStatusCollection());
     }
 
-    public
-    function testTransactionStateSuccessReturnsFilledInteractionResponseObject()
+    public function testTransactionStateSuccessReturnsFilledInteractionResponseObject()
     {
         $responseArray = $this->defaultResponseArray;
         $responseArray['payment-method'] = array('name' => 'paypal', 'url' => 'http://www.example.com/redirect-url');
@@ -169,8 +176,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \InvalidArgumentException
      */
-    public
-    function testNon3DCheckEnrollmentThrowsError()
+    public function testNon3DCheckEnrollmentThrowsError()
     {
         $responseArray = $this->defaultResponseArray;
         $responseArray['transaction-type'] = 'check-enrollment';
@@ -213,42 +219,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($response, $mapped->getRawData());
     }
 
-    public
-    function testTransactionStateSuccessReturnsInteractionResponseIfTransactionContainedASuccessUrl()
-    {
-        $response = $response = simplexml_load_string('<response>
-                        <transaction-state>success</transaction-state>
-                        <transaction-id>12345</transaction-id>
-                        <transaction-type>debit</transaction-type>
-                        <request-id>123</request-id>
-                        <statuses>
-                            <status 
-                            code="201.0000" 
-                            description="paypal:The resource was successfully created." 
-                            provider-transaction-id="W0RWI653B31MAU649" 
-                            severity="information"/>
-                        </statuses>
-                        <payment-methods>
-                            <payment-method name="paypal" url="http://redirect.url"></payment-method>
-                        </payment-methods>
-                    </response>')->asXML();
-
-        $tx = new PayPalTransaction();
-        $successUrl = 'http://redirect.url';
-        $redirect = new Redirect($successUrl, null);
-        $tx->setRedirect($redirect);
-
-        $mapped = $this->mapper->map($response, $tx);
-
-        $this->assertInstanceOf(InteractionResponse::class, $mapped);
-        /**
-         * @var InteractionResponse $mapped
-         */
-        $this->assertEquals($successUrl, $mapped->getRedirectUrl());
-    }
-
-    public
-    function testBase64encodedTransactionStateSuccessReturnsFilledSuccessResponseObject()
+    public function testBase64encodedTransactionStateSuccessReturnsFilledSuccessResponseObject()
     {
         $response = base64_encode(simplexml_load_string('<payment>
                         <transaction-state>success</transaction-state>
@@ -278,8 +249,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(base64_decode($response), $mapped->getRawData());
     }
 
-    public
-    function testWithValidResponseThreeDTransactionReturnsFormInteractionResponse()
+    public function testWithValidResponseThreeDTransactionReturnsFormInteractionResponse()
     {
         $payload = simplexml_load_string('<payment>
                         <transaction-state>success</transaction-state>
@@ -304,14 +274,13 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         /**
          * @var FormInteractionResponse $mapped
          */
-        $mapped = $this->mapper->map($payload, $transaction);
+        $mapped = $this->mapper->map($payload, false, $transaction);
 
         $this->assertInstanceOf(FormInteractionResponse::class, $mapped);
         $this->assertEquals($payload, $mapped->getRawData());
     }
 
-    public
-    function testWithValidResponseThreeDTransactionReturnsFormInteractionResponseWithMd()
+    public function testWithValidResponseThreeDTransactionReturnsFormInteractionResponseWithMd()
     {
         $payload = simplexml_load_string('<payment>
                         <transaction-state>success</transaction-state>
@@ -337,7 +306,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         /**
          * @var FormInteractionResponse $mapped
          */
-        $mapped = $this->mapper->map($payload, $transaction);
+        $mapped = $this->mapper->map($payload, false, $transaction);
 
         $this->assertInstanceOf(FormInteractionResponse::class, $mapped);
         $this->assertEquals($payload, $mapped->getRawData());
@@ -347,8 +316,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public
-    function testWithValidResponseThreeDTransactionReturnsFormInteractionResponseWithTermUrl()
+    public function testWithValidResponseThreeDTransactionReturnsFormInteractionResponseWithTermUrl()
     {
         $payload = simplexml_load_string('<payment>
                         <transaction-state>success</transaction-state>
@@ -374,14 +342,13 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         /**
          * @var FormInteractionResponse $mapped
          */
-        $mapped = $this->mapper->map($payload, $transaction);
+        $mapped = $this->mapper->map($payload, false, $transaction);
 
         $this->assertInstanceOf(FormInteractionResponse::class, $mapped);
         $this->assertEquals('dummy URL', $mapped->getFormFields()->getIterator()['TermUrl']);
     }
 
-    public
-    function testWithValidResponseCreditCardTransactionReturnsSuccessResponse()
+    public function testWithValidResponseCreditCardTransactionReturnsSuccessResponse()
     {
         $payload = simplexml_load_string('<payment>
                         <transaction-state>success</transaction-state>
@@ -398,14 +365,13 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         <card-token></card-token>
                     </payment>')->asXML();
 
-        $mapped = $this->mapper->map($payload, new PayPalTransaction());
+        $mapped = $this->mapper->map($payload,false, new PayPalTransaction());
 
         $this->assertInstanceOf(SuccessResponse::class, $mapped);
         $this->assertEquals($payload, $mapped->getRawData());
     }
 
-    public
-    function invalidResponseProvider()
+    public function invalidResponseProvider()
     {
         return [
             [simplexml_load_string('<payment>
@@ -559,8 +525,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
     /**
      *
      */
-    public
-    function testMoreStatusesWithTheSameProviderTransactionIdReturnsSuccess()
+    public function testMoreStatusesWithTheSameProviderTransactionIdReturnsSuccess()
     {
         $response = simplexml_load_string('<payment>
                         <transaction-state>success</transaction-state>
@@ -584,7 +549,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         </payment-methods>
                     </payment>')->asXML();
 
-        $mapped = $this->mapper->map($response, new PayPalTransaction());
+        $mapped = $this->mapper->map($response, false, new PayPalTransaction());
         $this->assertInstanceOf(SuccessResponse::class, $mapped);
         /**
          * @var SuccessResponse $mapped
@@ -595,8 +560,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($response, $mapped->getRawData());
     }
 
-    public
-    function testMoreStatusesOnlyOneHasProviderTransactionIdReturnsSuccess()
+    public function testMoreStatusesOnlyOneHasProviderTransactionIdReturnsSuccess()
     {
         $response = simplexml_load_string('<payment>
                         <transaction-state>success</transaction-state>
@@ -619,7 +583,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         </payment-methods>
                     </payment>')->asXML();
 
-        $mapped = $this->mapper->map($response, new PayPalTransaction());
+        $mapped = $this->mapper->map($response, false, new PayPalTransaction());
         $this->assertInstanceOf(SuccessResponse::class, $mapped);
         /**
          * @var SuccessResponse $mapped
@@ -631,8 +595,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public
-    function testTransactionStateInProgressReturnsPendingResponseObject()
+    public function testTransactionStateInProgressReturnsPendingResponseObject()
     {
         $response = simplexml_load_string('<payment>
                         <transaction-state>in-progress</transaction-state>
@@ -643,9 +606,63 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         /**
          * @var PendingResponse $mapped
          */
-        $mapped = $this->mapper->map($response, new SepaTransaction());
+        $mapped = $this->mapper->map($response, false, new SepaTransaction());
         $this->assertInstanceOf(PendingResponse::class, $mapped);
         $this->assertEquals('1234', $mapped->getRequestId());
+    }
+
+    public function signaturePublicKeyProvider()
+    {
+        // @codingStandardsIgnoreStart
+        return [
+            [
+                true,
+                file_get_contents(__DIR__ . '/../../examples/inc/api-test.wirecard.com.crt'),
+                '<?xml version="1.0" encoding="UTF-8"?><payment xmlns="http://www.elastic-payments.com/schema/payment" xmlns:ns2="http://www.elastic-payments.com/schema/epa/transaction"><merchant-account-id>9abf05c1-c266-46ae-8eac-7f87ca97af28</merchant-account-id><transaction-id>ccde5d9b-db51-4377-977f-51c8f3a170c0</transaction-id><request-id>845ea3ed40b77f598a96441531395ba6</request-id><transaction-type>authorization</transaction-type><transaction-state>success</transaction-state><completion-time-stamp>2017-03-29T06:58:47.000Z</completion-time-stamp><statuses><status code="201.0000" description="The resource was successfully created." provider-transaction-id="87D646135U668492X" severity="information"/></statuses><requested-amount currency="EUR">12.590000</requested-amount><parent-transaction-id>a3bdd4e9-b0b2-4167-be62-7f09c1eb368f</parent-transaction-id><account-holder><first-name>Wirecardbuyer</first-name><last-name>Spintzyk</last-name><email>paypal.buyer2@wirecard.com</email></account-holder><shipping><first-name>Chlo</first-name><last-name>Li</last-name><address><street1>Milan</street1><city>MilAN</city><country>IT</country><postal-code>12234</postal-code></address></shipping><ip-address>127.0.0.1</ip-address><order-items><order-item><name>Item 1</name><description>My first item</description><article-number>A1</article-number><amount currency="EUR">2.590000</amount><quantity>1</quantity></order-item><order-item><name>Item 2</name><description>My second item</description><article-number>B2</article-number><amount currency="EUR">5.000000</amount><tax-amount currency="EUR">1.000000</tax-amount><quantity>2</quantity></order-item></order-items><notifications><notification url="http://localhost/PayPal/notify.php"/></notifications><payment-methods><payment-method name="paypal"/></payment-methods><api-id>---</api-id><cancel-redirect-url>http://localhost/PayPal/return.php?status=cancel</cancel-redirect-url><success-redirect-url>http://localhost/PayPal/return.php?status=success</success-redirect-url><wallet><account-id>ZNKTXUBNSQE2Y</account-id></wallet><Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/></Transforms><DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><DigestValue>J5r1OC85Cgy0zqTgW+G2IWJ6NEWPMh0uR123j+c7hEQ=</DigestValue></Reference></SignedInfo><SignatureValue>ddS79IgUfxrbI6Z/IbhltvNR60khscrVUKB1zcg3/CQv/Ow7SjrueGeM/EemoFW9pWoH5jh+q9FX5cpqeamButaxYNRjJTF/JAK5rz8zBNIrpyfHln3u3EmUMGAfHOFOlHjyg3azcXhwc8Kxg5CZsSOuho4At7h15UK34FhTClR2ae5DEmttZG6jLLbk0tlXnJTRq/OrrLETSoHB13Yyr34VNb/w7fyrKiycj6ls0RZK6OwukHFBjzqU15+CqYalvHLjeKmeEDy0z7kN5V7lQqK1iFqy0lKpdRNWME6bgkiHWz7AqBPElepaXfljH3uIC9ICSE3fZj0cFosVWqS5qujd6jviLgArPylbLzsPpmMr7uNEuGYn/JosbrGLmaEdOPx6n99QH9ZJEqhny+Hhb/yhCUOULzBTUThhryAp1K8OqVMHKr04Yr4WhO6qvWG0FRZscX9BDRlUVYv3af8rFB4vklrh40SzmX3agJ8dFwYwf1LXlc0224rzUL7IeogD1zlbtdUODvhyVIQ9eq/f0xyJ60MSo9Jo3iud+gTY7vX/Uv8OfOYycD12C5LlKAtLp1aoG9/8OO3SBwwb9V/3m9ALEajx1cgIZDe4E4AlMg65BWpiaQ4/QaRmNMH04K7xYXTp4AdCNXev0YIB2FdyID9MsKi28uJYnskxlSfwEXc=</SignatureValue></Signature></payment>'
+            ],
+            [
+                true,
+                null,
+                '<?xml version="1.0" encoding="UTF-8"?><payment xmlns="http://www.elastic-payments.com/schema/payment" xmlns:ns2="http://www.elastic-payments.com/schema/epa/transaction"><merchant-account-id>9abf05c1-c266-46ae-8eac-7f87ca97af28</merchant-account-id><transaction-id>ccde5d9b-db51-4377-977f-51c8f3a170c0</transaction-id><request-id>845ea3ed40b77f598a96441531395ba6</request-id><transaction-type>authorization</transaction-type><transaction-state>success</transaction-state><completion-time-stamp>2017-03-29T06:58:47.000Z</completion-time-stamp><statuses><status code="201.0000" description="The resource was successfully created." provider-transaction-id="87D646135U668492X" severity="information"/></statuses><requested-amount currency="EUR">12.590000</requested-amount><parent-transaction-id>a3bdd4e9-b0b2-4167-be62-7f09c1eb368f</parent-transaction-id><account-holder><first-name>Wirecardbuyer</first-name><last-name>Spintzyk</last-name><email>paypal.buyer2@wirecard.com</email></account-holder><shipping><first-name>Chlo</first-name><last-name>Li</last-name><address><street1>Milan</street1><city>MilAN</city><country>IT</country><postal-code>12234</postal-code></address></shipping><ip-address>127.0.0.1</ip-address><order-items><order-item><name>Item 1</name><description>My first item</description><article-number>A1</article-number><amount currency="EUR">2.590000</amount><quantity>1</quantity></order-item><order-item><name>Item 2</name><description>My second item</description><article-number>B2</article-number><amount currency="EUR">5.000000</amount><tax-amount currency="EUR">1.000000</tax-amount><quantity>2</quantity></order-item></order-items><notifications><notification url="http://localhost/PayPal/notify.php"/></notifications><payment-methods><payment-method name="paypal"/></payment-methods><api-id>---</api-id><cancel-redirect-url>http://localhost/PayPal/return.php?status=cancel</cancel-redirect-url><success-redirect-url>http://localhost/PayPal/return.php?status=success</success-redirect-url><wallet><account-id>ZNKTXUBNSQE2Y</account-id></wallet><Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/></Transforms><DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><DigestValue>J5r1OC85Cgy0zqTgW+G2IWJ6NEWPMh0uR123j+c7hEQ=</DigestValue></Reference></SignedInfo><SignatureValue>ddS79IgUfxrbI6Z/IbhltvNR60khscrVUKB1zcg3/CQv/Ow7SjrueGeM/EemoFW9pWoH5jh+q9FX5cpqeamButaxYNRjJTF/JAK5rz8zBNIrpyfHln3u3EmUMGAfHOFOlHjyg3azcXhwc8Kxg5CZsSOuho4At7h15UK34FhTClR2ae5DEmttZG6jLLbk0tlXnJTRq/OrrLETSoHB13Yyr34VNb/w7fyrKiycj6ls0RZK6OwukHFBjzqU15+CqYalvHLjeKmeEDy0z7kN5V7lQqK1iFqy0lKpdRNWME6bgkiHWz7AqBPElepaXfljH3uIC9ICSE3fZj0cFosVWqS5qujd6jviLgArPylbLzsPpmMr7uNEuGYn/JosbrGLmaEdOPx6n99QH9ZJEqhny+Hhb/yhCUOULzBTUThhryAp1K8OqVMHKr04Yr4WhO6qvWG0FRZscX9BDRlUVYv3af8rFB4vklrh40SzmX3agJ8dFwYwf1LXlc0224rzUL7IeogD1zlbtdUODvhyVIQ9eq/f0xyJ60MSo9Jo3iud+gTY7vX/Uv8OfOYycD12C5LlKAtLp1aoG9/8OO3SBwwb9V/3m9ALEajx1cgIZDe4E4AlMg65BWpiaQ4/QaRmNMH04K7xYXTp4AdCNXev0YIB2FdyID9MsKi28uJYnskxlSfwEXc=</SignatureValue><KeyInfo><X509Data><X509SubjectName>L=Ascheim,2.5.4.4=#130642617965726e,CN=api-test.wirecard.com,OU=Operations,O=Wirecard Technologies GmbH,C=DE</X509SubjectName><X509Certificate>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</X509Certificate></X509Data></KeyInfo></Signature></payment>'
+            ],
+            [
+                false,
+                null,
+                '<payment><transaction-state>in-progress</transaction-state><transaction-type>debit</transaction-type><request-id>1234</request-id><statuses><status code="1" description="a" severity="0"></status></statuses><Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/></Transforms></Reference></SignedInfo><SignatureValue>ddS79IgUfxrbI6Z/IbhltvNR60khscrVUKB1zcg3/CQv/Ow7SjrueGeM/EemoFW9pWoH5jh+q9FX5cpqeamButaxYNRjJTF/JAK5rz8zBNIrpyfHln3u3EmUMGAfHOFOlHjyg3azcXhwc8Kxg5CZsSOuho4At7h15UK34FhTClR2ae5DEmttZG6jLLbk0tlXnJTRq/OrrLETSoHB13Yyr34VNb/w7fyrKiycj6ls0RZK6OwukHFBjzqU15+CqYalvHLjeKmeEDy0z7kN5V7lQqK1iFqy0lKpdRNWME6bgkiHWz7AqBPElepaXfljH3uIC9ICSE3fZj0cFosVWqS5qujd6jviLgArPylbLzsPpmMr7uNEuGYn/JosbrGLmaEdOPx6n99QH9ZJEqhny+Hhb/yhCUOULzBTUThhryAp1K8OqVMHKr04Yr4WhO6qvWG0FRZscX9BDRlUVYv3af8rFB4vklrh40SzmX3agJ8dFwYwf1LXlc0224rzUL7IeogD1zlbtdUODvhyVIQ9eq/f0xyJ60MSo9Jo3iud+gTY7vX/Uv8OfOYycD12C5LlKAtLp1aoG9/8OO3SBwwb9V/3m9ALEajx1cgIZDe4E4AlMg65BWpiaQ4/QaRmNMH04K7xYXTp4AdCNXev0YIB2FdyID9MsKi28uJYnskxlSfwEXc=</SignatureValue><KeyInfo><X509Data><X509SubjectName>L=Ascheim,2.5.4.4=#130642617965726e,CN=api-test.wirecard.com,OU=Operations,O=Wirecard Technologies GmbH,C=DE</X509SubjectName><X509Certificate>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</X509Certificate></X509Data></KeyInfo></Signature></payment>'
+            ],
+            [
+                false,
+                null,
+                '<payment><transaction-state>in-progress</transaction-state><transaction-type>debit</transaction-type><request-id>1234</request-id><statuses><status code="1" description="a" severity="0"></status></statuses><Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/></Transforms><DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><DigestValue>J5r1OC85Cgy0zqTgW+G2IWJ6NEWPMh0uR123j+c7hEQ=</DigestValue></Reference></SignedInfo><SignatureValue>ddS79IgUfxrbI6Z/IbhltvNR60khscrVUKB1zcg3/CQv/Ow7SjrueGeM/EemoFW9pWoH5jh+q9FX5cpqeamButaxYNRjJTF/JAK5rz8zBNIrpyfHln3u3EmUMGAfHOFOlHjyg3azcXhwc8Kxg5CZsSOuho4At7h15UK34FhTClR2ae5DEmttZG6jLLbk0tlXnJTRq/OrrLETSoHB13Yyr34VNb/w7fyrKiycj6ls0RZK6OwukHFBjzqU15+CqYalvHLjeKmeEDy0z7kN5V7lQqK1iFqy0lKpdRNWME6bgkiHWz7AqBPElepaXfljH3uIC9ICSE3fZj0cFosVWqS5qujd6jviLgArPylbLzsPpmMr7uNEuGYn/JosbrGLmaEdOPx6n99QH9ZJEqhny+Hhb/yhCUOULzBTUThhryAp1K8OqVMHKr04Yr4WhO6qvWG0FRZscX9BDRlUVYv3af8rFB4vklrh40SzmX3agJ8dFwYwf1LXlc0224rzUL7IeogD1zlbtdUODvhyVIQ9eq/f0xyJ60MSo9Jo3iud+gTY7vX/Uv8OfOYycD12C5LlKAtLp1aoG9/8OO3SBwwb9V/3m9ALEajx1cgIZDe4E4AlMg65BWpiaQ4/QaRmNMH04K7xYXTp4AdCNXev0YIB2FdyID9MsKi28uJYnskxlSfwEXc=</SignatureValue><KeyInfo><X509Data><X509SubjectName>L=Ascheim,2.5.4.4=#130642617965726e,CN=api-test.wirecard.com,OU=Operations,O=Wirecard Technologies GmbH,C=DE</X509SubjectName><X509Certificate>MIIF5DCCBMygAwIBAgICLHQwDQYJKoZIhvcNAQELBQAwWzELMAkGA1UEBhMCREUxETAPBgNVBAoTCFdpcmVjYXJkMTkwNwYDVQQDFDB3aXJlY2FyZC1EUS1NVUMtaW50ZXJuYWwtd2Vic2VydmljZS1pc3N1aW5nQ0FfMDIwHhcNMTcwMTEyMTM1OTI2WhcNMTkwMTEyMTM1OTI2WjCBijELMAkGA1UEBhMCREUxIzAhBgNVBAoTGldpcmVjYXJkIFRlY2hub2xvZ2llcyBHbWJIMRMwEQYDVQQLEwpPcGVyYXRpb25zMR4wHAYDVQQDExVhcGktdGVzdC53aXJlY2FyZC5jb20xDzANBgNVBAQTBkJheWVybjEQMA4GA1UEBxMHQXNjaGVpbTCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAKSkExBY8FjRcZdrxOuJF+HZY8+McQaOB8B0E/hTUhoclsF4OJNaMThje7R6w6OYWBMKpssGngHFaZv35rCo5XVUpJmjZa04ytxE72GKO/uP4yIR7ZBXZx42B22MFaJJZTgPRCCFd6jrz906BZ//CmEAmk5gKelfPxfWJgGyTX6xz7I9R/G57E1xNOuEihN0ma5Q2IhD71MPVseFIGazyfGbJD6rYYbeBbOQSGk//TL8sdRCn0BLcm4DH5oqcPxDKzkaBP4ohNkCWsxpLLSyV6Wx0ihT0S1OLVNkEeTvcrYgUk124VyGatwWNUuCBYyOGQSOGqrW8IHmrhjzzT0NQog0/m38lpdqw/eWmt39qhODqSfILUk2Dxv1+W0IRKJCKcJrcTbXEQCuHl+XWY+U2AhinIPNRA0KX2oOgC//inwyKWSGWHdQnaake646R1wHqtoEfCtEcfyaeR+IrMr1rCAA3RZ+MH1J5UlUCWcnxPT0kad6dUwe3Qjq3jK4gaFzYU2yVScX5LVZMlWy2NiGCIvngHQmhArESzxMVvz5METZujfax6hfmiLNRWu0Zqs09Mpxy5zk5m/WRi5izb0uBeCfcA6x9pmjMx8M4OGG5RO2HTXSwLYJTKI47VXNsLLOY+nMFmhj/dkLJ5d3zI7EczToPMRHmHG7EqEdAfbb+oUlAgMBAAGjggGAMIIBfDARBgNVHQ4ECgQIS6wVIA0mJ9IwEwYDVR0jBAwwCoAIQ2weFtQ9BQ4wCwYDVR0PBAQDAgTwMIIBQwYDVR0fBIIBOjCCATYwggEyoIIBLqCCASqGgdVsZGFwOi8vd2lyZWNhcmQubGFuL0NOPXdpcmVjYXJkLURRLU1VQy1pbnRlcm5hbC13ZWJzZXJ2aWNlLWlzc3VpbmdDQV8wMixDTj1DRFAsQ049UHVibGljIEtleSBTZXJ2aWNlcyxDTj1TZXJ2aWNlcyxDTj1Db25maWd1cmF0aW9uLGRjPXdpcmVjYXJkLGRjPWxhbj9jZXJ0aWZpY2F0ZVJldm9jYXRpb25MaXN0P2Jhc2U/b2JqZWN0Q2xhc3M9Q1JMRGlzdHJpYnV0aW9uUG9pbnSGUGh0dHA6Ly9jcmwud2lyZWNhcmQubGFuL0NSTF93aXJlY2FyZC1EUS1NVUMtaW50ZXJuYWwtd2Vic2VydmljZS1pc3N1aW5nQ0FfMDIuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQAmlUoiEFPRsOjGPb7SYiuJLxqTXCvZQeuXiUydF6FQl/zIpR/zSltaZKK86L+1i7t1C89OyTTXBD9FN6EKmlHo/ulsMn9V2B4zK3lT/NUclST98BmCla4Jzm+roeOHTqlPz3gPRJiPsr3wdvM+FSAJ2MRdv3l77mTE3v3hjsVVMmShR3VwwpxCICl3mpMsSaJZLyJdOHwvnpXs1m9kESwPD3DQ3RAQ/OGa0pPxAkHaauog4DhPvr/nBQnWHd2Us5b/ep7LME9hZ8u3hu/Kc6Vk24c5p3WUOiyaTiw+Ym3QDXl1wBSl9DdM94KbmAAQ5D/FUqyQnSc4TpmYvJ+Iavag</X509Certificate></X509Data></KeyInfo></Signature></payment>'
+            ],
+            [
+                false,
+                'test',
+                '<?xml version="1.0" encoding="UTF-8"?><payment xmlns="http://www.elastic-payments.com/schema/payment" xmlns:ns2="http://www.elastic-payments.com/schema/epa/transaction"><merchant-account-id>9abf05c1-c266-46ae-8eac-7f87ca97af28</merchant-account-id><transaction-id>ccde5d9b-db51-4377-977f-51c8f3a170c0</transaction-id><request-id>845ea3ed40b77f598a96441531395ba6</request-id><transaction-type>authorization</transaction-type><transaction-state>success</transaction-state><completion-time-stamp>2017-03-29T06:58:47.000Z</completion-time-stamp><statuses><status code="201.0000" description="The resource was successfully created." provider-transaction-id="87D646135U668492X" severity="information"/></statuses><requested-amount currency="EUR">12.590000</requested-amount><parent-transaction-id>a3bdd4e9-b0b2-4167-be62-7f09c1eb368f</parent-transaction-id><account-holder><first-name>Wirecardbuyer</first-name><last-name>Spintzyk</last-name><email>paypal.buyer2@wirecard.com</email></account-holder><shipping><first-name>Chlo</first-name><last-name>Li</last-name><address><street1>Milan</street1><city>MilAN</city><country>IT</country><postal-code>12234</postal-code></address></shipping><ip-address>127.0.0.1</ip-address><order-items><order-item><name>Item 1</name><description>My first item</description><article-number>A1</article-number><amount currency="EUR">2.590000</amount><quantity>1</quantity></order-item><order-item><name>Item 2</name><description>My second item</description><article-number>B2</article-number><amount currency="EUR">5.000000</amount><tax-amount currency="EUR">1.000000</tax-amount><quantity>2</quantity></order-item></order-items><notifications><notification url="http://localhost/PayPal/notify.php"/></notifications><payment-methods><payment-method name="paypal"/></payment-methods><api-id>---</api-id><cancel-redirect-url>http://localhost/PayPal/return.php?status=cancel</cancel-redirect-url><success-redirect-url>http://localhost/PayPal/return.php?status=success</success-redirect-url><wallet><account-id>ZNKTXUBNSQE2Y</account-id></wallet><Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/></Transforms><DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><DigestValue>J5r1OC85Cgy0zqTgW+G2IWJ6NEWPMh0uR123j+c7hEQ=</DigestValue></Reference></SignedInfo><SignatureValue>ddS79IgUfxrbI6Z/IbhltvNR60khscrVUKB1zcg3/CQv/Ow7SjrueGeM/EemoFW9pWoH5jh+q9FX5cpqeamButaxYNRjJTF/JAK5rz8zBNIrpyfHln3u3EmUMGAfHOFOlHjyg3azcXhwc8Kxg5CZsSOuho4At7h15UK34FhTClR2ae5DEmttZG6jLLbk0tlXnJTRq/OrrLETSoHB13Yyr34VNb/w7fyrKiycj6ls0RZK6OwukHFBjzqU15+CqYalvHLjeKmeEDy0z7kN5V7lQqK1iFqy0lKpdRNWME6bgkiHWz7AqBPElepaXfljH3uIC9ICSE3fZj0cFosVWqS5qujd6jviLgArPylbLzsPpmMr7uNEuGYn/JosbrGLmaEdOPx6n99QH9ZJEqhny+Hhb/yhCUOULzBTUThhryAp1K8OqVMHKr04Yr4WhO6qvWG0FRZscX9BDRlUVYv3af8rFB4vklrh40SzmX3agJ8dFwYwf1LXlc0224rzUL7IeogD1zlbtdUODvhyVIQ9eq/f0xyJ60MSo9Jo3iud+gTY7vX/Uv8OfOYycD12C5LlKAtLp1aoG9/8OO3SBwwb9V/3m9ALEajx1cgIZDe4E4AlMg65BWpiaQ4/QaRmNMH04K7xYXTp4AdCNXev0YIB2FdyID9MsKi28uJYnskxlSfwEXc=</SignatureValue><KeyInfo><X509Data><X509SubjectName>L=Ascheim,2.5.4.4=#130642617965726e,CN=api-test.wirecard.com,OU=Operations,O=Wirecard Technologies GmbH,C=DE</X509SubjectName><X509Certificate>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</X509Certificate></X509Data></KeyInfo></Signature></payment>'
+            ],
+            [
+                false,
+                file_get_contents(__DIR__ . '/../resource/invalid.crt'),
+                '<?xml version="1.0" encoding="UTF-8"?><payment xmlns="http://www.elastic-payments.com/schema/payment" xmlns:ns2="http://www.elastic-payments.com/schema/epa/transaction"><merchant-account-id>9abf05c1-c266-46ae-8eac-7f87ca97af28</merchant-account-id><transaction-id>ccde5d9b-db51-4377-977f-51c8f3a170c0</transaction-id><request-id>845ea3ed40b77f598a96441531395ba6</request-id><transaction-type>authorization</transaction-type><transaction-state>success</transaction-state><completion-time-stamp>2017-03-29T06:58:47.000Z</completion-time-stamp><statuses><status code="201.0000" description="The resource was successfully created." provider-transaction-id="87D646135U668492X" severity="information"/></statuses><requested-amount currency="EUR">12.590000</requested-amount><parent-transaction-id>a3bdd4e9-b0b2-4167-be62-7f09c1eb368f</parent-transaction-id><account-holder><first-name>Wirecardbuyer</first-name><last-name>Spintzyk</last-name><email>paypal.buyer2@wirecard.com</email></account-holder><shipping><first-name>Chlo</first-name><last-name>Li</last-name><address><street1>Milan</street1><city>MilAN</city><country>IT</country><postal-code>12234</postal-code></address></shipping><ip-address>127.0.0.1</ip-address><order-items><order-item><name>Item 1</name><description>My first item</description><article-number>A1</article-number><amount currency="EUR">2.590000</amount><quantity>1</quantity></order-item><order-item><name>Item 2</name><description>My second item</description><article-number>B2</article-number><amount currency="EUR">5.000000</amount><tax-amount currency="EUR">1.000000</tax-amount><quantity>2</quantity></order-item></order-items><notifications><notification url="http://localhost/PayPal/notify.php"/></notifications><payment-methods><payment-method name="paypal"/></payment-methods><api-id>---</api-id><cancel-redirect-url>http://localhost/PayPal/return.php?status=cancel</cancel-redirect-url><success-redirect-url>http://localhost/PayPal/return.php?status=success</success-redirect-url><wallet><account-id>ZNKTXUBNSQE2Y</account-id></wallet><Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/></Transforms><DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><DigestValue>J5r1OC85Cgy0zqTgW+G2IWJ6NEWPMh0uR123j+c7hEQ=</DigestValue></Reference></SignedInfo><SignatureValue>ddS79IgUfxrbI6Z/IbhltvNR60khscrVUKB1zcg3/CQv/Ow7SjrueGeM/EemoFW9pWoH5jh+q9FX5cpqeamButaxYNRjJTF/JAK5rz8zBNIrpyfHln3u3EmUMGAfHOFOlHjyg3azcXhwc8Kxg5CZsSOuho4At7h15UK34FhTClR2ae5DEmttZG6jLLbk0tlXnJTRq/OrrLETSoHB13Yyr34VNb/w7fyrKiycj6ls0RZK6OwukHFBjzqU15+CqYalvHLjeKmeEDy0z7kN5V7lQqK1iFqy0lKpdRNWME6bgkiHWz7AqBPElepaXfljH3uIC9ICSE3fZj0cFosVWqS5qujd6jviLgArPylbLzsPpmMr7uNEuGYn/JosbrGLmaEdOPx6n99QH9ZJEqhny+Hhb/yhCUOULzBTUThhryAp1K8OqVMHKr04Yr4WhO6qvWG0FRZscX9BDRlUVYv3af8rFB4vklrh40SzmX3agJ8dFwYwf1LXlc0224rzUL7IeogD1zlbtdUODvhyVIQ9eq/f0xyJ60MSo9Jo3iud+gTY7vX/Uv8OfOYycD12C5LlKAtLp1aoG9/8OO3SBwwb9V/3m9ALEajx1cgIZDe4E4AlMg65BWpiaQ4/QaRmNMH04K7xYXTp4AdCNXev0YIB2FdyID9MsKi28uJYnskxlSfwEXc=</SignatureValue><KeyInfo><X509Data><X509SubjectName>L=Ascheim,2.5.4.4=#130642617965726e,CN=api-test.wirecard.com,OU=Operations,O=Wirecard Technologies GmbH,C=DE</X509SubjectName><X509Certificate>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</X509Certificate></X509Data></KeyInfo></Signature></payment>'
+            ]
+        ];
+        // @codingStandardsIgnoreEnd
+    }
+
+    /**
+     * @dataProvider signaturePublicKeyProvider
+     * @param boolean $expected
+     * @param string $publicKey
+     * @param string $response
+     */
+    public function testValidateSignature($expected, $publicKey, $response)
+    {
+        $this->config->method('getPublicKey')->willReturn($publicKey);
+        /**
+         * @var SuccessResponse $mapped
+         */
+        $mapped = $this->mapper->map($response, true);
+        $this->assertEquals($expected, $mapped->isValidSignature());
     }
 
 
@@ -654,18 +671,16 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
      * @dataProvider malformedResponseProvider
      * @param $jsonResponse
      */
-    public
-    function testMalformedResponseThrowsException($jsonResponse)
+    public function testMalformedResponseThrowsException($jsonResponse)
     {
-        $this->mapper->map($jsonResponse, new PayPalTransaction());
+        $this->mapper->map($jsonResponse, false, new PayPalTransaction());
     }
 
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
      * @dataProvider malformedResponseProvider
      */
-    public
-    function testTransactionStateInProgressThrowsException()
+    public function testTransactionStateInProgressThrowsException()
     {
         $response = '<payment>
                         <transaction-state>in-progress</transaction-state>
@@ -677,8 +692,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
      * @dataProvider malformedResponseProvider
      */
-    public
-    function testMissingPaymentMethodsThrowsException()
+    public function testMissingPaymentMethodsThrowsException()
     {
         $response = '<payment>
                         <transaction-state>success</transaction-state>
@@ -697,15 +711,14 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                             severity="information"/>
                         </statuses>
                     </payment>';
-        $this->mapper->map($response, new PayPalTransaction());
+        $this->mapper->map($response, false, new PayPalTransaction());
     }
 
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
      * @dataProvider malformedResponseProvider
      */
-    public
-    function testEmptyPaymentMethodsThrowsException()
+    public function testEmptyPaymentMethodsThrowsException()
     {
         $response = '<payment>
                         <transaction-state>success</transaction-state>
@@ -725,15 +738,14 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                         </statuses>
                         <payment-methods></payment-methods>
                     </payment>';
-        $this->mapper->map($response, new PayPalTransaction());
+        $this->mapper->map($response, false, new PayPalTransaction());
     }
 
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
      * @dataProvider malformedResponseProvider
      */
-    public
-    function testMultiplePaymentMethodsThrowsException()
+    public function testMultiplePaymentMethodsThrowsException()
     {
         $response = '<payment>
                         <transaction-state>success</transaction-state>
@@ -756,15 +768,14 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                             <payment-method></payment-method>
                         </payment-methods>
                     </payment>';
-        $this->mapper->map($response, new PayPalTransaction());
+        $this->mapper->map($response, false, new PayPalTransaction());
     }
 
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
      * @dataProvider malformedResponseProvider
      */
-    public
-    function testMultipleDifferentProviderTransactionIDsThrowsException()
+    public function testMultipleDifferentProviderTransactionIDsThrowsException()
     {
         $response = '<payment>
                         <transaction-state>success</transaction-state>
@@ -787,15 +798,14 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                             <payment-method></payment-method>
                         </payment-methods>
                     </payment>';
-        $this->mapper->map($response, new PayPalTransaction());
+        $this->mapper->map($response, false, new PayPalTransaction());
     }
 
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
      * @dataProvider malformedResponseProvider
      */
-    public
-    function testMissingThreeDElementThrowsException()
+    public function testMissingThreeDElementThrowsException()
     {
         $payload = '<payment>
                         <transaction-state>success</transaction-state>
@@ -813,15 +823,14 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                     </payment>';
         $transaction = new ThreeDCreditCardTransaction();
 
-        $this->mapper->map($payload, $transaction);
+        $this->mapper->map($payload, false, $transaction);
     }
 
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
      * @dataProvider malformedResponseProvider
      */
-    public
-    function testMissingAcsElementThrowsException()
+    public function testMissingAcsElementThrowsException()
     {
         $payload = '<payment>
                         <transaction-state>success</transaction-state>
@@ -842,15 +851,14 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                     </payment>';
         $transaction = new ThreeDCreditCardTransaction();
 
-        $this->mapper->map($payload, $transaction);
+        $this->mapper->map($payload, false, $transaction);
     }
 
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
      * @dataProvider malformedResponseProvider
      */
-    public
-    function testMissingPareqElementThrowsException()
+    public function testMissingPareqElementThrowsException()
     {
         $payload = '<payment>
                         <transaction-state>success</transaction-state>
@@ -871,11 +879,12 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                     </payment>';
         $transaction = new ThreeDCreditCardTransaction();
 
-        $this->mapper->map($payload, $transaction);
+        $this->mapper->map($payload, false, $transaction);
     }
 
-    public
-    function malformedResponseProvider()
+
+
+    public function malformedResponseProvider()
     {
         $fullData = [
             self::TRANSACTION_STATE => 'success',
@@ -916,8 +925,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         return $providerData;
     }
 
-    private
-    function arrayToXml($data, &$xmlData = null)
+    private function arrayToXml($data, &$xmlData = null)
     {
         if ($xmlData === null) {
             $xmlData = new \SimpleXMLElement('<payment></payment>');
@@ -937,8 +945,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         return $xmlData->asXML();
     }
 
-    private
-    function removeResponseKey($response, array $key)
+    private function removeResponseKey($response, array $key)
     {
         if (count($key) > 1) {
             $mainKey = array_shift($key);
