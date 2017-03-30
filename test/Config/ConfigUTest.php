@@ -81,6 +81,21 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('EUR', $this->config->getDefaultCurrency());
     }
 
+    public function testSetPublicKey()
+    {
+        $expected = 'test';
+        $this->config->setPublicKey($expected);
+
+        $this->assertAttributeEquals($expected, 'publicKey', $this->config);
+    }
+
+    public function testGetPublicKey()
+    {
+        $expected = 'test';
+        $this->config->setPublicKey($expected);
+        $this->assertEquals($expected, $this->config->getPublicKey());
+    }
+
     public function testGetStraightforwardCase()
     {
         $payPalConfig = new PaymentMethodConfig(PayPalTransaction::NAME, 'mid', 'key');

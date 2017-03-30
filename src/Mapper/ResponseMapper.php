@@ -35,6 +35,7 @@ namespace Wirecard\PaymentSdk\Mapper;
 use RobRichards\XMLSecLibs\XMLSecEnc;
 use RobRichards\XMLSecLibs\XMLSecurityDSig;
 use SimpleXMLElement;
+use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Entity\FormFieldMap;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -55,9 +56,23 @@ use Wirecard\PaymentSdk\Transaction\Transaction;
 class ResponseMapper
 {
     /**
+     * @var Config
+     */
+    private $config;
+
+    /**
      * @var SimpleXMLElement
      */
     protected $simpleXml;
+
+    /**
+     * ResponseMapper constructor.
+     * @param Config $config
+     */
+    public function __construct(Config $config)
+    {
+        $this->config = $config;
+    }
 
     /**
      * map the xml Response from engine to ResponseObjects
@@ -135,6 +150,10 @@ class ResponseMapper
 
         try {
             XMLSecEnc::staticLocateKeyInfo($key, $dSig);
+
+            if (null !== $this->config->getPublicKey()) {
+                $key->loadKey($this->config->getPublicKey());
+            }
 
             if (1 !== $xmlSecDSig->verify($key)) {
                 $result = false;

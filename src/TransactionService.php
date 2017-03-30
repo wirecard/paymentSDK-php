@@ -130,7 +130,7 @@ class TransactionService
 
         $this->requestMapper =
             $requestMapper !== null ? $requestMapper : new RequestMapper($this->config, $this->requestIdGenerator);
-        $this->responseMapper = $responseMapper !== null ? $responseMapper : new ResponseMapper();
+        $this->responseMapper = $responseMapper !== null ? $responseMapper : new ResponseMapper($this->config);
 
         $this->httpHeader = array(
             'auth' => [
