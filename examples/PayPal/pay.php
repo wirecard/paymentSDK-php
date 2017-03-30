@@ -47,6 +47,8 @@ $redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return
 $notificationUrl = getUrl('notify.php');
 
 // Here we show the optional usage of custom fields which are send with the request and returned later with the response
+// All custom fields are prefixed with 'paysdk_', so customField 'special1' will be send and returned in response
+// as 'paysdk_special1'
 $special1 = new CustomField('special1', 'abc123');
 $customFields = new CustomFieldCollection();
 $customFields->add($special1);

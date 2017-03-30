@@ -67,7 +67,7 @@ class CustomFieldCollectionUTest extends \PHPUnit_Framework_TestCase
         $expected = [
             'custom-field' => [
                 [
-                    'field-name' => $customField->getName(),
+                    'field-name' => CustomField::PREFIX . $customField->getName(),
                     'field-value' => $customField->getValue()
                 ]
             ]

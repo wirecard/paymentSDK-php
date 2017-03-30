@@ -39,6 +39,8 @@ namespace Wirecard\PaymentSdk\Entity;
  */
 class CustomField implements MappableEntity
 {
+    const PREFIX = 'paysdk_';
+
     /**
      * @var string
      */
@@ -82,7 +84,7 @@ class CustomField implements MappableEntity
     public function mappedProperties()
     {
         return [
-            'field-name' => $this->name,
+            'field-name' => self::PREFIX . $this->name,
             'field-value' => $this->value
         ];
     }
