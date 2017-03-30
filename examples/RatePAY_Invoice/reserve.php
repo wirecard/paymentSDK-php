@@ -37,10 +37,6 @@ $ratepayInvoiceConfig = new Config\PaymentMethodConfig(
 );
 $config->add($ratepayInvoiceConfig);
 
-// Set a public key for certificate pinning used for response signature validation, this certificate needs to be always
-// up to date
-$config->setPublicKey(file_get_contents(__DIR__ . '/../inc/api-test.wirecard.com.crt'));
-
 // ### Transaction related objects
 // Use the amount object as amount which has to be payed by the consumer.
 $amount = new Amount(2400, 'EUR');

@@ -31,10 +31,6 @@ $paypalKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
 $paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalMAID, $paypalKey);
 $config->add($paypalConfig);
 
-// Set a public key for certificate pinning used for response signature validation, this certificate needs to be always
-// up to date
-$config->setPublicKey(file_get_contents(__DIR__ . '/../inc/api-test.wirecard.com.crt'));
-
 
 // ## Transaction
 

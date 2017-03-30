@@ -37,10 +37,6 @@ $ccardKey = '9e0130f6-2e1e-4185-b0d5-dc69079c75cc';
 $ccardConfig = new Config\PaymentMethodConfig(CreditCardTransaction::NAME, $ccardMAID, $ccardKey);
 $config->add($ccardConfig);
 
-// Set a public key for certificate pinning used for response signature validation, this certificate needs to be always
-// up to date
-$config->setPublicKey(file_get_contents(__DIR__ . '/../inc/api-test.wirecard.com.crt'));
-
 // ### Transaction related objects
 // Create a amount object as amount which has to be payed by the consumer.
 $amount = new Amount(10.59, 'EUR');

@@ -38,10 +38,6 @@ $ratepayConfig = new Config\PaymentMethodConfig(
 );
 $config->add($ratepayConfig);
 
-// Set a public key for certificate pinning used for response signature validation, this certificate needs to be always
-// up to date
-$config->setPublicKey(file_get_contents(__DIR__ . '/../inc/api-test.wirecard.com.crt'));
-
 // Use the amount object as amount which has to be payed by the consumer.
 if (array_key_exists('amount', $_POST)) {
     $amountValue = $_POST['amount'];

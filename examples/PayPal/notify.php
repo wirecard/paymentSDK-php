@@ -54,9 +54,11 @@ $notification = $service->handleNotification(file_get_contents('php://input'));
 
 // Log the notification for a successful transaction.
 if ($notification instanceof SuccessResponse) {
-    $log->info(sprintf('Transaction with id %s was successful.', $notification->getTransactionId()));
+    $log->info(sprintf('Transaction with id %s was successful and validation status is %s.', $notification->getTransactionId(), $notification->isValidSignature() ? 'true' : 'false'));
 // Log the notification for a failed transaction.
 } elseif ($notification instanceof FailureResponse) {
+    $log->info(sprintf('Transaction with id %s was failure and validation status is %s.', $notification->getTransactionId(), $notification->isValidSignature() ? 'true' : 'false'));
+
     // In our example we iterate over all errors and echo them out.
     // You should display them as error, warning or information based on the given severity.
     foreach ($notification->getStatusCollection() as $status) {
