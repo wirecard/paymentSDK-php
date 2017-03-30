@@ -207,12 +207,12 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                             severity="information"/>
                         </statuses>
                         <payment-methods>
-                            <payment-method name="paypal"></payment-method>
+                            <payment-method name="paypal" url="http://redirect.url"></payment-method>
                         </payment-methods>
                     </response>')->asXML();
 
         $tx = new PayPalTransaction();
-        $successUrl = 'success';
+        $successUrl = 'http://redirect.url';
         $redirect = new Redirect($successUrl, null);
         $tx->setRedirect($redirect);
 
@@ -220,7 +220,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(InteractionResponse::class, $mapped);
         /**
-         * @var SuccessResponse $mapped
+         * @var InteractionResponse $mapped
          */
         $this->assertEquals($successUrl, $mapped->getRedirectUrl());
     }
