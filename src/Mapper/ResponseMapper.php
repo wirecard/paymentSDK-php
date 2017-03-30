@@ -41,8 +41,6 @@ use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Response\PendingResponse;
 use Wirecard\PaymentSdk\Response\Response;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
-use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
@@ -63,34 +61,71 @@ class ResponseMapper
     protected $transaction;
 
     /**
+     * @var boolean Whether the response is synchronous or not
+     */
+    private $syncResponse;
+
+    /**
      * map the xml Response from engine to ResponseObjects
      *
-     * @param string $xmlResponse
+     * @param string $response
      * @param Transaction $transaction
      * @throws \InvalidArgumentException
      * @throws MalformedResponseException
      * @return Response
      */
-    public function map($xmlResponse, Transaction $transaction = null)
+    public function map($response, Transaction $transaction = null)
     {
-        $decodedResponse = base64_decode($xmlResponse);
-        $xmlResponse = (base64_encode($decodedResponse) === $xmlResponse) ? $decodedResponse : $xmlResponse;
-        //we need to use internal_errors, because we don't want to throw errors on invalid xml responses
+        $this->transaction = $transaction;
+        $this->syncResponse = false;
+
+        // If the transaction is also provided, the response can only be synchronous.
+        if ($transaction !== null) {
+            $this->syncResponse = true;
+        }
+
+        if ($response instanceof \SimpleXMLElement) {
+            $this->simpleXml = $response;
+            return $this->mapXml();
+        }
+
+        return $this->mapPayload($response);
+    }
+
+    /**
+     * @param string $response
+     * @throws MalformedResponseException
+     * @return Response
+     */
+    private function mapPayload($response)
+    {
+        // If the response is encoded, we need to first decode it.
+        $decodedResponse = base64_decode($response);
+        $response = (base64_encode($decodedResponse) === $response) ? $decodedResponse : $response;
+        // We need to use internal_errors, because we don't want to throw errors on invalid xml responses.
         $oldErrorHandling = libxml_use_internal_errors(true);
-        $this->simpleXml = simplexml_load_string($xmlResponse);
+        $this->simpleXml = simplexml_load_string($response);
         //reset to old value after string is loaded
         libxml_use_internal_errors($oldErrorHandling);
+
         if (!$this->simpleXml instanceof \SimpleXMLElement) {
             throw new MalformedResponseException('Response is not a valid xml string.');
         }
 
+        return $this->mapXml();
+    }
+
+    /**
+     * @throws MalformedResponseException
+     * @return Response
+     */
+    private function mapXml()
+    {
         if (isset($this->simpleXml->{'transaction-state'})) {
             $state = (string)$this->simpleXml->{'transaction-state'};
         } else {
             throw new MalformedResponseException('Missing transaction-state in response.');
         }
-
-        $this->transaction = $transaction;
 
         switch ($state) {
             case 'success':
@@ -115,7 +150,7 @@ class ResponseMapper
                                               <payment-method name="creditcard"></payment-method>
                                           </payment-methods>');
         } else {
-            throw new MalformedResponseException('Missing payment methods in response');
+            throw new MalformedResponseException('Missing payment methods in response.');
         }
 
         if (isset($paymentMethods->{'payment-method'})) {
@@ -132,7 +167,7 @@ class ResponseMapper
     }
 
     /**
-     * @throws \Wirecard\PaymentSdk\Exception\MalformedResponseException
+     * @throws MalformedResponseException
      * @return string|null
      */
     private function getSuccessRedirectUrl()
@@ -150,7 +185,7 @@ class ResponseMapper
     }
 
     /**
-     * @throws \Wirecard\PaymentSdk\Exception\MalformedResponseException
+     * @throws MalformedResponseException
      * @throws \InvalidArgumentException
      * @return FormInteractionResponse
      */
@@ -195,21 +230,45 @@ class ResponseMapper
     }
 
     /**
+     * @throws MalformedResponseException
+     * @return FormInteractionResponse
+     */
+    private function mapSynchronousResponse()
+    {
+        $payload = base64_encode($this->simpleXml->asXML());
+
+        $formFields = new FormFieldMap();
+        $formFields->add('sync_response', $payload);
+
+        $response = new FormInteractionResponse($this->simpleXml, $this->getSuccessRedirectUrl());
+        $response->setFormFields($formFields);
+
+        return $response;
+    }
+
+    /**
      * @throws \InvalidArgumentException
      * @throws MalformedResponseException
      * @return FormInteractionResponse|InteractionResponse|SuccessResponse
      */
     private function mapSuccessResponse()
     {
+
+        // 3-D Secure enrollment check returns are handled separately.
         if ((string)$this->simpleXml->{'transaction-type'} === ThreeDCreditCardTransaction::TYPE_CHECK_ENROLLMENT) {
             return $this->mapThreeDResponse();
         }
 
         $redirectUrl = $this->getSuccessRedirectUrl();
-        if ($redirectUrl !== null) {
-            return new InteractionResponse($this->simpleXml, $redirectUrl);
+        if ($redirectUrl === null) {
+            return new SuccessResponse($this->simpleXml);
         }
 
-        return new SuccessResponse($this->simpleXml);
+        // For a synchronous result, we want to return a FormInteractionResponse.
+        if ($this->syncResponse === true) {
+            return $this->mapSynchronousResponse();
+        }
+
+        return new InteractionResponse($this->simpleXml, $redirectUrl);
     }
 }

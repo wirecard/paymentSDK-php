@@ -192,6 +192,12 @@ class TransactionService
             $data = $this->responseMapper->map($payload['base64payload']);
         }
 
+        // Synchronous payment methods
+        if (null === $data && array_key_exists('sync_response', $payload)) {
+            $data = $this->responseMapper->map($payload['sync_response']);
+        }
+
+
         if ($data instanceof Response) {
             return $data;
         }
