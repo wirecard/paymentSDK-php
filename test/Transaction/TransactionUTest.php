@@ -33,6 +33,7 @@
 namespace WirecardTest\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\AccountHolder;
+use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
@@ -76,6 +77,15 @@ class TransactionUTest extends \PHPUnit_Framework_TestCase
         $mapped = $this->tx->mappedProperties();
 
         $this->assertEquals('b4', $mapped['consumer-id']);
+    }
+
+    public function testMappingForCustomFields()
+    {
+        $this->tx->setCustomFields(new CustomFieldCollection());
+        $this->tx->setOperation(Operation::PAY);
+        $mapped = $this->tx->mappedProperties();
+
+        $this->assertArrayHasKey('custom-fields', $mapped);
     }
 
     public function testSetAccountHolder()
