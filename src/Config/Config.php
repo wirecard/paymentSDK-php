@@ -97,6 +97,11 @@ class Config
     private $pluginVersion;
 
     /**
+     * @var string
+     */
+    private $publicKey;
+
+    /**
      * Config constructor.
      * @param string $baseUrl
      * @param string $httpUser
@@ -186,6 +191,22 @@ class Config
     public function getDefaultCurrency()
     {
         return $this->defaultCurrency;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPublicKey()
+    {
+        return $this->publicKey;
+    }
+
+    /**
+     * @param string $publicKey
+     */
+    public function setPublicKey($publicKey)
+    {
+        $this->publicKey = $publicKey;
     }
 
     /**

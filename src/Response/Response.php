@@ -54,6 +54,11 @@ abstract class Response
     private $requestId;
 
     /**
+     * @var boolean
+     */
+    private $validSignature;
+
+    /**
      * @var SimpleXMLElement
      */
     protected $simpleXml;
@@ -65,12 +70,14 @@ abstract class Response
 
     /**
      * Response constructor.
-     * @param $simpleXml SimpleXMLElement
+     * @param SimpleXMLElement $simpleXml
+     * @param boolean $validSignature
      * @throws MalformedResponseException
      */
-    public function __construct($simpleXml)
+    public function __construct($simpleXml, $validSignature)
     {
         $this->simpleXml = $simpleXml;
+        $this->validSignature = $validSignature;
         $this->statusCollection = $this->generateStatusCollection();
         if (!($this instanceof FailureResponse)) {
             $this->requestId = $this->findElement('request-id');
@@ -85,6 +92,14 @@ abstract class Response
     public function getRawData()
     {
         return $this->simpleXml->asXML();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isValidSignature()
+    {
+        return $this->validSignature;
     }
 
     /**

@@ -36,6 +36,10 @@ $ratepayConfig = new Config\PaymentMethodConfig(
 );
 $config->add($ratepayConfig);
 
+// Set a public key for certificate pinning used for response signature validation, this certificate needs to be always
+// up to date
+$config->setPublicKey(file_get_contents(__DIR__ . '/../inc/api-test.wirecard.com.crt'));
+
 
 // ## Transaction
 
@@ -53,6 +57,7 @@ if ($response instanceof SuccessResponse) {
     $xmlResponse = new SimpleXMLElement($response->getRawData());
     $transactionType = $response->getTransactionType();
     echo 'Reservation successfully completed.<br>';
+    echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');
     echo getTransactionLink($baseUrl, $ratepayMAID, $response->getTransactionId());
     ?>
     <form action="pay-based-on-reserve.php" method="post">
@@ -75,8 +80,10 @@ if ($response instanceof SuccessResponse) {
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
-// In our example we iterate over all errors and echo them out.
-// You should display them as error, warning or information based on the given severity.
+    echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');
+
+    // In our example we iterate over all errors and echo them out.
+    // You should display them as error, warning or information based on the given severity.
     foreach ($response->getStatusCollection() as $status) {
         /**
          * @var $status \Wirecard\PaymentSdk\Entity\Status

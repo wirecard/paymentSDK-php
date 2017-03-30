@@ -33,6 +33,10 @@ $paypalKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
 $paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalMAID, $paypalKey);
 $config->add($paypalConfig);
 
+// Set a public key for certificate pinning used for response signature validation, this certificate needs to be always
+// up to date
+$config->setPublicKey(file_get_contents(__DIR__ . '/../inc/api-test.wirecard.com.crt'));
+
 
 // ## Transaction
 
@@ -50,9 +54,11 @@ $notification = $service->handleNotification(file_get_contents('php://input'));
 
 // Log the notification for a successful transaction.
 if ($notification instanceof SuccessResponse) {
-    $log->info(sprintf('Transaction with id %s was successful.', $notification->getTransactionId()));
+    $log->info(sprintf('Transaction with id %s was successful and validation status is %s.', $notification->getTransactionId(), $notification->isValidSignature() ? 'true' : 'false'));
 // Log the notification for a failed transaction.
 } elseif ($notification instanceof FailureResponse) {
+    $log->info(sprintf('Transaction with id %s was failure and validation status is %s.', $notification->getTransactionId(), $notification->isValidSignature() ? 'true' : 'false'));
+
     // In our example we iterate over all errors and echo them out.
     // You should display them as error, warning or information based on the given severity.
     foreach ($notification->getStatusCollection() as $status) {

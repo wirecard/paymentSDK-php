@@ -33,6 +33,7 @@ $paypalKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
 $paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalMAID, $paypalKey);
 $config->add($paypalConfig);
 
+
 // ### Transaction related objects
 // Use the amount object as amount which has to be payed by the consumer.
 $amount = new Amount(12.59, 'EUR');

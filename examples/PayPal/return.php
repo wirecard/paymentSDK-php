@@ -31,6 +31,10 @@ $paypalKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
 $paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalMAID, $paypalKey);
 $config->add($paypalConfig);
 
+// Set a public key for certificate pinning used for response signature validation, this certificate needs to be always
+// up to date
+$config->setPublicKey(file_get_contents(__DIR__ . '/../inc/api-test.wirecard.com.crt'));
+
 
 // ## Transaction
 
@@ -53,6 +57,7 @@ if ($response instanceof SuccessResponse) {
         echo 'Payment';
     }
     echo ' successfully completed.<br>';
+    echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');
     echo getTransactionLink($baseUrl, $paypalMAID, $response->getTransactionId());
     ?>
     <br>
@@ -75,8 +80,10 @@ if ($response instanceof SuccessResponse) {
     }
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
-// In our example we iterate over all errors and echo them out.
-// You should display them as error, warning or information based on the given severity.
+    echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');
+
+    // In our example we iterate over all errors and echo them out.
+    // You should display them as error, warning or information based on the given severity.
     foreach ($response->getStatusCollection() as $status) {
         /**
          * @var $status \Wirecard\PaymentSdk\Entity\Status
