@@ -32,6 +32,10 @@ $sofortSecretKey = 'ad39d9d9-2712-4abd-9016-cdeb60dc3c8f';
 $sofortConfig = new PaymentMethodConfig(SofortTransaction::NAME, $sofortMAID, $sofortSecretKey);
 $config->add($sofortConfig);
 
+// Set a public key for certificate pinning used for response signature validation, this certificate needs to be always
+// up to date
+$config->setPublicKey(file_get_contents(__DIR__ . '/../inc/api-test.wirecard.com.crt'));
+
 
 // ## Transaction
 

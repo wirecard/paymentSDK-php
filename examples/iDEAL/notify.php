@@ -34,6 +34,10 @@ $IdealSecretKey = '1b9e63b4-c132-42c3-bcbd-2d2e47ae7154';
 $IdealConfig = new PaymentMethodConfig(IdealTransaction::NAME, $IdealMAID, $IdealSecretKey);
 $config->add($IdealConfig);
 
+// Set a public key for certificate pinning used for response signature validation, this certificate needs to be always
+// up to date
+$config->setPublicKey(file_get_contents(__DIR__ . '/../inc/api-test.wirecard.com.crt'));
+
 
 // ## Transaction
 

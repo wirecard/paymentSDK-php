@@ -40,6 +40,10 @@ $ccard3dKey = '9e0130f6-2e1e-4185-b0d5-dc69079c75cc';
 $ccard3dConfig = new Config\PaymentMethodConfig(ThreeDCreditCardTransaction::NAME, $ccard3dMAID, $ccard3dKey);
 $config->add($ccard3dConfig);
 
+// Set a public key for certificate pinning used for response signature validation, this certificate needs to be always
+// up to date
+$config->setPublicKey(file_get_contents(__DIR__ . '/../inc/api-test.wirecard.com.crt'));
+
 
 // ## Transaction
 

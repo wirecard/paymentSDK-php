@@ -36,6 +36,10 @@ $sepaKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
 $sepaConfig = new PaymentMethodConfig(SepaTransaction::NAME, $sepaMAID, $sepaKey);
 $config->add($sepaConfig);
 
+// Set a public key for certificate pinning used for response signature validation, this certificate needs to be always
+// up to date
+$config->setPublicKey(file_get_contents(__DIR__ . '/../inc/api-test.wirecard.com.crt'));
+
 
 // ## Transaction
 
