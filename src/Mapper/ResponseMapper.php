@@ -105,7 +105,7 @@ class ResponseMapper
 
         // If the response is encoded, we need to first decode it.
         $decodedResponse = base64_decode($response);
-        $xmlResponse = (base64_encode($decodedResponse) === $response) ? $decodedResponse : $response;
+        $response = (base64_encode($decodedResponse) === $response) ? $decodedResponse : $response;
         //we need to use internal_errors, because we don't want to throw errors on invalid xml responses
         $oldErrorHandling = libxml_use_internal_errors(true);
         $this->simpleXml = simplexml_load_string($response);
@@ -125,7 +125,7 @@ class ResponseMapper
         $validSignature = true;
 
         if ($validateSignature) {
-            $validSignature = $this->validateSignature($xmlResponse);
+            $validSignature = $this->validateSignature($response);
         }
 
         switch ($state) {
