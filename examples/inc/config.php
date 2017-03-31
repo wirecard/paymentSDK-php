@@ -10,6 +10,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
+use Wirecard\PaymentSdk\Config\SepaConfig;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\IdealTransaction;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
@@ -72,14 +73,14 @@ $config->add($IdealConfig);
 
 $paypalMAID = '9abf05c1-c266-46ae-8eac-7f87ca97af28';
 $paypalKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
-$paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalMAID, $paypalKey);
+$paypalConfig = new PaymentMethodConfig(PayPalTransaction::NAME, $paypalMAID, $paypalKey);
 $config->add($paypalConfig);
 
 // ### paysafecard
 
 $paysafecardMAID = '4c0de18e-4c20-40a7-a5d8-5178f0fe95bd';
 $paysafecardKey = 'bb1f2975-827b-4aa8-bec6-405191d85fa5';
-$paysafecardConfig = new Config\PaymentMethodConfig(PaysafecardTransaction::NAME, $paysafecardMAID, $paysafecardKey);
+$paysafecardConfig = new PaymentMethodConfig(PaysafecardTransaction::NAME, $paysafecardMAID, $paysafecardKey);
 $config->add($paysafecardConfig);
 
 // ### RatePAY
@@ -89,7 +90,7 @@ $ratepayKey = 'd92724cf-5508-44fd-ad67-695e149212d5';
 
 // #### RatePAY Installment
 
-$ratepayInstallmentConfig = new Config\PaymentMethodConfig(
+$ratepayInstallmentConfig = new PaymentMethodConfig(
     RatepayInstallmentTransaction::NAME,
     $ratepayMAID,
     $ratepayKey
@@ -98,14 +99,16 @@ $config->add($ratepayInstallmentConfig);
 
 // #### RatePAY Invoice
 
-$ratepayInvoiceConfig = new Config\PaymentMethodConfig(RatepayInvoiceTransaction::NAME, $ratepayMAID, $ratepayKey);
+$ratepayInvoiceConfig = new PaymentMethodConfig(RatepayInvoiceTransaction::NAME, $ratepayMAID, $ratepayKey);
 $config->add($ratepayInvoiceConfig);
 
 // ### SEPA
 
 $sepaMAID = '4c901196-eff7-411e-82a3-5ef6b6860d64';
 $sepaKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
-$sepaConfig = new PaymentMethodConfig(SepaTransaction::NAME, $sepaMAID, $sepaKey);
+// SEPA requires the creditor ID, therefore a different config object is used.
+$sepaConfig = new SepaConfig(SepaTransaction::NAME, $sepaMAID, $sepaKey);
+$sepaConfig->setCreditorId('DE98ZZZ09999999999');
 $config->add($sepaConfig);
 
 // ### Sofortbanking
