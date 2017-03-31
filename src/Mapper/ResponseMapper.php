@@ -84,7 +84,7 @@ class ResponseMapper
      * @param boolean $validateSignature
      * @param Transaction $transaction
      * @throws \InvalidArgumentException
-     * @trhows MalformedResponseException
+     * @throws MalformedResponseException
      * @return Response
      */
     public function map($response, $validateSignature = false, Transaction $transaction = null)
