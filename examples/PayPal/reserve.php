@@ -1,13 +1,15 @@
 <?php
 // # PayPal reserve transaction
+
 // This example displays the usage of reserve method for payment method PayPal.
 
 // ## Required objects
+
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
+require __DIR__ . '/../inc/config.php';
 
-use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -15,25 +17,8 @@ use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
-// ### Config
-// #### Basic configuration
-// The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
-$baseUrl = 'https://api-test.wirecard.com';
-$httpUser = '70000-APITEST-AP';
-$httpPass = 'qD2wzQ_hrc!8';
-
-// The configuration is stored in an object containing the connection settings set above.
-// A default currency can also be provided.
-$config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
-
-// #### PayPal
-// Create and add a configuration object with the PayPal settings
-$paypalMAID = '9abf05c1-c266-46ae-8eac-7f87ca97af28';
-$paypalKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
-$paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalMAID, $paypalKey);
-$config->add($paypalConfig);
-
 // ### Transaction related objects
+
 // Use the amount object as amount which has to be payed by the consumer.
 $amount = new Amount(12.59, 'EUR');
 
@@ -47,6 +32,7 @@ $redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return
 $notificationUrl = getUrl('notify.php');
 
 // #### Order items
+
 // Create your items.
 $item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(2.59, 'EUR'), 1);
 $item1->setArticleNumber('A1');
@@ -74,6 +60,7 @@ $tx->setParentTransactionId($parentTransactionId);
 $tx->setItemCollection($itemCollection);
 
 // ### Transaction Service
+
 // The service is used to execute the reserve operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
 $response = $transactionService->reserve($tx);

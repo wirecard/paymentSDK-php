@@ -12,6 +12,7 @@ use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\IdealTransaction;
+use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 
 
@@ -57,7 +58,6 @@ $creditcard3dConfig = new PaymentMethodConfig(
 );
 $cardConfig->add($creditcard3dConfig);
 
-
 // ### iDEAL
 
 $IdealMAID = 'adb45327-170a-460b-9810-9008e9772f5f';
@@ -65,3 +65,9 @@ $IdealSecretKey = '1b9e63b4-c132-42c3-bcbd-2d2e47ae7154';
 $IdealConfig = new PaymentMethodConfig(IdealTransaction::NAME, $IdealMAID, $IdealSecretKey);
 $config->add($IdealConfig);
 
+// ### PayPal
+
+$paypalMAID = '9abf05c1-c266-46ae-8eac-7f87ca97af28';
+$paypalKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
+$paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalMAID, $paypalKey);
+$config->add($paypalConfig);
