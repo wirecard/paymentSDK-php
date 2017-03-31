@@ -10,8 +10,8 @@ require __DIR__ . '/../inc/common.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
-use Wirecard\PaymentSdk\Entity\Mandate;
 use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Entity\Mandate;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\FormInteractionResponse;
@@ -92,7 +92,8 @@ $response = $transactionService->pay($tx);
 // ## Response handling
 
 // The response from the service can be used for disambiguation.
-// In case of a successful transaction, a `SuccessResponse` object is returned.
+// Since a redirect for successful transactions is defined, a FormInteractionResponse is returned
+// if the transaction was successful.
 if ($response instanceof FormInteractionResponse) {
     ?>
     <form method="<?= $response->getMethod(); ?>" action="<?= $response->getUrl(); ?>">
