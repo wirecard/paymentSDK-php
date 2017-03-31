@@ -35,7 +35,7 @@ $response = $service->handleResponse($_GET);
 if ($response instanceof SuccessResponse) {
     echo 'Payment successfully completed.<br>';
     echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');
-    echo getTransactionLink($baseUrl, $IdealMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $response);
     ?>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.

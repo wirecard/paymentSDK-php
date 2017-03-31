@@ -64,7 +64,7 @@ $response = $transactionService->credit($transaction);
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo 'Funds successfully transferred.<br>';
-    echo getTransactionLink($baseUrl, $ratepayMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $response);
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
     // In our example we iterate over all errors and echo them out.

@@ -42,13 +42,16 @@ $cardConfig = new Config\Config($baseUrl, $cardHttpUser, $cardHttpPass, 'EUR');
 // ## Payment methods
 
 // Each payment method can be configured with an individual merchant account ID and the corresponding key.
+// The configuration object for payment methods requires three parameters:
+// * the name of the payment method
+// * the merchant account ID
+// * the corresponding secret key
 
 // ### Credit Card SSL
 
-$creditcardMAID = '9105bb4f-ae68-4768-9c3b-3eda968f57ea';
 $creditcardConfig = new PaymentMethodConfig(
     CreditCardTransaction::NAME,
-    $creditcardMAID,
+    '9105bb4f-ae68-4768-9c3b-3eda968f57ea',
     'd1efed51-4cb9-46a5-ba7b-0fdc87a66544'
 );
 $cardConfig->add($creditcardConfig);
@@ -90,11 +93,7 @@ $ratepayKey = 'd92724cf-5508-44fd-ad67-695e149212d5';
 
 // #### RatePAY Installment
 
-$ratepayInstallmentConfig = new PaymentMethodConfig(
-    RatepayInstallmentTransaction::NAME,
-    $ratepayMAID,
-    $ratepayKey
-);
+$ratepayInstallmentConfig = new PaymentMethodConfig(RatepayInstallmentTransaction::NAME, $ratepayMAID, $ratepayKey);
 $config->add($ratepayInstallmentConfig);
 
 // #### RatePAY Invoice

@@ -36,7 +36,7 @@ $response = $transactionService->handleResponse($_POST);
 if ($response instanceof SuccessResponse) {
     echo 'Payment successfully completed.<br>';
     echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');
-    echo getTransactionLink($baseUrl, $creditcardMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $response);
     ?>
     <br>
     <form action="cancel.php" method="post">

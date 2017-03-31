@@ -72,7 +72,7 @@ $response = $transactionService->credit($transaction);
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo 'Credit successfully completed.<br>';
-    echo getTransactionLink($baseUrl, $sepaMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $response);
     ?>
     <br>
     <form action="cancel.php" method="post">

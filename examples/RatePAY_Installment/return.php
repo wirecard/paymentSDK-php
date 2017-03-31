@@ -39,7 +39,7 @@ if ($response instanceof SuccessResponse) {
     $transactionType = $response->getTransactionType();
     echo 'Reservation successfully completed.<br>';
     echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');
-    echo getTransactionLink($baseUrl, $ratepayMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $response);
     ?>
     <form action="pay-based-on-reserve.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>

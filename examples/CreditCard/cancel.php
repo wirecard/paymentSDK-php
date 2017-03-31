@@ -41,12 +41,7 @@ $response = $transactionService->cancel($transaction);
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo 'Payment successfully cancelled.<br>';
-    if (isset($_POST['transaction-type']) && $_POST['transaction-type'] === 'ssl') {
-        $maid = $creditcardMAID;
-    } else {
-        $maid = $creditcard3dMAID;
-    }
-    echo getTransactionLink($baseUrl, $maid, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $response);
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
     // In our example we iterate over all errors and echo them out.

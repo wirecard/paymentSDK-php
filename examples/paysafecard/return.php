@@ -45,7 +45,7 @@ if ($response instanceof SuccessResponse) {
     }
     echo ' successfully completed.<br>';
     echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');
-    echo getTransactionLink($baseUrl, $paysafecardMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $response);
     ?>
     <br>
     <?php

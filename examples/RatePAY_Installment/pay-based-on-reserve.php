@@ -123,7 +123,7 @@ if (array_key_exists('item_to_capture', $_POST)) {
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo 'Payment successfully completed.<br>';
-    echo getTransactionLink($baseUrl, $ratepayMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $response);
     ?>
     <br>
     <form action="cancel.php" method="post">

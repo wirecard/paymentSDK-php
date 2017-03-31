@@ -16,10 +16,20 @@ function getUrl($path)
     return dirname(sprintf('%s://%s%s', $protocol, $host, $request)) . '/' . $path;
 }
 
-function getTransactionLink($baseUrl, $maid, $transactionId)
+/**
+ * @param $baseUrl
+ * @param \Wirecard\PaymentSdk\Response\SuccessResponse $response
+ * @return string
+ */
+function getTransactionLink($baseUrl, $response)
 {
+    $transactionId = $response->getTransactionId();
     $output = 'Transaction ID: ';
-    $output .= sprintf('<a href="' . $baseUrl . '/engine/rest/merchants/%s/payments/%s">', $maid, $transactionId);
+    $output .= sprintf(
+        '<a href="' . $baseUrl . '/engine/rest/merchants/%s/payments/%s">',
+        $response->findElement('merchant-account-id'),
+        $transactionId
+    );
     $output .= $transactionId;
     $output .= '</a>';
     return $output;

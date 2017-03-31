@@ -33,7 +33,7 @@ $response = $transactionService->cancel($transaction);
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo 'Reserve successfully cancelled.<br>';
-    echo getTransactionLink($baseUrl, $paysafecardMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $response);
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
     // In our example we iterate over all errors and echo them out.

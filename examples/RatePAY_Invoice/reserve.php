@@ -78,7 +78,7 @@ $response = $transactionService->reserve($transaction);
 // The response of the service must be handled depending on it's class.
 if ($response instanceof SuccessResponse) {
     echo 'Reservation successfully completed.<br>';
-    echo getTransactionLink($baseUrl, $ratepayMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $response);
     ?>
     <form action="pay-based-on-reserve.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>

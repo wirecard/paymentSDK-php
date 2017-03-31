@@ -56,7 +56,7 @@ $response = $transactionService->reserve($transaction);
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo 'Reservation successfully completed.<br>';
-    echo getTransactionLink($baseUrl, $creditcardMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $response);
     ?>
     <br>
     <form action="cancel.php" method="post">

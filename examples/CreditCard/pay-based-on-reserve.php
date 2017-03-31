@@ -40,7 +40,7 @@ $response = $transactionService->pay($transaction);
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo 'Payment successfully completed.<br>';
-    echo getTransactionLink($baseUrl, $creditcardMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $response);
     ?>
     <br>
     <form action="cancel.php" method="post">

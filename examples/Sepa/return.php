@@ -28,7 +28,7 @@ $response = $service->handleResponse($_POST);
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo 'Payment successfully completed.<br>';
-    echo getTransactionLink($baseUrl, $sepaMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $response);
     ?>
     <br>
     <form action="cancel.php" method="post">

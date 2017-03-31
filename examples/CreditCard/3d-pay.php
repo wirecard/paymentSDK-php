@@ -75,7 +75,7 @@ if ($response instanceof FormInteractionResponse):
     <?php
 elseif ($response instanceof SuccessResponse):
     echo 'Payment successfully completed.<br>';
-    echo getTransactionLink($baseUrl, $creditcard3dMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $response);
     ?>
     <br>
     <form action="cancel.php" method="post">
