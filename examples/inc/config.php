@@ -17,10 +17,12 @@ use Wirecard\PaymentSdk\Transaction\PaysafecardTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
 use Wirecard\PaymentSdk\Transaction\SepaTransaction;
+use Wirecard\PaymentSdk\Transaction\SofortTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 
 
 // ## Connection
+
 // The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
 $baseUrl = 'https://api-test.wirecard.com';
 $httpUser = '70000-APITEST-AP';
@@ -105,3 +107,10 @@ $sepaMAID = '4c901196-eff7-411e-82a3-5ef6b6860d64';
 $sepaKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
 $sepaConfig = new PaymentMethodConfig(SepaTransaction::NAME, $sepaMAID, $sepaKey);
 $config->add($sepaConfig);
+
+// ### Sofortbanking
+
+$sofortMAID = 'f19d17a2-01ae-11e2-9085-005056a96a54';
+$sofortSecretKey = 'ad39d9d9-2712-4abd-9016-cdeb60dc3c8f';
+$sofortConfig = new PaymentMethodConfig(SofortTransaction::NAME, $sofortMAID, $sofortSecretKey);
+$config->add($sofortConfig);
