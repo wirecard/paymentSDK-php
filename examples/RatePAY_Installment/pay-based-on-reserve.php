@@ -11,16 +11,12 @@ require __DIR__ . '/../inc/common.php';
 require __DIR__ . '/../inc/config.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
-use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 // ### Transaction related objects
-
-// The redirect URLs determine where the consumer should be redirected by PayPal after approval/cancellation.
-$redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
 
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
 $notificationUrl = getUrl('notify.php');
@@ -60,7 +56,6 @@ $accountHolder->setAddress($address);
 // The RatePAY installment transaction holds all transaction relevant data for the reserve process.
 $transaction = new RatepayInstallmentTransaction();
 $transaction->setNotificationUrl($notificationUrl);
-$transaction->setRedirect($redirectUrls);
 $transaction->setItemCollection($itemCollection);
 $transaction->setOrderNumber($orderNumber);
 $transaction->setAccountHolder($accountHolder);

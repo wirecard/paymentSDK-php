@@ -375,4 +375,13 @@ abstract class Transaction
         $this->redirect = $redirect;
         return $this;
     }
+
+    public function getSuccessUrl()
+    {
+        if (null === $this->redirect) {
+            return null;
+        }
+
+        return $this->redirect->getSuccessUrl();
+    }
 }

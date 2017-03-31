@@ -40,4 +40,9 @@ namespace Wirecard\PaymentSdk\Response;
  */
 class FailureResponse extends Response
 {
+    protected function setValueForRequestId()
+    {
+        // Nothing to do.
+        // If the response is a failure, we can not set the request ID.
+    }
 }
