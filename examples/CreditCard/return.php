@@ -1,43 +1,18 @@
 <?php
 // # Handling the response of a transaction
+
 // When a transaction is finished, the response from Wirecard can be read and processed.
 
 // ## Required objects
+
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
+require __DIR__ . '/../inc/config.php';
 
-use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
-use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
-
-// ### Config
-// #### Basic configuration
-// The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
-$baseUrl = 'https://api-test.wirecard.com';
-$httpUser = '70000-APILUHN-CARD';
-$httpPass = '8mhwavKVb91T';
-
-// The configuration is stored in an object containing the connection settings set above.
-// A default currency can also be provided.
-$config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
-
-// #### Configuration for Credit Card SSL
-// Create and add a configuration object with the settings for credit card.
-$ccardMAID = '9105bb4f-ae68-4768-9c3b-3eda968f57ea';
-$ccardKey = 'd1efed51-4cb9-46a5-ba7b-0fdc87a66544';
-$ccardConfig = new Config\PaymentMethodConfig(CreditCardTransaction::NAME, $ccardMAID, $ccardKey);
-$config->add($ccardConfig);
-
-// #### Configuration for Credit Card 3-D
-// For 3-D Secure transactions a different merchant account ID is required.
-$ccard3dMAID = '33f6d473-3036-4ca5-acb5-8c64dac862d1';
-$ccard3dKey = '9e0130f6-2e1e-4185-b0d5-dc69079c75cc';
-$ccard3dConfig = new Config\PaymentMethodConfig(ThreeDCreditCardTransaction::NAME, $ccard3dMAID, $ccard3dKey);
-$config->add($ccard3dConfig);
 
 // Set a public key for certificate pinning used for response signature validation, this certificate needs to be always
 // up to date
@@ -47,7 +22,7 @@ $config->setPublicKey(file_get_contents(__DIR__ . '/../inc/api-test.wirecard.com
 
 // ### Transaction Service
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
-$transactionService = new TransactionService($config);
+$transactionService = new TransactionService($cardConfig);
 
 // The 3D-Secure page redirects to the _returnUrl_, which points to this file. To continue the payment process
 // the sent data can be fed directly to the transaction service via the method `handleResponse()`.
@@ -61,7 +36,7 @@ $response = $transactionService->handleResponse($_POST);
 if ($response instanceof SuccessResponse) {
     echo 'Payment successfully completed.<br>';
     echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');
-    echo getTransactionLink($baseUrl, $ccardMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $creditcardMAID, $response->getTransactionId());
     ?>
     <br>
     <form action="cancel.php" method="post">

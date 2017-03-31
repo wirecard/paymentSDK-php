@@ -1,39 +1,24 @@
 <?php
 // # Credit card reservation
+
 // The method `reserve` of the _transactionService_ provides the means
 // to reserve an amount (also known as authorization).
 
 // ## Required objects
+
 // To include the necessary files, use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
+require __DIR__ . '/../inc/config.php';
 
-use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
-// ### Config
-// #### Basic configuration
-// The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
-$baseUrl = 'https://api-test.wirecard.com';
-$httpUser = '70000-APILUHN-CARD';
-$httpPass = '8mhwavKVb91T';
-
-// The configuration is stored in an object containing the connection settings set above.
-// A default currency can also be provided.
-$config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
-
-// #### Configuration for credit card SSL
-// Create and add a configuration object with the settings for credit card.
-$ccardMAID = '9105bb4f-ae68-4768-9c3b-3eda968f57ea';
-$ccardKey = 'd1efed51-4cb9-46a5-ba7b-0fdc87a66544';
-$ccardConfig = new Config\PaymentMethodConfig(CreditCardTransaction::NAME, $ccardMAID, $ccardKey);
-$config->add($ccardConfig);
-
 // ### Transaction related objects
+
 // Create a amount object as amount which has to be payed by the consumer.
 $amount = new Amount(12.59, 'EUR');
 
@@ -59,8 +44,9 @@ $transaction->setAmount($amount);
 $transaction->setParentTransactionId($parentTransactionId);
 
 // ### Transaction Service
+
 // The service is used to execute the reservation (authorization) operation itself. A response object is returned.
-$transactionService = new TransactionService($config);
+$transactionService = new TransactionService($cardConfig);
 $response = $transactionService->reserve($transaction);
 
 
@@ -70,7 +56,7 @@ $response = $transactionService->reserve($transaction);
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo 'Reservation successfully completed.<br>';
-    echo getTransactionLink($baseUrl, $ccardMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $creditcardMAID, $response->getTransactionId());
     ?>
     <br>
     <form action="cancel.php" method="post">

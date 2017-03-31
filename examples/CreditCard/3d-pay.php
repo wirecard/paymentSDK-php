@@ -1,15 +1,16 @@
 <?php
-
 // # 3-D Secure purchase for credit card
+
 // To reserve and capture an amount for a credit card with 3-D secure, you need to use a different transaction object
 // in contrast to a transaction with SSL only.
 
 // ## Required objects
+
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
+require __DIR__ . '/../inc/config.php';
 
-use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\FormInteractionResponse;
@@ -17,26 +18,8 @@ use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
-// ### Config
-// #### Connection
-// The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
-$baseUrl = 'https://api-test.wirecard.com';
-$httpUser = '70000-APILUHN-CARD';
-$httpPass = '8mhwavKVb91T';
-
-// The configuration is stored in an object containing the connection settings set above.
-// A default currency can also be provided.
-$config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
-
-// #### Credit Card 3-D
-// Create and add a configuration object with the settings for credit card.
-// For 3-D Secure transactions the corresponding merchant account ID is required.
-$ccard3dMAID = '33f6d473-3036-4ca5-acb5-8c64dac862d1';
-$ccard3dKey = '9e0130f6-2e1e-4185-b0d5-dc69079c75cc';
-$ccard3dConfig = new Config\PaymentMethodConfig(ThreeDCreditCardTransaction::NAME, $ccard3dMAID, $ccard3dKey);
-$config->add($ccard3dConfig);
-
 // ### Transaction related objects
+
 // Create a amount object as amount which has to be payed by the consumer.
 $amount = new Amount(12.59, 'EUR');
 
@@ -66,9 +49,10 @@ $transaction->setTermUrl($redirectUrl);
 $transaction->setParentTransactionId($parentTransactionId);
 
 // ### Transaction Service
+
 // The service is used to execute the payment (authorization + capture) operation itself.
 // A response object is returned.
-$transactionService = new TransactionService($config);
+$transactionService = new TransactionService($cardConfig);
 $response = $transactionService->pay($transaction);
 
 
@@ -91,7 +75,7 @@ if ($response instanceof FormInteractionResponse):
     <?php
 elseif ($response instanceof SuccessResponse):
     echo 'Payment successfully completed.<br>';
-    echo getTransactionLink($baseUrl, $ccard3dMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $creditcard3dMAID, $response->getTransactionId());
     ?>
     <br>
     <form action="cancel.php" method="post">
