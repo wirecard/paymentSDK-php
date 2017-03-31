@@ -44,31 +44,31 @@ $mandate = new Mandate('12345678');
 // ## Transaction
 
 // Create a `SepaTransaction` object, which contains all relevant data for the payment process.
-$tx = new SepaTransaction();
+$transaction = new SepaTransaction();
 if (null !== $amount) {
-    $tx->setAmount($amount);
+    $transaction->setAmount($amount);
 }
 if (array_key_exists('iban', $_POST)) {
-    $tx->setIban($_POST['iban']);
+    $transaction->setIban($_POST['iban']);
 
     if (null !== $_POST['bic']) {
-        $tx->setBic($_POST['bic']);
+        $transaction->setBic($_POST['bic']);
     }
 }
 if (array_key_exists('parentTransactionId', $_POST)) {
-    $tx->setParentTransactionId($_POST['parentTransactionId']);
+    $transaction->setParentTransactionId($_POST['parentTransactionId']);
 }
-$tx->setAccountHolder($accountHolder);
-$tx->setMandate($mandate);
+$transaction->setAccountHolder($accountHolder);
+$transaction->setMandate($mandate);
 
 $redirect = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
-$tx->setRedirect($redirect);
+$transaction->setRedirect($redirect);
 
 // ### Transaction Service
 
 // The service is used to execute the pay (pending-debit) operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
-$response = $transactionService->pay($tx);
+$response = $transactionService->pay($transaction);
 
 
 // ## Response handling
