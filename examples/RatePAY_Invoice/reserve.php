@@ -94,10 +94,7 @@ $response = $transactionService->reserve($transaction);
 
 // ## Response handling
 
-// The response of the service must be handled depending on it's class
-// In case of an `InteractionResponse`, a browser interaction by the consumer is required
-// in order to continue the reserve process. In this example we proceed with a header redirect
-// to the given _redirectUrl_. IFrame integration using this URL is also possible.
+// The response of the service must be handled depending on it's class.
 if ($response instanceof SuccessResponse) {
     echo 'Reservation successfully completed.<br>';
     echo getTransactionLink($baseUrl, $ratepayMAID, $response->getTransactionId());

@@ -45,8 +45,10 @@ use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
+use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
+use Wirecard\PaymentSdk\Transaction\SepaTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
@@ -487,6 +489,24 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($successResponse, $result);
     }
+
+    public function testHandleSyncResponse()
+    {
+        $validContent = [
+            'sync_response' => 'content',
+
+        ];
+
+        $transaction = new SepaTransaction();
+        $transaction->setOperation(Operation::PAY);
+
+        $successResponse = $this->mockProcessingRequest($transaction);
+
+        $result = $this->instance->handleResponse($validContent);
+
+        $this->assertEquals($successResponse, $result);
+    }
+
 
     public function testCancel()
     {

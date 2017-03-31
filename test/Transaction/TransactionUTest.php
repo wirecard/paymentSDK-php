@@ -33,6 +33,7 @@
 namespace WirecardTest\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\AccountHolder;
+use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\Transaction;
@@ -161,5 +162,19 @@ class TransactionUTest extends \PHPUnit_Framework_TestCase
         $tx->method('mappedSpecificProperties')->willReturn([]);
         $tx->setOperation($operation);
         $tx->mappedProperties();
+    }
+
+    public function testGetSuccessUrlHasNoRedirect()
+    {
+        $this->assertEquals(null, $this->tx->getSuccessUrl());
+    }
+
+    public function testGetSuccessUrlHasRedirect()
+    {
+        $successUrl = 'success';
+        $redirect = new Redirect($successUrl, null);
+        $this->tx->setRedirect($redirect);
+
+        $this->assertEquals($successUrl, $this->tx->getSuccessUrl());
     }
 }
