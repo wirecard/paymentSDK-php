@@ -12,8 +12,9 @@ use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Mandate;
 use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
-use Wirecard\PaymentSdk\Response\SuccessResponse;
+use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Transaction\SepaTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
@@ -79,6 +80,9 @@ if (array_key_exists('parentTransactionId', $_POST)) {
 $tx->setAccountHolder($accountHolder);
 $tx->setMandate($mandate);
 
+$redirect = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
+$tx->setRedirect($redirect);
+
 // ### Transaction Service
 // The service is used to execute the pay (pending-debit) operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
@@ -89,29 +93,17 @@ $response = $transactionService->pay($tx);
 
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
-if ($response instanceof SuccessResponse) {
-    echo 'Payment successfully completed.<br>';
-    echo getTransactionLink($baseUrl, $sepaMAID, $response->getTransactionId());
+if ($response instanceof FormInteractionResponse) {
     ?>
-    <br>
-    <form action="cancel.php" method="post">
-        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="submit" value="Cancel the payment">
-    </form>
-
-    <form action="pay.php" method="post">
-        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="submit" value="Request a new payment based on this payment">
-    </form>
-
-    <form action="credit.php" method="post">
-        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <label for="amount">Amount:</label>
-        <input id="amount" name="amount" style="width:100px" />
-        <p>
-            <input type="submit" value="Request a credit based on this payment">
-        </p>
-    </form>
+    <form method="<?= $response->getMethod(); ?>" action="<?= $response->getUrl(); ?>">
+        <?php foreach ($response->getFormFields() as $key => $value): ?>
+            <input type="hidden" name="<?= $key ?>" value="<?= $value ?>">
+        <?php endforeach;
+        // Usually an automated transmission of the form would be made.
+        // For a better demonstration and for the ease of use this automated submit
+        // is replaced with a submit button.
+        ?>
+        <input type="submit" value="Redirect to the success URL"></form>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
