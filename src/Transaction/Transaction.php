@@ -33,6 +33,7 @@
 namespace Wirecard\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\AccountHolder;
+use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Entity\ItemCollection;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
@@ -115,11 +116,25 @@ abstract class Transaction
     protected $redirect;
 
     /**
+     * @var CustomFieldCollection
+     */
+    protected $customFields;
+
+    /**
      * @param AccountHolder $accountHolder
      */
     public function setAccountHolder($accountHolder)
     {
         $this->accountHolder = $accountHolder;
+    }
+
+    /**
+     * @param CustomFieldCollection $customFields
+     * @return Transaction
+     */
+    public function setCustomFields($customFields)
+    {
+        $this->customFields = $customFields;
     }
 
     /**
@@ -248,6 +263,10 @@ abstract class Transaction
 
         if (null !== $this->consumerId) {
             $result['consumer-id'] = $this->consumerId;
+        }
+
+        if (null !== $this->customFields) {
+            $result['custom-fields'] = $this->customFields->mappedProperties();
         }
 
         $result[self::PARAM_TRANSACTION_TYPE] = $this->retrieveTransactionType();
