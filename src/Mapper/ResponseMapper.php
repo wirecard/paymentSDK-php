@@ -248,7 +248,7 @@ class ResponseMapper
      * @throws MalformedResponseException
      * @return FormInteractionResponse
      */
-    private function generateFormInteractionResponse()
+    private function redirectToSuccessUrlWithPayload()
     {
         $payload = base64_encode($this->simpleXml->asXML());
 
@@ -280,7 +280,7 @@ class ResponseMapper
         }
 
         if (null !== $this->transaction && null !== $this->transaction->getSuccessUrl()) {
-            return $this->generateFormInteractionResponse();
+            return $this->redirectToSuccessUrlWithPayload();
         }
 
         return new SuccessResponse($this->simpleXml, $validSignature);
