@@ -197,7 +197,6 @@ class TransactionService
             $data = $this->responseMapper->map($payload['sync_response'], true);
         }
 
-
         if ($data instanceof Response) {
             return $data;
         }
