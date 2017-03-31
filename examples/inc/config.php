@@ -15,6 +15,8 @@ use Wirecard\PaymentSdk\Transaction\IdealTransaction;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Transaction\PaysafecardTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
+use Wirecard\PaymentSdk\Transaction\SepaTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 
 
@@ -41,22 +43,19 @@ $cardConfig = new Config\Config($baseUrl, $cardHttpUser, $cardHttpPass, 'EUR');
 // ### Credit Card SSL
 
 $creditcardMAID = '9105bb4f-ae68-4768-9c3b-3eda968f57ea';
-$creditcardKey = 'd1efed51-4cb9-46a5-ba7b-0fdc87a66544';
 $creditcardConfig = new PaymentMethodConfig(
     CreditCardTransaction::NAME,
     $creditcardMAID,
-    $creditcardKey
+    'd1efed51-4cb9-46a5-ba7b-0fdc87a66544'
 );
 $cardConfig->add($creditcardConfig);
 
 // ### Credit Card 3-D
 
-$creditcard3dMAID = '33f6d473-3036-4ca5-acb5-8c64dac862d1';
-$creditcard3dKey = '9e0130f6-2e1e-4185-b0d5-dc69079c75cc';
 $creditcard3dConfig = new PaymentMethodConfig(
     ThreeDCreditCardTransaction::NAME,
-    $creditcard3dMAID,
-    $creditcard3dKey
+    '33f6d473-3036-4ca5-acb5-8c64dac862d1',
+    '9e0130f6-2e1e-4185-b0d5-dc69079c75cc'
 );
 $cardConfig->add($creditcard3dConfig);
 
@@ -81,10 +80,28 @@ $paysafecardKey = 'bb1f2975-827b-4aa8-bec6-405191d85fa5';
 $paysafecardConfig = new Config\PaymentMethodConfig(PaysafecardTransaction::NAME, $paysafecardMAID, $paysafecardKey);
 $config->add($paysafecardConfig);
 
-// #### RatePAY installment
+// ### RatePAY
 
 $ratepayMAID = '73ce088c-b195-4977-8ea8-0be32cca9c2e';
 $ratepayKey = 'd92724cf-5508-44fd-ad67-695e149212d5';
-$ratepayConfig = new Config\PaymentMethodConfig(RatepayInstallmentTransaction::NAME, $ratepayMAID, $ratepayKey);
-$config->add($ratepayConfig);
 
+// #### RatePAY Installment
+
+$ratepayInstallmentConfig = new Config\PaymentMethodConfig(
+    RatepayInstallmentTransaction::NAME,
+    $ratepayMAID,
+    $ratepayKey
+);
+$config->add($ratepayInstallmentConfig);
+
+// #### RatePAY Invoice
+
+$ratepayInvoiceConfig = new Config\PaymentMethodConfig(RatepayInvoiceTransaction::NAME, $ratepayMAID, $ratepayKey);
+$config->add($ratepayInvoiceConfig);
+
+// ### SEPA
+
+$sepaMAID = '4c901196-eff7-411e-82a3-5ef6b6860d64';
+$sepaKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
+$sepaConfig = new PaymentMethodConfig(SepaTransaction::NAME, $sepaMAID, $sepaKey);
+$config->add($sepaConfig);
