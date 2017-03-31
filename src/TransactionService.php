@@ -192,6 +192,12 @@ class TransactionService
             $data = $this->responseMapper->map($payload['base64payload'], true);
         }
 
+        // Synchronous payment methods
+        if (null === $data && array_key_exists('sync_response', $payload)) {
+            $data = $this->responseMapper->map($payload['sync_response'], true);
+        }
+
+
         if ($data instanceof Response) {
             return $data;
         }
@@ -272,6 +278,7 @@ class TransactionService
      * @throws MalformedResponseException
      * @throws UnconfiguredPaymentMethodException
      * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
      */
     public function credit(Transaction $transaction)
@@ -344,6 +351,7 @@ class TransactionService
      * @throws UnconfiguredPaymentMethodException
      * @throws MalformedResponseException
      * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
      */
     public function process(Transaction $transaction, $operation)
@@ -368,8 +376,7 @@ class TransactionService
         $endpoint = $this->config->getBaseUrl() . $transaction->getEndpoint();
         $responseContent = $this->sendPostRequest($endpoint, $requestBody);
 
-        $data = $transaction instanceof ThreeDCreditCardTransaction ? $transaction : null;
-        return $this->responseMapper->map($responseContent, false, $operation, $data);
+        return $this->responseMapper->map($responseContent, false, $transaction);
     }
 
     /**
@@ -395,6 +402,7 @@ class TransactionService
      * @throws MalformedResponseException
      * @throws UnconfiguredPaymentMethodException
      * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
      */
     private function processAuthFrom3DResponse($payload)
@@ -413,6 +421,7 @@ class TransactionService
      * @throws UnconfiguredPaymentMethodException
      * @throws MalformedResponseException
      * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      * @return Response
      */
     private function processFromIdealResponse($payload)
