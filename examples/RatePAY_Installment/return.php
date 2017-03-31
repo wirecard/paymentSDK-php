@@ -1,40 +1,20 @@
 <?php
 // # RatePAY installment return after transaction
+
 // The consumer gets redirected to this page after a RatePAY installment transaction.
 
 // ## Required objects
+
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
+require __DIR__ . '/../inc/config.php';
 
-use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
-// ### Config
-// #### Basic configuration
-// The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
-$baseUrl = 'https://api-test.wirecard.com';
-$httpUser = '70000-APITEST-AP';
-$httpPass = 'qD2wzQ_hrc!8';
-
-// The configuration is stored in an object containing the connection settings set above.
-// A default currency can also be provided.
-$config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
-
-// #### RatePAY installment
-// Create and add a configuration object with the RatePAY installment settings
-$ratepayMAID = '73ce088c-b195-4977-8ea8-0be32cca9c2e';
-$ratepayKey = 'd92724cf-5508-44fd-ad67-695e149212d5';
-
-$ratepayConfig = new Config\PaymentMethodConfig(
-    RatepayInstallmentTransaction::NAME,
-    $ratepayMAID,
-    $ratepayKey
-);
-$config->add($ratepayConfig);
+// ### Validation
 
 // Set a public key for certificate pinning used for response signature validation, this certificate needs to be always
 // up to date
@@ -44,6 +24,7 @@ $config->setPublicKey(file_get_contents(__DIR__ . '/../inc/api-test.wirecard.com
 // ## Transaction
 
 // ### Transaction Service
+
 // The `TransactionService` is used to determine the response from the service provider.
 $service = new TransactionService($config);
 $response = $service->handleResponse($_POST);

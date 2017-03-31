@@ -14,6 +14,7 @@ use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\IdealTransaction;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Transaction\PaysafecardTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 
 
@@ -79,3 +80,11 @@ $paysafecardMAID = '4c0de18e-4c20-40a7-a5d8-5178f0fe95bd';
 $paysafecardKey = 'bb1f2975-827b-4aa8-bec6-405191d85fa5';
 $paysafecardConfig = new Config\PaymentMethodConfig(PaysafecardTransaction::NAME, $paysafecardMAID, $paysafecardKey);
 $config->add($paysafecardConfig);
+
+// #### RatePAY installment
+
+$ratepayMAID = '73ce088c-b195-4977-8ea8-0be32cca9c2e';
+$ratepayKey = 'd92724cf-5508-44fd-ad67-695e149212d5';
+$ratepayConfig = new Config\PaymentMethodConfig(RatepayInstallmentTransaction::NAME, $ratepayMAID, $ratepayKey);
+$config->add($ratepayConfig);
+
