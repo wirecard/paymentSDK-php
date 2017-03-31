@@ -13,6 +13,7 @@ use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\IdealTransaction;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
+use Wirecard\PaymentSdk\Transaction\PaysafecardTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 
 
@@ -71,3 +72,10 @@ $paypalMAID = '9abf05c1-c266-46ae-8eac-7f87ca97af28';
 $paypalKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
 $paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalMAID, $paypalKey);
 $config->add($paypalConfig);
+
+// ### paysafecard
+
+$paysafecardMAID = '4c0de18e-4c20-40a7-a5d8-5178f0fe95bd';
+$paysafecardKey = 'bb1f2975-827b-4aa8-bec6-405191d85fa5';
+$paysafecardConfig = new Config\PaymentMethodConfig(PaysafecardTransaction::NAME, $paysafecardMAID, $paysafecardKey);
+$config->add($paysafecardConfig);
