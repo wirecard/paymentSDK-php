@@ -69,11 +69,6 @@ class ResponseMapper
     protected $transaction;
 
     /**
-     * @var boolean Whether the response is synchronous or not
-     */
-    private $syncResponse;
-
-    /**
      * ResponseMapper constructor.
      * @param Config $config
      */
@@ -95,13 +90,6 @@ class ResponseMapper
     public function map($response, $validateSignature = false, Transaction $transaction = null)
     {
         $this->transaction = $transaction;
-        $this->syncResponse = false;
-
-        // If the transaction is provided, the response can only be synchronous.
-        // But if the payment method contains provides an url, we want an interaction response.
-        if ($transaction !== null) {
-            $this->syncResponse = true;
-        }
 
         // If the response is encoded, we need to first decode it.
         $decodedResponse = base64_decode($response);
@@ -213,24 +201,6 @@ class ResponseMapper
 
     /**
      * @throws MalformedResponseException
-     * @return string|null
-     */
-    private function getSuccessRedirectUrl()
-    {
-        $paymentMethod = $this->getPaymentMethod();
-        if (isset($paymentMethod['url'])) {
-            return (string)$paymentMethod['url'];
-        }
-
-        if (null !== $this->transaction && null !== $this->transaction->getSuccessUrl()) {
-            return $this->transaction->getSuccessUrl();
-        }
-
-        return null;
-    }
-
-    /**
-     * @throws MalformedResponseException
      * @throws \InvalidArgumentException
      * @return FormInteractionResponse
      */
@@ -278,14 +248,14 @@ class ResponseMapper
      * @throws MalformedResponseException
      * @return FormInteractionResponse
      */
-    private function mapSynchronousResponse()
+    private function generateFormInteractionResponse()
     {
         $payload = base64_encode($this->simpleXml->asXML());
 
         $formFields = new FormFieldMap();
         $formFields->add('sync_response', $payload);
 
-        $response = new FormInteractionResponse($this->simpleXml, $this->getSuccessRedirectUrl());
+        $response = new FormInteractionResponse($this->simpleXml, $this->transaction->getSuccessUrl());
         $response->setFormFields($formFields);
 
         return $response;
@@ -303,16 +273,16 @@ class ResponseMapper
             return $this->mapThreeDResponse();
         }
 
-        $redirectUrl = $this->getSuccessRedirectUrl();
-        if ($redirectUrl === null) {
-            return new SuccessResponse($this->simpleXml, $validSignature);
+        $paymentMethod = $this->getPaymentMethod();
+
+        if (isset($paymentMethod['url'])) {
+            return new InteractionResponse($this->simpleXml, (string)$paymentMethod['url']);
         }
 
-        // For a synchronous result without redirect URL, we also want to return a FormInteractionResponse.
-        if ($this->syncResponse === true && !isset($this->getPaymentMethod()['url'])) {
-            return $this->mapSynchronousResponse();
+        if (null !== $this->transaction && null !== $this->transaction->getSuccessUrl()) {
+            return $this->generateFormInteractionResponse();
         }
 
-        return new InteractionResponse($this->simpleXml, $redirectUrl);
+        return new SuccessResponse($this->simpleXml, $validSignature);
     }
 }
