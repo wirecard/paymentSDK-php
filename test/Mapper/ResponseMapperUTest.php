@@ -257,7 +257,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         /**
          * @var FormInteractionResponse $mapped
          */
-        $mapped = $this->mapper->map($payload, false, $transaction);
+        $mapped = $this->mapper->map($payload, $transaction);
 
         $this->assertInstanceOf(FormInteractionResponse::class, $mapped);
         $this->assertEquals($payload, $mapped->getRawData());
@@ -276,7 +276,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         /**
          * @var FormInteractionResponse $mapped
          */
-        $mapped = $this->mapper->map($payload, false, $transaction);
+        $mapped = $this->mapper->map($payload, $transaction);
 
         $this->assertInstanceOf(FormInteractionResponse::class, $mapped);
         $this->assertEquals($payload, $mapped->getRawData());
@@ -299,7 +299,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         /**
          * @var FormInteractionResponse $mapped
          */
-        $mapped = $this->mapper->map($payload, false, $transaction);
+        $mapped = $this->mapper->map($payload, $transaction);
 
         $this->assertInstanceOf(FormInteractionResponse::class, $mapped);
         $this->assertEquals('dummy URL', $mapped->getFormFields()->getIterator()['TermUrl']);
@@ -311,7 +311,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $responseArray['payment-method'] = array('name' => 'paypal');
         $payload = $this->getResponse($responseArray);
 
-        $mapped = $this->mapper->map($payload, false, new PayPalTransaction());
+        $mapped = $this->mapper->map($payload, new PayPalTransaction());
 
         $this->assertInstanceOf(SuccessResponse::class, $mapped);
         $this->assertEquals($payload, $mapped->getRawData());
@@ -485,7 +485,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         );
         $response = $this->getResponse($responseArray);
 
-        $mapped = $this->mapper->map($response, false, new PayPalTransaction());
+        $mapped = $this->mapper->map($response, new PayPalTransaction());
         $this->assertInstanceOf(SuccessResponse::class, $mapped);
         /**
          * @var SuccessResponse $mapped
@@ -510,7 +510,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         );
         $response = $this->getResponse($responseArray);
 
-        $mapped = $this->mapper->map($response, false, new PayPalTransaction());
+        $mapped = $this->mapper->map($response, new PayPalTransaction());
         $this->assertInstanceOf(SuccessResponse::class, $mapped);
         /**
          * @var SuccessResponse $mapped
@@ -528,7 +528,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         /**
          * @var PendingResponse $mapped
          */
-        $mapped = $this->mapper->map($response, false, new SepaTransaction());
+        $mapped = $this->mapper->map($response, new SepaTransaction());
         $this->assertInstanceOf(PendingResponse::class, $mapped);
         $this->assertEquals('123', $mapped->getRequestId());
     }
@@ -588,10 +588,9 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         /**
          * @var SuccessResponse $mapped
          */
-        $mapped = $this->mapper->map($response, true);
+        $mapped = $this->mapper->mapInclSignature($response);
         $this->assertEquals($expected, $mapped->isValidSignature());
     }
-
 
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
@@ -600,7 +599,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
      */
     public function testMalformedResponseThrowsException($jsonResponse)
     {
-        $this->mapper->map($jsonResponse, false, new PayPalTransaction());
+        $this->mapper->map($jsonResponse, new PayPalTransaction());
     }
 
     /**
@@ -620,7 +619,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
     public function testMissingPaymentMethodsThrowsException()
     {
         $response = $this->getResponse($this->defaultResponseArray);
-        $this->mapper->map($response, false, new PayPalTransaction());
+        $this->mapper->map($response, new PayPalTransaction());
     }
 
     /**
@@ -631,7 +630,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $xmlResponse = $this->getResponse($this->defaultResponseArray, false);
         $xmlResponse->addChild('payment-methods');
 
-        $this->mapper->map($xmlResponse->asXML(), false, new PayPalTransaction());
+        $this->mapper->map($xmlResponse->asXML(), new PayPalTransaction());
     }
 
     /**
@@ -647,7 +646,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
          */
         $paymentMethods = $xmlResponse->{'payment-methods'};
         $paymentMethods->addChild('payment-method');
-        $this->mapper->map($xmlResponse->asXML(), false, new PayPalTransaction());
+        $this->mapper->map($xmlResponse->asXML(), new PayPalTransaction());
     }
 
     /**
@@ -669,7 +668,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         );
         $response = $this->getResponse($this->defaultResponseArray);
 
-        $this->mapper->map($response, false, new PayPalTransaction());
+        $this->mapper->map($response, new PayPalTransaction());
     }
 
     /**
@@ -683,7 +682,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
 
         $transaction = new ThreeDCreditCardTransaction();
 
-        $this->mapper->map($payload, false, $transaction);
+        $this->mapper->map($payload, $transaction);
     }
 
     /**
@@ -696,7 +695,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $responseArray['three-d'] = array('pareq' => 'request');
         $payload = $this->getResponse($responseArray);
 
-        $this->mapper->map($payload, false, new ThreeDCreditCardTransaction());
+        $this->mapper->map($payload, new ThreeDCreditCardTransaction());
     }
 
     /**
@@ -709,7 +708,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $responseArray['three-d'] = array('acs-url' => 'https://www.example.com/acs');
         $payload = $this->getResponse($responseArray);
 
-        $this->mapper->map($payload, false, new ThreeDCreditCardTransaction());
+        $this->mapper->map($payload, new ThreeDCreditCardTransaction());
     }
 
 
@@ -726,7 +725,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         /**
          * @var $result FormInteractionResponse
          */
-        $result = $this->mapper->map($response, false, $transaction);
+        $result = $this->mapper->map($response, $transaction);
         $this->assertEquals('http://success.ful', $result->getUrl());
     }
 
