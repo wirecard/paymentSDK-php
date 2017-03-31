@@ -118,12 +118,18 @@ class ResponseMapper
 
         switch ($state) {
             case 'success':
-                return $this->mapSuccessResponse($validSignature);
+                $response =  $this->mapSuccessResponse();
+                break;
             case 'in-progress':
-                return new PendingResponse($this->simpleXml, $validSignature);
+                $response = new PendingResponse($this->simpleXml);
+                break;
             default:
-                return new FailureResponse($this->simpleXml, $validSignature);
+                $response = new FailureResponse($this->simpleXml);
+                break;
         }
+
+        $response->setValidSignature($validSignature);
+        return $response;
     }
 
     /**
@@ -262,12 +268,11 @@ class ResponseMapper
     }
 
     /**
-     * @param boolean $validSignature
      * @throws \InvalidArgumentException
      * @throws MalformedResponseException
      * @return FormInteractionResponse|InteractionResponse|SuccessResponse
      */
-    private function mapSuccessResponse($validSignature)
+    private function mapSuccessResponse()
     {
         if ((string)$this->simpleXml->{'transaction-type'} === ThreeDCreditCardTransaction::TYPE_CHECK_ENROLLMENT) {
             return $this->mapThreeDResponse();
@@ -283,6 +288,6 @@ class ResponseMapper
             return $this->redirectToSuccessUrlWithPayload();
         }
 
-        return new SuccessResponse($this->simpleXml, $validSignature);
+        return new SuccessResponse($this->simpleXml);
     }
 }

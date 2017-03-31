@@ -67,7 +67,7 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
 
     public function testIsValidSignature()
     {
-        $this->assertEquals(false, $this->response->isValidSignature());
+        $this->assertEquals(true, $this->response->isValidSignature());
     }
 
     /**
