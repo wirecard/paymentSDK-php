@@ -348,7 +348,10 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $invalidXmlContent = '<xml><payment></payment></xml>';
 
         $responseMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\ResponseMapper');
-        $responseMapper->method('mapInclSignature')->with($invalidXmlContent)->willThrowException(new MalformedResponseException());
+        $responseMapper
+            ->method('mapInclSignature')
+            ->with($invalidXmlContent)
+            ->willThrowException(new MalformedResponseException());
 
         $this->instance = new TransactionService($this->config, null, null, null, $responseMapper);
 
@@ -370,7 +373,10 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         $responseMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\ResponseMapper');
         $interactionResponse = new InteractionResponse($simpleXml, 'http://y.z');
-        $responseMapper->method('mapInclSignature')->with($validContent['eppresponse'])->willReturn($interactionResponse);
+        $responseMapper
+            ->method('mapInclSignature')
+            ->with($validContent['eppresponse'])
+            ->willReturn($interactionResponse);
 
         $this->instance = new TransactionService($this->config, null, null, null, $responseMapper);
 
