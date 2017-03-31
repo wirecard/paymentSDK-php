@@ -79,9 +79,7 @@ abstract class Response
         $this->simpleXml = $simpleXml;
         $this->validSignature = $validSignature;
         $this->statusCollection = $this->generateStatusCollection();
-        if (!($this instanceof FailureResponse)) {
-            $this->requestId = $this->findElement('request-id');
-        }
+        $this->setValueForRequestId();
     }
 
     /**
@@ -121,7 +119,7 @@ abstract class Response
             return (string)$this->simpleXml->{$element};
         }
 
-        throw new MalformedResponseException('Missing '.$element.' in response.');
+        throw new MalformedResponseException('Missing ' . $element . ' in response.');
     }
 
     /**
@@ -188,5 +186,10 @@ abstract class Response
     public function getTransactionType()
     {
         return $this->transactionType;
+    }
+
+    protected function setValueForRequestId()
+    {
+        $this->requestId = $this->findElement('request-id');
     }
 }
