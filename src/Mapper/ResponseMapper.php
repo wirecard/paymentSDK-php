@@ -61,7 +61,7 @@ class ResponseMapper
     /**
      * @var string
      */
-    protected $encodedResponse;
+    protected $xmlResponse;
 
     /**
      * @var SimpleXMLElement
@@ -84,14 +84,14 @@ class ResponseMapper
 
     /**
      * @param string $response
-     * @return Response
      * @throws \Wirecard\PaymentSdk\Exception\MalformedResponseException
      * @throws \InvalidArgumentException
+     * @return Response
      */
     public function mapInclSignature($response)
     {
         $result = $this->map($response);
-        $validSignature = $this->validateSignature($this->encodedResponse);
+        $validSignature = $this->validateSignature($this->xmlResponse);
         $result->setValidSignature($validSignature);
 
         return $result;
@@ -112,10 +112,10 @@ class ResponseMapper
 
         // If the response is encoded, we need to first decode it.
         $decodedResponse = base64_decode($response);
-        $this->encodedResponse = (base64_encode($decodedResponse) === $response) ? $decodedResponse : $response;
+        $this->xmlResponse = (base64_encode($decodedResponse) === $response) ? $decodedResponse : $response;
         //we need to use internal_errors, because we don't want to throw errors on invalid xml responses
         $oldErrorHandling = libxml_use_internal_errors(true);
-        $this->simpleXml = simplexml_load_string($this->encodedResponse);
+        $this->simpleXml = simplexml_load_string($this->xmlResponse);
         //reset to old value after string is loaded
         libxml_use_internal_errors($oldErrorHandling);
 

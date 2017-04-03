@@ -160,8 +160,8 @@ class TransactionService
      * @throws MalformedResponseException
      * @throws UnconfiguredPaymentMethodException
      * @throws \RuntimeException
-     * @return FailureResponse|InteractionResponse|SuccessResponse|Response
      * @throws \InvalidArgumentException
+     * @return FailureResponse|InteractionResponse|SuccessResponse|Response
      */
     public function handleResponse(array $payload)
     {
