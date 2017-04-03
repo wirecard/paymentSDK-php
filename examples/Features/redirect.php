@@ -1,5 +1,5 @@
 <?php
-// # Redirecting synchronous payments
+// # Redirect with synchronous payments
 
 // At synchronous payment processes the first response already contains the information, that the funds were
 // successfully reserved or transferred and the person paying does not need to be redirected to a page from
