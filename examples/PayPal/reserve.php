@@ -31,39 +31,21 @@ $redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
 $notificationUrl = getUrl('notify.php');
 
-// #### Order items
-
-// Create your items.
-$item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(2.59, 'EUR'), 1);
-$item1->setArticleNumber('A1');
-$item1->setDescription('My first item');
-
-$item2 = new \Wirecard\PaymentSdk\Entity\Item('Item 2', new Amount(5, 'EUR'), 2);
-$item2->setArticleNumber('B2');
-$item2->setDescription('My second item');
-$item2->setTaxAmount(new Amount(1, 'EUR'));
-
-// Create an item collection to store the items.
-$itemCollection = new \Wirecard\PaymentSdk\Entity\ItemCollection();
-$itemCollection->add($item1);
-$itemCollection->add($item2);
-
 
 // ## Transaction
 
 // The PayPal transaction holds all transaction relevant data for the reserve process.
-$tx = new PayPalTransaction();
-$tx->setNotificationUrl($notificationUrl);
-$tx->setRedirect($redirectUrls);
-$tx->setAmount($amount);
-$tx->setParentTransactionId($parentTransactionId);
-$tx->setItemCollection($itemCollection);
+$transaction = new PayPalTransaction();
+$transaction->setNotificationUrl($notificationUrl);
+$transaction->setRedirect($redirectUrls);
+$transaction->setAmount($amount);
+$transaction->setParentTransactionId($parentTransactionId);
 
 // ### Transaction Service
 
 // The service is used to execute the reserve operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
-$response = $transactionService->reserve($tx);
+$response = $transactionService->reserve($transaction);
 
 
 // ## Response handling
