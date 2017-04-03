@@ -35,4 +35,6 @@ $response = $transactionService->handleResponse($_POST);
 if ($response instanceof SuccessResponse) {
     // The validity of the response can be checked with the method `isValidSignature()`.
     echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');
+} else {
+    echo "Transaction was not successful.";
 }
