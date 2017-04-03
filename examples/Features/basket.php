@@ -1,7 +1,8 @@
 <?php
-// # RatePAY installment reserve transaction
+// # Basket data
 
-// This example displays the usage of reserve method for payment method RatePAY installment.
+// The data, which items were purchased is required for some payment methods like RatePAY invoice / installment.
+// At some payment methods like PayPal this information can be displayed on the payment processing page.
 
 // ## Required objects
 
@@ -14,69 +15,47 @@ use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
-use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
+use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 // ### Transaction related objects
 
-// Use the amount object as amount which has to be payed by the consumer.
-$amount = new Amount(2400, 'EUR');
-
-// ### URLs
-
-// The redirect URLs determine where the consumer should be redirected by RatePAY installment after the reserve.
-$redirectUrls = new Redirect(
-    getUrl('return.php?status=success'),
-    getUrl('return.php?status=cancel'),
-    getUrl('return.php?status=failure')
-);
-
-// As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
+// For more information on these parameters visit the PayPal examples.
+$redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
 $notificationUrl = getUrl('notify.php');
 
-$orderNumber = 'A2';
+// ### Basket items
 
-// #### Basket items
-
-// RatePAY requires information on the purchased items.
-$item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(400, 'EUR'), 1);
+// Each item needs to be an objects as described here. The name, the amount and the quantity are required details,
+// the article number and the description are optional.
+$item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(2.59, 'EUR'), 1);
 $item1->setArticleNumber('A1');
-// In contrast to the [basket example](../Features/basket.html), RatePAY requires the **tax rate**.
-$item1->setTaxRate(0.1);
+$item1->setDescription('My first item');
 
-$item2 = new \Wirecard\PaymentSdk\Entity\Item('Item 2', new Amount(1000, 'EUR'), 2);
+$item2 = new \Wirecard\PaymentSdk\Entity\Item('Item 2', new Amount(5, 'EUR'), 2);
 $item2->setArticleNumber('B2');
-$item2->setTaxRate(0.2);
+$item2->setDescription('My second item');
+$item2->setTaxAmount(new Amount(1, 'EUR'));
 
-// Create an item collection to store the items.
+// The items are all stored in an `itemCollection`.
 $itemCollection = new \Wirecard\PaymentSdk\Entity\ItemCollection();
 $itemCollection->add($item1);
 $itemCollection->add($item2);
 
-
-// ### Account holder with address
-$address = new \Wirecard\PaymentSdk\Entity\Address('DE', 'Berlin', 'Berlin');
-$address->setPostalCode('13353');
-
-$accountHolder = new \Wirecard\PaymentSdk\Entity\AccountHolder();
-$accountHolder->setFirstName('John');
-$accountHolder->setLastName('Constantine');
-$accountHolder->setEmail('john.doe@test.com');
-$accountHolder->setPhone('03018425165');
-$accountHolder->setDateOfBirth(new \DateTime('1973-12-07'));
-$accountHolder->setAddress($address);
+// The amount needs to be equal to the total amount for the order items.
+$amount = new Amount(12.59, 'EUR');
 
 
 // ## Transaction
 
-// The RatePAY installment transaction holds all transaction relevant data for the reserve process.
-$transaction = new RatepayInstallmentTransaction();
+// The PayPal transaction holds all transaction relevant data for the reserve process.
+$transaction = new PayPalTransaction();
 $transaction->setNotificationUrl($notificationUrl);
 $transaction->setRedirect($redirectUrls);
 $transaction->setAmount($amount);
+
+// Include the item collection in the transaction.
 $transaction->setItemCollection($itemCollection);
-$transaction->setOrderNumber($orderNumber);
-$transaction->setAccountHolder($accountHolder);
 
 // ### Transaction Service
 

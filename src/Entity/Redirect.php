@@ -56,7 +56,7 @@ class Redirect
      * @param string $cancelUrl
      * @param null $failureUrl
      */
-    public function __construct($successUrl, $cancelUrl, $failureUrl = null)
+    public function __construct($successUrl, $cancelUrl = null, $failureUrl = null)
     {
         $this->successUrl = $successUrl;
         $this->cancelUrl = $cancelUrl;

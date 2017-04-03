@@ -251,8 +251,10 @@ abstract class Transaction
         }
 
         if ($this->redirect instanceof Redirect) {
-            $result['cancel-redirect-url'] = $this->redirect->getCancelUrl();
             $result['success-redirect-url'] = $this->redirect->getSuccessUrl();
+            if ($this->redirect->getCancelUrl()) {
+                $result['cancel-redirect-url'] = $this->redirect->getCancelUrl();
+            }
             if ($this->redirect->getFailureUrl()) {
                 $result['redirect-url'] = $this->redirect->getFailureUrl();
             }

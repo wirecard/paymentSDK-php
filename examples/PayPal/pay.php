@@ -11,8 +11,6 @@ require __DIR__ . '/../inc/common.php';
 require __DIR__ . '/../inc/config.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
-use Wirecard\PaymentSdk\Entity\CustomField;
-use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
@@ -30,15 +28,6 @@ $redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
 $notificationUrl = getUrl('notify.php');
 
-// ### Custom fields
-
-// Here we show the optional usage of custom fields which are send with the request and returned later with the response
-// All custom fields are prefixed with 'paysdk_', so customField 'special1' will be send and returned in response
-// as 'paysdk_special1'
-$special1 = new CustomField('special1', 'abc123');
-$customFields = new CustomFieldCollection();
-$customFields->add($special1);
-
 
 // ## Transaction
 
@@ -47,7 +36,6 @@ $transaction = new PayPalTransaction();
 $transaction->setNotificationUrl($notificationUrl);
 $transaction->setRedirect($redirectUrls);
 $transaction->setAmount($amount);
-$transaction->setCustomFields($customFields);
 
 // ### Transaction Service
 
