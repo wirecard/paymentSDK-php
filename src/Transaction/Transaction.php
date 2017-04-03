@@ -33,9 +33,9 @@
 namespace Wirecard\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\AccountHolder;
+use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Entity\ItemCollection;
-use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
@@ -135,6 +135,7 @@ abstract class Transaction
     public function setCustomFields($customFields)
     {
         $this->customFields = $customFields;
+        return $this;
     }
 
     /**

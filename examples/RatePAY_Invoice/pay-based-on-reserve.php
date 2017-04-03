@@ -1,42 +1,20 @@
 <?php
 // # Payment after a reservation
+
 // Enter the ID of the successful reserve transaction and start a pay transaction with it.
 
 // ## Required objects
+
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
+require __DIR__ . '/../inc/config.php';
 
-use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
 use Wirecard\PaymentSdk\TransactionService;
-
-// ### Config
-// #### Basic configuration
-// The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
-$baseUrl = 'https://api-test.wirecard.com';
-$httpUser = '70000-APITEST-AP';
-$httpPass = 'qD2wzQ_hrc!8';
-
-// The configuration is stored in an object containing the connection settings set above.
-// A default currency can also be provided.
-$config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
-
-// #### RatePAY invoice
-// Create and add a configuration object with the RatePAY invoice settings
-$ratepayMAID = '73ce088c-b195-4977-8ea8-0be32cca9c2e';
-$ratepayKey = 'd92724cf-5508-44fd-ad67-695e149212d5';
-
-$ratepayConfig = new Config\PaymentMethodConfig(
-    RatepayInvoiceTransaction::NAME,
-    $ratepayMAID,
-    $ratepayKey
-);
-$config->add($ratepayConfig);
-
 
 // ### Transaction related objects
 
@@ -47,7 +25,7 @@ $notificationUrl = getUrl('notify.php');
 $orderNumber = 'A2';
 
 // #### Order items
-// Create your items.
+
 $item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(400, 'EUR'), 1);
 $item1->setArticleNumber('A1');
 $item1->setTaxRate(0.1);
@@ -108,6 +86,7 @@ if (array_key_exists('item_to_capture', $_POST)) {
 
 
 // ### Transaction service
+
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
 
@@ -144,7 +123,7 @@ if (array_key_exists('item_to_capture', $_POST)) {
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo 'Payment successfully completed.<br>';
-    echo getTransactionLink($baseUrl, $ratepayMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $response);
     ?>
     <br>
     <form action="cancel.php" method="post">
@@ -152,7 +131,7 @@ if ($response instanceof SuccessResponse) {
         <input type="hidden" name="transaction-type" value="<?= $response->getTransactionType() ?>"/>
         <?php
         if (array_key_exists('item_to_capture', $_POST)) {
-            echo sprintf('<input type="hidden" name="amount" value="%0.2f"/>', $amount->getAmount());
+            echo sprintf('<input type="hidden" name="amount" value="%0.2f"/>', $amount->getValue());
         }
         ?>
         <input type="submit" value="Cancel the capture">

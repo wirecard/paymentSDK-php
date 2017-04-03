@@ -1,13 +1,15 @@
 <?php
 // # RatePAY installment reserve transaction
+
 // This example displays the usage of reserve method for payment method RatePAY installment.
 
 // ## Required objects
+
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
+require __DIR__ . '/../inc/config.php';
 
-use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -15,32 +17,12 @@ use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
-// ### Config
-// #### Basic configuration
-// The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
-$baseUrl = 'https://api-test.wirecard.com';
-$httpUser = '70000-APITEST-AP';
-$httpPass = 'qD2wzQ_hrc!8';
-
-// The configuration is stored in an object containing the connection settings set above.
-// A default currency can also be provided.
-$config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
-
-// #### RatePAY installment
-// Create and add a configuration object with the RatePAY installment settings
-$ratepayMAID = '73ce088c-b195-4977-8ea8-0be32cca9c2e';
-$ratepayKey = 'd92724cf-5508-44fd-ad67-695e149212d5';
-
-$ratepayConfig = new Config\PaymentMethodConfig(
-    RatepayInstallmentTransaction::NAME,
-    $ratepayMAID,
-    $ratepayKey
-);
-$config->add($ratepayConfig);
-
 // ### Transaction related objects
+
 // Use the amount object as amount which has to be payed by the consumer.
 $amount = new Amount(2400, 'EUR');
+
+// ### URLs
 
 // The redirect URLs determine where the consumer should be redirected by RatePAY installment after the reserve.
 $redirectUrls = new Redirect(
@@ -52,10 +34,10 @@ $redirectUrls = new Redirect(
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
 $notificationUrl = getUrl('notify.php');
 
-// The order number
 $orderNumber = 'A2';
 
-// #### Order items
+// ### Order items
+
 // Create your items.
 $item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(400, 'EUR'), 1);
 $item1->setArticleNumber('A1');
@@ -71,7 +53,7 @@ $itemCollection->add($item1);
 $itemCollection->add($item2);
 
 
-// #### Account holder with address
+// ### Account holder with address
 $address = new \Wirecard\PaymentSdk\Entity\Address('DE', 'Berlin', 'Berlin');
 $address->setPostalCode('13353');
 
@@ -96,6 +78,7 @@ $transaction->setOrderNumber($orderNumber);
 $transaction->setAccountHolder($accountHolder);
 
 // ### Transaction Service
+
 // The service is used to execute the reserve operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
 $response = $transactionService->reserve($transaction);

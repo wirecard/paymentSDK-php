@@ -1,38 +1,21 @@
 <?php
 // # Payment after a reservation
+
 // Enter the ID of the successful reserve transaction and start a pay transaction with it.
 
 // ## Required objects
+
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
+require __DIR__ . '/../inc/config.php';
 
-use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\TransactionService;
-
-// ### Config
-// #### Basic configuration
-// The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
-$baseUrl = 'https://api-test.wirecard.com';
-$httpUser = '70000-APILUHN-CARD';
-$httpPass = '8mhwavKVb91T';
-
-// The configuration is stored in an object containing the connection settings set above.
-// A default currency can also be provided.
-$config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
-
-// #### Configuration for PayPal
-// Create and add a configuration object with the PayPal settings
-$paypalMAID = '9abf05c1-c266-46ae-8eac-7f87ca97af28';
-$paypalKey = '5fca2a83-89ca-4f9e-8cf7-4ca74a02773f';
-$paypalConfig = new Config\PaymentMethodConfig(PayPalTransaction::NAME, $paypalMAID, $paypalKey);
-$config->add($paypalConfig);
-
 
 // ### Transaction related objects
 
@@ -61,6 +44,7 @@ if (array_key_exists('parentTransactionId', $_POST)) {
 }
 
 // ### Transaction service
+
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
 $response = $transactionService->pay($transaction);
@@ -72,7 +56,7 @@ $response = $transactionService->pay($transaction);
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo 'Payment successfully completed.<br>';
-    echo getTransactionLink($baseUrl, $paypalMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $response);
     ?>
     <br>
     <form action="cancel.php" method="post">

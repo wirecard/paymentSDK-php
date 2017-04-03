@@ -1,43 +1,23 @@
 <?php
 // # Cancelling a transaction
+
 // To cancel a transaction, a cancel request with the parent transaction is sent.
 
 // ## Required objects
+
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
+require __DIR__ . '/../inc/config.php';
 
-use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
-// ### Config
-// #### Basic configuration
-// The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
-$baseUrl = 'https://api-test.wirecard.com';
-$httpUser = '70000-APITEST-AP';
-$httpPass = 'qD2wzQ_hrc!8';
-
-// The configuration is stored in an object containing the connection settings set above.
-// A default currency can also be provided.
-$config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
-
-// #### RatePAY installment
-// Create and add a configuration object with the RatePAY installment settings
-$ratepayMAID = '73ce088c-b195-4977-8ea8-0be32cca9c2e';
-$ratepayKey = 'd92724cf-5508-44fd-ad67-695e149212d5';
-
-$ratepayConfig = new Config\PaymentMethodConfig(
-    RatepayInstallmentTransaction::NAME,
-    $ratepayMAID,
-    $ratepayKey
-);
-$config->add($ratepayConfig);
-
 // ### Transaction related objects
+
 // Use the amount object as amount which has to be payed by the consumer.
 if (array_key_exists('amount', $_POST)) {
     $amountValue = $_POST['amount'];
@@ -46,11 +26,10 @@ if (array_key_exists('amount', $_POST)) {
 }
 $amount = new Amount($amountValue, 'EUR');
 
-// The order number
 $orderNumber = 'A2';
 
-
 // #### Order items
+
 // Create your items.
 $item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(400, 'EUR'), 1);
 $item1->setArticleNumber('A1');
@@ -75,16 +54,19 @@ $transaction->setOrderNumber($orderNumber);
 $transaction->setItemCollection($itemCollection);
 
 // ### Transaction Service
+
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
 $response = $transactionService->cancel($transaction);
 
+
 // ## Response handling
+
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo 'Payment successfully cancelled.<br>';
-    echo getTransactionLink($baseUrl, $ratepayMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $response);
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
     // In our example we iterate over all errors and echo them out.

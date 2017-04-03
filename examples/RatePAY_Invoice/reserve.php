@@ -1,43 +1,23 @@
 <?php
 // # RatePAY invoice reserve transaction
+
 // This example displays the usage of reserve method for payment method RatePAY invoice.
 
 // ## Required objects
+
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
+require __DIR__ . '/../inc/config.php';
 
-use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
-// ### Config
-// #### Basic configuration
-// The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
-$baseUrl = 'https://api-test.wirecard.com';
-$httpUser = '70000-APITEST-AP';
-$httpPass = 'qD2wzQ_hrc!8';
-
-// The configuration is stored in an object containing the connection settings set above.
-// A default currency can also be provided.
-$config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
-
-// #### RatePAY invoice
-// Create and add a configuration object with the RatePAY invoice settings
-$ratepayMAID = 'c35733ea-ca79-4781-a5c3-74ce9746eac9';
-$ratepayKey = 'e27da925-69cf-4e9e-a716-c9a001600199';
-
-$ratepayInvoiceConfig = new Config\PaymentMethodConfig(
-    RatepayInvoiceTransaction::NAME,
-    $ratepayMAID,
-    $ratepayKey
-);
-$config->add($ratepayInvoiceConfig);
-
 // ### Transaction related objects
+
 // Use the amount object as amount which has to be payed by the consumer.
 $amount = new Amount(2400, 'EUR');
 
@@ -48,6 +28,7 @@ $notificationUrl = getUrl('notify.php');
 $orderNumber = 'A2';
 
 // #### Order items
+
 // Create your items.
 $item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(400, 'EUR'), 1);
 $item1->setArticleNumber('A1');
@@ -61,7 +42,6 @@ $item2->setTaxRate(0.2);
 $itemCollection = new \Wirecard\PaymentSdk\Entity\ItemCollection();
 $itemCollection->add($item1);
 $itemCollection->add($item2);
-
 
 // #### Account holder with address
 $address = new \Wirecard\PaymentSdk\Entity\Address('DE', 'Berlin', 'Berlin');
@@ -87,6 +67,7 @@ $transaction->setOrderNumber($orderNumber);
 $transaction->setAccountHolder($accountHolder);
 
 // ### Transaction Service
+
 // The service is used to execute the reserve operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
 $response = $transactionService->reserve($transaction);
@@ -97,7 +78,7 @@ $response = $transactionService->reserve($transaction);
 // The response of the service must be handled depending on it's class.
 if ($response instanceof SuccessResponse) {
     echo 'Reservation successfully completed.<br>';
-    echo getTransactionLink($baseUrl, $ratepayMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $response);
     ?>
     <form action="pay-based-on-reserve.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>

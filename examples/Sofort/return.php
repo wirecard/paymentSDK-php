@@ -1,36 +1,20 @@
 <?php
 // # Sofortbanking return after transaction
+
 // The consumer gets redirected to this page after a Sofortbanking transaction.
 
 // ## Required objects
+
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
+require __DIR__ . '/../inc/config.php';
 
-use Wirecard\PaymentSdk\Config;
-use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\SofortTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
-// ### Config
-// #### Basic configuration
-// The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
-$baseUrl = 'https://api-test.wirecard.com';
-$httpUser = '70000-APITEST-AP';
-$httpPass = 'qD2wzQ_hrc!8';
-
-// The configuration is stored in an object containing the connection settings set above.
-// A default currency can also be provided.
-$config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
-
-// Configuration for Sofortbanking
-// Create and add a configuration object with the Sofortbanking settings
-$sofortMAID = 'f19d17a2-01ae-11e2-9085-005056a96a54';
-$sofortSecretKey = 'ad39d9d9-2712-4abd-9016-cdeb60dc3c8f';
-$sofortConfig = new PaymentMethodConfig(SofortTransaction::NAME, $sofortMAID, $sofortSecretKey);
-$config->add($sofortConfig);
+// ### Validation
 
 // Set a public key for certificate pinning used for response signature validation, this certificate needs to be always
 // up to date
@@ -40,6 +24,7 @@ $config->setPublicKey(file_get_contents(__DIR__ . '/../inc/api-test.wirecard.com
 // ## Transaction
 
 // ### Transaction Service
+
 // The `TransactionService` is used to determine the response from the service provider.
 $service = new TransactionService($config);
 $response = $service->handleResponse($_POST);
@@ -52,7 +37,7 @@ $response = $service->handleResponse($_POST);
 if ($response instanceof SuccessResponse) {
     echo 'Payment successfully completed.<br>';
     echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');
-    echo getTransactionLink($baseUrl, $sofortMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $response);
     ?>
     <br>
     <form action="../Sepa/pay.php" method="post">

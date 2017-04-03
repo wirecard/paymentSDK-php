@@ -1,37 +1,20 @@
 <?php
 // # Payment after a reservation
+
 // Enter the ID of the successful reserve transaction and start a pay transaction with it.
 
 // ## Required objects
+
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
+require __DIR__ . '/../inc/config.php';
 
-use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\PaysafecardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
-
-// ### Config
-// #### Basic configuration
-// The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
-$baseUrl = 'https://api-test.wirecard.com';
-$httpUser = '70000-APILUHN-CARD';
-$httpPass = '8mhwavKVb91T';
-
-// The configuration is stored in an object containing the connection settings set above.
-// A default currency can also be provided.
-$config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
-
-// #### Paysafecard
-// Create and add a configuration object with the Paysafecard settings
-$paysafecardMAID = '4c0de18e-4c20-40a7-a5d8-5178f0fe95bd';
-$paysafecardKey = 'bb1f2975-827b-4aa8-bec6-405191d85fa5';
-$paysafecardConfig = new Config\PaymentMethodConfig(PaysafecardTransaction::NAME, $paysafecardMAID, $paysafecardKey);
-$config->add($paysafecardConfig);
-
 
 // ### Transaction related objects
 
@@ -51,6 +34,7 @@ if (array_key_exists('parentTransactionId', $_POST)) {
 }
 
 // ### Transaction service
+
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
 $response = $transactionService->pay($transaction);
@@ -62,7 +46,7 @@ $response = $transactionService->pay($transaction);
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo 'Payment successfully completed.<br>';
-    echo getTransactionLink($baseUrl, $paysafecardMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $response);
     ?>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.

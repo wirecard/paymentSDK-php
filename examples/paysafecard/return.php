@@ -1,35 +1,21 @@
 <?php
 // # Paysafecard return after transaction
-// The consumer gets redirected to this page after a Paysafecard transaction.
+
+// The consumer gets redirected to this page after a paysafecard transaction.
 
 // ## Required objects
+
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
+require __DIR__ . '/../inc/config.php';
 
-use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\PaysafecardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
-// ### Config
-// #### Basic configuration
-// The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
-$baseUrl = 'https://api-test.wirecard.com';
-$httpUser = '70000-APITEST-AP';
-$httpPass = 'qD2wzQ_hrc!8';
-
-// The configuration is stored in an object containing the connection settings set above.
-// A default currency can also be provided.
-$config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
-
-// #### Paysafecard
-// Create and add a configuration object with the Paysafecard settings
-$paysafecardMAID = '4c0de18e-4c20-40a7-a5d8-5178f0fe95bd';
-$paysafecardKey = 'bb1f2975-827b-4aa8-bec6-405191d85fa5';
-$paysafecardConfig = new Config\PaymentMethodConfig(PaysafecardTransaction::NAME, $paysafecardMAID, $paysafecardKey);
-$config->add($paysafecardConfig);
+// ### Validation
 
 // Set a public key for certificate pinning used for response signature validation, this certificate needs to be always
 // up to date
@@ -39,6 +25,7 @@ $config->setPublicKey(file_get_contents(__DIR__ . '/../inc/api-test.wirecard.com
 // ## Transaction
 
 // ### Transaction Service
+
 // The `TransactionService` is used to determine the response from the service provider.
 $service = new TransactionService($config);
 $response = $service->handleResponse($_POST);
@@ -58,7 +45,7 @@ if ($response instanceof SuccessResponse) {
     }
     echo ' successfully completed.<br>';
     echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');
-    echo getTransactionLink($baseUrl, $paysafecardMAID, $response->getTransactionId());
+    echo getTransactionLink($baseUrl, $response);
     ?>
     <br>
     <?php

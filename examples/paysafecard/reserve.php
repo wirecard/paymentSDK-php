@@ -1,13 +1,15 @@
 <?php
 // # Paysafecard reserve transaction
-// This example displays the usage of reserve method for payment method Paysafecard.
+
+// This example displays the usage of reserve method for payment method paysafecard.
 
 // ## Required objects
+
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
+require __DIR__ . '/../inc/config.php';
 
-use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
@@ -16,25 +18,8 @@ use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Transaction\PaysafecardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
-// ### Config
-// #### Basic configuration
-// The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
-$baseUrl = 'https://api-test.wirecard.com';
-$httpUser = '70000-APITEST-AP';
-$httpPass = 'qD2wzQ_hrc!8';
-
-// The configuration is stored in an object containing the connection settings set above.
-// A default currency can also be provided.
-$config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
-
-// #### Paysafecard
-// Create and add a configuration object with the Paysafecard settings
-$paysafecardMAID = '4c0de18e-4c20-40a7-a5d8-5178f0fe95bd';
-$paysafecardKey = 'bb1f2975-827b-4aa8-bec6-405191d85fa5';
-$paysafecardConfig = new Config\PaymentMethodConfig(PaysafecardTransaction::NAME, $paysafecardMAID, $paysafecardKey);
-$config->add($paysafecardConfig);
-
 // ### Transaction related objects
+
 // Use the amount object as amount which has to be payed by the consumer.
 $amount = new Amount(12.59, 'EUR');
 
@@ -62,6 +47,7 @@ $tx->setAmount($amount);
 $tx->setParentTransactionId($parentTransactionId);
 
 // ### Transaction Service
+
 // The service is used to execute the reserve operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
 $response = $transactionService->reserve($tx);
