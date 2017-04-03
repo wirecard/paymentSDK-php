@@ -331,7 +331,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         $responseMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\ResponseMapper');
         $interactionResponse = new InteractionResponse(simplexml_load_string($validXmlContent), 'http://y.z');
-        $responseMapper->method('map')->with($validXmlContent)->willReturn($interactionResponse);
+        $responseMapper->method('mapInclSignature')->with($validXmlContent)->willReturn($interactionResponse);
 
         $this->instance = new TransactionService($this->config, null, null, null, $responseMapper);
 
@@ -348,7 +348,10 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $invalidXmlContent = '<xml><payment></payment></xml>';
 
         $responseMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\ResponseMapper');
-        $responseMapper->method('map')->with($invalidXmlContent)->willThrowException(new MalformedResponseException());
+        $responseMapper
+            ->method('mapInclSignature')
+            ->with($invalidXmlContent)
+            ->willThrowException(new MalformedResponseException());
 
         $this->instance = new TransactionService($this->config, null, null, null, $responseMapper);
 
@@ -370,7 +373,10 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         $responseMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\ResponseMapper');
         $interactionResponse = new InteractionResponse($simpleXml, 'http://y.z');
-        $responseMapper->method('map')->with($validContent['eppresponse'])->willReturn($interactionResponse);
+        $responseMapper
+            ->method('mapInclSignature')
+            ->with($validContent['eppresponse'])
+            ->willReturn($interactionResponse);
 
         $this->instance = new TransactionService($this->config, null, null, null, $responseMapper);
 
@@ -483,7 +489,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $transaction = new RatepayInstallmentTransaction();
         $transaction->setOperation('reserve');
 
-        $successResponse = $this->mockProcessingRequest($transaction);
+        $successResponse = $this->mockProcessingRequestInclSignature($transaction);
 
         $result = $this->instance->handleResponse($validContent);
 
@@ -500,13 +506,12 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $transaction = new SepaTransaction();
         $transaction->setOperation(Operation::PAY);
 
-        $successResponse = $this->mockProcessingRequest($transaction);
+        $successResponse = $this->mockProcessingRequestInclSignature($transaction);
 
         $result = $this->instance->handleResponse($validContent);
 
         $this->assertEquals($successResponse, $result);
     }
-
 
     public function testCancel()
     {
@@ -576,6 +581,34 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $successResponse = new SuccessResponse(simplexml_load_string($xmlResponse), 'y');
         $responseMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\ResponseMapper');
         $responseMapper->method('map')->with($httpResponseContent)->willReturn($successResponse);
+
+        $this->instance = new TransactionService($this->config, null, $client, $requestMapper, $responseMapper);
+        return $successResponse;
+    }
+
+    private function mockProcessingRequestInclSignature($tx)
+    {
+        $requestMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\RequestMapper');
+        $authRequestObject = "dummy_request_payload";
+        $requestMapper->method('map')->with($tx)->willReturn($authRequestObject);
+
+        $httpResponse = $this->createMock('\Psr\Http\Message\ResponseInterface');
+        $client = $this->createMock('\GuzzleHttp\Client');
+        $client->method('request')->willReturn($httpResponse);
+        $httpResponseBody = $this->createMock('\Psr\Http\Message\StreamInterface');
+        $httpResponse->method('getBody')->willReturn($httpResponseBody);
+        $httpResponseContent = 'content';
+        $httpResponseBody->method('getContents')->willReturn($httpResponseContent);
+
+        $xmlResponse = '<xml>
+                <transaction-id></transaction-id>
+                <request-id></request-id>
+                <transaction-type></transaction-type>
+                <statuses><status code="1" description="a" severity="0"></status></statuses>
+            </xml>';
+        $successResponse = new SuccessResponse(simplexml_load_string($xmlResponse), 'y');
+        $responseMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\ResponseMapper');
+        $responseMapper->method('mapInclSignature')->with($httpResponseContent)->willReturn($successResponse);
 
         $this->instance = new TransactionService($this->config, null, $client, $requestMapper, $responseMapper);
         return $successResponse;

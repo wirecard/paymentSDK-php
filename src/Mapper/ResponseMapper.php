@@ -59,6 +59,11 @@ class ResponseMapper
     private $config;
 
     /**
+     * @var string
+     */
+    protected $xmlResponse;
+
+    /**
      * @var SimpleXMLElement
      */
     protected $simpleXml;
@@ -78,25 +83,39 @@ class ResponseMapper
     }
 
     /**
+     * @param string $response
+     * @throws \Wirecard\PaymentSdk\Exception\MalformedResponseException
+     * @throws \InvalidArgumentException
+     * @return Response
+     */
+    public function mapInclSignature($response)
+    {
+        $result = $this->map($response);
+        $validSignature = $this->validateSignature($this->xmlResponse);
+        $result->setValidSignature($validSignature);
+
+        return $result;
+    }
+
+    /**
      * map the xml Response from engine to ResponseObjects
      *
      * @param string $response
-     * @param boolean $validateSignature
      * @param Transaction $transaction
      * @throws \InvalidArgumentException
      * @throws MalformedResponseException
      * @return Response
      */
-    public function map($response, $validateSignature = false, Transaction $transaction = null)
+    public function map($response, Transaction $transaction = null)
     {
         $this->transaction = $transaction;
 
         // If the response is encoded, we need to first decode it.
         $decodedResponse = base64_decode($response);
-        $response = (base64_encode($decodedResponse) === $response) ? $decodedResponse : $response;
+        $this->xmlResponse = (base64_encode($decodedResponse) === $response) ? $decodedResponse : $response;
         //we need to use internal_errors, because we don't want to throw errors on invalid xml responses
         $oldErrorHandling = libxml_use_internal_errors(true);
-        $this->simpleXml = simplexml_load_string($response);
+        $this->simpleXml = simplexml_load_string($this->xmlResponse);
         //reset to old value after string is loaded
         libxml_use_internal_errors($oldErrorHandling);
 
@@ -110,19 +129,13 @@ class ResponseMapper
             throw new MalformedResponseException('Missing transaction-state in response.');
         }
 
-        $validSignature = true;
-
-        if ($validateSignature) {
-            $validSignature = $this->validateSignature($response);
-        }
-
         switch ($state) {
             case 'success':
-                return $this->mapSuccessResponse($validSignature);
+                return $this->mapSuccessResponse();
             case 'in-progress':
-                return new PendingResponse($this->simpleXml, $validSignature);
+                return new PendingResponse($this->simpleXml);
             default:
-                return new FailureResponse($this->simpleXml, $validSignature);
+                return new FailureResponse($this->simpleXml);
         }
     }
 
@@ -262,12 +275,11 @@ class ResponseMapper
     }
 
     /**
-     * @param boolean $validSignature
      * @throws \InvalidArgumentException
      * @throws MalformedResponseException
      * @return FormInteractionResponse|InteractionResponse|SuccessResponse
      */
-    private function mapSuccessResponse($validSignature)
+    private function mapSuccessResponse()
     {
         if ((string)$this->simpleXml->{'transaction-type'} === ThreeDCreditCardTransaction::TYPE_CHECK_ENROLLMENT) {
             return $this->mapThreeDResponse();
@@ -283,6 +295,6 @@ class ResponseMapper
             return $this->redirectToSuccessUrlWithPayload();
         }
 
-        return new SuccessResponse($this->simpleXml, $validSignature);
+        return new SuccessResponse($this->simpleXml);
     }
 }

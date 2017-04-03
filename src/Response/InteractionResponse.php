@@ -62,7 +62,7 @@ class InteractionResponse extends Response
      */
     public function __construct($simpleXml, $redirectUrl)
     {
-        parent::__construct($simpleXml, true);
+        parent::__construct($simpleXml);
         $this->transactionId = $this->findElement('transaction-id');
         $this->redirectUrl = $redirectUrl;
     }

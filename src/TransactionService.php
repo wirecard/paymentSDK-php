@@ -147,11 +147,12 @@ class TransactionService
     /**
      * @param string $xmlResponse
      * @return FailureResponse|InteractionResponse|SuccessResponse|Response
+     * @throws \InvalidArgumentException
      * @throws \Wirecard\PaymentSdk\Exception\MalformedResponseException
      */
     public function handleNotification($xmlResponse)
     {
-        return $this->responseMapper->map($xmlResponse, true);
+        return $this->responseMapper->mapInclSignature($xmlResponse);
     }
 
     /**
@@ -159,6 +160,7 @@ class TransactionService
      * @throws MalformedResponseException
      * @throws UnconfiguredPaymentMethodException
      * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      * @return FailureResponse|InteractionResponse|SuccessResponse|Response
      */
     public function handleResponse(array $payload)
@@ -181,7 +183,7 @@ class TransactionService
 
         // PayPal
         if (null === $data && array_key_exists('eppresponse', $payload)) {
-            $data = $this->responseMapper->map($payload['eppresponse'], true);
+            $data = $this->responseMapper->mapInclSignature($payload['eppresponse']);
         }
 
         // RatePAY installment
@@ -189,12 +191,12 @@ class TransactionService
             array_key_exists('base64payload', $payload) &&
             array_key_exists('psp_name', $payload)
         ) {
-            $data = $this->responseMapper->map($payload['base64payload'], true);
+            $data = $this->responseMapper->mapInclSignature($payload['base64payload']);
         }
 
         // Synchronous payment methods
         if (null === $data && array_key_exists('sync_response', $payload)) {
-            $data = $this->responseMapper->map($payload['sync_response'], true);
+            $data = $this->responseMapper->mapInclSignature($payload['sync_response']);
         }
 
         if ($data instanceof Response) {
@@ -375,7 +377,7 @@ class TransactionService
         $endpoint = $this->config->getBaseUrl() . $transaction->getEndpoint();
         $responseContent = $this->sendPostRequest($endpoint, $requestBody);
 
-        return $this->responseMapper->map($responseContent, false, $transaction);
+        return $this->responseMapper->map($responseContent, $transaction);
     }
 
     /**
