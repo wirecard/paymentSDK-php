@@ -30,11 +30,12 @@ $amount = new Amount($amountValue, 'EUR');
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
 $notificationUrl = getUrl('notify.php');
 
-// ### Basket
+// ### Basket items
 
 // RatePAY requires basket information for credit operations.
 $credit1 = new \Wirecard\PaymentSdk\Entity\Item('Credit 1', $amount, 1);
 $credit1->setArticleNumber('C1');
+// In contrast to the [basket example](../Features/basket.html), RatePAY requires the **tax rate**.
 $credit1->setTaxRate(0.0);
 
 $itemCollection = new \Wirecard\PaymentSdk\Entity\ItemCollection();

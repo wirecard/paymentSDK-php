@@ -36,11 +36,12 @@ $notificationUrl = getUrl('notify.php');
 
 $orderNumber = 'A2';
 
-// ### Order items
+// #### Basket items
 
-// Create your items.
+// RatePAY requires information on the purchased items.
 $item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(400, 'EUR'), 1);
 $item1->setArticleNumber('A1');
+// In contrast to the [basket example](../Features/basket.html), RatePAY requires the **tax rate**.
 $item1->setTaxRate(0.1);
 
 $item2 = new \Wirecard\PaymentSdk\Entity\Item('Item 2', new Amount(1000, 'EUR'), 2);
