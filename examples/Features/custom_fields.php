@@ -57,7 +57,6 @@ $response = $transactionService->pay($transaction);
 // In this example we proceed with a header redirect to the given _redirectUrl_.
 if ($response instanceof InteractionResponse) {
     header('location: ' . $response->getRedirectUrl());
-    $response->findElement('paysdk_special1');
     exit;
 } else {
     echo "Transaction was not successful.";
