@@ -151,7 +151,7 @@ if ($response instanceof SuccessResponse) {
         <input type="hidden" name="transaction-type" value="<?= $response->getTransactionType() ?>"/>
         <?php
         if (array_key_exists('item_to_capture', $_POST)) {
-            echo sprintf('<input type="hidden" name="amount" value="%0.2f"/>', $amount->getAmount());
+            echo sprintf('<input type="hidden" name="amount" value="%0.2f"/>', $amount->getValue());
         }
         ?>
         <input type="submit" value="Cancel the capture">
