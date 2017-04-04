@@ -34,7 +34,7 @@ $item2 = new \Wirecard\PaymentSdk\Entity\Item('Item 2', new Amount(1000, 'EUR'),
 $item2->setArticleNumber('B2');
 $item2->setTaxRate(0.2);
 
-// Create an item collection to store the items.
+// Create a basket to store the items.
 $basket = new \Wirecard\PaymentSdk\Entity\Basket();
 
 // #### Account holder with address

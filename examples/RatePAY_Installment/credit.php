@@ -34,11 +34,12 @@ $notificationUrl = getUrl('notify.php');
 // A Basket contains one or more items.
 
 // For each item you have to set some properties as described here.
-// The name, the amount, the quantity and the tax rate are required,
-// the article number and the description are optional.
+// Required: name, amount, quantity, article number, tax rate.
+// Optional: description.
 $credit1 = new \Wirecard\PaymentSdk\Entity\Item('Credit 1', $amount, 1);
+// In contrast to the [basket example](../Features/basket.html),
+// RatePAY requires the **tax rate** and the ** article number**.
 $credit1->setArticleNumber('C1');
-// In contrast to the [basket example](../Features/basket.html), RatePAY requires the **tax rate**.
 $credit1->setTaxRate(0.0);
 
 $basket = new \Wirecard\PaymentSdk\Entity\Basket();

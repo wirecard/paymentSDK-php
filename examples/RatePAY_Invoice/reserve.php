@@ -27,10 +27,15 @@ $notificationUrl = getUrl('notify.php');
 // The order number
 $orderNumber = 'A2';
 
-// #### Order items
+// ### Basket items
+// A Basket contains one or more items.
 
-// Create your items.
+// For each item you have to set some properties as described here.
+// Required: name, amount, quantity, article number, tax rate.
+// Optional: description.
 $item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(400, 'EUR'), 1);
+// In contrast to the [basket example](../Features/basket.html),
+// RatePAY requires the **tax rate** and the ** article number**.
 $item1->setArticleNumber('A1');
 $item1->setTaxRate(0.1);
 
@@ -38,7 +43,7 @@ $item2 = new \Wirecard\PaymentSdk\Entity\Item('Item 2', new Amount(1000, 'EUR'),
 $item2->setArticleNumber('B2');
 $item2->setTaxRate(0.2);
 
-// Create an item collection to store the items.
+// Create a basket to store the items.
 $basket = new \Wirecard\PaymentSdk\Entity\Basket();
 $basket->add($item1);
 $basket->add($item2);
