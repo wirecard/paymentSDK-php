@@ -86,34 +86,21 @@ class ItemUTest extends \PHPUnit_Framework_TestCase
         $this->item = new Item(self::NAME, $this->amount, self::QUANTITY);
     }
 
-    public function testSetDescription()
+    public function testMappedPropertiesOnlyRequiredProperties()
     {
-        $desc = 'My desc';
-        $this->item->setDescription($desc);
-        $this->assertAttributeEquals($desc, 'description', $this->item);
+        $expected = [
+            'name' => self::NAME,
+            'amount' => [
+                'value' => '1',
+                'currency' => 'EUR'
+            ],
+            'quantity' => self::QUANTITY,
+        ];
+
+        $this->assertEquals($expected, $this->item->mappedProperties());
     }
 
-    public function testSetArticleNumber()
-    {
-        $number = '451541';
-        $this->item->setArticleNumber($number);
-        $this->assertAttributeEquals($number, 'articleNumber', $this->item);
-    }
-
-    public function testSetTaxAmount()
-    {
-        $this->item->setTaxAmount($this->amount);
-        $this->assertAttributeEquals($this->amount, 'taxAmount', $this->item);
-    }
-
-    public function testSetTaxRate()
-    {
-        $rate = '0.2';
-        $this->item->setTaxRate($rate);
-        $this->assertAttributeEquals($rate, 'taxRate', $this->item);
-    }
-
-    public function testMappedProperties()
+    public function testMappedPropertiesWithAllProperties()
     {
         $this->item->setTaxAmount(new Amount(0.1, 'EUR'));
         $this->item->setArticleNumber('1232f5445');
