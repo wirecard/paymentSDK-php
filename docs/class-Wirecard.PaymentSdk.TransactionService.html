@@ -129,7 +129,7 @@
 		<b>Namespace:</b> <a href="namespace-Wirecard.html">Wirecard</a>\<a href="namespace-Wirecard.PaymentSdk.html">PaymentSdk</a><br>
 		<b>Package:</b> Wirecard\PaymentSdk<br>
 
-			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.TransactionService.html#55-428" title="Go to source code">TransactionService.php</a>
+			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.TransactionService.html#55-438" title="Go to source code">TransactionService.php</a>
 		<br>
 	</div>
 
@@ -193,7 +193,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_handleNotification">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#147-155" title="Go to source code">handleNotification</a>( <span>string <var>$xmlResponse</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#147-156" title="Go to source code">handleNotification</a>( <span>string <var>$xmlResponse</var></span> )</code>
 
 			<div class="description short">
 				
@@ -216,6 +216,7 @@
 
 					<h4>Throws</h4>
 					<div class="list">
+						InvalidArgumentException<br>
 						<code><a href="class-Wirecard.PaymentSdk.Exception.MalformedResponseException.html">Wirecard\PaymentSdk\Exception\MalformedResponseException</a></code>
 					</div>
 
@@ -235,7 +236,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_handleResponse">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#157-200" title="Go to source code">handleResponse</a>( <span>array <var>$payload</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#158-207" title="Go to source code">handleResponse</a>( <span>array <var>$payload</var></span> )</code>
 
 			<div class="description short">
 				
@@ -260,7 +261,8 @@
 					<div class="list">
 						<code><a href="class-Wirecard.PaymentSdk.Exception.MalformedResponseException.html">Wirecard\PaymentSdk\Exception\MalformedResponseException</a></code><br>
 						<code><a href="class-Wirecard.PaymentSdk.Exception.UnconfiguredPaymentMethodException.html">Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException</a></code><br>
-						RuntimeException
+						RuntimeException<br>
+						InvalidArgumentException
 					</div>
 
 
@@ -279,7 +281,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getDataForCreditCardUi">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#202-232" title="Go to source code">getDataForCreditCardUi</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#209-239" title="Go to source code">getDataForCreditCardUi</a>( )</code>
 
 			<div class="description short">
 				
@@ -316,7 +318,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_reserve">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#234-244" title="Go to source code">reserve</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Reservable.html">Wirecard\PaymentSdk\Transaction\Reservable</a></code> <var>$transaction</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#241-251" title="Go to source code">reserve</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Reservable.html">Wirecard\PaymentSdk\Transaction\Reservable</a></code> <var>$transaction</var></span> )</code>
 
 			<div class="description short">
 				
@@ -360,7 +362,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_pay">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#246-256" title="Go to source code">pay</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></code> <var>$transaction</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#253-263" title="Go to source code">pay</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></code> <var>$transaction</var></span> )</code>
 
 			<div class="description short">
 				
@@ -404,7 +406,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_cancel">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#258-268" title="Go to source code">cancel</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></code> <var>$transaction</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#265-275" title="Go to source code">cancel</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></code> <var>$transaction</var></span> )</code>
 
 			<div class="description short">
 				
@@ -448,7 +450,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_credit">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#270-280" title="Go to source code">credit</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></code> <var>$transaction</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#277-288" title="Go to source code">credit</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></code> <var>$transaction</var></span> )</code>
 
 			<div class="description short">
 				
@@ -473,7 +475,8 @@
 					<div class="list">
 						<code><a href="class-Wirecard.PaymentSdk.Exception.MalformedResponseException.html">Wirecard\PaymentSdk\Exception\MalformedResponseException</a></code><br>
 						<code><a href="class-Wirecard.PaymentSdk.Exception.UnconfiguredPaymentMethodException.html">Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException</a></code><br>
-						RuntimeException
+						RuntimeException<br>
+						InvalidArgumentException
 					</div>
 
 
@@ -492,7 +495,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getLogger">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#282-294" title="Go to source code">getLogger</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#290-302" title="Go to source code">getLogger</a>( )</code>
 
 			<div class="description short">
 				
@@ -525,7 +528,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_process">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#341-373" title="Go to source code">process</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></code> <var>$transaction</var></span>, <span>string <var>$operation</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#349-381" title="Go to source code">process</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></code> <var>$transaction</var></span>, <span>string <var>$operation</var></span> )</code>
 
 			<div class="description short">
 				
@@ -552,7 +555,8 @@
 					<div class="list">
 						<code><a href="class-Wirecard.PaymentSdk.Exception.UnconfiguredPaymentMethodException.html">Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException</a></code><br>
 						<code><a href="class-Wirecard.PaymentSdk.Exception.MalformedResponseException.html">Wirecard\PaymentSdk\Exception\MalformedResponseException</a></code><br>
-						RuntimeException
+						RuntimeException<br>
+						InvalidArgumentException
 					</div>
 
 

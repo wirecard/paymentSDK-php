@@ -128,7 +128,7 @@
 		<b>Namespace:</b> <a href="namespace-Wirecard.html">Wirecard</a>\<a href="namespace-Wirecard.PaymentSdk.html">PaymentSdk</a>\<a href="namespace-Wirecard.PaymentSdk.Mapper.html">Mapper</a><br>
 		<b>Package:</b> Wirecard\PaymentSdk\Mapper<br>
 
-			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.Mapper.ResponseMapper.html#49-210" title="Go to source code">Mapper/ResponseMapper.php</a>
+			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.Mapper.ResponseMapper.html#50-300" title="Go to source code">Mapper/ResponseMapper.php</a>
 		<br>
 	</div>
 
@@ -137,6 +137,83 @@
 		<div class="panel panel-default">
 			<div class="panel-heading"><h2>Methods summary</h2></div>
 			<table class="summary table table-bordered table-striped methods" id="methods">
+		<tr data-order="__construct" id="___construct">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#___construct">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Mapper.ResponseMapper.html#76-83" title="Go to source code">__construct</a>( <span><code><a href="class-Wirecard.PaymentSdk.Config.Config.html">Wirecard\PaymentSdk\Config\Config</a></code> <var>$config</var></span> )</code>
+
+			<div class="description short">
+				<p>ResponseMapper constructor.</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>ResponseMapper constructor.</p>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$config</var></dt>
+						<dd></dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="mapInclSignature" id="_mapInclSignature">
+
+			<td class="attributes"><code>
+				 public 
+				<code><a href="class-Wirecard.PaymentSdk.Response.Response.html">Wirecard\PaymentSdk\Response\Response</a></code>
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_mapInclSignature">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Mapper.ResponseMapper.html#85-98" title="Go to source code">mapInclSignature</a>( <span>string <var>$response</var></span> )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$response</var></dt>
+						<dd></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code><a href="class-Wirecard.PaymentSdk.Response.Response.html">Wirecard\PaymentSdk\Response\Response</a></code>
+					</div>
+
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-Wirecard.PaymentSdk.Exception.MalformedResponseException.html">Wirecard\PaymentSdk\Exception\MalformedResponseException</a></code><br>
+						InvalidArgumentException
+					</div>
+
+
+
+			</div>
+			</div></td>
+		</tr>
 		<tr data-order="map" id="_map">
 
 			<td class="attributes"><code>
@@ -148,7 +225,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_map">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Mapper.ResponseMapper.html#60-96" title="Go to source code">map</a>( <span>string <var>$xmlResponse</var></span>, <span>string <var>$operation</var> = <span class="php-keyword1">null</span></span>, <span><code><a href="class-Wirecard.PaymentSdk.Transaction.ThreeDCreditCardTransaction.html">Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction</a></code> <var>$transaction</var> = <span class="php-keyword1">null</span></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Mapper.ResponseMapper.html#100-140" title="Go to source code">map</a>( <span>string <var>$response</var></span>, <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></code> <var>$transaction</var> = <span class="php-keyword1">null</span></span> )</code>
 
 			<div class="description short">
 				<p>map the xml Response from engine to ResponseObjects</p>
@@ -160,9 +237,7 @@
 
 					<h4>Parameters</h4>
 					<div class="list"><dl>
-						<dt><var>$xmlResponse</var></dt>
-						<dd></dd>
-						<dt><var>$operation</var></dt>
+						<dt><var>$response</var></dt>
 						<dd></dd>
 						<dt><var>$transaction</var></dt>
 						<dd></dd>
@@ -175,6 +250,7 @@
 
 					<h4>Throws</h4>
 					<div class="list">
+						InvalidArgumentException<br>
 						<code><a href="class-Wirecard.PaymentSdk.Exception.MalformedResponseException.html">Wirecard\PaymentSdk\Exception\MalformedResponseException</a></code>
 					</div>
 
@@ -199,6 +275,31 @@
 		<div class="panel panel-default">
             <div class="panel-heading"><h2>Properties summary</h2></div>
 			<table class="summary table table-bordered table-striped properties" id="properties">
+		<tr data-order="xmlResponse" id="$xmlResponse">
+			<td class="attributes"><code>
+				protected  
+				string
+			</code></td>
+
+			<td class="name">
+					<a href="source-class-Wirecard.PaymentSdk.Mapper.ResponseMapper.html#61-64" title="Go to source code"><var>$xmlResponse</var></a>
+
+				<div class="description short">
+					
+				</div>
+
+				<div class="description detailed hidden">
+					
+
+				</div>
+			</td>
+			<td class="value">
+				<div>
+					<a href="#$xmlResponse" class="anchor">#</a>
+					<code></code>
+				</div>
+			</td>
+		</tr>
 		<tr data-order="simpleXml" id="$simpleXml">
 			<td class="attributes"><code>
 				protected  
@@ -206,7 +307,7 @@
 			</code></td>
 
 			<td class="name">
-					<a href="source-class-Wirecard.PaymentSdk.Mapper.ResponseMapper.html#55-58" title="Go to source code"><var>$simpleXml</var></a>
+					<a href="source-class-Wirecard.PaymentSdk.Mapper.ResponseMapper.html#66-69" title="Go to source code"><var>$simpleXml</var></a>
 
 				<div class="description short">
 					
@@ -220,6 +321,31 @@
 			<td class="value">
 				<div>
 					<a href="#$simpleXml" class="anchor">#</a>
+					<code></code>
+				</div>
+			</td>
+		</tr>
+		<tr data-order="transaction" id="$transaction">
+			<td class="attributes"><code>
+				protected  
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></code>
+			</code></td>
+
+			<td class="name">
+					<a href="source-class-Wirecard.PaymentSdk.Mapper.ResponseMapper.html#71-74" title="Go to source code"><var>$transaction</var></a>
+
+				<div class="description short">
+					
+				</div>
+
+				<div class="description detailed hidden">
+					
+
+				</div>
+			</td>
+			<td class="value">
+				<div>
+					<a href="#$transaction" class="anchor">#</a>
 					<code></code>
 				</div>
 			</td>
