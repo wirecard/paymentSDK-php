@@ -22,7 +22,10 @@ use Wirecard\PaymentSdk\TransactionService;
 
 // Define the objects which are required for the transaction.
 $amount = new Amount(12.59, 'EUR');
-$redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
+$redirectUrls = new Redirect(
+    getUrl('../PayPal/return.php?status=success'),
+    getUrl('../PayPal/return.php?status=cancel')
+);
 $notificationUrl = getUrl('notify.php');
 
 // ### Custom fields

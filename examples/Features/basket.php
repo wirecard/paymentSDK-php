@@ -21,7 +21,10 @@ use Wirecard\PaymentSdk\TransactionService;
 // ### Transaction related objects
 
 // For more information on these parameters visit the PayPal examples.
-$redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
+$redirectUrls = new Redirect(
+    getUrl('../PayPal/return.php?status=success'),
+    getUrl('../PayPal/return.php?status=cancel')
+);
 $notificationUrl = getUrl('notify.php');
 
 // ### Basket items
