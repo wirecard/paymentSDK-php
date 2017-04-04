@@ -131,6 +131,8 @@ class Item implements MappableEntity
     public function mappedProperties()
     {
         $data['name'] = $this->name;
+        $data['amount'] = $this->price->mappedProperties();
+        $data['quantity'] = $this->quantity;
 
         if (null !== $this->description) {
             $data['description'] = $this->description;
@@ -140,8 +142,6 @@ class Item implements MappableEntity
             $data['article-number'] = $this->articleNumber;
         }
 
-        $data['amount'] = $this->price->mappedProperties();
-
         if (null !== $this->taxRate) {
             $data['tax-rate'] = $this->taxRate;
         }
@@ -149,8 +149,6 @@ class Item implements MappableEntity
         if (null !== $this->taxAmount) {
             $data['tax-amount'] = $this->taxAmount->mappedProperties();
         }
-
-        $data['quantity'] = $this->quantity;
 
         return $data;
     }
