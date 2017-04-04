@@ -71,15 +71,6 @@ class CreditCardTransaction extends Transaction implements Reservable
         return self::ENDPOINT_PAYMENTS;
     }
 
-    /**
-     * @return array
-     */
-    public function mappedProperties()
-    {
-        $data = parent::mappedProperties();
-        $redirect = array('success-redirect-url' => 0, 'cancel-redirect-url' => 0, 'redirect-url' => 0);
-        return array_diff_key($data, $redirect);
-    }
 
     /**
      * @throws MandatoryFieldMissingException|UnsupportedOperationException
