@@ -93,18 +93,18 @@ class BasketUTest extends \PHPUnit_Framework_TestCase
 
     public function testMappedProperties()
     {
-        $item = new Item('test', new Amount(1, 'EUR'), 1);
+        $item = new Item('test item name', new Amount(1, 'EUR'), 1);
         $this->itemCollection->add($item);
 
         $expected = [
             'order-item' => [
                 [
-                    'name' => $item->getName(),
+                    'name' => 'test item name',
                     'amount' => [
-                        'value' => $item->getPrice()->getValue(),
-                        'currency' => $item->getPrice()->getCurrency()
+                        'value' => '1',
+                        'currency' => 'EUR'
                     ],
-                    'quantity' => $item->getQuantity()
+                    'quantity' => '1'
                 ]
             ]
         ];

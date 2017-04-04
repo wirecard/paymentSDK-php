@@ -116,14 +116,6 @@ class Item implements MappableEntity
     }
 
     /**
-     * @return float
-     */
-    public function getTaxRate()
-    {
-        return $this->taxRate;
-    }
-
-    /**
      * @param Amount $taxAmount
      * @return Item
      */
@@ -136,49 +128,9 @@ class Item implements MappableEntity
     /**
      * @return string
      */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * @return string
-     */
     public function getArticleNumber()
     {
         return $this->articleNumber;
-    }
-
-    /**
-     * @return Amount
-     */
-    public function getPrice()
-    {
-        return $this->price;
-    }
-
-    /**
-     * @return Amount
-     */
-    public function getTaxAmount()
-    {
-        return $this->taxAmount;
-    }
-
-    /**
-     * @return int
-     */
-    public function getQuantity()
-    {
-        return $this->quantity;
     }
 
     /**
@@ -186,27 +138,27 @@ class Item implements MappableEntity
      */
     public function mappedProperties()
     {
-        $data['name'] = $this->getName();
+        $data['name'] = $this->name;
 
-        if (null !== $this->getDescription()) {
-            $data['description'] = $this->getDescription();
+        if (null !== $this->description) {
+            $data['description'] = $this->description;
         }
 
         if (null !== $this->getArticleNumber()) {
-            $data['article-number'] = $this->getArticleNumber();
+            $data['article-number'] = $this->articleNumber;
         }
 
-        $data['amount'] = $this->getPrice()->mappedProperties();
+        $data['amount'] = $this->price->mappedProperties();
 
-        if (null !== $this->getTaxRate()) {
-            $data['tax-rate'] = $this->getTaxRate();
+        if (null !== $this->taxRate) {
+            $data['tax-rate'] = $this->taxRate;
         }
 
-        if (null !== $this->getTaxAmount()) {
-            $data['tax-amount'] = $this->getTaxAmount()->mappedProperties();
+        if (null !== $this->taxAmount) {
+            $data['tax-amount'] = $this->taxAmount->mappedProperties();
         }
 
-        $data['quantity'] = $this->getQuantity();
+        $data['quantity'] = $this->quantity;
 
         return $data;
     }
