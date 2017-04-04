@@ -138,7 +138,7 @@ class Config
         if (file_exists($versionFile)) {
             $version = file_get_contents($versionFile, null, null, 0, 10);
         }
-        return $version;
+        return trim($version, " \t\n\r\0\x0B");
     }
 
     /**
