@@ -33,7 +33,6 @@
 namespace WirecardTest\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\Amount;
-use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\Transaction;
@@ -318,24 +317,5 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
         $tx->setOperation(Operation::PAY);
 
         $this->assertEquals(CreditCardTransaction::TYPE_PURCHASE, $tx->retrieveOperationType());
-    }
-
-    public function testMappedPropertiesRemovesUrls()
-    {
-        $redirect = new Redirect('success.url', 'cancel.url', 'failure.url');
-
-        $transaction = new CreditCardTransaction();
-        $transaction->setOperation(Operation::RESERVE);
-        $transaction->setTokenId('12-token-34');
-        $transaction->setRedirect($redirect);
-
-        $result = $transaction->mappedProperties();
-
-        $expectedResult = [
-            'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
-            'transaction-type' => 'authorization',
-            'card-token' => ['token-id' => '12-token-34']
-        ];
-        $this->assertEquals($expectedResult, $result);
     }
 }
