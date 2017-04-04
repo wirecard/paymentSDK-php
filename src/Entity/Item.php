@@ -126,14 +126,6 @@ class Item implements MappableEntity
     }
 
     /**
-     * @return string
-     */
-    public function getArticleNumber()
-    {
-        return $this->articleNumber;
-    }
-
-    /**
      * @return array
      */
     public function mappedProperties()
@@ -144,7 +136,7 @@ class Item implements MappableEntity
             $data['description'] = $this->description;
         }
 
-        if (null !== $this->getArticleNumber()) {
+        if (null !== $this->articleNumber) {
             $data['article-number'] = $this->articleNumber;
         }
 
