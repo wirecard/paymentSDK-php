@@ -101,8 +101,8 @@ class BasketUTest extends \PHPUnit_Framework_TestCase
                 [
                     'name' => $item->getName(),
                     'amount' => [
-                        'value' => $item->getAmount()->getValue(),
-                        'currency' => $item->getAmount()->getCurrency()
+                        'value' => $item->getPrice()->getValue(),
+                        'currency' => $item->getPrice()->getCurrency()
                     ],
                     'quantity' => $item->getQuantity()
                 ]

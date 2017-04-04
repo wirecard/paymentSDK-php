@@ -31,7 +31,7 @@ $notificationUrl = getUrl('notify.php');
 // A Basket contains one or more items.
 
 // For each item you have to set some properties as described here.
-// The name, the amount and the quantity are required,
+// The name, the price and the quantity are required,
 // the article number and the description are optional.
 $item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(2.59, 'EUR'), 1);
 $item1->setArticleNumber('A1');

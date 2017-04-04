@@ -40,7 +40,7 @@ $orderNumber = 'A2';
 // A Basket contains one or more items.
 
 // For each item you have to set some properties as described here.
-// Required: name, amount, quantity, article number, tax rate.
+// Required: name, price, quantity, article number, tax rate.
 // Optional: description.
 $item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(400, 'EUR'), 1);
 // In contrast to the [basket example](../Features/basket.html),

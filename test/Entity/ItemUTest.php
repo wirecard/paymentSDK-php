@@ -93,7 +93,7 @@ class ItemUTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAmount()
     {
-        $this->assertEquals($this->amount, $this->item->getAmount());
+        $this->assertEquals($this->amount, $this->item->getPrice());
     }
 
     public function testGetQuantity()
@@ -167,8 +167,8 @@ class ItemUTest extends \PHPUnit_Framework_TestCase
             'description' => $this->item->getDescription(),
             'article-number' => $this->item->getArticleNumber(),
             'amount' => [
-                'value' => $this->item->getAmount()->getValue(),
-                'currency' => $this->item->getAmount()->getCurrency()
+                'value' => $this->item->getPrice()->getValue(),
+                'currency' => $this->item->getPrice()->getCurrency()
             ],
             'tax-amount' => [
                 'value' => $this->item->getTaxAmount()->getValue(),
