@@ -33,6 +33,7 @@
 namespace Wirecard\PaymentSdk\Mapper;
 
 use Wirecard\PaymentSdk\Config\Config;
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
@@ -66,6 +67,7 @@ class RequestMapper
     /**
      * @param Transaction $transaction
      * @throws UnconfiguredPaymentMethodException
+     * @throws MandatoryFieldMissingException
      * @return string The transaction in JSON format.
      */
     public function map(Transaction $transaction)
