@@ -115,7 +115,7 @@ class ItemUTest extends \PHPUnit_Framework_TestCase
 
     public function testMappedProperties()
     {
-        $this->item->setTaxAmount($this->amount);
+        $this->item->setTaxAmount(new Amount(0.1, 'EUR'));
         $this->item->setArticleNumber('1232f5445');
         $this->item->setDescription('dthfbvdfg');
         $this->item->setTaxRate('0.2');
@@ -129,8 +129,8 @@ class ItemUTest extends \PHPUnit_Framework_TestCase
                 'currency' => 'EUR'
             ],
             'tax-amount' => [
-                'value' => $this->amount->getValue(),
-                'currency' => $this->amount->getCurrency()
+                'value' => '0.1',
+                'currency' => 'EUR'
             ],
             'quantity' => self::QUANTITY,
             'tax-rate' => '0.2'
