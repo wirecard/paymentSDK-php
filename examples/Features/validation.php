@@ -22,8 +22,8 @@ $config->setPublicKey(file_get_contents(__DIR__ . '/../inc/api-test.wirecard.com
 
 // ### Transaction Service
 
-// The _TransactionService_ is used to generate the request data needed for the generation of the UI.
-$transactionService = new TransactionService($cardConfig);
+// The `TransactionService` is used to determine the response from the service provider.
+$transactionService = new TransactionService($config);
 
 // The POST data is processed with the method `handleResponse()`.
 $response = $transactionService->handleResponse($_POST);
