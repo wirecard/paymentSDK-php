@@ -287,16 +287,16 @@
 </span><span id="131" class="l"><a href="#131">131 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> mappedProperties()
 </span><span id="132" class="l"><a href="#132">132 </a>    {
 </span><span id="133" class="l"><a href="#133">133 </a>        <span class="php-var">$data</span>[<span class="php-quote">'name'</span>] = <span class="php-var">$this</span>-&gt;name;
-</span><span id="134" class="l"><a href="#134">134 </a>
-</span><span id="135" class="l"><a href="#135">135 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">null</span> !== <span class="php-var">$this</span>-&gt;description) {
-</span><span id="136" class="l"><a href="#136">136 </a>            <span class="php-var">$data</span>[<span class="php-quote">'description'</span>] = <span class="php-var">$this</span>-&gt;description;
-</span><span id="137" class="l"><a href="#137">137 </a>        }
-</span><span id="138" class="l"><a href="#138">138 </a>
-</span><span id="139" class="l"><a href="#139">139 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">null</span> !== <span class="php-var">$this</span>-&gt;articleNumber) {
-</span><span id="140" class="l"><a href="#140">140 </a>            <span class="php-var">$data</span>[<span class="php-quote">'article-number'</span>] = <span class="php-var">$this</span>-&gt;articleNumber;
-</span><span id="141" class="l"><a href="#141">141 </a>        }
-</span><span id="142" class="l"><a href="#142">142 </a>
-</span><span id="143" class="l"><a href="#143">143 </a>        <span class="php-var">$data</span>[<span class="php-quote">'amount'</span>] = <span class="php-var">$this</span>-&gt;price-&gt;mappedProperties();
+</span><span id="134" class="l"><a href="#134">134 </a>        <span class="php-var">$data</span>[<span class="php-quote">'amount'</span>] = <span class="php-var">$this</span>-&gt;price-&gt;mappedProperties();
+</span><span id="135" class="l"><a href="#135">135 </a>        <span class="php-var">$data</span>[<span class="php-quote">'quantity'</span>] = <span class="php-var">$this</span>-&gt;quantity;
+</span><span id="136" class="l"><a href="#136">136 </a>
+</span><span id="137" class="l"><a href="#137">137 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">null</span> !== <span class="php-var">$this</span>-&gt;description) {
+</span><span id="138" class="l"><a href="#138">138 </a>            <span class="php-var">$data</span>[<span class="php-quote">'description'</span>] = <span class="php-var">$this</span>-&gt;description;
+</span><span id="139" class="l"><a href="#139">139 </a>        }
+</span><span id="140" class="l"><a href="#140">140 </a>
+</span><span id="141" class="l"><a href="#141">141 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">null</span> !== <span class="php-var">$this</span>-&gt;articleNumber) {
+</span><span id="142" class="l"><a href="#142">142 </a>            <span class="php-var">$data</span>[<span class="php-quote">'article-number'</span>] = <span class="php-var">$this</span>-&gt;articleNumber;
+</span><span id="143" class="l"><a href="#143">143 </a>        }
 </span><span id="144" class="l"><a href="#144">144 </a>
 </span><span id="145" class="l"><a href="#145">145 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">null</span> !== <span class="php-var">$this</span>-&gt;taxRate) {
 </span><span id="146" class="l"><a href="#146">146 </a>            <span class="php-var">$data</span>[<span class="php-quote">'tax-rate'</span>] = <span class="php-var">$this</span>-&gt;taxRate;
@@ -306,12 +306,10 @@
 </span><span id="150" class="l"><a href="#150">150 </a>            <span class="php-var">$data</span>[<span class="php-quote">'tax-amount'</span>] = <span class="php-var">$this</span>-&gt;taxAmount-&gt;mappedProperties();
 </span><span id="151" class="l"><a href="#151">151 </a>        }
 </span><span id="152" class="l"><a href="#152">152 </a>
-</span><span id="153" class="l"><a href="#153">153 </a>        <span class="php-var">$data</span>[<span class="php-quote">'quantity'</span>] = <span class="php-var">$this</span>-&gt;quantity;
-</span><span id="154" class="l"><a href="#154">154 </a>
-</span><span id="155" class="l"><a href="#155">155 </a>        <span class="php-keyword1">return</span> <span class="php-var">$data</span>;
-</span><span id="156" class="l"><a href="#156">156 </a>    }
-</span><span id="157" class="l"><a href="#157">157 </a>}
-</span><span id="158" class="l"><a href="#158">158 </a></span></code></pre>
+</span><span id="153" class="l"><a href="#153">153 </a>        <span class="php-keyword1">return</span> <span class="php-var">$data</span>;
+</span><span id="154" class="l"><a href="#154">154 </a>    }
+</span><span id="155" class="l"><a href="#155">155 </a>}
+</span><span id="156" class="l"><a href="#156">156 </a></span></code></pre>
 	</div>
 
 	<div id="footer">
