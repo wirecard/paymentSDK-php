@@ -32,7 +32,7 @@ $notificationUrl = getUrl('notify.php');
 
 // For each item you have to set some properties as described here.
 // The name, the price and the quantity are required,
-// the article number and the description are optional.
+// the article number, the description, the tax rate and the tax amount are optional.
 $item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(2.59, 'EUR'), 1);
 $item1->setArticleNumber('A1');
 $item1->setDescription('My first item');
