@@ -32,7 +32,7 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\ItemCollection;
+use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\Operation;
@@ -60,14 +60,13 @@ class RatepayTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx->mappedProperties();
     }
 
-
-    public function testSetItemCollection()
+    public function testSetBasket()
     {
-        $collection = new ItemCollection();
+        $collection = new Basket();
 
-        $this->tx->setItemCollection($collection);
+        $this->tx->setBasket($collection);
 
-        $this->assertAttributeEquals($collection, 'itemCollection', $this->tx);
+        $this->assertAttributeEquals($collection, 'basket', $this->tx);
     }
 
     public function testSetFailureUrl()
@@ -80,7 +79,7 @@ class RatepayTransactionUTest extends \PHPUnit_Framework_TestCase
         /**
          * @var Redirect $redirect
          */
-        $this->tx->setItemCollection(new ItemCollection());
+        $this->tx->setBasket(new Basket());
         $this->tx->setOperation(Operation::RESERVE);
         $this->tx->setRedirect($redirect);
         $data = $this->tx->mappedProperties();
@@ -98,7 +97,7 @@ class RatepayTransactionUTest extends \PHPUnit_Framework_TestCase
         /**
          * @var Redirect $redirect
          */
-        $this->tx->setItemCollection(new ItemCollection());
+        $this->tx->setBasket(new Basket());
         $this->tx->setOperation(Operation::RESERVE);
         $this->tx->setRedirect($redirect);
         $data = $this->tx->mappedProperties();
@@ -108,7 +107,7 @@ class RatepayTransactionUTest extends \PHPUnit_Framework_TestCase
 
     public function testGetRetrieveTransactionTypeReserve()
     {
-        $this->tx->setItemCollection(new ItemCollection());
+        $this->tx->setBasket(new Basket());
 
         $redirect = $this->createMock(Redirect::class);
         $redirect->method('getCancelUrl')->willReturn('cancel-url');
@@ -148,7 +147,7 @@ class RatepayTransactionUTest extends \PHPUnit_Framework_TestCase
     public function testGetRetrieveTransactionTypeCancel($transactionType, $expected)
     {
         $this->tx->setOperation(Operation::CANCEL);
-        $this->tx->setItemCollection(new ItemCollection());
+        $this->tx->setBasket(new Basket());
         $this->tx->setParentTransactionId('1');
         $this->tx->setParentTransactionType($transactionType);
         $data = $this->tx->mappedProperties();
@@ -161,7 +160,7 @@ class RatepayTransactionUTest extends \PHPUnit_Framework_TestCase
     public function testGetRetrieveTransactionTypeCancelWithoutParentTransactionThrowsException()
     {
         $this->tx->setOperation(Operation::CANCEL);
-        $this->tx->setItemCollection(new ItemCollection());
+        $this->tx->setBasket(new Basket());
         $this->tx->mappedProperties();
     }
 
@@ -172,14 +171,14 @@ class RatepayTransactionUTest extends \PHPUnit_Framework_TestCase
     {
         $this->tx->setParentTransactionId('1');
         $this->tx->setOperation(Operation::CANCEL);
-        $this->tx->setItemCollection(new ItemCollection());
+        $this->tx->setBasket(new Basket());
         $this->tx->mappedProperties();
     }
 
     public function testGetRetrieveTransactionTypePay()
     {
         $this->tx->setOperation(Operation::PAY);
-        $this->tx->setItemCollection(new ItemCollection());
+        $this->tx->setBasket(new Basket());
         $this->tx->setParentTransactionId('1');
         $data = $this->tx->mappedProperties();
         $this->assertEquals(Transaction::TYPE_CAPTURE_AUTHORIZATION, $data['transaction-type']);
@@ -191,14 +190,14 @@ class RatepayTransactionUTest extends \PHPUnit_Framework_TestCase
     public function testGetRetrieveTransactionTypePayThrowsException()
     {
         $this->tx->setOperation(Operation::PAY);
-        $this->tx->setItemCollection(new ItemCollection());
+        $this->tx->setBasket(new Basket());
         $this->tx->mappedProperties();
     }
 
     public function testGetRetrieveTransactionTypeCredit()
     {
         $this->tx->setOperation(Operation::CREDIT);
-        $this->tx->setItemCollection(new ItemCollection());
+        $this->tx->setBasket(new Basket());
         $data = $this->tx->mappedProperties();
         $this->assertEquals('credit', $data['transaction-type']);
     }
@@ -234,7 +233,7 @@ class RatepayTransactionUTest extends \PHPUnit_Framework_TestCase
         /**
          * @var Redirect $redirect
          */
-        $this->tx->setItemCollection(new ItemCollection());
+        $this->tx->setBasket(new Basket());
         $this->tx->setOperation(Operation::RESERVE);
         $this->tx->setRedirect($redirect);
         $this->tx->setOrderNumber($orderNr);

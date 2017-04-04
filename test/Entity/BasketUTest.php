@@ -63,19 +63,19 @@
 namespace WirecardTest\PaymentSdk\Entity;
 
 use Wirecard\PaymentSdk\Entity\Item;
-use Wirecard\PaymentSdk\Entity\ItemCollection;
+use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Entity\Amount;
 
-class ItemCollectionUTest extends \PHPUnit_Framework_TestCase
+class BasketUTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var ItemCollection
+     * @var Basket
      */
     private $itemCollection;
 
     public function setUp()
     {
-        $this->itemCollection = new ItemCollection();
+        $this->itemCollection = new Basket();
     }
 
     public function testAdd()
@@ -93,18 +93,18 @@ class ItemCollectionUTest extends \PHPUnit_Framework_TestCase
 
     public function testMappedProperties()
     {
-        $item = new Item('test', new Amount(1, 'EUR'), 1);
+        $item = new Item('test item name', new Amount(1, 'EUR'), 1);
         $this->itemCollection->add($item);
 
         $expected = [
             'order-item' => [
                 [
-                    'name' => $item->getName(),
+                    'name' => 'test item name',
                     'amount' => [
-                        'value' => $item->getAmount()->getValue(),
-                        'currency' => $item->getAmount()->getCurrency()
+                        'value' => '1',
+                        'currency' => 'EUR'
                     ],
-                    'quantity' => $item->getQuantity()
+                    'quantity' => '1'
                 ]
             ]
         ];

@@ -28,9 +28,11 @@ $redirectUrls = new Redirect(
 $notificationUrl = getUrl('notify.php');
 
 // ### Basket items
+// A Basket contains one or more items.
 
-// Each item needs to be an objects as described here. The name, the amount and the quantity are required details,
-// the article number and the description are optional.
+// For each item you have to set some properties as described here.
+// The name, the price and the quantity are required,
+// the article number, the description, the tax rate and the tax amount are optional.
 $item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(2.59, 'EUR'), 1);
 $item1->setArticleNumber('A1');
 $item1->setDescription('My first item');
@@ -40,10 +42,10 @@ $item2->setArticleNumber('B2');
 $item2->setDescription('My second item');
 $item2->setTaxAmount(new Amount(1, 'EUR'));
 
-// The items are all stored in an `itemCollection`.
-$itemCollection = new \Wirecard\PaymentSdk\Entity\ItemCollection();
-$itemCollection->add($item1);
-$itemCollection->add($item2);
+// The items are all stored in a `Basket` object.
+$basket = new \Wirecard\PaymentSdk\Entity\Basket();
+$basket->add($item1);
+$basket->add($item2);
 
 // The amount needs to be equal to the total amount for the order items.
 $amount = new Amount(12.59, 'EUR');
@@ -57,8 +59,8 @@ $transaction->setNotificationUrl($notificationUrl);
 $transaction->setRedirect($redirectUrls);
 $transaction->setAmount($amount);
 
-// Include the item collection in the transaction.
-$transaction->setItemCollection($itemCollection);
+// Include the basket in the transaction.
+$transaction->setBasket($basket);
 
 // ### Transaction Service
 

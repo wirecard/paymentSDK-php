@@ -55,7 +55,7 @@ class Item implements MappableEntity
     /**
      * @var Amount
      */
-    private $amount;
+    private $price;
 
     /**
      * @var Amount
@@ -75,13 +75,13 @@ class Item implements MappableEntity
     /**
      * Item constructor.
      * @param string $name
-     * @param Amount $amount
+     * @param Amount $price
      * @param int $quantity
      */
-    public function __construct($name, Amount $amount, $quantity)
+    public function __construct($name, Amount $price, $quantity)
     {
         $this->name = $name;
-        $this->amount = $amount;
+        $this->price = $price;
         $this->quantity = $quantity;
     }
 
@@ -116,14 +116,6 @@ class Item implements MappableEntity
     }
 
     /**
-     * @return float
-     */
-    public function getTaxRate()
-    {
-        return $this->taxRate;
-    }
-
-    /**
      * @param Amount $taxAmount
      * @return Item
      */
@@ -134,79 +126,31 @@ class Item implements MappableEntity
     }
 
     /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * @return string
-     */
-    public function getArticleNumber()
-    {
-        return $this->articleNumber;
-    }
-
-    /**
-     * @return Amount
-     */
-    public function getAmount()
-    {
-        return $this->amount;
-    }
-
-    /**
-     * @return Amount
-     */
-    public function getTaxAmount()
-    {
-        return $this->taxAmount;
-    }
-
-    /**
-     * @return int
-     */
-    public function getQuantity()
-    {
-        return $this->quantity;
-    }
-
-    /**
      * @return array
      */
     public function mappedProperties()
     {
-        $data['name'] = $this->getName();
+        $data['name'] = $this->name;
 
-        if (null !== $this->getDescription()) {
-            $data['description'] = $this->getDescription();
+        if (null !== $this->description) {
+            $data['description'] = $this->description;
         }
 
-        if (null !== $this->getArticleNumber()) {
-            $data['article-number'] = $this->getArticleNumber();
+        if (null !== $this->articleNumber) {
+            $data['article-number'] = $this->articleNumber;
         }
 
-        $data['amount'] = $this->getAmount()->mappedProperties();
+        $data['amount'] = $this->price->mappedProperties();
 
-        if (null !== $this->getTaxRate()) {
-            $data['tax-rate'] = $this->getTaxRate();
+        if (null !== $this->taxRate) {
+            $data['tax-rate'] = $this->taxRate;
         }
 
-        if (null !== $this->getTaxAmount()) {
-            $data['tax-amount'] = $this->getTaxAmount()->mappedProperties();
+        if (null !== $this->taxAmount) {
+            $data['tax-amount'] = $this->taxAmount->mappedProperties();
         }
 
-        $data['quantity'] = $this->getQuantity();
+        $data['quantity'] = $this->quantity;
 
         return $data;
     }

@@ -35,10 +35,10 @@ namespace Wirecard\PaymentSdk\Entity;
 use Traversable;
 
 /**
- * Class ItemCollection
+ * Class Basket
  * @package Wirecard\PaymentSdk\Entity
  */
-class ItemCollection implements \IteratorAggregate, MappableEntity
+class Basket implements \IteratorAggregate, MappableEntity
 {
     /**
      * @var array

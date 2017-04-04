@@ -36,8 +36,8 @@ $credit1 = new \Wirecard\PaymentSdk\Entity\Item('Credit 1', $amount, 1);
 $credit1->setArticleNumber('C1');
 $credit1->setTaxRate(0.0);
 
-$itemCollection = new \Wirecard\PaymentSdk\Entity\ItemCollection();
-$itemCollection->add($credit1);
+$basket = new \Wirecard\PaymentSdk\Entity\Basket();
+$basket->add($credit1);
 
 
 // ## Transaction
@@ -47,7 +47,7 @@ $transaction = new RatepayInvoiceTransaction();
 $transaction->setNotificationUrl($notificationUrl);
 $transaction->setAmount($amount);
 $transaction->setParentTransactionId($_POST['parentTransactionId']);
-$transaction->setItemCollection($itemCollection);
+$transaction->setBasket($basket);
 
 // ### Transaction Service
 
