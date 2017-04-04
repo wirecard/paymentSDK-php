@@ -41,9 +41,9 @@ $item2->setArticleNumber('B2');
 $item2->setTaxRate(0.2);
 
 // Create an item collection to store the items.
-$itemCollection = new \Wirecard\PaymentSdk\Entity\ItemCollection();
-$itemCollection->add($item1);
-$itemCollection->add($item2);
+$basket = new \Wirecard\PaymentSdk\Entity\Basket();
+$basket->add($item1);
+$basket->add($item2);
 
 
 // ## Transaction
@@ -52,7 +52,7 @@ $transaction = new RatepayInvoiceTransaction();
 $transaction->setParentTransactionId($_POST['parentTransactionId']);
 $transaction->setAmount($amount);
 $transaction->setOrderNumber($orderNumber);
-$transaction->setItemCollection($itemCollection);
+$transaction->setBasket($basket);
 
 // ### Transaction Service
 

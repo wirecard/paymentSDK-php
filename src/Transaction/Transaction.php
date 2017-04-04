@@ -35,7 +35,7 @@ namespace Wirecard\PaymentSdk\Transaction;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
-use Wirecard\PaymentSdk\Entity\ItemCollection;
+use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
@@ -81,9 +81,9 @@ abstract class Transaction
     protected $consumerId;
 
     /**
-     * @var ItemCollection
+     * @var Basket
      */
-    protected $itemCollection;
+    protected $basket;
 
     /**
      * @var string
@@ -147,12 +147,12 @@ abstract class Transaction
     }
 
     /**
-     * @param ItemCollection $itemCollection
+     * @param Basket $basket
      * @return Transaction
      */
-    public function setItemCollection(ItemCollection $itemCollection)
+    public function setBasket(Basket $basket)
     {
-        $this->itemCollection = $itemCollection;
+        $this->basket = $basket;
         return $this;
     }
 
@@ -260,8 +260,8 @@ abstract class Transaction
             }
         }
 
-        if ($this->itemCollection instanceof ItemCollection) {
-            $result['order-items'] = $this->itemCollection->mappedProperties();
+        if ($this->basket instanceof Basket) {
+            $result['order-items'] = $this->basket->mappedProperties();
         }
 
         if (null !== $this->consumerId) {

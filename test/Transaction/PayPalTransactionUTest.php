@@ -32,7 +32,7 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\ItemCollection;
+use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\Operation;
@@ -69,13 +69,13 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function testSetItemCollection()
+    public function testSetBasket()
     {
-        $collection = new ItemCollection();
+        $collection = new Basket();
 
-        $this->tx->setItemCollection($collection);
+        $this->tx->setBasket($collection);
 
-        $this->assertAttributeEquals($collection, 'itemCollection', $this->tx);
+        $this->assertAttributeEquals($collection, 'basket', $this->tx);
     }
 
     public function testMappedPropertiesSetsOrderItems()
@@ -87,7 +87,7 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
         /**
          * @var Redirect $redirect
          */
-        $this->tx->setItemCollection(new ItemCollection());
+        $this->tx->setBasket(new Basket());
         $this->tx->setOperation('pay');
         $this->tx->setRedirect($redirect);
         $data = $this->tx->mappedProperties();

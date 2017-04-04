@@ -36,9 +36,12 @@ $notificationUrl = getUrl('notify.php');
 
 $orderNumber = 'A2';
 
-// #### Basket items
+// ### Basket items
+// A Basket contains one or more items.
 
-// RatePAY requires information on the purchased items.
+// For each item you have to set some properties as described here.
+// The name, the amount, the quantity and the tax rate are required,
+// the article number and the description are optional.
 $item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(400, 'EUR'), 1);
 $item1->setArticleNumber('A1');
 // In contrast to the [basket example](../Features/basket.html), RatePAY requires the **tax rate**.
@@ -48,10 +51,10 @@ $item2 = new \Wirecard\PaymentSdk\Entity\Item('Item 2', new Amount(1000, 'EUR'),
 $item2->setArticleNumber('B2');
 $item2->setTaxRate(0.2);
 
-// Create an item collection to store the items.
-$itemCollection = new \Wirecard\PaymentSdk\Entity\ItemCollection();
-$itemCollection->add($item1);
-$itemCollection->add($item2);
+// Create a basket to store the items.
+$basket = new \Wirecard\PaymentSdk\Entity\Basket();
+$basket->add($item1);
+$basket->add($item2);
 
 
 // ### Account holder with address
@@ -74,7 +77,7 @@ $transaction = new RatepayInstallmentTransaction();
 $transaction->setNotificationUrl($notificationUrl);
 $transaction->setRedirect($redirectUrls);
 $transaction->setAmount($amount);
-$transaction->setItemCollection($itemCollection);
+$transaction->setBasket($basket);
 $transaction->setOrderNumber($orderNumber);
 $transaction->setAccountHolder($accountHolder);
 

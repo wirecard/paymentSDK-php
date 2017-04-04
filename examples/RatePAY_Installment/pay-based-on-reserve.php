@@ -24,9 +24,12 @@ $notificationUrl = getUrl('notify.php');
 // The order number
 $orderNumber = 'A2';
 
-// #### Basket items
+// ### Basket items
+// A Basket contains one or more items.
 
-// RatePAY requires information on the purchased items.
+// For each item you have to set some properties as described here.
+// The name, the amount, the quantity and the tax rate are required,
+// the article number and the description are optional.
 $item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(400, 'EUR'), 1);
 $item1->setArticleNumber('A1');
 // In contrast to the [basket example](../Features/basket.html), RatePAY requires the **tax rate**.
@@ -36,8 +39,8 @@ $item2 = new \Wirecard\PaymentSdk\Entity\Item('Item 2', new Amount(1000, 'EUR'),
 $item2->setArticleNumber('B2');
 $item2->setTaxRate(0.2);
 
-// Create an item collection to store the items.
-$itemCollection = new \Wirecard\PaymentSdk\Entity\ItemCollection();
+// Create a basket collection to store the items.
+$basket = new \Wirecard\PaymentSdk\Entity\Basket();
 
 // #### Account holder with address
 $address = new \Wirecard\PaymentSdk\Entity\Address('DE', 'Berlin', 'Berlin');
@@ -57,7 +60,7 @@ $accountHolder->setAddress($address);
 // The RatePAY installment transaction holds all transaction relevant data for the reserve process.
 $transaction = new RatepayInstallmentTransaction();
 $transaction->setNotificationUrl($notificationUrl);
-$transaction->setItemCollection($itemCollection);
+$transaction->setBasket($basket);
 $transaction->setOrderNumber($orderNumber);
 $transaction->setAccountHolder($accountHolder);
 if (array_key_exists('parentTransactionId', $_POST)) {
@@ -70,16 +73,16 @@ if (array_key_exists('parentTransactionId', $_POST)) {
 if (array_key_exists('item_to_capture', $_POST)) {
     switch ($_POST['item_to_capture']) {
         case '1':
-            $itemCollection->add($item1);
+            $basket->add($item1);
             $amount = new Amount(400, 'EUR');
             break;
         case '2':
-            $itemCollection->add($item2);
+            $basket->add($item2);
             $amount = new Amount(2000, 'EUR');
             break;
         default:
-            $itemCollection->add($item1);
-            $itemCollection->add($item2);
+            $basket->add($item1);
+            $basket->add($item2);
             $amount = new Amount(2400, 'EUR');
     }
     $transaction->setAmount($amount);

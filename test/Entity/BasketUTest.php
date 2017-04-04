@@ -63,19 +63,19 @@
 namespace WirecardTest\PaymentSdk\Entity;
 
 use Wirecard\PaymentSdk\Entity\Item;
-use Wirecard\PaymentSdk\Entity\ItemCollection;
+use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Entity\Amount;
 
-class ItemCollectionUTest extends \PHPUnit_Framework_TestCase
+class BasketUTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var ItemCollection
+     * @var Basket
      */
     private $itemCollection;
 
     public function setUp()
     {
-        $this->itemCollection = new ItemCollection();
+        $this->itemCollection = new Basket();
     }
 
     public function testAdd()
