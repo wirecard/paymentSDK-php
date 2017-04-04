@@ -34,7 +34,7 @@ $transaction->setAmount(new Amount(12.59, 'EUR'));
 // The redirect URLs are defined in a corresponding object.
 $redirectUrl = new Redirect(
 // A URL for successful transactions is expected.
-    '../CreditCard/return.php?status=success'
+    getUrl('../CreditCard/return.php?status=success')
 );
 
 // Set the redirect URL to enable the functionality.
