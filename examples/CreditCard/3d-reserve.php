@@ -18,7 +18,7 @@ use Wirecard\PaymentSdk\TransactionService;
 
 // ### Transaction related objects
 
-// Create a amount object as amount which has to be payed by the consumer.
+// Create a amount object as amount which has to be paid by the consumer.
 $amount = new Amount(12.59, 'EUR');
 
 // Tokens from a successful _seamlessRenderForm_ callback can be used to execute reservations.

@@ -20,7 +20,7 @@ use Wirecard\PaymentSdk\TransactionService;
 
 // ### Transaction related objects
 
-// Create a amount object as amount which has to be payed by the consumer.
+// Create a amount object as amount which has to be paid by the consumer.
 $amount = new Amount(12.59, 'EUR');
 
 // If there was a previous transaction, use the ID of this parent transaction as reference.
