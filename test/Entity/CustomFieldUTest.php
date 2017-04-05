@@ -35,26 +35,14 @@ use Wirecard\PaymentSdk\Entity\CustomField;
 
 class CustomFieldUTest extends \PHPUnit_Framework_TestCase
 {
-    const NAME = 'special1';
-    const VALUE = 'hihihi';
-
-    /**
-     * @var CustomField
-     */
-    private $customField;
-
-    public function setUp()
+    public function testMappedProperties()
     {
-        $this->customField = new CustomField(self::NAME, self::VALUE);
-    }
+        $customField = new CustomField('special1', 'hihihi');
+        $expected = [
+            'field-name' => 'paysdk_special1',
+            'field-value' => 'hihihi'
+        ];
 
-    public function testGetName()
-    {
-        $this->assertEquals(self::NAME, $this->customField->getName());
-    }
-
-    public function testGetValue()
-    {
-        $this->assertEquals(self::VALUE, $this->customField->getValue());
+        $this->assertEquals($expected, $customField->mappedProperties());
     }
 }

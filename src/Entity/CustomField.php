@@ -63,22 +63,6 @@ class CustomField implements MappableEntity
     }
 
     /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getValue()
-    {
-        return $this->value;
-    }
-
-    /**
      * @return array
      */
     public function mappedProperties()
