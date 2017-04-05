@@ -19,7 +19,7 @@ use Wirecard\PaymentSdk\TransactionService;
 
 // ### Transaction related objects
 
-// Use the amount object as amount which has to be payed by the consumer.
+// Use the amount object as amount which has to be paid by the consumer.
 if (array_key_exists('amount', $_POST)) {
     $amountValue = $_POST['amount'];
 } else {

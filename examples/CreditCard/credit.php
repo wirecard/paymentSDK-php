@@ -25,7 +25,7 @@ $tokenId = '4304509873471003';
 
 // ### Transaction related objects
 
-// Create a amount object as amount which has to be payed by the consumer.
+// Create a amount object as amount which has to be paid by the consumer.
 $amount = new Amount(10.59, 'EUR');
 
 // The account holder last name is required for credit.
