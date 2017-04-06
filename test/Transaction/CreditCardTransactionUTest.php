@@ -460,4 +460,74 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
         $result = $transaction->mappedProperties();
         $this->assertEquals($expectedResult, $result);
     }
+
+    public function testIsThreeDWithSetThreeD()
+    {
+        $this->tx->setThreeD(false);
+        $this->tx->setOperation(Operation::PAY);
+        $this->tx->setTokenId('21');
+
+        $result = $this->tx->mappedProperties();
+
+        $this->assertEquals(CreditCardTransaction::TYPE_PURCHASE, $result['transaction-type']);
+    }
+
+    public function testIsThreeDWithThreeDMinLimit()
+    {
+        $this->config->addThreeDMinLimit(new Amount(20.0, 'EUR'));
+        $this->tx->setOperation(Operation::PAY);
+        $this->tx->setTokenId('21');
+        $this->tx->setAmount(new Amount(20.1, 'EUR'));
+
+        $result = $this->tx->mappedProperties();
+
+        $this->assertEquals(CreditCardTransaction::TYPE_CHECK_ENROLLMENT, $result['transaction-type']);
+    }
+
+    /**
+     * @return array
+     */
+    public function isFallbackProvider()
+    {
+        return [
+            [false, null, null, null],
+            [false, new Amount(70.0, 'EUR'), null, null],
+            [
+                true,
+                new Amount(70.0, 'EUR'),
+                null,
+                new Amount(50.0, 'EUR')
+            ],
+            [
+                true,
+                new Amount(70.0, 'EUR'),
+                new Amount(100.0, 'EUR'),
+                new Amount(50.0, 'EUR')
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider isFallbackProvider
+     * @param $expected
+     * @param $amount
+     * @param $sslMaxLimit
+     * @param $threeDMinLimit
+     */
+    public function testIsFallback($expected, $amount, $sslMaxLimit, $threeDMinLimit)
+    {
+        if (null !== $amount) {
+            $this->tx->setAmount($amount);
+        }
+
+        if (null !== $sslMaxLimit) {
+            $this->config->addSslMaxLimit($sslMaxLimit);
+        }
+
+        if (null !== $threeDMinLimit) {
+            $this->config->addThreeDMinLimit($threeDMinLimit);
+        }
+
+        $this->assertEquals($expected, $this->tx->isFallback());
+    }
 }
