@@ -10,27 +10,23 @@ require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 require __DIR__ . '/../inc/config.php';
 
+use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
-use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 // ## Transaction
 
-if ('3d' === $_POST['transaction-type']) {
-    $transaction = new ThreeDCreditCardTransaction();
-} else {
-    $transaction = new CreditCardTransaction();
-}
+$transaction = new CreditCardTransaction();
 $transaction->setParentTransactionId($_POST['parentTransactionId']);
 if (array_key_exists('amount', $_POST)) {
-    $transaction->setAmount(new \Wirecard\PaymentSdk\Entity\Amount((float)$_POST['amount'], 'EUR'));
+    $transaction->setAmount(new Amount((float)$_POST['amount'], 'EUR'));
 }
 
 // ### Transaction Service
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
-$transactionService = new TransactionService($cardConfig);
+$transactionService = new TransactionService($config);
 $response = $transactionService->pay($transaction);
 
 
@@ -45,7 +41,6 @@ if ($response instanceof SuccessResponse) {
     <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="hidden" name="transaction-type" value="<?= $_POST['transaction-type'] ?>"/>
         <input type="submit" value="Cancel the capture">
     </form>
     <?php

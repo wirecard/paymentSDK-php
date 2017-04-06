@@ -44,7 +44,7 @@ $transaction->setRedirect(($redirectUrl));
 // ### Transaction Service
 
 // The service is used to execute the reservation (authorization) operation itself.
-$transactionService = new TransactionService($cardConfig);
+$transactionService = new TransactionService($config);
 $response = $transactionService->reserve($transaction);
 
 
