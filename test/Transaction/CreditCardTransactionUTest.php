@@ -117,6 +117,29 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
+    public function testMappedPropertiesPares()
+    {
+        $this->tx->setPaRes('pasdsgf');
+        $valid = [
+            'payment-methods' => [
+                'payment-method' => [
+                    [
+                        'name' => 'creditcard'
+                    ]
+                ]
+            ],
+            'transaction-type' => 'testtype',
+            'three-d' => [
+                'pares' => 'pasdsgf'
+            ],
+            'merchant-account-id' => [
+                'value' => 'maid'
+            ]
+        ];
+        $this->tx->setOperation('testtype');
+        $this->assertEquals($valid, $this->tx->mappedProperties());
+    }
+
     public function testSslCreditCardTransactionWithParentTransactionId()
     {
 
@@ -370,5 +393,71 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
         $tx->setOperation(Operation::PAY);
 
         $this->assertEquals(CreditCardTransaction::TYPE_PURCHASE, $tx->retrieveOperationType());
+    }
+
+    public function threeDProvider()
+    {
+        return [
+            [
+                Operation::CANCEL,
+                Transaction::TYPE_AUTHORIZATION,
+                Transaction::TYPE_VOID_AUTHORIZATION
+            ],
+            [
+                Operation::RESERVE,
+                null,
+                CreditCardTransaction::TYPE_CHECK_ENROLLMENT
+            ],
+            [
+                Operation::RESERVE,
+                CreditCardTransaction::TYPE_CHECK_ENROLLMENT,
+                Transaction::TYPE_AUTHORIZATION
+            ],
+            [
+                Operation::RESERVE,
+                Transaction::TYPE_AUTHORIZATION,
+                Transaction::TYPE_REFERENCED_AUTHORIZATION
+            ],
+            [
+                Operation::PAY,
+                null,
+                CreditCardTransaction::TYPE_CHECK_ENROLLMENT
+            ],
+        ];
+    }
+    /**
+     * @param $operation
+     * @param $parentTransactionType
+     * @param $expectedType
+     * @dataProvider threeDProvider
+     */
+    public function testThreeDCreditCardTransaction($operation, $parentTransactionType, $expectedType)
+    {
+        $_SERVER['REMOTE_ADDR'] = 'test IP';
+        $expectedResult = [
+            'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
+            'requested-amount' => ['currency' => 'EUR', 'value' => 24],
+            'parent-transaction-id' => 'parent54',
+            'ip-address' => 'test IP',
+            'transaction-type' => $expectedType,
+            'card-token' => [
+                'token-id' => '21'
+            ],
+            'merchant-account-id' => [
+                'value' => null
+            ]
+        ];
+        $this->config->addSslMaxLimit(new Amount(20.0, 'EUR'));
+        $amount = new Amount(24, 'EUR');
+        $transaction = new CreditCardTransaction();
+        $transaction->setConfig($this->config);
+        $transaction->setTokenId('21');
+        $transaction->setTermUrl('https://example.com/r');
+        $transaction->setAmount($amount);
+        $transaction->setParentTransactionId('parent54');
+        $transaction->setParentTransactionType($parentTransactionType);
+        $transaction->setOperation($operation);
+        $result = $transaction->mappedProperties();
+        $this->assertEquals($expectedResult, $result);
     }
 }

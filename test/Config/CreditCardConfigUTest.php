@@ -68,10 +68,10 @@ use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 
 class CreditCardConfigUTest extends \PHPUnit_Framework_TestCase
 {
-    CONST MAID = 'maiiiidddd';
-    CONST SECRET = 'mytopsecretsecret';
-    CONST THREE_D_MAID = 'hllgjgj';
-    CONST THREE_D_SECRET = 'hfjegrh';
+    const MAID = 'maiiiidddd';
+    const SECRET = 'mytopsecretsecret';
+    const THREE_D_MAID = 'hllgjgj';
+    const THREE_D_SECRET = 'hfjegrh';
     /**
      * @var CreditCardConfig
      */
@@ -107,33 +107,51 @@ class CreditCardConfigUTest extends \PHPUnit_Framework_TestCase
     {
         $this->config->addSslMaxLimit($this->amount);
 
-        $this->assertAttributeEquals([$this->amount->getCurrency() => $this->amount->getValue()], 'sslMaxLimits', $this->config);
+        $this->assertAttributeEquals(
+            [$this->amount->getCurrency() => $this->amount->getValue()],
+            'sslMaxLimits',
+            $this->config
+        );
     }
 
     public function testGetSslMaxLimits()
     {
         $this->config->addSslMaxLimit($this->amount);
-        $this->assertEquals([$this->amount->getCurrency() => $this->amount->getValue()], $this->config->getSslMaxLimits());
+        $this->assertEquals(
+            [$this->amount->getCurrency() => $this->amount->getValue()],
+            $this->config->getSslMaxLimits()
+        );
     }
 
     public function testAddThreeDMinLimit()
     {
         $this->config->addThreeDMinLimit($this->amount);
 
-        $this->assertAttributeEquals([$this->amount->getCurrency() => $this->amount->getValue()], 'threeDMinLimits', $this->config);
+        $this->assertAttributeEquals(
+            [$this->amount->getCurrency() => $this->amount->getValue()],
+            'threeDMinLimits',
+            $this->config
+        );
     }
 
     public function testGetThreeDMinLimits()
     {
         $this->config->addThreeDMinLimit($this->amount);
-        $this->assertEquals([$this->amount->getCurrency() => $this->amount->getValue()], $this->config->getThreeDMinLimits());
+        $this->assertEquals(
+            [$this->amount->getCurrency() => $this->amount->getValue()],
+            $this->config->getThreeDMinLimits()
+        );
     }
 
     public function testSetThreeDCredentials()
     {
         $this->config->setThreeDCredentials(self::THREE_D_MAID, self::THREE_D_SECRET);
 
-        $this->assertAttributeEquals(self::THREE_D_MAID, 'threeDMerchantAccountId', $this->config);
+        $this->assertAttributeEquals(
+            self::THREE_D_MAID,
+            'threeDMerchantAccountId',
+            $this->config
+        );
         $this->assertAttributeEquals(self::THREE_D_SECRET, 'threeDSecret', $this->config);
     }
 
