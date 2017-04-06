@@ -18,20 +18,13 @@ use Wirecard\PaymentSdk\TransactionService;
 
 
 // ## Transaction
-
-// A previous transaction made via SSL, needs to be differently treated
-// than a 3D-Secure transaction.
-if (isset($_POST['transaction-type']) && $_POST['transaction-type'] === 'ssl') {
-    $transaction = new CreditCardTransaction();
-} else {
-    $transaction = new ThreeDCreditCardTransaction();
-}
+$transaction = new CreditCardTransaction();
 $transaction->setParentTransactionId($_POST['parentTransactionId']);
 
 // ### Transaction Service
 
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
-$transactionService = new TransactionService($cardConfig);
+$transactionService = new TransactionService($config);
 $response = $transactionService->cancel($transaction);
 
 

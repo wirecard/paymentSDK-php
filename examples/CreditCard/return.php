@@ -22,7 +22,7 @@ $config->setPublicKey(file_get_contents(__DIR__ . '/../inc/api-test.wirecard.com
 
 // ### Transaction Service
 // The `TransactionService` is used to determine the response from the service provider.
-$transactionService = new TransactionService($cardConfig);
+$transactionService = new TransactionService($config);
 
 // The 3D-Secure page redirects to the _returnUrl_, which points to this file. To continue the payment process
 // the sent data can be fed directly to the transaction service via the method `handleResponse()`.
@@ -41,7 +41,6 @@ if ($response instanceof SuccessResponse) {
     <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="hidden" name="transaction-type" value="3d">
         <input type="submit" value="Cancel the payment">
     </form>
     <?php
