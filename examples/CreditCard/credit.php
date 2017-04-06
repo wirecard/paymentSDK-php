@@ -21,7 +21,7 @@ use Wirecard\PaymentSdk\TransactionService;
 // ### Transaction related objects
 
 // Define the token for the credit card where the amount should be credited.
-$tokenId = '4304509873471003';
+$tokenId = '5168216323601006';
 
 // ### Transaction related objects
 

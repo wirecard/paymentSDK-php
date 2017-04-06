@@ -9,6 +9,7 @@
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
+use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Config\SepaConfig;
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -59,7 +60,7 @@ $creditcardConfig->addThreeDMinLimit(new Amount(50.0, 'EUR'));
 
 // ### Credit Card 3-D
 
-$creditcardConfig->addThreeDCredentials(
+$creditcardConfig->setThreeDCredentials(
     '508b8896-b37d-4614-845c-26bf8bf2c948',
     'dbc5a498-9a66-43b9-bf1d-a618dd399684'
 );

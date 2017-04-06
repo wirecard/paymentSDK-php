@@ -33,6 +33,7 @@
 namespace WirecardTest\PaymentSdk\Mapper;
 
 use Wirecard\PaymentSdk\Config\Config;
+use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Mapper\RequestMapper;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
@@ -59,10 +60,14 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
     {
         $mapper = $this->createRequestMapper();
 
+        $config = $this->createMock(CreditCardConfig::class);
+        $config->method('getMerchantAccountId')->willReturn('B612');
+
         $followupTransaction = new CreditCardTransaction();
         $followupTransaction->setParentTransactionId('642');
         $followupTransaction->setParentTransactionType(Transaction::TYPE_CREDIT);
         $followupTransaction->setOperation(Operation::CREDIT);
+        $followupTransaction->setConfig($config);
 
         $_SERVER['REMOTE_ADDR'] = 'test';
 
@@ -70,11 +75,11 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
 
         $expectedResult = ['payment' => [
             'request-id' => '5B-dummy-id',
+            'merchant-account-id' => ['value' => 'B612'],
             'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
             'parent-transaction-id' => '642',
             'ip-address' => 'test',
-            'transaction-type' => 'credit',
-            'merchant-account-id' => ['value' => 'B612']
+            'transaction-type' => 'credit'
         ]];
         $this->assertEquals(json_encode($expectedResult), $result);
     }

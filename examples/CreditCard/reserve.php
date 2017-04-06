@@ -21,7 +21,7 @@ use Wirecard\PaymentSdk\TransactionService;
 // ### Transaction related objects
 
 // Create a amount object as amount which has to be paid by the consumer.
-$amount = new Amount(12.59, 'EUR');
+$amount = new Amount(70.00, 'EUR');
 
 // If there was a previous transaction, use the ID of this parent transaction as reference.
 $parentTransactionId = array_key_exists('parentTransactionId', $_POST) ? $_POST['parentTransactionId'] : null;

@@ -32,6 +32,7 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
@@ -44,9 +45,28 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
      */
     private $tx;
 
+    /**
+     * @var CreditCardConfig
+     */
+    private $config;
+
     public function setUp()
     {
+        $this->config = new CreditCardConfig('maid', 'secret');
         $this->tx = new CreditCardTransaction();
+        $this->tx->setConfig($this->config);
+    }
+
+    public function testSetTermUrl()
+    {
+        $this->tx->setTermUrl('test');
+        $this->assertAttributeEquals('test', 'termUrl', $this->tx);
+    }
+
+    public function testGetTermUrl()
+    {
+        $this->tx->setTermUrl('test');
+        $this->assertEquals('test', $this->tx->getTermUrl());
     }
 
     /**
@@ -80,10 +100,14 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
             'card-token' => [
                 'token-id' => '21'
             ],
-            'ip-address' => 'test IP'
+            'ip-address' => 'test IP',
+            'merchant-account-id' => [
+                'value' => 'maid'
+            ]
         ];
 
         $transaction = new CreditCardTransaction();
+        $transaction->setConfig($this->config);
         $transaction->setTokenId('21');
         $transaction->setAmount(new Amount(24, 'EUR'));
         $transaction->setOperation(Operation::RESERVE);
@@ -101,9 +125,13 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
             'requested-amount' => ['currency' => 'EUR', 'value' => 24],
             'parent-transaction-id' => 'parent5',
             'transaction-type' => 'referenced-authorization',
+            'merchant-account-id' => [
+                'value' => 'maid'
+            ]
         ];
 
         $transaction = new CreditCardTransaction();
+        $transaction->setConfig($this->config);
         $transaction->setAmount(new Amount(24, 'EUR'));
         $transaction->setParentTransactionId('parent5');
         $transaction->setParentTransactionType(Transaction::TYPE_AUTHORIZATION);
@@ -119,6 +147,7 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
     public function testSslCreditCardTransactionWithoutTokenIdAndParentTransactionId()
     {
         $transaction = new CreditCardTransaction();
+        $transaction->setConfig($this->config);
         $transaction->setAmount(new Amount(24, 'EUR'));
         $transaction->setOperation(Operation::RESERVE);
         $transaction->mappedProperties();
@@ -137,9 +166,13 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
             'card-token' => [
                 'token-id' => '33'
             ],
+            'merchant-account-id' => [
+                'value' => 'maid'
+            ]
         ];
 
         $transaction = new CreditCardTransaction();
+        $transaction->setConfig($this->config);
         $transaction->setTokenId('33');
         $transaction->setAmount(new Amount(24, 'EUR'));
         $transaction->setParentTransactionId('parent5');
@@ -200,6 +233,7 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
     public function testCancel($transactionType, $cancelType)
     {
         $transaction = new CreditCardTransaction();
+        $transaction->setConfig($this->config);
         $transaction->setParentTransactionId('642');
         $transaction->setParentTransactionType($transactionType);
         $transaction->setOperation(Operation::CANCEL);
@@ -212,6 +246,9 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
             'parent-transaction-id' => '642',
             'ip-address' => 'test',
             'transaction-type' => $cancelType,
+            'merchant-account-id' => [
+                'value' => 'maid'
+            ]
         ];
         $this->assertEquals($expectedResult, $result);
     }
@@ -228,6 +265,10 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
                 CreditCardTransaction::TYPE_REFERENCED_PURCHASE
             ],
             [
+                CreditCardTransaction::TYPE_CHECK_ENROLLMENT,
+                CreditCardTransaction::TYPE_PURCHASE
+            ],
+            [
                 null,
                 CreditCardTransaction::TYPE_PURCHASE
             ]
@@ -242,6 +283,7 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
     public function testPay($transactionType, $payType)
     {
         $transaction = new CreditCardTransaction();
+        $transaction->setConfig($this->config);
         $transaction->setParentTransactionId('642');
         $transaction->setParentTransactionType($transactionType);
         $transaction->setOperation(Operation::PAY);
@@ -254,6 +296,9 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
             'parent-transaction-id' => '642',
             'ip-address' => 'test',
             'transaction-type' => $payType,
+            'merchant-account-id' => [
+                'value' => 'maid'
+            ]
         ];
         $this->assertEquals($expectedResult, $result);
     }
@@ -264,6 +309,7 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
     public function testCancelNoParentId()
     {
         $transaction = new CreditCardTransaction();
+        $transaction->setConfig($this->config);
         $transaction->setOperation(Operation::CANCEL);
         $transaction->mappedProperties();
     }
@@ -275,6 +321,7 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
     public function testCancelInvalidParentTransaction()
     {
         $transaction = new CreditCardTransaction();
+        $transaction->setConfig($this->config);
         $transaction->setParentTransactionId('642');
         $transaction->setParentTransactionType('test');
         $transaction->setOperation(Operation::CANCEL);
@@ -286,6 +333,7 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
     public function testCredit()
     {
         $transaction = new CreditCardTransaction();
+        $transaction->setConfig($this->config);
         $transaction->setParentTransactionId('642');
         $transaction->setParentTransactionType(Transaction::TYPE_CREDIT);
         $transaction->setOperation(Operation::CREDIT);
@@ -299,6 +347,9 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
             'parent-transaction-id' => '642',
             'ip-address' => 'test',
             'transaction-type' => 'credit',
+            'merchant-account-id' => [
+                'value' => 'maid'
+            ]
         ];
         $this->assertEquals($expectedResult, $result);
     }
@@ -306,6 +357,7 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
     public function testRetrieveOperationTypeAuthorization()
     {
         $tx = new CreditCardTransaction();
+        $tx->setConfig($this->config);
         $tx->setOperation(Operation::RESERVE);
 
         $this->assertEquals(Transaction::TYPE_AUTHORIZATION, $tx->retrieveOperationType());
@@ -314,6 +366,7 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
     public function testRetrieveOperationTypePurchase()
     {
         $tx = new CreditCardTransaction();
+        $tx->setConfig($this->config);
         $tx->setOperation(Operation::PAY);
 
         $this->assertEquals(CreditCardTransaction::TYPE_PURCHASE, $tx->retrieveOperationType());

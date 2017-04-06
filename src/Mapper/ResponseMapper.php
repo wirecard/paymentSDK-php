@@ -44,7 +44,7 @@ use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Response\PendingResponse;
 use Wirecard\PaymentSdk\Response\Response;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
+use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
 /**
@@ -219,7 +219,7 @@ class ResponseMapper
      */
     private function mapThreeDResponse()
     {
-        if (!($this->transaction instanceof ThreeDCreditCardTransaction)) {
+        if (!($this->transaction instanceof CreditCardTransaction)) {
             throw new \InvalidArgumentException('Trying to create a 3D response from a non-3D transaction.');
         }
         if (!isset($this->simpleXml->{'three-d'})) {
@@ -281,7 +281,7 @@ class ResponseMapper
      */
     private function mapSuccessResponse()
     {
-        if ((string)$this->simpleXml->{'transaction-type'} === ThreeDCreditCardTransaction::TYPE_CHECK_ENROLLMENT) {
+        if ((string)$this->simpleXml->{'transaction-type'} === CreditCardTransaction::TYPE_CHECK_ENROLLMENT) {
             return $this->mapThreeDResponse();
         }
 

@@ -49,7 +49,6 @@ use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
 use Wirecard\PaymentSdk\Transaction\SepaTransaction;
-use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 /**
@@ -465,13 +464,14 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         ];
 
-        $transaction = new ThreeDCreditCardTransaction();
+        $transaction = new CreditCardTransaction();
         $transaction->setParentTransactionId($md['enrollment-check-transaction-id']);
         $transaction->setOperation('authorization');
         $transaction->setPaRes($validContent['PaRes']);
+        $transaction->setThreeD(true);
+        $transaction->setConfig($this->createMock(PaymentMethodConfig::class));
 
         $successResponse = $this->mockProcessingRequest($transaction);
-
         $result = $this->instance->handleResponse($validContent);
 
         $this->assertEquals($successResponse, $result);
