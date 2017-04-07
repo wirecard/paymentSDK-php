@@ -99,19 +99,21 @@ class CreditCardConfig extends PaymentMethodConfig
     }
 
     /**
-     * @return \string[]
+     * @param string $currency
+     * @return float|null
      */
-    public function getSslMaxLimits()
+    public function getSslMaxLimit($currency)
     {
-        return $this->sslMaxLimits;
+        return array_key_exists($currency, $this->sslMaxLimits) ? $this->sslMaxLimits[$currency] : null;
     }
 
     /**
-     * @return \string[]
+     * @param string $currency
+     * @return float|null
      */
-    public function getThreeDMinLimits()
+    public function getThreeDMinLimit($currency)
     {
-        return $this->threeDMinLimits;
+        return array_key_exists($currency, $this->threeDMinLimits) ? $this->threeDMinLimits[$currency] : null;
     }
 
     /**

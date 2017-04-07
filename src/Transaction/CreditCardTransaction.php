@@ -303,20 +303,17 @@ class CreditCardTransaction extends Transaction implements Reservable
             return false;
         }
 
-        $sslMaxLimits = $this->config->getSslMaxLimits();
-        $threeDMinLimits = $this->config->getThreeDMinLimits();
-
-        if (!array_key_exists($this->amount->getCurrency(), $sslMaxLimits)
-            && array_key_exists($this->amount->getCurrency(), $threeDMinLimits)
-            && $threeDMinLimits[$this->amount->getCurrency()] < $this->amount->getValue()
+        if (null === $this->config->getSslMaxLimit($this->amount->getCurrency())
+            && null !== $this->config->getThreeDMinLimit($this->amount->getCurrency())
+            && $this->config->getThreeDMinLimit($this->amount->getCurrency()) < $this->amount->getValue()
         ) {
             return true;
         }
 
-        if (array_key_exists($this->amount->getCurrency(), $threeDMinLimits)
-            && array_key_exists($this->amount->getCurrency(), $sslMaxLimits)
-            && $threeDMinLimits[$this->amount->getCurrency()] < $this->amount->getValue()
-            && $this->amount->getValue() <= $sslMaxLimits[$this->amount->getCurrency()]
+        if (null !== $this->config->getSslMaxLimit($this->amount->getCurrency())
+            && null !== $this->config->getThreeDMinLimit($this->amount->getCurrency())
+            && $this->config->getThreeDMinLimit($this->amount->getCurrency()) < $this->amount->getValue()
+            && $this->amount->getValue() <= $this->config->getSslMaxLimit($this->amount->getCurrency())
         ) {
             return true;
         }
@@ -337,17 +334,14 @@ class CreditCardTransaction extends Transaction implements Reservable
             return false;
         }
 
-        $sslMaxLimits = $this->config->getSslMaxLimits();
-        $threeDMinLimits = $this->config->getThreeDMinLimits();
-
-        if (array_key_exists($this->amount->getCurrency(), $threeDMinLimits)
-            && $threeDMinLimits[$this->amount->getCurrency()] < $this->amount->getValue()
+        if (null !== $this->config->getThreeDMinLimit($this->amount->getCurrency())
+            && $this->config->getThreeDMinLimit($this->amount->getCurrency()) < $this->amount->getValue()
         ) {
             return true;
         }
 
-        if (array_key_exists($this->amount->getCurrency(), $sslMaxLimits)
-            && $sslMaxLimits[$this->amount->getCurrency()] < $this->amount->getValue()
+        if (null !== $this->config->getSslMaxLimit($this->amount->getCurrency())
+            && $this->config->getSslMaxLimit($this->amount->getCurrency()) < $this->amount->getValue()
         ) {
             return true;
         }

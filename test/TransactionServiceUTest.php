@@ -198,9 +198,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $handler = HandlerStack::create($guzzleMock);
         $client = new Client([self::HANDLER => $handler, 'http_errors' => false]);
 
-
-
-        $service = new TransactionService($globalConfig, null, $client, $requestMapper);
+        $service = new TransactionService($globalConfig, $this->createMock(Logger::class), $client, $requestMapper);
         $this->assertInstanceOf(SuccessResponse::class, $service->reserve($transaction));
     }
 
