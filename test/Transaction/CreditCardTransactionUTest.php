@@ -444,7 +444,7 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
                 'token-id' => '21'
             ],
             'merchant-account-id' => [
-                'value' => null
+                'value' => 'maid'
             ]
         ];
         $this->config->addSslMaxLimit(new Amount(20.0, 'EUR'));
