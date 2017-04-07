@@ -37,7 +37,9 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 use Wirecard\PaymentSdk\Config\Config;
+use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
@@ -49,7 +51,6 @@ use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
 use Wirecard\PaymentSdk\Transaction\SepaTransaction;
-use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 /**
@@ -164,7 +165,13 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
     public function testReserveCreditCardTransaction()
     {
+        $globalConfig = new Config('http://api-test.wirecard.com', 'test', 'pass', 'EUR');
+        $config = new CreditCardConfig('maid', 'secret');
+        $config->addThreeDMinLimit(new Amount(50.0, 'EUR'));
+        $globalConfig->add($config);
+
         $transaction = new CreditCardTransaction();
+        $transaction->setAmount(new Amount(70.0, 'EUR'));
 
         //prepare RequestMapper
         $mappedRequest = '{"mocked": "json", "response": "object"}';
@@ -175,23 +182,81 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
             ->willReturn($mappedRequest);
 
         //prepare Guzzle
-        $responseToMap = '<payment><xml-response></xml-response></payment>';
         $guzzleMock = new MockHandler([
-            new Response(200, [], '<payment><xml-response></xml-response></payment>')
+            new Response(200, [], '<payment>
+                                                <transaction-state>success</transaction-state>
+                                                <transaction-type>debit</transaction-type>
+                                                <transaction-id>myid</transaction-id>
+                                                <request-id>123</request-id>
+                                                <payment-methods>
+                                                    <payment-method name="creditcard" />
+                                                </payment-methods>
+                                                <statuses>
+                                                    <status code="200.000" description="ok" severity="info"/>
+                                                </statuses>
+                                              </payment>')
         ]);
         $handler = HandlerStack::create($guzzleMock);
         $client = new Client([self::HANDLER => $handler, 'http_errors' => false]);
 
-        //prepare ResponseMapper
-        $responseMapper = $this->createMock('\Wirecard\PaymentSdk\Mapper\ResponseMapper');
-        $response = $this->createMock('\Wirecard\PaymentSdk\Response\Response');
-        $responseMapper->expects($this->once())
-            ->method('map')
-            ->with($this->equalTo($responseToMap))
-            ->willReturn($response);
+        $logger = $this->createMock(LoggerInterface::class);
 
-        $service = new TransactionService($this->config, null, $client, $requestMapper, $responseMapper);
-        $this->assertEquals($response, $service->reserve($transaction));
+        $service = new TransactionService($globalConfig, $logger, $client, $requestMapper);
+        $this->assertInstanceOf(SuccessResponse::class, $service->reserve($transaction));
+    }
+
+    public function testReserveCreditCardWithFallback()
+    {
+        $globalConfig = new Config('http://api-test.wirecard.com', 'test', 'pass', 'EUR');
+        $config = new CreditCardConfig('maid', 'secret');
+        $config->addThreeDMinLimit(new Amount(50.0, 'EUR'));
+        $globalConfig->add($config);
+
+        $transaction = new CreditCardTransaction();
+        $transaction->setAmount(new Amount(70.0, 'EUR'));
+
+        //prepare RequestMapper
+        $mappedRequest = '{"mocked": "json", "response": "object"}';
+        $requestMapper = $this->createMock('\Wirecard\PaymentSdk\Mapper\RequestMapper');
+        $requestMapper->method('map')
+            ->with($this->equalTo($transaction))
+            ->willReturn($mappedRequest);
+
+        //prepare Guzzle
+        $responseToMap = '<payment>
+                            <transaction-state>failure</transaction-state>
+                            <transaction-type>debit</transaction-type>
+                            <transaction-id>myid</transaction-id>
+                            <request-id>123</request-id>
+                            <payment-methods>
+                                <payment-method name="creditcard" />
+                            </payment-methods>
+                            <statuses>
+                             <status code="500.1072" description="error check enrollment" severity="error"/>
+                            </statuses>
+                          </payment>';
+        $responseToMap2 = '<payment>
+                            <transaction-state>success</transaction-state>
+                            <transaction-type>debit</transaction-type>
+                            <transaction-id>myid</transaction-id>
+                            <request-id>123</request-id>
+                            <payment-methods>
+                                <payment-method name="creditcard" />
+                            </payment-methods>
+                            <statuses>
+                                <status code="200" description="test: payment OK" severity="information"/>
+                            </statuses>
+                          </payment>';
+        $guzzleMock = new MockHandler([
+            new Response(200, [], $responseToMap),
+            new Response(200, [], $responseToMap2)
+        ]);
+        $handler = HandlerStack::create($guzzleMock);
+        $client = new Client([self::HANDLER => $handler, 'http_errors' => false]);
+
+        $logger = $this->createMock(LoggerInterface::class);
+        $service = new TransactionService($globalConfig, $logger, $client, $requestMapper);
+        $this->assertInstanceOf(SuccessResponse::class, $service->reserve($transaction));
     }
 
     public function testGetParentTransactionDetails()
@@ -465,13 +530,14 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         ];
 
-        $transaction = new ThreeDCreditCardTransaction();
+        $transaction = new CreditCardTransaction();
         $transaction->setParentTransactionId($md['enrollment-check-transaction-id']);
         $transaction->setOperation('authorization');
         $transaction->setPaRes($validContent['PaRes']);
+        $transaction->setThreeD(true);
+        $transaction->setConfig($this->createMock(PaymentMethodConfig::class));
 
         $successResponse = $this->mockProcessingRequest($transaction);
-
         $result = $this->instance->handleResponse($validContent);
 
         $this->assertEquals($successResponse, $result);

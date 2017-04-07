@@ -32,19 +32,18 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
 /**
  * Class CreditCardTransaction
  * @package Wirecard\PaymentSdk\Transaction
- *
- * Use it for SSL payments.
- * For the 3D payments use the specific subclass.
  */
 class CreditCardTransaction extends Transaction implements Reservable
 {
     const NAME = 'creditcard';
+    const TYPE_CHECK_ENROLLMENT = 'check-enrollment';
     const TYPE_PURCHASE = 'purchase';
     const TYPE_REFERENCED_PURCHASE = 'referenced-purchase';
     const TYPE_REFUND_PURCHASE = 'refund-purchase';
@@ -54,6 +53,36 @@ class CreditCardTransaction extends Transaction implements Reservable
      * @var string
      */
     private $tokenId;
+
+    /**
+     * @var string
+     */
+    private $termUrl;
+
+    /**
+     * @var string
+     */
+    private $paRes;
+
+    /**
+     * @var CreditCardConfig
+     */
+    private $config;
+
+    /**
+     * @var boolean
+     */
+    private $threeD;
+
+    /**
+     * @param CreditCardConfig $config
+     * @return CreditCardTransaction
+     */
+    public function setConfig($config)
+    {
+        $this->config = $config;
+        return $this;
+    }
 
     /**
      * @param string $tokenId
@@ -66,11 +95,50 @@ class CreditCardTransaction extends Transaction implements Reservable
     /**
      * @return string
      */
+    public function getTermUrl()
+    {
+        return $this->termUrl;
+    }
+
+    /**
+     * @param string $termUrl
+     * @return $this
+     */
+    public function setTermUrl($termUrl)
+    {
+        $this->termUrl = $termUrl;
+
+        return $this;
+    }
+
+    /**
+     * @param string $paRes
+     * @return CreditCardTransaction
+     */
+    public function setPaRes($paRes)
+    {
+        $this->paRes = $paRes;
+
+        return $this;
+    }
+
+    /**
+     * @param bool $threeD
+     * @return CreditCardTransaction
+     */
+    public function setThreeD($threeD)
+    {
+        $this->threeD = $threeD;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
     public function getEndpoint()
     {
         return self::ENDPOINT_PAYMENTS;
     }
-
 
     /**
      * @throws MandatoryFieldMissingException|UnsupportedOperationException
@@ -79,7 +147,13 @@ class CreditCardTransaction extends Transaction implements Reservable
     protected function mappedSpecificProperties()
     {
         $this->validate();
-        $result = array();
+        $result = [
+            'merchant-account-id' => [
+                'value' => $this->isThreeD()
+                    ? $this->config->getThreeDMerchantAccountId()
+                    : $this->config->getMerchantAccountId()
+            ]
+        ];
 
         if (null !== $this->tokenId) {
             $result['card-token'] = [
@@ -87,20 +161,26 @@ class CreditCardTransaction extends Transaction implements Reservable
             ];
         }
 
+        if (null !== $this->paRes) {
+            $result['three-d'] = [
+                'pares' => $this->paRes,
+            ];
+        }
+
         return $result;
     }
 
     /**
-     *
-     * @throws \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
+     * @throws UnsupportedOperationException|MandatoryFieldMissingException
+     * @return string
      */
-    protected function validate()
+    protected function retrieveTransactionType()
     {
-        if ($this->tokenId === null && $this->parentTransactionId === null) {
-            throw new MandatoryFieldMissingException(
-                'At least one of these two parameters has to be provided: token ID, parent transaction ID.'
-            );
+        if (null !== $this->paRes) {
+            return $this->operation;
         }
+
+        return parent::retrieveTransactionType();
     }
 
     /**
@@ -108,7 +188,22 @@ class CreditCardTransaction extends Transaction implements Reservable
      */
     protected function retrieveTransactionTypeForReserve()
     {
-        return (null !== $this->parentTransactionId) ? self::TYPE_REFERENCED_AUTHORIZATION : self::TYPE_AUTHORIZATION;
+        switch ($this->parentTransactionType) {
+            case self::TYPE_AUTHORIZATION:
+                $transactionType = self::TYPE_REFERENCED_AUTHORIZATION;
+                break;
+            case self::TYPE_CHECK_ENROLLMENT:
+                $transactionType = self::TYPE_AUTHORIZATION;
+                break;
+            default:
+                if ($this->isThreeD()) {
+                    $transactionType = self::TYPE_CHECK_ENROLLMENT;
+                } else {
+                    $transactionType = self::TYPE_AUTHORIZATION;
+                }
+        }
+
+        return $transactionType;
     }
 
     /**
@@ -123,8 +218,15 @@ class CreditCardTransaction extends Transaction implements Reservable
             case self::TYPE_PURCHASE:
                 $transactionType = self::TYPE_REFERENCED_PURCHASE;
                 break;
-            default:
+            case self::TYPE_CHECK_ENROLLMENT:
                 $transactionType = self::TYPE_PURCHASE;
+                break;
+            default:
+                if ($this->isThreeD()) {
+                    $transactionType = self::TYPE_CHECK_ENROLLMENT;
+                } else {
+                    $transactionType = self::TYPE_PURCHASE;
+                }
         }
 
         return $transactionType;
@@ -171,8 +273,79 @@ class CreditCardTransaction extends Transaction implements Reservable
         return self::TYPE_CREDIT;
     }
 
+    /**
+     * @return string
+     */
     public function retrieveOperationType()
     {
         return ($this->operation === Operation::RESERVE) ? self::TYPE_AUTHORIZATION : self::TYPE_PURCHASE;
+    }
+
+    /**
+     *
+     * @throws \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
+     */
+    protected function validate()
+    {
+        if ($this->paRes === null && $this->tokenId === null && $this->parentTransactionId === null) {
+            throw new MandatoryFieldMissingException(
+                'At least one of these two parameters has to be provided: token ID, parent transaction ID.'
+            );
+        }
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isFallback()
+    {
+        if (null === $this->amount) {
+            return false;
+        }
+
+        if (null === $this->config->getSslMaxLimit($this->amount->getCurrency())
+            && null !== $this->config->getThreeDMinLimit($this->amount->getCurrency())
+            && $this->config->getThreeDMinLimit($this->amount->getCurrency()) < $this->amount->getValue()
+        ) {
+            return true;
+        }
+
+        if (null !== $this->config->getSslMaxLimit($this->amount->getCurrency())
+            && null !== $this->config->getThreeDMinLimit($this->amount->getCurrency())
+            && $this->config->getThreeDMinLimit($this->amount->getCurrency()) < $this->amount->getValue()
+            && $this->amount->getValue() <= $this->config->getSslMaxLimit($this->amount->getCurrency())
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return boolean
+     */
+    private function isThreeD()
+    {
+        if (null !== $this->threeD) {
+            return $this->threeD;
+        }
+
+        if (null === $this->amount) {
+            return false;
+        }
+
+        if (null !== $this->config->getThreeDMinLimit($this->amount->getCurrency())
+            && $this->config->getThreeDMinLimit($this->amount->getCurrency()) < $this->amount->getValue()
+        ) {
+            return true;
+        }
+
+        if (null !== $this->config->getSslMaxLimit($this->amount->getCurrency())
+            && $this->config->getSslMaxLimit($this->amount->getCurrency()) < $this->amount->getValue()
+        ) {
+            return true;
+        }
+
+        return false;
     }
 }

@@ -41,7 +41,7 @@ use Traversable;
 class StatusCollection implements \IteratorAggregate
 {
     /**
-     * @var array
+     * @var Status[]
      */
     private $statuses = [];
 
@@ -58,7 +58,7 @@ class StatusCollection implements \IteratorAggregate
     }
 
     /**
-     * @param \Wirecard\PaymentSdk\Entity\Status $status
+     * @param Status $status
      * @return $this
      */
     public function add(Status $status)
@@ -66,5 +66,20 @@ class StatusCollection implements \IteratorAggregate
         $this->statuses[] = $status;
 
         return $this;
+    }
+
+    /**
+     * @param array $codes
+     * @return boolean
+     */
+    public function hasStatusCodes(array $codes)
+    {
+        foreach ($this->statuses as $status) {
+            if (in_array($status->getCode(), $codes, false)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

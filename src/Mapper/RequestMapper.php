@@ -84,8 +84,8 @@ class RequestMapper
 
         $allProperties = array_merge(
             $commonProperties,
-            $transaction->mappedProperties(),
-            $paymentMethodConfigProperties
+            $paymentMethodConfigProperties,
+            $transaction->mappedProperties()
         );
 
         $result = [Transaction::PARAM_PAYMENT => $allProperties];

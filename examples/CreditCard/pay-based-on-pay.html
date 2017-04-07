@@ -6,32 +6,10 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" type="application/javascript"></script>
 </head>
 <body>
-<form action="3d-pay.php" method="post" id="payment-form">
+<form action="pay.php" method="post" id="payment-form">
     <label for="parentTransactionId">Parent transaction ID:</label><br>
     <input id="parentTransactionId" name="parentTransactionId" style="width:300px" value="a1235673-6631-42e7-a77c-5bf5744a8a0c" /><br>
-    <p>
-        <label for="transaction-type">SSL / 3-D Secure:</label><br>
-        <select id="transaction-type" name="transaction-type">
-            <option value="ssl">SSL transaction</option>
-            <option value="3d" selected="selected">3-D Secure transaction</option>
-        </select>
-    </p>
     <input type="submit" value="Pay"/>
 </form>
-<script type="application/javascript">
-    $('#transaction-type').on('change', function (event) {
-        var action = '';
-        console.log(event.target.value);
-        switch (event.target.value) {
-            case 'ssl':
-                action = 'ssl-pay.php';
-                break;
-            case '3d':
-                action = '3d-pay.php';
-                break;
-        }
-        $('#payment-form').attr('action', action);
-    });
-</script>
 </body>
 </html>

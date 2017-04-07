@@ -52,15 +52,35 @@ class StatusCollectionUTest extends \PHPUnit_Framework_TestCase
         $onlyStatus = new Status(23, 'sth useful', 'info');
         $this->statusCollection->add($onlyStatus);
 
-        $foundStatusCode = 0;
+        $this->assertAttributeEquals([$onlyStatus], 'statuses', $this->statusCollection);
+    }
 
-        foreach ($this->statusCollection as $st) {
-            /**
-             * @var $st Status
-             */
-            $foundStatusCode = $st->getCode();
-        }
 
-        $this->assertEquals(23, $foundStatusCode);
+    /**
+     * @return array
+     */
+    public function hasStatusCodeProvider()
+    {
+        return [
+            [true, [23]],
+            [true, [24,23]],
+            [false, [25]]
+        ];
+    }
+
+    /**
+     * @dataProvider hasStatusCodeProvider
+     * @param $expected
+     * @param $search
+     */
+    public function testHasStatusCode($expected, $search)
+    {
+        $onlyStatus = new Status(23, 'sth useful', 'info');
+        $this->statusCollection->add($onlyStatus);
+
+        $onlyStatus2 = new Status(24, 'sth useful254', 'warning');
+        $this->statusCollection->add($onlyStatus2);
+
+        $this->assertEquals($expected, $this->statusCollection->hasStatusCodes($search));
     }
 }

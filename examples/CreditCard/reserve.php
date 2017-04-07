@@ -1,7 +1,8 @@
 <?php
-// # Reservation for credit card with 3-D secure
+// # Credit card reservation
 
-// To reserve an amount for a credit card with 3-D secure, you need to use a different transaction object.
+// The method `reserve` of the _transactionService_ provides the means
+// to reserve an amount (also known as authorization).
 
 // ## Required objects
 
@@ -13,17 +14,25 @@ require __DIR__ . '/../inc/config.php';
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\FormInteractionResponse;
-use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
+use Wirecard\PaymentSdk\Response\SuccessResponse;
+use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 // ### Transaction related objects
 
 // Create a amount object as amount which has to be paid by the consumer.
-$amount = new Amount(12.59, 'EUR');
+$amount = new Amount(70.00, 'EUR');
 
-// Tokens from a successful _seamlessRenderForm_ callback can be used to execute reservations.
-// If no token ID is provided, a predefined ID is used.
-$tokenId = array_key_exists('tokenId', $_POST) ? $_POST['tokenId'] : '5168216323601006';
+// If there was a previous transaction, use the ID of this parent transaction as reference.
+$parentTransactionId = array_key_exists('parentTransactionId', $_POST) ? $_POST['parentTransactionId'] : null;
+
+// Otherwise if a token was defined when submitting the credit card data to Wirecard via the UI, this token is used.
+$tokenId = array_key_exists('tokenId', $_POST) ? $_POST['tokenId'] : null;
+
+// To make this example usable, even is no transaction or token ID is provided, a predefined existing token ID is set.
+if ($parentTransactionId === null && $tokenId === null) {
+    $tokenId = '5168216323601006';
+}
 
 // The redirect URL determines where the consumer should be redirected to
 // after an approval/cancellation on the issuer's ACS page.
@@ -32,16 +41,17 @@ $redirectUrl = getUrl('return.php?status=success');
 
 // ## Transaction
 
-// The 3-D credit card transaction contains all relevant data for the payment process.
-$transaction = new ThreeDCreditCardTransaction();
+// The credit card transaction contains all relevant data for the payment process.
+$transaction = new CreditCardTransaction();
 $transaction->setAmount($amount);
 $transaction->setTokenId($tokenId);
 $transaction->setTermUrl($redirectUrl);
+$transaction->setParentTransactionId($parentTransactionId);
 
 // ### Transaction Service
 
 // The service is used to execute the reservation (authorization) operation itself. A response object is returned.
-$transactionService = new TransactionService($cardConfig);
+$transactionService = new TransactionService($config);
 $response = $transactionService->reserve($transaction);
 
 
@@ -59,6 +69,22 @@ if ($response instanceof FormInteractionResponse):
         // For a better demonstration and for the ease of use the automatic submit was replaced with a submit button.
         ?>
         <input type="submit" value="Redirect to 3-D Secure page"></form>
+    <?php
+// The response from the service can be used for disambiguation.
+// In case of a successful transaction, a `SuccessResponse` object is returned.
+elseif ($response instanceof SuccessResponse):
+    echo 'Reservation successfully completed.<br>';
+    echo getTransactionLink($baseUrl, $response);
+    ?>
+    <br>
+    <form action="cancel.php" method="post">
+        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+        <input type="submit" value="Cancel the payment">
+    </form>
+    <form action="pay-based-on-reserve.php" method="post">
+        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+        <input type="submit" value="Capture the payment">
+    </form>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
 elseif ($response instanceof FailureResponse):

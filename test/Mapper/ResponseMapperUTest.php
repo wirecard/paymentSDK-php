@@ -45,7 +45,7 @@ use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Transaction\SepaTransaction;
-use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
+use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 
 /**
  * Class ResponseMapperUTest
@@ -253,7 +253,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $responseArray['three-d'] = array('acs-url' => 'https://www.example.com/acs', 'pareq' => 'request');
         $payload = $this->getResponse($responseArray);
 
-        $transaction = new ThreeDCreditCardTransaction();
+        $transaction = new CreditCardTransaction();
         /**
          * @var FormInteractionResponse $mapped
          */
@@ -270,7 +270,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $responseArray['three-d'] = array('acs-url' => 'https://www.example.com/acs', 'pareq' => 'request');
         $payload = $this->getResponse($responseArray);
 
-        $transaction = new ThreeDCreditCardTransaction();
+        $transaction = new CreditCardTransaction();
         $transaction->setOperation(Operation::RESERVE);
 
         /**
@@ -293,7 +293,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $responseArray['three-d'] = array('acs-url' => 'https://www.example.com/acs', 'pareq' => 'request');
         $payload = $this->getResponse($responseArray);
 
-        $transaction = new ThreeDCreditCardTransaction();
+        $transaction = new CreditCardTransaction();
         $transaction->setTermUrl('dummy URL');
 
         /**
@@ -424,7 +424,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                                provider-transaction-id="W0RWI653B31MAU649" 
                                severity="information"/>
                            </statuses>
-                  </payment>')->asXML(), $this->createMock(ThreeDCreditCardTransaction::class)],
+                  </payment>')->asXML(), $this->createMock(CreditCardTransaction::class)],
             [simplexml_load_string('<payment>
                            <transaction-state>success</transaction-state>
                            <transaction-id>12345</transaction-id>
@@ -443,7 +443,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                                severity="information"/>
                            </statuses>
                            <three-d></three-d>
-                  </payment>')->asXML(), $this->createMock(ThreeDCreditCardTransaction::class)],
+                  </payment>')->asXML(), $this->createMock(CreditCardTransaction::class)],
             [simplexml_load_string('<payment>
                            <transaction-state>success</transaction-state>
                            <transaction-id>12345</transaction-id>
@@ -464,7 +464,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
                            <three-d>
                                <acs-url>https://www.example.com/acs</acs-url>
                            </three-d>
-                  </payment>')->asXML(), $this->createMock(ThreeDCreditCardTransaction::class)],
+                  </payment>')->asXML(), $this->createMock(CreditCardTransaction::class)],
         ];
     }
 
@@ -686,7 +686,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $responseArray['transaction-type'] = 'check-enrollment';
         $payload = $this->getResponse($responseArray);
 
-        $transaction = new ThreeDCreditCardTransaction();
+        $transaction = new CreditCardTransaction();
 
         $this->mapper->map($payload, $transaction);
     }
@@ -701,7 +701,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $responseArray['three-d'] = array('pareq' => 'request');
         $payload = $this->getResponse($responseArray);
 
-        $this->mapper->map($payload, new ThreeDCreditCardTransaction());
+        $this->mapper->map($payload, new CreditCardTransaction());
     }
 
     /**
@@ -714,7 +714,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $responseArray['three-d'] = array('acs-url' => 'https://www.example.com/acs');
         $payload = $this->getResponse($responseArray);
 
-        $this->mapper->map($payload, new ThreeDCreditCardTransaction());
+        $this->mapper->map($payload, new CreditCardTransaction());
     }
 
 

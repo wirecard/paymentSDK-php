@@ -38,6 +38,7 @@ use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException;
 use Wirecard\PaymentSdk\Mapper\RequestMapper;
 use Wirecard\PaymentSdk\Mapper\ResponseMapper;
@@ -49,7 +50,6 @@ use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\IdealTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\Reservable;
-use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
 /**
@@ -243,6 +243,8 @@ class TransactionService
      * @throws MalformedResponseException
      * @throws UnconfiguredPaymentMethodException
      * @throws \RuntimeException
+     * @throws \InvalidArgumentException
+     * @throws MandatoryFieldMissingException
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
      */
     public function reserve(Reservable $transaction)
@@ -255,6 +257,8 @@ class TransactionService
      * @throws MalformedResponseException
      * @throws UnconfiguredPaymentMethodException
      * @throws \RuntimeException
+     * @throws \InvalidArgumentException
+     * @throws MandatoryFieldMissingException
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
      */
     public function pay(Transaction $transaction)
@@ -267,6 +271,8 @@ class TransactionService
      * @throws MalformedResponseException
      * @throws UnconfiguredPaymentMethodException
      * @throws \RuntimeException
+     * @throws \InvalidArgumentException
+     * @throws MandatoryFieldMissingException
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
      */
     public function cancel(Transaction $transaction)
@@ -280,6 +286,7 @@ class TransactionService
      * @throws UnconfiguredPaymentMethodException
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
+     * @throws MandatoryFieldMissingException
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
      */
     public function credit(Transaction $transaction)
@@ -351,6 +358,7 @@ class TransactionService
      * @param string $operation
      * @throws UnconfiguredPaymentMethodException
      * @throws MalformedResponseException
+     * @throws MandatoryFieldMissingException
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
@@ -358,6 +366,10 @@ class TransactionService
     public function process(Transaction $transaction, $operation)
     {
         $transaction->setOperation($operation);
+
+        if ($transaction instanceof CreditCardTransaction) {
+            $transaction->setConfig($this->config->get(CreditCardTransaction::NAME));
+        }
 
         if (null !== $transaction->getParentTransactionId()) {
             $parentTransaction = $this->getTransactionByTransactionId(
@@ -373,6 +385,35 @@ class TransactionService
             }
         }
 
+        $requestBody = $this->requestMapper->map($transaction);
+        $endpoint = $this->config->getBaseUrl() . $transaction->getEndpoint();
+        $responseContent = $this->sendPostRequest($endpoint, $requestBody);
+        $response = $this->responseMapper->map($responseContent, $transaction);
+
+        if ($transaction instanceof CreditCardTransaction && $transaction->isFallback()) {
+            return $this->processFallback($transaction, $response);
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param CreditCardTransaction $transaction
+     * @param Response $response
+     * @throws UnconfiguredPaymentMethodException
+     * @throws MandatoryFieldMissingException
+     * @throws \RuntimeException
+     * @throws MalformedResponseException
+     * @throws \InvalidArgumentException
+     * @return Response
+     */
+    private function processFallback(CreditCardTransaction $transaction, Response $response)
+    {
+        if (!$response->getStatusCollection()->hasStatusCodes(['500.1072', '500.1073', '500.1074'])) {
+            return $response;
+        }
+
+        $transaction->setThreeD(false);
         $requestBody = $this->requestMapper->map($transaction);
         $endpoint = $this->config->getBaseUrl() . $transaction->getEndpoint();
         $responseContent = $this->sendPostRequest($endpoint, $requestBody);
@@ -404,15 +445,17 @@ class TransactionService
      * @throws UnconfiguredPaymentMethodException
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
+     * @throws MandatoryFieldMissingException
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
      */
     private function processAuthFrom3DResponse($payload)
     {
         $md = json_decode(base64_decode($payload['MD']), true);
 
-        $transaction = new ThreeDCreditCardTransaction();
+        $transaction = new CreditCardTransaction();
         $transaction->setParentTransactionId($md['enrollment-check-transaction-id']);
         $transaction->setPaRes($payload['PaRes']);
+        $transaction->setThreeD(true);
 
         return $this->process($transaction, $md['operation-type']);
     }
