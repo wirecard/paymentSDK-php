@@ -37,6 +37,7 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
@@ -198,7 +199,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $handler = HandlerStack::create($guzzleMock);
         $client = new Client([self::HANDLER => $handler, 'http_errors' => false]);
 
-        $logger = $this->createMock(Logger::class);
+        $logger = $this->createMock(LoggerInterface::class);
 
         $service = new TransactionService($globalConfig, $logger, $client, $requestMapper);
         $this->assertInstanceOf(SuccessResponse::class, $service->reserve($transaction));
