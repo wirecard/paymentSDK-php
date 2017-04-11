@@ -33,8 +33,10 @@
 namespace WirecardTest\PaymentSdk;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
@@ -161,6 +163,44 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $service = new TransactionService($this->config, null, $client);
 
         $this->assertInstanceOf($class, $service->pay($this->getTestPayPalTransaction()));
+    }
+
+    public function checkCredentialProvider()
+    {
+        return [
+            [true, '70000-APITEST-AP', 'qD2wzQ_hrc!8'],
+            [false, '70000-234345-AP', '1234!8'],
+        ];
+    }
+
+    /**
+     * @dataProvider checkCredentialProvider
+     * @param $expected
+     * @param $httpUser
+     * @param $httpPass
+     */
+    public function testCheckCredentials($expected, $httpUser, $httpPass)
+    {
+        $logger = $this->createMock(LoggerInterface::class);
+        $config = new Config('https://api-test.wirecard.com', $httpUser, $httpPass);
+        $service = new TransactionService($config, $logger);
+
+        $this->assertEquals($expected, $service->checkCredentials());
+    }
+
+    public function testCheckCredentialsHandlesException()
+    {
+        $mock = new MockHandler([
+            new RequestException('Error Communicating with Server', new Request('GET', 'test'))
+        ]);
+
+        $handler = HandlerStack::create($mock);
+        $client = new Client([self::HANDLER => $handler, 'http_errors' => false]);
+
+        $logger = $this->createMock(LoggerInterface::class);
+        $service = new TransactionService($this->config, $logger, $client);
+
+        $this->assertFalse($service->checkCredentials());
     }
 
     public function testReserveCreditCardTransaction()
