@@ -5,7 +5,7 @@
   "license": "GPL-3.0",
   "require": {
     "php": ">=5.6",
-    "monolog/monolog": "^1.22",
+    "monolog/monolog": ">=1.16",
     "guzzlehttp/guzzle": "^6.2",
     "myclabs/php-enum": "^1.5.0",
     "robrichards/xmlseclibs": "^2.0",
