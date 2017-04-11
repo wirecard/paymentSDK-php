@@ -423,6 +423,7 @@ class TransactionService
     }
 
     /**
+     * We expect status code 404 for a successful authentication, otherwise the endpoint will return 401 unauthorized
      * @return boolean
      */
     public function checkCredentials()
@@ -434,7 +435,7 @@ class TransactionService
                 ->request('GET', $this->config->getBaseUrl() . '/engine/rest/merchants/', $requestHeader)
                 ->getStatusCode();
         } catch (TransferException $e) {
-            $this->getLogger()->debug('Check credentials: Communication error during checking.');
+            $this->getLogger()->debug('Check credentials: Error - ' . $e->getMessage());
             return false;
         }
 
@@ -443,7 +444,7 @@ class TransactionService
             return true;
         }
 
-        $this->getLogger()->debug('Check credentials: Invalid');
+        $this->getLogger()->debug('Check credentials: Invalid - Received status code: ' . $responseCode);
         return false;
     }
 

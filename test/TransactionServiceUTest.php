@@ -165,29 +165,6 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf($class, $service->pay($this->getTestPayPalTransaction()));
     }
 
-    public function checkCredentialProvider()
-    {
-        return [
-            [true, '70000-APITEST-AP', 'qD2wzQ_hrc!8'],
-            [false, '70000-234345-AP', '1234!8'],
-        ];
-    }
-
-    /**
-     * @dataProvider checkCredentialProvider
-     * @param $expected
-     * @param $httpUser
-     * @param $httpPass
-     */
-    public function testCheckCredentials($expected, $httpUser, $httpPass)
-    {
-        $logger = $this->createMock(LoggerInterface::class);
-        $config = new Config('https://api-test.wirecard.com', $httpUser, $httpPass);
-        $service = new TransactionService($config, $logger);
-
-        $this->assertEquals($expected, $service->checkCredentials());
-    }
-
     public function testCheckCredentialsHandlesException()
     {
         $mock = new MockHandler([
