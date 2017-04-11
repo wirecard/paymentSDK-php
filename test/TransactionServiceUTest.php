@@ -33,8 +33,10 @@
 namespace WirecardTest\PaymentSdk;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
@@ -161,6 +163,21 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $service = new TransactionService($this->config, null, $client);
 
         $this->assertInstanceOf($class, $service->pay($this->getTestPayPalTransaction()));
+    }
+
+    public function testCheckCredentialsHandlesException()
+    {
+        $mock = new MockHandler([
+            new RequestException('Error Communicating with Server', new Request('GET', 'test'))
+        ]);
+
+        $handler = HandlerStack::create($mock);
+        $client = new Client([self::HANDLER => $handler, 'http_errors' => false]);
+
+        $logger = $this->createMock(LoggerInterface::class);
+        $service = new TransactionService($this->config, $logger, $client);
+
+        $this->assertFalse($service->checkCredentials());
     }
 
     public function testReserveCreditCardTransaction()

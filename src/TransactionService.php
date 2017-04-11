@@ -33,6 +33,7 @@
 namespace Wirecard\PaymentSdk;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\TransferException;
 use Monolog\Handler\ErrorLogHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
@@ -419,6 +420,32 @@ class TransactionService
         $responseContent = $this->sendPostRequest($endpoint, $requestBody);
 
         return $this->responseMapper->map($responseContent, $transaction);
+    }
+
+    /**
+     * We expect status code 404 for a successful authentication, otherwise the endpoint will return 401 unauthorized
+     * @return boolean
+     */
+    public function checkCredentials()
+    {
+        try {
+            $requestHeader = array_merge_recursive($this->httpHeader, $this->config->getShopHeader());
+
+            $responseCode = $this->httpClient
+                ->request('GET', $this->config->getBaseUrl() . '/engine/rest/merchants/', $requestHeader)
+                ->getStatusCode();
+        } catch (TransferException $e) {
+            $this->getLogger()->debug('Check credentials: Error - ' . $e->getMessage());
+            return false;
+        }
+
+        if ($responseCode === 404) {
+            $this->getLogger()->debug('Check credentials: Valid');
+            return true;
+        }
+
+        $this->getLogger()->debug('Check credentials: Invalid - Received status code: ' . $responseCode);
+        return false;
     }
 
     /**
