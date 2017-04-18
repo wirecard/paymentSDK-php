@@ -84,9 +84,8 @@ class RatepayTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx->setRedirect($redirect);
         $data = $this->tx->mappedProperties();
 
-        $this->assertArrayHasKey('redirect-url', $data);
+        $this->assertEquals('failure-url', $data['fail-redirect-url']);
     }
-
 
     public function testMappedPropertiesSetsOrderItems()
     {
