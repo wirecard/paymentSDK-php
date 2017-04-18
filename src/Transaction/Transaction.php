@@ -256,7 +256,7 @@ abstract class Transaction
                 $result['cancel-redirect-url'] = $this->redirect->getCancelUrl();
             }
             if ($this->redirect->getFailureUrl()) {
-                $result['redirect-url'] = $this->redirect->getFailureUrl();
+                $result['fail-redirect-url'] = $this->redirect->getFailureUrl();
             }
         }
 

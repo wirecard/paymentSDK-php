@@ -69,7 +69,7 @@ class EpsTransactionUTest extends \PHPUnit_Framework_TestCase
                 ]
             ],
             'success-redirect-url' => 'http://www.test.at/return.php?status=success',
-            'redirect-url' => 'http://www.test.at/return.php?status=failure'
+            'fail-redirect-url' => 'http://www.test.at/return.php?status=failure'
         ];
 
         $result = $tx->mappedProperties();
