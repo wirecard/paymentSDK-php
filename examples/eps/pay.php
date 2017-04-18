@@ -20,15 +20,13 @@ $tx->setAmount($amount);
 
 $redirect = new Redirect(
     getUrl('return.php?status=success'),
-    getUrl('return.php?status=cancel'),
+    null,
     getUrl('return.php?status=failure')
 );
 $tx->setRedirect($redirect);
 
 $transactionService = new TransactionService($config);
 $response = $transactionService->pay($tx);
-
-echo get_class($response);
 
 // ## Response handling
 
