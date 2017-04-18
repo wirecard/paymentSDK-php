@@ -1,7 +1,7 @@
 <?php
-// # SEPA return after transaction
+// # eps return after transaction
 
-// The consumer gets redirected to this page after a SEPA transaction.
+// The consumer gets redirected to this page after an eps transaction.
 
 // ## Required objects
 
