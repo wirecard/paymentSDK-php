@@ -619,7 +619,10 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
             new Response(
                 200,
                 [],
-                '<payment><transaction-state>failure</transaction-state><statuses><status code="1" description="a" severity="0"></status></statuses></payment>'
+                '<payment>
+<transaction-state>failure</transaction-state>
+<statuses><status code="1" description="a" severity="0"></status></statuses>
+</payment>'
             ),
             new Response(
                 200,
@@ -629,7 +632,14 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
             new Response(
                 200,
                 [],
-                '<payment><transaction-type>refund-capture</transaction-type><transaction-id>23tghfrhfgh</transaction-id><request-id>afhnfgdg</request-id><payment-methods><payment-method name="creditcard" /></payment-methods><transaction-state>success</transaction-state><statuses><status code="200.000" description="a" severity="0"></status></statuses></payment>'
+                '<payment>
+<transaction-type>refund-capture</transaction-type>
+<transaction-id>23tghfrhfgh</transaction-id>
+<request-id>afhnfgdg</request-id>
+<payment-methods><payment-method name="creditcard" /></payment-methods>
+<transaction-state>success</transaction-state>
+<statuses><status code="200.000" description="a" severity="0"></status></statuses>
+</payment>'
             ),
         ]);
 
