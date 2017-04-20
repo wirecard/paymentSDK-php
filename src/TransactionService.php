@@ -268,6 +268,9 @@ class TransactionService
     }
 
     /**
+     * If a failureResponse returns from the cancel process call with a specific statusCode, which declares that the
+     * creditcard amount is already settled, we try a refund process call
+     *
      * @param Transaction $transaction
      * @throws MalformedResponseException
      * @throws UnconfiguredPaymentMethodException
@@ -407,6 +410,9 @@ class TransactionService
     }
 
     /**
+     * If specific statusCodes, which are specifying an error during creditcard enrollment check, are found in response.
+     * We are doing a fallback from a 3d to an ssl creditcard transaction
+     *
      * @param CreditCardTransaction $transaction
      * @param Response $response
      * @throws UnconfiguredPaymentMethodException
