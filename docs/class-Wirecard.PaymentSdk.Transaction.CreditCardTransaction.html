@@ -91,6 +91,7 @@
 			<h3>Classes</h3>
 			<ul>
 				<li class="active"><a href="class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html">CreditCardTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.EpsTransaction.html">EpsTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.IdealTransaction.html">IdealTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.InvoiceByWirecardTransaction.html">InvoiceByWirecardTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.Operation.html">Operation</a></li>
@@ -101,7 +102,6 @@
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.RatepayTransaction.html">RatepayTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html">SepaTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.SofortTransaction.html">SofortTransaction</a></li>
-				<li><a href="class-Wirecard.PaymentSdk.Transaction.ThreeDCreditCardTransaction.html">ThreeDCreditCardTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Transaction</a></li>
 			</ul>
 
@@ -147,12 +147,6 @@
 	</dl>
 
 
-	<div>
-		<h3>Direct known subclasses</h3>
-		<p class="elementList">
-			<code><a href="class-Wirecard.PaymentSdk.Transaction.ThreeDCreditCardTransaction.html">Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction</a></code>
-		</p>
-	</div>
 
 
 
@@ -165,7 +159,7 @@
 		<b>Namespace:</b> <a href="namespace-Wirecard.html">Wirecard</a>\<a href="namespace-Wirecard.PaymentSdk.html">PaymentSdk</a>\<a href="namespace-Wirecard.PaymentSdk.Transaction.html">Transaction</a><br>
 		<b>Package:</b> Wirecard\PaymentSdk\Transaction<br>
 
-			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#38-178" title="Go to source code">Transaction/CreditCardTransaction.php</a>
+			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#39-372" title="Go to source code">Transaction/CreditCardTransaction.php</a>
 		<br>
 	</div>
 
@@ -174,6 +168,44 @@
 		<div class="panel panel-default">
 			<div class="panel-heading"><h2>Methods summary</h2></div>
 			<table class="summary table table-bordered table-striped methods" id="methods">
+		<tr data-order="setConfig" id="_setConfig">
+
+			<td class="attributes"><code>
+				 public 
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html">Wirecard\PaymentSdk\Transaction\CreditCardTransaction</a></code>
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setConfig">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#77-85" title="Go to source code">setConfig</a>( <span><code><a href="class-Wirecard.PaymentSdk.Config.CreditCardConfig.html">Wirecard\PaymentSdk\Config\CreditCardConfig</a></code> <var>$config</var></span> )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$config</var></dt>
+						<dd></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code><a href="class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html">Wirecard\PaymentSdk\Transaction\CreditCardTransaction</a></code>
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
 		<tr data-order="setTokenId" id="_setTokenId">
 
 			<td class="attributes"><code>
@@ -185,7 +217,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setTokenId">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#58-64" title="Go to source code">setTokenId</a>( <span>string <var>$tokenId</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#87-93" title="Go to source code">setTokenId</a>( <span>string <var>$tokenId</var></span> )</code>
 
 			<div class="description short">
 				
@@ -208,6 +240,153 @@
 			</div>
 			</div></td>
 		</tr>
+		<tr data-order="getTermUrl" id="_getTermUrl">
+
+			<td class="attributes"><code>
+				 public 
+				string
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getTermUrl">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#95-101" title="Go to source code">getTermUrl</a>( )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+					<h4>Returns</h4>
+					<div class="list">
+						string
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="setTermUrl" id="_setTermUrl">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setTermUrl">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#103-112" title="Go to source code">setTermUrl</a>( <span>string <var>$termUrl</var></span> )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$termUrl</var></dt>
+						<dd></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<br>$this
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="setPaRes" id="_setPaRes">
+
+			<td class="attributes"><code>
+				 public 
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html">Wirecard\PaymentSdk\Transaction\CreditCardTransaction</a></code>
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setPaRes">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#114-123" title="Go to source code">setPaRes</a>( <span>string <var>$paRes</var></span> )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$paRes</var></dt>
+						<dd></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code><a href="class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html">Wirecard\PaymentSdk\Transaction\CreditCardTransaction</a></code>
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="setThreeD" id="_setThreeD">
+
+			<td class="attributes"><code>
+				 public 
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html">Wirecard\PaymentSdk\Transaction\CreditCardTransaction</a></code>
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setThreeD">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#125-133" title="Go to source code">setThreeD</a>( <span>boolean <var>$threeD</var></span> )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$threeD</var></dt>
+						<dd></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code><a href="class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html">Wirecard\PaymentSdk\Transaction\CreditCardTransaction</a></code>
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
 		<tr data-order="getEndpoint" id="_getEndpoint">
 
 			<td class="attributes"><code>
@@ -219,7 +398,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getEndpoint">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#66-72" title="Go to source code">getEndpoint</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#135-141" title="Go to source code">getEndpoint</a>( )</code>
 
 			<div class="description short">
 				
@@ -254,7 +433,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_mappedSpecificProperties">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#75-91" title="Go to source code">mappedSpecificProperties</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#143-171" title="Go to source code">mappedSpecificProperties</a>( )</code>
 
 			<div class="description short">
 				
@@ -280,18 +459,18 @@
 			</div>
 			</div></td>
 		</tr>
-		<tr data-order="validate" id="_validate">
+		<tr data-order="retrieveTransactionType" id="_retrieveTransactionType">
 
 			<td class="attributes"><code>
 				 protected 
-				
+				string
 				
 				</code>
 			</td>
 
 			<td class="name"><div>
-			<a class="anchor" href="#_validate">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#93-104" title="Go to source code">validate</a>( )</code>
+			<a class="anchor" href="#_retrieveTransactionType">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#173-184" title="Go to source code">retrieveTransactionType</a>( )</code>
 
 			<div class="description short">
 				
@@ -302,13 +481,19 @@
 
 
 
+					<h4>Returns</h4>
+					<div class="list">
+						string
+					</div>
 
 					<h4>Throws</h4>
 					<div class="list">
-						<code><a href="class-Wirecard.PaymentSdk.Exception.MandatoryFieldMissingException.html">Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException</a></code>
+						<code><a href="class-Wirecard.PaymentSdk.Exception.UnsupportedOperationException.html">Wirecard\PaymentSdk\Exception\UnsupportedOperationException</a></code>|<code><a href="class-Wirecard.PaymentSdk.Exception.MandatoryFieldMissingException.html">Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException</a></code>
 					</div>
 
 
+					<h4>Overrides</h4>
+					<div class="list"><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_retrieveTransactionType">Wirecard\PaymentSdk\Transaction\Transaction::retrieveTransactionType</a></code></div>
 
 			</div>
 			</div></td>
@@ -324,7 +509,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_retrieveTransactionTypeForReserve">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#106-112" title="Go to source code">retrieveTransactionTypeForReserve</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#186-207" title="Go to source code">retrieveTransactionTypeForReserve</a>( )</code>
 
 			<div class="description short">
 				
@@ -363,7 +548,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_retrieveTransactionTypeForPay">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#114-131" title="Go to source code">retrieveTransactionTypeForPay</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#209-233" title="Go to source code">retrieveTransactionTypeForPay</a>( )</code>
 
 			<div class="description short">
 				
@@ -402,7 +587,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_retrieveTransactionTypeForCancel">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#133-164" title="Go to source code">retrieveTransactionTypeForCancel</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#235-266" title="Go to source code">retrieveTransactionTypeForCancel</a>( )</code>
 
 			<div class="description short">
 				
@@ -430,6 +615,45 @@
 			</div>
 			</div></td>
 		</tr>
+		<tr data-order="retrieveTransactionTypeForRefund" id="_retrieveTransactionTypeForRefund">
+
+			<td class="attributes"><code>
+				 protected 
+				string
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_retrieveTransactionTypeForRefund">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#268-287" title="Go to source code">retrieveTransactionTypeForRefund</a>( )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+					<h4>Returns</h4>
+					<div class="list">
+						string
+					</div>
+
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-Wirecard.PaymentSdk.Exception.MandatoryFieldMissingException.html">Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException</a></code>|<code><a href="class-Wirecard.PaymentSdk.Exception.UnsupportedOperationException.html">Wirecard\PaymentSdk\Exception\UnsupportedOperationException</a></code>
+					</div>
+
+
+					<h4>Overrides</h4>
+					<div class="list"><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_retrieveTransactionTypeForRefund">Wirecard\PaymentSdk\Transaction\Transaction::retrieveTransactionTypeForRefund</a></code></div>
+
+			</div>
+			</div></td>
+		</tr>
 		<tr data-order="retrieveTransactionTypeForCredit" id="_retrieveTransactionTypeForCredit">
 
 			<td class="attributes"><code>
@@ -441,7 +665,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_retrieveTransactionTypeForCredit">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#166-172" title="Go to source code">retrieveTransactionTypeForCredit</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#289-295" title="Go to source code">retrieveTransactionTypeForCredit</a>( )</code>
 
 			<div class="description short">
 				
@@ -473,14 +697,14 @@
 
 			<td class="attributes"><code>
 				 public 
-				
+				string
 				
 				</code>
 			</td>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_retrieveOperationType">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#174-177" title="Go to source code">retrieveOperationType</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#297-303" title="Go to source code">retrieveOperationType</a>( )</code>
 
 			<div class="description short">
 				
@@ -491,6 +715,76 @@
 
 
 
+					<h4>Returns</h4>
+					<div class="list">
+						string
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="validate" id="_validate">
+
+			<td class="attributes"><code>
+				 protected 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_validate">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#305-316" title="Go to source code">validate</a>( )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+
+					<h4>Throws</h4>
+					<div class="list">
+						<code><a href="class-Wirecard.PaymentSdk.Exception.MandatoryFieldMissingException.html">Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException</a></code>
+					</div>
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="isFallback" id="_isFallback">
+
+			<td class="attributes"><code>
+				 public 
+				boolean
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_isFallback">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#318-343" title="Go to source code">isFallback</a>( )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+					<h4>Returns</h4>
+					<div class="list">
+						boolean
+					</div>
 
 
 
@@ -509,7 +803,6 @@
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_getSuccessUrl">getSuccessUrl()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_mappedProperties">mappedProperties()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_paymentMethodNameForRequest">paymentMethodNameForRequest()</a></code>, 
-				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_retrieveTransactionType">retrieveTransactionType()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_setAccountHolder">setAccountHolder()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_setAmount">setAmount()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_setBasket">setBasket()</a></code>, 
@@ -533,12 +826,36 @@
 		<div class="panel panel-default">
             <div class="panel-heading"><h2>Constants summary</h2></div>
 			<table class="summary table table-bordered table-striped constants" id="constants">
+			<tr data-order="TYPE_CHECK_ENROLLMENT" id="TYPE_CHECK_ENROLLMENT">
+
+				<td class="attributes"><code>string</code></td>
+				<td class="name">
+					<code>
+						<a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#46" title="Go to source code"><b>TYPE_CHECK_ENROLLMENT</b></a>
+					</code>
+
+					<div class="description short">
+						
+					</div>
+
+					<div class="description detailed hidden">
+						
+
+					</div>
+				</td>
+				<td class="value">
+					<div>
+						<a href="#TYPE_CHECK_ENROLLMENT" class="anchor">#</a>
+						<code><span class="php-quote">'check-enrollment'</span></code>
+					</div>
+				</td>
+			</tr>
 			<tr data-order="TYPE_PURCHASE" id="TYPE_PURCHASE">
 
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#48" title="Go to source code"><b>TYPE_PURCHASE</b></a>
+						<a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#47" title="Go to source code"><b>TYPE_PURCHASE</b></a>
 					</code>
 
 					<div class="description short">
@@ -562,7 +879,7 @@
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#49" title="Go to source code"><b>TYPE_REFERENCED_PURCHASE</b></a>
+						<a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#48" title="Go to source code"><b>TYPE_REFERENCED_PURCHASE</b></a>
 					</code>
 
 					<div class="description short">
@@ -586,7 +903,7 @@
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#50" title="Go to source code"><b>TYPE_REFUND_PURCHASE</b></a>
+						<a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#49" title="Go to source code"><b>TYPE_REFUND_PURCHASE</b></a>
 					</code>
 
 					<div class="description short">
@@ -610,7 +927,7 @@
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#51" title="Go to source code"><b>TYPE_VOID_PURCHASE</b></a>
+						<a href="source-class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html#50" title="Go to source code"><b>TYPE_VOID_PURCHASE</b></a>
 					</code>
 
 					<div class="description short">

@@ -91,6 +91,7 @@
 			<h3>Classes</h3>
 			<ul>
 				<li><a href="class-Wirecard.PaymentSdk.Config.Config.html">Wirecard\PaymentSdk\Config\Config</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Config.CreditCardConfig.html">Wirecard\PaymentSdk\Config\CreditCardConfig</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Config.PaymentMethodConfig.html">Wirecard\PaymentSdk\Config\PaymentMethodConfig</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Config.SepaConfig.html">Wirecard\PaymentSdk\Config\SepaConfig</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.AccountHolder.html">Wirecard\PaymentSdk\Entity\AccountHolder</a></li>
@@ -115,6 +116,7 @@
 				<li><a href="class-Wirecard.PaymentSdk.Response.Response.html">Wirecard\PaymentSdk\Response\Response</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Response.SuccessResponse.html">Wirecard\PaymentSdk\Response\SuccessResponse</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html">Wirecard\PaymentSdk\Transaction\CreditCardTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.EpsTransaction.html">Wirecard\PaymentSdk\Transaction\EpsTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.IdealTransaction.html">Wirecard\PaymentSdk\Transaction\IdealTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.InvoiceByWirecardTransaction.html">Wirecard\PaymentSdk\Transaction\InvoiceByWirecardTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.Operation.html">Wirecard\PaymentSdk\Transaction\Operation</a></li>
@@ -125,7 +127,6 @@
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.RatepayTransaction.html">Wirecard\PaymentSdk\Transaction\RatepayTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html">Wirecard\PaymentSdk\Transaction\SepaTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.SofortTransaction.html">Wirecard\PaymentSdk\Transaction\SofortTransaction</a></li>
-				<li><a href="class-Wirecard.PaymentSdk.Transaction.ThreeDCreditCardTransaction.html">Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.TransactionService.html">Wirecard\PaymentSdk\TransactionService</a></li>
 			</ul>
@@ -412,7 +413,7 @@
 </span><span id="256" class="l"><a href="#256">256 </a>                <span class="php-var">$result</span>[<span class="php-quote">'cancel-redirect-url'</span>] = <span class="php-var">$this</span>-&gt;redirect-&gt;getCancelUrl();
 </span><span id="257" class="l"><a href="#257">257 </a>            }
 </span><span id="258" class="l"><a href="#258">258 </a>            <span class="php-keyword1">if</span> (<span class="php-var">$this</span>-&gt;redirect-&gt;getFailureUrl()) {
-</span><span id="259" class="l"><a href="#259">259 </a>                <span class="php-var">$result</span>[<span class="php-quote">'redirect-url'</span>] = <span class="php-var">$this</span>-&gt;redirect-&gt;getFailureUrl();
+</span><span id="259" class="l"><a href="#259">259 </a>                <span class="php-var">$result</span>[<span class="php-quote">'fail-redirect-url'</span>] = <span class="php-var">$this</span>-&gt;redirect-&gt;getFailureUrl();
 </span><span id="260" class="l"><a href="#260">260 </a>            }
 </span><span id="261" class="l"><a href="#261">261 </a>        }
 </span><span id="262" class="l"><a href="#262">262 </a>
@@ -466,85 +467,97 @@
 </span><span id="310" class="l"><a href="#310">310 </a>            <span class="php-keyword1">case</span> Operation::CANCEL:
 </span><span id="311" class="l"><a href="#311">311 </a>                <span class="php-var">$transactionType</span> = <span class="php-var">$this</span>-&gt;retrieveTransactionTypeForCancel();
 </span><span id="312" class="l"><a href="#312">312 </a>                <span class="php-keyword1">break</span>;
-</span><span id="313" class="l"><a href="#313">313 </a>            <span class="php-keyword1">case</span> Operation::CREDIT:
-</span><span id="314" class="l"><a href="#314">314 </a>                <span class="php-var">$transactionType</span> = <span class="php-var">$this</span>-&gt;retrieveTransactionTypeForCredit();
+</span><span id="313" class="l"><a href="#313">313 </a>            <span class="php-keyword1">case</span> Operation::REFUND:
+</span><span id="314" class="l"><a href="#314">314 </a>                <span class="php-var">$transactionType</span> = <span class="php-var">$this</span>-&gt;retrieveTransactionTypeForRefund();
 </span><span id="315" class="l"><a href="#315">315 </a>                <span class="php-keyword1">break</span>;
-</span><span id="316" class="l"><a href="#316">316 </a>            <span class="php-keyword1">default</span>:
-</span><span id="317" class="l"><a href="#317">317 </a>                <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> UnsupportedOperationException();
-</span><span id="318" class="l"><a href="#318">318 </a>        }
-</span><span id="319" class="l"><a href="#319">319 </a>
-</span><span id="320" class="l"><a href="#320">320 </a>        <span class="php-keyword1">return</span> <span class="php-var">$transactionType</span>;
-</span><span id="321" class="l"><a href="#321">321 </a>    }
+</span><span id="316" class="l"><a href="#316">316 </a>            <span class="php-keyword1">case</span> Operation::CREDIT:
+</span><span id="317" class="l"><a href="#317">317 </a>                <span class="php-var">$transactionType</span> = <span class="php-var">$this</span>-&gt;retrieveTransactionTypeForCredit();
+</span><span id="318" class="l"><a href="#318">318 </a>                <span class="php-keyword1">break</span>;
+</span><span id="319" class="l"><a href="#319">319 </a>            <span class="php-keyword1">default</span>:
+</span><span id="320" class="l"><a href="#320">320 </a>                <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> UnsupportedOperationException();
+</span><span id="321" class="l"><a href="#321">321 </a>        }
 </span><span id="322" class="l"><a href="#322">322 </a>
-</span><span id="323" class="l"><a href="#323">323 </a>    <span class="php-comment">/**
-</span></span><span id="324" class="l"><a href="#324">324 </a><span class="php-comment">     * @throws UnsupportedOperationException
-</span></span><span id="325" class="l"><a href="#325">325 </a><span class="php-comment">     * @return string
-</span></span><span id="326" class="l"><a href="#326">326 </a><span class="php-comment">     */</span>
-</span><span id="327" class="l"><a href="#327">327 </a>    <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> retrieveTransactionTypeForReserve()
-</span><span id="328" class="l"><a href="#328">328 </a>    {
-</span><span id="329" class="l"><a href="#329">329 </a>        <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> UnsupportedOperationException();
-</span><span id="330" class="l"><a href="#330">330 </a>    }
-</span><span id="331" class="l"><a href="#331">331 </a>
-</span><span id="332" class="l"><a href="#332">332 </a>    <span class="php-comment">/**
-</span></span><span id="333" class="l"><a href="#333">333 </a><span class="php-comment">     * @throws UnsupportedOperationException
-</span></span><span id="334" class="l"><a href="#334">334 </a><span class="php-comment">     * @return string
-</span></span><span id="335" class="l"><a href="#335">335 </a><span class="php-comment">     */</span>
-</span><span id="336" class="l"><a href="#336">336 </a>    <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> retrieveTransactionTypeForPay()
-</span><span id="337" class="l"><a href="#337">337 </a>    {
-</span><span id="338" class="l"><a href="#338">338 </a>        <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> UnsupportedOperationException();
-</span><span id="339" class="l"><a href="#339">339 </a>    }
-</span><span id="340" class="l"><a href="#340">340 </a>
-</span><span id="341" class="l"><a href="#341">341 </a>    <span class="php-comment">/**
-</span></span><span id="342" class="l"><a href="#342">342 </a><span class="php-comment">     * @throws UnsupportedOperationException
-</span></span><span id="343" class="l"><a href="#343">343 </a><span class="php-comment">     * @return string
-</span></span><span id="344" class="l"><a href="#344">344 </a><span class="php-comment">     */</span>
-</span><span id="345" class="l"><a href="#345">345 </a>    <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> retrieveTransactionTypeForCancel()
-</span><span id="346" class="l"><a href="#346">346 </a>    {
-</span><span id="347" class="l"><a href="#347">347 </a>        <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> UnsupportedOperationException();
-</span><span id="348" class="l"><a href="#348">348 </a>    }
-</span><span id="349" class="l"><a href="#349">349 </a>
-</span><span id="350" class="l"><a href="#350">350 </a>    <span class="php-comment">/**
-</span></span><span id="351" class="l"><a href="#351">351 </a><span class="php-comment">     * @throws UnsupportedOperationException
-</span></span><span id="352" class="l"><a href="#352">352 </a><span class="php-comment">     * @return string
-</span></span><span id="353" class="l"><a href="#353">353 </a><span class="php-comment">     */</span>
-</span><span id="354" class="l"><a href="#354">354 </a>    <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> retrieveTransactionTypeForCredit()
-</span><span id="355" class="l"><a href="#355">355 </a>    {
-</span><span id="356" class="l"><a href="#356">356 </a>        <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> UnsupportedOperationException();
-</span><span id="357" class="l"><a href="#357">357 </a>    }
-</span><span id="358" class="l"><a href="#358">358 </a>
-</span><span id="359" class="l"><a href="#359">359 </a>    <span class="php-comment">/**
-</span></span><span id="360" class="l"><a href="#360">360 </a><span class="php-comment">     * @return array
-</span></span><span id="361" class="l"><a href="#361">361 </a><span class="php-comment">     */</span>
-</span><span id="362" class="l"><a href="#362">362 </a>    <span class="php-keyword1">abstract</span> <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> mappedSpecificProperties();
-</span><span id="363" class="l"><a href="#363">363 </a>
-</span><span id="364" class="l"><a href="#364">364 </a>    <span class="php-comment">/**
-</span></span><span id="365" class="l"><a href="#365">365 </a><span class="php-comment">     * return string
-</span></span><span id="366" class="l"><a href="#366">366 </a><span class="php-comment">     */</span>
-</span><span id="367" class="l"><a href="#367">367 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getEndpoint()
-</span><span id="368" class="l"><a href="#368">368 </a>    {
-</span><span id="369" class="l"><a href="#369">369 </a>        <span class="php-keyword1">return</span> self::ENDPOINT_PAYMENT_METHODS;
-</span><span id="370" class="l"><a href="#370">370 </a>    }
-</span><span id="371" class="l"><a href="#371">371 </a>
-</span><span id="372" class="l"><a href="#372">372 </a>    <span class="php-comment">/**
-</span></span><span id="373" class="l"><a href="#373">373 </a><span class="php-comment">     * @param Redirect $redirect
-</span></span><span id="374" class="l"><a href="#374">374 </a><span class="php-comment">     * @return Transaction
-</span></span><span id="375" class="l"><a href="#375">375 </a><span class="php-comment">     */</span>
-</span><span id="376" class="l"><a href="#376">376 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> setRedirect(Redirect <span class="php-var">$redirect</span>)
-</span><span id="377" class="l"><a href="#377">377 </a>    {
-</span><span id="378" class="l"><a href="#378">378 </a>        <span class="php-var">$this</span>-&gt;redirect = <span class="php-var">$redirect</span>;
-</span><span id="379" class="l"><a href="#379">379 </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>;
-</span><span id="380" class="l"><a href="#380">380 </a>    }
-</span><span id="381" class="l"><a href="#381">381 </a>
-</span><span id="382" class="l"><a href="#382">382 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getSuccessUrl()
-</span><span id="383" class="l"><a href="#383">383 </a>    {
-</span><span id="384" class="l"><a href="#384">384 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">null</span> === <span class="php-var">$this</span>-&gt;redirect) {
-</span><span id="385" class="l"><a href="#385">385 </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">null</span>;
-</span><span id="386" class="l"><a href="#386">386 </a>        }
-</span><span id="387" class="l"><a href="#387">387 </a>
-</span><span id="388" class="l"><a href="#388">388 </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;redirect-&gt;getSuccessUrl();
-</span><span id="389" class="l"><a href="#389">389 </a>    }
-</span><span id="390" class="l"><a href="#390">390 </a>}
-</span><span id="391" class="l"><a href="#391">391 </a></span></code></pre>
+</span><span id="323" class="l"><a href="#323">323 </a>        <span class="php-keyword1">return</span> <span class="php-var">$transactionType</span>;
+</span><span id="324" class="l"><a href="#324">324 </a>    }
+</span><span id="325" class="l"><a href="#325">325 </a>
+</span><span id="326" class="l"><a href="#326">326 </a>    <span class="php-comment">/**
+</span></span><span id="327" class="l"><a href="#327">327 </a><span class="php-comment">     * @throws UnsupportedOperationException
+</span></span><span id="328" class="l"><a href="#328">328 </a><span class="php-comment">     * @return string
+</span></span><span id="329" class="l"><a href="#329">329 </a><span class="php-comment">     */</span>
+</span><span id="330" class="l"><a href="#330">330 </a>    <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> retrieveTransactionTypeForReserve()
+</span><span id="331" class="l"><a href="#331">331 </a>    {
+</span><span id="332" class="l"><a href="#332">332 </a>        <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> UnsupportedOperationException();
+</span><span id="333" class="l"><a href="#333">333 </a>    }
+</span><span id="334" class="l"><a href="#334">334 </a>
+</span><span id="335" class="l"><a href="#335">335 </a>    <span class="php-comment">/**
+</span></span><span id="336" class="l"><a href="#336">336 </a><span class="php-comment">     * @throws UnsupportedOperationException
+</span></span><span id="337" class="l"><a href="#337">337 </a><span class="php-comment">     * @return string
+</span></span><span id="338" class="l"><a href="#338">338 </a><span class="php-comment">     */</span>
+</span><span id="339" class="l"><a href="#339">339 </a>    <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> retrieveTransactionTypeForPay()
+</span><span id="340" class="l"><a href="#340">340 </a>    {
+</span><span id="341" class="l"><a href="#341">341 </a>        <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> UnsupportedOperationException();
+</span><span id="342" class="l"><a href="#342">342 </a>    }
+</span><span id="343" class="l"><a href="#343">343 </a>
+</span><span id="344" class="l"><a href="#344">344 </a>    <span class="php-comment">/**
+</span></span><span id="345" class="l"><a href="#345">345 </a><span class="php-comment">     * @throws UnsupportedOperationException
+</span></span><span id="346" class="l"><a href="#346">346 </a><span class="php-comment">     * @return string
+</span></span><span id="347" class="l"><a href="#347">347 </a><span class="php-comment">     */</span>
+</span><span id="348" class="l"><a href="#348">348 </a>    <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> retrieveTransactionTypeForCancel()
+</span><span id="349" class="l"><a href="#349">349 </a>    {
+</span><span id="350" class="l"><a href="#350">350 </a>        <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> UnsupportedOperationException();
+</span><span id="351" class="l"><a href="#351">351 </a>    }
+</span><span id="352" class="l"><a href="#352">352 </a>
+</span><span id="353" class="l"><a href="#353">353 </a>    <span class="php-comment">/**
+</span></span><span id="354" class="l"><a href="#354">354 </a><span class="php-comment">     * @throws UnsupportedOperationException
+</span></span><span id="355" class="l"><a href="#355">355 </a><span class="php-comment">     * @return string
+</span></span><span id="356" class="l"><a href="#356">356 </a><span class="php-comment">     */</span>
+</span><span id="357" class="l"><a href="#357">357 </a>    <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> retrieveTransactionTypeForRefund()
+</span><span id="358" class="l"><a href="#358">358 </a>    {
+</span><span id="359" class="l"><a href="#359">359 </a>        <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> UnsupportedOperationException();
+</span><span id="360" class="l"><a href="#360">360 </a>    }
+</span><span id="361" class="l"><a href="#361">361 </a>
+</span><span id="362" class="l"><a href="#362">362 </a>    <span class="php-comment">/**
+</span></span><span id="363" class="l"><a href="#363">363 </a><span class="php-comment">     * @throws UnsupportedOperationException
+</span></span><span id="364" class="l"><a href="#364">364 </a><span class="php-comment">     * @return string
+</span></span><span id="365" class="l"><a href="#365">365 </a><span class="php-comment">     */</span>
+</span><span id="366" class="l"><a href="#366">366 </a>    <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> retrieveTransactionTypeForCredit()
+</span><span id="367" class="l"><a href="#367">367 </a>    {
+</span><span id="368" class="l"><a href="#368">368 </a>        <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> UnsupportedOperationException();
+</span><span id="369" class="l"><a href="#369">369 </a>    }
+</span><span id="370" class="l"><a href="#370">370 </a>
+</span><span id="371" class="l"><a href="#371">371 </a>    <span class="php-comment">/**
+</span></span><span id="372" class="l"><a href="#372">372 </a><span class="php-comment">     * @return array
+</span></span><span id="373" class="l"><a href="#373">373 </a><span class="php-comment">     */</span>
+</span><span id="374" class="l"><a href="#374">374 </a>    <span class="php-keyword1">abstract</span> <span class="php-keyword1">protected</span> <span class="php-keyword1">function</span> mappedSpecificProperties();
+</span><span id="375" class="l"><a href="#375">375 </a>
+</span><span id="376" class="l"><a href="#376">376 </a>    <span class="php-comment">/**
+</span></span><span id="377" class="l"><a href="#377">377 </a><span class="php-comment">     * return string
+</span></span><span id="378" class="l"><a href="#378">378 </a><span class="php-comment">     */</span>
+</span><span id="379" class="l"><a href="#379">379 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getEndpoint()
+</span><span id="380" class="l"><a href="#380">380 </a>    {
+</span><span id="381" class="l"><a href="#381">381 </a>        <span class="php-keyword1">return</span> self::ENDPOINT_PAYMENT_METHODS;
+</span><span id="382" class="l"><a href="#382">382 </a>    }
+</span><span id="383" class="l"><a href="#383">383 </a>
+</span><span id="384" class="l"><a href="#384">384 </a>    <span class="php-comment">/**
+</span></span><span id="385" class="l"><a href="#385">385 </a><span class="php-comment">     * @param Redirect $redirect
+</span></span><span id="386" class="l"><a href="#386">386 </a><span class="php-comment">     * @return Transaction
+</span></span><span id="387" class="l"><a href="#387">387 </a><span class="php-comment">     */</span>
+</span><span id="388" class="l"><a href="#388">388 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> setRedirect(Redirect <span class="php-var">$redirect</span>)
+</span><span id="389" class="l"><a href="#389">389 </a>    {
+</span><span id="390" class="l"><a href="#390">390 </a>        <span class="php-var">$this</span>-&gt;redirect = <span class="php-var">$redirect</span>;
+</span><span id="391" class="l"><a href="#391">391 </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>;
+</span><span id="392" class="l"><a href="#392">392 </a>    }
+</span><span id="393" class="l"><a href="#393">393 </a>
+</span><span id="394" class="l"><a href="#394">394 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getSuccessUrl()
+</span><span id="395" class="l"><a href="#395">395 </a>    {
+</span><span id="396" class="l"><a href="#396">396 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">null</span> === <span class="php-var">$this</span>-&gt;redirect) {
+</span><span id="397" class="l"><a href="#397">397 </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">null</span>;
+</span><span id="398" class="l"><a href="#398">398 </a>        }
+</span><span id="399" class="l"><a href="#399">399 </a>
+</span><span id="400" class="l"><a href="#400">400 </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;redirect-&gt;getSuccessUrl();
+</span><span id="401" class="l"><a href="#401">401 </a>    }
+</span><span id="402" class="l"><a href="#402">402 </a>}
+</span><span id="403" class="l"><a href="#403">403 </a></span></code></pre>
 	</div>
 
 	<div id="footer">
@@ -552,6 +565,6 @@
 	</div>
 </div>
 <script src="resources/combined.js?cfd636dbffd7235c2f8960621ad1ba069499eba1"></script>
-<script src="elementlist.js?8cd3650bdede92007359b7c9d1be6b919f3da7d8"></script>
+<script src="elementlist.js?d6e124aa3722a61c0cd5a14060a8d9479cb23aec"></script>
 </body>
 </html>

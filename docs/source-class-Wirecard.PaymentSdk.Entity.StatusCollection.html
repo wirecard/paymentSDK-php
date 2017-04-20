@@ -91,6 +91,7 @@
 			<h3>Classes</h3>
 			<ul>
 				<li><a href="class-Wirecard.PaymentSdk.Config.Config.html">Wirecard\PaymentSdk\Config\Config</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Config.CreditCardConfig.html">Wirecard\PaymentSdk\Config\CreditCardConfig</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Config.PaymentMethodConfig.html">Wirecard\PaymentSdk\Config\PaymentMethodConfig</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Config.SepaConfig.html">Wirecard\PaymentSdk\Config\SepaConfig</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.AccountHolder.html">Wirecard\PaymentSdk\Entity\AccountHolder</a></li>
@@ -115,6 +116,7 @@
 				<li><a href="class-Wirecard.PaymentSdk.Response.Response.html">Wirecard\PaymentSdk\Response\Response</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Response.SuccessResponse.html">Wirecard\PaymentSdk\Response\SuccessResponse</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html">Wirecard\PaymentSdk\Transaction\CreditCardTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.EpsTransaction.html">Wirecard\PaymentSdk\Transaction\EpsTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.IdealTransaction.html">Wirecard\PaymentSdk\Transaction\IdealTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.InvoiceByWirecardTransaction.html">Wirecard\PaymentSdk\Transaction\InvoiceByWirecardTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.Operation.html">Wirecard\PaymentSdk\Transaction\Operation</a></li>
@@ -125,7 +127,6 @@
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.RatepayTransaction.html">Wirecard\PaymentSdk\Transaction\RatepayTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html">Wirecard\PaymentSdk\Transaction\SepaTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.SofortTransaction.html">Wirecard\PaymentSdk\Transaction\SofortTransaction</a></li>
-				<li><a href="class-Wirecard.PaymentSdk.Transaction.ThreeDCreditCardTransaction.html">Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.TransactionService.html">Wirecard\PaymentSdk\TransactionService</a></li>
 			</ul>
@@ -197,7 +198,7 @@
 </span><span id="41" class="l"><a href="#41">41 </a><span class="php-keyword1">class</span> StatusCollection <span class="php-keyword1">implements</span> \IteratorAggregate
 </span><span id="42" class="l"><a href="#42">42 </a>{
 </span><span id="43" class="l"><a href="#43">43 </a>    <span class="php-comment">/**
-</span></span><span id="44" class="l"><a href="#44">44 </a><span class="php-comment">     * @var array
+</span></span><span id="44" class="l"><a href="#44">44 </a><span class="php-comment">     * @var Status[]
 </span></span><span id="45" class="l"><a href="#45">45 </a><span class="php-comment">     */</span>
 </span><span id="46" class="l"><a href="#46">46 </a>    <span class="php-keyword1">private</span> <span class="php-var">$statuses</span> = [];
 </span><span id="47" class="l"><a href="#47">47 </a>
@@ -214,7 +215,7 @@
 </span><span id="58" class="l"><a href="#58">58 </a>    }
 </span><span id="59" class="l"><a href="#59">59 </a>
 </span><span id="60" class="l"><a href="#60">60 </a>    <span class="php-comment">/**
-</span></span><span id="61" class="l"><a href="#61">61 </a><span class="php-comment">     * @param \Wirecard\PaymentSdk\Entity\Status $status
+</span></span><span id="61" class="l"><a href="#61">61 </a><span class="php-comment">     * @param Status $status
 </span></span><span id="62" class="l"><a href="#62">62 </a><span class="php-comment">     * @return $this
 </span></span><span id="63" class="l"><a href="#63">63 </a><span class="php-comment">     */</span>
 </span><span id="64" class="l"><a href="#64">64 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> add(Status <span class="php-var">$status</span>)
@@ -223,8 +224,23 @@
 </span><span id="67" class="l"><a href="#67">67 </a>
 </span><span id="68" class="l"><a href="#68">68 </a>        <span class="php-keyword1">return</span> <span class="php-var">$this</span>;
 </span><span id="69" class="l"><a href="#69">69 </a>    }
-</span><span id="70" class="l"><a href="#70">70 </a>}
-</span><span id="71" class="l"><a href="#71">71 </a></span></code></pre>
+</span><span id="70" class="l"><a href="#70">70 </a>
+</span><span id="71" class="l"><a href="#71">71 </a>    <span class="php-comment">/**
+</span></span><span id="72" class="l"><a href="#72">72 </a><span class="php-comment">     * @param array $codes
+</span></span><span id="73" class="l"><a href="#73">73 </a><span class="php-comment">     * @return boolean
+</span></span><span id="74" class="l"><a href="#74">74 </a><span class="php-comment">     */</span>
+</span><span id="75" class="l"><a href="#75">75 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> hasStatusCodes(<span class="php-keyword1">array</span> <span class="php-var">$codes</span>)
+</span><span id="76" class="l"><a href="#76">76 </a>    {
+</span><span id="77" class="l"><a href="#77">77 </a>        <span class="php-keyword1">foreach</span> (<span class="php-var">$this</span>-&gt;statuses <span class="php-keyword1">as</span> <span class="php-var">$status</span>) {
+</span><span id="78" class="l"><a href="#78">78 </a>            <span class="php-keyword1">if</span> (<span class="php-keyword2">in_array</span>(<span class="php-var">$status</span>-&gt;getCode(), <span class="php-var">$codes</span>, <span class="php-keyword1">false</span>)) {
+</span><span id="79" class="l"><a href="#79">79 </a>                <span class="php-keyword1">return</span> <span class="php-keyword1">true</span>;
+</span><span id="80" class="l"><a href="#80">80 </a>            }
+</span><span id="81" class="l"><a href="#81">81 </a>        }
+</span><span id="82" class="l"><a href="#82">82 </a>
+</span><span id="83" class="l"><a href="#83">83 </a>        <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
+</span><span id="84" class="l"><a href="#84">84 </a>    }
+</span><span id="85" class="l"><a href="#85">85 </a>}
+</span><span id="86" class="l"><a href="#86">86 </a></span></code></pre>
 	</div>
 
 	<div id="footer">
@@ -232,6 +248,6 @@
 	</div>
 </div>
 <script src="resources/combined.js?cfd636dbffd7235c2f8960621ad1ba069499eba1"></script>
-<script src="elementlist.js?8cd3650bdede92007359b7c9d1be6b919f3da7d8"></script>
+<script src="elementlist.js?d6e124aa3722a61c0cd5a14060a8d9479cb23aec"></script>
 </body>
 </html>
