@@ -124,6 +124,11 @@ class TransactionUTest extends \PHPUnit_Framework_TestCase
                 Transaction::TYPE_VOID_AUTHORIZATION,
             ],
             [
+                Operation::REFUND,
+                'retrieveTransactionTypeForRefund',
+                Transaction::TYPE_CAPTURE_AUTHORIZATION,
+            ],
+            [
                 Operation::CREDIT,
                 'retrieveTransactionTypeForCredit',
                 Transaction::TYPE_CREDIT,

@@ -608,6 +608,51 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($successResponse, $result);
     }
 
+    public function testCancelRefund()
+    {
+        $mock = new MockHandler([
+            new Response(
+                200,
+                [],
+                '{"payment":{"transaction-type":"capture-authorization"}}'
+            ),
+            new Response(
+                200,
+                [],
+                '<payment>
+<transaction-state>failure</transaction-state>
+<statuses><status code="500.1057" description="a" severity="0"></status></statuses>
+</payment>'
+            ),
+            new Response(
+                200,
+                [],
+                '{"payment":{"transaction-type":"capture-authorization"}}'
+            ),
+            new Response(
+                200,
+                [],
+                '<payment>
+<transaction-type>refund-capture</transaction-type>
+<transaction-id>23tghfrhfgh</transaction-id>
+<request-id>afhnfgdg</request-id>
+<payment-methods><payment-method name="creditcard" /></payment-methods>
+<transaction-state>success</transaction-state>
+<statuses><status code="200.000" description="a" severity="0"></status></statuses>
+</payment>'
+            ),
+        ]);
+
+        $handler = HandlerStack::create($mock);
+        $client = new Client([self::HANDLER => $handler]);
+
+        $this->instance = new TransactionService($this->config, null, $client);
+
+        $tx = new CreditCardTransaction();
+        $tx->setParentTransactionId('parent-id');
+        $this->assertInstanceOf(SuccessResponse::class, $this->instance->cancel($tx));
+    }
+
     public function testCredit()
     {
         $tx = new CreditCardTransaction();

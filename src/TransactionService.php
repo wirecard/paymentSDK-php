@@ -278,7 +278,15 @@ class TransactionService
      */
     public function cancel(Transaction $transaction)
     {
-        return $this->process($transaction, Operation::CANCEL);
+        $cancelResult = $this->process($transaction, Operation::CANCEL);
+
+        if ($transaction instanceof CreditCardTransaction
+            && $cancelResult->getStatusCollection()->hasStatusCodes(['500.1057'])
+        ) {
+            return $this->process($transaction, Operation::REFUND);
+        }
+
+        return $cancelResult;
     }
 
     /**

@@ -266,6 +266,27 @@ class CreditCardTransaction extends Transaction implements Reservable
     }
 
     /**
+     * @throws MandatoryFieldMissingException|UnsupportedOperationException
+     * @return string
+     */
+    protected function retrieveTransactionTypeForRefund()
+    {
+        if (!$this->parentTransactionId) {
+            throw new MandatoryFieldMissingException('No transaction for cancellation set.');
+        }
+
+        switch ($this->parentTransactionType) {
+            case $this::TYPE_PURCHASE:
+            case $this::TYPE_REFERENCED_PURCHASE:
+                return 'refund-purchase';
+            case $this::TYPE_CAPTURE_AUTHORIZATION:
+                return 'refund-capture';
+            default:
+                throw new UnsupportedOperationException('The transaction can not be refunded.');
+        }
+    }
+
+    /**
      * @return string
      */
     protected function retrieveTransactionTypeForCredit()
