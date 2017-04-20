@@ -621,7 +621,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
                 [],
                 '<payment>
 <transaction-state>failure</transaction-state>
-<statuses><status code="1" description="a" severity="0"></status></statuses>
+<statuses><status code="500.1057" description="a" severity="0"></status></statuses>
 </payment>'
             ),
             new Response(

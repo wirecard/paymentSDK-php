@@ -280,11 +280,13 @@ class TransactionService
     {
         $cancelResult = $this->process($transaction, Operation::CANCEL);
 
-        if ($cancelResult instanceof SuccessResponse) {
-            return $cancelResult;
+        if ($transaction instanceof CreditCardTransaction
+            && $cancelResult->getStatusCollection()->hasStatusCodes(['500.1057'])
+        ) {
+            return $this->process($transaction, Operation::REFUND);
         }
 
-        return $this->process($transaction, Operation::REFUND);
+        return $cancelResult;
     }
 
     /**
