@@ -206,7 +206,6 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
-
     /**
      * @return array
      */
@@ -348,6 +347,81 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
         $transaction->setParentTransactionId('642');
         $transaction->setParentTransactionType('test');
         $transaction->setOperation(Operation::CANCEL);
+        $_SERVER['REMOTE_ADDR'] = 'test';
+
+        $transaction->mappedProperties();
+    }
+
+    /**
+     * @return array
+     */
+    public function testRefundProvider()
+    {
+        return [
+            [
+                CreditCardTransaction::TYPE_PURCHASE,
+                'refund-purchase'
+            ],
+            [
+                CreditCardTransaction::TYPE_REFERENCED_PURCHASE,
+                'refund-purchase'
+            ],
+            [
+                Transaction::TYPE_CAPTURE_AUTHORIZATION,
+                'refund-capture'
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider testRefundProvider
+     * @param $transactionType
+     * @param $refundType
+     */
+    public function testRefund($transactionType, $refundType)
+    {
+        $transaction = new CreditCardTransaction();
+        $transaction->setConfig($this->config);
+        $transaction->setParentTransactionId('642');
+        $transaction->setParentTransactionType($transactionType);
+        $transaction->setOperation(Operation::REFUND);
+        $_SERVER['REMOTE_ADDR'] = 'test';
+
+        $result = $transaction->mappedProperties();
+
+        $expectedResult = [
+            'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
+            'parent-transaction-id' => '642',
+            'ip-address' => 'test',
+            'transaction-type' => $refundType,
+            'merchant-account-id' => [
+                'value' => 'maid'
+            ]
+        ];
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
+     */
+    public function testRefundNoParentId()
+    {
+        $transaction = new CreditCardTransaction();
+        $transaction->setConfig($this->config);
+        $transaction->setOperation(Operation::REFUND);
+        $transaction->mappedProperties();
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
+     */
+    public function testRefundInvalidParentTransaction()
+    {
+        $transaction = new CreditCardTransaction();
+        $transaction->setConfig($this->config);
+        $transaction->setParentTransactionId('642');
+        $transaction->setParentTransactionType('test');
+        $transaction->setOperation(Operation::REFUND);
         $_SERVER['REMOTE_ADDR'] = 'test';
 
         $transaction->mappedProperties();

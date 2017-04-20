@@ -278,7 +278,13 @@ class TransactionService
      */
     public function cancel(Transaction $transaction)
     {
-        return $this->process($transaction, Operation::CANCEL);
+        $cancelResult = $this->process($transaction, Operation::CANCEL);
+
+        if ($cancelResult instanceof SuccessResponse) {
+            return $cancelResult;
+        }
+
+        return $this->process($transaction, Operation::REFUND);
     }
 
     /**
