@@ -115,8 +115,8 @@ $config->add($sepaConfig);
 
 // ### Sofortbanking
 
-$sofortMAID = 'f19d17a2-01ae-11e2-9085-005056a96a54';
-$sofortSecretKey = 'ad39d9d9-2712-4abd-9016-cdeb60dc3c8f';
+$sofortMAID = 'c021a23a-49a5-4987-aa39-e8e858d29bad';
+$sofortSecretKey = 'dbc5a498-9a66-43b9-bf1d-a618dd399684';
 $sofortConfig = new PaymentMethodConfig(SofortTransaction::NAME, $sofortMAID, $sofortSecretKey);
 $config->add($sofortConfig);
 
