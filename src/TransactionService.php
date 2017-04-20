@@ -268,8 +268,9 @@ class TransactionService
     }
 
     /**
-     * If a failureResponse returns from the cancel process call with a specific statusCode, which declares that the
-     * creditcard amount is already settled, we try a refund process call
+     * If a failureResponse returns from the cancel process call
+     * with a specific status code which declares that the credit card amount has already been settled,
+     * we try a refund process call.
      *
      * @param Transaction $transaction
      * @throws MalformedResponseException
@@ -410,8 +411,8 @@ class TransactionService
     }
 
     /**
-     * If specific statusCodes, which are specifying an error during creditcard enrollment check, are found in response.
-     * We are doing a fallback from a 3d to an ssl creditcard transaction
+     * If specific status codes which indicate an error during the credit card enrollment check are found in response,
+     * we do a fallback from a 3-D to an SSL credit card transaction
      *
      * @param CreditCardTransaction $transaction
      * @param Response $response
