@@ -74,4 +74,18 @@ class CustomFieldCollectionUTest extends \PHPUnit_Framework_TestCase
         ];
         $this->assertEquals($expected, $this->customFieldCollection->mappedProperties());
     }
+
+    public function testGet()
+    {
+        $customField = new CustomField('test', 'abc');
+        $this->customFieldCollection->add($customField);
+        $this->assertEquals('abc', $this->customFieldCollection->get('test'));
+    }
+
+    public function testGetForUnsetField()
+    {
+        $customField = new CustomField('test', 'abc');
+        $this->customFieldCollection->add($customField);
+        $this->assertEquals(null, $this->customFieldCollection->get('test_not_set'));
+    }
 }

@@ -25,67 +25,44 @@
  *
  * Customers are responsible for testing the plugin's functionality before starting productive
  * operation.
+ *
  * By installing the plugin into the shop system the customer agrees to these terms of use.
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Entity;
+namespace WirecardTest\PaymentSdk\Response;
 
-/**
- * Class CustomField
- * @package Wirecard\PaymentSdk\Entity
- *
- * An immutable entity representing a custom field: value and currency.
- */
-class CustomField implements MappableEntity
+use Wirecard\PaymentSdk\Entity\CustomField;
+use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
+use Wirecard\PaymentSdk\Response\Response;
+
+class ResponseUTest extends \PHPUnit_Framework_TestCase
 {
-    const PREFIX = 'paysdk_';
-
     /**
-     * @var string
+     * @var Response
      */
-    private $name;
+    private $response;
 
-    /**
-     * @var string
-     */
-    private $value;
-
-    /**
-     * CustomField constructor.
-     * @param string $name
-     * @param string $value
-     */
-    public function __construct($name, $value)
+    public function setUp()
     {
-        $this->name = $name;
-        $this->value = $value;
+        $simpleXml = simplexml_load_string('<raw>
+                        <request-id>123</request-id>
+                        <statuses>
+                            <status code="1" description="a" severity="0"/>
+                        </statuses>
+                        <custom-fields>
+                            <custom-field field-name="paysdk_testfield1" field-value="value1"/>
+                            <custom-field field-name="paysdk_testfield2" field-value="value2"/>
+                        </custom-fields>
+                    </raw>');
+        $this->response = $this->getMockForAbstractClass(Response::class, [$simpleXml]);
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function testGetCustomFieldCollection()
     {
-        return $this->name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getValue()
-    {
-        return $this->value;
-    }
-
-    /**
-     * @return array
-     */
-    public function mappedProperties()
-    {
-        return [
-            'field-name' => self::PREFIX . $this->name,
-            'field-value' => $this->value
-        ];
+        $customFieldCollection = new CustomFieldCollection();
+        $customFieldCollection->add(new CustomField('testfield1', 'value1'));
+        $customFieldCollection->add(new CustomField('testfield2', 'value2'));
+        $this->assertEquals($customFieldCollection, $this->response->getCustomFields());
     }
 }

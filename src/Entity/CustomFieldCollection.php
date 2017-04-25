@@ -68,6 +68,34 @@ class CustomFieldCollection implements \IteratorAggregate, MappableEntity
     }
 
     /**
+     * @param string $fieldName
+     * @return CustomField|null
+     */
+    protected function getFieldByName($fieldName)
+    {
+        /** @var CustomField $customField */
+        foreach ($this->getIterator() as $customField) {
+            if ($customField->getName() === $fieldName) {
+                return $customField;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param string $fieldName
+     * @return string|null
+     */
+    public function get($fieldName)
+    {
+        $field = $this->getFieldByName($fieldName);
+        if ($field !== null) {
+            return $field->getValue();
+        }
+        return null;
+    }
+
+    /**
      * @return array
      */
     public function mappedProperties()
