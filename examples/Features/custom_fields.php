@@ -59,7 +59,7 @@ $response = $transactionService->pay($transaction);
 
 // In this example we proceed with a header redirect to the given _redirectUrl_.
 if ($response instanceof InteractionResponse) {
-    header('location: ' . $response->getRedirectUrl());
+    echo 'Custom field "special1" was set to: ' . $response->getCustomFields()->get('special1');
     exit;
 } else {
     echo "Transaction was not successful.";

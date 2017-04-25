@@ -33,6 +33,8 @@
 namespace Wirecard\PaymentSdk\Response;
 
 use SimpleXMLElement;
+use Wirecard\PaymentSdk\Entity\CustomField;
+use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Entity\Status;
 use Wirecard\PaymentSdk\Entity\StatusCollection;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
@@ -197,5 +199,25 @@ abstract class Response
     protected function setValueForRequestId()
     {
         $this->requestId = $this->findElement('request-id');
+    }
+
+    /**
+     * @return CustomFieldCollection
+     */
+    public function getCustomFields()
+    {
+        $customFieldCollection = new CustomFieldCollection();
+
+        if (isset($this->simpleXml->{'custom-fields'})) {
+            /** @var SimpleXMLElement $field */
+            foreach ($this->simpleXml->{'custom-fields'}->children() as $field) {
+                if (isset($field->attributes()->{'field-name'}) && isset($field->attributes()->{'field-value'})) {
+                    $name = substr((string)$field->attributes()->{'field-name'}, 7);
+                    $value = (string)$field->attributes()->{'field-value'};
+                    $customFieldCollection->add(new CustomField($name, $value));
+                }
+            }
+        }
+        return $customFieldCollection;
     }
 }
