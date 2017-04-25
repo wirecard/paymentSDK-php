@@ -20,7 +20,7 @@ use Wirecard\PaymentSdk\TransactionService;
 
 // ### Transaction related objects
 
-// Create an amount object as amount which has to be payed by the consumer.
+// Create an amount object as amount which has to be paid by the consumer.
 $amount = new Amount(7, 'EUR');
 
 $accountHolder = new AccountHolder();

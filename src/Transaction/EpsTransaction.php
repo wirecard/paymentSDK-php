@@ -30,57 +30,27 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk\Entity;
+namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\Status;
-use Wirecard\PaymentSdk\Entity\StatusCollection;
-
-class StatusCollectionUTest extends \PHPUnit_Framework_TestCase
+/**
+ * Class EpsTransaction
+ * @package Wirecard\PaymentSdk\Transaction
+ */
+class EpsTransaction extends Transaction
 {
-    /**
-     * @var StatusCollection
-     */
-    private $statusCollection;
-
-    public function setUp()
-    {
-        $this->statusCollection = new StatusCollection();
-    }
-
-    public function testAdd()
-    {
-        $onlyStatus = new Status(23, 'sth useful', 'info');
-        $this->statusCollection->add($onlyStatus);
-
-        $this->assertAttributeEquals([$onlyStatus], 'statuses', $this->statusCollection);
-    }
-
+    const NAME='eps';
 
     /**
      * @return array
      */
-    public function hasStatusCodeProvider()
+    protected function mappedSpecificProperties()
     {
-        return [
-            [true, [23]],
-            [true, [24,23]],
-            [false, [25]]
-        ];
+        // No specific properties.
+        return [];
     }
 
-    /**
-     * @dataProvider hasStatusCodeProvider
-     * @param $expected
-     * @param $search
-     */
-    public function testHasStatusCode($expected, $search)
+    protected function retrieveTransactionTypeForPay()
     {
-        $onlyStatus = new Status(23, 'sth useful', 'info');
-        $this->statusCollection->add($onlyStatus);
-
-        $onlyStatus2 = new Status(24, 'sth useful254', 'warning');
-        $this->statusCollection->add($onlyStatus2);
-
-        $this->assertEquals($expected, $this->statusCollection->hasStatusCodes($search));
+        return Transaction::TYPE_DEBIT;
     }
 }

@@ -37,5 +37,6 @@ class Operation
     const RESERVE = 'reserve';
     const PAY = 'pay';
     const CANCEL = 'cancel';
+    const REFUND = 'refund';
     const CREDIT = 'credit';
 }

@@ -1,7 +1,7 @@
 <?php
-// # Cancelling a transaction
+// # eps return after transaction
 
-// To cancel a transaction, a cancel request with the parent transaction is sent.
+// The consumer gets redirected to this page after an eps transaction.
 
 // ## Required objects
 
@@ -12,33 +12,30 @@ require __DIR__ . '/../inc/config.php';
 
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
-use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
-
 // ## Transaction
-$transaction = new CreditCardTransaction();
-$transaction->setParentTransactionId($_POST['parentTransactionId']);
 
 // ### Transaction Service
 
-// The _TransactionService_ is used to generate the request data needed for the generation of the UI.
-$transactionService = new TransactionService($config);
-$response = $transactionService->cancel($transaction);
-
+// The `TransactionService` is used to determine the response from the service provider.
+$service = new TransactionService($config);
+$response = $service->handleResponse($_POST);
 
 // ## Response handling
 
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
-    echo 'Payment successfully cancelled.<br>';
+    echo 'Payment successfully completed.<br>';
     echo getTransactionLink($baseUrl, $response);
+    ?>
+    <br>
+    <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
-    // In our example we iterate over all errors and echo them out.
-    // You should display them as error, warning or information based on the given severity.
+    // In our example we iterate over all errors and display them in a raw state.
+    // You should handle them based on the given severity as error, warning or information.
     foreach ($response->getStatusCollection() as $status) {
         /**
          * @var $status \Wirecard\PaymentSdk\Entity\Status

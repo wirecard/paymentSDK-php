@@ -19,7 +19,7 @@ use Wirecard\PaymentSdk\TransactionService;
 
 // ### Transaction related objects
 
-// Use the amount object as amount which has to be payed by the consumer.
+// Use the amount object as amount which has to be paid by the consumer.
 $amount = new Amount(2400, 'EUR');
 
 // ### URLs

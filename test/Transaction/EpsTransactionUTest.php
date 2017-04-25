@@ -30,57 +30,50 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk\Entity;
+namespace WirecardTest\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\Status;
-use Wirecard\PaymentSdk\Entity\StatusCollection;
+use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Transaction\EpsTransaction;
+use Wirecard\PaymentSdk\Transaction\Operation;
 
-class StatusCollectionUTest extends \PHPUnit_Framework_TestCase
+class EpsTransactionUTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var StatusCollection
-     */
-    private $statusCollection;
-
-    public function setUp()
+    public function testMappedProperties()
     {
-        $this->statusCollection = new StatusCollection();
-    }
+        $tx = new EpsTransaction();
 
-    public function testAdd()
-    {
-        $onlyStatus = new Status(23, 'sth useful', 'info');
-        $this->statusCollection->add($onlyStatus);
+        $amount = new Amount(18.4, 'EUR');
+        $tx->setAmount($amount);
 
-        $this->assertAttributeEquals([$onlyStatus], 'statuses', $this->statusCollection);
-    }
+        $redirect = new Redirect(
+            'http://www.test.at/return.php?status=success',
+            null,
+            'http://www.test.at/return.php?status=failure'
+        );
+        $tx->setRedirect($redirect);
 
+        $tx->setOperation(Operation::PAY);
 
-    /**
-     * @return array
-     */
-    public function hasStatusCodeProvider()
-    {
-        return [
-            [true, [23]],
-            [true, [24,23]],
-            [false, [25]]
+        $expectedResult = [
+            'transaction-type' => 'debit',
+            'requested-amount' => [
+                'currency' => 'EUR',
+                'value' => '18.4'
+            ],
+            'payment-methods' => [
+                'payment-method' => [
+                    0 => [
+                        'name' => 'eps'
+                    ]
+                ]
+            ],
+            'success-redirect-url' => 'http://www.test.at/return.php?status=success',
+            'fail-redirect-url' => 'http://www.test.at/return.php?status=failure'
         ];
-    }
 
-    /**
-     * @dataProvider hasStatusCodeProvider
-     * @param $expected
-     * @param $search
-     */
-    public function testHasStatusCode($expected, $search)
-    {
-        $onlyStatus = new Status(23, 'sth useful', 'info');
-        $this->statusCollection->add($onlyStatus);
+        $result = $tx->mappedProperties();
 
-        $onlyStatus2 = new Status(24, 'sth useful254', 'warning');
-        $this->statusCollection->add($onlyStatus2);
-
-        $this->assertEquals($expected, $this->statusCollection->hasStatusCodes($search));
+        $this->assertEquals($expectedResult, $result);
     }
 }

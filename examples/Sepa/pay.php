@@ -22,7 +22,7 @@ use Wirecard\PaymentSdk\TransactionService;
 
 // ### Transaction related objects
 
-// Create an amount object as amount which has to be payed by the consumer.
+// Create an amount object as amount which has to be paid by the consumer.
 $amount = null;
 if (!empty($_POST['amount'])) {
     $amount = new Amount((float)$_POST['amount'], 'EUR');

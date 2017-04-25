@@ -20,7 +20,7 @@ use Wirecard\PaymentSdk\TransactionService;
 
 // ### Transaction related objects
 
-// Use the amount object as amount which has to be payed by the consumer.
+// Use the amount object as amount which has to be paid by the consumer.
 $amount = new Amount(12.59, 'EUR');
 
 // The redirect URLs determine where the consumer should be redirected by Paysafecard after approval/cancellation.

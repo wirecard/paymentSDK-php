@@ -21,11 +21,11 @@ use Wirecard\PaymentSdk\TransactionService;
 // ### Transaction related objects
 
 // Define the token for the credit card where the amount should be credited.
-$tokenId = '4304509873471003';
+$tokenId = '5168216323601006';
 
 // ### Transaction related objects
 
-// Create a amount object as amount which has to be payed by the consumer.
+// Create a amount object as amount which has to be paid by the consumer.
 $amount = new Amount(10.59, 'EUR');
 
 // The account holder last name is required for credit.
@@ -44,7 +44,7 @@ $transaction->setAccountHolder($accountHolder);
 
 // ### Transaction Service
 // The _TransactionService_ is used to generate the request data.
-$transactionService = new TransactionService($cardConfig);
+$transactionService = new TransactionService($config);
 
 // The method `credit` is used to transfer funds to the credit card.
 $response = $transactionService->credit($transaction);
@@ -61,7 +61,6 @@ if ($response instanceof SuccessResponse) {
     <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="hidden" name="transaction-type" value="3d"/>
         <input type="submit" value="Cancel the credit">
     </form>
     <?php

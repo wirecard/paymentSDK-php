@@ -18,7 +18,7 @@ use Wirecard\PaymentSdk\TransactionService;
 
 // ### Transaction Service
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
-$transactionService = new TransactionService($cardConfig);
+$transactionService = new TransactionService($config);
 
 ?>
 
@@ -29,7 +29,7 @@ $transactionService = new TransactionService($cardConfig);
     <?php
     // This library is needed to generate the UI and to get a valid token ID.
     ?>
-    <script src="https://api-test.wirecard.com/engine/hpp/paymentPageLoader.js" type="text/javascript"></script>
+    <script src="<?= $baseUrl ?>/engine/hpp/paymentPageLoader.js" type="text/javascript"></script>
     <style>
         #creditcard-form-div {
             height: 300px;
@@ -37,7 +37,7 @@ $transactionService = new TransactionService($cardConfig);
     </style>
 </head>
 <body>
-<form id="payment-form" method="post" action="">
+<form id="payment-form" method="post" action="reserve.php">
     <?php
     // The token ID, which is returned from the credit card UI, needs to be sent on submitting the form.
     // In this example this is facilitated via a hidden form field.
@@ -49,11 +49,6 @@ $transactionService = new TransactionService($cardConfig);
     // The javascript library needs a div which it can fill with all credit card related fields.
     ?>
     <div id="creditcard-form-div"></div>
-    <select id="followup-transaction">
-        <option value="logging">No transaction</option>
-        <option value="ssl">SSL transaction</option>
-        <option value="3d">3-D Secure transaction</option>
-    </select>
     <input type="submit" value="Save">
 </form>
 <script type="application/javascript">
@@ -78,20 +73,6 @@ $transactionService = new TransactionService($cardConfig);
     // To prevent the data to be submitted on any other server than the Wirecard server, the credit card UI form
     // is sent to Wirecard via javascript. You receive a token ID which you need for processing the payment.
     $('#payment-form').submit(submit);
-
-    $('#followup-transaction').on('change', function (event) {
-        var action = '';
-        console.log(event.target.value);
-        switch (event.target.value) {
-            case 'ssl':
-                action = 'ssl-reserve.php';
-                break;
-            case '3d':
-                action = '3d-reserve.php';
-                break;
-        }
-        $('#payment-form').attr('action', action);
-    });
 
     function submit(event) {
 

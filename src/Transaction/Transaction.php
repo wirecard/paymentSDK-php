@@ -256,7 +256,7 @@ abstract class Transaction
                 $result['cancel-redirect-url'] = $this->redirect->getCancelUrl();
             }
             if ($this->redirect->getFailureUrl()) {
-                $result['redirect-url'] = $this->redirect->getFailureUrl();
+                $result['fail-redirect-url'] = $this->redirect->getFailureUrl();
             }
         }
 
@@ -310,6 +310,9 @@ abstract class Transaction
             case Operation::CANCEL:
                 $transactionType = $this->retrieveTransactionTypeForCancel();
                 break;
+            case Operation::REFUND:
+                $transactionType = $this->retrieveTransactionTypeForRefund();
+                break;
             case Operation::CREDIT:
                 $transactionType = $this->retrieveTransactionTypeForCredit();
                 break;
@@ -343,6 +346,15 @@ abstract class Transaction
      * @return string
      */
     protected function retrieveTransactionTypeForCancel()
+    {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * @throws UnsupportedOperationException
+     * @return string
+     */
+    protected function retrieveTransactionTypeForRefund()
     {
         throw new UnsupportedOperationException();
     }
