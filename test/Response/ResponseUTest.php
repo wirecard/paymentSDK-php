@@ -25,67 +25,45 @@
  *
  * Customers are responsible for testing the plugin's functionality before starting productive
  * operation.
+ *
  * By installing the plugin into the shop system the customer agrees to these terms of use.
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk\Entity;
+namespace WirecardTest\PaymentSdk\Response;
+
 
 use Wirecard\PaymentSdk\Entity\CustomField;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
+use Wirecard\PaymentSdk\Response\Response;
 
-class CustomFieldCollectionUTest extends \PHPUnit_Framework_TestCase
+class ResponseUTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var CustomFieldCollection
+     * @var Response
      */
-    private $customFieldCollection;
+    private $response;
 
     public function setUp()
     {
-        $this->customFieldCollection = new CustomFieldCollection();
+        $simpleXml = simplexml_load_string('<raw>
+                        <request-id>123</request-id>
+                        <statuses>
+                            <status code="1" description="a" severity="0"/>
+                        </statuses>
+                        <custom-fields>
+                            <custom-field field-name="paysdk_testfield1" field-value="value1"/>
+                            <custom-field field-name="paysdk_testfield2" field-value="value2"/>
+                        </custom-fields>
+                    </raw>');
+        $this->response = $this->getMockForAbstractClass(Response::class, [$simpleXml]);
     }
 
-    public function testAdd()
+    public function testGetCustomFieldCollection()
     {
-        $customField = new CustomField('test', 'abc');
-        $this->customFieldCollection->add($customField);
-
-        $this->assertAttributeEquals([$customField], 'customFields', $this->customFieldCollection);
-    }
-
-    public function testGetIterator()
-    {
-        $this->assertEquals(new \ArrayIterator([]), $this->customFieldCollection->getIterator());
-    }
-
-    public function testMappedProperties()
-    {
-        $customField = new CustomField('test', 'abc');
-        $this->customFieldCollection->add($customField);
-
-        $expected = [
-            'custom-field' => [
-                [
-                    'field-name' => CustomField::PREFIX . $customField->getName(),
-                    'field-value' => $customField->getValue()
-                ]
-            ]
-        ];
-        $this->assertEquals($expected, $this->customFieldCollection->mappedProperties());
-    }
-
-    public function testGet()
-    {
-        $customField = new CustomField('test', 'abc');
-        $this->customFieldCollection->add($customField);
-        $this->assertEquals('abc', $this->customFieldCollection->get('test'));
-    }
-
-    public function testGetForUnsetField()
-    {
-        $customField = new CustomField('test', 'abc');
-        $this->customFieldCollection->add($customField);
-        $this->assertEquals(null, $this->customFieldCollection->get('test_not_set'));
+        $customFieldCollection = new CustomFieldCollection();
+        $customFieldCollection->add(new CustomField('testfield1', 'value1'));
+        $customFieldCollection->add(new CustomField('testfield2', 'value2'));
+        $this->assertEquals($customFieldCollection, $this->response->getCustomFields());
     }
 }
