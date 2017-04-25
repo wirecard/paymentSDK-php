@@ -32,7 +32,6 @@
 
 namespace WirecardTest\PaymentSdk\Response;
 
-
 use Wirecard\PaymentSdk\Entity\CustomField;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Response\Response;
