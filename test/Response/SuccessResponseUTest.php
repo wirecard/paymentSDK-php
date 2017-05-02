@@ -52,7 +52,7 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
                     <payment>
                         <transaction-id>1</transaction-id>
                         <request-id>123</request-id>
-                        <parent-transaction-id>ca6edb69-fe54-4c3d-9086-639eda341723</parent-transaction-id>
+                        <parent-transaction-id>ca-6ed-b69</parent-transaction-id>
                         <transaction-type>transaction</transaction-type>
                         <payment-methods>
                             <payment-method name="paypal"/>
@@ -62,6 +62,16 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
                         </statuses>
                     </payment>');
         $this->response = new SuccessResponse($this->simpleXml, false);
+    }
+
+    private function getSimpleXmlWithout($tag)
+    {
+        $doc = new \DOMDocument();
+        $doc->loadXml($this->simpleXml->asXML());
+        $document = $doc->documentElement;
+        $element = $document->getElementsByTagName($tag)->item(0);
+        $element->parentNode->removeChild($element);
+        return new \SimpleXMLElement($doc->saveXML());
     }
 
     public function testGetTransactionType()
@@ -104,11 +114,33 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('paypal', $response->getPaymentMethod());
     }
 
-    public function testGetPaymentMethodIfNoPaymentMethodProvided()
+    public function testGetPaymentMethodWithoutPaymentMethodArray()
     {
-        $xml = $this->simpleXml;
-        $xml->{'payment-methods'} = null;
+        $xml = $this->getSimpleXmlWithout('payment-methods');
+        $response = new SuccessResponse($xml, false);
+        $this->assertEquals('', $response->getPaymentMethod());
+    }
+
+    public function testGetPaymentMethodWithNoNameAttribute()
+    {
+        $xml = $this->getSimpleXmlWithout('payment-method');
+        /** @var \SimpleXMLElement $pms */
+        $pms = $xml->{'payment-methods'};
+        $pms->addChild('payment-method');
         $response = new SuccessResponse($xml, false);
         $this->assertEquals(null, $response->getPaymentMethod());
+    }
+
+    public function testGetParentTransactionId()
+    {
+        $response = new SuccessResponse($this->simpleXml);
+        $this->assertEquals('ca-6ed-b69', $response->getParentTransactionId());
+    }
+
+    public function testGetParentTransactionIdIfNoneSet()
+    {
+        $xml = $this->getSimpleXmlWithout('parent-transaction-id');
+        $response = new SuccessResponse($xml);
+        $this->assertEquals(null, $response->getParentTransactionId());
     }
 }
