@@ -52,7 +52,11 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
                     <payment>
                         <transaction-id>1</transaction-id>
                         <request-id>123</request-id>
+                        <parent-transaction-id>ca6edb69-fe54-4c3d-9086-639eda341723</parent-transaction-id>
                         <transaction-type>transaction</transaction-type>
+                        <payment-methods>
+                            <payment-method name="paypal"/>
+                        </payment-methods>
                         <statuses>
                             <status code="1" description="a" severity="0" />
                         </statuses>
@@ -92,5 +96,19 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
         $status3->addAttribute('severity', 'Information');
 
         new SuccessResponse($xml, false);
+    }
+
+    public function testGetPaymentMethod()
+    {
+        $response = new SuccessResponse($this->simpleXml, false);
+        $this->assertEquals('paypal', $response->getPaymentMethod());
+    }
+
+    public function testGetPaymentMethodIfNoPaymentMethodProvided()
+    {
+        $xml = $this->simpleXml;
+        $xml->{'payment-methods'} = null;
+        $response = new SuccessResponse($xml, false);
+        $this->assertEquals(null, $response->getPaymentMethod());
     }
 }

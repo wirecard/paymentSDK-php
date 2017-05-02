@@ -99,4 +99,24 @@ class SuccessResponse extends Response
     {
         return $this->providerTransactionId;
     }
+
+    /**
+     * @return null|string
+     */
+    public function getPaymentMethod()
+    {
+        if (isset($this->simpleXml->{'payment-methods'})) {
+            $paymentMethods = $this->simpleXml->{'payment-methods'};
+            if (count($paymentMethods->{'payment-method'}) > 0) {
+                foreach ($paymentMethods->{'payment-method'} as $paymentMethodXml) {
+                    /** @var $paymentMethodXml \SimpleXMLElement */
+                    $attributes = $paymentMethodXml->attributes();
+                    if ((string)$attributes['name'] !== '') {
+                        return (string)$attributes['name'];
+                    }
+                }
+            }
+        }
+        return null;
+    }
 }
