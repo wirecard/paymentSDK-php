@@ -143,4 +143,17 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
         $response = new SuccessResponse($xml);
         $this->assertEquals(null, $response->getParentTransactionId());
     }
+
+    public function testGetProviderTransactionReferenceIfNoneSet()
+    {
+        $response = new SuccessResponse($this->simpleXml);
+        $this->assertEquals(null, $response->getProviderTransactionReference());
+    }
+
+    public function testGetProviderTransactionReference()
+    {
+        $this->simpleXml->addChild('provider-transaction-reference-id', 'trans-ref_value');
+        $response = new SuccessResponse($this->simpleXml);
+        $this->assertEquals('trans-ref_value', $response->getProviderTransactionReference());
+    }
 }
