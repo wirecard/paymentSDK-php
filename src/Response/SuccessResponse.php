@@ -128,4 +128,15 @@ class SuccessResponse extends Response
         }
         return null;
     }
+
+    /**
+     * @return null|string
+     */
+    public function getProviderTransactionReference()
+    {
+        if (isset($this->simpleXml->{'provider-transaction-reference-id'})) {
+            return (string)$this->simpleXml->{'provider-transaction-reference-id'};
+        }
+        return null;
+    }
 }
