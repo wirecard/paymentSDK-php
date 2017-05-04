@@ -39,16 +39,6 @@ if ($response instanceof SuccessResponse) {
     echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');
     echo getTransactionLink($baseUrl, $response);
     ?>
-    <br>
-    <form action="../Sepa/pay.php" method="post">
-        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="submit" value="Request a new payment based on this payment">
-    </form>
-
-    <form action="../Sepa/credit.php" method="post">
-        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="submit" value="Request a credit based on this payment">
-    </form>
 <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
