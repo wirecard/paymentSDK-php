@@ -13,6 +13,7 @@ use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Config\SepaConfig;
 use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Transaction\BancontactTransaction;
 use Wirecard\PaymentSdk\Transaction\EpsTransaction;
 use Wirecard\PaymentSdk\Transaction\IdealTransaction;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
@@ -119,6 +120,13 @@ $sofortMAID = 'c021a23a-49a5-4987-aa39-e8e858d29bad';
 $sofortSecretKey = 'dbc5a498-9a66-43b9-bf1d-a618dd399684';
 $sofortConfig = new PaymentMethodConfig(SofortTransaction::NAME, $sofortMAID, $sofortSecretKey);
 $config->add($sofortConfig);
+
+// ### Bancontact
+
+$bancontactMAID = 'c41a62ad-aecb-45b3-b367-e0d2cf946ce3';
+$bancontactKey = 'dbc5a498-9a66-43b9-bf1d-a618dd399684';
+$bancontactConfig = new PaymentMethodConfig(BancontactTransaction::NAME, $bancontactMAID, $bancontactKey);
+$config->add($bancontactConfig);
 
 // ### eps
 
