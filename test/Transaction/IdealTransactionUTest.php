@@ -95,8 +95,9 @@ class IdealTransactionUTest extends \PHPUnit_Framework_TestCase
             'cancel-redirect-url' => self::CANCEL_URL,
             'success-redirect-url' => self::SUCCESS_URL . '&request_id=',
             'bank-account' => ['bic' => 'INGBNL2A'],
-            'descriptor' => self::DESCRIPTOR
-
+            'descriptor' => self::DESCRIPTOR,
+            'locale' => 'de',
+            'entry-mode' => 'ecommerce',
         ];
 
         $this->tx->setOperation(Operation::PAY);

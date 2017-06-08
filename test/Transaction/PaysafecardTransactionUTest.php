@@ -73,6 +73,8 @@ class PaysafecardTransactionUTest extends \PHPUnit_Framework_TestCase
             ],
             'cancel-redirect-url' => self::CANCEL_URL,
             'success-redirect-url' => self::SUCCESS_URL,
+            'entry-mode' => 'ecommerce',
+            'locale' => 'de',
         ];
 
         $this->tx->setOperation(Operation::PAY);
@@ -93,7 +95,9 @@ class PaysafecardTransactionUTest extends \PHPUnit_Framework_TestCase
                         'name' => 'paysafecard'
                     ]
                 ]
-            ]
+            ],
+            'locale' => 'de',
+            'entry-mode' => 'ecommerce',
         ];
 
         $tx->setOperation(Operation::RESERVE);

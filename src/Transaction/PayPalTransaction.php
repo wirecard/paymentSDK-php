@@ -32,6 +32,7 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
@@ -42,6 +43,66 @@ use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 class PayPalTransaction extends Transaction implements Reservable
 {
     const NAME = 'paypal';
+
+    /**
+     * @var string
+     */
+    private $orderNumber;
+
+    /**
+     * @var string
+     */
+    private $orderDetail;
+
+    /**
+     * @var string
+     */
+    private $descriptor;
+
+    /**
+     * @var AccountHolder
+     */
+    private $shipping;
+
+    /**
+     * @param AccountHolder $shipping
+     * @return PayPalTransaction
+     */
+    public function setShipping($shipping)
+    {
+        $this->shipping = $shipping;
+        return $this;
+    }
+
+    /**
+     * @param string $descriptor
+     * @return PayPalTransaction
+     */
+    public function setDescriptor($descriptor)
+    {
+        $this->descriptor = $descriptor;
+        return $this;
+    }
+
+    /**
+     * @param string $orderNumber
+     * @return PayPalTransaction
+     */
+    public function setOrderNumber($orderNumber)
+    {
+        $this->orderNumber = $orderNumber;
+        return $this;
+    }
+
+    /**
+     * @param string $orderDetail
+     * @return PayPalTransaction
+     */
+    public function setOrderDetail($orderDetail)
+    {
+        $this->orderDetail = $orderDetail;
+        return $this;
+    }
 
     /**
      * return string
@@ -67,6 +128,22 @@ class PayPalTransaction extends Transaction implements Reservable
         if ($transactionType === self::TYPE_AUTHORIZATION_ONLY) {
             $data['periodic']['periodic-type'] = 'recurring';
             $data['periodic']['sequence-type'] = 'first';
+        }
+
+        if (null !== $this->shipping) {
+            $data['shipping'] = $this->shipping->mappedProperties();
+        }
+
+        if (null !== $this->orderNumber) {
+            $data['order-number'] = $this->orderNumber;
+        }
+
+        if (null !== $this->orderDetail) {
+            $data['order-detail'] = $this->orderDetail;
+        }
+
+        if (null !== $this->descriptor) {
+            $data['descriptor'] = $this->descriptor;
         }
 
         return $data;

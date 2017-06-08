@@ -32,6 +32,7 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
+use Locale;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
@@ -121,11 +122,43 @@ abstract class Transaction
     protected $customFields;
 
     /**
+     * @var string
+     */
+    protected $locale;
+
+    /**
+     * @var string
+     */
+    protected $entryMode;
+
+    /**
+     * @param string $entryMode
+     * @return Transaction
+     */
+    public function setEntryMode($entryMode)
+    {
+        $this->entryMode = $entryMode;
+        return $this;
+    }
+
+    /**
+     * @param string $locale
+     * @return Transaction
+     */
+    public function setLocale($locale)
+    {
+        $this->locale = $locale;
+        return $this;
+    }
+
+    /**
      * @param AccountHolder $accountHolder
+     * @return Transaction
      */
     public function setAccountHolder($accountHolder)
     {
         $this->accountHolder = $accountHolder;
+        return $this;
     }
 
     /**
@@ -270,6 +303,18 @@ abstract class Transaction
 
         if (null !== $this->customFields) {
             $result['custom-fields'] = $this->customFields->mappedProperties();
+        }
+
+        if (null !== $this->locale) {
+            $result['locale'] = $this->locale;
+        } else {
+            $result['locale'] = substr(Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']), 0, 2);
+        }
+
+        if (null !== $this->locale) {
+            $result['entry-mode'] = $this->entryMode;
+        } else {
+            $result['entry-mode'] = 'ecommerce';
         }
 
         $result[self::PARAM_TRANSACTION_TYPE] = $this->retrieveTransactionType();

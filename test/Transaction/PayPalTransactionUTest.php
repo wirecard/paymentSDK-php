@@ -32,6 +32,7 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
@@ -76,6 +77,54 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx->setBasket($collection);
 
         $this->assertAttributeEquals($collection, 'basket', $this->tx);
+    }
+
+    public function testSetShipping()
+    {
+        $accountHolder = new AccountHolder();
+
+        $this->tx->setShipping($accountHolder);
+
+        $this->assertAttributeEquals($accountHolder, 'shipping', $this->tx);
+    }
+
+    public function testMappedPropertiesSetsOptional()
+    {
+        $redirect = $this->createMock(Redirect::class);
+        $redirect->method('getCancelUrl')->willReturn('cancel-url');
+        $redirect->method('getSuccessUrl')->willReturn('success-url');
+
+        /**
+         * @var Redirect $redirect
+         */
+        $this->tx->setShipping(new AccountHolder());
+        $this->tx->setOrderNumber('order number 13');
+        $this->tx->setOrderDetail('order-detail my');
+        $this->tx->setDescriptor('descriptor');
+        $this->tx->setOperation('pay');
+        $this->tx->setRedirect($redirect);
+        $data = $this->tx->mappedProperties();
+
+        $expected = [
+            'payment-methods' => [
+                'payment-method' => [
+                    [
+                        'name' => 'paypal'
+                    ]
+                ]
+            ],
+            'success-redirect-url' => 'success-url',
+            'cancel-redirect-url' => 'cancel-url',
+            'locale' => 'de',
+            'entry-mode' => 'ecommerce',
+            'transaction-type' => 'debit',
+            'shipping' => [],
+            'order-number' => 'order number 13',
+            'order-detail' => 'order-detail my',
+            'descriptor' => 'descriptor',
+        ];
+
+        $this->assertEquals($expected, $data);
     }
 
     public function testMappedPropertiesSetsOrderItems()

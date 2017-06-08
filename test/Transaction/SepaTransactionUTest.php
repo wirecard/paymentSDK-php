@@ -124,7 +124,9 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
             ],
             'bank-account' => [
                 'iban' => self::IBAN
-            ]
+            ],
+            'entry-mode' => 'ecommerce',
+            'locale' => 'de',
         ];
     }
 
@@ -172,7 +174,9 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
             'mandate' => [
                 'mandate-id' => self::MANDATE_ID,
                 'signed-date' => $this->today()
-            ]
+            ],
+            'entry-mode' => 'ecommerce',
+            'locale' => 'de',
         ];
     }
 
@@ -246,7 +250,9 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
                     ]
                 ]
             ],
-            'parent-transaction-id' => $parentTransactionId
+            'parent-transaction-id' => $parentTransactionId,
+            'locale' => 'de',
+            'entry-mode' => 'ecommerce',
         ];
     }
 
