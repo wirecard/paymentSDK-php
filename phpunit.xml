@@ -5,7 +5,9 @@
             <directory suffix="ITest.php">./test</directory>
         </testsuite>
     </testsuites>
-
+    <php>
+        <server name='HTTP_ACCEPT_LANGUAGE' value='de_AT' />
+    </php>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./src</directory>

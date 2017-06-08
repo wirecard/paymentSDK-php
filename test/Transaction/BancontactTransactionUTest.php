@@ -82,7 +82,9 @@ class BancontactTransactionUTest extends \PHPUnit_Framework_TestCase
             ],
             'cancel-redirect-url' => self::CANCEL_URL,
             'success-redirect-url' => self::SUCCESS_URL,
-            'fail-redirect-url' => self::FAILURE_URL
+            'fail-redirect-url' => self::FAILURE_URL,
+            'locale' => 'de',
+            'entry-mode' => 'ecommerce',
         ];
 
         $this->tx->setOperation(Operation::PAY);

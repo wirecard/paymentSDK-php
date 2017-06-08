@@ -79,6 +79,8 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
             'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
             'parent-transaction-id' => '642',
             'ip-address' => 'test',
+            'locale' => 'de',
+            'entry-mode' => 'ecommerce',
             'transaction-type' => 'credit'
         ]];
         $this->assertEquals(json_encode($expectedResult), $result);

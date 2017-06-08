@@ -103,7 +103,9 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
             'ip-address' => 'test IP',
             'merchant-account-id' => [
                 'value' => 'maid'
-            ]
+            ],
+            'entry-mode' => 'ecommerce',
+            'locale' => 'de',
         ];
 
         $transaction = new CreditCardTransaction();
@@ -134,7 +136,9 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
             ],
             'merchant-account-id' => [
                 'value' => 'maid'
-            ]
+            ],
+            'entry-mode' => 'ecommerce',
+            'locale' => 'de',
         ];
         $this->tx->setOperation('testtype');
         $this->assertEquals($valid, $this->tx->mappedProperties());
@@ -150,7 +154,9 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
             'transaction-type' => 'referenced-authorization',
             'merchant-account-id' => [
                 'value' => 'maid'
-            ]
+            ],
+            'entry-mode' => 'ecommerce',
+            'locale' => 'de',
         ];
 
         $transaction = new CreditCardTransaction();
@@ -191,7 +197,9 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
             ],
             'merchant-account-id' => [
                 'value' => 'maid'
-            ]
+            ],
+            'entry-mode' => 'ecommerce',
+            'locale' => 'de',
         ];
 
         $transaction = new CreditCardTransaction();
@@ -270,7 +278,9 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
             'transaction-type' => $cancelType,
             'merchant-account-id' => [
                 'value' => 'maid'
-            ]
+            ],
+            'entry-mode' => 'ecommerce',
+            'locale' => 'de',
         ];
         $this->assertEquals($expectedResult, $result);
     }
@@ -320,7 +330,9 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
             'transaction-type' => $payType,
             'merchant-account-id' => [
                 'value' => 'maid'
-            ]
+            ],
+            'entry-mode' => 'ecommerce',
+            'locale' => 'de',
         ];
         $this->assertEquals($expectedResult, $result);
     }
@@ -396,7 +408,9 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
             'transaction-type' => $refundType,
             'merchant-account-id' => [
                 'value' => 'maid'
-            ]
+            ],
+            'entry-mode' => 'ecommerce',
+            'locale' => 'de',
         ];
         $this->assertEquals($expectedResult, $result);
     }
@@ -446,7 +460,9 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
             'transaction-type' => 'credit',
             'merchant-account-id' => [
                 'value' => 'maid'
-            ]
+            ],
+            'entry-mode' => 'ecommerce',
+            'locale' => 'de',
         ];
         $this->assertEquals($expectedResult, $result);
     }
@@ -519,7 +535,9 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
             ],
             'merchant-account-id' => [
                 'value' => 'maid'
-            ]
+            ],
+            'locale' => 'de',
+            'entry-mode' => 'telephone',
         ];
         $this->config->addSslMaxLimit(new Amount(20.0, 'EUR'));
         $amount = new Amount(24, 'EUR');
@@ -531,6 +549,8 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
         $transaction->setParentTransactionId('parent54');
         $transaction->setParentTransactionType($parentTransactionType);
         $transaction->setOperation($operation);
+        $transaction->setEntryMode('telephone');
+        $transaction->setLocale('de');
         $result = $transaction->mappedProperties();
         $this->assertEquals($expectedResult, $result);
     }
