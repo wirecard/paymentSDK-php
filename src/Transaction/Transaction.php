@@ -311,7 +311,7 @@ abstract class Transaction
             $result['locale'] = substr(Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']), 0, 2);
         }
 
-        if (null !== $this->locale) {
+        if (null !== $this->entryMode) {
             $result['entry-mode'] = $this->entryMode;
         } else {
             $result['entry-mode'] = 'ecommerce';
