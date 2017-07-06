@@ -132,6 +132,28 @@ class SuccessResponse extends Response
     /**
      * @return null|string
      */
+    public function getMaskedAccountNumber()
+    {
+        if (isset($this->simpleXml->{'card-token'}->{'masked-account-number'})) {
+            return (string)$this->simpleXml->{'card-token'}->{'masked-account-number'};
+        }
+        return null;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getCardholderAuthenticationStatus()
+    {
+        if (isset($this->simpleXml->{'three-d'}->{'cardholder-authentication-status'})) {
+            return (string)$this->simpleXml->{'three-d'}->{'cardholder-authentication-status'};
+        }
+        return null;
+    }
+
+    /**
+     * @return null|string
+     */
     public function getProviderTransactionReference()
     {
         if (isset($this->simpleXml->{'provider-transaction-reference-id'})) {
