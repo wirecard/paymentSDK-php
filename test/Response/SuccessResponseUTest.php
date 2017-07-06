@@ -60,6 +60,12 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
                         <statuses>
                             <status code="1" description="a" severity="0" />
                         </statuses>
+                        <card-token>
+                            <masked-account-number>541333******1006</masked-account-number>
+                        </card-token>
+                        <three-d>
+                            <cardholder-authentication-status>Y</cardholder-authentication-status>
+                        </three-d>
                     </payment>');
         $this->response = new SuccessResponse($this->simpleXml, false);
     }
@@ -135,6 +141,32 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
     {
         $response = new SuccessResponse($this->simpleXml);
         $this->assertEquals('ca-6ed-b69', $response->getParentTransactionId());
+    }
+
+    public function testGetMaskedAccountNumber()
+    {
+        $response = new SuccessResponse($this->simpleXml);
+        $this->assertEquals('541333******1006', $response->getMaskedAccountNumber());
+    }
+
+    public function testGetMaskedAccountNumberIfNoneSet()
+    {
+        $xml = $this->getSimpleXmlWithout('card-token');
+        $response = new SuccessResponse($xml);
+        $this->assertEquals(null, $response->getMaskedAccountNumber());
+    }
+
+    public function testGetCardholderAuthenticationStatus()
+    {
+        $response = new SuccessResponse($this->simpleXml);
+        $this->assertEquals('Y', $response->getCardholderAuthenticationStatus());
+    }
+
+    public function testGetCardholderAuthenticationStatusIfNoneSet()
+    {
+        $xml = $this->getSimpleXmlWithout('three-d');
+        $response = new SuccessResponse($xml);
+        $this->assertEquals(null, $response->getCardholderAuthenticationStatus());
     }
 
     public function testGetParentTransactionIdIfNoneSet()
