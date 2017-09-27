@@ -4,18 +4,17 @@ language: php
 addons:
   sonarqube:
     token:
-      secure: "Vq7wlEnXk/WAO7Rb1Bqt98ZipKXXCaYa+kxTR4ttFCByX4IRjqk5eKDYtFfozmGlVB78zO21YfE8o2FxL0pLC7glVaTBvXPxl7CdjkxRG6H/QBcaK4tGywYtWwXrAULzPGRx1J9/teo0dUb4u76SwtGnGtbitM3D/wmxLbRHmnWLmlds9QY1sCIMY6nBAKVuM6pTv/LgzL817tMQcEI7E3afffE4z6TkNrl4XFc96KAcx4rx6urXGKloX1W9XwAlj5Q1NTq+af/U438WXiipQVMH18ss2NkzPbE4snTEEBlc0PnbUi5jI7c1ff2DCIfHfo7ev8/aISJFg26EMto6fxXpPbopgonu2wvhf+9DqHDN4LQzRcmRq4EaI4cNyAG68W0eR/WVItGM5liQqffKQejKuLytDaw1ZKzc1UcN2v1jX+5j32ztUFnEN3ZJve5Ob5/Yzlesxd+ZMRkoF11sSkYwCy1O+RtsaWjf3u6f7+ETdBDW9H/Oom0NYqfNiArmFrpLkr9/FIQz8FGwvAa+H8NYL1dCEMvWKCI6JfW4iCvSX3Jiow8Mt6a/b1dPf3L2hagybV1ejGqj8FDjTdTxzJP7qoTYivL+Xiv6FrFeJd9eAm/SiZvHWAPdhmynxmDHWkzbgCsm5sIsBSI52R8MFLW9Z9YEsgt71QfN7jWSeJ8="
+      secure: Vq7wlEnXk/WAO7Rb1Bqt98ZipKXXCaYa+kxTR4ttFCByX4IRjqk5eKDYtFfozmGlVB78zO21YfE8o2FxL0pLC7glVaTBvXPxl7CdjkxRG6H/QBcaK4tGywYtWwXrAULzPGRx1J9/teo0dUb4u76SwtGnGtbitM3D/wmxLbRHmnWLmlds9QY1sCIMY6nBAKVuM6pTv/LgzL817tMQcEI7E3afffE4z6TkNrl4XFc96KAcx4rx6urXGKloX1W9XwAlj5Q1NTq+af/U438WXiipQVMH18ss2NkzPbE4snTEEBlc0PnbUi5jI7c1ff2DCIfHfo7ev8/aISJFg26EMto6fxXpPbopgonu2wvhf+9DqHDN4LQzRcmRq4EaI4cNyAG68W0eR/WVItGM5liQqffKQejKuLytDaw1ZKzc1UcN2v1jX+5j32ztUFnEN3ZJve5Ob5/Yzlesxd+ZMRkoF11sSkYwCy1O+RtsaWjf3u6f7+ETdBDW9H/Oom0NYqfNiArmFrpLkr9/FIQz8FGwvAa+H8NYL1dCEMvWKCI6JfW4iCvSX3Jiow8Mt6a/b1dPf3L2hagybV1ejGqj8FDjTdTxzJP7qoTYivL+Xiv6FrFeJd9eAm/SiZvHWAPdhmynxmDHWkzbgCsm5sIsBSI52R8MFLW9Z9YEsgt71QfN7jWSeJ8=
     github_token:
-      secure: "PDqe9CZLDdUkGfyIx29Mc4AD9X1sKwiNxUK2IQWkvWNIQHD0v87obZRXxWqisbJ7KLEui9Gee14bPvYJYc03oMlzOp1HMr87TENMEsuFPIzh5OG13TtdyvRnVYTKo24vBQ27F2UWvJvZlo0wfR2RBVILtdsCErYaF+2Ryd7EocFR8JcVeLQchtD+z1pyM5876tfqBZ8XpVe2Uf3sl49yR6yJkgCiGyLbNFWYl3fcSbSZy8kwatlH0SovkkPoYWvVRJJT+dzRVMUO4uCO3TZs48QSnn8x7bqR7GhMLdE9WS94UaK9zTNhH3VTJsUdVVY4phW7SbgAHu4rfPoe4pp2TFnlF5CDyHXPq7LnR9gzEwjFUiYMv4d5i73/xUZw002aOGnikLp2KO+lN445+1HMiHZrn4rV/grWBhPTuAMKM351X2wHF56HX8dUdXYPvJwi4B78hDn1FoTOBgcuq14GHEnLqjkDb/LFdZ4PHtfKsvYtOUhEjMf8RkGQWHeN/2dPqzxJiOW+nOrDS2AADY7K6faeG4ZM0EsaClTmzPHz+AiAC6R5Lv+kcRYRguRg+rdpL0UlWm36uY7TJxCl5sZQLPpwRxE3S7GdRzsfh1JP0p0i36AC8sXdKXjT6BCo7lluOI29Z8IcpvNDcnltlmY18+WSdBRrzGVPLl0XUipADFA="
-
+      secure: PDqe9CZLDdUkGfyIx29Mc4AD9X1sKwiNxUK2IQWkvWNIQHD0v87obZRXxWqisbJ7KLEui9Gee14bPvYJYc03oMlzOp1HMr87TENMEsuFPIzh5OG13TtdyvRnVYTKo24vBQ27F2UWvJvZlo0wfR2RBVILtdsCErYaF+2Ryd7EocFR8JcVeLQchtD+z1pyM5876tfqBZ8XpVe2Uf3sl49yR6yJkgCiGyLbNFWYl3fcSbSZy8kwatlH0SovkkPoYWvVRJJT+dzRVMUO4uCO3TZs48QSnn8x7bqR7GhMLdE9WS94UaK9zTNhH3VTJsUdVVY4phW7SbgAHu4rfPoe4pp2TFnlF5CDyHXPq7LnR9gzEwjFUiYMv4d5i73/xUZw002aOGnikLp2KO+lN445+1HMiHZrn4rV/grWBhPTuAMKM351X2wHF56HX8dUdXYPvJwi4B78hDn1FoTOBgcuq14GHEnLqjkDb/LFdZ4PHtfKsvYtOUhEjMf8RkGQWHeN/2dPqzxJiOW+nOrDS2AADY7K6faeG4ZM0EsaClTmzPHz+AiAC6R5Lv+kcRYRguRg+rdpL0UlWm36uY7TJxCl5sZQLPpwRxE3S7GdRzsfh1JP0p0i36AC8sXdKXjT6BCo7lluOI29Z8IcpvNDcnltlmY18+WSdBRrzGVPLl0XUipADFA=
 cache:
   directories:
-    - $HOME/.composer/cache
-    - $HOME/.sonar/cache
-
+  - "$HOME/.composer/cache"
+  - "$HOME/.sonar/cache"
 env:
   global:
   - COMPOSER_ARGS="--no-interaction"
+  - secure: E/ToqihrMDEFfoexNPgfmtaa29JjFWHl0jzFg7+CQiclOYa7MMQAFoScMpF48YewKcU4fOOT9k3Sf4AN53zwQdWyCaX86WDfOlq5xwKyoiRu+Fx6JssMZSu8qAUYbDcz2N4fDuT5XhILkCZCLlOfT3NjcAzAUB+6Qto1my2u3fbceclWES2owh6oTJZV0mNiziRRAgB6dKb9r4Thnh2sCES4p3vG8MQ/ohlg8Yx68aANPmpak2l1sy4lTqfWofzqmdsDhqBbcDqNwgKqXF7sfjfz+UyVBrUYACEHvQkCxj9HeDntSC6vD07gs8Mnd5Epdu4k3pgUwu9zQWFNKIcIQuuxqPyLSk3sm2EUqGk/yIWda2T63Adj5oQA7y5wXUm/yicxANVY0j+RxLF8jH/Aar8xr0BXsWwuzU06vvdWQP/Q2RR2eEQPN5hstmAT4hxhdmjss3+oBbw3KVAKEgVmWHDQrVP09gKLnFJx83dLWcne9ZQpmH/ykf4+cP+Ggz0zejJMBmElqYEA7Q2VdxX/GTTIfnbmSTOfJEwiFCPbcPANicsDg1VNnQ1WTA++VrDrOFI87F5g+4mh56t7EFvgHZcEb4Zc4tU9q2PCHrvPkughMKpRRgISf+szwnxtMn/Vov0ma6QT5YKN/I9QayKQXGahujDwk7TUf25pUinqX50=
 matrix:
   include:
   - php: 5.6
@@ -30,25 +29,26 @@ matrix:
     - SONAR_SCAN=true
   - php: hhvm
 before_install:
-  - travis_retry composer self-update
+- travis_retry composer self-update
 install:
-  - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer require --dev $COMPOSER_ARGS satooshi/php-coveralls:^1.0 ; fi
-  - travis_retry composer install $COMPOSER_ARGS
-  - composer show
+- if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer require --dev $COMPOSER_ARGS
+  satooshi/php-coveralls:^1.0 ; fi
+- travis_retry composer install $COMPOSER_ARGS
+- composer show
 script:
-  - if [[ $TEST_COVERAGE == 'true' || ($SONAR_SCAN == 'true' && $TRAVIS_BRANCH == 'master')]]; then composer test-coverage ; else composer test ; fi
-  - if [[ $CHECK_CS == 'true' ]]; then composer cs-check ; fi
-  - if [[ $SONAR_SCAN == 'true' ]]; then sonar-scanner ; fi
-
+- if [[ $TEST_COVERAGE == 'true' || ($SONAR_SCAN == 'true' && $TRAVIS_BRANCH == 'master')]];
+  then composer test-coverage ; else composer test ; fi
+- if [[ $CHECK_CS == 'true' ]]; then composer cs-check ; fi
+- if [[ $SONAR_SCAN == 'true' ]]; then sonar-scanner ; fi
 after_script:
-  - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer upload-coverage ; fi
-  - if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then bash .bin/generate-tag.sh ; fi
-
+- if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer upload-coverage ;
+  fi
+- if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then bash
+  .bin/generate-tag.sh ; fi
 before_deploy:
-  - bash .bin/generate-release-package.sh $TRAVIS_TAG
-  - ls -lah target
-  - if [[ $CREATE_DOCS == 'true' ]]; then bash .bin/generate-docs.sh ; fi
-
+- bash .bin/generate-release-package.sh $TRAVIS_TAG
+- ls -lah target
+- if [[ $CREATE_DOCS == 'true' ]]; then bash .bin/generate-docs.sh ; fi
 deploy:
   provider: releases
   api_key:
