@@ -38,7 +38,7 @@ cat docs/apigen.css >> ${UPLOAD_DIRECTORY}/docs/resources/style.css
 
 # groc: install
 echo "Create example documentation with groc:"
-npm install -q groc
+npm install -q -g groc
 
 # groc: generate the examples
 groc -o ${UPLOAD_DIRECTORY}/ examples/*/*.php
