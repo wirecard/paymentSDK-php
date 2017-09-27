@@ -6,4 +6,4 @@
 
 This SDK will abstract the complexity of Wirecard's payment processing (ReST) API for online shops using PHP as their programing language.
 
-<b style="color: red">The SDK is currently under development and should not be used yet.</b>
+<b style="color: red">The SDK is currently under development and should not be used yet. </b>
