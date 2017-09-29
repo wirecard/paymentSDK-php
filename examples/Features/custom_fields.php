@@ -57,6 +57,8 @@ $response = $transactionService->pay($transaction);
 
 // ## Response handling
 
+// In this example we output our custom parameter we sent in request from our response.
+// Parameter with name _special1_ with an expected value of _abc123_
 if ($response instanceof InteractionResponse) {
     echo 'Custom field "special1" was set to: ' . $response->getCustomFields()->get('special1');
     exit;
