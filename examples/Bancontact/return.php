@@ -29,7 +29,6 @@ $config->setPublicKey(file_get_contents(__DIR__ . '/../inc/api-test.wirecard.com
 $service = new TransactionService($config);
 $response = $service->handleResponse($_POST);
 
-
 // ## Payment results
 
 // The response from the service can be used for disambiguation.
