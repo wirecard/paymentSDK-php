@@ -19,8 +19,8 @@ use Wirecard\PaymentSdk\TransactionService;
 // ### Transaction related objects
 
 // Use the amount object as amount which has to be paid by the consumer.
-$amountValue = 2400;
-$amount = new Amount($amountValue, 'EUR');
+// For void-authorization only full amount of parent transaction is supported.
+$amount = new Amount(2400, 'EUR');
 
 // The order number
 $orderNumber = 'A2';
