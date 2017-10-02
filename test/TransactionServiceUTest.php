@@ -605,6 +605,8 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         $result = $this->instance->cancel($tx);
 
+        $this->assertEquals(Operation::CANCEL, $result->getOperation());
+
         $this->assertEquals($successResponse, $result);
     }
 
