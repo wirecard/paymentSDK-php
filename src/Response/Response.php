@@ -71,6 +71,11 @@ abstract class Response
     protected $transactionType;
 
     /**
+     * @var $operation
+     */
+    protected $operation;
+
+    /**
      * Response constructor.
      * @param SimpleXMLElement $simpleXml
      * @throws MalformedResponseException
@@ -219,5 +224,14 @@ abstract class Response
             }
         }
         return $customFieldCollection;
+    }
+
+    /**
+     * @param $operation
+     * @since 0.6.5
+     */
+    public function setOperation($operation = null)
+    {
+        $this->operation = $operation;
     }
 }
