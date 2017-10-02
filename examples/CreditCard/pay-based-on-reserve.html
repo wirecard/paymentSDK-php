@@ -6,10 +6,11 @@
 </head>
 <body>
 <form action="pay-based-on-reserve.php" method="post">
-    <label for="parentTransactionId">Reserve transaction ID:</label><br>
+    <label for="parentTransactionId">Reserved transaction ID:</label><br>
     <input id="parentTransactionId" name="parentTransactionId" style="width:300px"/><br>
     <label for="amount">Amount:</label><br>
     <input id="amount" name="amount" style="width:300px" value="1.0" /><br>
+    <p>Please be aware that the amount for payment must not exceed the reserved amount.</p>
     <input type="submit" value="Pay"/>
 </form>
 </body>
