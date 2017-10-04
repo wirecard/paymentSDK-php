@@ -110,6 +110,16 @@ class WiretransferTransactionUTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    public function testGetEndpointCancel(){
+        $this->tx->setOperation(Operation::CANCEL);
+        $this->assertEquals(Transaction::ENDPOINT_PAYMENTS, $this->tx->getEndpoint());
+    }
+
+    public function testGetEndpoint(){
+        $this->tx->setOperation(Operation::RESERVE);
+        $this->assertEquals(Transaction::ENDPOINT_PAYMENT_METHODS, $this->tx->getEndpoint());
+    }
+
     public function testMappedPropertiesCancelPay()
     {
         $parentTransactionId = 'B612';
