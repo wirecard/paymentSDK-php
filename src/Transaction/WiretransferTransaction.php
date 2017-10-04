@@ -79,6 +79,9 @@ class WiretransferTransaction extends Transaction implements Reservable
         if (!$this->parentTransactionId) {
             throw new MandatoryFieldMissingException('No transaction for cancellation set.');
         }
+        if ($this->parentTransactionType != Transaction::TYPE_AUTHORIZATION) {
+            throw new UnsupportedOperationException('Only authorization can be canceled.');
+        }
         return 'void-' . $this->parentTransactionType;
     }
 }
