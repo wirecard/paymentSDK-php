@@ -5,6 +5,12 @@
 [![Quality Gate](https://sonarqube.com/api/badges/gate?key=wirecard-paymentSDK-php)](https://sonarqube.com/dashboard/index/wirecard-paymentSDK-php)
 [![Wirecard Company](https://img.shields.io/badge/Wirecard-Company-blue.svg)](https://www.wirecard.com/)
 
+***
+### General information 
+Before proceeding please read the article [General information](https://github.com/wirecard/paymentSDK-php/wiki/General-information) first.
+
+***
+
 This Software Development Kit will abstract the complexity of [Wirecard’s REST API](https://document-center.wirecard.com) for online shops using PHP as their programing language.
 
 <b style="color: red">The SDK is currently under development and should not be used yet.</b>
