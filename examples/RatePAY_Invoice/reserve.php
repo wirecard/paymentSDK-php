@@ -89,12 +89,9 @@ if ($response instanceof SuccessResponse) {
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <input type="submit" value="Capture the reservation">
     </form>
-    <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <label for="amount">Amount to cancel:</label>
-        <input type="text" name="amount" id="amount" value="2400"/>
-        <input type="submit" value="Cancel">
+        <input type="submit" value="Cancel the reservation">
     </form>
     <form action="credit.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>

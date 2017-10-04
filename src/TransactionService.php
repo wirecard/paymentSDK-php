@@ -403,6 +403,10 @@ class TransactionService
         $responseContent = $this->sendPostRequest($endpoint, $requestBody);
         $response = $this->responseMapper->map($responseContent, $transaction);
 
+        if (null !== $response) {
+            $response->setOperation($operation);
+        }
+
         if ($transaction instanceof CreditCardTransaction && $transaction->isFallback()) {
             return $this->processFallback($transaction, $response);
         }

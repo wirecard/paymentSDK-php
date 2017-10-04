@@ -71,6 +71,11 @@ abstract class Response
     protected $transactionType;
 
     /**
+     * @var string
+     */
+    protected $operation = null;
+
+    /**
      * Response constructor.
      * @param SimpleXMLElement $simpleXml
      * @throws MalformedResponseException
@@ -219,5 +224,27 @@ abstract class Response
             }
         }
         return $customFieldCollection;
+    }
+
+    /**
+     * Set the operation executed
+     *
+     * Necessary mainly for cancel, so that it is possible to see whether
+     * there was just a void or a refund.
+     * @param string $operation
+     * @since 0.6.5
+     */
+    public function setOperation($operation = null)
+    {
+        $this->operation = $operation;
+    }
+
+    /**
+     * @return string|null
+     * @since 0.6.5
+     */
+    public function getOperation()
+    {
+        return $this->operation;
     }
 }
