@@ -36,16 +36,16 @@ use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\Transaction;
-use Wirecard\PaymentSdk\Transaction\WiretransferTransaction;
+use Wirecard\PaymentSdk\Transaction\PoiPiaTransaction;
 
-class WiretransferTransactionUTest extends \PHPUnit_Framework_TestCase
+class PoiPiaTransactionUTest extends \PHPUnit_Framework_TestCase
 {
     const LAST_NAME = 'Doe';
     const FIRST_NAME = 'John';
     const EMAIL = 'john.doe@wirecard.com';
 
     /**
-     * @var WiretransferTransaction
+     * @var PoiPiaTransaction
      */
     private $tx;
 
@@ -67,7 +67,7 @@ class WiretransferTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->accountHolder->setFirstName(self::FIRST_NAME);
         $this->accountHolder->setEmail(self::EMAIL);
 
-        $this->tx = new WiretransferTransaction();
+        $this->tx = new PoiPiaTransaction();
         $this->tx->setAmount($this->amount);
     }
 
@@ -110,12 +110,14 @@ class WiretransferTransactionUTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testGetEndpointCancel(){
+    public function testGetEndpointCancel()
+    {
         $this->tx->setOperation(Operation::CANCEL);
         $this->assertEquals(Transaction::ENDPOINT_PAYMENTS, $this->tx->getEndpoint());
     }
 
-    public function testGetEndpoint(){
+    public function testGetEndpoint()
+    {
         $this->tx->setOperation(Operation::RESERVE);
         $this->assertEquals(Transaction::ENDPOINT_PAYMENT_METHODS, $this->tx->getEndpoint());
     }
@@ -186,7 +188,7 @@ class WiretransferTransactionUTest extends \PHPUnit_Framework_TestCase
     public function testRetrievePaymentMethodNameReserve()
     {
         $this->tx->setOperation(Operation::RESERVE);
-        $this->assertEquals(WiretransferTransaction::NAME, $this->tx->getConfigKey());
+        $this->assertEquals(PoiPiaTransaction::NAME, $this->tx->getConfigKey());
     }
 
     public function testRetrieveTransactionTypeForCancel()

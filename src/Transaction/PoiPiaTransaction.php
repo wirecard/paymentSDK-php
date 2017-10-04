@@ -36,10 +36,10 @@ use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
 /**
- * Class InvoiceByWirecardTransaction
+ * Class PoiPiaTransaction
  * @package Wirecard\PaymentSdk\Transaction
  */
-class WiretransferTransaction extends Transaction implements Reservable
+class PoiPiaTransaction extends Transaction implements Reservable
 {
     const NAME = 'wiretransfer';
 
