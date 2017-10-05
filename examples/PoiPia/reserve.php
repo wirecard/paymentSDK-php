@@ -1,5 +1,5 @@
 <?php
-// # Credit card reservation
+// # Payment on invoice / Payment in advance reservation
 
 // The method `reserve` of the _transactionService_ provides the means
 // to reserve an amount (also known as authorization).
@@ -23,7 +23,7 @@ use \Wirecard\PaymentSdk\Entity\AccountHolder;
 // Create an amount object as amount which has to be paid by the consumer.
 $amount = new Amount(70.00, 'EUR');
 
-// Create an account holder object, which contains Wiretransfer relevant fields
+// Create an account holder object, which contains Payment on invoice / Payment in advance relevant fields
 $accountHolder = new AccountHolder();
 $accountHolder->setFirstName("John");
 $accountHolder->setLastName("Doe");
@@ -36,7 +36,7 @@ $redirectUrl = getUrl('return.php?status=success');
 
 // ## Transaction
 
-// The credit card transaction contains all relevant data for the payment process.
+// The Payment on invoice / Payment in advance transaction contains all relevant data for the payment process.
 $transaction = new PoiPiaTransaction();
 $transaction->setAmount($amount);
 $transaction->setAccountHolder($accountHolder);

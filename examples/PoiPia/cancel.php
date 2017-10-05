@@ -1,7 +1,7 @@
 <?php
-// # Cancelling a SEPA-transaction
+// # Cancelling a Payment on invoice / Payment in advance-transaction
 
-// To cancel a transaction, a cancel request with the parent transaction is sent. Voiding SEPA-transactions
+// To cancel a transaction, a cancel request with the parent transaction is sent. Voiding Payment on invoice / Payment in advance-transactions
 // is only possible before they are forwarded to the bank for settlement.
 
 // ## Required objects
