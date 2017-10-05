@@ -126,7 +126,7 @@ class PoiPiaTransactionUTest extends \PHPUnit_Framework_TestCase
     {
         $parentTransactionId = 'B612';
         $this->tx->setParentTransactionId($parentTransactionId);
-        $this->tx->setParentTransactionType('authorization');
+        $this->tx->setParentTransactionType(Transaction::TYPE_AUTHORIZATION);
         $this->tx->setOperation(Operation::CANCEL);
 
         $result = $this->tx->mappedProperties();
@@ -180,7 +180,7 @@ class PoiPiaTransactionUTest extends \PHPUnit_Framework_TestCase
     public function testMappedPropertiesUnsupportedCancelOperation()
     {
         $this->tx->setParentTransactionId('1');
-        $this->tx->setParentTransactionType('debit');
+        $this->tx->setParentTransactionType(Transaction::TYPE_DEBIT);
         $this->tx->setOperation(Operation::CANCEL);
         $this->tx->mappedProperties();
     }
