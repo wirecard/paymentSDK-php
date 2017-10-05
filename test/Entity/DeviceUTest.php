@@ -32,105 +32,31 @@
 
 namespace WirecardTest\PaymentSdk\Entity;
 
-use Wirecard\PaymentSdk\Entity\AccountHolder;
-use Wirecard\PaymentSdk\Entity\Address;
+use Wirecard\PaymentSdk\Entity\Device;
 
-class AccountHolderUTest extends \PHPUnit_Framework_TestCase
+class DeviceUTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var AccountHolder
+     * @var Device
      */
-    private $accountHolder;
+    private $device;
 
     public function setUp()
     {
-        $this->accountHolder = new AccountHolder();
+        $this->device = new Device();
     }
 
-    public function testGetMappedPropertiesLastAndFirstName()
+    public function testGetMappedPropertiesFingerprint()
     {
-        $firstName = 'Jane';
-        $lastName = 'Doe';
-        $this->accountHolder->setLastName($lastName);
-        $this->accountHolder->setFirstName($firstName);
+        $fingerprint = 'ABCD1234EFG';
+        $this->device->setFingerprint($fingerprint);
 
         $this->assertEquals(
             [
-                'last-name' => $lastName,
-                'first-name' => $firstName
+                'fingerprint' => $fingerprint
             ],
-            $this->accountHolder->mappedProperties()
+            $this->device->mappedProperties()
         );
     }
 
-    public function testGetMappedPropertiesLastNameAndEmail()
-    {
-        $email = 'Jane@doe.com';
-        $this->accountHolder->setEmail($email);
-
-        $this->assertEquals(
-            [
-                'email' => $email
-            ],
-            $this->accountHolder->mappedProperties()
-        );
-    }
-
-    public function testGetMappedPropertiesLastNameAndPhone()
-    {
-        $phone = '+123 456 789';
-        $this->accountHolder->setPhone($phone);
-
-        $this->assertEquals(
-            [
-                'phone' => $phone
-            ],
-            $this->accountHolder->mappedProperties()
-        );
-    }
-
-    public function testMappedPropertiesWithAddress()
-    {
-        $addr = new Address('AT', 'Graz', 'Reininghausstraße 13a');
-        $addr->setPostalCode('8020');
-
-        $this->accountHolder->setAddress($addr);
-
-        $expectedResult = [
-            'address' => [
-                'street1' => 'Reininghausstraße 13a',
-                'city' => 'Graz',
-                'country' => 'AT',
-                'postal-code' => '8020'
-            ]
-        ];
-
-        $this->assertEquals($expectedResult, $this->accountHolder->mappedProperties());
-    }
-
-    public function testGetMappedPropertiesCrmId()
-    {
-        $crmId = '1243df';
-        $this->accountHolder->setCrmId($crmId);
-
-        $this->assertEquals(
-            [
-                'merchant-crm-id' => $crmId
-            ],
-            $this->accountHolder->mappedProperties()
-        );
-    }
-
-    public function testGetMappedPropertiesDateOfBirth()
-    {
-        $dateOfBirth = new \DateTime('2016-01-01');
-        $this->accountHolder->setDateOfBirth($dateOfBirth);
-
-        $this->assertEquals(
-            [
-                'date-of-birth' => $dateOfBirth->format('d-m-Y')
-            ],
-            $this->accountHolder->mappedProperties()
-        );
-    }
 }

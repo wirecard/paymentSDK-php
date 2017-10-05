@@ -34,6 +34,7 @@ namespace WirecardTest\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Entity\Device;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\RatepayTransaction;
@@ -239,5 +240,26 @@ class RatepayTransactionUTest extends \PHPUnit_Framework_TestCase
         $data = $this->tx->mappedProperties();
 
         $this->assertEquals($orderNr, $data['order-number']);
+    }
+
+    public function testSetDevice()
+    {
+        $fingerprint = "ABCD1234EFG";
+        $device = new Device();
+        $device->setFingerprint($fingerprint);
+        $redirect = $this->createMock(Redirect::class);
+        $redirect->method('getCancelUrl')->willReturn('cancel-url');
+        $redirect->method('getSuccessUrl')->willReturn('success-url');
+
+        /**
+         * @var Redirect $redirect
+         */
+        $this->tx->setBasket(new Basket());
+        $this->tx->setOperation(Operation::RESERVE);
+        $this->tx->setRedirect($redirect);
+        $this->tx->setDevice($device);
+        $data = $this->tx->mappedProperties();
+
+        $this->assertEquals($device->mappedProperties(), $data['device']);
     }
 }

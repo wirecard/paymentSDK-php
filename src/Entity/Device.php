@@ -38,99 +38,19 @@ namespace Wirecard\PaymentSdk\Entity;
  *
  * An immutable entity representing an account holder.
  */
-class AccountHolder implements MappableEntity
+class Device implements MappableEntity
 {
     /**
      * @var string
      */
-    private $lastName;
+    private $fingerprint;
 
     /**
-     * @var string
+     * @param string $fingerprint
      */
-    private $firstName;
-
-    /**
-     * @var Address
-     */
-    private $address;
-
-    /**
-     * @var string;
-     */
-    private $email;
-
-    /**
-     * @var string
-     */
-    private $phone;
-
-    /**
-     * @var \DateTime
-     */
-    private $dateOfBirth;
-
-    /**
-     * @var string
-     */
-    private $crmId;
-
-    /**
-     * @param string $firstName
-     */
-    public function setFirstName($firstName)
+    public function setFingerprint($fingerprint)
     {
-        $this->firstName = $firstName;
-    }
-
-    /**
-     * @param string $email
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-    }
-
-    /**
-     * @param string $lastName
-     */
-    public function setLastName($lastName)
-    {
-        $this->lastName = $lastName;
-    }
-
-    /**
-     * @param mixed $phone
-     */
-    public function setPhone($phone)
-    {
-        $this->phone = $phone;
-    }
-
-    /**
-     * @param Address $address
-     */
-    public function setAddress($address)
-    {
-        $this->address = $address;
-    }
-
-    /**
-     * @param string $crmId
-     */
-    public function setCrmId($crmId)
-    {
-        $this->crmId = $crmId;
-    }
-
-    /**
-     * @param \DateTime $dateOfBirth
-     * @return AccountHolder
-     */
-    public function setDateOfBirth(\DateTime $dateOfBirth)
-    {
-        $this->dateOfBirth = $dateOfBirth;
-        return $this;
+        $this->fingerprint = $fingerprint;
     }
 
     /**
@@ -140,32 +60,8 @@ class AccountHolder implements MappableEntity
     {
         $result = array();
 
-        if (null !== $this->lastName) {
-            $result['last-name'] = $this->lastName;
-        }
-
-        if (null !== $this->firstName) {
-            $result['first-name'] = $this->firstName;
-        }
-
-        if (null !== $this->email) {
-            $result['email'] = $this->email;
-        }
-
-        if (null !== $this->dateOfBirth) {
-            $result['date-of-birth'] = $this->dateOfBirth->format('d-m-Y');
-        }
-
-        if (null !== $this->phone) {
-            $result['phone'] = $this->phone;
-        }
-
-        if (null !== $this->address) {
-            $result['address'] = $this->address->mappedProperties();
-        }
-
-        if (null !== $this->crmId) {
-            $result['merchant-crm-id'] = $this->crmId;
+        if (null !== $this->fingerprint) {
+            $result['fingerprint'] = $this->fingerprint;
         }
 
         return $result;

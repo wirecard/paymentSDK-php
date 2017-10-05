@@ -50,6 +50,8 @@ use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\IdealTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
+use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
 use Wirecard\PaymentSdk\Transaction\Reservable;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
@@ -237,6 +239,52 @@ class TransactionService
         );
 
         return json_encode($requestData);
+    }
+
+    /**
+     * @return string
+     */
+    public function getRatePayInvoiceDeviceIdent()
+    {
+        $timestamp = microtime();
+        $customerId = $this->config->get(RatepayInvoiceTransaction::NAME)->getMerchantAccountId();
+        $deviceIdentToken = md5($customerId . "_" . $timestamp);
+
+        return $deviceIdentToken;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRatePayInstallmentDeviceIdent()
+    {
+        $timestamp = microtime();
+        $customerId = $this->config->get(RatepayInstallmentTransaction::NAME)->getMerchantAccountId();
+        $deviceIdentToken = md5($customerId . "_" . $timestamp);
+
+        return $deviceIdentToken;
+    }
+
+    /**
+     * @param $deviceIdentToken
+     * @return string
+     */
+    public function getRatePayScript($deviceIdentToken)
+    {
+        $script = "<script language='JavaScript'>
+                     var di = {t:'$deviceIdentToken',v:'WDWL',l:'Checkout'};
+                   </script>
+                   <script type='text/javascript' src='//d.ratepay.com/WDWL/di.js'>
+                   </script>
+                   <noscript>
+                     <link rel='stylesheet' type='text/css' href='//d.ratepay.com/di.css?t=$deviceIdentToken&v=WDWL&l=Checkout'>
+                   </noscript>
+                   <object type='application/x-shockwave-flash' data='//d.ratepay.com/WDWL/c.swf' width='0' height='0'>
+                     <param name='movie' value='//d.ratepay.com/WDWL/c.swf' />
+                     <param name='flashvars' value='t=$deviceIdentToken&v=WDWL'/><param name='AllowScriptAccess' value='always'/>
+                   </object>";
+
+        return $script;
     }
 
     /**
