@@ -33,10 +33,10 @@
 namespace Wirecard\PaymentSdk\Entity;
 
 /**
- * Class AccountHolder
+ * Class Device
  * @package Wirecard\PaymentSdk\Entity
  *
- * An immutable entity representing an account holder.
+ * An immutable entity representing a device.
  */
 class Device implements MappableEntity
 {
