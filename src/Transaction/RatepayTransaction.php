@@ -49,12 +49,27 @@ class RatepayTransaction extends Transaction implements Reservable
     private $orderNumber;
 
     /**
+     * @var Device
+     */
+    protected $device;
+
+    /**
      * @param string $orderNumber
      * @return RatepayTransaction
      */
     public function setOrderNumber($orderNumber)
     {
         $this->orderNumber = $orderNumber;
+        return $this;
+    }
+
+    /**
+     * @param string $device
+     * @return Transaction
+     */
+    public function setDevice($device)
+    {
+        $this->device = $device;
         return $this;
     }
 
@@ -67,6 +82,9 @@ class RatepayTransaction extends Transaction implements Reservable
         $result = [
             'order-number' => $this->orderNumber,
         ];
+        if (null !== $this->device) {
+            $result['device'] = $this->device->mappedProperties();
+        }
 
         return $result;
     }

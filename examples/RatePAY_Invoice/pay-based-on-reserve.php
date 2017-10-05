@@ -90,6 +90,14 @@ if (array_key_exists('item_to_capture', $_POST)) {
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
 
+$deviceIdent = $transactionService->getRatePayInvoiceDeviceIdent();
+$device = new \Wirecard\PaymentSdk\Entity\Device();
+$device->setFingerprint($deviceIdent);
+$transaction->setDevice($device);
+
+$script = $transactionService->getRatePayScript($deviceIdent);
+echo $script;
+
 if (array_key_exists('item_to_capture', $_POST)) {
     $response = $transactionService->pay($transaction);
 } else {

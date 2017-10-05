@@ -533,6 +533,27 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         ), $data);
     }
 
+    public function testRatePayInvoiceDeviceIdent()
+    {
+        $data = $this->instance->getRatePayInvoiceDeviceIdent();
+        $this->assertNotEmpty($data);
+    }
+
+    public function testRatePayInstallmentDeviceIdent()
+    {
+        $data = $this->instance->getRatePayInstallmentDeviceIdent();
+
+        $this->assertNotEmpty($data);
+    }
+
+    public function testgetRatePayScript()
+    {
+        $deviceIdentToken = 'abc123token';
+        $script = $this->instance->getRatePayScript($deviceIdentToken);
+
+        $this->assertContains($deviceIdentToken, $script);
+    }
+
     public function testHandleResponseThreeD()
     {
         $md = [
