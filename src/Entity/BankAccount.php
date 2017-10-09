@@ -56,7 +56,7 @@ class BankAccount implements MappableEntity
     /**
      * @param string
      */
-    public function setBankName(string $bankName)
+    public function setBankName($bankName)
     {
         $this->bankName = $bankName;
     }
@@ -64,7 +64,7 @@ class BankAccount implements MappableEntity
     /**
      * @param string
      */
-    public function setIban(string $iban)
+    public function setIban($iban)
     {
         $this->iban = $iban;
     }
@@ -72,7 +72,7 @@ class BankAccount implements MappableEntity
     /**
      * @param string
      */
-    public function setBic(string $bic)
+    public function setBic($bic)
     {
         $this->bic = $bic;
     }
