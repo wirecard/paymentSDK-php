@@ -43,8 +43,14 @@ class RatepayDirectDebitTransaction extends RatepayTransaction implements Reserv
 {
     const NAME = 'ratepay-elv';
 
+    /**
+     * @var string
+     */
     private $creditorId;
 
+    /**
+     * @var string
+     */
     private $mandate;
 
     /**
