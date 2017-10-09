@@ -83,8 +83,7 @@ class RatepayDirectDebitTransaction extends RatepayTransaction implements Reserv
     {
         $ratepayProperties = parent::mappedSpecificProperties();
 
-        if (null === $this->bankAccount && Operation::RESERVE === $this->operation)
-        {
+        if (null === $this->bankAccount && Operation::RESERVE === $this->operation) {
             throw new MandatoryFieldMissingException('Bank account is a mandatory field.');
         }
 
@@ -93,8 +92,7 @@ class RatepayDirectDebitTransaction extends RatepayTransaction implements Reserv
             'mandate' => $this->mandate
         ];
 
-        if (null !== $this->bankAccount)
-        {
+        if (null !== $this->bankAccount) {
             $directDebitProperties['bank-account'] = $this->bankAccount->mappedProperties();
         }
 

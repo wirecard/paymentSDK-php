@@ -54,7 +54,8 @@ class RatepayDirectDebitTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx = new RatepayDirectDebitTransaction();
     }
 
-    public function testSetCreditorId(){
+    public function testSetCreditorId()
+    {
         $this->tx->setCreditorId('creditor id');
         $this->tx->setOperation(Operation::RESERVE);
         $this->tx->setBankAccount(new BankAccount());
