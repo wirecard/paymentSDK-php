@@ -8,7 +8,6 @@
 
 namespace Wirecard\PaymentSdk\Entity;
 
-
 class BankAccount implements MappableEntity
 {
 
@@ -37,15 +36,15 @@ class BankAccount implements MappableEntity
     {
         $properties = array();
 
-        if ( isset($this->bankName) )
+        if (isset($this->bankName))
         {
             $properties['bank-name'] = $this->bankName;
         }
-        if ( isset($this->iban) )
+        if (isset($this->iban))
         {
             $properties['iban'] = $this->iban;
         }
-        if ( isset($this->bic) )
+        if (isset($this->bic))
         {
             $properties['bic'] = $this->bic;
         }
