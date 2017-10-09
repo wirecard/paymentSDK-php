@@ -30,74 +30,45 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Transaction;
+namespace WirecardTest\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\BankAccount;
-use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
+use Wirecard\PaymentSdk\Entity\Basket;
+use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Entity\Mandate;
+use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Transaction\Operation;
+use Wirecard\PaymentSdk\Transaction\RatepayDirectDebitTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayTransaction;
+use Wirecard\PaymentSdk\Transaction\Transaction;
 
-/**
- * Class RatepayDirectDebitTransaction
- * @package Wirecard\PaymentSdk\Transaction
- */
-class RatepayDirectDebitTransaction extends RatepayTransaction implements Reservable
+class RatepayDirectDebitTransactionUTest extends \PHPUnit_Framework_TestCase
 {
-    const NAME = 'ratepay-elv';
-
-    private $creditorId;
-
-    private $mandate;
-
     /**
-     * @var BankAccount
+     * @var RatepayDirectDebitTransaction
      */
-    private $bankAccount;
+    private $tx;
 
-    /**
-     * @param string
-     */
-    public function setCreditorId($creditorId)
+    public function setUp()
     {
-        $this->creditorId = $creditorId;
+        $this->tx = new RatepayDirectDebitTransaction();
+    }
+
+    public function testSetCreditorId(){
+        $this->tx->setCreditorId('creditor id');
+        $this->tx->setOperation(Operation::RESERVE);
+        $this->tx->setBankAccount(new BankAccount());
+        $this->tx->setMandate(new Mandate('mandate id'));
+
+        $this->assertEquals('creditor id', $this->tx->mappedProperties()['creditor-id']);
     }
 
     /**
-     * @param string
+     * @expectedException \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
      */
-    public function setMandate($mandateId)
+    public function testBankAccountMandatory()
     {
-        $this->mandate = [
-            'mandate-id' => $mandateId,
-            'signed-date' => date('d-m-Y')
-        ];
-    }
-
-    /**
-     * @param BankAccount
-     */
-    public function setBankAccount($bankAccount)
-    {
-        $this->bankAccount = $bankAccount;
-    }
-
-    protected function mappedSpecificProperties()
-    {
-        $ratepayProperties = parent::mappedSpecificProperties();
-
-        if (null === $this->bankAccount && Operation::RESERVE === $this->operation)
-        {
-            throw new MandatoryFieldMissingException('Bank account is a mandatory field.');
-        }
-
-        $directDebitProperties = [
-            'creditor-id' => $this->creditorId,
-            'mandate' => $this->mandate
-        ];
-
-        if (null !== $this->bankAccount)
-        {
-            $directDebitProperties['bank-account'] = $this->bankAccount->mappedProperties();
-        }
-
-        return array_merge($ratepayProperties, $directDebitProperties);
+        $this->tx->setOperation(Operation::RESERVE);
+        $this->tx->mappedProperties();
     }
 }
