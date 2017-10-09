@@ -149,7 +149,7 @@ class CreditCardTransaction extends Transaction implements Reservable
         $this->validate();
         $result = [
             'merchant-account-id' => [
-                'value' => ($this->isThreeD() && null === $this->parentTransactionId)
+                'value' => $this->isThreeD()
                     ? $this->config->getThreeDMerchantAccountId()
                     : $this->config->getMerchantAccountId()
             ]
