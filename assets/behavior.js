@@ -1595,6 +1595,548 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         }, {
           "type": "folder",
           "data": {
+            "path": "examples/PoiPia",
+            "title": "PoiPia"
+          },
+          "depth": 2,
+          "children": [
+            {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/PoiPia/cancel.php",
+                "projectPath": "examples/PoiPia/cancel.php",
+                "targetPath": "examples/PoiPia/cancel",
+                "pageTitle": "examples/PoiPia/cancel",
+                "title": "cancel"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Cancelling a Payment on invoice / Payment in advance-transaction",
+                    "slug": "cancelling-a-payment-on-invoice--payment-in-advance-transaction"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/PoiPia/reserve.php",
+                "projectPath": "examples/PoiPia/reserve.php",
+                "targetPath": "examples/PoiPia/reserve",
+                "pageTitle": "examples/PoiPia/reserve",
+                "title": "reserve"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Payment on invoice / Payment in advance reservation",
+                    "slug": "payment-on-invoice--payment-in-advance-reservation"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }, {
+          "type": "folder",
+          "data": {
+            "path": "examples/RatePAY_DirectDebit",
+            "title": "RatePAY_DirectDebit"
+          },
+          "depth": 2,
+          "children": [
+            {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/RatePAY_DirectDebit/cancel.php",
+                "projectPath": "examples/RatePAY_DirectDebit/cancel.php",
+                "targetPath": "examples/RatePAY_DirectDebit/cancel",
+                "pageTitle": "examples/RatePAY_DirectDebit/cancel",
+                "title": "cancel"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Cancelling a transaction",
+                    "slug": "cancelling-a-transaction"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Order items",
+                                "slug": "order-items"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/RatePAY_DirectDebit/credit.php",
+                "projectPath": "examples/RatePAY_DirectDebit/credit.php",
+                "targetPath": "examples/RatePAY_DirectDebit/credit",
+                "pageTitle": "examples/RatePAY_DirectDebit/credit",
+                "title": "credit"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Credit via RatePAY",
+                    "slug": "credit-via-ratepay"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Notification URL",
+                            "slug": "notification-url"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/RatePAY_DirectDebit/pay-based-on-reserve.php",
+                "projectPath": "examples/RatePAY_DirectDebit/pay-based-on-reserve.php",
+                "targetPath": "examples/RatePAY_DirectDebit/pay-based-on-reserve",
+                "pageTitle": "examples/RatePAY_DirectDebit/pay-based-on-reserve",
+                "title": "pay-based-on-reserve"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Payment after a reservation",
+                    "slug": "payment-after-a-reservation"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Order items",
+                                "slug": "order-items"
+                              },
+                              "depth": 4
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Account holder with address",
+                                "slug": "account-holder-with-address"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Select the item to capture",
+                        "slug": "select-the-item-to-capture"
+                      },
+                      "depth": 2
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/RatePAY_DirectDebit/reserve.php",
+                "projectPath": "examples/RatePAY_DirectDebit/reserve.php",
+                "targetPath": "examples/RatePAY_DirectDebit/reserve",
+                "pageTitle": "examples/RatePAY_DirectDebit/reserve",
+                "title": "reserve"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "RatePAY Direct Debit reserve transaction",
+                    "slug": "ratepay-direct-debit-reserve-transaction"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Basket items",
+                            "slug": "basket-items"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Account holder with address",
+                                "slug": "account-holder-with-address"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }, {
+          "type": "folder",
+          "data": {
             "path": "examples/RatePAY_Installment",
             "title": "RatePAY_Installment"
           },
@@ -3493,6 +4035,14 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                           "type": "heading",
                           "data": {
                             "level": 3,
+                            "title": "RatePay Direct Debit",
+                            "slug": "ratepay-direct-debit"
+                          },
+                          "depth": 3
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
                             "title": "SEPA",
                             "slug": "sepa"
                           },
@@ -3519,6 +4069,14 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                             "level": 3,
                             "title": "eps",
                             "slug": "eps"
+                          },
+                          "depth": 3
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Payment on invoice / Payment in advance",
+                            "slug": "payment-on-invoice--payment-in-advance"
                           },
                           "depth": 3
                         }

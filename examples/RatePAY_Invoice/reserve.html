@@ -40,12 +40,9 @@ RatePAY requires the <strong>tax rate</strong> and the <strong> article number</
         &lt;input type=<span class="hljs-string">"hidden"</span> name=<span class="hljs-string">"parentTransactionId"</span> value=<span class="hljs-string">"&lt;?= $response-&gt;getTransactionId() ?&gt;"</span>/&gt;
         &lt;input type=<span class="hljs-string">"submit"</span> value=<span class="hljs-string">"Capture the reservation"</span>&gt;
     &lt;/form&gt;
-    &lt;br&gt;
     &lt;form action=<span class="hljs-string">"cancel.php"</span> method=<span class="hljs-string">"post"</span>&gt;
         &lt;input type=<span class="hljs-string">"hidden"</span> name=<span class="hljs-string">"parentTransactionId"</span> value=<span class="hljs-string">"&lt;?= $response-&gt;getTransactionId() ?&gt;"</span>/&gt;
-        &lt;label <span class="hljs-keyword">for</span>=<span class="hljs-string">"amount"</span>&gt;Amount to cancel:&lt;/label&gt;
-        &lt;input type=<span class="hljs-string">"text"</span> name=<span class="hljs-string">"amount"</span> id=<span class="hljs-string">"amount"</span> value=<span class="hljs-string">"2400"</span>/&gt;
-        &lt;input type=<span class="hljs-string">"submit"</span> value=<span class="hljs-string">"Cancel"</span>&gt;
+        &lt;input type=<span class="hljs-string">"submit"</span> value=<span class="hljs-string">"Cancel the reservation"</span>&gt;
     &lt;/form&gt;
     &lt;form action=<span class="hljs-string">"credit.php"</span> method=<span class="hljs-string">"post"</span>&gt;
         &lt;input type=<span class="hljs-string">"hidden"</span> name=<span class="hljs-string">"parentTransactionId"</span> value=<span class="hljs-string">"&lt;?= $response-&gt;getTransactionId() ?&gt;"</span>/&gt;
