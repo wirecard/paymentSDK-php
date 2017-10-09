@@ -20,6 +20,7 @@ use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Transaction\PaysafecardTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayDirectDebitTransaction;
 use Wirecard\PaymentSdk\Transaction\SofortTransaction;
 use Wirecard\PaymentSdk\Transaction\PoipiaTransaction;
 
@@ -105,6 +106,11 @@ $config->add($ratepayInstallmentConfig);
 
 $ratepayInvoiceConfig = new PaymentMethodConfig(RatepayInvoiceTransaction::NAME, $ratepayMAID, $ratepayKey);
 $config->add($ratepayInvoiceConfig);
+
+// ### RatePay Direct Debit
+
+$ratepayDirectDebit = new PaymentMethodConfig(RatepayDirectDebitTransaction::NAME, $ratepayMAID, $ratepayKey);
+$config->add($ratepayDirectDebit);
 
 // ### SEPA
 
