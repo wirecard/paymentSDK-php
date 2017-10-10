@@ -23,6 +23,7 @@ use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayDirectDebitTransaction;
 use Wirecard\PaymentSdk\Transaction\SofortTransaction;
 use Wirecard\PaymentSdk\Transaction\PoipiaTransaction;
+use Wirecard\PaymentSdk\Transaction\AlipayCrossborderTransaction;
 
 // ## Connection
 
@@ -148,3 +149,10 @@ $poipiaMAID = '105ab3e8-d16b-4fa0-9f1f-18dd9b390c94';
 $poipiaSecret = '2d96596b-9d10-4c98-ac47-4d56e22fd878';
 $poipiaConfig = new PaymentMethodConfig(PoiPiaTransaction::NAME, $poipiaMAID, $poipiaSecret);
 $config->add($poipiaConfig);
+
+// ### Alipay Crossborder
+
+$alipaycrossborderMAID = '7ca48aa0-ab12-4560-ab4a-af1c477cce43';
+$alipaycrossborderSecretKey = 'dbc5a498-9a66-43b9-bf1d-a618dd399684';
+$alipaycrossborderConfig = new PaymentMethodConfig(AlipayCrossborderTransaction::NAME, $alipaycrossborderMAID, $alipaycrossborderSecretKey);
+$config->add($alipaycrossborderConfig);
