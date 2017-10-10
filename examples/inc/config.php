@@ -22,7 +22,7 @@ use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayDirectDebitTransaction;
 use Wirecard\PaymentSdk\Transaction\SofortTransaction;
-use Wirecard\PaymentSdk\Transaction\PoipiaTransaction;
+use Wirecard\PaymentSdk\Transaction\PoiPiaTransaction;
 use \Wirecard\PaymentSdk\Transaction\P24Transaction;
 
 // ## Connection
