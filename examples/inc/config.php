@@ -23,6 +23,7 @@ use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayDirectDebitTransaction;
 use Wirecard\PaymentSdk\Transaction\SofortTransaction;
 use Wirecard\PaymentSdk\Transaction\PoipiaTransaction;
+use \Wirecard\PaymentSdk\Transaction\P24Transaction;
 
 // ## Connection
 
@@ -148,3 +149,9 @@ $poipiaMAID = '105ab3e8-d16b-4fa0-9f1f-18dd9b390c94';
 $poipiaSecret = '2d96596b-9d10-4c98-ac47-4d56e22fd878';
 $poipiaConfig = new PaymentMethodConfig(PoiPiaTransaction::NAME, $poipiaMAID, $poipiaSecret);
 $config->add($poipiaConfig);
+
+// ### Przelewy24
+$p24Maid = '27183130-2a8e-47ff-84ab-25d12362e843';
+$p24Secret = '9a03a3ef-2575-4b29-a715-358106a904f4';
+$p24Config = new PaymentMethodConfig(P24Transaction::NAME, $p24Maid, $p24Secret);
+$config->add($p24Config);
