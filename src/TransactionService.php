@@ -442,8 +442,8 @@ class TransactionService
                 $transaction->getParentTransactionId(),
                 $transaction->getConfigKey()
             );
-            if($transaction instanceof CreditCardTransaction) {
-                $transaction->getThreeD() == true ? $transaction->setThreeD(true) : $transaction->setThreeD($this->isThreeD);
+            if ($transaction instanceof CreditCardTransaction) {
+                $transaction->getThreeD() ? $transaction->setThreeD(true) : $transaction->setThreeD($this->isThreeD);
             }
             if (null !== $parentTransaction && array_key_exists(Transaction::PARAM_PAYMENT, $parentTransaction)
                 && array_key_exists('transaction-type', $parentTransaction[Transaction::PARAM_PAYMENT])
