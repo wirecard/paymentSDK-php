@@ -540,6 +540,7 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
             'entry-mode' => 'telephone',
         ];
         $this->config->addSslMaxLimit(new Amount(20.0, 'EUR'));
+        $this->config->setThreeDCredentials('maid', '123abcd');
         $amount = new Amount(24, 'EUR');
         $transaction = new CreditCardTransaction();
         $transaction->setConfig($this->config);

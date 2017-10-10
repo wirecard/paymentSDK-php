@@ -101,6 +101,11 @@ class TransactionService
      */
     private $httpHeader;
 
+    /**
+     * @var boolean
+     */
+    private $isThreeD;
+
 
     /**
      * TransactionService constructor.
@@ -432,13 +437,14 @@ class TransactionService
         if ($transaction instanceof CreditCardTransaction) {
             $transaction->setConfig($this->config->get(CreditCardTransaction::NAME));
         }
-
         if (null !== $transaction->getParentTransactionId()) {
             $parentTransaction = $this->getTransactionByTransactionId(
                 $transaction->getParentTransactionId(),
                 $transaction->getConfigKey()
             );
-
+            if ($transaction instanceof CreditCardTransaction) {
+                $transaction->getThreeD() ? $transaction->setThreeD(true) : $transaction->setThreeD($this->isThreeD);
+            }
             if (null !== $parentTransaction && array_key_exists(Transaction::PARAM_PAYMENT, $parentTransaction)
                 && array_key_exists('transaction-type', $parentTransaction[Transaction::PARAM_PAYMENT])
             ) {
@@ -531,7 +537,18 @@ class TransactionService
             $this->config->get($paymentMethod)->getMerchantAccountId() .
             '/payments/' . $transactionId;
 
-        return $this->sendGetRequest($endpoint, true);
+        $request = $this->sendGetRequest($endpoint, true);
+        if ($request == null && $paymentMethod == CreditCardTransaction::NAME) {
+            $endpoint =
+                $this->config->getBaseUrl() .
+                '/engine/rest/merchants/' .
+                $this->config->get($paymentMethod)->getThreeDMerchantAccountId() .
+                '/payments/' . $transactionId;
+            $request = $this->sendGetRequest($endpoint, true);
+            $request !== null ? $this->isThreeD = true : $this->isThreeD = false;
+        }
+
+        return $request;
     }
 
     /**

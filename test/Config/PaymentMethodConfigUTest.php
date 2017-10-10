@@ -61,6 +61,11 @@ class PaymentMethodConfigUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(self::MAID, $this->instance->getMerchantAccountId());
     }
 
+    public function testGetThreeDMerchandAccountId()
+    {
+        $this->assertEquals(self::MAID, $this->instance->getThreeDMerchantAccountId());
+    }
+
     public function testGetSecret()
     {
         $this->assertEquals(self::SECRET, $this->instance->getSecret());

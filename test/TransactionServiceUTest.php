@@ -775,7 +775,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
             return empty(array_diff($intersect, $shopData));
         };
 
-        $transaction = new CreditCardTransaction();
+        $transaction = new PayPalTransaction();
         $transaction->setParentTransactionId('1');
         $client = $this->createMock('\GuzzleHttp\Client');
 
