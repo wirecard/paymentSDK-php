@@ -101,6 +101,11 @@ class TransactionService
      */
     private $httpHeader;
 
+    /**
+     * @var boolean
+     */
+    private $isThreeD;
+
 
     /**
      * TransactionService constructor.
@@ -437,15 +442,9 @@ class TransactionService
                 $transaction->getParentTransactionId(),
                 $transaction->getConfigKey()
             );
-            // 3-D Secure credit card transactions
-            if ($transaction instanceof CreditCardTransaction && null == $parentTransaction) {
-                $parentTransaction = $this->getThreeDTransactionByTransactionId(
-                    $transaction->getParentTransactionId(),
-                    $transaction->getConfigKey()
-                );
-                $transaction->setThreeD(true);
+            if($transaction instanceof CreditCardTransaction) {
+                $transaction->getThreeD() == true ? $transaction->setThreeD(true) : $transaction->setThreeD($this->isThreeD);
             }
-
             if (null !== $parentTransaction && array_key_exists(Transaction::PARAM_PAYMENT, $parentTransaction)
                 && array_key_exists('transaction-type', $parentTransaction[Transaction::PARAM_PAYMENT])
             ) {
@@ -538,25 +537,18 @@ class TransactionService
             $this->config->get($paymentMethod)->getMerchantAccountId() .
             '/payments/' . $transactionId;
 
-        return $this->sendGetRequest($endpoint, true);
-    }
+        $request = $this->sendGetRequest($endpoint, true);
+        if ($request == null && $paymentMethod == CreditCardTransaction::NAME) {
+            $endpoint =
+                $this->config->getBaseUrl() .
+                '/engine/rest/merchants/' .
+                $this->config->get($paymentMethod)->getThreeDMerchantAccountId() .
+                '/payments/' . $transactionId;
+            $request = $this->sendGetRequest($endpoint, true);
+            $request !== null ? $this->isThreeD = true : $this->isThreeD = false;
+        }
 
-    /**
-     * @param $transactionId
-     * @param $paymentMethod
-     * @throws UnconfiguredPaymentMethodException
-     * @throws \RuntimeException
-     * @return null|array
-     */
-    private function getThreeDTransactionByTransactionId($transactionId, $paymentMethod)
-    {
-        $endpoint =
-            $this->config->getBaseUrl() .
-            '/engine/rest/merchants/' .
-            $this->config->get($paymentMethod)->getThreeDMerchantAccountId() .
-            '/payments/' . $transactionId;
-
-        return $this->sendGetRequest($endpoint, true);
+        return $request;
     }
 
     /**

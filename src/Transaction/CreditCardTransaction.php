@@ -141,6 +141,14 @@ class CreditCardTransaction extends Transaction implements Reservable
     }
 
     /**
+     * @return bool
+     */
+    public function getThreeD()
+    {
+        return $this->isThreeD();
+    }
+
+    /**
      * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return array
      */
