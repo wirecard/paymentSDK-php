@@ -23,6 +23,7 @@ use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayDirectDebitTransaction;
 use Wirecard\PaymentSdk\Transaction\SofortTransaction;
 use Wirecard\PaymentSdk\Transaction\PoipiaTransaction;
+use Wirecard\PaymentSdk\Transaction\CreditCardMotoTransaction;
 
 // ## Connection
 
@@ -70,6 +71,14 @@ $creditcardConfig->setThreeDCredentials(
 );
 
 $config->add($creditcardConfig);
+
+// ### Credit Card Moto
+
+$ccardMotoMAID = '53f2895a-e4de-4e82-a813-0d87a10e55e6';
+$ccardMotoSecretKey = 'dbc5a498-9a66-43b9-bf1d-a618dd399684';
+$ccardMotoConfig = new PaymentMethodConfig(CreditCardMotoTransaction::NAME, $ccardMotoMAID, $ccardMotoSecretKey);
+
+$config->add($ccardMotoConfig);
 
 // ### iDEAL
 
