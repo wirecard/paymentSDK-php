@@ -31,6 +31,9 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Entity\AccountHolder;
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
+
 class MasterpassTransaction extends Transaction implements Reservable
 {
     const NAME = 'masterpass';
@@ -48,9 +51,9 @@ class MasterpassTransaction extends Transaction implements Reservable
      */
     protected function retrieveTransactionTypeForPay()
     {
-        if ($this->parentTransactionType) {
+        /*if ($this->parentTransactionType == Transaction::TYPE_AUTHORIZATION_ONLY) {
             return self::TYPE_CAPTURE_AUTHORIZATION;
-        }
+        }*/
 
         return self::TYPE_DEBIT;
     }
@@ -64,6 +67,14 @@ class MasterpassTransaction extends Transaction implements Reservable
             return self::TYPE_AUTHORIZATION_ONLY;
         }
         return self::TYPE_AUTHORIZATION;
+    }
+
+    public function getEndpoint()
+    {
+        if($this->parentTransactionType) {
+            return self::ENDPOINT_PAYMENTS;
+        }
+        return self::ENDPOINT_PAYMENT_METHODS;
     }
 
 }

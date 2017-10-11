@@ -23,6 +23,7 @@ use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayDirectDebitTransaction;
 use Wirecard\PaymentSdk\Transaction\SofortTransaction;
 use Wirecard\PaymentSdk\Transaction\PoipiaTransaction;
+use Wirecard\PaymentSdk\Transaction\MasterpassTransaction;
 
 // ## Connection
 
@@ -148,3 +149,9 @@ $poipiaMAID = '105ab3e8-d16b-4fa0-9f1f-18dd9b390c94';
 $poipiaSecret = '2d96596b-9d10-4c98-ac47-4d56e22fd878';
 $poipiaConfig = new PaymentMethodConfig(PoiPiaTransaction::NAME, $poipiaMAID, $poipiaSecret);
 $config->add($poipiaConfig);
+// ### Masterpass
+
+$masterpassMAID = '8bc8ed6d-81a8-43be-bd7b-75b008f89fa6';
+$masterpassSecret = '2d96596b-9d10-4c98-ac47-4d56e22fd878';
+$masterpassConfig = new PaymentMethodConfig(MasterpassTransaction::NAME, $masterpassMAID, $masterpassSecret);
+$config->add($masterpassConfig);
