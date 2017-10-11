@@ -170,5 +170,4 @@ class CreditCardMotoTransaction extends Transaction implements Reservable
             );
         }
     }
-
 }
