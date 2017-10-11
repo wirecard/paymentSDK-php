@@ -21,7 +21,7 @@ use Wirecard\PaymentSdk\TransactionService;
 // ### Transaction related objects
 
 // Use the amount object as amount which has to be paid by the consumer.
-$amount = new Amount(12.59, 'EUR');
+$amount = new Amount(1.59, 'EUR');
 
 // Use the AccountHolder object to specify the first and last name
 $accountHolder = new AccountHolder();

@@ -32,16 +32,23 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
+use Wirecard\PaymentSdk\Entity\AccountHolder;
+
 class AlipayCrossborderTransaction extends Transaction
 {
     const NAME = "alipay-xborder";
 
     /**
+     * @throws MandatoryFieldMissingException
      * @return array
      */
     protected function mappedSpecificProperties()
     {
-        // No specific properties.
+        if (!$this->accountHolder instanceof AccountHolder && $this->operation === Operation::PAY) {
+            throw new MandatoryFieldMissingException('No account holder set.');
+        }
+
         return [];
     }
 
