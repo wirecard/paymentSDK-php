@@ -116,7 +116,7 @@ class ItemUTest extends \PHPUnit_Framework_TestCase
                 'currency' => 'EUR'
             ],
             'quantity' => self::QUANTITY,
-            'tax-rate' => '0.2'
+            'tax-rate' => 20.0
         ];
 
         $this->assertEquals($expected, $this->item->mappedProperties());
