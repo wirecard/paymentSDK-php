@@ -1,5 +1,5 @@
 <?php
-// # Credit card reservation
+// # Credit Card Moto reservation
 
 // The method `reserve` of the _transactionService_ provides the means
 // to reserve an amount (also known as authorization).
@@ -41,7 +41,7 @@ $redirectUrl = getUrl('return.php?status=success');
 
 // ## Transaction
 
-// The credit card transaction contains all relevant data for the payment process.
+// The credit card moto transaction contains all relevant data for the payment process.
 $transaction = new CreditCardMotoTransaction();
 $transaction->setAmount($amount);
 $transaction->setTokenId($tokenId);

@@ -103,5 +103,3 @@ $transactionService = new TransactionService($config);
 </script>
 </body>
 </html>
-
-
