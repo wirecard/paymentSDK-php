@@ -28,11 +28,11 @@ $orderNumber = 'A2';
 
 $item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(400, 'EUR'), 1);
 $item1->setArticleNumber('A1');
-$item1->setTaxRate(0.1);
+$item1->setTaxRate(10.0);
 
 $item2 = new \Wirecard\PaymentSdk\Entity\Item('Item 2', new Amount(1000, 'EUR'), 2);
 $item2->setArticleNumber('B2');
-$item2->setTaxRate(0.2);
+$item2->setTaxRate(20.0);
 
 // Create a basket to store the items.
 $basket = new \Wirecard\PaymentSdk\Entity\Basket();

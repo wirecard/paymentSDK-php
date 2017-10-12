@@ -32,6 +32,8 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Entity\Basket;
+use Wirecard\PaymentSdk\Entity\Device;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
@@ -54,6 +56,11 @@ class RatepayTransaction extends Transaction implements Reservable
     protected $device;
 
     /**
+     * @var Basket
+     */
+    protected $basket;
+
+    /**
      * @param string $orderNumber
      * @return RatepayTransaction
      */
@@ -74,6 +81,16 @@ class RatepayTransaction extends Transaction implements Reservable
     }
 
     /**
+     * @param Basket $basket
+     * @return Transaction
+     */
+    public function setBasket(Basket $basket)
+    {
+        $this->basket = $basket;
+        return $this;
+    }
+
+    /**
      * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return array
      */
@@ -82,8 +99,14 @@ class RatepayTransaction extends Transaction implements Reservable
         $result = [
             'order-number' => $this->orderNumber,
         ];
+
         if (null !== $this->device) {
             $result['device'] = $this->device->mappedProperties();
+        }
+
+        if ($this->basket instanceof Basket) {
+            $this->basket->setVersion(self::class);
+            $result['order-items'] = $this->basket->mappedProperties();
         }
 
         return $result;

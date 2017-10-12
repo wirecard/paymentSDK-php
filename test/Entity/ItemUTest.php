@@ -64,6 +64,7 @@ namespace WirecardTest\PaymentSdk\Entity;
 
 use Wirecard\PaymentSdk\Entity\Item;
 use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 
 class ItemUTest extends \PHPUnit_Framework_TestCase
 {
@@ -102,10 +103,9 @@ class ItemUTest extends \PHPUnit_Framework_TestCase
 
     public function testMappedPropertiesWithAllProperties()
     {
-        $this->item->setTaxAmount(new Amount(0.1, 'EUR'));
         $this->item->setArticleNumber('1232f5445');
         $this->item->setDescription('dthfbvdfg');
-        $this->item->setTaxRate('0.2');
+        $this->item->setTaxRate(20.0);
 
         $expected = [
             'name' => self::NAME,
@@ -115,12 +115,33 @@ class ItemUTest extends \PHPUnit_Framework_TestCase
                 'value' => '1',
                 'currency' => 'EUR'
             ],
+            'quantity' => self::QUANTITY,
+            'tax-rate' => 20.0
+        ];
+
+        $this->assertEquals($expected, $this->item->mappedProperties());
+    }
+
+    public function testMappedPropertiesWithAllPropertiesForPayPal()
+    {
+        $this->item->setVersion(PayPalTransaction::class);
+        $this->item->setArticleNumber('1232f5445');
+        $this->item->setDescription('dthfbvdfg');
+        $this->item->setTaxRate(10.0);
+
+        $expected = [
+            'name' => self::NAME,
+            'description' => 'dthfbvdfg',
+            'article-number' => '1232f5445',
+            'amount' => [
+                'value' => '1',
+                'currency' => 'EUR'
+            ],
+            'quantity' => self::QUANTITY,
             'tax-amount' => [
                 'value' => '0.1',
                 'currency' => 'EUR'
             ],
-            'quantity' => self::QUANTITY,
-            'tax-rate' => '0.2'
         ];
 
         $this->assertEquals($expected, $this->item->mappedProperties());
