@@ -75,6 +75,7 @@ if ($response instanceof FormInteractionResponse):
 elseif ($response instanceof SuccessResponse):
     echo 'Payment successfully completed.<br>';
     echo getTransactionLink($baseUrl, $response);
+    echo '<br>Credit Card Token-Id: ' . $response->getCardTokenId();
     ?>
     <br>
     <form action="cancel.php" method="post">

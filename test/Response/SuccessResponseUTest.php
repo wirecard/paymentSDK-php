@@ -61,6 +61,7 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
                             <status code="1" description="a" severity="0" />
                         </statuses>
                         <card-token>
+                            <token-id>4748178566351002</token-id>
                             <masked-account-number>541333******1006</masked-account-number>
                         </card-token>
                         <three-d>
@@ -187,5 +188,18 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
         $this->simpleXml->addChild('provider-transaction-reference-id', 'trans-ref_value');
         $response = new SuccessResponse($this->simpleXml);
         $this->assertEquals('trans-ref_value', $response->getProviderTransactionReference());
+    }
+
+    public function testGetCardTokenId()
+    {
+        $response = new SuccessResponse($this->simpleXml);
+        $this->assertEquals('4748178566351002', $response->getCardTokenId());
+    }
+
+    public function testGetCardTokenIfNoneSet()
+    {
+        $xml = $this->getSimpleXmlWithout('card-token');
+        $response = new SuccessResponse($xml);
+        $this->assertEquals(null, $response->getCardTokenId());
     }
 }

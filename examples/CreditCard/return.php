@@ -39,6 +39,7 @@ if ($_POST) {
         echo 'Payment successfully completed.<br>';
         echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');
         echo getTransactionLink($baseUrl, $response);
+        echo '<br>Credit Card Token-Id: ' . $response->getCardTokenId();
         ?>
         <br>
         <form action="cancel.php" method="post">
