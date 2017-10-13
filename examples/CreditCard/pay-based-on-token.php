@@ -1,7 +1,7 @@
 <?php
 // # Purchase for credit card via token
 
-// Enter token-id from successful authorization/purchase for recurring payment with credit card using default maid.
+// Enter token-id from successful authorization/purchase for recur payment with credit card using default maid.
 
 // ## Required objects
 
@@ -22,7 +22,7 @@ use Wirecard\PaymentSdk\TransactionService;
 // Create a amount object as amount which has to be paid by the consumer.
 $amount = new Amount(12.59, 'EUR');
 
-// Token ID ist necessary for recurring purchase with credit card via token.
+// Token ID ist necessary for recur purchase with credit card via token.
 $tokenId = array_key_exists('tokenId', $_POST) ? $_POST['tokenId'] : null;
 
 // To make this example usable, even no token ID is provided, a predefined existing token ID is set.
@@ -47,7 +47,7 @@ $transaction->setTermUrl($redirectUrl);
 
 // The service is used to execute the payment operation itself.
 // A response object is returned.
-// For this example the default maid gets used for recurring payment. For integration the configuration must be set to
+// For this example the default maid gets used for recur payment. For integration the configuration must be set to
 // the corresponding maid. (3D-maid or Non-3D-maid)
 $transactionService = new TransactionService($config);
 $response = $transactionService->pay($transaction);
