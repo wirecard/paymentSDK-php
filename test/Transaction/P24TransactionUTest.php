@@ -59,7 +59,7 @@ class P24TransactionUTest extends \PHPUnit_Framework_TestCase
 
     public function testGetEndpointPayments()
     {
-        $this->tx->setOperation(Operation::REFUND);
+        $this->tx->setOperation(Operation::CANCEL);
 
         $this->assertEquals(Transaction::ENDPOINT_PAYMENTS, $this->tx->getEndpoint());
     }
@@ -76,7 +76,7 @@ class P24TransactionUTest extends \PHPUnit_Framework_TestCase
      */
     public function testOnlyDebitCanBeRefunded()
     {
-        $this->tx->setOperation(Operation::REFUND);
+        $this->tx->setOperation(Operation::CANCEL);
         $this->tx->setParentTransactionId('parent tx id');
         $this->tx->setParentTransactionType(Operation::RESERVE);
 
@@ -88,7 +88,7 @@ class P24TransactionUTest extends \PHPUnit_Framework_TestCase
      */
     public function testMandatoryParentTxForCancel()
     {
-        $this->tx->setOperation(Operation::REFUND);
+        $this->tx->setOperation(Operation::CANCEL);
         $this->tx->mappedProperties();
     }
 
@@ -143,9 +143,9 @@ class P24TransactionUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
-    public function testRetrieveTransactionForRefund()
+    public function testRetrieveTransactionForCancel()
     {
-        $this->tx->setOperation(Operation::REFUND);
+        $this->tx->setOperation(Operation::CANCEL);
         $this->tx->setParentTransactionId("aa");
         $this->tx->setParentTransactionType(Transaction::TYPE_DEBIT);
         $this->assertEquals(Transaction::TYPE_REFUND_DEBIT, $this->tx->mappedProperties()['transaction-type']);

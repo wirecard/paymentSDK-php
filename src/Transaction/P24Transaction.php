@@ -49,7 +49,7 @@ class P24Transaction extends Transaction implements Reservable
      */
     public function getEndpoint()
     {
-        if ($this->operation == Operation::REFUND) {
+        if ($this->operation == Operation::CANCEL) {
             return self::ENDPOINT_PAYMENTS;
         }
         return self::ENDPOINT_PAYMENT_METHODS;
@@ -78,7 +78,7 @@ class P24Transaction extends Transaction implements Reservable
      * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return string
      */
-    protected function retrieveTransactionTypeForRefund()
+    protected function retrieveTransactionTypeForCancel()
     {
         if (!$this->parentTransactionId) {
             throw new MandatoryFieldMissingException('No transaction for cancellation set.');
