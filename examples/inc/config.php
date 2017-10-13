@@ -22,8 +22,9 @@ use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayDirectDebitTransaction;
 use Wirecard\PaymentSdk\Transaction\SofortTransaction;
-use Wirecard\PaymentSdk\Transaction\PoipiaTransaction;
+use Wirecard\PaymentSdk\Transaction\PoiPiaTransaction;
 use Wirecard\PaymentSdk\Transaction\CreditCardMotoTransaction;
+use Wirecard\PaymentSdk\Transaction\UpopTransaction;
 
 // ## Connection
 
@@ -157,3 +158,10 @@ $poipiaMAID = '105ab3e8-d16b-4fa0-9f1f-18dd9b390c94';
 $poipiaSecret = '2d96596b-9d10-4c98-ac47-4d56e22fd878';
 $poipiaConfig = new PaymentMethodConfig(PoiPiaTransaction::NAME, $poipiaMAID, $poipiaSecret);
 $config->add($poipiaConfig);
+
+// ### UnionPay Online Payments (UPOP)
+
+$upopMAID = 'a908b093-382c-4de9-b26a-624802850216';
+$upopSecret = 'b2f8ffd2-7866-44ed-a858-f27f13f0bd77';
+$upopConfig = new PaymentMethodConfig(UpopTransaction::NAME, $upopMAID, $upopSecret);
+$config->add($upopConfig);
