@@ -1,7 +1,7 @@
 <?php
-// # Purchase for credit card
+// # Purchase for credit card via token
 
-// To reserve and capture an amount for a credit card
+// Enter token-id from successful authorization/purchase for recur payment with credit card using default maid.
 
 // ## Required objects
 
@@ -22,14 +22,11 @@ use Wirecard\PaymentSdk\TransactionService;
 // Create a amount object as amount which has to be paid by the consumer.
 $amount = new Amount(12.59, 'EUR');
 
-// If there was a previous transaction, use the ID of this parent transaction as reference.
-$parentTransactionId = array_key_exists('parentTransactionId', $_POST) ? $_POST['parentTransactionId'] : null;
-
-// Otherwise if a token was defined when submitting the credit card data to Wirecard via the UI, this token is used.
+// Token ID ist necessary for recur purchase with credit card via token.
 $tokenId = array_key_exists('tokenId', $_POST) ? $_POST['tokenId'] : null;
 
-// To make this example usable, even is no transaction or token ID is provided, a predefined existing token ID is set.
-if ($parentTransactionId === null && $tokenId === null) {
+// To make this example usable, even no token ID is provided, a predefined existing token ID is set.
+if ($tokenId === null) {
     $tokenId = '5168216323601006';
 }
 
@@ -45,37 +42,23 @@ $transaction = new CreditCardTransaction();
 $transaction->setAmount($amount);
 $transaction->setTokenId($tokenId);
 $transaction->setTermUrl($redirectUrl);
-$transaction->setParentTransactionId($parentTransactionId);
 
 // ### Transaction Service
 
-// The service is used to execute the payment (authorization + capture) operation itself.
+// The service is used to execute the payment operation itself.
 // A response object is returned.
+// For this example the default maid gets used for recur payment. For integration the configuration must be set to
+// the corresponding maid. (3D-maid or Non-3D-maid)
 $transactionService = new TransactionService($config);
 $response = $transactionService->pay($transaction);
-
 
 // ## Response handling
 
 // The response from the service can be used for disambiguation.
-// If a redirect of the customer is required a `FormInteractionResponse` object is returned.
-if ($response instanceof FormInteractionResponse):
-    // A form for redirect should be created and submitted afterwards.
-    ?>
-    <form method="<?= $response->getMethod(); ?>" action="<?= $response->getUrl(); ?>">
-        <?php foreach ($response->getFormFields() as $key => $value): ?>
-            <input type="hidden" name="<?= $key ?>" value="<?= $value ?>">
-        <?php endforeach;
-        // Usually an automated transmission of the form would be made.
-        // For a better demonstration and for the ease of use this automated submit
-        // is replaced with a submit button.
-        ?>
-        <input type="submit" value="Redirect to 3-D Secure page"></form>
-    <?php
-elseif ($response instanceof SuccessResponse):
+// In case of a successful transaction, a `SuccessResponse` object is returned.
+if ($response instanceof SuccessResponse):
     echo 'Payment successfully completed.<br>';
     echo getTransactionLink($baseUrl, $response);
-    echo '<br>Credit Card Token-Id: ' . $response->getCardTokenId();
     ?>
     <br>
     <form action="cancel.php" method="post">

@@ -42,7 +42,7 @@ use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
  */
 class CreditCardMotoTransaction extends Transaction implements Reservable
 {
-    const NAME = 'creditcard';
+    const NAME = 'creditcard-moto';
 
     /**
      * @var string
@@ -111,7 +111,10 @@ class CreditCardMotoTransaction extends Transaction implements Reservable
     protected function mappedSpecificProperties()
     {
         $this->validate();
-        $result = array();
+        $result = ['payment-methods' => ['payment-method' => [[
+            'name' => CreditCardTransaction::NAME
+        ]]]];
+
         if (null !== $this->tokenId) {
             $result['card-token'] = [
                 'token-id' => $this->tokenId,
