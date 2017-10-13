@@ -34,6 +34,7 @@ namespace Wirecard\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
+use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
 class AlipayCrossborderTransaction extends Transaction
 {
