@@ -151,7 +151,7 @@ $poipiaConfig = new PaymentMethodConfig(PoiPiaTransaction::NAME, $poipiaMAID, $p
 $config->add($poipiaConfig);
 
 // ### Przelewy24
-$p24Maid = '27183130-2a8e-47ff-84ab-25d12362e843';
-$p24Secret = '9a03a3ef-2575-4b29-a715-358106a904f4';
+$p24Maid = 'afb0aa46-3b0b-4cbf-a91c-5c91ede23701';
+$p24Secret = '82fd2e9e-f8e9-42fb-be25-b60a6907c996';
 $p24Config = new PaymentMethodConfig(P24Transaction::NAME, $p24Maid, $p24Secret);
 $config->add($p24Config);
