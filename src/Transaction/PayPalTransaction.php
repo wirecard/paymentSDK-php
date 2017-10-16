@@ -33,6 +33,7 @@
 namespace Wirecard\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\AccountHolder;
+use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
@@ -63,6 +64,11 @@ class PayPalTransaction extends Transaction implements Reservable
      * @var AccountHolder
      */
     private $shipping;
+
+    /**
+     * @var Basket
+     */
+    protected $basket;
 
     /**
      * @param AccountHolder $shipping
@@ -101,6 +107,16 @@ class PayPalTransaction extends Transaction implements Reservable
     public function setOrderDetail($orderDetail)
     {
         $this->orderDetail = $orderDetail;
+        return $this;
+    }
+
+    /**
+     * @param Basket $basket
+     * @return Transaction
+     */
+    public function setBasket(Basket $basket)
+    {
+        $this->basket = $basket;
         return $this;
     }
 
@@ -144,6 +160,11 @@ class PayPalTransaction extends Transaction implements Reservable
 
         if (null !== $this->descriptor) {
             $data['descriptor'] = $this->descriptor;
+        }
+
+        if ($this->basket instanceof Basket) {
+            $this->basket->setVersion(self::class);
+            $data['order-items'] = $this->basket->mappedProperties();
         }
 
         return $data;

@@ -32,62 +32,76 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\Basket;
-use Wirecard\PaymentSdk\Entity\Device;
+use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
 /**
- * Class RatepayTransaction
+ * Class CreditCardMotoTransaction
  * @package Wirecard\PaymentSdk\Transaction
  */
-class RatepayTransaction extends Transaction implements Reservable
+class CreditCardMotoTransaction extends Transaction implements Reservable
 {
-    const NAME = 'ratepay-install';
+    const NAME = 'creditcard-moto';
 
     /**
      * @var string
      */
-    private $orderNumber;
+    private $tokenId;
 
     /**
-     * @var Device
+     * @var string
      */
-    protected $device;
+    private $termUrl;
 
     /**
-     * @var Basket
+     * @var PaymentMethodConfig
      */
-    protected $basket;
+    private $config;
 
     /**
-     * @param string $orderNumber
-     * @return RatepayTransaction
+     * @param PaymentMethodConfig $config
+     * @return CreditCardMotoTransaction
      */
-    public function setOrderNumber($orderNumber)
+    public function setConfig($config)
     {
-        $this->orderNumber = $orderNumber;
+        $this->config = $config;
         return $this;
     }
 
     /**
-     * @param string $device
-     * @return Transaction
+     * @param string $tokenId
      */
-    public function setDevice($device)
+    public function setTokenId($tokenId)
     {
-        $this->device = $device;
+        $this->tokenId = $tokenId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTermUrl()
+    {
+        return $this->termUrl;
+    }
+
+    /**
+     * @param string $termUrl
+     * @return $this
+     */
+    public function setTermUrl($termUrl)
+    {
+        $this->termUrl = $termUrl;
+
         return $this;
     }
 
     /**
-     * @param Basket $basket
-     * @return Transaction
+     * @return string
      */
-    public function setBasket(Basket $basket)
+    public function getEndpoint()
     {
-        $this->basket = $basket;
-        return $this;
+        return self::ENDPOINT_PAYMENTS;
     }
 
     /**
@@ -96,17 +110,15 @@ class RatepayTransaction extends Transaction implements Reservable
      */
     protected function mappedSpecificProperties()
     {
-        $result = [
-            'order-number' => $this->orderNumber,
-        ];
+        $this->validate();
+        $result = ['payment-methods' => ['payment-method' => [[
+            'name' => CreditCardTransaction::NAME
+        ]]]];
 
-        if (null !== $this->device) {
-            $result['device'] = $this->device->mappedProperties();
-        }
-
-        if ($this->basket instanceof Basket) {
-            $this->basket->setVersion(self::class);
-            $result['order-items'] = $this->basket->mappedProperties();
+        if (null !== $this->tokenId) {
+            $result['card-token'] = [
+                'token-id' => $this->tokenId,
+            ];
         }
 
         return $result;
@@ -117,20 +129,15 @@ class RatepayTransaction extends Transaction implements Reservable
      */
     protected function retrieveTransactionTypeForReserve()
     {
-        return self::TYPE_AUTHORIZATION;
-    }
-
-    /**
-     * @throws MandatoryFieldMissingException
-     * @return mixed
-     */
-    protected function retrieveTransactionTypeForPay()
-    {
-        if ($this->parentTransactionId) {
-            return self::TYPE_CAPTURE_AUTHORIZATION;
+        switch ($this->parentTransactionType) {
+            case self::TYPE_AUTHORIZATION:
+                $transactionType = self::TYPE_REFERENCED_AUTHORIZATION;
+                break;
+            default:
+                $transactionType = self::TYPE_AUTHORIZATION;
         }
 
-        throw new MandatoryFieldMissingException('Parent transaction id is missing for pay operation.');
+        return $transactionType;
     }
 
     /**
@@ -142,33 +149,28 @@ class RatepayTransaction extends Transaction implements Reservable
         if (!$this->parentTransactionId) {
             throw new MandatoryFieldMissingException('No transaction for cancellation set.');
         }
-        if ($this->parentTransactionType === self::TYPE_AUTHORIZATION) {
-            return self::TYPE_VOID_AUTHORIZATION;
-        } elseif ($this->parentTransactionType === self::TYPE_CAPTURE_AUTHORIZATION) {
-            return self::TYPE_REFUND_CAPTURE;
+        switch ($this->parentTransactionType) {
+            case self::TYPE_AUTHORIZATION:
+            case self::TYPE_REFERENCED_AUTHORIZATION:
+                $transactionType = self::TYPE_VOID_AUTHORIZATION;
+                break;
+            default:
+                throw new UnsupportedOperationException('The transaction can not be canceled.');
         }
 
-        throw new UnsupportedOperationException('The transaction can not be canceled.');
-    }
-
-
-    /**
-     * @return string
-     */
-    protected function retrieveTransactionTypeForCredit()
-    {
-        return self::TYPE_CREDIT;
+        return $transactionType;
     }
 
     /**
-     * return string
+     *
+     * @throws \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
      */
-    public function getEndpoint()
+    protected function validate()
     {
-        if ($this->operation === Operation::RESERVE) {
-            return self::ENDPOINT_PAYMENT_METHODS;
+        if ($this->tokenId === null && $this->parentTransactionId === null) {
+            throw new MandatoryFieldMissingException(
+                'At least one of these two parameters has to be provided: token ID, parent transaction ID.'
+            );
         }
-
-        return self::ENDPOINT_PAYMENTS;
     }
 }
