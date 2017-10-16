@@ -23,6 +23,7 @@ use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayDirectDebitTransaction;
 use Wirecard\PaymentSdk\Transaction\SofortTransaction;
 use Wirecard\PaymentSdk\Transaction\PoiPiaTransaction;
+use \Wirecard\PaymentSdk\Transaction\P24Transaction;
 use Wirecard\PaymentSdk\Transaction\CreditCardMotoTransaction;
 use Wirecard\PaymentSdk\Transaction\UpopTransaction;
 
@@ -158,6 +159,13 @@ $poipiaMAID = '105ab3e8-d16b-4fa0-9f1f-18dd9b390c94';
 $poipiaSecret = '2d96596b-9d10-4c98-ac47-4d56e22fd878';
 $poipiaConfig = new PaymentMethodConfig(PoiPiaTransaction::NAME, $poipiaMAID, $poipiaSecret);
 $config->add($poipiaConfig);
+
+
+// ### Przelewy24
+$p24Maid = 'afb0aa46-3b0b-4cbf-a91c-5c91ede23701';
+$p24Secret = '82fd2e9e-f8e9-42fb-be25-b60a6907c996';
+$p24Config = new PaymentMethodConfig(P24Transaction::NAME, $p24Maid, $p24Secret);
+$config->add($p24Config);
 
 // ### UnionPay Online Payments (UPOP)
 
