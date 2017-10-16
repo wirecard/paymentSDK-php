@@ -1,7 +1,7 @@
 <?php
-// # Cancelling a transaction
+// # Refund a P24 transaction
 
-// To cancel a transaction, a cancel request with the parent transaction is sent.
+// To refund a transaction, a cancel request with the parent transaction is sent.
 
 // ## Required objects
 
@@ -10,50 +10,21 @@ require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 require __DIR__ . '/../inc/config.php';
 
-use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
+use Wirecard\PaymentSdk\Transaction\P24Transaction;
 use Wirecard\PaymentSdk\TransactionService;
-
-// ### Transaction related objects
-
-// Use the amount object as amount which has to be paid by the consumer.
-// For void-authorization only full amount of parent transaction is supported.
-$amount = new Amount(2400, 'EUR');
-
-// The order number
-$orderNumber = 'A2';
-
-// #### Order items
-
-// Create your items.
-$item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(400, 'EUR'), 1);
-$item1->setArticleNumber('A1');
-$item1->setTaxRate(10.0);
-
-$item2 = new \Wirecard\PaymentSdk\Entity\Item('Item 2', new Amount(1000, 'EUR'), 2);
-$item2->setArticleNumber('B2');
-$item2->setTaxRate(20.0);
-
-// Create an item collection to store the items.
-$basket = new \Wirecard\PaymentSdk\Entity\Basket();
-$basket->add($item1);
-$basket->add($item2);
 
 
 // ## Transaction
-
-$transaction = new RatepayInvoiceTransaction();
+$transaction = new P24Transaction();
 $transaction->setParentTransactionId($_POST['parentTransactionId']);
-$transaction->setAmount($amount);
-$transaction->setOrderNumber($orderNumber);
-$transaction->setBasket($basket);
 
 // ### Transaction Service
 
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
+// The cancel operation triggers refund_debit operation for przelewy24.
 $response = $transactionService->cancel($transaction);
 
 
@@ -62,7 +33,7 @@ $response = $transactionService->cancel($transaction);
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
-    echo 'Payment successfully cancelled.<br>';
+    echo 'Payment successfully refunded.<br>';
     echo getTransactionLink($baseUrl, $response);
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {

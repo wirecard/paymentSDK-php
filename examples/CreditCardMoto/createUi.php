@@ -1,6 +1,6 @@
 <?php
 
-// # Credit Card UI creation
+// # Credit Card Moto UI creation
 
 // Since the credit card data needs to be sent directly to Wirecard, you need to invoke the creation of a special form
 // for entering the credit card data. This form is created via a javascript. Additional processing also needs
@@ -58,7 +58,7 @@ $transactionService = new TransactionService($config);
 
         // We fill the _requestData_ with the return value
         // from the `getDataForCreditCardUi` method of the `transactionService`.
-        requestData: <?= $transactionService->getDataForCreditCardUi(); ?>,
+        requestData: <?= $transactionService->getDataForCreditCardMotoUi(); ?>,
         wrappingDivId: "creditcard-form-div",
         onSuccess: logCallback,
         onError: logCallback

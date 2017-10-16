@@ -24,7 +24,7 @@ $config->setPublicKey(file_get_contents(__DIR__ . '/../inc/api-test.wirecard.com
 // The `TransactionService` is used to determine the response from the service provider.
 $transactionService = new TransactionService($config);
 
-// The 3D-Secure page redirects to the _returnUrl_, which points to this file. To continue the payment process
+// The Przelewy24 page redirects to the _returnUrl_, which points to this file. To continue the payment process
 // the sent data can be fed directly to the transaction service via the method `handleResponse()`.
 // If there is response data from the service provider handle response
 if ($_POST) {
@@ -39,12 +39,11 @@ if ($_POST) {
         echo 'Payment successfully completed.<br>';
         echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');
         echo getTransactionLink($baseUrl, $response);
-        echo '<br>Credit Card Token-Id: ' . $response->getCardTokenId();
         ?>
         <br>
         <form action="cancel.php" method="post">
             <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-            <input type="submit" value="Cancel the payment">
+            <input type="submit" value="Refund the payment">
         </form>
         <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.

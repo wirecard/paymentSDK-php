@@ -22,8 +22,11 @@ use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayDirectDebitTransaction;
 use Wirecard\PaymentSdk\Transaction\SofortTransaction;
-use Wirecard\PaymentSdk\Transaction\PoipiaTransaction;
 use Wirecard\PaymentSdk\Transaction\AlipayCrossborderTransaction;
+use Wirecard\PaymentSdk\Transaction\PoiPiaTransaction;
+use Wirecard\PaymentSdk\Transaction\P24Transaction;
+use Wirecard\PaymentSdk\Transaction\CreditCardMotoTransaction;
+use Wirecard\PaymentSdk\Transaction\UpopTransaction;
 
 // ## Connection
 
@@ -71,6 +74,14 @@ $creditcardConfig->setThreeDCredentials(
 );
 
 $config->add($creditcardConfig);
+
+// ### Credit Card Moto
+
+$ccardMotoMAID = '53f2895a-e4de-4e82-a813-0d87a10e55e6';
+$ccardMotoSecretKey = 'dbc5a498-9a66-43b9-bf1d-a618dd399684';
+$ccardMotoConfig = new PaymentMethodConfig(CreditCardMotoTransaction::NAME, $ccardMotoMAID, $ccardMotoSecretKey);
+
+$config->add($ccardMotoConfig);
 
 // ### iDEAL
 
@@ -156,3 +167,17 @@ $alipaycrossborderMAID = '7ca48aa0-ab12-4560-ab4a-af1c477cce43';
 $alipaycrossborderSecretKey = 'dbc5a498-9a66-43b9-bf1d-a618dd399684';
 $alipaycrossborderConfig = new PaymentMethodConfig(AlipayCrossborderTransaction::NAME, $alipaycrossborderMAID, $alipaycrossborderSecretKey);
 $config->add($alipaycrossborderConfig);
+
+// ### Przelewy24
+
+$p24Maid = 'afb0aa46-3b0b-4cbf-a91c-5c91ede23701';
+$p24Secret = '82fd2e9e-f8e9-42fb-be25-b60a6907c996';
+$p24Config = new PaymentMethodConfig(P24Transaction::NAME, $p24Maid, $p24Secret);
+$config->add($p24Config);
+
+// ### UnionPay Online Payments (UPOP)
+
+$upopMAID = 'a908b093-382c-4de9-b26a-624802850216';
+$upopSecret = 'b2f8ffd2-7866-44ed-a858-f27f13f0bd77';
+$upopConfig = new PaymentMethodConfig(UpopTransaction::NAME, $upopMAID, $upopSecret);
+$config->add($upopConfig);

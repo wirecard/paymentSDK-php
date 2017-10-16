@@ -31,6 +31,10 @@
 
 namespace Wirecard\PaymentSdk\Entity;
 
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
+use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayTransaction;
+
 /**
  * Class Item
  * @package Wirecard\PaymentSdk\Entity
@@ -58,11 +62,6 @@ class Item implements MappableEntity
     private $price;
 
     /**
-     * @var Amount
-     */
-    private $taxAmount;
-
-    /**
      * @var float
      */
     private $taxRate;
@@ -71,6 +70,11 @@ class Item implements MappableEntity
      * @var int
      */
     private $quantity;
+
+    /**
+     * @var string
+     */
+    private $version;
 
     /**
      * Item constructor.
@@ -116,23 +120,24 @@ class Item implements MappableEntity
     }
 
     /**
-     * @param Amount $taxAmount
+     * @param string $version
      * @return Item
      */
-    public function setTaxAmount($taxAmount)
+    public function setVersion($version)
     {
-        $this->taxAmount = $taxAmount;
+        $this->version = $version;
         return $this;
     }
 
     /**
+     * @throws MandatoryFieldMissingException
      * @return array
      */
     public function mappedProperties()
     {
         $data['name'] = $this->name;
-        $data['amount'] = $this->price->mappedProperties();
         $data['quantity'] = $this->quantity;
+        $data['amount'] = $this->price->mappedProperties();
 
         if (null !== $this->description) {
             $data['description'] = $this->description;
@@ -142,12 +147,43 @@ class Item implements MappableEntity
             $data['article-number'] = $this->articleNumber;
         }
 
-        if (null !== $this->taxRate) {
-            $data['tax-rate'] = $this->taxRate;
+        switch ($this->version) {
+            case PayPalTransaction::class:
+                $data = $this->payPalMappedProperties($data);
+                break;
+            case RatepayTransaction::class:
+            default:
+                $data = $this->ratepayMappedProperties($data);
         }
 
-        if (null !== $this->taxAmount) {
-            $data['tax-amount'] = $this->taxAmount->mappedProperties();
+        return $data;
+    }
+
+    /**
+     * @param array $data
+     * @throws MandatoryFieldMissingException
+     * @return array
+     */
+    private function payPalMappedProperties($data)
+    {
+        if (null !== $this->taxRate) {
+            $taxAmountValue = number_format($this->price->getValue() * $this->quantity * ($this->taxRate / 100.0), 2);
+            $taxAmount = new Amount($taxAmountValue, $this->price->getCurrency());
+
+            $data['tax-amount'] = $taxAmount->mappedProperties();
+        }
+
+        return $data;
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    private function ratepayMappedProperties($data)
+    {
+        if (null !== $this->taxRate) {
+            $data['tax-rate'] = $this->taxRate;
         }
 
         return $data;

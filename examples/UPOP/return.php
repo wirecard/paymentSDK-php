@@ -1,7 +1,7 @@
 <?php
-// # Handling the response of a transaction
+// # UnionPay Online Payments return after transaction
 
-// When a transaction is finished, the response from Wirecard can be read and processed.
+// The consumer gets redirected to this page after a UnionPay Online Payments transaction.
 
 // ## Required objects
 
@@ -14,21 +14,22 @@ use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\TransactionService;
 
+// ### Validation
+
 // Set a public key for certificate pinning used for response signature validation, this certificate needs to be always
 // up to date
 $config->setPublicKey(file_get_contents(__DIR__ . '/../inc/api-test.wirecard.com.crt'));
 
+
 // ## Transaction
 
 // ### Transaction Service
-// The `TransactionService` is used to determine the response from the service provider.
-$transactionService = new TransactionService($config);
 
-// The 3D-Secure page redirects to the _returnUrl_, which points to this file. To continue the payment process
-// the sent data can be fed directly to the transaction service via the method `handleResponse()`.
+// The `TransactionService` is used to determine the response from the service provider.
+$service = new TransactionService($config);
 // If there is response data from the service provider handle response
 if ($_POST) {
-    $response = $transactionService->handleResponse($_POST);
+    $response = $service->handleResponse($_POST);
 
 
 // ## Payment results
@@ -39,14 +40,6 @@ if ($_POST) {
         echo 'Payment successfully completed.<br>';
         echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');
         echo getTransactionLink($baseUrl, $response);
-        echo '<br>Credit Card Token-Id: ' . $response->getCardTokenId();
-        ?>
-        <br>
-        <form action="cancel.php" method="post">
-            <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-            <input type="submit" value="Cancel the payment">
-        </form>
-        <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
     } elseif ($response instanceof FailureResponse) {
         echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');
@@ -63,7 +56,4 @@ if ($_POST) {
             echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
         }
     }
-// Otherwise a cancel information is printed
-} else {
-    echo 'The transaction has been cancelled.<br>';
 }

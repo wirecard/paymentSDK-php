@@ -36,11 +36,12 @@ $notificationUrl = getUrl('notify.php');
 $item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(2.59, 'EUR'), 1);
 $item1->setArticleNumber('A1');
 $item1->setDescription('My first item');
+$item1->setTaxRate(20.0);
 
 $item2 = new \Wirecard\PaymentSdk\Entity\Item('Item 2', new Amount(5, 'EUR'), 2);
 $item2->setArticleNumber('B2');
 $item2->setDescription('My second item');
-$item2->setTaxAmount(new Amount(1, 'EUR'));
+$item2->setTaxRate(10.0);
 
 // The items are all stored in a `Basket` object.
 $basket = new \Wirecard\PaymentSdk\Entity\Basket();

@@ -39,11 +39,11 @@ $item1 = new item('Item 1', new Amount(400, 'EUR'), 1);
 // In contrast to the [basket example](../Features/basket.html),
 // RatePAY requires the **tax rate** and the ** article number**.
 $item1->setArticleNumber('A1');
-$item1->setTaxRate(0.1);
+$item1->setTaxRate(10.0);
 
 $item2 = new item('Item 2', new Amount(1000, 'EUR'), 2);
 $item2->setArticleNumber('B2');
-$item2->setTaxRate(0.2);
+$item2->setTaxRate(20.0);
 
 // Create a basket to store the items.
 $basket = new \Wirecard\PaymentSdk\Entity\Basket();
