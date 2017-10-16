@@ -65,6 +65,41 @@ class UpopTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx->setAmount(new Amount(33, 'CNY'));
     }
 
+    public function testGetEndpointPayments()
+    {
+        $this->tx->setOperation(Operation::CANCEL);
+
+        $this->assertEquals(Transaction::ENDPOINT_PAYMENTS, $this->tx->getEndpoint());
+    }
+
+    public function testGetEndpointPaymentmethods()
+    {
+        $this->tx->setOperation(Operation::PAY);
+
+        $this->assertEquals(Transaction::ENDPOINT_PAYMENT_METHODS, $this->tx->getEndpoint());
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
+     */
+    public function testOnlyDebitCanBeRefunded()
+    {
+        $this->tx->setOperation(Operation::CANCEL);
+        $this->tx->setParentTransactionId('parent tx id');
+        $this->tx->setParentTransactionType(Operation::RESERVE);
+
+        $this->tx->mappedProperties();
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
+     */
+    public function testMandatoryParentTxForCancel()
+    {
+        $this->tx->setOperation(Operation::CANCEL);
+        $this->tx->mappedProperties();
+    }
+
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
      */
@@ -103,5 +138,13 @@ class UpopTransactionUTest extends \PHPUnit_Framework_TestCase
         $result = $this->tx->mappedProperties();
 
         $this->assertEquals($expectedResult, $result);
+    }
+
+    public function testRetrieveTransactionForCancel()
+    {
+        $this->tx->setOperation(Operation::CANCEL);
+        $this->tx->setParentTransactionId("aa");
+        $this->tx->setParentTransactionType(Transaction::TYPE_DEBIT);
+        $this->assertEquals(Transaction::TYPE_REFUND_DEBIT, $this->tx->mappedProperties()['transaction-type']);
     }
 }
