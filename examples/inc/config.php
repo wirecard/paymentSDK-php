@@ -22,8 +22,9 @@ use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayDirectDebitTransaction;
 use Wirecard\PaymentSdk\Transaction\SofortTransaction;
+use Wirecard\PaymentSdk\Transaction\AlipayCrossborderTransaction;
 use Wirecard\PaymentSdk\Transaction\PoiPiaTransaction;
-use \Wirecard\PaymentSdk\Transaction\P24Transaction;
+use Wirecard\PaymentSdk\Transaction\P24Transaction;
 use Wirecard\PaymentSdk\Transaction\CreditCardMotoTransaction;
 use Wirecard\PaymentSdk\Transaction\UpopTransaction;
 
@@ -160,8 +161,15 @@ $poipiaSecret = '2d96596b-9d10-4c98-ac47-4d56e22fd878';
 $poipiaConfig = new PaymentMethodConfig(PoiPiaTransaction::NAME, $poipiaMAID, $poipiaSecret);
 $config->add($poipiaConfig);
 
+// ### Alipay Crossborder
+
+$alipaycrossborderMAID = '7ca48aa0-ab12-4560-ab4a-af1c477cce43';
+$alipaycrossborderSecretKey = 'dbc5a498-9a66-43b9-bf1d-a618dd399684';
+$alipaycrossborderConfig = new PaymentMethodConfig(AlipayCrossborderTransaction::NAME, $alipaycrossborderMAID, $alipaycrossborderSecretKey);
+$config->add($alipaycrossborderConfig);
 
 // ### Przelewy24
+
 $p24Maid = 'afb0aa46-3b0b-4cbf-a91c-5c91ede23701';
 $p24Secret = '82fd2e9e-f8e9-42fb-be25-b60a6907c996';
 $p24Config = new PaymentMethodConfig(P24Transaction::NAME, $p24Maid, $p24Secret);
