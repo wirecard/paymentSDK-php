@@ -1,5 +1,5 @@
 <?php
-// # Refund a P24 transaction
+// # Refund a UnionPay Online Payments transaction
 
 // To refund a transaction, a cancel request with the parent transaction is sent.
 
@@ -12,19 +12,19 @@ require __DIR__ . '/../inc/config.php';
 
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\P24Transaction;
+use Wirecard\PaymentSdk\Transaction\UpopTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 
 // ## Transaction
-$transaction = new P24Transaction();
+$transaction = new UpopTransaction();
 $transaction->setParentTransactionId($_POST['parentTransactionId']);
 
 // ### Transaction Service
 
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
-// The cancel operation triggers refund_debit operation for przelewy24.
+// The cancel operation triggers refund_debit operation for UnionPay Online Payments.
 $response = $transactionService->cancel($transaction);
 
 
