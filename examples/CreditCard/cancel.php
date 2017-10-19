@@ -16,7 +16,7 @@ use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
-if(!isset($_POST['parentTransactionId'])) {
+if (!isset($_POST['parentTransactionId'])) {
     ?>
     <form action="cancel.php" method="post">
         <label for="parentTransactionId">Transaction ID to cancel:</label><br>

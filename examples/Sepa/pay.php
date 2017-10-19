@@ -20,7 +20,7 @@ use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Transaction\SepaTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
-if(!isset($_POST['iban'])) {
+if (!isset($_POST['iban'])) {
     ?>
     <form action="pay.php" method="post">
         <p>

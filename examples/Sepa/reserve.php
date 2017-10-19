@@ -18,7 +18,7 @@ use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\SepaTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
-if(!isset($_POST['iban'])) {
+if (!isset($_POST['iban'])) {
     ?>
     <form action="reserve.php" method="post">
         <p>
