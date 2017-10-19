@@ -36,6 +36,7 @@ $redirectUrls = new Redirect(
     getUrl('return.php?status=failure')
 );
 
+$notificationUrl = getUrl('notify.php');
 
 // ## Transaction
 
@@ -43,6 +44,7 @@ $redirectUrls = new Redirect(
 // The required fields are: amount, accountHolder, success, cancel and failure redirect URL-s
 $transaction = new AlipayCrossborderTransaction();
 $transaction->setRedirect($redirectUrls);
+$transaction->setNotificationUrl($notificationUrl);
 $transaction->setAmount($amount);
 $transaction->setAccountHolder($accountHolder);
 
