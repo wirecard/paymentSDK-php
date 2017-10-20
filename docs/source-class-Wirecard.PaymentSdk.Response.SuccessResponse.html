@@ -117,12 +117,15 @@
 				<li><a href="class-Wirecard.PaymentSdk.Response.PendingResponse.html">Wirecard\PaymentSdk\Response\PendingResponse</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Response.Response.html">Wirecard\PaymentSdk\Response\Response</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Response.SuccessResponse.html">Wirecard\PaymentSdk\Response\SuccessResponse</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.AlipayCrossborderTransaction.html">Wirecard\PaymentSdk\Transaction\AlipayCrossborderTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.BancontactTransaction.html">Wirecard\PaymentSdk\Transaction\BancontactTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.CreditCardMotoTransaction.html">Wirecard\PaymentSdk\Transaction\CreditCardMotoTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html">Wirecard\PaymentSdk\Transaction\CreditCardTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.EpsTransaction.html">Wirecard\PaymentSdk\Transaction\EpsTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.IdealTransaction.html">Wirecard\PaymentSdk\Transaction\IdealTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.InvoiceByWirecardTransaction.html">Wirecard\PaymentSdk\Transaction\InvoiceByWirecardTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.Operation.html">Wirecard\PaymentSdk\Transaction\Operation</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.P24Transaction.html">Wirecard\PaymentSdk\Transaction\P24Transaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.PayPalTransaction.html">Wirecard\PaymentSdk\Transaction\PayPalTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.PaysafecardTransaction.html">Wirecard\PaymentSdk\Transaction\PaysafecardTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.PoiPiaTransaction.html">Wirecard\PaymentSdk\Transaction\PoiPiaTransaction</a></li>
@@ -133,6 +136,7 @@
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html">Wirecard\PaymentSdk\Transaction\SepaTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.SofortTransaction.html">Wirecard\PaymentSdk\Transaction\SofortTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.UpopTransaction.html">Wirecard\PaymentSdk\Transaction\UpopTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.TransactionService.html">Wirecard\PaymentSdk\TransactionService</a></li>
 			</ul>
 
@@ -323,8 +327,19 @@
 </span><span id="161" class="l"><a href="#161">161 </a>        }
 </span><span id="162" class="l"><a href="#162">162 </a>        <span class="php-keyword1">return</span> <span class="php-keyword1">null</span>;
 </span><span id="163" class="l"><a href="#163">163 </a>    }
-</span><span id="164" class="l"><a href="#164">164 </a>}
-</span><span id="165" class="l"><a href="#165">165 </a></span></code></pre>
+</span><span id="164" class="l"><a href="#164">164 </a>
+</span><span id="165" class="l"><a href="#165">165 </a>    <span class="php-comment">/**
+</span></span><span id="166" class="l"><a href="#166">166 </a><span class="php-comment">     * @return null|string
+</span></span><span id="167" class="l"><a href="#167">167 </a><span class="php-comment">     */</span>
+</span><span id="168" class="l"><a href="#168">168 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getCardTokenId()
+</span><span id="169" class="l"><a href="#169">169 </a>    {
+</span><span id="170" class="l"><a href="#170">170 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$this</span>-&gt;simpleXml-&gt;{<span class="php-quote">'card-token'</span>}-&gt;{<span class="php-quote">'token-id'</span>})) {
+</span><span id="171" class="l"><a href="#171">171 </a>            <span class="php-keyword1">return</span> (string)<span class="php-var">$this</span>-&gt;simpleXml-&gt;{<span class="php-quote">'card-token'</span>}-&gt;{<span class="php-quote">'token-id'</span>};
+</span><span id="172" class="l"><a href="#172">172 </a>        }
+</span><span id="173" class="l"><a href="#173">173 </a>        <span class="php-keyword1">return</span> <span class="php-keyword1">null</span>;
+</span><span id="174" class="l"><a href="#174">174 </a>    }
+</span><span id="175" class="l"><a href="#175">175 </a>}
+</span><span id="176" class="l"><a href="#176">176 </a></span></code></pre>
 	</div>
 
 	<div id="footer">
@@ -332,6 +347,6 @@
 	</div>
 </div>
 <script src="resources/combined.js?cfd636dbffd7235c2f8960621ad1ba069499eba1"></script>
-<script src="elementlist.js?785546bc9a29f6afde6b90a564331ed57a51e55f"></script>
+<script src="elementlist.js?fba67aa773f029138a207572992db35ce63c74e9"></script>
 </body>
 </html>

@@ -29,6 +29,7 @@ is replaced with a submit button.</p></div></div><div class="code"><div class="w
 <span class="hljs-keyword">elseif</span> (<span class="hljs-variable">$response</span> <span class="hljs-keyword">instanceof</span> SuccessResponse):
     <span class="hljs-keyword">echo</span> <span class="hljs-string">'Payment successfully completed.&lt;br&gt;'</span>;
     <span class="hljs-keyword">echo</span> getTransactionLink(<span class="hljs-variable">$baseUrl</span>, <span class="hljs-variable">$response</span>);
+    <span class="hljs-keyword">echo</span> <span class="hljs-string">'&lt;br&gt;Credit Card Token-Id: '</span> . <span class="hljs-variable">$response</span>-&gt;getCardTokenId();
     <span class="hljs-preprocessor">?&gt;</span>
     &lt;br&gt;
     &lt;form action=<span class="hljs-string">"cancel.php"</span> method=<span class="hljs-string">"post"</span>&gt;

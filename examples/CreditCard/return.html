@@ -14,6 +14,7 @@ In case of a successful transaction, a <code>SuccessResponse</code> object is re
         <span class="hljs-keyword">echo</span> <span class="hljs-string">'Payment successfully completed.&lt;br&gt;'</span>;
         <span class="hljs-keyword">echo</span> sprintf(<span class="hljs-string">'Response validation status: %s &lt;br&gt;'</span>, <span class="hljs-variable">$response</span>-&gt;isValidSignature() ? <span class="hljs-string">'true'</span> : <span class="hljs-string">'false'</span>);
         <span class="hljs-keyword">echo</span> getTransactionLink(<span class="hljs-variable">$baseUrl</span>, <span class="hljs-variable">$response</span>);
+        <span class="hljs-keyword">echo</span> <span class="hljs-string">'&lt;br&gt;Credit Card Token-Id: '</span> . <span class="hljs-variable">$response</span>-&gt;getCardTokenId();
         <span class="hljs-preprocessor">?&gt;</span>
         &lt;br&gt;
         &lt;form action=<span class="hljs-string">"cancel.php"</span> method=<span class="hljs-string">"post"</span>&gt;
