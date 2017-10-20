@@ -27,17 +27,23 @@ Our PaymentSDK Wiki also provides [technical documentation](https://wirecard.git
 
 We also provide some examples for using the PaymentSDK, which can be found [here](https://wirecard.github.io/paymentSDK-php/examples)
 
-<!---### Supported payment methods:
+## Supported payment methods:
 
+- Alipay Crossborder
+- Bancontact
 - Credit Card
-- PayPal
-- SEPA
+- Credit Card Moto
+- eps
+- iDEAL
 - Online bank transfer. (SOFORT)
+- Payment on Invoice/ Payment in Advance
+- PayPal
 - paysafecard
+- Przelewy24
+- RatePay Direct Debit
 - RatePay Installment
 - RatePay Invoice
-- iDEAL
-- eps
-- Bancontact--->
+- SEPA
+- UnionPay Online Payments
 
 If you have any questions or need further assistance do not hesitate to contact our [support teams](https://guides.wirecard.com/support).
