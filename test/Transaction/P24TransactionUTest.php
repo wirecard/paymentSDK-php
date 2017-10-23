@@ -148,6 +148,6 @@ class P24TransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx->setOperation(Operation::CANCEL);
         $this->tx->setParentTransactionId("aa");
         $this->tx->setParentTransactionType(Transaction::TYPE_DEBIT);
-        $this->assertEquals(Transaction::TYPE_REFUND_DEBIT, $this->tx->mappedProperties()['transaction-type']);
+        $this->assertEquals(Transaction::TYPE_REFUND_REQUEST, $this->tx->mappedProperties()['transaction-type']);
     }
 }
