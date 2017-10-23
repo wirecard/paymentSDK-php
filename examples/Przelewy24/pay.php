@@ -39,7 +39,7 @@ $redirectUrls = new Redirect(
 );
 
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
-$notificationUrl = getUrl('return.php');
+$notificationUrl = getUrl('notify.php');
 
 // ## Transaction
 

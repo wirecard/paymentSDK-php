@@ -86,6 +86,6 @@ class P24Transaction extends Transaction implements Reservable
         if ($this->parentTransactionType != Transaction::TYPE_DEBIT) {
             throw new UnsupportedOperationException('Only debit can be refunded.');
         }
-        return Transaction::TYPE_REFUND_DEBIT;
+        return Transaction::TYPE_REFUND_REQUEST;
     }
 }

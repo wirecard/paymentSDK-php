@@ -40,6 +40,7 @@ if (!isset($_POST['parentTransactionId'])) {
 
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
+// Refund request awaits notification for final refund-debit transaction state
     if ($response instanceof SuccessResponse) {
         echo 'Payment successfully refunded.<br>';
         echo getTransactionLink($baseUrl, $response);
