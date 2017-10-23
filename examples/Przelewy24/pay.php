@@ -34,12 +34,12 @@ $accountHolder->setEmail('max.cavalera@email.com');
 $redirectUrls = new Redirect(
     // when the payment is successful
     getUrl('return.php?status=success'),
-    // when the payment was canceled
-    getUrl('return.php?status=cancel'),
     // when the payment failed
     getUrl('return.php?status=failure')
 );
 
+// As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
+$notificationUrl = getUrl('return.php');
 
 // ## Transaction
 
@@ -47,6 +47,7 @@ $redirectUrls = new Redirect(
 $transaction = new P24Transaction();
 $transaction->setAmount($amount);
 $transaction->setRedirect($redirectUrls);
+$transaction->setNotificationUrl($notificationUrl);
 $transaction->setAccountHolder($accountHolder);
 
 // ### Transaction Service
@@ -60,6 +61,7 @@ $response = $transactionService->pay($transaction);
 // ## Response handling
 
 // The response from the service can be used for disambiguation.
+// Response is not final state of payment, waiting for notification
 if ($response instanceof InteractionResponse):
     header('location: ' . $response->getRedirectUrl());
     exit;
