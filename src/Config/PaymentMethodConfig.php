@@ -82,6 +82,14 @@ class PaymentMethodConfig implements MappableEntity
     /**
      * @return string
      */
+    public function getThreeDMerchantAccountId()
+    {
+        return $this->merchantAccountId;
+    }
+
+    /**
+     * @return string
+     */
     public function getSecret()
     {
         return $this->secret;

@@ -161,4 +161,15 @@ class SuccessResponse extends Response
         }
         return null;
     }
+
+    /**
+     * @return null|string
+     */
+    public function getCardTokenId()
+    {
+        if (isset($this->simpleXml->{'card-token'}->{'token-id'})) {
+            return (string)$this->simpleXml->{'card-token'}->{'token-id'};
+        }
+        return null;
+    }
 }

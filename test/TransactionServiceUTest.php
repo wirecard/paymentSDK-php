@@ -533,6 +533,31 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         ), $data);
     }
 
+    public function testGetDataForCreditCardMotoUi()
+    {
+        $requestIdGenerator = function () {
+            return 'abc123';
+        };
+
+        $this->instance = new TransactionService($this->config, null, null, null, null, $requestIdGenerator);
+        $data = json_decode($this->instance->getDataForCreditCardMotoUi(), true);
+
+        $this->assertArrayHasKey('request_signature', $data);
+        unset($data['request_signature']);
+
+        $this->assertArrayHasKey('request_time_stamp', $data);
+        unset($data['request_time_stamp']);
+
+        $this->assertEquals(array(
+            'request_id' => 'abc123',
+            'merchant_account_id' => self::MAID,
+            'transaction_type' => 'authorization-only',
+            'requested_amount' => 0,
+            'requested_amount_currency' => $this->config->getDefaultCurrency(),
+            'payment_method' => 'creditcard',
+        ), $data);
+    }
+
     public function testRatePayInvoiceDeviceIdent()
     {
         $data = $this->instance->getRatePayInvoiceDeviceIdent();
@@ -775,7 +800,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
             return empty(array_diff($intersect, $shopData));
         };
 
-        $transaction = new CreditCardTransaction();
+        $transaction = new PayPalTransaction();
         $transaction->setParentTransactionId('1');
         $client = $this->createMock('\GuzzleHttp\Client');
 

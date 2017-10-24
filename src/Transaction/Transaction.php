@@ -36,7 +36,6 @@ use Locale;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
-use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
@@ -64,6 +63,7 @@ abstract class Transaction
     const TYPE_DEBIT = 'debit';
     const TYPE_REFUND_CAPTURE = 'refund-capture';
     const TYPE_REFUND_DEBIT = 'refund-debit';
+    const TYPE_REFUND_REQUEST = 'refund-request';
     const TYPE_VOID_CAPTURE = 'void-capture';
 
     /**
@@ -80,11 +80,6 @@ abstract class Transaction
      * @var string
      */
     protected $consumerId;
-
-    /**
-     * @var Basket
-     */
-    protected $basket;
 
     /**
      * @var string
@@ -177,16 +172,6 @@ abstract class Transaction
     public function setAmount($amount)
     {
         $this->amount = $amount;
-    }
-
-    /**
-     * @param Basket $basket
-     * @return Transaction
-     */
-    public function setBasket(Basket $basket)
-    {
-        $this->basket = $basket;
-        return $this;
     }
 
     /**
@@ -291,10 +276,6 @@ abstract class Transaction
             if ($this->redirect->getFailureUrl()) {
                 $result['fail-redirect-url'] = $this->redirect->getFailureUrl();
             }
-        }
-
-        if ($this->basket instanceof Basket) {
-            $result['order-items'] = $this->basket->mappedProperties();
         }
 
         if (null !== $this->consumerId) {

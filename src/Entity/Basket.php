@@ -33,6 +33,7 @@
 namespace Wirecard\PaymentSdk\Entity;
 
 use Traversable;
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 
 /**
  * Class Basket
@@ -44,6 +45,21 @@ class Basket implements \IteratorAggregate, MappableEntity
      * @var array
      */
     private $items = [];
+
+    /**
+     * @var string
+     */
+    private $version;
+
+    /**
+     * @param string $version
+     * @return $this
+     */
+    public function setVersion($version)
+    {
+        $this->version = $version;
+        return $this;
+    }
 
     /**
      * Retrieve an external iterator
@@ -69,6 +85,7 @@ class Basket implements \IteratorAggregate, MappableEntity
     }
 
     /**
+     * @throws MandatoryFieldMissingException
      * @return array
      */
     public function mappedProperties()
@@ -79,6 +96,7 @@ class Basket implements \IteratorAggregate, MappableEntity
          * @var Item $item
          */
         foreach ($this->getIterator() as $item) {
+            $item->setVersion($this->version);
             $data['order-item'][] = $item->mappedProperties();
         }
 

@@ -48,6 +48,7 @@ use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Response\Response;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
+use Wirecard\PaymentSdk\Transaction\CreditCardMotoTransaction;
 use Wirecard\PaymentSdk\Transaction\IdealTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
@@ -100,6 +101,11 @@ class TransactionService
      * @var array
      */
     private $httpHeader;
+
+    /**
+     * @var boolean
+     */
+    private $isThreeD;
 
 
     /**
@@ -235,6 +241,38 @@ class TransactionService
                 $requestData['requested_amount'] .
                 $requestData['requested_amount_currency'] .
                 $this->config->get(CreditCardTransaction::NAME)->getSecret()
+            )
+        );
+
+        return json_encode($requestData);
+    }
+
+    /**
+     * @throws UnconfiguredPaymentMethodException
+     * @return string
+     */
+    public function getDataForCreditCardMotoUi()
+    {
+        $requestData = array(
+            'request_time_stamp' => gmdate('YmdHis'),
+            self::REQUEST_ID => call_user_func($this->requestIdGenerator, 64),
+            'transaction_type' => 'authorization-only',
+            'merchant_account_id' => $this->config->get(CreditCardMotoTransaction::NAME)->getMerchantAccountId(),
+            'requested_amount' => 0,
+            'requested_amount_currency' => $this->config->getDefaultCurrency(),
+            'payment_method' => 'creditcard',
+        );
+
+        $requestData['request_signature'] = hash(
+            'sha256',
+            trim(
+                $requestData['request_time_stamp'] .
+                $requestData[self::REQUEST_ID] .
+                $requestData['merchant_account_id'] .
+                $requestData['transaction_type'] .
+                $requestData['requested_amount'] .
+                $requestData['requested_amount_currency'] .
+                $this->config->get(CreditCardMotoTransaction::NAME)->getSecret()
             )
         );
 
@@ -432,13 +470,14 @@ class TransactionService
         if ($transaction instanceof CreditCardTransaction) {
             $transaction->setConfig($this->config->get(CreditCardTransaction::NAME));
         }
-
         if (null !== $transaction->getParentTransactionId()) {
             $parentTransaction = $this->getTransactionByTransactionId(
                 $transaction->getParentTransactionId(),
                 $transaction->getConfigKey()
             );
-
+            if ($transaction instanceof CreditCardTransaction) {
+                $transaction->getThreeD() ? $transaction->setThreeD(true) : $transaction->setThreeD($this->isThreeD);
+            }
             if (null !== $parentTransaction && array_key_exists(Transaction::PARAM_PAYMENT, $parentTransaction)
                 && array_key_exists('transaction-type', $parentTransaction[Transaction::PARAM_PAYMENT])
             ) {
@@ -531,7 +570,18 @@ class TransactionService
             $this->config->get($paymentMethod)->getMerchantAccountId() .
             '/payments/' . $transactionId;
 
-        return $this->sendGetRequest($endpoint, true);
+        $request = $this->sendGetRequest($endpoint, true);
+        if ($request == null && $paymentMethod == CreditCardTransaction::NAME) {
+            $endpoint =
+                $this->config->getBaseUrl() .
+                '/engine/rest/merchants/' .
+                $this->config->get($paymentMethod)->getThreeDMerchantAccountId() .
+                '/payments/' . $transactionId;
+            $request = $this->sendGetRequest($endpoint, true);
+            $request !== null ? $this->isThreeD = true : $this->isThreeD = false;
+        }
+
+        return $request;
     }
 
     /**
