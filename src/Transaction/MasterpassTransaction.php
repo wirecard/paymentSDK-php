@@ -79,5 +79,4 @@ class MasterpassTransaction extends Transaction implements Reservable
         }
         return self::ENDPOINT_PAYMENT_METHODS;
     }
-
 }
