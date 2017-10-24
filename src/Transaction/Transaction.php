@@ -63,6 +63,7 @@ abstract class Transaction
     const TYPE_DEBIT = 'debit';
     const TYPE_REFUND_CAPTURE = 'refund-capture';
     const TYPE_REFUND_DEBIT = 'refund-debit';
+    const TYPE_REFUND_REQUEST = 'refund-request';
     const TYPE_VOID_CAPTURE = 'void-capture';
 
     /**

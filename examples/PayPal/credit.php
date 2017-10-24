@@ -13,7 +13,6 @@ require __DIR__ . '/../inc/config.php';
 
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Amount;
-use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
@@ -23,11 +22,6 @@ use Wirecard\PaymentSdk\TransactionService;
 
 // Use the amount object as amount which has to be paid by the consumer.
 $amount = new Amount(12.59, 'EUR');
-
-// ### Redirect URLs
-
-// The redirect URLs determine where the consumer should be redirected by PayPal after approval/cancellation.
-$redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
 
 // ### Notification URL
 
@@ -44,7 +38,6 @@ $accountHolder->setEmail("customer@wirecard.com");
 // The PayPal transaction holds all transaction relevant data for the payment process.
 $transaction = new PayPalTransaction();
 $transaction->setNotificationUrl($notificationUrl);
-$transaction->setRedirect($redirectUrls);
 $transaction->setAmount($amount);
 $transaction->setAccountHolder($accountHolder);
 
