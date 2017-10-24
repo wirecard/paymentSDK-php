@@ -13,6 +13,7 @@ require __DIR__ . '/../inc/config.php';
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\TransactionService;
+use \Wirecard\PaymentSdk\Transaction\Transaction;
 
 // Set a public key for certificate pinning used for response signature validation, this certificate needs to be always
 // up to date
@@ -39,14 +40,24 @@ if ($_POST) {
         echo 'Payment successfully completed.<br>';
         echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');
         echo getTransactionLink($baseUrl, $response);
+
+        if ($response->getTransactionType() == Transaction::TYPE_DEBIT) {
+            ?>
+            <br>
+            <form action="refund.php" method="post">
+                <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>">
+                <input type="submit" value="Cancel payment">
+            </form>
+            <?php
+        }
+        if ($response->getTransactionType() == Transaction::TYPE_AUTHORIZATION) {
         ?>
-        <br>
         <form action="pay-based-on-reserve.php" method="post">
             <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
             <input type="text" name="amount" value="150">
             <input type="submit" value="Payment after a reservation">
         </form>
-        <?php
+        <?php }
 // In case of a failed transaction, a `FailureResponse` object is returned.
     } elseif ($response instanceof FailureResponse) {
         echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');

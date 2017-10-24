@@ -43,7 +43,11 @@ class MasterpassTransaction extends Transaction implements Reservable
      */
     protected function mappedSpecificProperties()
     {
-        return [];
+        $result = array();
+        if ($this->parentTransactionId) {
+            $result['payment-methods'] = ['payment-method' => [['name' => 'creditcard']]];
+        }
+        return $result;
     }
 
     /**
@@ -51,10 +55,9 @@ class MasterpassTransaction extends Transaction implements Reservable
      */
     protected function retrieveTransactionTypeForPay()
     {
-        /*if ($this->parentTransactionType == Transaction::TYPE_AUTHORIZATION_ONLY) {
+        if ($this->parentTransactionId) {
             return self::TYPE_CAPTURE_AUTHORIZATION;
-        }*/
-
+        }
         return self::TYPE_DEBIT;
     }
 
@@ -71,7 +74,7 @@ class MasterpassTransaction extends Transaction implements Reservable
 
     public function getEndpoint()
     {
-        if($this->parentTransactionType) {
+        if ($this->parentTransactionId) {
             return self::ENDPOINT_PAYMENTS;
         }
         return self::ENDPOINT_PAYMENT_METHODS;

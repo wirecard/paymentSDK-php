@@ -11,16 +11,34 @@ require __DIR__ . '/../inc/common.php';
 require __DIR__ . '/../inc/config.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Entity\AccountHolder;
+use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
-use Wirecard\PaymentSdk\Response\SuccessResponse;
+use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Transaction\MasterpassTransaction;
 use Wirecard\PaymentSdk\TransactionService;
+
+// ### Transaction related objects
+
+// Create a amount object as amount which has to be paid by the consumer.
+$amount = new Amount(70.0, 'EUR');
+
+$accountHolder = new AccountHolder();
+$accountHolder->setFirstName('Max');
+$accountHolder->setLastName('Cavalera');
+
+
+$redirect = new Redirect(
+    getUrl('return.php?status=success')
+);
 
 // ## Transaction
 
 $transaction = new MasterpassTransaction();
-$transaction->setParentTransactionId($_POST['parentTransactionId']);
-$transaction->setParentTransactionType(\Wirecard\PaymentSdk\Transaction\Transaction::TYPE_AUTHORIZATION);
+$transaction->setAccountHolder($accountHolder);
+$transaction->setAmount($amount);
+$transaction->setRedirect($redirect);
+
 
 // ### Transaction Service
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
@@ -32,16 +50,9 @@ $response = $transactionService->pay($transaction);
 
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
-if ($response instanceof SuccessResponse) {
-    echo 'Payment successfully completed.<br>';
-    echo getTransactionLink($baseUrl, $response);
-    ?>
-    <br>
-    <form action="cancel.php" method="post">
-        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="submit" value="Cancel the capture">
-    </form>
-    <?php
+if ($response instanceof InteractionResponse) {
+    header("Location: {$response->getRedirectUrl()}");
+    die();
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
     // In our example we iterate over all errors and echo them out.
