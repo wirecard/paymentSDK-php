@@ -25,7 +25,7 @@ $config->setPublicKey(file_get_contents(__DIR__ . '/../inc/api-test.wirecard.com
 // The `TransactionService` is used to determine the response from the service provider.
 $transactionService = new TransactionService($config);
 
-// The 3D-Secure page redirects to the _returnUrl_, which points to this file. To continue the payment process
+// The masterpass page redirects to the _returnUrl_, which points to this file. To continue the payment process
 // the sent data can be fed directly to the transaction service via the method `handleResponse()`.
 // If there is response data from the service provider handle response
 if ($_POST) {
@@ -44,8 +44,8 @@ if ($_POST) {
         if ($response->getTransactionType() == Transaction::TYPE_DEBIT) {
             ?>
             <br>
-            <form action="refund.php" method="post">
-                <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>">
+            <form action="cancel.php" method="post">
+                <input type="hidden" name="parentTransactionId" value="<?= $response->getParentTransactionId() ?>">
                 <input type="submit" value="Cancel payment">
             </form>
             <?php
@@ -53,9 +53,13 @@ if ($_POST) {
         if ($response->getTransactionType() == Transaction::TYPE_AUTHORIZATION) {
         ?>
         <form action="pay-based-on-reserve.php" method="post">
-            <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+            <input type="hidden" name="parentTransactionId" value="<?= $response->getParentTransactionId() ?>"/>
             <input type="text" name="amount" value="150">
             <input type="submit" value="Payment after a reservation">
+        </form>
+        <form action="cancel.php" method="post">
+            <input type="hidden" name="parentTransactionId" value="<?= $response->getParentTransactionId() ?>"/>
+            <input type="submit" value="Cancel payment">
         </form>
         <?php }
 // In case of a failed transaction, a `FailureResponse` object is returned.
