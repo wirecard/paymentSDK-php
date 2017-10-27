@@ -27,9 +27,10 @@ $accountHolder = new AccountHolder();
 $accountHolder->setFirstName('Max');
 $accountHolder->setLastName('Cavalera');
 
-
 $redirect = new Redirect(
-    getUrl('return.php?status=success')
+    getUrl('return.php?status=success'),
+    getUrl('return.php?status=cancel'),
+    getUrl('return.php?status=failure')
 );
 
 // ## Transaction

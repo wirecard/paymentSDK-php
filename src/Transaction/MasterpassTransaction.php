@@ -31,8 +31,7 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\AccountHolder;
-use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
+use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
 class MasterpassTransaction extends Transaction implements Reservable
 {
@@ -59,6 +58,23 @@ class MasterpassTransaction extends Transaction implements Reservable
             return self::TYPE_CAPTURE_AUTHORIZATION;
         }
         return self::TYPE_DEBIT;
+    }
+
+    protected function retrieveTransactionTypeForCancel()
+    {
+        if ($this->parentTransactionType === self::TYPE_PURCHASE) {
+            return self::TYPE_REFUND_PURCHASE;
+        }
+
+        if ($this->parentTransactionType === self::TYPE_AUTHORIZATION) {
+            return self::TYPE_VOID_AUTHORIZATION;
+        }
+
+        if ($this->parentTransactionType === self::TYPE_CAPTURE_AUTHORIZATION) {
+            return self::TYPE_VOID_CAPTURE;
+        }
+
+        throw new UnsupportedOperationException('Canceling ' . $this->parentTransactionType . ' is not supported.');
     }
 
     /**

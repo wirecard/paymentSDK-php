@@ -65,6 +65,7 @@ abstract class Transaction
     const TYPE_REFUND_DEBIT = 'refund-debit';
     const TYPE_REFUND_REQUEST = 'refund-request';
     const TYPE_VOID_CAPTURE = 'void-capture';
+    const TYPE_PURCHASE = 'purchase';
 
     /**
      * @var AccountHolder

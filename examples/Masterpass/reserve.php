@@ -1,5 +1,5 @@
 <?php
-// # Credit card reservation
+// # Masterpass reservation
 
 // The method `reserve` of the _transactionService_ provides the means
 // to reserve an amount (also known as authorization).
@@ -12,6 +12,7 @@ require __DIR__ . '/../inc/common.php';
 require __DIR__ . '/../inc/config.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Transaction\MasterpassTransaction;
@@ -23,16 +24,19 @@ use Wirecard\PaymentSdk\TransactionService;
 $amount = new Amount(70.00, 'EUR');
 
 // The redirect URL determines where the consumer should be redirected to
-// after an approval/cancellation on the issuer's ACS page.
-$redirectUrl = new \Wirecard\PaymentSdk\Entity\Redirect(getUrl('return.php?status=success'));
-
+// after an approval/cancellation on the Masterpass lightbox
+$redirect = new Redirect(
+    getUrl('return.php?status=success'),
+    getUrl('return.php?status=cancel'),
+    getUrl('return.php?status=failure')
+);
 
 // ## Transaction
 
-// The credit card transaction contains all relevant data for the payment process.
+// The Masterpass transaction contains all relevant data for the payment process.
 $transaction = new MasterpassTransaction();
 $transaction->setAmount($amount);
-$transaction->setRedirect($redirectUrl);
+$transaction->setRedirect($redirect);
 
 // ### Transaction Service
 
