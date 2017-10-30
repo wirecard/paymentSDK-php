@@ -45,6 +45,10 @@ if ($_POST) {
             ?>
             <br>
             <form action="cancel.php" method="post">
+                <?php
+// Every follow-up operation of Masterpass needs to reference the parent transaction if the parent
+// transaction was a credit card transaction. In these examples it is always the parent transaction.
+                ?>
                 <input type="hidden" name="parentTransactionId" value="<?= $response->getParentTransactionId() ?>">
                 <input type="submit" value="Cancel payment">
             </form>
