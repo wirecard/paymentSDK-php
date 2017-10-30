@@ -62,7 +62,7 @@ $transactionService = new TransactionService($config);
         // The javascript library needs a div which it can fill with all credit card related fields.
         ?>
         <div id="creditcard-form-div"></div>
-        <input type="submit" value="Save">
+        <button type="submit" class="btn btn-primary">Save</button>
     </form>
 </div>
 <script type="application/javascript">
