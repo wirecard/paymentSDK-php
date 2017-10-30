@@ -9,6 +9,8 @@
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 require __DIR__ . '/../inc/config.php';
+//Header design
+require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
@@ -33,21 +35,21 @@ if ($response instanceof SuccessResponse) {
     <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="submit" value="Cancel the payment">
+        <button type="submit" class="btn btn-primary">Cancel the payment</button>
     </form>
 
     <form action="pay.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="submit" value="Request a new payment based on this payment">
+        <button type="submit" class="btn btn-primary">Request a new payment based on this payment</button>
     </form>
 
     <form action="credit.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <label for="amount">Amount:</label>
-        <input id="amount" name="amount" style="width:100px"/>
-        <p>
-            <input type="submit" value="Request a credit based on this payment">
-        </p>
+        <div class="form-group">
+            <label for="amount">Amount:</label>
+            <input id="amount" name="amount" class="form-control"/>
+        </div>
+        <button type="submit" class="btn btn-primary">Request a credit based on this payment</button>
     </form>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
@@ -64,3 +66,5 @@ if ($response instanceof SuccessResponse) {
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 }
+//Footer design
+require __DIR__ . '/../inc/footer.php';
