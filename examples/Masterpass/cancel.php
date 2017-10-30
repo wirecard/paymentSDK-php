@@ -14,6 +14,7 @@ use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\MasterpassTransaction;
 use Wirecard\PaymentSdk\TransactionService;
+use Wirecard\PaymentSdk\Transaction\Transaction;
 
 if (!isset($_POST['parentTransactionId'])) {
     ?>
@@ -52,7 +53,11 @@ if (!isset($_POST['parentTransactionId'])) {
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
     if ($response instanceof SuccessResponse) {
-        echo 'Funds successfully transferred.<br>';
+        if ($response->getTransactionType() === Transaction::TYPE_VOID_AUTHORIZATION) {
+            echo 'Payment successfully cancelled.<br>';
+        } else {
+            echo 'Funds successfully transferred.<br>';
+        }
         echo getTransactionLink($baseUrl, $response);
 // In case of a failed transaction, a `FailureResponse` object is returned.
     } elseif ($response instanceof FailureResponse) {
