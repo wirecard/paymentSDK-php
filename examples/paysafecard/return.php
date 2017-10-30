@@ -9,6 +9,8 @@
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 require __DIR__ . '/../inc/config.php';
+//Header design
+require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
@@ -55,11 +57,11 @@ if ($_POST) {
             ?>
             <form action="cancel.php" method="post">
                 <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-                <input type="submit" value="Cancel">
+                <button type="submit" class="btn btn-primary">Cancel</button>
             </form>
             <form action="pay-based-on-reserve.php" method="post">
                 <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-                <input type="submit" value="Capture the payment">
+                <button type="submit" class="btn btn-primary">Capture the payment</button>
             </form>
             <?php
         }
@@ -83,3 +85,5 @@ if ($_POST) {
 } else {
     echo 'The transaction has been cancelled.<br>';
 }
+//Footer design
+require __DIR__ . '/../inc/footer.php';
