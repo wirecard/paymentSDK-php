@@ -9,6 +9,7 @@
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 require __DIR__ . '/../inc/config.php';
+//Header design
 require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -60,5 +61,5 @@ if (!isset($_POST['parentTransactionId'])) {
         }
     }
 }
-
+//Footer design
 require __DIR__ . '/../inc/footer.php';
