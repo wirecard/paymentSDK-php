@@ -4,12 +4,29 @@
     <meta charset="UTF-8">
     <title>Recurring payment via tokenId</title>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="../src/css/example.css" rel="stylesheet">
 </head>
-<body>
-<form action="pay-based-on-token.php" method="post" id="payment-form">
-    <label for="tokenId">Credit Card Token-Id:</label><br>
-    <input id="tokenId" name="tokenId" style="width:300px" value="4748178566351002" /><br>
-    <input type="submit" value="Pay"/>
-</form>
+<body id="overrides">
+<div class="container">
+    <div class="page-header">
+        <div class="row align-baseline">
+            <div class="col-sm-3">
+                <a href=""><img src="../src/img/wirecard_logo.png" alt="wirecard" /></a>
+            </div>
+            <div class="col-sm-9 bottom-align-text">
+                <h1>Payment SDK for PHP examples</h1>
+            </div>
+        </div>
+    </div>
+    <form action="pay-based-on-token.php" method="post" id="payment-form">
+        <div class="form-group">
+            <label for="tokenId">Credit Card Token-Id:</label><br>
+            <input id="tokenId" name="tokenId" class="form-control" value="4748178566351002" /><br>
+        </div>
+        <button type="submit" class="btn btn-primary">Pay</button>
+    </form>
+</div>
 </body>
 </html>

@@ -1,5 +1,6 @@
 #overrides h1 {
     margin: 0px;
+    font-size: 2vw;
 }
 
 #overrides h2 {
@@ -12,13 +13,18 @@
 }
 
 #overrides img {
-    max-width: 100%;
-    margin-bottom: 12%;
+    height: 40px;
+    margin: 0px 20px;
 }
 
 #overrides .align-baseline {
-    display: flex;
-    align-items: baseline;
+    position: relative;
+}
+
+#overrides .bottom-align-text {
+    position: absolute;
+    bottom: -0.35vw;
+    left: 235px;
 }
 
 #overrides .page-header {
@@ -37,3 +43,11 @@
 #overrides .list-group-item:hover {
     color: #ff2014;
 }
+
+#overrides .btn-primary {
+    background-color: #002846;
+}
+
+#overrides .btn-primary:hover {
+     background-color: #002846;
+ }
