@@ -8,7 +8,7 @@
 <body id="overrides">
 <div class="container">
     <div class="page-header">
-        <div class="row">
+        <div class="row align-baseline">
             <div class="col-sm-2">
                 <a href="../index.html">
                     <img src="../src/img/wirecard_logo.png" alt="wirecard" />

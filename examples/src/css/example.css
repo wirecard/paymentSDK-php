@@ -12,8 +12,13 @@
 }
 
 #overrides img {
-    width: 100%;
-    max-width: 200px;
+    max-width: 100%;
+    margin-bottom: 12%;
+}
+
+#overrides .align-baseline {
+    display: flex;
+    align-items: baseline;
 }
 
 #overrides .page-header {
