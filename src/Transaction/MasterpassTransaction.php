@@ -55,11 +55,17 @@ class MasterpassTransaction extends Transaction implements Reservable
     protected function retrieveTransactionTypeForPay()
     {
         if ($this->parentTransactionId) {
+            if ($this->parentTransactionType === Transaction::TYPE_PURCHASE) {
+                return self::TYPE_REFERENCED_PURCHASE;
+            }
             return self::TYPE_CAPTURE_AUTHORIZATION;
         }
         return self::TYPE_DEBIT;
     }
 
+    /**
+     * @return string
+     */
     protected function retrieveTransactionTypeForCancel()
     {
         if ($this->parentTransactionType === self::TYPE_PURCHASE) {
@@ -72,6 +78,10 @@ class MasterpassTransaction extends Transaction implements Reservable
 
         if ($this->parentTransactionType === self::TYPE_CAPTURE_AUTHORIZATION) {
             return self::TYPE_VOID_CAPTURE;
+        }
+
+        if ($this->parentTransactionType === self::TYPE_REFERENCED_PURCHASE) {
+            return self::TYPE_VOID_PURCHASE;
         }
 
         throw new UnsupportedOperationException('Canceling ' . $this->parentTransactionType . ' is not supported.');
@@ -88,6 +98,9 @@ class MasterpassTransaction extends Transaction implements Reservable
         return self::TYPE_AUTHORIZATION;
     }
 
+    /**
+     * @return string
+     */
     public function getEndpoint()
     {
         if ($this->parentTransactionId) {

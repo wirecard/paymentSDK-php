@@ -67,6 +67,7 @@ abstract class Transaction
     const TYPE_VOID_CAPTURE = 'void-capture';
     const TYPE_PURCHASE = 'purchase';
     const TYPE_REFUND_PURCHASE = 'refund-purchase';
+    const TYPE_REFERENCED_PURCHASE = 'referenced-purchase';
     const TYPE_VOID_PURCHASE = 'void-purchase';
 
     /**

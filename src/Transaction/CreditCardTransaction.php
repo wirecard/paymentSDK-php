@@ -44,7 +44,6 @@ class CreditCardTransaction extends Transaction implements Reservable
 {
     const NAME = 'creditcard';
     const TYPE_CHECK_ENROLLMENT = 'check-enrollment';
-    const TYPE_REFERENCED_PURCHASE = 'referenced-purchase';
 
     /**
      * @var string
