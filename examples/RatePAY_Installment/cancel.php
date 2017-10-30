@@ -9,6 +9,8 @@
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 require __DIR__ . '/../inc/config.php';
+//Header design
+require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -19,9 +21,11 @@ use Wirecard\PaymentSdk\TransactionService;
 if (!isset($_POST['parentTransactionId'])) {
     ?>
     <form action="cancel.php" method="post">
-        <label for="parentTransactionId">Transaction ID to cancel:</label><br>
-        <input id="parentTransactionId" name="parentTransactionId" style="width:300px"/><br>
-        <input type="submit"/>
+        <div class="form-group">
+            <label for="parentTransactionId">Transaction ID to cancel:</label><br>
+            <input id="parentTransactionId" name="parentTransactionId" class="form-control"/><br>
+        </div>
+        <button type="submit" class="btn btn-primary">Cancel</button>
     </form>
 <?php
 } else {
@@ -88,3 +92,5 @@ if (!isset($_POST['parentTransactionId'])) {
         }
     }
 }
+//Footer design
+require __DIR__ . '/../inc/footer.php';
