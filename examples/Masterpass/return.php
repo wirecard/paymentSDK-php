@@ -52,14 +52,18 @@ if ($_POST) {
                 <input type="hidden" name="parentTransactionId" value="<?= $response->getParentTransactionId() ?>">
                 <input type="submit" value="Cancel payment">
             </form>
+            <form action="pay-based-on-pay.php" method="post">
+                <input type="hidden" name="parentTransactionId" value="<?= $response->getParentTransactionId() ?>"/>
+                <input type="text" name="amount" value="150">
+                <input type="submit" value="Payment after a payment">
+            </form>
             <?php
         }
         if ($response->getTransactionType() == Transaction::TYPE_AUTHORIZATION) {
         ?>
         <form action="pay-based-on-reserve.php" method="post">
             <input type="hidden" name="parentTransactionId" value="<?= $response->getParentTransactionId() ?>"/>
-            <input type="text" name="amount" value="150">
-            <input type="submit" value="Payment after a reservation">
+            <input type="submit" value="Capture the reservation">
         </form>
         <form action="cancel.php" method="post">
             <input type="hidden" name="parentTransactionId" value="<?= $response->getParentTransactionId() ?>"/>

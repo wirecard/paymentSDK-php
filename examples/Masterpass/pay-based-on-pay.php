@@ -10,15 +10,26 @@ require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 require __DIR__ . '/../inc/config.php';
 
+use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\MasterpassTransaction;
 use Wirecard\PaymentSdk\TransactionService;
+use Wirecard\PaymentSdk\Transaction\Transaction;
 
 // ## Transaction
 
+// Prepare referenced pay relevant data
+$accountHolder = new AccountHolder();
+$accountHolder->setFirstName('Max');
+$accountHolder->setLastName('Cavalera');
+
 $transaction = new MasterpassTransaction();
 $transaction->setParentTransactionId($_POST['parentTransactionId']);
+$transaction->setAmount(new Amount((float)$_POST['amount'], 'EUR'));
+$transaction->setAccountHolder($accountHolder);
+
 
 // ### Transaction Service
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
