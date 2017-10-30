@@ -10,6 +10,7 @@
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 require __DIR__ . '/../inc/config.php';
+require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\TransactionService;
@@ -38,3 +39,5 @@ if ($response instanceof SuccessResponse) {
 } else {
     echo "Transaction was not successful.";
 }
+
+require __DIR__ . '/../inc/footer.php';

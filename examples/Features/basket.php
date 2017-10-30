@@ -10,6 +10,7 @@
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 require __DIR__ . '/../inc/config.php';
+require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
@@ -94,3 +95,5 @@ if ($response instanceof InteractionResponse) {
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 }
+
+require __DIR__ . '/../inc/footer.php';

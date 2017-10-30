@@ -12,6 +12,7 @@
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 require __DIR__ . '/../inc/config.php';
+require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
@@ -64,7 +65,8 @@ if ($response instanceof FormInteractionResponse) {
         // For a better demonstration and for the ease of use this automated submit
         // is replaced with a submit button.
         ?>
-        <input type="submit" value="Redirect to the success URL"></form>
+        <button type="submit" class="btn btn-primary">Redirect to the success URL</button>
+    </form>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
@@ -80,3 +82,5 @@ if ($response instanceof FormInteractionResponse) {
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 }
+
+require __DIR__ . '/../inc/footer.php';
