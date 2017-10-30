@@ -31,6 +31,8 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Entity\AccountHolder;
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
 class MasterpassTransaction extends Transaction implements Reservable
@@ -42,6 +44,11 @@ class MasterpassTransaction extends Transaction implements Reservable
      */
     protected function mappedSpecificProperties()
     {
+        if (($this->retrieveTransactionTypeForPay() !== Transaction::TYPE_CAPTURE_AUTHORIZATION) && !$this->accountHolder instanceof AccountHolder
+        ) {
+            throw new MandatoryFieldMissingException('Account holder is a mandatory field.');
+        }
+
         $result = array();
         if ($this->parentTransactionId) {
             $result['payment-methods'] = ['payment-method' => [['name' => 'creditcard']]];
