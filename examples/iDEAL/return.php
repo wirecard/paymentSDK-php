@@ -9,6 +9,7 @@
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 require __DIR__ . '/../inc/config.php';
+require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
@@ -53,3 +54,5 @@ if ($response instanceof SuccessResponse) {
         echo sprintf('%s with code %s and message "%s" occured.<br>', $severity, $code, $description);
     }
 }
+
+require __DIR__ . '/../inc/footer.php';
