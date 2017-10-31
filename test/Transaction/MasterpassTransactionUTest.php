@@ -66,13 +66,15 @@ class MasterpassTransactionUTest extends \PHPUnit_Framework_TestCase
 
         $mappedProperties = $this->tx->mappedProperties();
 
-        $this->assertEquals(CreditCardTransaction::NAME, $mappedProperties['payment-methods']['payment-method'][0]['name']);
+        $this->assertEquals(CreditCardTransaction::NAME,
+            $mappedProperties['payment-methods']['payment-method'][0]['name']);
     }
 
     /**
      * @expectedException Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
      */
-    public function testMandatoryAccountHolderForPayReferenced() {
+    public function testMandatoryAccountHolderForPayReferenced()
+    {
         $this->tx->setParentTransactionType(Transaction::TYPE_PURCHASE);
         $this->tx->setParentTransactionId('parentTransactionId');
         $this->tx->setOperation(Operation::PAY);
@@ -82,23 +84,27 @@ class MasterpassTransactionUTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
      */
-    public function testMandatoryAccountHolderForPayNonReferenced() {
+    public function testMandatoryAccountHolderForPayNonReferenced()
+    {
         $this->tx->setOperation(Operation::PAY);
         $this->tx->setParentTransactionId(null);
         $this->tx->setParentTransactionType(null);
         $this->tx->mappedProperties();
     }
 
-    public function testEndpointPayments() {
+    public function testEndpointPayments()
+    {
         $this->tx->setParentTransactionId('abc123');
         $this->assertEquals(Transaction::ENDPOINT_PAYMENTS, $this->tx->getEndpoint());
     }
 
-    public function testEndpointPaymentMethods() {
+    public function testEndpointPaymentMethods()
+    {
         $this->assertEquals(Transaction::ENDPOINT_PAYMENT_METHODS, $this->tx->getEndpoint());
     }
 
-    public function testRetrieveTransactionForCancelPurchase() {
+    public function testRetrieveTransactionForCancelPurchase()
+    {
         $retrieveTransactionTypeForCancel = self::getMethod('retrieveTransactionTypeForCancel');
         $this->tx->setParentTransactionType(Transaction::TYPE_PURCHASE);
         $tx = $retrieveTransactionTypeForCancel->invoke($this->tx);
@@ -106,7 +112,16 @@ class MasterpassTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Transaction::TYPE_REFUND_PURCHASE, $tx);
     }
 
-    public function testRetrieveTransactionForCancelAuthorization() {
+    private static function getMethod($method)
+    {
+        $class = new ReflectionClass(MasterpassTransaction::class);
+        $method = $class->getMethod($method);
+        $method->setAccessible(true);
+        return $method;
+    }
+
+    public function testRetrieveTransactionForCancelAuthorization()
+    {
         $retrieveTransactionTypeForCancel = self::getMethod('retrieveTransactionTypeForCancel');
         $this->tx->setParentTransactionType(Transaction::TYPE_AUTHORIZATION);
         $tx = $retrieveTransactionTypeForCancel->invoke($this->tx);
@@ -114,7 +129,8 @@ class MasterpassTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Transaction::TYPE_VOID_AUTHORIZATION, $tx);
     }
 
-    public function testRetrieveTransactionForCancelCaptureAuthorization() {
+    public function testRetrieveTransactionForCancelCaptureAuthorization()
+    {
         $retrieveTransactionTypeForCancel = self::getMethod('retrieveTransactionTypeForCancel');
         $this->tx->setParentTransactionType(Transaction::TYPE_CAPTURE_AUTHORIZATION);
         $tx = $retrieveTransactionTypeForCancel->invoke($this->tx);
@@ -122,7 +138,8 @@ class MasterpassTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Transaction::TYPE_VOID_CAPTURE, $tx);
     }
 
-    public function testRetrieveTransactionForCancelReferencedPurchase() {
+    public function testRetrieveTransactionForCancelReferencedPurchase()
+    {
         $retrieveTransactionTypeForCancel = self::getMethod('retrieveTransactionTypeForCancel');
         $this->tx->setParentTransactionType(Transaction::TYPE_REFERENCED_PURCHASE);
         $tx = $retrieveTransactionTypeForCancel->invoke($this->tx);
@@ -133,32 +150,27 @@ class MasterpassTransactionUTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException Wirecard\PaymentSdk\Exception\UnsupportedOperationException
      */
-    public function testRetrieveTransactionForCancelUnsupported() {
+    public function testRetrieveTransactionForCancelUnsupported()
+    {
         $retrieveTransactionTypeForCancel = self::getMethod('retrieveTransactionTypeForCancel');
         $this->tx->setParentTransactionType(Transaction::TYPE_DEBIT);
         $retrieveTransactionTypeForCancel->invoke($this->tx);
     }
 
-    public function testRetrieveTransactionForReserve() {
+    public function testRetrieveTransactionForReserve()
+    {
         $retrieveTransactionTypeForReserve = self::getMethod('retrieveTransactionTypeForReserve');
         $this->tx->setAmount(new Amount(1.01, 'EUR'));
         $transactionType = $retrieveTransactionTypeForReserve->invoke($this->tx);
         $this->assertEquals(Transaction::TYPE_AUTHORIZATION, $transactionType);
     }
 
-    public function testRetrieveTransactionForReserveZeroAuth() {
+    public function testRetrieveTransactionForReserveZeroAuth()
+    {
         $retrieveTransactionTypeForReserve = self::getMethod('retrieveTransactionTypeForReserve');
         $this->tx->setAmount(new Amount(0.0, 'EUR'));
         $transactionType = $retrieveTransactionTypeForReserve->invoke($this->tx);
         $this->assertEquals(Transaction::TYPE_AUTHORIZATION_ONLY, $transactionType);
-    }
-
-    private static function getMethod($method)
-    {
-        $class = new ReflectionClass(MasterpassTransaction::class);
-        $method = $class->getMethod($method);
-        $method->setAccessible(true);
-        return $method;
     }
 
 }
