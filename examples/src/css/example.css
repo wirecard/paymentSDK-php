@@ -42,6 +42,7 @@
 
 #overrides .list-group-item:hover {
     color: #ff2014;
+    background-color: #F7F7F8;
 }
 
 #overrides .btn-primary {
@@ -49,5 +50,5 @@
 }
 
 #overrides .btn-primary:hover {
-     background-color: #002846;
+     background-color: #414B56;
  }
