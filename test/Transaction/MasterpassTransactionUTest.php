@@ -66,8 +66,10 @@ class MasterpassTransactionUTest extends \PHPUnit_Framework_TestCase
 
         $mappedProperties = $this->tx->mappedProperties();
 
-        $this->assertEquals(CreditCardTransaction::NAME,
-            $mappedProperties['payment-methods']['payment-method'][0]['name']);
+        $this->assertEquals(
+            CreditCardTransaction::NAME,
+            $mappedProperties['payment-methods']['payment-method'][0]['name']
+        );
     }
 
     /**
@@ -172,5 +174,4 @@ class MasterpassTransactionUTest extends \PHPUnit_Framework_TestCase
         $transactionType = $retrieveTransactionTypeForReserve->invoke($this->tx);
         $this->assertEquals(Transaction::TYPE_AUTHORIZATION_ONLY, $transactionType);
     }
-
 }
