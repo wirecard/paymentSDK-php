@@ -31,6 +31,7 @@ We also provide some examples for using the PaymentSDK, which can be found [here
 - Bancontact
 - Credit Card
 - Credit Card Moto
+- Masterpass
 - eps
 - iDEAL
 - Online bank transfer. (SOFORT)
