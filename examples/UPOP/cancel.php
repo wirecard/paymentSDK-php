@@ -24,7 +24,7 @@ if (!isset($_POST['parentTransactionId'])) {
             <label for="parentTransactionId">Transaction ID to refund:</label><br>
             <input id="parentTransactionId" name="parentTransactionId" class="form-control"/><br>
         </div>
-        <button type="submit" class="btn btn-primary">submit</button>
+        <button type="submit" class="btn btn-primary">Refund</button>
     </form>
     <?php
 } else {

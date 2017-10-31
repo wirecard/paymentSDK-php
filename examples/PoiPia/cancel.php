@@ -25,7 +25,7 @@ if (!isset($_POST['parentTransactionId'])) {
             <label for="parentTransactionId">Transaction ID to cancel:</label><br>
             <input id="parentTransactionId" name="parentTransactionId" class="form-control"/><br>
         </div>
-        <button type="submit" class="btn btn-primary">Daten absenden</button>
+        <button type="submit" class="btn btn-primary">Cancel</button>
     </form>
 <?php
 } else {
