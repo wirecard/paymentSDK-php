@@ -57,8 +57,8 @@ $response = $transactionService->pay($transaction);
 // in order to continue the payment process. In this example we proceed with a header redirect
 // to the given _redirectUrl_. IFrame integration using this URL is also possible.
 if ($response instanceof InteractionResponse) {
-    header('location: ' . $response->getRedirectUrl());
-    exit;
+    die("<meta http-equiv='refresh' content='0;url={$response->getRedirectUrl()}'>");
+
 // The failure state is represented by a FailureResponse object.
 // In this case the returned errors should be stored in your system.
 } elseif ($response instanceof FailureResponse) {

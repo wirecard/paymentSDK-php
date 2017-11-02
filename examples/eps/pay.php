@@ -36,8 +36,8 @@ $response = $transactionService->pay($tx);
 // Since a redirect for successful transactions is defined, a FormInteractionResponse is returned
 // if the transaction was successful.
 if ($response instanceof InteractionResponse) {
-    header('location: ' . $response->getRedirectUrl());
-    exit;
+    die("<meta http-equiv='refresh' content='0;url={$response->getRedirectUrl()}'>");
+    
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
     echo "The transaction has failed.<br>";

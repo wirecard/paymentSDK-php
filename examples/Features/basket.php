@@ -27,7 +27,7 @@ $redirectUrls = new Redirect(
     getUrl('../PayPal/return.php?status=success'),
     getUrl('../PayPal/return.php?status=cancel')
 );
-$notificationUrl = getUrl('notify.php');
+$notificationUrl = getUrl('../PayPal/notify.php');
 
 // ### Basket items
 // A Basket contains one or more items.
@@ -79,8 +79,8 @@ $response = $transactionService->reserve($transaction);
 // in order to continue the reserve process. In this example we proceed with a header redirect
 // to the given _redirectUrl_. IFrame integration using this URL is also possible.
 if ($response instanceof InteractionResponse) {
-    header('location: ' . $response->getRedirectUrl());
-    exit;
+    die("<meta http-equiv='refresh' content='0;url={$response->getRedirectUrl()}'>");
+
 // The failure state is represented by a FailureResponse object.
 // In this case the returned errors should be stored in your system.
 } elseif ($response instanceof FailureResponse) {
