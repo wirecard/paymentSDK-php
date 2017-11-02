@@ -44,7 +44,7 @@ class MasterpassTransaction extends Transaction implements Reservable
      */
     protected function mappedSpecificProperties()
     {
-        if ( $this->operation === Operation::PAY
+        if ($this->operation === Operation::PAY
             && $this->retrieveTransactionTypeForPay() !== Transaction::TYPE_CAPTURE_AUTHORIZATION
             && !$this->accountHolder instanceof AccountHolder
         ) {
