@@ -33,6 +33,7 @@ We also provide some examples for using the PaymentSDK, which can be found [here
 - Credit Card Moto
 - eps
 - iDEAL
+- Masterpass
 - Online bank transfer. (SOFORT)
 - Payment on Invoice/ Payment in Advance
 - PayPal
