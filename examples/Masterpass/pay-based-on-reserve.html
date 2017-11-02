@@ -3,15 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Pay with credit card after a masterpass reserve</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="../src/css/example.css" rel="stylesheet">
 </head>
-<body>
-<form action="pay-based-on-reserve.php" method="post">
-    <label for="parentTransactionId">Reserved transaction ID:</label><br>
-    <input id="parentTransactionId" name="parentTransactionId" style="width:300px"/><br>
-    <label for="amount">Amount:</label><br>
-    <input id="amount" name="amount" style="width:300px" value="1.0" /><br>
-    <p>Please be aware that the amount for payment must not exceed the reserved amount.</p>
-    <input type="submit" value="Pay"/>
-</form>
+<body id="overrides">
+<div class="container">
+    <div class="page-header">
+        <div class="row align-baseline">
+            <div class="col-sm-3">
+                <a href="../index.html"><img src="../src/img/wirecard_logo.png" alt="wirecard" /></a>
+            </div>
+            <div class="col-sm-9 bottom-align-text">
+                <h1>Payment SDK for PHP examples</h1>
+            </div>
+        </div>
+    </div>
+    <form action="pay-based-on-reserve.php" method="post">
+        <div class="form-group">
+            <label for="parentTransactionId">Reserved transaction ID:</label>
+            <input id="parentTransactionId" name="parentTransactionId" class="form-control"/>
+        </div>
+        <div class="form-group">
+            <label for="amount">Amount:</label>
+            <input id="amount" name="amount" class="form-control" value="1.0" />
+            <small class="form-text text-muted">Please be aware that the amount for payment must not exceed the reserved amount.</small>
+        </div>
+        <button type="submit" class="btn btn-primary">Pay</button>
+    </form>
+</div>
 </body>
 </html>
