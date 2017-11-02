@@ -12,7 +12,9 @@ to take place on the client-side, so that the credit card data is not processed 
 &lt;html&gt;
 &lt;head&gt;
     &lt;script src=<span class="hljs-string">"https://code.jquery.com/jquery-3.1.1.min.js"</span> type=<span class="hljs-string">"application/javascript"</span>&gt;&lt;/script&gt;
-
+    &lt;link rel=<span class="hljs-string">"stylesheet"</span> href=<span class="hljs-string">"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"</span>
+          integrity=<span class="hljs-string">"sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"</span> crossorigin=<span class="hljs-string">"anonymous"</span>&gt;
+    &lt;link href=<span class="hljs-string">"../src/css/example.css"</span> rel=<span class="hljs-string">"stylesheet"</span>&gt;
     <span class="hljs-preprocessor">&lt;?php</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>This library is needed to generate the UI and to get a valid token ID.</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-preprocessor">?&gt;</span>
     &lt;script src=<span class="hljs-string">"&lt;?= $baseUrl ?&gt;/engine/hpp/paymentPageLoader.js"</span> type=<span class="hljs-string">"text/javascript"</span>&gt;&lt;/script&gt;
     &lt;style&gt;
@@ -21,16 +23,29 @@ to take place on the client-side, so that the credit card data is not processed 
         }
     &lt;/style&gt;
 &lt;/head&gt;
-&lt;body&gt;
-&lt;form id=<span class="hljs-string">"payment-form"</span> method=<span class="hljs-string">"post"</span> action=<span class="hljs-string">"reserve.php"</span>&gt;
-    <span class="hljs-preprocessor">&lt;?php</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>The token ID, which is returned from the credit card UI, needs to be sent on submitting the form.
-In this example this is facilitated via a hidden form field.</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-preprocessor">?&gt;</span>
-    &lt;input type=<span class="hljs-string">"hidden"</span> name=<span class="hljs-string">"tokenId"</span> id=<span class="hljs-string">"tokenId"</span> value=<span class="hljs-string">""</span>&gt;
-    <span class="hljs-preprocessor">&lt;?php</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="render-the-form">Render the form</h3></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>The javascript library needs a div which it can fill with all credit card related fields.</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-preprocessor">?&gt;</span>
-    &lt;div id=<span class="hljs-string">"creditcard-form-div"</span>&gt;&lt;/div&gt;
-    &lt;input type=<span class="hljs-string">"submit"</span> value=<span class="hljs-string">"Save"</span>&gt;
-&lt;/form&gt;
-&lt;script type=<span class="hljs-string">"application/javascript"</span>&gt;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>This function will render the credit card UI in the specified div.</p></div></div><div class="code"><div class="wrapper">    WirecardPaymentPage.seamlessRenderForm({</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>We fill the <em>requestData</em> with the return value
+&lt;body id=<span class="hljs-string">"overrides"</span>&gt;
+&lt;div <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">container</span>"&gt;
+    &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">page</span>-<span class="hljs-title">header</span>"&gt;
+        &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">row</span>"&gt;
+            &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">col</span>-<span class="hljs-title">sm</span>-2"&gt;
+                &lt;<span class="hljs-title">img</span> <span class="hljs-title">src</span>="../<span class="hljs-title">src</span>/<span class="hljs-title">img</span>/<span class="hljs-title">wirecard_logo</span>.<span class="hljs-title">png</span>" <span class="hljs-title">alt</span>="<span class="hljs-title">wirecard</span>" /&gt;
+            &lt;/<span class="hljs-title">div</span>&gt;
+            &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">col</span>-<span class="hljs-title">sm</span>-10 <span class="hljs-title">align</span>-<span class="hljs-title">bottom</span>"&gt;
+                &lt;<span class="hljs-title">h1</span>&gt;<span class="hljs-title">Payment</span> <span class="hljs-title">SDK</span> <span class="hljs-title">for</span> <span class="hljs-title">PHP</span> <span class="hljs-title">examples</span>&lt;/<span class="hljs-title">h1</span>&gt;
+            &lt;/<span class="hljs-title">div</span>&gt;
+        &lt;/<span class="hljs-title">div</span>&gt;
+    &lt;/<span class="hljs-title">div</span>&gt;
+    &lt;<span class="hljs-title">form</span> <span class="hljs-title">id</span>="<span class="hljs-title">payment</span>-<span class="hljs-title">form</span>" <span class="hljs-title">method</span>="<span class="hljs-title">post</span>" <span class="hljs-title">action</span>="<span class="hljs-title">reserve</span>.<span class="hljs-title">php</span>"&gt;
+        &lt;?<span class="hljs-title">php</span></span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>The token ID, which is returned from the credit card UI, needs to be sent on submitting the form.
+In this example this is facilitated via a hidden form field.</p></div></div><div class="code"><div class="wrapper">        <span class="hljs-preprocessor">?&gt;</span>
+        &lt;input type=<span class="hljs-string">"hidden"</span> name=<span class="hljs-string">"tokenId"</span> id=<span class="hljs-string">"tokenId"</span> value=<span class="hljs-string">""</span>&gt;
+        <span class="hljs-preprocessor">&lt;?php</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="render-the-form">Render the form</h3></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>The javascript library needs a div which it can fill with all credit card related fields.</p></div></div><div class="code"><div class="wrapper">        <span class="hljs-preprocessor">?&gt;</span>
+        &lt;div id=<span class="hljs-string">"creditcard-form-div"</span>&gt;&lt;/div&gt;
+        &lt;button type=<span class="hljs-string">"submit"</span> <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">btn</span> <span class="hljs-title">btn</span>-<span class="hljs-title">primary</span>"&gt;<span class="hljs-title">Save</span>&lt;/<span class="hljs-title">button</span>&gt;
+    &lt;/<span class="hljs-title">form</span>&gt;
+&lt;/<span class="hljs-title">div</span>&gt;
+&lt;<span class="hljs-title">script</span> <span class="hljs-title">type</span>="<span class="hljs-title">application</span>/<span class="hljs-title">javascript</span>"&gt;
+</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>This function will render the credit card UI in the specified div.</p></div></div><div class="code"><div class="wrapper">    WirecardPaymentPage.seamlessRenderForm({</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>We fill the <em>requestData</em> with the return value
 from the <code>getDataForCreditCardUi</code> method of the <code>transactionService</code>.</p></div></div><div class="code"><div class="wrapper">        requestData: <span class="hljs-preprocessor">&lt;?</span>= <span class="hljs-variable">$transactionService</span>-&gt;getDataForCreditCardUi(); <span class="hljs-preprocessor">?&gt;</span>,
         wrappingDivId: <span class="hljs-string">"creditcard-form-div"</span>,
         onSuccess: logCallback,

@@ -1,5 +1,7 @@
 <!DOCTYPE html><html lang="en"><head><title>examples/iDEAL/notify</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="examples/iDEAL/notify"><meta name="groc-project-path" content="examples/iDEAL/notify.php"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">examples/iDEAL/notify.php</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-preprocessor">&lt;?php</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h1 id="ideal-notification">iDEAL notification</h1></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Wirecard sends a server-to-server request regarding any changes in the transaction status.</p></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="required-objects">Required objects</h2></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>To include the necessary files, we use the composer for PSR-4 autoloading.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">require</span> <span class="hljs-keyword">__DIR__</span> . <span class="hljs-string">'/../../vendor/autoload.php'</span>;
 <span class="hljs-keyword">require</span> <span class="hljs-keyword">__DIR__</span> . <span class="hljs-string">'/../inc/config.php'</span>;
+<span class="hljs-comment">//Header design</span>
+<span class="hljs-keyword">require</span> <span class="hljs-keyword">__DIR__</span> . <span class="hljs-string">'/../inc/header.php'</span>;
 
 <span class="hljs-keyword">use</span> <span class="hljs-title">Monolog</span>\<span class="hljs-title">Handler</span>\<span class="hljs-title">StreamHandler</span>;
 <span class="hljs-keyword">use</span> <span class="hljs-title">Monolog</span>\<span class="hljs-title">Logger</span>;
@@ -27,4 +29,6 @@ You should display them as error, warning or information based on the given seve
         <span class="hljs-variable">$description</span> = <span class="hljs-variable">$status</span>-&gt;getDescription();
         <span class="hljs-variable">$log</span>-&gt;warning(sprintf(<span class="hljs-string">'%s with code %s and message "%s" occured.&lt;br&gt;'</span>, <span class="hljs-variable">$severity</span>, <span class="hljs-variable">$code</span>, <span class="hljs-variable">$description</span>));
     }
-}</div></div></div></div></body></html>
+}
+<span class="hljs-comment">//Footer design</span>
+<span class="hljs-keyword">require</span> <span class="hljs-keyword">__DIR__</span> . <span class="hljs-string">'/../inc/footer.php'</span>;</div></div></div></div></body></html>
