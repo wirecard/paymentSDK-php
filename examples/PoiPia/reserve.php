@@ -10,6 +10,8 @@
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 require __DIR__ . '/../inc/config.php';
+//Header design
+require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -57,7 +59,7 @@ if ($response instanceof SuccessResponse):
     <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="submit" value="Cancel the reservation">
+        <button type="submit" class="btn btn-primary">Cancel the reservation</button>
     </form>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
@@ -74,3 +76,5 @@ elseif ($response instanceof FailureResponse):
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 endif;
+//Footer design
+require __DIR__ . '/../inc/footer.php';

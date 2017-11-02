@@ -10,6 +10,8 @@
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 require __DIR__ . '/../inc/config.php';
+//Header design
+require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -68,7 +70,7 @@ if ($response instanceof FormInteractionResponse):
         <?php endforeach;
         // For a better demonstration and for the ease of use the automatic submit was replaced with a submit button.
         ?>
-        <input type="submit" value="Redirect to 3-D Secure page"></form>
+        <button type="submit" class="btn btn-primary">Redirect to 3-D Secure page</button>
     <?php
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
@@ -79,7 +81,7 @@ elseif ($response instanceof SuccessResponse):
     <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="submit" value="Cancel the payment">
+        <button type="submit" class="btn btn-primary">Cancel the payment</button>
     </form>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
@@ -96,3 +98,5 @@ elseif ($response instanceof FailureResponse):
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 endif;
+//Footer design
+require __DIR__ . '/../inc/footer.php';

@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Recurring payment via tokenId</title>
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js" type="application/javascript"></script>
+    <title>Wirecard CEE - payment SDK for PHP examples</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link href="../src/css/example.css" rel="stylesheet">
@@ -20,13 +17,3 @@
             </div>
         </div>
     </div>
-    <form action="pay-based-on-token.php" method="post" id="payment-form">
-        <div class="form-group">
-            <label for="tokenId">Credit Card Token-Id:</label><br>
-            <input id="tokenId" name="tokenId" class="form-control" value="4748178566351002" /><br>
-        </div>
-        <button type="submit" class="btn btn-primary">Pay</button>
-    </form>
-</div>
-</body>
-</html>

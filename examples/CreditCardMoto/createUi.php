@@ -25,7 +25,9 @@ $transactionService = new TransactionService($config);
 <html>
 <head>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" type="application/javascript"></script>
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="../src/css/example.css" rel="stylesheet">
     <?php
     // This library is needed to generate the UI and to get a valid token ID.
     ?>
@@ -36,21 +38,33 @@ $transactionService = new TransactionService($config);
         }
     </style>
 </head>
-<body>
-<form id="payment-form" method="post" action="reserve.php">
-    <?php
-    // The token ID, which is returned from the credit card UI, needs to be sent on submitting the form.
-    // In this example this is facilitated via a hidden form field.
-    ?>
-    <input type="hidden" name="tokenId" id="tokenId" value="">
-    <?php
-    // ### Render the form
+<body id="overrides">
+<div class="container">
+    <div class="page-header">
+        <div class="row">
+            <div class="col-sm-2">
+                <img src="../src/img/wirecard_logo.png" alt="wirecard" />
+            </div>
+            <div class="col-sm-10 align-bottom">
+                <h1>Payment SDK for PHP examples</h1>
+            </div>
+        </div>
+    </div>
+    <form id="payment-form" method="post" action="reserve.php">
+        <?php
+        // The token ID, which is returned from the credit card UI, needs to be sent on submitting the form.
+        // In this example this is facilitated via a hidden form field.
+        ?>
+        <input type="hidden" name="tokenId" id="tokenId" value="">
+        <?php
+        // ### Render the form
 
-    // The javascript library needs a div which it can fill with all credit card related fields.
-    ?>
-    <div id="creditcard-form-div"></div>
-    <input type="submit" value="Save">
-</form>
+        // The javascript library needs a div which it can fill with all credit card related fields.
+        ?>
+        <div id="creditcard-form-div"></div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</div>
 <script type="application/javascript">
 
     // This function will render the credit card UI in the specified div.

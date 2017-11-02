@@ -9,6 +9,8 @@
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 require __DIR__ . '/../inc/config.php';
+//Header design
+require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
@@ -45,17 +47,19 @@ if ($_POST) {
         ?>
         <form action="pay-based-on-reserve.php" method="post">
             <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-            <input type="submit" value="Capture the reservation">
+            <button type="submit" class="btn btn-primary">Capture the reservation</button>
         </form>
         <form action="cancel.php" method="post">
             <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-            <input type="submit" value="Cancel the reservation">
+            <button type="submit" class="btn btn-primary">Cancel the reservation</button>
         </form>
         <form action="credit.php" method="post">
             <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-            <label for="amount">Amount to credit:</label>
-            <input type="text" name="amount" id="amount" value="100"/>
-            <input type="submit" value="Credit">
+            <div class="form-group">
+                <label for="amount">Amount to credit:</label>
+                <input type="text" name="amount" id="amount" value="100" class="form-control"/>
+            </div>
+            <button type="submit" class="btn btn-primary">Credit</button>
         </form>
         <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
@@ -78,3 +82,5 @@ if ($_POST) {
 } else {
     echo 'The transaction has been cancelled.<br>';
 }
+//Footer design
+require __DIR__ . '/../inc/footer.php';

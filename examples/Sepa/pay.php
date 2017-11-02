@@ -10,6 +10,8 @@
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 require __DIR__ . '/../inc/config.php';
+//Header design
+require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -23,18 +25,16 @@ use Wirecard\PaymentSdk\TransactionService;
 if (!isset($_POST['iban'])) {
     ?>
     <form action="pay.php" method="post">
-        <p>
-            <label for="iban">IBAN:</label><br>
-            <input id="iban" name="iban" value="DE42512308000000060004" style="width:300px"/>
-        </p>
-
-        <p>
-            <label for="bic">BIC:</label><br>
-            <input id="bic" name="bic" value="" style="width:300px"/><br>
-            e.g. WIREDEMMXXX
-        </p>
-
-        <input type="submit" value="Pay"/>
+        <div class="form-group">
+            <label for="iban">IBAN:</label>
+            <input id="iban" name="iban" value="DE42512308000000060004" class="form-control"/>
+        </div>
+        <div class="form-group">
+            <label for="bic">BIC:</label>
+            <input id="bic" name="bic" value="" class="form-control"/>
+            <small>e.g. WIREDEMMXXX</small>
+        </div>
+        <button type="submit" class="btn btn-primary">Pay</button>
     </form>
     <?php
 } else {
@@ -104,7 +104,8 @@ if (!isset($_POST['iban'])) {
             // For a better demonstration and for the ease of use this automated submit
             // is replaced with a submit button.
             ?>
-            <input type="submit" value="Redirect to the success URL"></form>
+            <button type="submit" class="btn btn-primary">Redirect to the success URL</button>
+        </form>
         <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
     } elseif ($response instanceof FailureResponse) {
@@ -121,3 +122,5 @@ if (!isset($_POST['iban'])) {
         }
     }
 }
+//Footer design
+require __DIR__ . '/../inc/footer.php';
