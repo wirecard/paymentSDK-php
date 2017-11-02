@@ -44,7 +44,7 @@ class MasterpassTransaction extends Transaction implements Reservable
      */
     protected function mappedSpecificProperties()
     {
-        if (($this->retrieveTransactionTypeForPay() !== Transaction::TYPE_CAPTURE_AUTHORIZATION)
+        if ( $this->operation === Operation::PAY && $this->retrieveTransactionTypeForPay() !== Transaction::TYPE_CAPTURE_AUTHORIZATION
             && !$this->accountHolder instanceof AccountHolder
         ) {
             throw new MandatoryFieldMissingException('Account holder is a mandatory field.');
