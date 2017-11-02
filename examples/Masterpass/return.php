@@ -9,6 +9,8 @@
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 require __DIR__ . '/../inc/config.php';
+//Header design
+require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
@@ -50,12 +52,14 @@ if ($_POST) {
 // transaction was a credit card transaction. In these examples it is always the parent transaction.
                 ?>
                 <input type="hidden" name="parentTransactionId" value="<?= $response->getParentTransactionId() ?>">
-                <input type="submit" value="Cancel payment">
+                <button type="submit" class="btn btn-primary">Cancel payment</button>
             </form>
             <form action="pay-based-on-pay.php" method="post">
-                <input type="hidden" name="parentTransactionId" value="<?= $response->getParentTransactionId() ?>"/>
-                <input type="text" name="amount" value="150">
-                <input type="submit" value="Payment after a payment">
+                <div class="form-group">
+                    <input type="hidden" name="parentTransactionId" value="<?= $response->getParentTransactionId() ?>"/>
+                    <input type="text" name="amount" value="150" class="form-control" />
+                </div>
+                <button type="submit" class="btn btn-primary">Payment after a payment</button>
             </form>
             <?php
         }
@@ -63,11 +67,11 @@ if ($_POST) {
         ?>
         <form action="pay-based-on-reserve.php" method="post">
             <input type="hidden" name="parentTransactionId" value="<?= $response->getParentTransactionId() ?>"/>
-            <input type="submit" value="Capture the reservation">
+            <button type="submit" class="btn btn-primary">Capture the reservation</button>
         </form>
         <form action="cancel.php" method="post">
             <input type="hidden" name="parentTransactionId" value="<?= $response->getParentTransactionId() ?>"/>
-            <input type="submit" value="Cancel payment">
+            <button type="submit" class="btn btn-primary">Cancel payment</button>
         </form>
         <?php }
 // In case of a failed transaction, a `FailureResponse` object is returned.
@@ -90,3 +94,5 @@ if ($_POST) {
 } else {
     echo 'The transaction has been cancelled.<br>';
 }
+//Footer design
+require __DIR__ . '/../inc/footer.php';
