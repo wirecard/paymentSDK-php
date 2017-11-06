@@ -101,7 +101,7 @@ $transactionService = new TransactionService($config);
                 <img src="https://raw.githubusercontent.com/wirecard/paymentSDK-php/master/examples/src/img/wirecard_logo.png" alt="wirecard" />
             </div>
             <div class="col-sm-10 align-bottom">
-                <h1>Payment SDK for PHP examples</h1>
+                <h1>Payment SDK for PHP Examples</h1>
             </div>
         </div>
     </div>

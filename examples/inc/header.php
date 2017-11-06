@@ -1,6 +1,6 @@
 <head>
     <meta charset="UTF-8">
-    <title>Wirecard CEE - payment SDK for PHP examples</title>
+    <title>Wirecard CEE - payment SDK for PHP Examples</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <style>
@@ -69,7 +69,7 @@
                 <a href="../index.html"><img src="https://raw.githubusercontent.com/wirecard/paymentSDK-php/master/examples/src/img/wirecard_logo.png" alt="wirecard" /></a>
             </div>
             <div class="col-sm-9 bottom-align-text">
-                <h1>Payment SDK for PHP examples</h1>
+                <h1>Payment SDK for PHP Examples</h1>
             </div>
         </div>
     </div>
