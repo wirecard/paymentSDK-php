@@ -33,6 +33,8 @@ namespace Wirecard\PaymentSdk\Config;
 
 use Monolog\Logger;
 use Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException;
+use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
 use Wirecard\PaymentSdk\Transaction\SepaTransaction;
 
 /**
@@ -267,7 +269,9 @@ class Config
 
         $fallbacks = [
             SepaTransaction::DIRECT_DEBIT => SepaTransaction::NAME,
-            SepaTransaction::CREDIT_TRANSFER => SepaTransaction::NAME
+            SepaTransaction::CREDIT_TRANSFER => SepaTransaction::NAME,
+            RatepayInvoiceTransaction::PAYMENT_NAME => RatepayInvoiceTransaction::NAME,
+            RatepayInstallmentTransaction::PAYMENT_NAME => RatepayInstallmentTransaction::NAME
         ];
 
         if (array_key_exists($paymentMethodName, $fallbacks)) {
