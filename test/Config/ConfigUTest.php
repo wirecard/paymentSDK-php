@@ -37,6 +37,8 @@ use org\bovigo\vfs\vfsStream;
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
 use Wirecard\PaymentSdk\Transaction\SepaTransaction;
 
 /**
@@ -108,9 +110,15 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
     {
         $sepaConfig = new PaymentMethodConfig(SepaTransaction::NAME, 'mid', 'key');
         $this->config->add($sepaConfig);
+        $ratepayInvoiceConfig = new PaymentMethodConfig(RatepayInvoiceTransaction::NAME, 'mid', 'key');
+        $this->config->add($ratepayInvoiceConfig);
+        $ratepayInstallConfig = new PaymentMethodConfig(RatepayInstallmentTransaction::NAME, 'mid', 'key');
+        $this->config->add($ratepayInstallConfig);
 
         $this->assertEquals($sepaConfig, $this->config->get(SepaTransaction::DIRECT_DEBIT));
         $this->assertEquals($sepaConfig, $this->config->get(SepaTransaction::CREDIT_TRANSFER));
+        $this->assertEquals($ratepayInvoiceConfig, $this->config->get(RatepayInvoiceTransaction::PAYMENT_NAME));
+        $this->assertEquals($ratepayInstallConfig, $this->config->get(RatepayInstallmentTransaction::PAYMENT_NAME));
     }
 
     public function testGetUseSpecificIfExistsAndNotFallback()
