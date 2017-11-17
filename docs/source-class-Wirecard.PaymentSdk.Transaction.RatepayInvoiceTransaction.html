@@ -205,9 +205,18 @@
 </span></span><span id="38" class="l"><a href="#38">38 </a><span class="php-comment"> */</span>
 </span><span id="39" class="l"><a href="#39">39 </a><span class="php-keyword1">class</span> RatepayInvoiceTransaction <span class="php-keyword1">extends</span> RatepayTransaction <span class="php-keyword1">implements</span> Reservable
 </span><span id="40" class="l"><a href="#40">40 </a>{
-</span><span id="41" class="l"><a href="#41">41 </a>    <span class="php-keyword1">const</span> NAME = <span class="php-quote">'ratepay-invoice'</span>;
-</span><span id="42" class="l"><a href="#42">42 </a>}
-</span><span id="43" class="l"><a href="#43">43 </a></span></code></pre>
+</span><span id="41" class="l"><a href="#41">41 </a>    <span class="php-keyword1">const</span> NAME = <span class="php-quote">'ratepayinvoice'</span>;
+</span><span id="42" class="l"><a href="#42">42 </a>    <span class="php-keyword1">const</span> PAYMENT_NAME = <span class="php-quote">'ratepay-invoice'</span>;
+</span><span id="43" class="l"><a href="#43">43 </a>
+</span><span id="44" class="l"><a href="#44">44 </a>    <span class="php-comment">/**
+</span></span><span id="45" class="l"><a href="#45">45 </a><span class="php-comment">     * @return string
+</span></span><span id="46" class="l"><a href="#46">46 </a><span class="php-comment">     */</span>
+</span><span id="47" class="l"><a href="#47">47 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getConfigKey()
+</span><span id="48" class="l"><a href="#48">48 </a>    {
+</span><span id="49" class="l"><a href="#49">49 </a>        <span class="php-keyword1">return</span> self::PAYMENT_NAME;
+</span><span id="50" class="l"><a href="#50">50 </a>    }
+</span><span id="51" class="l"><a href="#51">51 </a>}
+</span><span id="52" class="l"><a href="#52">52 </a></span></code></pre>
 	</div>
 
 	<div id="footer">
