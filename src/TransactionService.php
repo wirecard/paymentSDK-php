@@ -219,7 +219,7 @@ class TransactionService
      * @throws UnconfiguredPaymentMethodException
      * @return string
      */
-    public function getDataForCreditCardUi()
+    public function getDataForCreditCardUi($language = 'en')
     {
         $requestData = array(
             'request_time_stamp' => gmdate('YmdHis'),
@@ -228,6 +228,7 @@ class TransactionService
             'merchant_account_id' => $this->config->get(CreditCardTransaction::NAME)->getMerchantAccountId(),
             'requested_amount' => 0,
             'requested_amount_currency' => $this->config->getDefaultCurrency(),
+            'locale' => $language,
             'payment_method' => 'creditcard',
         );
 
@@ -251,7 +252,7 @@ class TransactionService
      * @throws UnconfiguredPaymentMethodException
      * @return string
      */
-    public function getDataForCreditCardMotoUi()
+    public function getDataForCreditCardMotoUi($language = 'en')
     {
         $requestData = array(
             'request_time_stamp' => gmdate('YmdHis'),
@@ -260,6 +261,7 @@ class TransactionService
             'merchant_account_id' => $this->config->get(CreditCardMotoTransaction::NAME)->getMerchantAccountId(),
             'requested_amount' => 0,
             'requested_amount_currency' => $this->config->getDefaultCurrency(),
+            'locale' => $language,
             'payment_method' => 'creditcard',
         );
 
