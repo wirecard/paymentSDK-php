@@ -529,6 +529,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
             'transaction_type' => 'authorization-only',
             'requested_amount' => 0,
             'requested_amount_currency' => $this->config->getDefaultCurrency(),
+            'locale' => 'en',
             'payment_method' => 'creditcard',
         ), $data);
     }
@@ -554,6 +555,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
             'transaction_type' => 'authorization-only',
             'requested_amount' => 0,
             'requested_amount_currency' => $this->config->getDefaultCurrency(),
+            'locale' => 'en',
             'payment_method' => 'creditcard',
         ), $data);
     }
