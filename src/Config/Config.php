@@ -40,7 +40,7 @@ use Wirecard\PaymentSdk\Transaction\SepaTransaction;
  * Class Config
  *
  * This object is needed to provide the transactionService with the necessary information
- * to communicate with the elastic engine
+ * to communicate with the Payment Gateway
  * @package Wirecard\PaymentSdk
  */
 class Config
