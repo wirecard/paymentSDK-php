@@ -45,4 +45,4 @@ We also provide some examples for using the PaymentSDK, which can be found [here
 - SEPA
 - UnionPay Online Payments
 
-If you have any questions or need further assistance do not hesitate to contact our [support teams](https://guides.wirecard.com/support).
+If you have any questions or need further assistance do not hesitate to contact our [support teams](mailto:support.at@wirecard.com ).
