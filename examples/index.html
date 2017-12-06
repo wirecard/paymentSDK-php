@@ -5,47 +5,104 @@
     <title>Wirecard AG - payment SDK for PHP examples</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <style>
+        #overrides h1 {
+            margin: 0px;
+            font-size: 2vw;
+        }
+
+        #overrides h2 {
+            padding-bottom: 10px;
+            border-bottom: 1px solid #dedede;
+        }
+
+        #overrides h3 {
+            min-height: 52.8px;
+        }
+
+        #overrides img {
+            height: 40px;
+            margin: 0px 20px;
+        }
+
+        #overrides .align-baseline {
+            position: relative;
+        }
+
+        #overrides .bottom-align-text {
+            position: absolute;
+            bottom: -0.35vw;
+            left: 235px;
+        }
+
+        #overrides .page-header {
+            background-color: #002846;
+            margin-top: 0px;
+            padding: 40px 20px;
+            color: white;
+        }
+
+        #overrides .list-group-item {
+            border-radius: 0px;
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+
+        #overrides .list-group-item:hover {
+            color: #ff2014;
+            background-color: #F7F7F8;
+        }
+
+        #overrides .btn-primary {
+            background-color: #002846;
+        }
+
+        #overrides .btn-primary:hover {
+            background-color: #414B56;
+        }
+    </style>
 </head>
-<body>
+<body id="overrides">
 <div class="container">
     <div class="page-header">
-        <h1>Payment SDK for PHP examples
-            <small> Wirecard AG</small>
-        </h1>
+        <div class="row align-baseline">
+            <div class="col-sm-3">
+                <a href=""><img src="https://raw.githubusercontent.com/wirecard/paymentSDK-php/master/examples/src/img/wirecard_logo.png" alt="wirecard" /></a>
+            </div>
+            <div class="col-sm-9 bottom-align-text">
+                <h1>Payment SDK for PHP Examples</h1>
+            </div>
+        </div>
     </div>
-
-    <div class="alert alert-danger" role="alert">The SDK is currently under development and should not be used!</div>
 
     <div class="row">
         <div class="col-sm-4">
-            <h2>Configuration</h2>
+            <h3>Configuration</h3>
             <div class="list-group">
                 <a href="inc/config.html" class="list-group-item">Basic configuration for all payment methods</a>
             </div>
         </div>
         <div class="col-sm-4">
-            <h2>Additional data</h2>
+            <h3>Additional data</h3>
             <div class="list-group">
                 <a href="Features/basket.html" class="list-group-item">Basket data</a>
-            </div>
-            <div class="list-group">
                 <a href="Features/custom_fields.html" class="list-group-item">Custom fields</a>
             </div>
         </div>
         <div class="col-sm-4">
-            <h2>Response handling</h2>
+            <h3>Response handling</h3>
             <div class="list-group">
                 <a href="Features/redirect.html" class="list-group-item">Redirect with synchronous payments</a>
-            </div>
-            <div class="list-group">
                 <a href="Features/validation.html" class="list-group-item">Validating a response from Wirecard</a>
             </div>
         </div>
 
     </div>
 
-    <div class="page-header">
-        <h2>Payment method specific examples</h2>
+    <div class="row ">
+        <div class="col-sm-12">
+            <h2>Payment method specific examples</h2>
+        </div>
     </div>
 
     <div class="row">
@@ -53,8 +110,6 @@
             <h3>Alipay Crossborder</h3>
             <div class="list-group">
                 <a href="AlipayCrossborder/pay.html" class="list-group-item">Request a payment</a>
-            </div>
-            <div class="list-group">
                 <a href="AlipayCrossborder/cancel.html" class="list-group-item">Refund a payment</a>
             </div>
         </div>
@@ -63,8 +118,6 @@
             <h3>Bancontact</h3>
             <div class="list-group">
                 <a href="Bancontact/pay.html" class="list-group-item">Request a payment</a>
-            </div>
-            <div class="list-group">
                 <a href="Bancontact/return.html" class="list-group-item">Handling the response of a transaction</a>
             </div>
         </div>
@@ -73,27 +126,12 @@
             <h3>Credit Card</h3>
             <div class="list-group">
                 <a href="CreditCard/createUi.html" class="list-group-item">Create the credit card UI</a>
-            </div>
-            <div class="list-group">
-                <a href="CreditCard/reserve.html" class="list-group-item">Authorization with
-                    an existing card token</a>
-            </div>
-            <div class="list-group">
+                <a href="CreditCard/reserve.html" class="list-group-item">Authorization with an existing card token</a>
                 <a href="CreditCard/pay.html" class="list-group-item">Purchase for credit card</a>
-            </div>
-            <div class="list-group">
                 <a href="CreditCard/return.html" class="list-group-item">Handling the response of a transaction</a>
-            </div>
-            <div class="list-group">
                 <a href="CreditCard/cancel.html" class="list-group-item">Cancelling a transaction</a>
-            </div>
-            <div class="list-group">
                 <a href="CreditCard/credit.html" class="list-group-item">Credit to a credit card</a>
-            </div>
-            <div class="list-group">
                 <a href="CreditCard/pay-based-on-reserve.html" class="list-group-item">Payment after a reservation</a>
-            </div>
-            <div class="list-group">
                 <a href="CreditCard/pay-based-on-token.html" class="list-group-item">Recurring payment via token-id</a>
             </div>
         </div>
@@ -104,12 +142,7 @@
             <h3>Credit Card Moto</h3>
             <div class="list-group">
                 <a href="CreditCardMoto/createUi.html" class="list-group-item">Create the credit card UI</a>
-            </div>
-            <div class="list-group">
-                <a href="CreditCardMoto/reserve.html" class="list-group-item">Authorization with
-                    an existing card token</a>
-            </div>
-            <div class="list-group">
+                <a href="CreditCardMoto/reserve.html" class="list-group-item">Authorization with an existing card token</a>
                 <a href="CreditCardMoto/cancel.html" class="list-group-item">Cancelling a transaction</a>
             </div>
         </div>
@@ -125,11 +158,7 @@
             <h3>iDEAL</h3>
             <div class="list-group">
                 <a href="iDEAL/pay.html" class="list-group-item">Request a payment</a>
-            </div>
-            <div class="list-group">
-                <a href="PayPal/return.html" class="list-group-item">Receive the response</a>
-            </div>
-            <div class="list-group">
+                <a href="iDEAL/return.html" class="list-group-item">Receive the response</a>
                 <a href="iDEAL/notify.html" class="list-group-item">Receive the notification</a>
             </div>
         </div>
@@ -137,11 +166,18 @@
 
     <div class="row">
         <div class="col-sm-4">
-            <h3>Online bank transfer.</h3>
+            <h3>Masterpass</h3>
+            <div class="list-group">
+                <a href="Masterpass/reserve.html" class="list-group-item">Reserve an amount</a>
+                <a href="Masterpass/pay.html" class="list-group-item">Request a payment</a>
+                <a href="Masterpass/pay.html" class="list-group-item">Cancelling a transaction</a>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <h3>Pay now.</h3>
             <div class="list-group">
                 <a href="Sofort/pay.html" class="list-group-item">Request a payment</a>
-            </div>
-            <div class="list-group">
                 <a href="Sofort/return.html" class="list-group-item">Handling the response of a transaction</a>
             </div>
         </div>
@@ -150,54 +186,33 @@
             <h3>Payment on Invoice / Payment in Advance</h3>
             <div class="list-group">
                 <a href="PoiPia/reserve.html" class="list-group-item">Reserve an amount</a>
-            </div>
-            <div class="list-group">
                 <a href="PoiPia/cancel.html" class="list-group-item">Cancelling a transaction</a>
-            </div>
-        </div>
-
-        <div class="col-sm-4">
-            <h3>PayPal</h3>
-            <div class="list-group">
-                <a href="PayPal/pay.html" class="list-group-item">Request a payment</a>
-            </div>
-            <div class="list-group">
-                <a href="PayPal/return.html" class="list-group-item">Receive the response</a>
-            </div>
-            <div class="list-group">
-                <a href="PayPal/notify.html" class="list-group-item">Receive the notification</a>
-            </div>
-            <div class="list-group">
-                <a href="PayPal/cancel.html" class="list-group-item">Cancel a transaction</a>
-            </div>
-            <div class="list-group">
-                <a href="PayPal/credit.html" class="list-group-item">Transfer funds to PayPal account</a>
-            </div>
-            <div class="list-group">
-                <a href="PayPal/reserve.html" class="list-group-item">Reservation of funds</a>
-            </div>
-            <div class="list-group">
-                <a href="PayPal/pay-based-on-reserve.html" class="list-group-item">Payment after a reservation</a>
             </div>
         </div>
     </div>
 
     <div class="row">
+
+        <div class="col-sm-4">
+            <h3>PayPal</h3>
+            <div class="list-group">
+                <a href="PayPal/pay.html" class="list-group-item">Request a payment</a>
+                <a href="PayPal/return.html" class="list-group-item">Receive the response</a>
+                <a href="PayPal/notify.html" class="list-group-item">Receive the notification</a>
+                <a href="PayPal/cancel.html" class="list-group-item">Cancel a transaction</a>
+                <a href="PayPal/credit.html" class="list-group-item">Transfer funds to PayPal account</a>
+                <a href="PayPal/reserve.html" class="list-group-item">Reservation of funds</a>
+                <a href="PayPal/pay-based-on-reserve.html" class="list-group-item">Payment after a reservation</a>
+            </div>
+        </div>
+
         <div class="col-sm-4">
             <h3>paysafecard</h3>
             <div class="list-group">
                 <a href="paysafecard/reserve.html" class="list-group-item">Reserve an amount</a>
-            </div>
-            <div class="list-group">
                 <a href="paysafecard/pay-based-on-reserve.html" class="list-group-item">Request a payment</a>
-            </div>
-            <div class="list-group">
                 <a href="paysafecard/notify.html" class="list-group-item">Receive the notification</a>
-            </div>
-            <div class="list-group">
                 <a href="paysafecard/cancel.html" class="list-group-item">Cancelling a transaction</a>
-            </div>
-            <div class="list-group">
                 <a href="paysafecard/return.html" class="list-group-item">Receive the response</a>
             </div>
         </div>
@@ -206,39 +221,27 @@
             <h3>Przelewy24</h3>
             <div class="list-group">
                 <a href="Przelewy24/pay.html" class="list-group-item">Request a payment</a>
-            </div>
-            <div class="list-group">
                 <a href="Przelewy24/notify.html" class="list-group-item">Receive the notification</a>
-            </div>
-            <div class="list-group">
                 <a href="Przelewy24/cancel.html" class="list-group-item">Refund a payment</a>
-            </div>
-        </div>
-
-        <div class="col-sm-4">
-            <h3>RatePay Direct Debit</h3>
-            <div class="list-group">
-                <a href="RatePAY_DirectDebit/reserve.html" class="list-group-item">Reserve an amount</a>
             </div>
         </div>
     </div>
 
     <div class="row">
         <div class="col-sm-4">
+            <h3>RatePay Direct Debit</h3>
+            <div class="list-group">
+                <a href="RatePAY_DirectDebit/reserve.html" class="list-group-item">Reserve an amount</a>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
             <h3>RatePAY Installment</h3>
             <div class="list-group">
                 <a href="RatePAY_Installment/reserve.html" class="list-group-item">Reserve an amount</a>
-            </div>
-            <div class="list-group">
                 <a href="RatePAY_Installment/pay-based-on-reserve.html" class="list-group-item">Request a payment</a>
-            </div>
-            <div class="list-group">
                 <a href="RatePAY_Installment/credit.html" class="list-group-item">Credit</a>
-            </div>
-            <div class="list-group">
                 <a href="RatePAY_Installment/cancel.html" class="list-group-item">Cancelling a transaction</a>
-            </div>
-            <div class="list-group">
                 <a href="RatePAY_Installment/return.html" class="list-group-item">Receive the response</a>
             </div>
         </div>
@@ -247,46 +250,31 @@
             <h3>RatePAY Invoice</h3>
             <div class="list-group">
                 <a href="RatePAY_Invoice/reserve.html" class="list-group-item">Reserve an amount</a>
-            </div>
-            <div class="list-group">
                 <a href="RatePAY_Invoice/pay-based-on-reserve.html" class="list-group-item">Request a payment</a>
-            </div>
-            <div class="list-group">
                 <a href="RatePAY_Invoice/credit.html" class="list-group-item">Credit</a>
-            </div>
-            <div class="list-group">
                 <a href="RatePAY_Invoice/cancel.html" class="list-group-item">Cancelling a transaction</a>
-            </div>
-        </div>
-
-        <div class="col-sm-4">
-            <h3>SEPA</h3>
-            <div class="list-group">
-                <a href="Sepa/reserve.html" class="list-group-item">Reserve an amount</a>
-            </div>
-            <div class="list-group">
-                <a href="Sepa/pay.html" class="list-group-item">Request a payment</a>
-            </div>
-            <div class="list-group">
-                <a href="Sepa/credit.html" class="list-group-item">Credit</a>
-            </div>
-            <div class="list-group">
-                <a href="Sepa/cancel.html" class="list-group-item">Cancelling a transaction</a>
             </div>
         </div>
     </div>
 
     <div class="row">
         <div class="col-sm-4">
-            <h3>UnionPay Online Payments</h3>
+            <h3>SEPA</h3>
             <div class="list-group">
-                <a href="UPOP/pay.html" class="list-group-item">Request a payment</a>
-            </div>
-            <div class="list-group">
-                <a href="UPOP/cancel.html" class="list-group-item">Refund a payment</a>
+                <a href="Sepa/reserve.html" class="list-group-item">Reserve an amount</a>
+                <a href="Sepa/pay.html" class="list-group-item">Request a payment</a>
+                <a href="Sepa/credit.html" class="list-group-item">Credit</a>
+                <a href="Sepa/cancel.html" class="list-group-item">Cancelling a transaction</a>
             </div>
         </div>
 
+        <div class="col-sm-4">
+            <h3>UnionPay Online Payments</h3>
+            <div class="list-group">
+                <a href="UPOP/pay.html" class="list-group-item">Request a payment</a>
+                <a href="UPOP/cancel.html" class="list-group-item">Refund a payment</a>
+            </div>
+        </div>
     </div>
 </div>
 </body>

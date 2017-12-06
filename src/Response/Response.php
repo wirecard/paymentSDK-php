@@ -143,7 +143,7 @@ abstract class Response
     }
 
     /**
-     * get the collection of status returned by elastic engine
+     * get the collection of status returned by Payment Gateway
      * @return StatusCollection
      * @throws MalformedResponseException
      */

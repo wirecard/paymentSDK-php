@@ -37,5 +37,14 @@ namespace Wirecard\PaymentSdk\Transaction;
  */
 class RatepayInvoiceTransaction extends RatepayTransaction implements Reservable
 {
-    const NAME = 'ratepay-invoice';
+    const NAME = 'ratepayinvoice';
+    const PAYMENT_NAME = 'ratepay-invoice';
+
+    /**
+     * @return string
+     */
+    public function getConfigKey()
+    {
+        return self::PAYMENT_NAME;
+    }
 }

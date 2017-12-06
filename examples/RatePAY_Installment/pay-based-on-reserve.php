@@ -9,6 +9,8 @@
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 require __DIR__ . '/../inc/config.php';
+//Header design
+require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -107,17 +109,17 @@ if (array_key_exists('item_to_capture', $_POST)) {
     <form action="pay-based-on-reserve.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $parentTransactionId ?>"/>
         <input type="hidden" name="item_to_capture" value="all"/>
-        <input type="submit" value="Capture all items">
+        <button type="submit" class="btn btn-primary">Capture all items</button>
     </form>
     <form action="pay-based-on-reserve.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $parentTransactionId ?>"/>
         <input type="hidden" name="item_to_capture" value="1"/>
-        <input type="submit" value="Capture item 1">
+        <button type="submit" class="btn btn-primary">Capture item 1</button>
     </form>
     <form action="pay-based-on-reserve.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $parentTransactionId ?>"/>
         <input type="hidden" name="item_to_capture" value="2"/>
-        <input type="submit" value="Capture item 2">
+        <button type="submit" class="btn btn-primary">Capture item 2</button>
     </form>
 <?php
 
@@ -139,7 +141,7 @@ if ($response instanceof SuccessResponse) {
             echo sprintf('<input type="hidden" name="amount" value="%0.2f"/>', $amount->getValue());
         }
         ?>
-        <input type="submit" value="Cancel the capture">
+        <button type="submit" class="btn btn-primary">Cancel the capture</button>
     </form>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
@@ -156,3 +158,5 @@ if ($response instanceof SuccessResponse) {
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 }
+//Footer design
+require __DIR__ . '/../inc/footer.php';

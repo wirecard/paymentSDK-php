@@ -9,6 +9,8 @@
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 require __DIR__ . '/../inc/config.php';
+//Header design
+require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -60,8 +62,8 @@ $response = $transactionService->reserve($tx);
 // in order to continue the reserve process. In this example we proceed with a header redirect
 // to the given _redirectUrl_. IFrame integration using this URL is also possible.
 if ($response instanceof InteractionResponse) {
-    header('location: ' . $response->getRedirectUrl());
-    exit;
+    die("<meta http-equiv='refresh' content='0;url={$response->getRedirectUrl()}'>");
+
 // The failure state is represented by a FailureResponse object.
 // In this case the returned errors should be stored in your system.
 } elseif ($response instanceof FailureResponse) {
@@ -77,3 +79,5 @@ if ($response instanceof InteractionResponse) {
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 }
+//Footer design
+require __DIR__ . '/../inc/footer.php';

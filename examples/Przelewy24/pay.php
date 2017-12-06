@@ -9,6 +9,8 @@
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 require __DIR__ . '/../inc/config.php';
+//Header design
+require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
@@ -63,8 +65,8 @@ $response = $transactionService->pay($transaction);
 // The response from the service can be used for disambiguation.
 // Response is not final state of payment, waiting for notification
 if ($response instanceof InteractionResponse):
-    header('location: ' . $response->getRedirectUrl());
-    exit;
+    die("<meta http-equiv='refresh' content='0;url={$response->getRedirectUrl()}'>");
+
 // In case of a failed transaction, a `FailureResponse` object is returned.
 elseif ($response instanceof FailureResponse):
     // In our example we iterate over all errors and display them in a raw state.
@@ -79,3 +81,5 @@ elseif ($response instanceof FailureResponse):
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 endif;
+//Footer design
+require __DIR__ . '/../inc/footer.php';

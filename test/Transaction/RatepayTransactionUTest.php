@@ -36,6 +36,8 @@ use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Device;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\Operation;
+use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
@@ -260,5 +262,17 @@ class RatepayTransactionUTest extends \PHPUnit_Framework_TestCase
         $data = $this->tx->mappedProperties();
 
         $this->assertEquals($device->mappedProperties(), $data['device']);
+    }
+
+    public function testInvoice()
+    {
+        $invoice = new RatepayInvoiceTransaction();
+        $this->assertEquals('ratepay-invoice', $invoice->getConfigKey());
+    }
+
+    public function testInstallment()
+    {
+        $invoice = new RatepayInstallmentTransaction();
+        $this->assertEquals('ratepay-install', $invoice->getConfigKey());
     }
 }

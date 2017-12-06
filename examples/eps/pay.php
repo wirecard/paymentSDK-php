@@ -5,6 +5,8 @@
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 require __DIR__ . '/../inc/config.php';
+//Header design
+require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
@@ -34,8 +36,8 @@ $response = $transactionService->pay($tx);
 // Since a redirect for successful transactions is defined, a FormInteractionResponse is returned
 // if the transaction was successful.
 if ($response instanceof InteractionResponse) {
-    header('location: ' . $response->getRedirectUrl());
-    exit;
+    die("<meta http-equiv='refresh' content='0;url={$response->getRedirectUrl()}'>");
+    
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
     echo "The transaction has failed.<br>";
@@ -52,3 +54,5 @@ if ($response instanceof InteractionResponse) {
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 }
+//Footer design
+require __DIR__ . '/../inc/footer.php';

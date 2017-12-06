@@ -32,6 +32,8 @@ namespace Wirecard\PaymentSdk\Entity;
 
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayTransaction;
 
 /**
@@ -151,6 +153,8 @@ class Item implements MappableEntity
                 $data = $this->payPalMappedProperties($data);
                 break;
             case RatepayTransaction::class:
+            case RatepayInstallmentTransaction::class:
+            case RatepayInvoiceTransaction::class:
             default:
                 $data = $this->ratepayMappedProperties($data);
         }

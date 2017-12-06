@@ -13,8 +13,6 @@ Before proceeding please read the article [General information](https://github.c
 
 This Software Development Kit will abstract the complexity of [Wirecard’s REST API](https://document-center.wirecard.com) for online shops using PHP as their programing language.
 
-<b style="color: red">The SDK is currently under development and should not be used yet.</b>
-
 ## PaymentSDK Wiki
 
 For general information about the PHP PaymentSDK please visit our [PaymentSDK Wiki](https://github.com/wirecard/paymentSDK-php/wiki/General-information). 
@@ -35,7 +33,8 @@ We also provide some examples for using the PaymentSDK, which can be found [here
 - Credit Card Moto
 - eps
 - iDEAL
-- Online bank transfer. (SOFORT)
+- Masterpass
+- Pay now. (Sofort.)
 - Payment on Invoice/ Payment in Advance
 - PayPal
 - paysafecard
@@ -46,4 +45,4 @@ We also provide some examples for using the PaymentSDK, which can be found [here
 - SEPA
 - UnionPay Online Payments
 
-If you have any questions or need further assistance do not hesitate to contact our [support teams](https://guides.wirecard.com/support).
+If you have any questions or need further assistance do not hesitate to contact our [support teams](mailto:support.at@wirecard.com ).

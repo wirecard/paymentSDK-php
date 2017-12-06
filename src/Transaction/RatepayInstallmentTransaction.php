@@ -37,5 +37,14 @@ namespace Wirecard\PaymentSdk\Transaction;
  */
 class RatepayInstallmentTransaction extends RatepayTransaction implements Reservable
 {
-    const NAME = 'ratepay-install';
+    const NAME = 'ratepayinstall';
+    const PAYMENT_NAME = 'ratepay-install';
+
+    /**
+     * @return string
+     */
+    public function getConfigKey()
+    {
+        return self::PAYMENT_NAME;
+    }
 }
