@@ -51,6 +51,7 @@ $basket->add($item1);
 $basket->add($item2);
 
 // #### Account holder with address
+// Klarna Guaranteed Invoice uses klarna developer testdata
 $address = new \Wirecard\PaymentSdk\Entity\Address('DE', 'Neuss', 'Hellersbergstraße');
 $address->setPostalCode('41460');
 $address->setStreet2('Hellersbergstraße');

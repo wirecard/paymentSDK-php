@@ -40,17 +40,20 @@ $item2->setTaxRate(20.0);
 $basket = new \Wirecard\PaymentSdk\Entity\Basket();
 
 // #### Account holder with address
-$address = new \Wirecard\PaymentSdk\Entity\Address('DE', 'Berlin', 'Berlin');
-$address->setPostalCode('13353');
+// Klarna Guaranteed Invoice uses klarna developer testdata
+$address = new \Wirecard\PaymentSdk\Entity\Address('DE', 'Neuss', 'Hellersbergstraße');
+$address->setPostalCode('41460');
+$address->setStreet2('Hellersbergstraße');
+$address->setHouseExtension('14');
 
 $accountHolder = new \Wirecard\PaymentSdk\Entity\AccountHolder();
-$accountHolder->setFirstName('John');
-$accountHolder->setLastName('Constantine');
-$accountHolder->setEmail('john.doe@test.com');
-$accountHolder->setPhone('03018425165');
-$accountHolder->setDateOfBirth(new \DateTime('1973-12-07'));
+$accountHolder->setFirstName('Testperson-de');
+$accountHolder->setLastName('Approved');
+$accountHolder->setEmail('youremail@email.com');
+$accountHolder->setPhone('01522113356');
+$accountHolder->setDateOfBirth(new \DateTime('1960-07-07'));
 $accountHolder->setAddress($address);
-
+$accountHolder->setGender('m');
 
 // ## Transaction
 
@@ -59,7 +62,10 @@ $transaction = new KlarnaInvoiceTransaction();
 $transaction->setNotificationUrl($notificationUrl);
 $transaction->setBasket($basket);
 $transaction->setOrderNumber($orderNumber);
+$transaction->setShipping($accountHolder);
 $transaction->setAccountHolder($accountHolder);
+$transaction->setCountry('DE');
+$transaction->setLocale('de');
 
 if (array_key_exists('parentTransactionId', $_POST)) {
     $parentTransactionId = $_POST['parentTransactionId'];
