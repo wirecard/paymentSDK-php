@@ -88,6 +88,32 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetMappedPropertiesLastNameAndGender()
+    {
+        $gender = 'f';
+        $this->accountHolder->setGender('f');
+
+        $this->assertEquals(
+            [
+                'gender' => $gender
+            ],
+            $this->accountHolder->mappedProperties()
+        );
+    }
+
+    public function testGetMappedPropertiesLastNameAndSocialSecurityNumber()
+    {
+        $socialSecurityNumber = '1234';
+        $this->accountHolder->setSocialSecurityNumber($socialSecurityNumber);
+
+        $this->assertEquals(
+            [
+                'social-security-number' => $socialSecurityNumber
+            ],
+            $this->accountHolder->mappedProperties()
+        );
+    }
+
     public function testMappedPropertiesWithAddress()
     {
         $addr = new Address('AT', 'Graz', 'Reininghausstraße 13a');
