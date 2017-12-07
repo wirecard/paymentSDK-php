@@ -178,7 +178,7 @@ class AccountHolder implements MappableEntity
         }
 
         if (null !== $this->dateOfBirth) {
-            $result['date-of-birth'] = $this->dateOfBirth->format('d-m-Y');
+            $result['date-of-birth'] = $this->dateOfBirth->format('Y-m-d');
         }
 
         if (null !== $this->phone) {

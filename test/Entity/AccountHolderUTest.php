@@ -153,7 +153,7 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             [
-                'date-of-birth' => $dateOfBirth->format('d-m-Y')
+                'date-of-birth' => $dateOfBirth->format('Y-m-d')
             ],
             $this->accountHolder->mappedProperties()
         );
