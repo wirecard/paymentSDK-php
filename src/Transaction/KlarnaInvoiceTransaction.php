@@ -67,7 +67,7 @@ class KlarnaInvoiceTransaction extends Transaction implements Reservable
 
     /**
      * @param string $orderNumber
-     * @return RatepayTransaction
+     * @return KlarnaInvoiceTransaction
      */
     public function setOrderNumber($orderNumber)
     {
@@ -124,7 +124,7 @@ class KlarnaInvoiceTransaction extends Transaction implements Reservable
             $data['order-items'] = $this->basket->mappedProperties();
         }
 
-        if (strlen($this->country)) {
+        if (null !== $this->country) {
             $data['country'] = $this->country;
         }
 
@@ -136,7 +136,7 @@ class KlarnaInvoiceTransaction extends Transaction implements Reservable
      */
     protected function retrieveTransactionTypeForReserve()
     {
-        if ($this->parentTransactionType === self::TYPE_AUTHORIZATION) {
+        if ($this->parentTransactionId) {
             return self::TYPE_RENEWAL_AUTHORIZATION;
         }
         return self::TYPE_AUTHORIZATION;

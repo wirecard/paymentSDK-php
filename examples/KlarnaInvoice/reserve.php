@@ -13,6 +13,7 @@ require __DIR__ . '/../inc/config.php';
 require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Transaction\KlarnaInvoiceTransaction;
@@ -23,11 +24,22 @@ use Wirecard\PaymentSdk\TransactionService;
 // Use the amount object as amount which has to be paid by the consumer.
 $amount = new Amount(2400, 'EUR');
 
+$redirectUrls = new Redirect(
+    getUrl('return.php?status=success'),
+    getUrl('return.php?status=cancel'),
+    getUrl('return.php?status=failure')
+);
+
+/*$notificationUrls = Array(
+    new \Wirecard\PaymentSdk\Entity\Notify(getUrl('notify.php'), 'success'),
+    new \Wirecard\PaymentSdk\Entity\Notify(getUrl('notify.php'), 'failed')
+);*/
+
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
-$notificationUrl = getUrl('notify.php');
+//$notificationUrl = getUrl('notify.php');
 
 // The order number
-$orderNumber = 'A2';
+$orderNumber = '22098';
 
 // ### Basket items
 // A Basket contains one or more items.
@@ -54,12 +66,13 @@ $basket->add($item2);
 $address = new \Wirecard\PaymentSdk\Entity\Address('DE', 'Berlin', 'Berlin');
 $address->setPostalCode('13353');
 $address->setStreet2('Strasse2');
+$address->setHouseExtension('Test');
 
 $accountHolder = new \Wirecard\PaymentSdk\Entity\AccountHolder();
 $accountHolder->setFirstName('John');
 $accountHolder->setLastName('Constantine');
 $accountHolder->setEmail('john.doe@test.com');
-$accountHolder->setPhone('03018425165');
+$accountHolder->setPhone('+49301842516578');
 $accountHolder->setDateOfBirth(new \DateTime('1973-12-07'));
 $accountHolder->setAddress($address);
 $accountHolder->setGender('m');
@@ -69,7 +82,7 @@ $accountHolder->setGender('m');
 
 // The Klarna Guaranteed Invoice transaction holds all transaction relevant data for the reserve process.
 $transaction = new KlarnaInvoiceTransaction();
-$transaction->setNotificationUrl($notificationUrl);
+//$transaction->setNotificationUrl($notificationUrls);
 $transaction->setAmount($amount);
 $transaction->setBasket($basket);
 $transaction->setOrderNumber($orderNumber);
@@ -77,6 +90,7 @@ $transaction->setShipping($accountHolder);
 $transaction->setAccountHolder($accountHolder);
 $transaction->setCountry('DE');
 $transaction->setLocale('de');
+//$transaction->setRedirect($redirectUrls);
 
 
 // ### Transaction Service
