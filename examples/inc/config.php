@@ -28,6 +28,7 @@ use Wirecard\PaymentSdk\Transaction\PoiPiaTransaction;
 use Wirecard\PaymentSdk\Transaction\P24Transaction;
 use Wirecard\PaymentSdk\Transaction\CreditCardMotoTransaction;
 use Wirecard\PaymentSdk\Transaction\UpopTransaction;
+use Wirecard\PaymentSdk\Transaction\KlarnaInvoiceTransaction;
 
 // ## Connection
 
@@ -189,3 +190,13 @@ $upopMAID = 'a908b093-382c-4de9-b26a-624802850216';
 $upopSecret = 'b2f8ffd2-7866-44ed-a858-f27f13f0bd77';
 $upopConfig = new PaymentMethodConfig(UpopTransaction::NAME, $upopMAID, $upopSecret);
 $config->add($upopConfig);
+
+// ### Klarna
+
+$klarnaMAID = 'fd008127-24fb-43c6-8c0e-a45c57eaeba4';
+$klarnaSecret = 'dbc5a498-9a66-43b9-bf1d-a618dd399684';
+
+// ### Klarna Guaranteed Invoice
+
+$klarnaInvoiceConfig = new PaymentMethodConfig(KlarnaInvoiceTransaction::NAME, $klarnaMAID, $klarnaSecret);
+$config->add($klarnaInvoiceConfig);

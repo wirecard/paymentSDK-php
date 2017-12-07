@@ -72,6 +72,16 @@ class AccountHolder implements MappableEntity
     /**
      * @var string
      */
+    private $gender;
+
+    /**
+     * @var string
+     */
+    private $socialSecurityNumber;
+
+    /**
+     * @var string
+     */
     private $crmId;
 
     /**
@@ -104,6 +114,22 @@ class AccountHolder implements MappableEntity
     public function setPhone($phone)
     {
         $this->phone = $phone;
+    }
+
+    /**
+     * @param string $gender
+     */
+    public function setGender($gender)
+    {
+        $this->gender = $gender;
+    }
+
+    /**
+     * @param string $securityNumber
+     */
+    public function setSocialSecurityNumber($securityNumber)
+    {
+        $this->socialSecurityNumber = $securityNumber;
     }
 
     /**
@@ -157,6 +183,14 @@ class AccountHolder implements MappableEntity
 
         if (null !== $this->phone) {
             $result['phone'] = $this->phone;
+        }
+
+        if (null !== $this->gender) {
+            $result['gender'] = $this->gender;
+        }
+
+        if (null !== $this->socialSecurityNumber) {
+            $result['social-security-number'] = $this->socialSecurityNumber;
         }
 
         if (null !== $this->address) {
