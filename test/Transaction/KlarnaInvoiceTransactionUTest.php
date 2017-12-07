@@ -46,9 +46,15 @@ class KlarnaInvoiceTransactionUTest extends \PHPUnit_Framework_TestCase
      */
     private $tx;
 
+    private $accountHolder;
+
     public function setUp()
     {
         $this->tx = new KlarnaInvoiceTransaction();
+        $this->accountHolder = new AccountHolder();
+        $this->accountHolder->setFirstName("Firstname");
+        $this->accountHolder->setLastName("Lastname");
+        $this->tx->setAccountHolder($this->accountHolder);
     }
 
     /**
@@ -277,7 +283,6 @@ class KlarnaInvoiceTransactionUTest extends \PHPUnit_Framework_TestCase
 
     public function testSetShipping()
     {
-        $shipping = new AccountHolder();
         $redirect = $this->createMock(Redirect::class);
         $redirect->method('getCancelUrl')->willReturn('cancel-url');
         $redirect->method('getSuccessUrl')->willReturn('success-url');
@@ -288,10 +293,15 @@ class KlarnaInvoiceTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx->setBasket(new Basket());
         $this->tx->setOperation(Operation::RESERVE);
         $this->tx->setRedirect($redirect);
-        $this->tx->setShipping($shipping);
+        $this->tx->setShipping($this->accountHolder);
         $data = $this->tx->mappedProperties();
 
-        $this->assertEquals($shipping, $data['shipping']);
+        $expected = [
+                'last-name' => 'Lastname',
+                'first-name' => 'Firstname'
+            ];
+
+        $this->assertEquals($expected, $data['shipping']);
     }
 
     public function testInvoice()
