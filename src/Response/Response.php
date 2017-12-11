@@ -1,6 +1,6 @@
 <?php
 /**
- * Shop System Plugins - Terms of Use
+ * Shop System Payment SDK - Terms of Use
  *
  * The plugins offered are provided free of charge by Wirecard AG and are explicitly not part
  * of the Wirecard AG range of products and services.
@@ -96,6 +96,12 @@ abstract class Response
         return $this->simpleXml->asXML();
     }
 
+    public function getData()
+    {
+        $dataArray = self::xmlToArray($this->simpleXml);
+        return self::array_flatten($dataArray);
+    }
+
     /**
      * @return bool
      */
@@ -186,6 +192,33 @@ abstract class Response
         }
 
         return $collection;
+    }
+
+    /**
+     * @param SimpleXMLElement $simplexml
+     * @param array $out
+     * @return array
+     */
+    private static function xmlToArray($simplexml, $out = [])
+    {
+        foreach ((array)$simplexml as $index => $node) {
+            $out[$index] = (is_object($node)) ? self::xmlToArray($node) : $node;
+        }
+
+        return $out;
+    }
+
+    private static function array_flatten($array) {
+        $result = [];
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                $result = array_merge($result, self::array_flatten($value));
+            }
+            else {
+                $result[$key] = $value;
+            }
+        }
+        return $result;
     }
 
 
