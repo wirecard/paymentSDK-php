@@ -68,7 +68,7 @@ if ($_POST) {
     }
 // Otherwise a cancel information is printed
 } else {
-    echo 'The transaction has been cancelled.<br>';
+    echo 'The transaction has been refunded.<br>';
 }
 //Footer design
 require __DIR__ . '/../inc/footer.php';
