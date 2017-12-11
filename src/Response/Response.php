@@ -99,7 +99,7 @@ abstract class Response
     public function getData()
     {
         $dataArray = self::xmlToArray($this->simpleXml);
-        return self::array_flatten($dataArray);
+        return self::arrayFlatten($dataArray);
     }
 
     /**
@@ -208,19 +208,18 @@ abstract class Response
         return $out;
     }
 
-    private static function array_flatten($array) {
+    private static function arrayFlatten($array)
+    {
         $result = [];
         foreach ($array as $key => $value) {
             if (is_array($value)) {
-                $result = array_merge($result, self::array_flatten($value));
-            }
-            else {
+                $result = array_merge($result, self::arrayFlatten($value));
+            } else {
                 $result[$key] = $value;
             }
         }
         return $result;
     }
-
 
     /**
      * Get the transaction type of the response
