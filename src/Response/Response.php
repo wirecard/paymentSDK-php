@@ -201,16 +201,30 @@ abstract class Response
 
     /**
      * @param SimpleXMLElement $simplexml
-     * @param array $out
      * @return array
      */
-    private static function xmlToArray($simplexml, $out = [])
+    private static function xmlToArray($simplexml)
     {
-        foreach ((array)$simplexml as $index => $node) {
-            $out[$index] = (is_object($node)) ? self::xmlToArray($node) : $node;
-        }
+        $arr = array();
 
-        return $out;
+        /**
+         * @var SimpleXMLElement $child
+         */
+        foreach ($simplexml->children() as $child) {
+            if ($child->children()->count() == 0 && $child->attributes()->count() == 0) {
+                $arr[$child->getName()] = strval($child);
+            } else {
+                if ($child->children()->count() == 0 && $child->attributes()->count() > 0) {
+                    foreach ($child->attributes() as $attrs) {
+                        /** @var SimpleXMLElement $attrs */
+                        $arr[$attrs->getName()] = strval($attrs);
+                    }
+                } else {
+                    $arr[$child->getName()][] = self::xmlToArray($child);
+                }
+            }
+        }
+        return $arr;
     }
 
     /**
@@ -219,14 +233,14 @@ abstract class Response
      * @param array $array
      * @return array
      */
-    private static function arrayFlatten($array)
+    private static function arrayFlatten($array, $prefix = '')
     {
-        $result = [];
+        $result = array();
         foreach ($array as $key => $value) {
             if (is_array($value)) {
-                $result = array_merge($result, self::arrayFlatten($value));
+                $result = $result + self::arrayFlatten($value, $prefix . $key . '.');
             } else {
-                $result[$key] = $value;
+                $result[$prefix . $key] = trim(preg_replace('/\s+/', ' ', $value));
             }
         }
         return $result;

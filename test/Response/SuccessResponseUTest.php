@@ -205,17 +205,17 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
     public function testGetData()
     {
         $expected = [
-            "transaction-id" => 1,
-            "request-id" => 123,
+            "transaction-id" => '1',
+            "request-id" => '123',
             "parent-transaction-id" => "ca-6ed-b69",
             "transaction-type" => "transaction",
-            "name" => "paypal",
-            "code" => 1,
-            "description" => "a",
-            "severity" => 0,
-            "token-id" => 4748178566351002,
-            "masked-account-number" => "541333******1006",
-            "cardholder-authentication-status" => "Y"
+            "payment-methods.0.name" => "paypal",
+            "statuses.0.code" => '1',
+            "statuses.0.description" => "a",
+            "statuses.0.severity" => 0,
+            "card-token.0.token-id" => 4748178566351002,
+            "card-token.0.masked-account-number" => "541333******1006",
+            "three-d.0.cardholder-authentication-status" => "Y"
         ];
 
         $this->assertEquals($expected, $this->response->getData());
