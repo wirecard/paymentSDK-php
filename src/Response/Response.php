@@ -97,6 +97,17 @@ abstract class Response
     }
 
     /**
+     * get the response in a flat array
+     *
+     * @return array
+     */
+    public function getData()
+    {
+        $dataArray = self::xmlToArray($this->simpleXml);
+        return self::arrayFlatten($dataArray);
+    }
+
+    /**
      * @return bool
      */
     public function isValidSignature()
@@ -188,6 +199,38 @@ abstract class Response
         return $collection;
     }
 
+    /**
+     * @param SimpleXMLElement $simplexml
+     * @param array $out
+     * @return array
+     */
+    private static function xmlToArray($simplexml, $out = [])
+    {
+        foreach ((array)$simplexml as $index => $node) {
+            $out[$index] = (is_object($node)) ? self::xmlToArray($node) : $node;
+        }
+
+        return $out;
+    }
+
+    /**
+     * convert a multidimensional array into a simple one-dimensional array
+     *
+     * @param array $array
+     * @return array
+     */
+    private static function arrayFlatten($array)
+    {
+        $result = [];
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                $result = array_merge($result, self::arrayFlatten($value));
+            } else {
+                $result[$key] = $value;
+            }
+        }
+        return $result;
+    }
 
     /**
      * Get the transaction type of the response

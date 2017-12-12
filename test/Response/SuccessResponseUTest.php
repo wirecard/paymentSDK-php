@@ -201,4 +201,23 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
         $response = new SuccessResponse($xml);
         $this->assertEquals(null, $response->getCardTokenId());
     }
+
+    public function testGetData()
+    {
+        $expected = [
+            "transaction-id" => 1,
+            "request-id" => 123,
+            "parent-transaction-id" => "ca-6ed-b69",
+            "transaction-type" => "transaction",
+            "name" => "paypal",
+            "code" => 1,
+            "description" => "a",
+            "severity" => 0,
+            "token-id" => 4748178566351002,
+            "masked-account-number" => "541333******1006",
+            "cardholder-authentication-status" => "Y"
+        ];
+
+        $this->assertEquals($expected, $this->response->getData());
+    }
 }
