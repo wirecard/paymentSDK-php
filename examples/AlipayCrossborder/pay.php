@@ -1,7 +1,7 @@
 <?php
-// # Bancontact payment transaction
+// # Alipay Crossborder payment transaction
 
-// This example displays the usage payments for payment method Bancontact.
+// This example displays the usage payments for payment method Alipay Crossborder.
 
 // ## Required objects
 
@@ -30,7 +30,7 @@ $accountHolder = new AccountHolder();
 $accountHolder->setFirstName("testname");
 $accountHolder->setLastName("testlastname");
 
-// The redirect URLs determine where the consumer should be redirected by Bancontact after approval, cancellation and
+// The redirect URLs determine where the consumer should be redirected by Alipay Crossborder after approval, cancellation and
 // failure.
 $redirectUrls = new Redirect(
     getUrl('return.php?status=success'),
@@ -42,7 +42,7 @@ $notificationUrl = getUrl('notify.php');
 
 // ## Transaction
 
-// The BancontactTransaction object holds all transaction relevant data for the payment process.
+// The AlipayCrossborderTransaction object holds all transaction relevant data for the payment process.
 // The required fields are: amount, accountHolder, success, cancel and failure redirect URL-s
 $transaction = new AlipayCrossborderTransaction();
 $transaction->setRedirect($redirectUrls);
