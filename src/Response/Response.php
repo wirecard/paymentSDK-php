@@ -96,6 +96,11 @@ abstract class Response
         return $this->simpleXml->asXML();
     }
 
+    /**
+     * get the response in a flat array
+     *
+     * @return array
+     */
     public function getData()
     {
         $dataArray = self::xmlToArray($this->simpleXml);
@@ -208,6 +213,12 @@ abstract class Response
         return $out;
     }
 
+    /**
+     * convert a multidimensional array into a simple one-dimensional array
+     *
+     * @param array $array
+     * @return array
+     */
     private static function arrayFlatten($array)
     {
         $result = [];
