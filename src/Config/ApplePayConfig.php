@@ -37,6 +37,21 @@ class ApplePayConfig extends PaymentMethodConfig
 
     private $supportedNetworks = array();
 
+    /** @var  string $merchantIdentifier */
+    private $merchantIdentifier;
+
+    /** @var  string $sslCertificatePath */
+    private $sslCertificatePath;
+
+    /** @var  string $sslCertificateKey */
+    private $sslCertificateKey;
+
+    /** @var  string $domainName */
+    private $domainName;
+
+    /** @var  string $shopName */
+    private $shopName;
+
     /**
      * ApplePayConfig constructor.
      * @param string $merchantAccountId
@@ -69,5 +84,115 @@ class ApplePayConfig extends PaymentMethodConfig
     {
         $this->supportedNetworks = array_map('trim', $this->supportedNetworks);
         return json_encode($this->supportedNetworks);
+    }
+
+    /**
+     * gets the apple merchant identifier
+     *
+     * @return string
+     */
+    public function getMerchantIdentifier()
+    {
+        return $this->merchantIdentifier;
+    }
+
+    /**
+     * sets the apple merchant identifier
+     *
+     * @param string $merchantIdentifier
+     * @return $this
+     */
+    public function setMerchantIdentifier($merchantIdentifier)
+    {
+        $this->merchantIdentifier = $merchantIdentifier;
+        return $this;
+    }
+
+    /**
+     * get the path to the CURLOPT_SSLCERT
+     *
+     * @return string
+     */
+    public function getSslCertificatePath()
+    {
+        return $this->sslCertificatePath;
+    }
+
+    /**
+     * set the absolute path to the CURLOPT_SSLCERT
+     *
+     * @param string $sslCertificatePath
+     * @return $this
+     */
+    public function setSslCertificatePath($sslCertificatePath)
+    {
+        $this->sslCertificatePath = $sslCertificatePath;
+        return $this;
+    }
+
+    /**
+     * get the path to the CURLOPT_SSLKEY
+     *
+     * @return string
+     */
+    public function getSslCertificateKey()
+    {
+        return $this->sslCertificateKey;
+    }
+
+    /**
+     * set the absolute path to the CURLOPT_SSLKEY
+     *
+     * @param string $sslCertificateKey
+     * @return $this
+     */
+    public function setSslCertificateKey($sslCertificateKey)
+    {
+        $this->sslCertificateKey = $sslCertificateKey;
+        return $this;
+    }
+
+    /**
+     * get the domain name
+     *
+     * @return string
+     */
+    public function getDomainName()
+    {
+        return $this->domainName;
+    }
+
+    /**
+     * set the domain name
+     *
+     * @param string $domainName
+     * @return $this
+     */
+    public function setDomainName($domainName)
+    {
+        $this->domainName = $domainName;
+        return $this;
+    }
+
+    /**
+     * Get the shop display name
+     *
+     * @return string
+     */
+    public function getShopName()
+    {
+        return $this->shopName;
+    }
+
+    /**
+     * set the display shop name
+     *
+     * @param string $shopName
+     * @return $this
+     */
+    public function setShopName($shopName)
+    {
+        $this->shopName = $shopName;
+        return $this;
     }
 }
