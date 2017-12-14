@@ -31,8 +31,8 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use UnexpectedValueException;
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 
 /**
  * Class RatepayInvoiceTransaction
@@ -40,12 +40,21 @@ use UnexpectedValueException;
  */
 class ApplePayTransaction extends Transaction
 {
-    const NAME = 'creditcard';
+    const NAME = 'applepay';
+    const PAYMENT_NAME = 'creditcard';
 
     /**
      * @var string
      */
     private $cryptogram = null;
+
+    /**
+     * @return string
+     */
+    public function getConfigKey()
+    {
+        return self::PAYMENT_NAME;
+    }
 
     /**
      * @param $cryptogram
@@ -66,6 +75,14 @@ class ApplePayTransaction extends Transaction
     }
 
     /**
+     * @return string
+     */
+    public function retrieveTransactionTypeForReserve()
+    {
+        return Transaction::TYPE_AUTHORIZATION;
+    }
+
+    /**
      * @return array
      * @throws MandatoryFieldMissingException
      */
@@ -74,14 +91,7 @@ class ApplePayTransaction extends Transaction
         if (null === $this->cryptogram) {
             throw new MandatoryFieldMissingException("Cryptogram is a mandatory field.");
         }
-        return $this->cryptogram;
-    }
 
-    /**
-     * @return string
-     */
-    public function retrieveTransactionTypeForReserve()
-    {
-        return Transaction::TYPE_AUTHORIZATION;
+        return $this->cryptogram;
     }
 }

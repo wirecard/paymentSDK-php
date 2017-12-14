@@ -9,6 +9,7 @@
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
+use Wirecard\PaymentSdk\Config\ApplePayConfig;
 use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Config\SepaConfig;
@@ -197,10 +198,8 @@ $applePayMaid = '6847238d-4d1f-4061-bd7e-e48443016c28';
 $applePaySecret = 'b932558e-a5f7-471a-bef2-b175d04e2dcd';
 $applePayConfig = new Config\ApplePayConfig($applePayMaid, $applePaySecret);
 $applePayConfig->setMerchantIdentifier('merchant.com.wd.test');
-$applePayConfig->setSslCertificateKey('C:/DEV/software/xampp/htdocs/tests/ApplePay/ApplePay.key.pem');
-$applePayConfig->setSslCertificatePath('C:/DEV/software/xampp/htdocs/tests/ApplePay/ApplePay.crt.pem');
 // most of the time you can leave this as-is, if this doesn't work for you,
 // you have to change it to your domain e.g. yourdomain.com
-$applePayConfig->setDomainName($_SERVER["HTTP_HOST"]);
-$applePayConfig->setShopName('My Test Shop');
+    ->setDomainName($_SERVER["HTTP_HOST"])
+    ->setShopName('My Test Shop');
 $config->add($applePayConfig);

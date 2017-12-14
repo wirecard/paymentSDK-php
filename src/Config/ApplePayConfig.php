@@ -52,6 +52,9 @@ class ApplePayConfig extends PaymentMethodConfig
     /** @var  string $shopName */
     private $shopName;
 
+    /** @var string $sslCertificatePassword */
+    private $sslCertificatePassword;
+
     /**
      * ApplePayConfig constructor.
      * @param string $merchantAccountId
@@ -194,5 +197,16 @@ class ApplePayConfig extends PaymentMethodConfig
     {
         $this->shopName = $shopName;
         return $this;
+    }
+
+    public function setSslCertificatePassword($password)
+    {
+        $this->sslCertificatePassword = $password;
+        return $this;
+    }
+
+    public function getSslCertificatePassword()
+    {
+        return $this->sslCertificatePassword;
     }
 }
