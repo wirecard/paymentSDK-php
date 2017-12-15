@@ -62,7 +62,7 @@ class ApplePayTransaction extends Transaction implements Reservable
      */
     public function setCryptogram($cryptogram)
     {
-        if (false === base64_decode($cryptogram, true)) {
+        if ($cryptogram !== base64_encode(base64_decode($cryptogram, true))) {
             throw new UnexpectedValueException('Cryptogram is invalid.');
         }
 
