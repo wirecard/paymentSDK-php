@@ -79,4 +79,46 @@ class ApplePayConfigUTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('["amex","discover","masterCard","visa"]', $this->config->getSupportedNetworks());
     }
+
+    public function testSetMerchantIdentifier()
+    {
+        $this->config->setMerchantIdentifier('testmerchant');
+
+        $this->assertEquals('testmerchant', $this->config->getMerchantIdentifier());
+    }
+
+    public function testSetDomainName()
+    {
+        $this->config->setDomainName('domainname');
+
+        $this->assertEquals('domainname', $this->config->getDomainName());
+    }
+
+    public function testSetShopName()
+    {
+        $this->config->setShopName('shopname');
+
+        $this->assertEquals('shopname', $this->config->getShopName());
+    }
+
+    public function testSetSslCertificatePath()
+    {
+        $this->config->setSslCertificatePath('test/ssl/cert/path');
+
+        $this->assertEquals('test/ssl/cert/path', $this->config->getSslCertificatePath());
+    }
+
+    public function testSetSslCertificateKey()
+    {
+        $this->config->setSslCertificateKey('test/ssl/cert/key');
+
+        $this->assertEquals('test/ssl/cert/key', $this->config->getSslCertificateKey());
+    }
+
+    public function testSetSslCertificatePassword()
+    {
+        $this->config->setSslCertificatePassword('password');
+
+        $this->assertEquals('password', $this->config->getSslCertificatePassword());
+    }
 }

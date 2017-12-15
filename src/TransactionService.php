@@ -637,8 +637,7 @@ class TransactionService
         /** @var \Wirecard\PaymentSdk\Config\ApplePayConfig $applePayConfig */
         $applePayConfig = $this->config->get('applepay');
 
-        if (
-            "https" == parse_url($validationUrl, PHP_URL_SCHEME)
+        if ("https" == parse_url($validationUrl, PHP_URL_SCHEME)
             && substr(parse_url($validationUrl, PHP_URL_HOST), -10) == ".apple.com"
         ) {
             $options = [
