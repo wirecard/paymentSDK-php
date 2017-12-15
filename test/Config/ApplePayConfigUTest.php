@@ -79,5 +79,4 @@ class ApplePayConfigUTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('["amex","discover","masterCard","visa"]', $this->config->getSupportedNetworks());
     }
-
 }

@@ -863,8 +863,10 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         $service = new TransactionService($config, null, $client, $requestMapper, $responseMapper);
 
-        $this->assertEquals('testcontent',
-            $service->validateMerchant('https://apple-pay-gateway-cert.apple.com/paymentservices/startSession'));
+        $this->assertEquals(
+            'testcontent',
+            $service->validateMerchant('https://apple-pay-gateway-cert.apple.com/paymentservices/startSession')
+        );
     }
 
     /**
