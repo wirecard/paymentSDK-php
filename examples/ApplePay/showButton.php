@@ -12,6 +12,8 @@ require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/config.php';
 
 use Wirecard\PaymentSdk\TransactionService;
+use Wirecard\PaymentSdk\Transaction\ApplePayTransaction;
+use \Wirecard\PaymentSdk\Entity\Amount;
 
 // ## Transaction
 
@@ -23,12 +25,18 @@ $transactionService = new TransactionService($config);
 $applePayConfig = $config->get('applepay');
 
 if (isset($_GET['validationUrl'])) {
-    validateMerchant($config, $_GET['validationUrl']);
+    validateMerchant($transactionService, $_GET['validationUrl']);
+    die();
+} elseif (isset($_GET['paymentToken'])) {
+    $data = $_GET['paymentToken'];
+    $applePayTransaction = new ApplePayTransaction();
+    $applePayTransaction->setCryptogram(base64_encode($data));
+    $applePayTransaction->setAmount(new Amount(42.0, 'EUR'));
+    sendPaymentRequest($transactionService, $applePayTransaction);
     die();
 } else {
     require __DIR__ . '/../inc/header.php';
 }
-
 ?>
 
     <style>
@@ -53,8 +61,7 @@ if (isset($_GET['validationUrl'])) {
         <p style="display:none" id="got_notactive">ApplePay is possible on this browser, but not currently
             activated.</p>
         <p style="display:none" id="notgot">ApplePay is not available on this browser</p>
-        <p style="display:none" id="success">Test transaction completed, thanks. <a href="/">reset</a>
-        </p>
+        <p style="display:none" id="success">Test transaction created successfully.</p>
     </div>
 
     <script>
@@ -68,12 +75,10 @@ if (isset($_GET['validationUrl'])) {
                 } else {
                     // hide button, payments are disabled on the machine
                     document.getElementById("got_notactive").style.display = "block";
-                    logit('ApplePay is possible on this browser, but not currently activated.');
                 }
             });
         } else {
             // browser doesn't support applePay
-            logit('ApplePay is not available on this browser');
             document.getElementById("notgot").style.display = "block";
         }
 
@@ -99,7 +104,6 @@ if (isset($_GET['validationUrl'])) {
                 });
             };
 
-
             function performValidation(valURL) {
                 return new Promise(function (resolve, reject) {
                     var xhr = new XMLHttpRequest();
@@ -118,8 +122,7 @@ if (isset($_GET['validationUrl'])) {
                     var status;
                     if (success) {
                         status = ApplePaySession.STATUS_SUCCESS;
-                        document.getElementById("applePay").style.display = "none";
-                        document.getElementById("success").style.display = "block";
+                        document.location.href = success;
                     } else {
                         status = ApplePaySession.STATUS_FAILURE;
                     }
@@ -128,9 +131,15 @@ if (isset($_GET['validationUrl'])) {
             };
 
             function sendPaymentToken(paymentToken) {
-                logit(paymentToken);
-                // send payment to the wirecard server (ajax wise) with this token
-                // if ajax is successful, resolve(true) otherwise reject
+                return new Promise(function (resolve, reject) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.onload = function () {
+                        resolve(this.responseText);
+                    };
+                    xhr.onerror = reject;
+                    xhr.open('GET', '?paymentToken='+JSON.stringify(paymentToken));
+                    xhr.send();
+                });
             }
 
             session.oncancel = function (event) {
@@ -139,49 +148,27 @@ if (isset($_GET['validationUrl'])) {
 
             session.begin();
         }
-
-        function logit(data) {
-            console.log(data);
-
-        }
-        ;
     </script>
 
 <?php
 
 /**
- * @param \Wirecard\PaymentSdk\Config\Config $config
+ * @param TransactionService $transactionService
  * @param $validation_url
  * @internal param $url
  */
-function validateMerchant($config, $validation_url)
+function validateMerchant($transactionService, $validation_url)
 {
-    if ("https" == parse_url($validation_url, PHP_URL_SCHEME) && substr(parse_url($validation_url, PHP_URL_HOST),
-            -10) == ".apple.com"
-    ) {
-        /** @var \Wirecard\PaymentSdk\Config\ApplePayConfig $applePayConfig */
-        $applePayConfig = $config->get('applepay');
-        // create a new cURL resource
-        $ch = curl_init();
-
-        $data = '{"merchantIdentifier":"' . $applePayConfig->getMerchantIdentifier() . '", "domainName":"' . $applePayConfig->getDomainName() . '", "displayName":"' . $applePayConfig->getShopName() . '"}';
-
-        curl_setopt($ch, CURLOPT_URL, $validation_url);
-        curl_setopt($ch, CURLOPT_SSLCERT, $applePayConfig->getSslCertificatePath());
-        curl_setopt($ch, CURLOPT_SSLKEY, $applePayConfig->getSslCertificateKey());
-        curl_setopt($ch, CURLOPT_SSLKEYPASSWD, $applePayConfig->getSslCertificatePassword());
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-        if (curl_exec($ch) === false) {
-            echo '{"curlError":"' . curl_error($ch) . '"}';
-        }
-
-        // close cURL resource, and free up system resources
-        curl_close($ch);
-    }
+    echo $transactionService->validateMerchant($validation_url);
 }
 
-function sendPaymentRequest(){
-
+/**
+ * this method is called via ajax
+ *
+ * @param TransactionService $transactionService
+ * @param ApplePayTransaction $transaction
+ */
+function sendPaymentRequest($transactionService, $transaction)
+{
+    echo $transactionService->reserve($transaction)->getRedirectUrl();
 }
