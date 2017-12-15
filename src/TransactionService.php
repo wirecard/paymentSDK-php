@@ -40,14 +40,15 @@ use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException;
+use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 use Wirecard\PaymentSdk\Mapper\RequestMapper;
 use Wirecard\PaymentSdk\Mapper\ResponseMapper;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Response\Response;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\CreditCardMotoTransaction;
+use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\IdealTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
@@ -623,5 +624,42 @@ class TransactionService
         $transaction = $this->sendGetRequest($endpoint);
 
         return $this->responseMapper->map($transaction);
+    }
+
+    /**
+     * @param $validationUrl
+     * @return string
+     *
+     * @throws MalformedResponseException|UnsupportedOperationException
+     */
+    public function validateMerchant($validationUrl)
+    {
+        /** @var \Wirecard\PaymentSdk\Config\ApplePayConfig $applePayConfig */
+        $applePayConfig = $this->config->get('applepay');
+
+        if ("https" == parse_url($validationUrl, PHP_URL_SCHEME) && substr(parse_url($validationUrl, PHP_URL_HOST),
+                -10) == ".apple.com"
+        ) {
+            $options = [
+                'body' => json_encode([
+                    'merchantIdentifier' => $applePayConfig->getMerchantIdentifier(),
+                    'domainName' => $applePayConfig->getDomainName(),
+                    'displayName' => $applePayConfig->getShopName()
+                ]),
+                'cert' => [$applePayConfig->getSslCertificatePath(), $applePayConfig->getSslCertificatePassword()],
+                'ssl_key' => [$applePayConfig->getSslCertificateKey(), $applePayConfig->getSslCertificatePassword()]
+            ];
+
+            $response = $this->httpClient->request('post', $validationUrl, $options);
+
+            if (200 === $response->getStatusCode()) {
+                return $response->getBody()->getContents();
+            } else {
+                $this->getLogger()->error($response->getBody()->getContents());
+                throw new MalformedResponseException($response->getBody()->getContents());
+            }
+        }
+
+        throw new UnsupportedOperationException('Can\'t validate merchant from a non https environment');
     }
 }

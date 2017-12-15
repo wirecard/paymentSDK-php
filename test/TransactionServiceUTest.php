@@ -38,7 +38,10 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Monolog\Logger;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
+use Wirecard\PaymentSdk\Config\ApplePayConfig;
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
@@ -834,5 +837,86 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         $service = new TransactionService($this->config, null, $client, $requestMapper, $responseMapper);
         $service->pay($transaction);
+    }
+
+    public function testValidateMerchant()
+    {
+        $streamInterface = $this->createMock(StreamInterface::class);
+        $streamInterface->method('getContents')->willReturn('testcontent');
+
+        $responseInterface = $this->createMock(ResponseInterface::class);
+        $responseInterface->method('getStatusCode')->willReturn(200);
+        $responseInterface->method('getBody')->willReturn($streamInterface);
+
+        $client = $this->createMock('\GuzzleHttp\Client');
+        $client->method('request')->willReturn($responseInterface);
+
+        $requestMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\RequestMapper');
+        $requestMapper->method('map')->willReturn(null);
+
+        $responseMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\ResponseMapper');
+        $responseMapper->method('map')->willReturn(null);
+
+        $config = new Config('testbaseurl', 'httpuser', 'httppass');
+        $appleConfig = new ApplePayConfig('testmaid', 'testsecret');
+        $config->add($appleConfig);
+
+        $service = new TransactionService($config, null, $client, $requestMapper, $responseMapper);
+
+        $this->assertEquals('testcontent',
+            $service->validateMerchant('https://apple-pay-gateway-cert.apple.com/paymentservices/startSession'));
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
+     */
+    public function testValidateMerchantHttpsError()
+    {
+
+        $client = $this->createMock('\GuzzleHttp\Client');
+
+        $requestMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\RequestMapper');
+
+        $responseMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\ResponseMapper');
+
+        $config = new Config('a', 'b', 'c');
+
+        $appleConfig = new ApplePayConfig('d', 'e');
+        $config->add($appleConfig);
+
+        $service = new TransactionService($config, null, $client, $requestMapper, $responseMapper);
+
+        $service->validateMerchant('http://apple-pay-gateway-cert.apple.com/paymentservices/startSession');
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
+     */
+    public function testValidateMerchantRequestError()
+    {
+        $streamInterface = $this->createMock(StreamInterface::class);
+        $streamInterface->method('getContents')->willReturn('Error message');
+
+        $responseInterface = $this->createMock(ResponseInterface::class);
+        $responseInterface->method('getStatusCode')->willReturn(501);
+        $responseInterface->method('getBody')->willReturn($streamInterface);
+
+        $client = $this->createMock('\GuzzleHttp\Client');
+        $client->method('request')->willReturn($responseInterface);
+
+        $requestMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\RequestMapper');
+        $requestMapper->method('map')->willReturn(null);
+
+        $responseMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\ResponseMapper');
+        $responseMapper->method('map')->willReturn(null);
+
+        $config = new Config('a', 'b', 'c');
+
+        $appleConfig = new ApplePayConfig('d', 'e');
+        $config->add($appleConfig);
+
+        $service = new TransactionService($config, null, $client, $requestMapper, $responseMapper);
+
+        $service->validateMerchant('https://apple-pay-gateway-cert.apple.com/paymentservices/startSession');
     }
 }

@@ -38,7 +38,7 @@ use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
  * Class RatepayInvoiceTransaction
  * @package Wirecard\PaymentSdk\Transaction
  */
-class ApplePayTransaction extends Transaction
+class ApplePayTransaction extends Transaction implements Reservable
 {
     const NAME = 'applepay';
     const PAYMENT_NAME = 'creditcard';
