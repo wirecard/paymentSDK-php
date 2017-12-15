@@ -97,7 +97,7 @@ class ResponseMapper
     }
 
     /**
-     * map the xml Response from engine to ResponseObjects
+     * map the xml Response from Wirecard's Payment Processing Gateway to ResponseObjects
      *
      * @param string $response
      * @param Transaction $transaction

@@ -154,7 +154,7 @@ abstract class Response
     }
 
     /**
-     * get the collection of status returned by Payment Gateway
+     * get the collection of status returned by Wirecard's Payment Processing Gateway
      * @return StatusCollection
      * @throws MalformedResponseException
      */

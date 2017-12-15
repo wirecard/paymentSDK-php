@@ -36,7 +36,7 @@ namespace Wirecard\PaymentSdk\Entity;
  * @package Wirecard\PaymentSdk\Entity
  *
  * Represents an entity which can be mapped
- * => it can be included in a request to Payment Gateway.
+ * => it can be included in a request to Wirecard's Payment Processing Gateway.
  */
 interface MappableEntity
 {
