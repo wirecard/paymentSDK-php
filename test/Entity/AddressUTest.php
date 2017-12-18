@@ -127,4 +127,18 @@ class AddressUTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expectedResult, $this->addr->mappedProperties());
     }
+
+    public function testMappingWithHouseExtension()
+    {
+        $this->addr->setHouseExtension('123b');
+
+        $expectedResult = [
+            'street1' => self::DUMMY_ADDRESS,
+            'city' => self::GRAZ,
+            'country' => self::AT_COUNTRY_CODE,
+            'house-extension' => '123b'
+        ];
+
+        $this->assertEquals($expectedResult, $this->addr->mappedProperties());
+    }
 }

@@ -67,6 +67,11 @@ class Address implements MappableEntity
     private $postalCode;
 
     /**
+     * @var string
+     */
+    private $houseExtension;
+
+    /**
      * Address constructor.
      * @param string $countryCode
      * @param string $city
@@ -97,6 +102,14 @@ class Address implements MappableEntity
     }
 
     /**
+     * @param string $houseExtension
+     */
+    public function setHouseExtension($houseExtension)
+    {
+        $this->houseExtension = $houseExtension;
+    }
+
+    /**
      * @return array
      */
     public function mappedProperties()
@@ -118,6 +131,10 @@ class Address implements MappableEntity
                 $result['street1'] = substr($this->street1, 0, 128);
                 $result['street2'] = substr($this->street1, 128);
             }
+        }
+
+        if (null !== $this->houseExtension) {
+            $result['house-extension'] = $this->houseExtension;
         }
 
         return $result;
