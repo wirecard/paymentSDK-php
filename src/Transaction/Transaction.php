@@ -70,19 +70,9 @@ abstract class Transaction extends Risk
     const TYPE_VOID_PURCHASE = 'void-purchase';
 
     /**
-     * @var AccountHolder
-     */
-    protected $accountHolder;
-
-    /**
      * @var Amount
      */
     protected $amount;
-
-    /**
-     * @var string
-     */
-    protected $consumerId;
 
     /**
      * @var string
@@ -150,16 +140,6 @@ abstract class Transaction extends Risk
     }
 
     /**
-     * @param AccountHolder $accountHolder
-     * @return Transaction
-     */
-    public function setAccountHolder($accountHolder)
-    {
-        $this->accountHolder = $accountHolder;
-        return $this;
-    }
-
-    /**
      * @param CustomFieldCollection $customFields
      * @return Transaction
      */
@@ -215,14 +195,6 @@ abstract class Transaction extends Risk
     public function setNotificationUrl($notificationUrl)
     {
         $this->notificationUrl = $notificationUrl;
-    }
-
-    /**
-     * @param string $consumerId
-     */
-    public function setConsumerId($consumerId)
-    {
-        $this->consumerId = $consumerId;
     }
 
     /**

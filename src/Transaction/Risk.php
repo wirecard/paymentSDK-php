@@ -43,6 +43,21 @@ use Wirecard\PaymentSdk\Entity\AccountHolder;
 abstract class Risk
 {
     /**
+     * @var AccountHolder
+     */
+    protected $accountHolder;
+
+    /**
+     * @var string
+     */
+    protected $consumerId;
+
+    /**
+     * @var string
+     */
+    protected $ipAddress;
+
+    /**
      * @var string
      */
     protected $orderNumber;
@@ -66,6 +81,30 @@ abstract class Risk
      * @var Device
      */
     protected $device;
+
+    /**
+     * @param AccountHolder $accountHolder
+     */
+    public function setAccountHolder($accountHolder)
+    {
+        $this->accountHolder = $accountHolder;
+    }
+
+    /**
+     * @param string $consumerId
+     */
+    public function setConsumerId($consumerId)
+    {
+        $this->consumerId = $consumerId;
+    }
+
+    /**
+     * @param string $ipAddress
+     */
+    public function setIpAddress($ipAddress)
+    {
+        $this->ipAddress = $ipAddress;
+    }
 
     /**
      * @param AccountHolder $shipping
@@ -113,6 +152,18 @@ abstract class Risk
     public function mappedProperties()
     {
         $data = array();
+
+        if ($this->accountHolder instanceof AccountHolder) {
+            $data['account-holder'] = $this->accountHolder->mappedProperties();
+        }
+
+        if (null !== $this->ipAddress) {
+            $data['ip-address'] = $this->ipAddress;
+        }
+
+        if (null !== $this->consumerId) {
+            $data['consumer-id'] = $this->consumerId;
+        }
 
         if ($this->shipping instanceof AccountHolder) {
             $data['shipping'] = $this->accountHolder->mappedProperties();
