@@ -245,9 +245,6 @@ class UpiTransactionUTest extends \PHPUnit_Framework_TestCase
                 UpiTransaction::TYPE_REFERENCED_PURCHASE
             ],
             [
-                UpiTransaction::TYPE_PURCHASE
-            ],
-            [
                 null,
                 UpiTransaction::TYPE_PURCHASE
             ]
