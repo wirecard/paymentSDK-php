@@ -140,6 +140,25 @@ class UpiTransaction extends Transaction implements Reservable
     }
 
     /**
+     * @return string
+     */
+    protected function retrieveTransactionTypeForPay()
+    {
+        switch ($this->parentTransactionType) {
+            case self::TYPE_AUTHORIZATION:
+                $transactionType = self::TYPE_CAPTURE_AUTHORIZATION;
+                break;
+            case self::TYPE_PURCHASE:
+                $transactionType = self::TYPE_REFERENCED_PURCHASE;
+                break;
+            default:
+                $transactionType = self::TYPE_PURCHASE;
+        }
+
+        return $transactionType;
+    }
+
+    /**
      * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return string
      */
@@ -148,16 +167,57 @@ class UpiTransaction extends Transaction implements Reservable
         if (!$this->parentTransactionId) {
             throw new MandatoryFieldMissingException('No transaction for cancellation set.');
         }
+
         switch ($this->parentTransactionType) {
             case self::TYPE_AUTHORIZATION:
             case self::TYPE_REFERENCED_AUTHORIZATION:
                 $transactionType = self::TYPE_VOID_AUTHORIZATION;
+                break;
+            case self::TYPE_REFUND_CAPTURE:
+            case self::TYPE_REFUND_PURCHASE:
+                $transactionType = 'void-' . $this->parentTransactionType;
+                break;
+            case self::TYPE_PURCHASE:
+            case self::TYPE_REFERENCED_PURCHASE:
+                $transactionType = self::TYPE_VOID_PURCHASE;
+                break;
+            case self::TYPE_CAPTURE_AUTHORIZATION:
+                $transactionType = self::TYPE_VOID_CAPTURE;
                 break;
             default:
                 throw new UnsupportedOperationException('The transaction can not be canceled.');
         }
 
         return $transactionType;
+    }
+
+    /**
+     * @throws MandatoryFieldMissingException|UnsupportedOperationException
+     * @return string
+     */
+    protected function retrieveTransactionTypeForRefund()
+    {
+        if (!$this->parentTransactionId) {
+            throw new MandatoryFieldMissingException('No transaction for cancellation set.');
+        }
+
+        switch ($this->parentTransactionType) {
+            case $this::TYPE_PURCHASE:
+            case $this::TYPE_REFERENCED_PURCHASE:
+                return 'refund-purchase';
+            case $this::TYPE_CAPTURE_AUTHORIZATION:
+                return 'refund-capture';
+            default:
+                throw new UnsupportedOperationException('The transaction can not be refunded.');
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function retrieveOperationType()
+    {
+        return ($this->operation === Operation::RESERVE) ? self::TYPE_AUTHORIZATION : self::TYPE_PURCHASE;
     }
 
     /**

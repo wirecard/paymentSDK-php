@@ -159,6 +159,26 @@ class UpiTransactionUTest extends \PHPUnit_Framework_TestCase
                 Transaction::TYPE_REFERENCED_AUTHORIZATION,
                 Transaction::TYPE_VOID_AUTHORIZATION
             ],
+            [
+                'refund-capture',
+                'void-refund-capture'
+            ],
+            [
+                'refund-purchase',
+                'void-refund-purchase'
+            ],
+            [
+                UpiTransaction::TYPE_PURCHASE,
+                'void-purchase'
+            ],
+            [
+                UpiTransaction::TYPE_REFERENCED_PURCHASE,
+                'void-purchase'
+            ],
+            [
+                Transaction::TYPE_CAPTURE_AUTHORIZATION,
+                'void-capture'
+            ]
         ];
     }
 
@@ -211,5 +231,145 @@ class UpiTransactionUTest extends \PHPUnit_Framework_TestCase
         $_SERVER['REMOTE_ADDR'] = 'test';
 
         $transaction->mappedProperties();
+    }
+
+    public function testPayProvider()
+    {
+        return [
+            [
+                Transaction::TYPE_AUTHORIZATION,
+                Transaction::TYPE_CAPTURE_AUTHORIZATION
+            ],
+            [
+                UpiTransaction::TYPE_PURCHASE,
+                UpiTransaction::TYPE_REFERENCED_PURCHASE
+            ],
+            [
+                UpiTransaction::TYPE_PURCHASE
+            ],
+            [
+                null,
+                UpiTransaction::TYPE_PURCHASE
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider testPayProvider
+     * @param $transactionType
+     * @param $payType
+     */
+    public function testPay($transactionType, $payType)
+    {
+        $transaction = new UpiTransaction();
+        $transaction->setConfig($this->config);
+        $transaction->setParentTransactionId('642');
+        $transaction->setParentTransactionType($transactionType);
+        $transaction->setOperation(Operation::PAY);
+        $_SERVER['REMOTE_ADDR'] = 'test';
+
+        $result = $transaction->mappedProperties();
+
+        $expectedResult = [
+            'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
+            'parent-transaction-id' => '642',
+            'ip-address' => 'test',
+            'transaction-type' => $payType,
+            'entry-mode' => 'ecommerce',
+            'locale' => 'de',
+        ];
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    /**
+     * @return array
+     */
+    public function testRefundProvider()
+    {
+        return [
+            [
+                UpiTransaction::TYPE_PURCHASE,
+                'refund-purchase'
+            ],
+            [
+                UpiTransaction::TYPE_REFERENCED_PURCHASE,
+                'refund-purchase'
+            ],
+            [
+                Transaction::TYPE_CAPTURE_AUTHORIZATION,
+                'refund-capture'
+            ]
+        ];
+    }
+
+    /**
+     * @dataProvider testRefundProvider
+     * @param $transactionType
+     * @param $refundType
+     */
+    public function testRefund($transactionType, $refundType)
+    {
+        $transaction = new UpiTransaction();
+        $transaction->setConfig($this->config);
+        $transaction->setParentTransactionId('642');
+        $transaction->setParentTransactionType($transactionType);
+        $transaction->setOperation(Operation::REFUND);
+        $_SERVER['REMOTE_ADDR'] = 'test';
+
+        $result = $transaction->mappedProperties();
+
+        $expectedResult = [
+            'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
+            'parent-transaction-id' => '642',
+            'ip-address' => 'test',
+            'transaction-type' => $refundType,
+            'entry-mode' => 'ecommerce',
+            'locale' => 'de',
+        ];
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
+     */
+    public function testRefundNoParentId()
+    {
+        $transaction = new UpiTransaction();
+        $transaction->setConfig($this->config);
+        $transaction->setOperation(Operation::REFUND);
+        $transaction->mappedProperties();
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
+     */
+    public function testRefundInvalidParentTransaction()
+    {
+        $transaction = new UpiTransaction();
+        $transaction->setConfig($this->config);
+        $transaction->setParentTransactionId('642');
+        $transaction->setParentTransactionType('test');
+        $transaction->setOperation(Operation::REFUND);
+        $_SERVER['REMOTE_ADDR'] = 'test';
+
+        $transaction->mappedProperties();
+    }
+
+    public function testRetrieveOperationTypeAuthorization()
+    {
+        $tx = new UpiTransaction();
+        $tx->setConfig($this->config);
+        $tx->setOperation(Operation::RESERVE);
+
+        $this->assertEquals(Transaction::TYPE_AUTHORIZATION, $tx->retrieveOperationType());
+    }
+
+    public function testRetrieveOperationTypePurchase()
+    {
+        $tx = new UpiTransaction();
+        $tx->setConfig($this->config);
+        $tx->setOperation(Operation::PAY);
+
+        $this->assertEquals(UpiTransaction::TYPE_PURCHASE, $tx->retrieveOperationType());
     }
 }
