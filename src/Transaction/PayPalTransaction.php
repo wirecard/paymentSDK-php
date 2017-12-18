@@ -47,57 +47,7 @@ class PayPalTransaction extends Transaction implements Reservable
     /**
      * @var string
      */
-    private $orderNumber;
-
-    /**
-     * @var string
-     */
     private $orderDetail;
-
-    /**
-     * @var string
-     */
-    private $descriptor;
-
-    /**
-     * @var AccountHolder
-     */
-    private $shipping;
-
-    /**
-     * @var Basket
-     */
-    protected $basket;
-
-    /**
-     * @param AccountHolder $shipping
-     * @return PayPalTransaction
-     */
-    public function setShipping($shipping)
-    {
-        $this->shipping = $shipping;
-        return $this;
-    }
-
-    /**
-     * @param string $descriptor
-     * @return PayPalTransaction
-     */
-    public function setDescriptor($descriptor)
-    {
-        $this->descriptor = $descriptor;
-        return $this;
-    }
-
-    /**
-     * @param string $orderNumber
-     * @return PayPalTransaction
-     */
-    public function setOrderNumber($orderNumber)
-    {
-        $this->orderNumber = $orderNumber;
-        return $this;
-    }
 
     /**
      * @param string $orderDetail
@@ -106,16 +56,6 @@ class PayPalTransaction extends Transaction implements Reservable
     public function setOrderDetail($orderDetail)
     {
         $this->orderDetail = $orderDetail;
-        return $this;
-    }
-
-    /**
-     * @param Basket $basket
-     * @return Transaction
-     */
-    public function setBasket(Basket $basket)
-    {
-        $this->basket = $basket;
         return $this;
     }
 

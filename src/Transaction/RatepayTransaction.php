@@ -45,51 +45,6 @@ class RatepayTransaction extends Transaction implements Reservable
     const NAME = 'ratepay-install';
 
     /**
-     * @var string
-     */
-    private $orderNumber;
-
-    /**
-     * @var Device
-     */
-    protected $device;
-
-    /**
-     * @var Basket
-     */
-    protected $basket;
-
-    /**
-     * @param string $orderNumber
-     * @return RatepayTransaction
-     */
-    public function setOrderNumber($orderNumber)
-    {
-        $this->orderNumber = $orderNumber;
-        return $this;
-    }
-
-    /**
-     * @param string $device
-     * @return Transaction
-     */
-    public function setDevice($device)
-    {
-        $this->device = $device;
-        return $this;
-    }
-
-    /**
-     * @param Basket $basket
-     * @return Transaction
-     */
-    public function setBasket(Basket $basket)
-    {
-        $this->basket = $basket;
-        return $this;
-    }
-
-    /**
      * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return array
      */

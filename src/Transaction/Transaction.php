@@ -43,7 +43,7 @@ use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
  * Interface Transaction
  * @package Wirecard\PaymentSdk\Transaction
  */
-abstract class Transaction
+abstract class Transaction extends Risk
 {
     const PARAM_PAYMENT = 'payment';
     const PARAM_TRANSACTION_TYPE = 'transaction-type';
