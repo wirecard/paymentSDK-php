@@ -34,6 +34,7 @@ namespace Wirecard\PaymentSdk\Transaction;
 use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Entity\Device;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
+
 /**
  * Class Risk
  * @package Wirecard\PaymentSdk\Transaction
@@ -166,7 +167,7 @@ abstract class Risk
         }
 
         if ($this->shipping instanceof AccountHolder) {
-            $data['shipping'] = $this->accountHolder->mappedProperties();
+            $data['shipping'] = $this->shipping->mappedProperties();
         }
 
         if ($this->basket instanceof Basket) {
