@@ -48,11 +48,6 @@ class IdealTransaction extends Transaction
     private $bic;
 
     /**
-     * @var string
-     */
-    private $descriptor;
-
-    /**
      * @param string $bank
      * @throws MandatoryFieldMissingException
      */
@@ -62,14 +57,6 @@ class IdealTransaction extends Transaction
         if (!$this->bic) {
             throw new MandatoryFieldMissingException('Bank does not participate in iDEAL or does not exist.');
         }
-    }
-
-    /**
-     * @param string $descriptor
-     */
-    public function setDescriptor($descriptor)
-    {
-        $this->descriptor = $descriptor;
     }
 
     /**

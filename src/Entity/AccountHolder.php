@@ -75,6 +75,16 @@ class AccountHolder implements MappableEntity
     private $crmId;
 
     /**
+     * @var string
+     */
+    private $gender;
+
+    /**
+     * @var string
+     */
+    private $socialSecurityNumber;
+
+    /**
      * @param string $firstName
      */
     public function setFirstName($firstName)
@@ -133,6 +143,22 @@ class AccountHolder implements MappableEntity
     }
 
     /**
+     * @param string $gender
+     */
+    public function setGender($gender)
+    {
+        $this->gender = $gender;
+    }
+
+    /**
+     * @param string $securityNumber
+     */
+    public function setSocialSecurityNumber($securityNumber)
+    {
+        $this->socialSecurityNumber = $securityNumber;
+    }
+
+    /**
      * @return array
      */
     public function mappedProperties()
@@ -165,6 +191,14 @@ class AccountHolder implements MappableEntity
 
         if (null !== $this->crmId) {
             $result['merchant-crm-id'] = $this->crmId;
+        }
+
+        if (null !== $this->gender) {
+            $result['gender'] = $this->gender;
+        }
+
+        if (null !== $this->socialSecurityNumber) {
+            $result['social-security-number'] = $this->socialSecurityNumber;
         }
 
         return $result;

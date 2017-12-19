@@ -43,7 +43,7 @@ use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
  * Interface Transaction
  * @package Wirecard\PaymentSdk\Transaction
  */
-abstract class Transaction
+abstract class Transaction extends Risk
 {
     const PARAM_PAYMENT = 'payment';
     const PARAM_TRANSACTION_TYPE = 'transaction-type';
@@ -70,19 +70,9 @@ abstract class Transaction
     const TYPE_VOID_PURCHASE = 'void-purchase';
 
     /**
-     * @var AccountHolder
-     */
-    protected $accountHolder;
-
-    /**
      * @var Amount
      */
     protected $amount;
-
-    /**
-     * @var string
-     */
-    protected $consumerId;
 
     /**
      * @var string
@@ -150,16 +140,6 @@ abstract class Transaction
     }
 
     /**
-     * @param AccountHolder $accountHolder
-     * @return Transaction
-     */
-    public function setAccountHolder($accountHolder)
-    {
-        $this->accountHolder = $accountHolder;
-        return $this;
-    }
-
-    /**
      * @param CustomFieldCollection $customFields
      * @return Transaction
      */
@@ -215,14 +195,6 @@ abstract class Transaction
     public function setNotificationUrl($notificationUrl)
     {
         $this->notificationUrl = $notificationUrl;
-    }
-
-    /**
-     * @param string $consumerId
-     */
-    public function setConsumerId($consumerId)
-    {
-        $this->consumerId = $consumerId;
     }
 
     /**

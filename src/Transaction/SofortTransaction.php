@@ -36,19 +36,6 @@ class SofortTransaction extends Transaction
     const NAME = 'sofortbanking';
 
     /**
-     * @var string
-     */
-    private $descriptor;
-
-    /**
-     * @param string $descriptor
-     */
-    public function setDescriptor($descriptor)
-    {
-        $this->descriptor = $descriptor;
-    }
-
-    /**
      * @return array
      */
     protected function mappedSpecificProperties()

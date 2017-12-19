@@ -132,4 +132,30 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
             $this->accountHolder->mappedProperties()
         );
     }
+
+    public function testGetMappedPropertiesGender()
+    {
+        $gender = 'f';
+        $this->accountHolder->setGender($gender);
+
+        $this->assertEquals(
+            [
+                'gender' => $gender
+            ],
+            $this->accountHolder->mappedProperties()
+        );
+    }
+
+    public function testGetMappedPropertiesSecurityNumber()
+    {
+        $securityNumber = '1234567';
+        $this->accountHolder->setSocialSecurityNumber($securityNumber);
+
+        $this->assertEquals(
+            [
+                'social-security-number' => $securityNumber
+            ],
+            $this->accountHolder->mappedProperties()
+        );
+    }
 }
