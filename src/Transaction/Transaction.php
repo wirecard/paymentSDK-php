@@ -32,7 +32,6 @@
 namespace Wirecard\PaymentSdk\Transaction;
 
 use Locale;
-use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Entity\Redirect;
@@ -220,12 +219,10 @@ abstract class Transaction extends Risk
             'name' => $this->paymentMethodNameForRequest()
         ]]]];
 
+        $result = array_merge($result, parent::mappedProperties());
+
         if ($this->amount instanceof Amount) {
             $result['requested-amount'] = $this->amount->mappedProperties();
-        }
-
-        if ($this->accountHolder instanceof AccountHolder) {
-            $result['account-holder'] = $this->accountHolder->mappedProperties();
         }
 
         if (null !== $this->parentTransactionId) {
@@ -251,10 +248,6 @@ abstract class Transaction extends Risk
             if ($this->redirect->getFailureUrl()) {
                 $result['fail-redirect-url'] = $this->redirect->getFailureUrl();
             }
-        }
-
-        if (null !== $this->consumerId) {
-            $result['consumer-id'] = $this->consumerId;
         }
 
         if (null !== $this->customFields) {
