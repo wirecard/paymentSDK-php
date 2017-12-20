@@ -43,6 +43,7 @@ We also provide some examples for using the PaymentSDK, which can be found [here
 - RatePay Installment
 - RatePay Invoice
 - SEPA
+- UnionPay International
 - UnionPay Online Payments
 
 If you have any questions or need further assistance do not hesitate to contact our [support teams](mailto:support.at@wirecard.com ).
