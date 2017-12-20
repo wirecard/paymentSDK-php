@@ -106,6 +106,7 @@
 				<li class="active"><a href="class-Wirecard.PaymentSdk.Transaction.RatepayInstallmentTransaction.html">RatepayInstallmentTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.RatepayInvoiceTransaction.html">RatepayInvoiceTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.RatepayTransaction.html">RatepayTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.Risk.html">Risk</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html">SepaTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.SofortTransaction.html">SofortTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Transaction</a></li>
@@ -139,12 +140,19 @@
 
 	<dl class="tree well">
 		<dd style="padding-left:0px">
-			<a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html"><span>Wirecard\PaymentSdk\Transaction\Transaction</span></a>
+			<a href="class-Wirecard.PaymentSdk.Transaction.Risk.html"><span>Wirecard\PaymentSdk\Transaction\Risk</span></a>
 			
 			
 			
 		</dd>
 		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by">
+			<a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html"><span>Wirecard\PaymentSdk\Transaction\Transaction</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:60px">
 			<img src="resources/inherit.png" alt="Extended by">
 			<a href="class-Wirecard.PaymentSdk.Transaction.RatepayTransaction.html"><span>Wirecard\PaymentSdk\Transaction\RatepayTransaction</span></a>
 			
@@ -153,7 +161,7 @@
 			
 			
 		</dd>
-		<dd style="padding-left:60px">
+		<dd style="padding-left:90px">
 			<img src="resources/inherit.png" alt="Extended by">
 <b><span>Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction</span></b>			
 			 implements 
@@ -231,10 +239,7 @@
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.RatepayTransaction.html#_retrieveTransactionTypeForCancel">retrieveTransactionTypeForCancel()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.RatepayTransaction.html#_retrieveTransactionTypeForCredit">retrieveTransactionTypeForCredit()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.RatepayTransaction.html#_retrieveTransactionTypeForPay">retrieveTransactionTypeForPay()</a></code>, 
-				<code><a href="class-Wirecard.PaymentSdk.Transaction.RatepayTransaction.html#_retrieveTransactionTypeForReserve">retrieveTransactionTypeForReserve()</a></code>, 
-				<code><a href="class-Wirecard.PaymentSdk.Transaction.RatepayTransaction.html#_setBasket">setBasket()</a></code>, 
-				<code><a href="class-Wirecard.PaymentSdk.Transaction.RatepayTransaction.html#_setDevice">setDevice()</a></code>, 
-				<code><a href="class-Wirecard.PaymentSdk.Transaction.RatepayTransaction.html#_setOrderNumber">setOrderNumber()</a></code>
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.RatepayTransaction.html#_retrieveTransactionTypeForReserve">retrieveTransactionTypeForReserve()</a></code>
 			</p>
 		</div>
 		<div class="panel panel-default">
@@ -246,9 +251,7 @@
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_paymentMethodNameForRequest">paymentMethodNameForRequest()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_retrieveTransactionType">retrieveTransactionType()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_retrieveTransactionTypeForRefund">retrieveTransactionTypeForRefund()</a></code>, 
-				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_setAccountHolder">setAccountHolder()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_setAmount">setAmount()</a></code>, 
-				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_setConsumerId">setConsumerId()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_setCustomFields">setCustomFields()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_setEntryMode">setEntryMode()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_setLocale">setLocale()</a></code>, 
@@ -258,6 +261,19 @@
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_setParentTransactionType">setParentTransactionType()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_setRedirect">setRedirect()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_setRequestId">setRequestId()</a></code>
+			</p>
+		</div>
+		<div class="panel panel-default">
+	        <div class="panel-heading"><h3>Methods inherited from <a href="class-Wirecard.PaymentSdk.Transaction.Risk.html#methods">Wirecard\PaymentSdk\Transaction\Risk</a></h3></div>
+			<p class="elementList">
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.Risk.html#_setAccountHolder">setAccountHolder()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.Risk.html#_setBasket">setBasket()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.Risk.html#_setConsumerId">setConsumerId()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.Risk.html#_setDescriptor">setDescriptor()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.Risk.html#_setDevice">setDevice()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.Risk.html#_setIpAddress">setIpAddress()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.Risk.html#_setOrderNumber">setOrderNumber()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.Risk.html#_setShipping">setShipping()</a></code>
 			</p>
 		</div>
 
@@ -333,18 +349,9 @@
 		</div>
 
 		<div class="panel panel-default">
-            <div class="panel-heading"><h3>Properties inherited from <a href="class-Wirecard.PaymentSdk.Transaction.RatepayTransaction.html#properties">Wirecard\PaymentSdk\Transaction\RatepayTransaction</a></h3></div>
-			<p class="elementList">
-				<code><a href="class-Wirecard.PaymentSdk.Transaction.RatepayTransaction.html#$basket"><var>$basket</var></a></code>, 
-				<code><a href="class-Wirecard.PaymentSdk.Transaction.RatepayTransaction.html#$device"><var>$device</var></a></code>
-			</p>
-		</div>
-		<div class="panel panel-default">
             <div class="panel-heading"><h3>Properties inherited from <a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#properties">Wirecard\PaymentSdk\Transaction\Transaction</a></h3></div>
 			<p class="elementList">
-				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#$accountHolder"><var>$accountHolder</var></a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#$amount"><var>$amount</var></a></code>, 
-				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#$consumerId"><var>$consumerId</var></a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#$customFields"><var>$customFields</var></a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#$entryMode"><var>$entryMode</var></a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#$locale"><var>$locale</var></a></code>, 
@@ -354,6 +361,19 @@
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#$parentTransactionType"><var>$parentTransactionType</var></a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#$redirect"><var>$redirect</var></a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#$requestId"><var>$requestId</var></a></code>
+			</p>
+		</div>
+		<div class="panel panel-default">
+            <div class="panel-heading"><h3>Properties inherited from <a href="class-Wirecard.PaymentSdk.Transaction.Risk.html#properties">Wirecard\PaymentSdk\Transaction\Risk</a></h3></div>
+			<p class="elementList">
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.Risk.html#$accountHolder"><var>$accountHolder</var></a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.Risk.html#$basket"><var>$basket</var></a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.Risk.html#$consumerId"><var>$consumerId</var></a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.Risk.html#$descriptor"><var>$descriptor</var></a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.Risk.html#$device"><var>$device</var></a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.Risk.html#$ipAddress"><var>$ipAddress</var></a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.Risk.html#$orderNumber"><var>$orderNumber</var></a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.Risk.html#$shipping"><var>$shipping</var></a></code>
 			</p>
 		</div>
 
