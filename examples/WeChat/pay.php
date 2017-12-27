@@ -14,6 +14,7 @@ require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Entity\SubMerchantInfo;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Transaction\WeChatTransaction;
@@ -34,6 +35,9 @@ $redirectUrls = new Redirect(
 
 $notificationUrl = getUrl('notify.php');
 
+$subMerchantInfo = new SubMerchantInfo();
+$subMerchantInfo->setMerchantId('12152566');
+$subMerchantInfo->setMerchantName("store name");
 
 // ## Transaction
 
@@ -43,8 +47,7 @@ $transaction = new WeChatTransaction();
 $transaction->setRedirect($redirectUrls);
 $transaction->setNotificationUrl($notificationUrl);
 $transaction->setAmount($amount);
-$transaction->setMerchantId('12152566');
-$transaction->setMerchantName('Store');
+$transaction->setSubMerchantInfo($subMerchantInfo);
 $transaction->setOrderDetail('bla');
 
 // ### Transaction Service

@@ -31,7 +31,8 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\AccountHolder;
+use Wirecard\PaymentSdk\Entity\SubMerchantInfo;
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
 class WeChatTransaction extends Transaction implements Reservable
@@ -39,35 +40,14 @@ class WeChatTransaction extends Transaction implements Reservable
     const NAME = 'wechat-qrpay';
 
     /**
-     * @var string
+     * @var SubMerchantInfo
      */
-    private $merchantId;
-
-    /**
-     * @var string
-     */
-    private $merchantName;
+    protected $subMerchantInfo;
 
     /**
      * @var string
      */
     private $orderDetail;
-
-    /**
-     * @param $merchantId
-     */
-    public function setMerchantId($merchantId)
-    {
-        $this->merchantId = $merchantId;
-    }
-
-    /**
-     * @param $merchantName
-     */
-    public function setMerchantName($merchantName)
-    {
-        $this->merchantName = $merchantName;
-    }
 
     /**
      * @param $orderDetail
@@ -78,21 +58,25 @@ class WeChatTransaction extends Transaction implements Reservable
     }
 
     /**
+     * @param SubMerchantInfo $subMerchantInfo
+     */
+    public function setSubMerchantInfo($subMerchantInfo)
+    {
+        $this->subMerchantInfo = $subMerchantInfo;
+    }
+
+    /**
      * @return array
      */
     protected function mappedSpecificProperties()
     {
         $result = array();
 
-        if ($this->merchantId !== null) {
-            $result['sub-merchant-info'] = ['id' => $this->merchantId];
+        if (null !== $this->subMerchantInfo) {
+            $result['sub-merchant-info'] = $this->subMerchantInfo->mappedProperties();
         }
 
-        if ($this->orderDetail !== null) {
-            $result['sub-merchant-info']['name'] = $this->merchantName;
-        }
-
-        if ($this->orderDetail !== null) {
+        if (null !== $this->orderDetail) {
             $result['order-detail'] = $this->orderDetail;
         }
 
@@ -104,6 +88,14 @@ class WeChatTransaction extends Transaction implements Reservable
      */
     protected function retrieveTransactionTypeForPay()
     {
+        if (null === $this->subMerchantInfo) {
+            throw new MandatoryFieldMissingException('Sub merchant info not set.');
+        }
+
+        if (null === $this->orderDetail) {
+            throw new MandatoryFieldMissingException('Order detail not set.');
+        }
+
         return self::TYPE_DEBIT;
     }
 
@@ -112,11 +104,15 @@ class WeChatTransaction extends Transaction implements Reservable
      */
     protected function retrieveTransactionTypeForCancel()
     {
-        if ($this->parentTransactionType === self::TYPE_DEBIT) {
-            return self::TYPE_REFUND_DEBIT;
+        if (!$this->parentTransactionId) {
+            throw new MandatoryFieldMissingException('No transaction for cancellation set.');
         }
 
-        throw new UnsupportedOperationException('Canceling ' . $this->parentTransactionType . ' is not supported.');
+        if ($this->parentTransactionType != Transaction::TYPE_DEBIT) {
+            throw new UnsupportedOperationException('Only debit can be refunded.');
+        }
+
+        return Transaction::TYPE_REFUND_DEBIT;
     }
 
     /**
@@ -124,7 +120,7 @@ class WeChatTransaction extends Transaction implements Reservable
      */
     public function getEndpoint()
     {
-        if ($this->parentTransactionId) {
+        if ($this->operation == Operation::CANCEL) {
             return self::ENDPOINT_PAYMENTS;
         }
         return self::ENDPOINT_PAYMENT_METHODS;
