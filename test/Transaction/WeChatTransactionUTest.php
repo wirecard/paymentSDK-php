@@ -164,6 +164,36 @@ class WeChatTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx->setOperation(Operation::CANCEL);
         $this->tx->setParentTransactionId("aa");
         $this->tx->setParentTransactionType(Transaction::TYPE_DEBIT);
+        $this->assertEquals(Transaction::TYPE_VOID_DEBIT, $this->tx->mappedProperties()['transaction-type']);
+    }
+
+    public function testRetrieveTransactionForRefund()
+    {
+        $this->tx->setOperation(Operation::REFUND);
+        $this->tx->setParentTransactionId("aa");
+        $this->tx->setParentTransactionType(Transaction::TYPE_DEBIT);
         $this->assertEquals(Transaction::TYPE_REFUND_DEBIT, $this->tx->mappedProperties()['transaction-type']);
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
+     */
+    public function testMandatoryParentTxForRefund()
+    {
+        $this->tx->setOperation(Operation::REFUND);
+
+        $this->tx->mappedProperties();
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
+     */
+    public function testParentTransactionTypeForRefund()
+    {
+        $this->tx->setOperation(Operation::REFUND);
+        $this->tx->setParentTransactionId('123');
+        $this->tx->setParentTransactionType(Transaction::TYPE_PURCHASE);
+
+        $this->tx->mappedProperties();
     }
 }
