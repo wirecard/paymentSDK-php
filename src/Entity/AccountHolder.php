@@ -82,6 +82,11 @@ class AccountHolder implements MappableEntity
     /**
      * @var string
      */
+    private $shippingMethod;
+
+    /**
+     * @var string
+     */
     private $socialSecurityNumber;
 
     /**
@@ -150,6 +155,11 @@ class AccountHolder implements MappableEntity
         $this->gender = $gender;
     }
 
+    public function setShippingMethod($shippingMethod)
+    {
+        $this->shippingMethod = $shippingMethod;
+    }
+
     /**
      * @param string $securityNumber
      */
@@ -199,6 +209,10 @@ class AccountHolder implements MappableEntity
 
         if (null !== $this->socialSecurityNumber) {
             $result['social-security-number'] = $this->socialSecurityNumber;
+        }
+
+        if (null !== $this->shippingMethod) {
+            $result['shipping-method'] = $this->shippingMethod;
         }
 
         return $result;
