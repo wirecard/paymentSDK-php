@@ -158,4 +158,17 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
             $this->accountHolder->mappedProperties()
         );
     }
+
+    public function testGetMappedPropertiesShippingMethod()
+    {
+        $shippingMethod = 'Express';
+        $this->accountHolder->setShippingMethod($shippingMethod);
+
+        $this->assertEquals(
+            [
+                'shipping-method' => $shippingMethod
+            ],
+            $this->accountHolder->mappedProperties()
+        );
+    }
 }
