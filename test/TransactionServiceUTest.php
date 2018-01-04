@@ -506,57 +506,35 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->instance->handleResponse($invalidXmlContent);
     }
 
-
-    public function testGetDataForCreditCardUi()
+    public function testGetUI()
     {
         $requestIdGenerator = function () {
             return 'abc123';
         };
 
         $this->instance = new TransactionService($this->config, null, null, null, null, $requestIdGenerator);
-        $data = json_decode($this->instance->getDataForCreditCardUi(), true);
 
-        $this->assertArrayHasKey('request_signature', $data);
-        unset($data['request_signature']);
+        $data['creditCard'] = json_decode($this->instance->getDataForCreditCardUi(), true);
+        $data['creditCardMoto'] = json_decode($this->instance->getDataForCreditCardMotoUi(), true);
+        $data['Upi'] = json_decode($this->instance->getDataForUpiUi(), true);
 
-        $this->assertArrayHasKey('request_time_stamp', $data);
-        unset($data['request_time_stamp']);
+        foreach ($data as $ui) {
+            $this->assertArrayHasKey('request_signature', $ui);
+            unset($ui['request_signature']);
 
-        $this->assertEquals(array(
-            'request_id' => 'abc123',
-            'merchant_account_id' => self::MAID,
-            'transaction_type' => 'authorization-only',
-            'requested_amount' => 0,
-            'requested_amount_currency' => $this->config->getDefaultCurrency(),
-            'locale' => 'en',
-            'payment_method' => 'creditcard',
-        ), $data);
-    }
+            $this->assertArrayHasKey('request_time_stamp', $ui);
+            unset($ui['request_time_stamp']);
 
-    public function testGetDataForCreditCardMotoUi()
-    {
-        $requestIdGenerator = function () {
-            return 'abc123';
-        };
-
-        $this->instance = new TransactionService($this->config, null, null, null, null, $requestIdGenerator);
-        $data = json_decode($this->instance->getDataForCreditCardMotoUi(), true);
-
-        $this->assertArrayHasKey('request_signature', $data);
-        unset($data['request_signature']);
-
-        $this->assertArrayHasKey('request_time_stamp', $data);
-        unset($data['request_time_stamp']);
-
-        $this->assertEquals(array(
-            'request_id' => 'abc123',
-            'merchant_account_id' => self::MAID,
-            'transaction_type' => 'authorization-only',
-            'requested_amount' => 0,
-            'requested_amount_currency' => $this->config->getDefaultCurrency(),
-            'locale' => 'en',
-            'payment_method' => 'creditcard',
-        ), $data);
+            $this->assertEquals(array(
+                'request_id' => 'abc123',
+                'merchant_account_id' => self::MAID,
+                'transaction_type' => 'authorization-only',
+                'requested_amount' => 0,
+                'requested_amount_currency' => $this->config->getDefaultCurrency(),
+                'locale' => 'en',
+                'payment_method' => 'creditcard',
+            ), $ui);
+        }
     }
 
     public function testRatePayInvoiceDeviceIdent()

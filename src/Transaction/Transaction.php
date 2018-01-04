@@ -67,6 +67,7 @@ abstract class Transaction extends Risk
     const TYPE_REFUND_PURCHASE = 'refund-purchase';
     const TYPE_REFERENCED_PURCHASE = 'referenced-purchase';
     const TYPE_VOID_PURCHASE = 'void-purchase';
+    const TYPE_VOID_DEBIT= 'void-debit';
 
     /**
      * @var Amount
