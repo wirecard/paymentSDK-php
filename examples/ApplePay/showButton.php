@@ -122,7 +122,7 @@ if (isset($_GET['validationUrl'])) {
                     var status;
                     if (success) {
                         status = ApplePaySession.STATUS_SUCCESS;
-                        document.location.href = success;
+                        //document.location.href = success;
                     } else {
                         status = ApplePaySession.STATUS_FAILURE;
                     }
@@ -167,8 +167,20 @@ function validateMerchant($transactionService, $validation_url)
  *
  * @param TransactionService $transactionService
  * @param ApplePayTransaction $transaction
+ * @throws Exception
  */
 function sendPaymentRequest($transactionService, $transaction)
 {
-    echo $transactionService->reserve($transaction)->getRedirectUrl();
+    //echo $transactionService->reserve($transaction)->getRedirectUrl();
+    $response = $transactionService->reserve($transaction);
+
+    print_r($response->getRawData());die;
+
+    if ($response instanceof \Wirecard\PaymentSdk\Response\InteractionResponse)
+    {
+        echo $response->getRedirectUrl();
+    } else {
+        throw new Exception($response->getRawData());
+    }
+    die;
 }
