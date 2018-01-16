@@ -94,4 +94,9 @@ class ApplePayTransaction extends Transaction implements Reservable
 
         return $this->cryptogram;
     }
+
+    public function getEndpoint()
+    {
+        return parent::ENDPOINT_PAYMENTS;
+    }
 }
