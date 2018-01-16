@@ -85,7 +85,7 @@ if (isset($_GET['validationUrl'])) {
         function wirecardApplePay() {
             var paymentRequest = {
                 currencyCode: 'EUR',
-                countryCode: 'AT',
+                countryCode: 'FR',
                 total: {
                     label: '<?=$applePayConfig->getShopName()?>',
                     amount: 42
