@@ -17,7 +17,7 @@ use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Mandate;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\SepaB2bTransaction;
+use Wirecard\PaymentSdk\Transaction\SepaBtwobTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 if (!isset($_POST['iban'])) {
@@ -51,8 +51,8 @@ if (!isset($_POST['iban'])) {
 
 // ## Transaction
 
-// Create a `SepaB2bTransaction` object, which contains all relevant data for the credit process.
-    $transaction = new SepaB2bTransaction();
+// Create a `SepaBtwobTransaction` object, which contains all relevant data for the credit process.
+    $transaction = new SepaBtwobTransaction();
     $transaction->setCompanyName('Doe\'s company');
     if (null !== $amount) {
         $transaction->setAmount($amount);

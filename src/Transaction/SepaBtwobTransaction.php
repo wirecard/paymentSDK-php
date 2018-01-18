@@ -33,7 +33,7 @@ namespace Wirecard\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
-class SepaB2bTransaction extends SepaTransaction implements Reservable
+class SepaBtwobTransaction extends SepaTransaction implements Reservable
 {
     /** @var  string $companyName */
     private $companyName;

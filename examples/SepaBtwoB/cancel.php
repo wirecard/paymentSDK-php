@@ -15,7 +15,7 @@ require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\SepaB2bTransaction;
+use Wirecard\PaymentSdk\Transaction\SepaBtwobTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 if (!isset($_POST['parentTransactionId'])) {
@@ -31,7 +31,7 @@ if (!isset($_POST['parentTransactionId'])) {
 } else {
 // ## Transaction
 
-    $transaction = new SepaB2bTransaction();
+    $transaction = new SepaBtwobTransaction();
     $transaction->setParentTransactionId($_POST['parentTransactionId']);
 
 // ### Transaction Service

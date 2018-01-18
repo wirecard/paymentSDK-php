@@ -31,20 +31,18 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\Mandate;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Transaction\Operation;
-use Wirecard\PaymentSdk\Transaction\SepaB2bTransaction;
-use Wirecard\PaymentSdk\Transaction\Transaction;
+use Wirecard\PaymentSdk\Transaction\SepaBtwobTransaction;
 
-class SepaB2bTransactionUTest extends \PHPUnit_Framework_TestCase
+class SepaBtwobTransactionUTest extends \PHPUnit_Framework_TestCase
 {
     const IBAN = 'DE42512308000000060004';
     const MANDATE_ID = '2345';
     const COMPANY_NAME = 'Testcompany';
 
     /**
-     * @var SepaB2bTransaction
+     * @var SepaBtwobTransaction
      */
     private $tx;
 
@@ -57,7 +55,7 @@ class SepaB2bTransactionUTest extends \PHPUnit_Framework_TestCase
     {
         $this->amount = new Amount(55.5, 'EUR');
 
-        $this->tx = new SepaB2bTransaction();
+        $this->tx = new SepaBtwobTransaction();
         $this->tx->setCompanyName(self::COMPANY_NAME);
         $this->tx->setAmount($this->amount);
     }
