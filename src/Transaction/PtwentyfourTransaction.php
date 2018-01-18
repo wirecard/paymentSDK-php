@@ -36,10 +36,10 @@ use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
 /**
- * Class P24Transaction
+ * Class PtwentyfourTransaction
  * @package Wirecard\PaymentSdk\Transaction
  */
-class P24Transaction extends Transaction implements Reservable
+class PtwentyfourTransaction extends Transaction implements Reservable
 {
     const NAME = 'p24';
 
