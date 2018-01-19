@@ -31,6 +31,7 @@ if (!isset($_POST['parentTransactionId'])) {
 // ## Transaction
 
     $transaction = new KlarnaInvoiceTransaction();
+	$transaction->setLocale('de');
     $transaction->setParentTransactionId($_POST['parentTransactionId']);
 
 // ### Transaction Service
