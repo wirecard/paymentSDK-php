@@ -164,7 +164,8 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf($class, $service->pay($this->getTestPayPalTransaction()));
     }
 
-    public function testGetDataForUpi(){
+    public function testGetDataForUpi()
+    {
 
         $data = new \stdClass();
         $data->request_time_stamp = gmdate('YmdHis');
