@@ -111,6 +111,7 @@ class KlarnaInvoiceTransaction extends Transaction implements Reservable
      */
     protected function mappedSpecificProperties()
     {
+    	$data = [];
         if (null !== $this->shipping) {
             $data['shipping'] = $this->shipping->mappedProperties();
         }
