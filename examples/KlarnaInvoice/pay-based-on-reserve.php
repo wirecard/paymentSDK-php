@@ -5,7 +5,7 @@
 
 // ## Required objects
 
-// To include the necessary files, we use the composer for PSR-4 autoloading.
+// To include the necessary files, use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 require __DIR__ . '/../inc/config.php';
@@ -18,144 +18,63 @@ use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\KlarnaInvoiceTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
-// ### Transaction related objects
-
-// As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
-$notificationUrl = getUrl('notify.php');
-
-// The order number
-$orderNumber = 'A2';
-
-// #### Order items
-
-$item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(400, 'EUR'), 1);
-$item1->setArticleNumber('A1');
-$item1->setTaxRate(10.0);
-
-$item2 = new \Wirecard\PaymentSdk\Entity\Item('Item 2', new Amount(1000, 'EUR'), 2);
-$item2->setArticleNumber('B2');
-$item2->setTaxRate(20.0);
-
-// Create a basket to store the items.
-$basket = new \Wirecard\PaymentSdk\Entity\Basket();
-
-// #### Account holder with address
-// Klarna Guaranteed Invoice uses klarna developer testdata
-$address = new \Wirecard\PaymentSdk\Entity\Address('DE', 'Neuss', 'Hellersbergstraße');
-$address->setPostalCode('41460');
-$address->setStreet2('Hellersbergstraße');
-$address->setHouseExtension('14');
-
-$accountHolder = new \Wirecard\PaymentSdk\Entity\AccountHolder();
-$accountHolder->setFirstName('Testperson-de');
-$accountHolder->setLastName('Approved');
-$accountHolder->setEmail('youremail@email.com');
-$accountHolder->setPhone('01522113356');
-$accountHolder->setDateOfBirth(new \DateTime('1960-07-07'));
-$accountHolder->setAddress($address);
-$accountHolder->setGender('m');
-
-// ## Transaction
-
-// The Klarna Guaranteed Invoice transaction holds all transaction relevant data for the reserve process.
-$transaction = new KlarnaInvoiceTransaction();
-$transaction->setNotificationUrl($notificationUrl);
-$transaction->setBasket($basket);
-$transaction->setOrderNumber($orderNumber);
-$transaction->setShipping($accountHolder);
-$transaction->setAccountHolder($accountHolder);
-$transaction->setCountry('DE');
-$transaction->setLocale('de');
-
-if (array_key_exists('parentTransactionId', $_POST)) {
-    $parentTransactionId = $_POST['parentTransactionId'];
-    $transaction->setParentTransactionId($_POST['parentTransactionId']);
-} else {
-    $parentTransactionId = '';
-};
-
-if (array_key_exists('item_to_capture', $_POST)) {
-    switch ($_POST['item_to_capture']) {
-        case '1':
-            $basket->add($item1);
-            $amount = new Amount(400, 'EUR');
-            break;
-        case '2':
-            $basket->add($item2);
-            $amount = new Amount(2000, 'EUR');
-            break;
-        default:
-            $basket->add($item1);
-            $basket->add($item2);
-            $amount = new Amount(2400, 'EUR');
-    }
-    $transaction->setAmount($amount);
-}
-
-
-// ### Transaction service
-
-// The _TransactionService_ is used to generate the request data needed for the generation of the UI.
-$transactionService = new TransactionService($config);
-
-if (array_key_exists('item_to_capture', $_POST)) {
-    $response = $transactionService->pay($transaction);
-} else {
-    $response = null;
-}
-
-// ## Select the item to capture
-?>
-    Select the item to capture:
+if (!isset($_POST['parentTransactionId'])) {
+    ?>
     <form action="pay-based-on-reserve.php" method="post">
-        <input type="hidden" name="parentTransactionId" value="<?= $parentTransactionId ?>"/>
-        <input type="hidden" name="item_to_capture" value="all"/>
-        <button type="submit" class="btn btn-primary">Capture all items</button>
-    </form>
-    <form action="pay-based-on-reserve.php" method="post">
-        <input type="hidden" name="parentTransactionId" value="<?= $parentTransactionId ?>"/>
-        <input type="hidden" name="item_to_capture" value="1"
-        <button type="submit" class="btn btn-primary">Capture item 1</button>
-    </form>
-    <form action="pay-based-on-reserve.php" method="post">
-        <input type="hidden" name="parentTransactionId" value="<?= $parentTransactionId ?>"/>
-        <button type="submit" class="btn btn-primary">Capture item 2</button>
+        <div class="form-group">
+            <label for="parentTransactionId">Reserved transaction ID:</label>
+            <input id="parentTransactionId" name="parentTransactionId" class="form-control"/>
+        </div>
+        <div class="form-group">
+            <label for="amount">Amount:</label>
+            <input id="amount" name="amount" class="form-control" value="1.0" />
+            <small class="form-text text-muted">Please be aware that the amount for payment must not exceed the reserved amount.</small>
+        </div>
+        <button type="submit" class="btn btn-primary">Pay</button>
     </form>
 <?php
+} else {
+// ## Transaction
 
+    $transaction = new KlarnaInvoiceTransaction();
+	$transaction->setLocale('de');
+    $transaction->setParentTransactionId($_POST['parentTransactionId']);
+    if (array_key_exists('amount', $_POST)) {
+        $transaction->setAmount(new Amount((float)$_POST['amount'], 'EUR'));
+    }
+
+// ### Transaction Service
+// The _TransactionService_ is used to generate the request data needed for the generation of the UI.
+    $transactionService = new TransactionService($config);
+    $response = $transactionService->pay($transaction);
 
 // ## Response handling
 
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
-if ($response instanceof SuccessResponse) {
-    echo 'Payment successfully completed.<br>';
-    echo getTransactionLink($baseUrl, $response);
-    ?>
-    <br>
-    <form action="cancel.php" method="post">
-        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="hidden" name="transaction-type" value="<?= $response->getTransactionType() ?>"/>
-        <?php
-        if (array_key_exists('item_to_capture', $_POST)) {
-            echo sprintf('<input type="hidden" name="amount" value="%0.2f"/>', $amount->getValue());
-        }
+    if ($response instanceof SuccessResponse) {
+        echo 'Payment successfully completed.<br>';
+        echo getTransactionLink($baseUrl, $response);
         ?>
-        <button type="submit" class="btn btn-primary">Cancel the capture</button>
-    </form>
-    <?php
+        <br>
+        <form action="cancel.php" method="post">
+            <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+            <button type="submit" class="btn btn-primary">Cancel the capture</button>
+        </form>
+        <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
-} elseif ($response instanceof FailureResponse) {
-    // In our example we iterate over all errors and echo them out.
-    // You should display them as error, warning or information based on the given severity.
-    foreach ($response->getStatusCollection() as $status) {
-        /**
-         * @var $status \Wirecard\PaymentSdk\Entity\Status
-         */
-        $severity = ucfirst($status->getSeverity());
-        $code = $status->getCode();
-        $description = $status->getDescription();
-        echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
+    } elseif ($response instanceof FailureResponse) {
+        // In our example we iterate over all errors and echo them out.
+        // You should display them as error, warning or information based on the given severity.
+        foreach ($response->getStatusCollection() as $status) {
+            /**
+             * @var $status \Wirecard\PaymentSdk\Entity\Status
+             */
+            $severity = ucfirst($status->getSeverity());
+            $code = $status->getCode();
+            $description = $status->getDescription();
+            echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
+        }
     }
 }
 //Footer design
