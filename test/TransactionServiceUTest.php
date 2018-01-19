@@ -164,6 +164,24 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf($class, $service->pay($this->getTestPayPalTransaction()));
     }
 
+    public function testGetDataForUpi(){
+
+        $data = new \stdClass();
+        $data->request_time_stamp = gmdate('YmdHis');
+        $data->transaction_type = "authorization-only";
+        $data->merchant_account_id = self::MAID;
+        $data->requested_amount = 0;
+        $data->requested_amount_currency = "EUR";
+        $data->locale = "en";
+        $data->payment_method = CreditCardTransaction::NAME;
+
+        $instanceData = json_decode($this->instance->getDataForUpiUi("en"));
+        unset($instanceData->request_id);
+        unset($instanceData->request_signature);
+
+        $this->assertEquals($data, $instanceData);
+    }
+
     public function testCheckCredentialsHandlesException()
     {
         $mock = new MockHandler([
