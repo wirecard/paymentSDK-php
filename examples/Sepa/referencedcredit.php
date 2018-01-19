@@ -1,7 +1,8 @@
 <?php
-// # SEPA return after transaction
+// # SEPA credit transfer
 
-// The consumer gets redirected to this page after a SEPA transaction.
+// The method `credit` of the _transactionService_ provides the means
+// to transfer credits to a specific bank account.
 
 // ## Required objects
 
@@ -12,44 +13,53 @@ require __DIR__ . '/../inc/config.php';
 //Header design
 require __DIR__ . '/../inc/header.php';
 
+use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Entity\Mandate;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
+use Wirecard\PaymentSdk\Transaction\SepaTransaction;
 use Wirecard\PaymentSdk\TransactionService;
+
+// ### Transaction related objects
+
+
+// A mandate with ID and signed date is required.
+$mandate = new Mandate('12345678');
+
 
 // ## Transaction
 
+// Create a `SepaTransaction` object, which contains all relevant data for the credit process.
+$transaction = new SepaTransaction();
+$transaction->setAmount(new Amount(intval($_POST['amount']), 'EUR'));
+
+$transaction->setParentTransactionId($_POST['parentTransactionId']);
+
+$transaction->setMandate($mandate);
+
 // ### Transaction Service
 
-// The `TransactionService` is used to determine the response from the service provider.
-$service = new TransactionService($config);
-$response = $service->handleResponse($_POST);
+// The service is used to execute the credit (pending-credit) operation itself. A response object is returned.
+$transactionService = new TransactionService($config);
+$response = $transactionService->credit($transaction);
+
 
 // ## Response handling
 
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
-    echo 'Payment successfully completed.<br>';
+    echo 'Credit successfully completed.<br>';
     echo getTransactionLink($baseUrl, $response);
     ?>
     <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <button type="submit" class="btn btn-primary">Cancel the payment</button>
+        <button type="submit" class="btn btn-primary">Cancel the credit</button>
     </form>
-
-    <form action="pay.php" method="post">
+    <form action="credit.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <button type="submit" class="btn btn-primary">Request a new payment based on this payment</button>
-    </form>
-
-    <form action="referencedcredit.php" method="post">
-        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <div class="form-group">
-            <label for="amount">Amount:</label>
-            <input id="amount" name="amount" class="form-control"/>
-        </div>
-        <button type="submit" class="btn btn-primary">Request a credit based on this payment</button>
+        <button type="submit" class="btn btn-primary">Request a new credit based on this credit</button>
     </form>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
@@ -66,5 +76,6 @@ if ($response instanceof SuccessResponse) {
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 }
+
 //Footer design
 require __DIR__ . '/../inc/footer.php';
