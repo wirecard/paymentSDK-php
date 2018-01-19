@@ -1,7 +1,8 @@
 <?php
-// # Refund a P24 transaction
+// # Cancelling a SEPA B2B-transaction
 
-// To refund a transaction, a cancel request with the parent transaction is sent.
+// To cancel a transaction, a cancel request with the parent transaction is sent. Voiding SEPA B2B-transactions
+// is only possible before they are forwarded to the bank for settlement.
 
 // ## Required objects
 
@@ -14,29 +15,29 @@ require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\PtwentyfourTransaction;
+use Wirecard\PaymentSdk\Transaction\SepaBtwobTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 if (!isset($_POST['parentTransactionId'])) {
     ?>
     <form action="cancel.php" method="post">
         <div class="form-group">
-            <label for="parentTransactionId">Transaction ID to refund:</label><br>
+            <label for="parentTransactionId">Transaction ID to cancel:</label><br>
             <input id="parentTransactionId" name="parentTransactionId" class="form-control"/><br>
         </div>
-        <button type="submit" class="btn btn-primary">Refund</button>
+        <button type="submit" class="btn btn-primary">Cancel</button>
     </form>
 <?php
 } else {
 // ## Transaction
-    $transaction = new PtwentyfourTransaction();
+
+    $transaction = new SepaBtwobTransaction();
     $transaction->setParentTransactionId($_POST['parentTransactionId']);
 
 // ### Transaction Service
 
-// The _TransactionService_ is used to generate the request data needed for the generation of the UI.
+// The _TransactionService_ is used to execute the cancel operation.
     $transactionService = new TransactionService($config);
-// The cancel operation triggers refund_debit operation for przelewy24.
     $response = $transactionService->cancel($transaction);
 
 
@@ -44,9 +45,8 @@ if (!isset($_POST['parentTransactionId'])) {
 
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
-// Refund request awaits notification for final refund-debit transaction state
     if ($response instanceof SuccessResponse) {
-        echo 'Payment successfully refunded.<br>';
+        echo 'Payment successfully cancelled.<br>';
         echo getTransactionLink($baseUrl, $response);
 // In case of a failed transaction, a `FailureResponse` object is returned.
     } elseif ($response instanceof FailureResponse) {

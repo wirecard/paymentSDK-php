@@ -1,7 +1,7 @@
 <?php
-// # SEPA return after transaction
+// # SEPA B2B return after transaction
 
-// The consumer gets redirected to this page after a SEPA transaction.
+// The consumer gets redirected to this page after a SEPA B2B transaction.
 
 // ## Required objects
 
