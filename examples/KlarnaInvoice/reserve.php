@@ -15,6 +15,7 @@ require __DIR__ . '/../inc/header.php';
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
+use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\KlarnaInvoiceTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
@@ -55,7 +56,6 @@ $basket->add($item2);
 $address = new \Wirecard\PaymentSdk\Entity\Address('DE', 'Neuss', 'Hellersbergstraße');
 $address->setPostalCode('41460');
 $address->setStreet2('Hellersbergstraße');
-$address->setHouseExtension('14');
 
 $accountHolder = new \Wirecard\PaymentSdk\Entity\AccountHolder();
 $accountHolder->setFirstName('Testperson-de');
@@ -66,6 +66,14 @@ $accountHolder->setDateOfBirth(new \DateTime('1960-07-07'));
 $accountHolder->setAddress($address);
 $accountHolder->setGender('m');
 
+// #### Shipping with address
+// Shipping should not include birthdate and gender
+$shipping = new \Wirecard\PaymentSdk\Entity\AccountHolder();
+$shipping->setFirstName('Testperson-de');
+$shipping->setLastName('Approved');
+$shipping->setEmail('youremail@email.com');
+$shipping->setPhone('01522113356');
+$shipping->setAddress($address);
 
 // ## Transaction
 
@@ -74,7 +82,7 @@ $transaction = new KlarnaInvoiceTransaction();
 $transaction->setAmount($amount);
 $transaction->setBasket($basket);
 $transaction->setOrderNumber($orderNumber);
-$transaction->setShipping($accountHolder);
+$transaction->setShipping($shipping);
 $transaction->setAccountHolder($accountHolder);
 $transaction->setCountry('DE');
 $transaction->setLocale('de');
@@ -92,7 +100,22 @@ $response = $transactionService->reserve($transaction);
 // In case of an `InteractionResponse`, a browser interaction by the consumer is required
 // in order to continue the reserve process. In this example we proceed with a header redirect
 // to the given _redirectUrl_. IFrame integration using this URL is also possible.
-if ($response instanceof InteractionResponse) {
+if ($response instanceof SuccessResponse) {
+	echo 'Reservation successfully completed.<br>';
+	echo getTransactionLink($baseUrl, $response);
+	?>
+	<br>
+	<form action="pay.php" method="post">
+		<input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+		<div class="form-group">
+			<label for="amount">Amount:</label>
+			<input id="amount" name="amount" class="form-control"/>
+		</div>
+		<button type="submit" class="btn btn-primary">Request a new payment based on this reservation</button>
+	</form>
+	<?php
+// In case of a failed transaction, a `FailureResponse` object is returned.
+} elseif ($response instanceof InteractionResponse) {
     die("<meta http-equiv='refresh' content='0;url={$response->getRedirectUrl()}'>");
 
 // The failure state is represented by a FailureResponse object.
