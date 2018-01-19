@@ -2,7 +2,7 @@
   "name": "wirecard/payment-sdk-php",
   "description": "PHP SDK for the payment processing ReST API of Wirecard",
   "minimum-stability": "stable",
-  "license": "GPL-3.0",
+  "license": "GPL-3.0-only",
   "require": {
     "php": ">=5.6",
     "ext-intl": ">=1.0.0",
