@@ -173,16 +173,4 @@ class KlarnaInvoiceTransaction extends Transaction implements Reservable
 
         throw new UnsupportedOperationException('The transaction can not be canceled.');
     }
-
-    /**
-     * return string
-     */
-    public function getEndpoint()
-    {
-        if ($this->operation === Operation::RESERVE) {
-            return self::ENDPOINT_PAYMENT_METHODS;
-        }
-
-        return self::ENDPOINT_PAYMENTS;
-    }
 }

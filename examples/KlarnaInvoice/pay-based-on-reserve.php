@@ -25,11 +25,6 @@ if (!isset($_POST['parentTransactionId'])) {
             <label for="parentTransactionId">Reserved transaction ID:</label>
             <input id="parentTransactionId" name="parentTransactionId" class="form-control"/>
         </div>
-        <div class="form-group">
-            <label for="amount">Amount:</label>
-            <input id="amount" name="amount" class="form-control" value="1.0" />
-            <small class="form-text text-muted">Please be aware that the amount for payment must not exceed the reserved amount.</small>
-        </div>
         <button type="submit" class="btn btn-primary">Pay</button>
     </form>
 <?php
