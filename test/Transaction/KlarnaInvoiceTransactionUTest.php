@@ -223,26 +223,6 @@ class KlarnaInvoiceTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx->mappedProperties();
     }
 
-    public function endpointDataProvider()
-    {
-        return [
-            [Operation::RESERVE, KlarnaInvoiceTransaction::ENDPOINT_PAYMENT_METHODS],
-            [Operation::PAY, KlarnaInvoiceTransaction::ENDPOINT_PAYMENTS],
-            [Operation::CANCEL, KlarnaInvoiceTransaction::ENDPOINT_PAYMENTS],
-        ];
-    }
-
-    /**
-     * @param $operation
-     * @param $expected
-     * @dataProvider endpointDataProvider
-     */
-    public function testGetEndpoint($operation, $expected)
-    {
-        $this->tx->setOperation($operation);
-        $this->assertEquals($expected, $this->tx->getEndpoint());
-    }
-
     public function testSetOrderNumber()
     {
         $orderNr = 123;
