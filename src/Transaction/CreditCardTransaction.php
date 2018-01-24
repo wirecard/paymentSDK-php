@@ -379,7 +379,7 @@ class CreditCardTransaction extends Transaction implements Reservable
      */
     private function isPaymentRecurring()
     {
-        if ((bool)$this->customFields->get('recurring_payment')) {
+        if ($this->customFields !== null && $this->customFields->get('recurring_payment')) {
             return true;
         }
 

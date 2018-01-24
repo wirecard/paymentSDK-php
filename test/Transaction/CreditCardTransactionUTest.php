@@ -33,6 +33,8 @@ namespace WirecardTest\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Entity\CustomField;
+use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\Transaction;
@@ -623,5 +625,84 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->assertEquals($expected, $this->tx->isFallback());
+    }
+
+    public function testRecurringPaymentWithTokenAuthorization()
+    {
+        $_SERVER['REMOTE_ADDR'] = 'test IP';
+
+        $expectedResult = [
+            'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
+            'requested-amount' => ['currency' => 'EUR', 'value' => 24],
+            'transaction-type' => 'authorization',
+            'card-token' => [
+                'token-id' => '21345'
+            ],
+            'ip-address' => 'test IP',
+            'merchant-account-id' => [
+                'value' => 'maid'
+            ],
+            'entry-mode' => 'ecommerce',
+            'locale' => 'de',
+            'custom-fields' => ['custom-field' => array([
+                'field-name' => 'paysdk_recurring_payment',
+                'field-value' => 1
+            ])]
+        ];
+
+        $transaction = new CreditCardTransaction();
+        $this->config->setThreeDCredentials('maid', '123abcd');
+        $transaction->setConfig($this->config);
+        $transaction->setTokenId('21345');
+        $transaction->setAmount(new Amount(24, 'EUR'));
+        $transaction->setOperation(Operation::RESERVE);
+
+        $customFields = new CustomFieldCollection();
+        $customFields->add(new CustomField('recurring_payment', 1));
+        $transaction->setCustomFields($customFields);
+
+        $result = $transaction->mappedProperties();
+
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    public function testRecurringPaymentWithTokenPurchase()
+    {
+        $_SERVER['REMOTE_ADDR'] = 'test IP';
+
+        $expectedResult = [
+            'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
+            'requested-amount' => ['currency' => 'EUR', 'value' => 24],
+            'transaction-type' => 'purchase',
+            'card-token' => [
+                'token-id' => '21345'
+            ],
+            'ip-address' => 'test IP',
+            'merchant-account-id' => [
+                'value' => 'maid'
+            ],
+            'entry-mode' => 'ecommerce',
+            'locale' => 'de',
+            'custom-fields' => ['custom-field' => array([
+                'field-name' => 'paysdk_recurring_payment',
+                'field-value' => 1
+            ])]
+        ];
+
+        $transaction = new CreditCardTransaction();
+        $this->config->addSslMaxLimit(new Amount(20.0, 'EUR'));
+        $this->config->setThreeDCredentials('maid', '123abcd');
+        $transaction->setConfig($this->config);
+        $transaction->setTokenId('21345');
+        $transaction->setAmount(new Amount(24, 'EUR'));
+        $transaction->setOperation(Operation::PAY);
+
+        $customFields = new CustomFieldCollection();
+        $customFields->add(new CustomField('recurring_payment', 1));
+        $transaction->setCustomFields($customFields);
+
+        $result = $transaction->mappedProperties();
+
+        $this->assertEquals($expectedResult, $result);
     }
 }
