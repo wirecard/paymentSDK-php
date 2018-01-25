@@ -200,7 +200,7 @@ class CreditCardTransaction extends Transaction implements Reservable
                 $transactionType = self::TYPE_AUTHORIZATION;
                 break;
             default:
-                if ($this->isThreeD() && !$this->isPaymentRecurring()) {
+                if ($this->isThreeD()) {
                     $transactionType = self::TYPE_CHECK_ENROLLMENT;
                 } else {
                     $transactionType = self::TYPE_AUTHORIZATION;
@@ -226,11 +226,7 @@ class CreditCardTransaction extends Transaction implements Reservable
                 $transactionType = self::TYPE_PURCHASE;
                 break;
             default:
-                if ($this->isThreeD() && !$this->isPaymentRecurring()) {
-                    $transactionType = self::TYPE_CHECK_ENROLLMENT;
-                } else {
-                    $transactionType = self::TYPE_PURCHASE;
-                }
+                $transactionType = self::TYPE_PURCHASE;
         }
 
         return $transactionType;
@@ -368,18 +364,6 @@ class CreditCardTransaction extends Transaction implements Reservable
         if (null !== $this->config->getSslMaxLimit($this->amount->getCurrency())
             && $this->config->getSslMaxLimit($this->amount->getCurrency()) < $this->amount->getValue()
         ) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @return boolean
-     */
-    private function isPaymentRecurring()
-    {
-        if ($this->customFields !== null && $this->customFields->get('recurring_payment')) {
             return true;
         }
 
