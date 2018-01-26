@@ -510,7 +510,7 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
             [
                 Operation::PAY,
                 null,
-                CreditCardTransaction::TYPE_CHECK_ENROLLMENT
+                CreditCardTransaction::TYPE_PURCHASE
             ],
         ];
     }
@@ -575,7 +575,7 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
 
         $result = $this->tx->mappedProperties();
 
-        $this->assertEquals(CreditCardTransaction::TYPE_CHECK_ENROLLMENT, $result['transaction-type']);
+        $this->assertEquals(CreditCardTransaction::TYPE_PURCHASE, $result['transaction-type']);
     }
 
     /**

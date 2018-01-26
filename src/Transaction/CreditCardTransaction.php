@@ -226,11 +226,7 @@ class CreditCardTransaction extends Transaction implements Reservable
                 $transactionType = self::TYPE_PURCHASE;
                 break;
             default:
-                if ($this->isThreeD()) {
-                    $transactionType = self::TYPE_CHECK_ENROLLMENT;
-                } else {
-                    $transactionType = self::TYPE_PURCHASE;
-                }
+                $transactionType = self::TYPE_PURCHASE;
         }
 
         return $transactionType;
