@@ -721,7 +721,7 @@
 </span></span><span id="552" class="l"><a href="#552">552 </a><span class="php-comment">     */</span>
 </span><span id="553" class="l"><a href="#553">553 </a>    <span class="php-keyword1">private</span> <span class="php-keyword1">function</span> processFallback(CreditCardTransaction <span class="php-var">$transaction</span>, Response <span class="php-var">$response</span>)
 </span><span id="554" class="l"><a href="#554">554 </a>    {
-</span><span id="555" class="l"><a href="#555">555 </a>        <span class="php-keyword1">if</span> (!<span class="php-var">$response</span>-&gt;getStatusCollection()-&gt;hasStatusCodes([<span class="php-quote">'500.1072'</span>, <span class="php-quote">'500.1073'</span>, <span class="php-quote">'500.1074'</span>])) {
+</span><span id="555" class="l"><a href="#555">555 </a>        <span class="php-keyword1">if</span> (!<span class="php-var">$response</span>-&gt;getStatusCollection()-&gt;hasStatusCodes([<span class="php-quote">'500.1072'</span>, <span class="php-quote">'500.1073'</span>, <span class="php-quote">'500.1074'</span>, <span class="php-quote">'500.1086'</span>])) {
 </span><span id="556" class="l"><a href="#556">556 </a>            <span class="php-keyword1">return</span> <span class="php-var">$response</span>;
 </span><span id="557" class="l"><a href="#557">557 </a>        }
 </span><span id="558" class="l"><a href="#558">558 </a>
