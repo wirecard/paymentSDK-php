@@ -552,7 +552,7 @@ class TransactionService
      */
     private function processFallback(CreditCardTransaction $transaction, Response $response)
     {
-        if (!$response->getStatusCollection()->hasStatusCodes(['500.1072', '500.1073', '500.1074', '500.1086'])) {
+        if (!$response->getStatusCollection()->hasStatusCodes(['500.1072', '500.1073', '500.1074'])) {
             return $response;
         }
 
