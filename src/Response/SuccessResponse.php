@@ -74,7 +74,8 @@ class SuccessResponse extends Response
                 $result = $status['provider-transaction-id'];
             }
 
-            if (isset($status['provider-transaction-id']) && strcmp($result, $status['provider-transaction-id']) !== 0) {
+            if (isset($status['provider-transaction-id']) &&
+                strcmp($result, $status['provider-transaction-id']) !== 0) {
                 throw new MalformedResponseException('More different provider transaction ID-s in response.');
             }
         }
