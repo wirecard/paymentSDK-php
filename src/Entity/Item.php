@@ -92,6 +92,14 @@ class Item implements MappableEntity
     }
 
     /**
+     * @return int
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
      * @param string $description
      * @return Item
      */
@@ -108,6 +116,16 @@ class Item implements MappableEntity
     public function setArticleNumber($articleNumber)
     {
         $this->articleNumber = $articleNumber;
+        return $this;
+    }
+
+    /**
+     * @param int $quantity
+     * @return Item
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
         return $this;
     }
 
