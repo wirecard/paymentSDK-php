@@ -90,14 +90,14 @@ class Basket implements \IteratorAggregate, MappableEntity
              */
             $currentItemMapped = $currentItem->mappedProperties();
             $currentItemMapped['quantity'] = 0;
-            if($currentItemMapped == $itemMapped){
+            if ($currentItemMapped == $itemMapped) {
                 $foundKey = $key;
                 $foundQuantity = $currentItem->getQuantity();
                 break;
             }
         }
 
-        if($foundKey != -1) {
+        if ($foundKey != -1) {
             /** @var Item $foundItem */
             $foundItem = $this->items[$foundKey];
 
