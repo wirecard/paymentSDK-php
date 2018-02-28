@@ -78,4 +78,25 @@ class BasketUTest extends \PHPUnit_Framework_TestCase
         ];
         $this->assertEquals($expected, $this->itemCollection->mappedProperties());
     }
+
+    public function testMappedPropertiesMultiple()
+    {
+        $item = new Item('test item name', new Amount(1, 'EUR'), 1);
+        $this->itemCollection->add($item);
+        $this->itemCollection->add($item);
+
+        $expected = [
+            'order-item' => [
+                [
+                    'name' => 'test item name',
+                    'amount' => [
+                        'value' => '1',
+                        'currency' => 'EUR'
+                    ],
+                    'quantity' => '1'
+                ]
+            ]
+        ];
+        $this->assertEquals($expected, $this->itemCollection->mappedProperties());
+    }
 }
