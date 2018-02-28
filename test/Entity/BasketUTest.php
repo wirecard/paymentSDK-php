@@ -93,7 +93,7 @@ class BasketUTest extends \PHPUnit_Framework_TestCase
                         'value' => '1',
                         'currency' => 'EUR'
                     ],
-                    'quantity' => '1'
+                    'quantity' => '2'
                 ]
             ]
         ];
