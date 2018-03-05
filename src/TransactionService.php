@@ -498,12 +498,11 @@ class TransactionService
         $this->getLogger()->debug('Request body: ' . $requestBody);
 
         $requestHeader = array_merge_recursive($this->httpHeader, $this->config->getShopHeader());
-        $requestHeader['body'] = $requestBody;
+        //$requestHeader['body'] = $requestBody;
 
         $messageFactory = MessageFactoryDiscovery::find();
-        $request =  $messageFactory->createRequest('POST', $endpoint, $requestHeader);
+        $request =  $messageFactory->createRequest('POST', $endpoint, $requestHeader, $requestBody);
         $response = $this->httpClient->sendRequest($request)->getBody()->getContents();
-
         $this->getLogger()->debug($response);
 
         return $response;
@@ -522,6 +521,7 @@ class TransactionService
 
         $messageFactory = MessageFactoryDiscovery::find();
         $request =  $messageFactory->createRequest('GET', $endpoint, $requestHeader);
+
         $response = $this->httpClient->sendRequest($request)->getBody()->getContents();
 
         $this->getLogger()->debug('GET response: ' . $response);
