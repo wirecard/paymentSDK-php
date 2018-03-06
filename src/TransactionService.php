@@ -581,7 +581,11 @@ class TransactionService
         try {
             $requestHeader = array_merge_recursive($this->httpHeader, $this->config->getShopHeader());
 
-            $request =  $this->messageFactory->createRequest('GET', $this->config->getBaseUrl() . '/engine/rest/merchants/', $requestHeader);
+            $request =  $this->messageFactory->createRequest(
+                'GET',
+                $this->config->getBaseUrl() . '/engine/rest/merchants/',
+                $requestHeader
+            );
             $request = $this->basicAuth->authenticate($request);
             $responseCode = $this->httpClient->sendRequest($request)->getStatusCode();
         } catch (TransferException $e) {
