@@ -158,10 +158,8 @@ class TransactionService
         $this->responseMapper = $responseMapper !== null ? $responseMapper : new ResponseMapper($this->config);
 
         $this->httpHeader = array(
-            'headers' => [
-                'Content-Type' => self::APPLICATION_JSON,
-                'Accept' => 'application/xml'
-            ]
+            'Content-Type' => self::APPLICATION_JSON,
+            'Accept' => 'application/xml'
         );
     }
 
@@ -466,7 +464,6 @@ class TransactionService
         $this->getLogger()->debug('Request body: ' . $requestBody);
 
         $requestHeader = array_merge_recursive($this->httpHeader, $this->config->getShopHeader());
-        //$requestHeader['body'] = $requestBody;
 
         $request = $this->messageFactory->createRequest('POST', $endpoint, $requestHeader, $requestBody);
         $request = $this->basicAuth->authenticate($request);
@@ -485,7 +482,7 @@ class TransactionService
     private function sendGetRequest($endpoint, $acceptJson = false)
     {
         $requestHeader = array_merge_recursive($this->httpHeader, $this->config->getShopHeader());
-        $requestHeader['headers']['Accept'] = $acceptJson ? self::APPLICATION_JSON : 'application/xml';
+        $requestHeader['Accept'] = $acceptJson ? self::APPLICATION_JSON : 'application/xml';
 
         $request =  $this->messageFactory->createRequest('GET', $endpoint, $requestHeader);
         $request = $this->basicAuth->authenticate($request);
