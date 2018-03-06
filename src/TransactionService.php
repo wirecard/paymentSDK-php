@@ -31,8 +31,10 @@
 
 namespace Wirecard\PaymentSdk;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\TransferException;
+use Http\Discovery\HttpClientDiscovery;
+use Http\Discovery\MessageFactoryDiscovery;
+use Http\Client\Common\HttpMethodsClient as Client;
+use Http\Message\Authentication\BasicAuth;
 use Monolog\Handler\ErrorLogHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
@@ -78,7 +80,7 @@ class TransactionService
     private $logger;
 
     /**
-     * @var Client
+     * @var Client The HTTP clients to perform requests with
      */
     private $httpClient;
 
@@ -107,12 +109,21 @@ class TransactionService
      */
     private $isThreeD;
 
+    /**
+     * @var BasicAuth
+     */
+    private $basicAuth;
+
+    /**
+     * @var \Http\Message\MessageFactory
+     */
+    private $messageFactory;
+
 
     /**
      * TransactionService constructor.
      * @param Config $config
      * @param LoggerInterface|null $logger
-     * @param Client|null $httpClient
      * @param RequestMapper|null $requestMapper
      * @param ResponseMapper|null $responseMapper
      * @param \Closure|null $requestIdGenerator
@@ -120,14 +131,19 @@ class TransactionService
     public function __construct(
         Config $config,
         LoggerInterface $logger = null,
-        Client $httpClient = null,
         RequestMapper $requestMapper = null,
         ResponseMapper $responseMapper = null,
         \Closure $requestIdGenerator = null
     ) {
         $this->config = $config;
         $this->logger = $logger;
-        $this->httpClient = $httpClient !== null ? $httpClient : new Client(['http_errors' => false]);
+
+        $this->messageFactory = MessageFactoryDiscovery::find();
+        $this->basicAuth = new BasicAuth($this->config->getHttpUser(), $this->config->getHttpPassword());
+        $this->httpClient = new Client(
+            HttpClientDiscovery::find(),
+            $this->messageFactory
+        );
 
         if ($requestIdGenerator !== null) {
             $this->requestIdGenerator = $requestIdGenerator;
@@ -142,14 +158,8 @@ class TransactionService
         $this->responseMapper = $responseMapper !== null ? $responseMapper : new ResponseMapper($this->config);
 
         $this->httpHeader = array(
-            'auth' => [
-                $this->config->getHttpUser(),
-                $this->config->getHttpPassword()
-            ],
-            'headers' => [
-                'Content-Type' => self::APPLICATION_JSON,
-                'Accept' => 'application/xml'
-            ]
+            'Content-Type' => self::APPLICATION_JSON,
+            'Accept' => 'application/xml'
         );
     }
 
@@ -454,12 +464,10 @@ class TransactionService
         $this->getLogger()->debug('Request body: ' . $requestBody);
 
         $requestHeader = array_merge_recursive($this->httpHeader, $this->config->getShopHeader());
-        $requestHeader['body'] = $requestBody;
 
-        $response = $this->httpClient
-            ->request('POST', $endpoint, $requestHeader)
-            ->getBody()->getContents();
-
+        $request = $this->messageFactory->createRequest('POST', $endpoint, $requestHeader, $requestBody);
+        $request = $this->basicAuth->authenticate($request);
+        $response = $this->httpClient->sendRequest($request)->getBody()->getContents();
         $this->getLogger()->debug($response);
 
         return $response;
@@ -474,11 +482,11 @@ class TransactionService
     private function sendGetRequest($endpoint, $acceptJson = false)
     {
         $requestHeader = array_merge_recursive($this->httpHeader, $this->config->getShopHeader());
-        $requestHeader['headers']['Accept'] = $acceptJson ? self::APPLICATION_JSON : 'application/xml';
+        $requestHeader['Accept'] = $acceptJson ? self::APPLICATION_JSON : 'application/xml';
 
-        $response = $this->httpClient
-            ->request('GET', $endpoint, $requestHeader)
-            ->getBody()->getContents();
+        $request =  $this->messageFactory->createRequest('GET', $endpoint, $requestHeader);
+        $request = $this->basicAuth->authenticate($request);
+        $response = $this->httpClient->sendRequest($request)->getBody()->getContents();
 
         $this->getLogger()->debug('GET response: ' . $response);
 
@@ -573,9 +581,13 @@ class TransactionService
         try {
             $requestHeader = array_merge_recursive($this->httpHeader, $this->config->getShopHeader());
 
-            $responseCode = $this->httpClient
-                ->request('GET', $this->config->getBaseUrl() . '/engine/rest/merchants/', $requestHeader)
-                ->getStatusCode();
+            $request =  $this->messageFactory->createRequest(
+                'GET',
+                $this->config->getBaseUrl() . '/engine/rest/merchants/',
+                $requestHeader
+            );
+            $request = $this->basicAuth->authenticate($request);
+            $responseCode = $this->httpClient->sendRequest($request)->getStatusCode();
         } catch (TransferException $e) {
             $this->getLogger()->debug('Check credentials: Error - ' . $e->getMessage());
             return false;
