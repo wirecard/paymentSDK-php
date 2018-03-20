@@ -62,7 +62,7 @@ class SepaTransaction extends Transaction implements Reservable
      */
     public function setIban($iban)
     {
-        $this->iban = $iban;
+		$this->iban = str_replace( ' ', '', $iban );
     }
 
     /**
