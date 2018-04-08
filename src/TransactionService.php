@@ -39,6 +39,8 @@ use Monolog\Handler\ErrorLogHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use Wirecard\PaymentSdk\Config\Config;
+use Wirecard\PaymentSdk\Config\CreditCardConfig;
+use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException;
@@ -229,18 +231,36 @@ class TransactionService
      * @throws UnconfiguredPaymentMethodException
      * @return string
      */
-    public function getDataForCreditCardUi($language = 'en')
+    public function getDataForCreditCardUi($language = 'en', Amount $amount = null)
     {
+        $currency = null == $amount ? 'EUR' : $amount->getCurrency();
+        $amount = null == $amount ? 0 : $amount->getValue();
+
+        /** @var CreditCardConfig $creditCardConfig */
+        $creditCardConfig = $this->config->get(CreditCardTransaction::NAME);
+        $isThreeD = $creditCardConfig->getSslMaxLimit($currency) < $amount;
+
+        $merchantAccountId = $isThreeD && null != $creditCardConfig->getThreeDMerchantAccountId()
+            ? $creditCardConfig->getThreeDMerchantAccountId()
+            : $creditCardConfig->getMerchantAccountId();
+        $secret = $isThreeD && null != $creditCardConfig->getThreeDSecret()
+            ? $creditCardConfig->getThreeDSecret()
+            : $creditCardConfig->getSecret();
+
         $requestData = array(
             'request_time_stamp' => gmdate('YmdHis'),
             self::REQUEST_ID => call_user_func($this->requestIdGenerator, 64),
-            'transaction_type' => 'authorization-only',
-            'merchant_account_id' => $this->config->get(CreditCardTransaction::NAME)->getMerchantAccountId(),
-            'requested_amount' => 0,
-            'requested_amount_currency' => $this->config->getDefaultCurrency(),
+            'transaction_type' => 0 == $amount ? 'authorization-only' : 'authorization',
+            'merchant_account_id' => $merchantAccountId,
+            'requested_amount' => $amount,
+            'requested_amount_currency' => $currency,
             'locale' => $language,
-            'payment_method' => 'creditcard',
+            'payment_method' => 'creditcard'
         );
+
+        if ($isThreeD) {
+            $requestData['attempt_three_d'] = true;
+        }
 
         $requestData['request_signature'] = hash(
             'sha256',
@@ -251,7 +271,7 @@ class TransactionService
                 $requestData['transaction_type'] .
                 $requestData['requested_amount'] .
                 $requestData['requested_amount_currency'] .
-                $this->config->get(CreditCardTransaction::NAME)->getSecret()
+                $secret
             )
         );
 
@@ -355,7 +375,7 @@ class TransactionService
     public function getRatePayScript($deviceIdentToken)
     {
         $script =
-          "<script language='JavaScript'>
+            "<script language='JavaScript'>
           var di = {t:'$deviceIdentToken',v:'WDWL',l:'Checkout'};
           </script>
           <script type='text/javascript' src='//d.ratepay.com/WDWL/di.js'>
@@ -484,7 +504,7 @@ class TransactionService
         $requestHeader = array_merge_recursive($this->httpHeader, $this->config->getShopHeader());
         $requestHeader['Accept'] = $acceptJson ? self::APPLICATION_JSON : 'application/xml';
 
-        $request =  $this->messageFactory->createRequest('GET', $endpoint, $requestHeader);
+        $request = $this->messageFactory->createRequest('GET', $endpoint, $requestHeader);
         $request = $this->basicAuth->authenticate($request);
         $response = $this->httpClient->sendRequest($request)->getBody()->getContents();
 
@@ -525,7 +545,7 @@ class TransactionService
                 && array_key_exists('transaction-type', $parentTransaction[Transaction::PARAM_PAYMENT])
             ) {
                 $transaction->setParentTransactionType($parentTransaction[Transaction::PARAM_PAYMENT]
-                    [Transaction::PARAM_TRANSACTION_TYPE]);
+                [Transaction::PARAM_TRANSACTION_TYPE]);
             }
         }
 
@@ -581,7 +601,7 @@ class TransactionService
         try {
             $requestHeader = array_merge_recursive($this->httpHeader, $this->config->getShopHeader());
 
-            $request =  $this->messageFactory->createRequest(
+            $request = $this->messageFactory->createRequest(
                 'GET',
                 $this->config->getBaseUrl() . '/engine/rest/merchants/',
                 $requestHeader
