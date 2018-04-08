@@ -31,6 +31,12 @@
 
 namespace WirecardTest\PaymentSdk;
 
+use Psr\Log\LoggerInterface;
+use Wirecard\PaymentSdk\Config\Config;
+use Wirecard\PaymentSdk\Config\CreditCardConfig;
+use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\TransactionService;
+
 /**
  * Class TransactionServiceUTest
  * @package WirecardTest\PaymentSdk
@@ -38,4 +44,30 @@ namespace WirecardTest\PaymentSdk;
 class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 {
 
+    public function testGetDataFor3dCreditCardUi()
+    {
+        $logger = $this->createMock(LoggerInterface::class);
+        $config = new Config('https://api-test.wirecard.com', 'user', 'password');
+        $ccardConfig = new CreditCardConfig('maid', 'secret');
+        $ccardConfig->setThreeDCredentials('3dmaid', '3dsecret');
+        $config->add($ccardConfig);
+        $service = new TransactionService($config, $logger);
+
+        $uiData = $service->getDataForCreditCardUi('en', new Amount(300, 'EUR'));
+
+        $expected = [
+            'transaction_type' => 'authorization',
+            'merchant_account_id' => '3dmaid',
+            'requested_amount' => 300,
+            'requested_amount_currency' => 'EUR',
+            'locale' => 'en',
+            'payment_method' => 'creditcard',
+            'attempt_three_d' => true
+        ];
+
+        $uiData = (array)json_decode($uiData);
+        unset($uiData['request_time_stamp'], $uiData['request_id'], $uiData['request_signature']);
+
+        $this->assertEquals($expected, $uiData);
+    }
 }
