@@ -231,7 +231,7 @@ class TransactionService
      * @throws UnconfiguredPaymentMethodException
      * @return string
      */
-    public function getDataForCreditCardUi($language = 'en', Amount $amount = null)
+    public function getDataForCreditCardUi($language = 'en', Amount $amount = null, $notificationUrl = null)
     {
         $currency = null == $amount ? 'EUR' : $amount->getCurrency();
         $amount = null == $amount ? 0 : $amount->getValue();
@@ -257,6 +257,10 @@ class TransactionService
             'locale' => $language,
             'payment_method' => 'creditcard'
         );
+
+        if (strlen($notificationUrl)) {
+            $requestData['notification_url_1'] = $notificationUrl;
+        }
 
         if ($isThreeD) {
             $requestData['attempt_three_d'] = true;
