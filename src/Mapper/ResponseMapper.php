@@ -215,6 +215,8 @@ class ResponseMapper
      * @throws MalformedResponseException
      * @throws \InvalidArgumentException
      * @return FormInteractionResponse
+     *
+     * @deprecated This method is deprecated since 2.1.0 if you still are using it please update your front-end.
      */
     private function mapThreeDResponse()
     {
@@ -295,5 +297,96 @@ class ResponseMapper
         }
 
         return new SuccessResponse($this->simpleXml);
+    }
+
+    public function mapJsResponse($payload, $url)
+    {
+        $this->simpleXml = new SimpleXMLElement('<payment></payment>');
+
+        $this->simpleXml->addChild("merchant-account-id", $payload['merchant_account_id']);
+        $this->simpleXml->addChild("transaction-id", $payload['transaction_id']);
+        $this->simpleXml->addChild("transaction-state", $payload['transaction_state']);
+        $this->simpleXml->addChild("transaction-type", $payload['transaction_type']);
+        $this->simpleXml->addChild("payment-method", $payload['payment_method']);
+        $this->simpleXml->addChild("request-id", $payload['request_id']);
+
+        if (array_key_exists('acs_url', $payload) && array_key_exists('pareq', $payload)) {
+            $threeD = new SimpleXMLElement('<three-d></three-d>');
+            $threeD->addChild('acs-url', $payload['acs_url']);
+            $threeD->addChild('pareq', $payload['pareq']);
+            $threeD->addChild('cardholder-authentication-status', $payload['cardholder_authentication_status']);
+            $this->sxml_append($this->simpleXml, $threeD);
+        }
+
+        if (array_key_exists('parent_transaction_id', $payload)) {
+            $this->simpleXml->addChild('parent-transaction-id', $payload['parent_transaction_id']);
+        }
+
+        // parse statuses
+        $statuses = [];
+
+        foreach ($payload as $key=>$value) {
+            if(strpos($key, 'status_') === 0) {
+                if (strpos($key, 'status_code_') === 0) {
+                    $number = str_replace('status_code_', '', $key);
+                    $statuses[$number]['code'] = $value;
+                }
+                if (strpos($key, 'status_severity_') === 0) {
+                    $number = str_replace('status_severity_', '', $key);
+                    $statuses[$number]['severity'] = $value;
+                }
+                if (strpos($key, 'status_description_') === 0) {
+                    $number = str_replace('status_description_', '', $key);
+                    $statuses[$number]['description'] = $value;
+                }
+            }
+        }
+
+        if (count($statuses) > 0) {
+            $statusesXml = new SimpleXMLElement('<statuses></statuses>');
+
+            foreach ($statuses as $status) {
+                $statusXml = new SimpleXMLElement('<status></status>');
+                $statusXml->addAttribute('code', $status['code']);
+                $statusXml->addAttribute('description', $status['description']);
+                $statusXml->addAttribute('severity', $status['severity']);
+                $this->sxml_append($statusesXml, $statusXml);
+            }
+            $this->sxml_append($this->simpleXml, $statusesXml);
+        }
+
+        if (array_key_exists('acs_url', $payload)) {
+            $response = new FormInteractionResponse($this->simpleXml, $payload['acs_url']);
+
+            $fields = new FormFieldMap();
+            $fields->add('TermUrl', $url);
+            $fields->add('PaReq', (string)$payload['pareq']);
+
+            $fields->add(
+                'MD',
+                base64_encode(json_encode([
+                    'enrollment-check-transaction-id' => $response->getTransactionId(),
+                    'operation-type' => 'authorization'
+                ]))
+            );
+
+            $response->setFormFields($fields);
+
+            return $response;
+
+        } else {
+            if ($payload['transaction_state'] == 'success') {
+                return new SuccessResponse($this->simpleXml);
+            }
+            else {
+                return new FailureResponse($this->simpleXml);
+            }
+        }
+    }
+
+    private function sxml_append(SimpleXMLElement $to, SimpleXMLElement $from) {
+        $toDom = dom_import_simplexml($to);
+        $fromDom = dom_import_simplexml($from);
+        $toDom->appendChild($toDom->ownerDocument->importNode($fromDom, true));
     }
 }

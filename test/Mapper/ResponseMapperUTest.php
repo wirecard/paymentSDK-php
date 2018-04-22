@@ -807,4 +807,64 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         }
         return $response;
     }
+
+    public function testMapJsResponseThreeD()
+    {
+        $url = 'dummyreturnurl';
+        $data = array(
+            'merchant_account_id' => 'maid',
+            'transaction_id' => 'trid',
+            'transaction_state' => 'success',
+            'transaction_type' => 'authorization',
+            'payment_method' => 'creditcard',
+            'request_id' => 'reqid',
+            'status_code_0' => '201.000',
+            'status_description_0' => 'Dummy status description',
+            'status_severity_0' => 'information',
+            'acs_url' => 'http://dummy.acs.url',
+            'pareq' => 'testpareq',
+            'cardholder_authentication_status' => 'Y',
+            'parent_transaction_id' => 'ptrid'
+        );
+        $response = $this->mapper->mapJsResponse($data, $url);
+        $this->assertTrue($response instanceof FormInteractionResponse);
+    }
+
+    public function testMapJsResponseSSL()
+    {
+        $url = 'dummyreturnurl';
+        $data = array(
+            'merchant_account_id' => 'maid',
+            'transaction_id' => 'trid',
+            'transaction_state' => 'success',
+            'transaction_type' => 'authorization',
+            'payment_method' => 'creditcard',
+            'request_id' => 'reqid',
+            'status_code_0' => '201.000',
+            'status_description_0' => 'Dummy status description',
+            'status_severity_0' => 'information',
+            'parent_transaction_id' => 'ptrid'
+        );
+        $response = $this->mapper->mapJsResponse($data, $url);
+        $this->assertTrue($response instanceof SuccessResponse);
+    }
+
+    public function testMapJsResponseSSLFailed()
+    {
+        $url = 'dummyreturnurl';
+        $data = array(
+            'merchant_account_id' => 'maid',
+            'transaction_id' => 'trid',
+            'transaction_state' => 'failed',
+            'transaction_type' => 'authorization',
+            'payment_method' => 'creditcard',
+            'request_id' => 'reqid',
+            'status_code_0' => '500.000',
+            'status_description_0' => 'Dummy status description',
+            'status_severity_0' => 'information',
+            'parent_transaction_id' => 'ptrid'
+        );
+        $response = $this->mapper->mapJsResponse($data, $url);
+        $this->assertTrue($response instanceof FailureResponse);
+    }
 }
