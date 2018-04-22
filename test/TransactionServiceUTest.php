@@ -35,6 +35,9 @@ use Psr\Log\LoggerInterface;
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Response\FailureResponse;
+use Wirecard\PaymentSdk\Response\FormInteractionResponse;
+use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\TransactionService;
 
 /**
@@ -44,16 +47,24 @@ use Wirecard\PaymentSdk\TransactionService;
 class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function testGetDataFor3dCreditCardUi()
+    /**
+     * @var TransactionService $service
+     */
+    private $service;
+
+    public function setUp()
     {
         $logger = $this->createMock(LoggerInterface::class);
         $config = new Config('https://api-test.wirecard.com', 'user', 'password');
         $ccardConfig = new CreditCardConfig('maid', 'secret');
         $ccardConfig->setThreeDCredentials('3dmaid', '3dsecret');
         $config->add($ccardConfig);
-        $service = new TransactionService($config, $logger);
+        $this->service = new TransactionService($config, $logger);
+    }
 
-        $uiData = $service->getDataForCreditCardUi('en', new Amount(300, 'EUR'));
+    public function testGetDataFor3dCreditCardUi()
+    {
+        $uiData = $this->service->getDataForCreditCardUi('en', new Amount(300, 'EUR'));
 
         $expected = [
             'transaction_type' => 'authorization',
@@ -69,5 +80,68 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         unset($uiData['request_time_stamp'], $uiData['request_id'], $uiData['request_signature']);
 
         $this->assertEquals($expected, $uiData);
+    }
+
+    public function testMapJsResponseThreeD()
+    {
+        $url = 'dummyreturnurl';
+        $data = array(
+            'merchant_account_id' => 'maid',
+            'transaction_id' => 'trid',
+            'transaction_state' => 'success',
+            'transaction_type' => 'authorization',
+            'payment_method' => 'creditcard',
+            'request_id' => 'reqid',
+            'status_code_0' => '201.000',
+            'status_description_0' => 'Dummy status description',
+            'status_severity_0' => 'information',
+            'acs_url' => 'http://dummy.acs.url',
+            'pareq' => 'testpareq',
+            'cardholder_authentication_status' => 'Y',
+            'parent_transaction_id' => 'ptrid'
+        );
+
+        $response = $this->service->processJsResponse($data, $url);
+        $this->assertTrue($response instanceof FormInteractionResponse);
+    }
+
+    public function testMapJsResponseSSL()
+    {
+        $url = 'dummyreturnurl';
+        $data = array(
+            'merchant_account_id' => 'maid',
+            'transaction_id' => 'trid',
+            'transaction_state' => 'success',
+            'transaction_type' => 'authorization',
+            'payment_method' => 'creditcard',
+            'request_id' => 'reqid',
+            'status_code_0' => '201.000',
+            'status_description_0' => 'Dummy status description',
+            'status_severity_0' => 'information',
+            'parent_transaction_id' => 'ptrid'
+        );
+
+        $response = $this->service->processJsResponse($data, $url);
+        $this->assertTrue($response instanceof SuccessResponse);
+    }
+
+    public function testMapJsResponseSSLFailed()
+    {
+        $url = 'dummyreturnurl';
+        $data = array(
+            'merchant_account_id' => 'maid',
+            'transaction_id' => 'trid',
+            'transaction_state' => 'failed',
+            'transaction_type' => 'authorization',
+            'payment_method' => 'creditcard',
+            'request_id' => 'reqid',
+            'status_code_0' => '500.000',
+            'status_description_0' => 'Dummy status description',
+            'status_severity_0' => 'information',
+            'parent_transaction_id' => 'ptrid'
+        );
+
+        $response = $this->service->processJsResponse($data, $url);
+        $this->assertTrue($response instanceof FailureResponse);
     }
 }
