@@ -216,7 +216,8 @@ class ResponseMapper
      * @throws \InvalidArgumentException
      * @return FormInteractionResponse
      *
-     * @deprecated This method is deprecated since 2.1.0 if you still are using it please update your front-end.
+     * @deprecated This method is deprecated since 2.1.0 if you still are using it please update your front-end so that
+     * it uses mapSeamlessResponse.
      */
     private function mapThreeDResponse()
     {
@@ -299,7 +300,7 @@ class ResponseMapper
         return new SuccessResponse($this->simpleXml);
     }
 
-    public function mapJsResponse($payload, $url)
+    public function mapSeamlessResponse($payload, $url)
     {
         $this->simpleXml = new SimpleXMLElement('<payment></payment>');
 
@@ -315,7 +316,7 @@ class ResponseMapper
             $threeD->addChild('acs-url', $payload['acs_url']);
             $threeD->addChild('pareq', $payload['pareq']);
             $threeD->addChild('cardholder-authentication-status', $payload['cardholder_authentication_status']);
-            $this->sxml_append($this->simpleXml, $threeD);
+            $this->SimpleXmlAppendNode($this->simpleXml, $threeD);
         }
 
         if (array_key_exists('parent_transaction_id', $payload)) {
@@ -350,9 +351,9 @@ class ResponseMapper
                 $statusXml->addAttribute('code', $status['code']);
                 $statusXml->addAttribute('description', $status['description']);
                 $statusXml->addAttribute('severity', $status['severity']);
-                $this->sxml_append($statusesXml, $statusXml);
+                $this->SimpleXmlAppendNode($statusesXml, $statusXml);
             }
-            $this->sxml_append($this->simpleXml, $statusesXml);
+            $this->SimpleXmlAppendNode($this->simpleXml, $statusesXml);
         }
 
         if (array_key_exists('acs_url', $payload)) {
@@ -382,7 +383,7 @@ class ResponseMapper
         }
     }
 
-    private function sxml_append(SimpleXMLElement $to, SimpleXMLElement $from)
+    private function SimpleXmlAppendNode(SimpleXMLElement $to, SimpleXMLElement $from)
     {
         $toDom = dom_import_simplexml($to);
         $fromDom = dom_import_simplexml($from);

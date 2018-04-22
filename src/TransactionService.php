@@ -47,6 +47,7 @@ use Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException;
 use Wirecard\PaymentSdk\Mapper\RequestMapper;
 use Wirecard\PaymentSdk\Mapper\ResponseMapper;
 use Wirecard\PaymentSdk\Response\FailureResponse;
+use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Response\Response;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
@@ -697,9 +698,12 @@ class TransactionService
 
     /**
      * @since 2.1.0
+     * @param $payload
+     * @param $url
+     * @return FailureResponse|FormInteractionResponse|SuccessResponse
      */
     public function processJsResponse($payload, $url)
     {
-        return $this->responseMapper->mapJsResponse($payload, $url);
+        return $this->responseMapper->mapSeamlessResponse($payload, $url);
     }
 }
