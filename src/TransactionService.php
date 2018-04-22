@@ -698,7 +698,8 @@ class TransactionService
     /**
      * @since 2.1.0
      */
-    public function processJsResponse($payload, $url) {
+    public function processJsResponse($payload, $url)
+    {
         return $this->responseMapper->mapJsResponse($payload, $url);
     }
 }

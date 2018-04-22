@@ -325,8 +325,8 @@ class ResponseMapper
         // parse statuses
         $statuses = [];
 
-        foreach ($payload as $key=>$value) {
-            if(strpos($key, 'status_') === 0) {
+        foreach ($payload as $key => $value) {
+            if (strpos($key, 'status_') === 0) {
                 if (strpos($key, 'status_code_') === 0) {
                     $number = str_replace('status_code_', '', $key);
                     $statuses[$number]['code'] = $value;
@@ -373,18 +373,17 @@ class ResponseMapper
             $response->setFormFields($fields);
 
             return $response;
-
         } else {
             if ($payload['transaction_state'] == 'success') {
                 return new SuccessResponse($this->simpleXml);
-            }
-            else {
+            } else {
                 return new FailureResponse($this->simpleXml);
             }
         }
     }
 
-    private function sxml_append(SimpleXMLElement $to, SimpleXMLElement $from) {
+    private function sxml_append(SimpleXMLElement $to, SimpleXMLElement $from)
+    {
         $toDom = dom_import_simplexml($to);
         $fromDom = dom_import_simplexml($from);
         $toDom->appendChild($toDom->ownerDocument->importNode($fromDom, true));
