@@ -316,7 +316,7 @@ class ResponseMapper
             $threeD->addChild('acs-url', $payload['acs_url']);
             $threeD->addChild('pareq', $payload['pareq']);
             $threeD->addChild('cardholder-authentication-status', $payload['cardholder_authentication_status']);
-            $this->SimpleXmlAppendNode($this->simpleXml, $threeD);
+            $this->simpleXmlAppendNode($this->simpleXml, $threeD);
         }
 
         if (array_key_exists('parent_transaction_id', $payload)) {
@@ -351,9 +351,9 @@ class ResponseMapper
                 $statusXml->addAttribute('code', $status['code']);
                 $statusXml->addAttribute('description', $status['description']);
                 $statusXml->addAttribute('severity', $status['severity']);
-                $this->SimpleXmlAppendNode($statusesXml, $statusXml);
+                $this->simpleXmlAppendNode($statusesXml, $statusXml);
             }
-            $this->SimpleXmlAppendNode($this->simpleXml, $statusesXml);
+            $this->simpleXmlAppendNode($this->simpleXml, $statusesXml);
         }
 
         if (array_key_exists('acs_url', $payload)) {
@@ -383,7 +383,7 @@ class ResponseMapper
         }
     }
 
-    private function SimpleXmlAppendNode(SimpleXMLElement $to, SimpleXMLElement $from)
+    private function simpleXmlAppendNode(SimpleXMLElement $to, SimpleXMLElement $from)
     {
         $toDom = dom_import_simplexml($to);
         $fromDom = dom_import_simplexml($from);
