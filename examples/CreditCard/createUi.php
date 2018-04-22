@@ -106,9 +106,9 @@ $transactionService = new TransactionService($config);
             </div>
         </div>
     </div>
-    <form id="payment-form" method="post" action="return.php">
+    <form id="payment-form" method="post" action="reserve.php">
         <?php
-        // The token ID, which is returned from the credit card UI, needs to be sent on submitting the form.
+        // The data, which is returned from the credit card UI, needs to be sent on submitting the form.
         // In this example this is facilitated via a hidden form field.
         ?>
         <?php
@@ -127,7 +127,7 @@ $transactionService = new TransactionService($config);
 
         // We fill the _requestData_ with the return value
         // from the `getDataForCreditCardUi` method of the `transactionService`.
-        requestData: <?= $transactionService->getDataForCreditCardUi('en', new Amount(700, 'EUR'), 'http://requestbin.fullcontact.com/1nn7r9t1'); ?>,
+        requestData: <?= $transactionService->getDataForCreditCardUi('en', new Amount(10, 'EUR'), 'http://requestbin.fullcontact.com/1nn7r9t1'); ?>,
         wrappingDivId: "creditcard-form-div",
         onSuccess: logCallback,
         onError: logCallback
@@ -145,7 +145,11 @@ $transactionService = new TransactionService($config);
 
     function submit(event) {
 
-        // We check if the field for the token ID already got a value.
+        // We check if the response fields are already set.
+        if ($("input[name='jsresponse']").length ) {
+            console.log('Sending the following request to your server..');
+            console.log($(event.target).serialize());
+        } else {
             // If not, we will prevent the submission of the form and submit the form of credit card UI instead.
             event.preventDefault();
 
@@ -153,13 +157,20 @@ $transactionService = new TransactionService($config);
                 onSuccess: setParentTransactionId,
                 onError: logCallback
             })
+        }
     }
 
-    // If the submit to Wirecard is successful, `seamlessSubmitForm` will set the field for the token ID
-    // and submit your form to your server.
+    // If the submit to Wirecard is successful, `seamlessSubmitForm` will set the form fields and submit your form to
+    // to your server.
     function setParentTransactionId(response) {
-        console.log(response);
-        return false;
+        var form = $('#payment-form');
+        for(var key in response){
+            if(response.hasOwnProperty(key)) {
+                form.append("<input type='hidden' name='" + key + "' value='" + response[key] + "'>");
+            }
+        }
+        form.append("<input id='jsresponse' type='hidden' name='jsresponse' value='true'>");
+        form.submit();
     }
 
 </script>
