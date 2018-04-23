@@ -247,7 +247,7 @@ class TransactionService
         $creditCard->setConfig($creditCardConfig);
         $creditCard->setAmount(new Amount($amount, $currency));
 
-        $isThreeD = ( $creditCard->isFallback() || $creditCard->getThreeD() ) ? true : false;
+        $isThreeD = ($creditCard->isFallback() || $creditCard->getThreeD()) ? true : false;
         $requestData = array(
             'request_time_stamp' => gmdate('YmdHis'),
             self::REQUEST_ID => call_user_func($this->requestIdGenerator, 64),
