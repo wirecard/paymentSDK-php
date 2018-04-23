@@ -236,7 +236,12 @@ class TransactionService
      * @throws UnconfiguredPaymentMethodException
      * @return string
      */
-    public function getDataForCreditCardUi($language = 'en', Amount $amount = null, $notificationUrl = null, $paymentAction = 'authorization')
+    public function getDataForCreditCardUi(
+        $language = 'en',
+        Amount $amount = null,
+        $notificationUrl = null,
+        $paymentAction = 'authorization'
+    )
     {
         $currency = null == $amount ? 'EUR' : $amount->getCurrency();
         $amount = null == $amount ? 0 : $amount->getValue();
