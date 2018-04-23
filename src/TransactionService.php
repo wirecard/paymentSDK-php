@@ -239,20 +239,18 @@ class TransactionService
 
         /** @var CreditCardConfig $creditCardConfig */
         $creditCardConfig = $this->config->get(CreditCardTransaction::NAME);
-        $isThreeD = $creditCardConfig->getSslMaxLimit($currency) < $amount;
+        $creditCard = new CreditCardTransaction();
+        $creditCard->setConfig($creditCardConfig);
+        $creditCard->setAmount(new Amount($amount, $currency));
 
-        $merchantAccountId = $isThreeD && null != $creditCardConfig->getThreeDMerchantAccountId()
-            ? $creditCardConfig->getThreeDMerchantAccountId()
-            : $creditCardConfig->getMerchantAccountId();
-        $secret = $isThreeD && null != $creditCardConfig->getThreeDSecret()
-            ? $creditCardConfig->getThreeDSecret()
-            : $creditCardConfig->getSecret();
-
+        $isThreeD = ( $creditCard->isFallback() || $creditCard->getThreeD() ) ? true : false;
         $requestData = array(
             'request_time_stamp' => gmdate('YmdHis'),
             self::REQUEST_ID => call_user_func($this->requestIdGenerator, 64),
             'transaction_type' => 0 == $amount ? 'authorization-only' : 'authorization',
-            'merchant_account_id' => $merchantAccountId,
+            'merchant_account_id' => $isThreeD
+                ? $creditCardConfig->getThreeDMerchantAccountId()
+                : $creditCardConfig->getMerchantAccountId(),
             'requested_amount' => $amount,
             'requested_amount_currency' => $currency,
             'locale' => $language,
@@ -267,6 +265,7 @@ class TransactionService
             $requestData['attempt_three_d'] = true;
         }
 
+        $secret = $isThreeD ? $creditCardConfig->getThreeDSecret() : $creditCardConfig->getSecret();
         $requestData['request_signature'] = hash(
             'sha256',
             trim(

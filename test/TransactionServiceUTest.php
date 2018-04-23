@@ -58,6 +58,8 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $config = new Config('https://api-test.wirecard.com', 'user', 'password');
         $ccardConfig = new CreditCardConfig('maid', 'secret');
         $ccardConfig->setThreeDCredentials('3dmaid', '3dsecret');
+        $ccardConfig->addSslMaxLimit(new Amount(100, 'EUR'));
+        $ccardConfig->addThreeDMinLimit(new Amount(50, 'EUR'));
         $config->add($ccardConfig);
         $this->service = new TransactionService($config, $logger);
     }
