@@ -241,8 +241,7 @@ class TransactionService
         Amount $amount = null,
         $notificationUrl = null,
         $paymentAction = 'authorization'
-    )
-    {
+    ) {
         $currency = null == $amount ? 'EUR' : $amount->getCurrency();
         $amount = null == $amount ? 0 : $amount->getValue();
 
