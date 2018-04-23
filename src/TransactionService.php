@@ -39,12 +39,15 @@ use Monolog\Handler\ErrorLogHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use Wirecard\PaymentSdk\Config\Config;
+use Wirecard\PaymentSdk\Config\CreditCardConfig;
+use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException;
 use Wirecard\PaymentSdk\Mapper\RequestMapper;
 use Wirecard\PaymentSdk\Mapper\ResponseMapper;
 use Wirecard\PaymentSdk\Response\FailureResponse;
+use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Response\Response;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
@@ -226,22 +229,51 @@ class TransactionService
     }
 
     /**
+     * @param string $language
+     * @param Amount|null $amount
+     * @param string|null $notificationUrl
+     * @param string $paymentAction
      * @throws UnconfiguredPaymentMethodException
      * @return string
      */
-    public function getDataForCreditCardUi($language = 'en')
-    {
+    public function getDataForCreditCardUi(
+        $language = 'en',
+        Amount $amount = null,
+        $notificationUrl = null,
+        $paymentAction = 'authorization'
+    ) {
+        $currency = null == $amount ? 'EUR' : $amount->getCurrency();
+        $amount = null == $amount ? 0 : $amount->getValue();
+
+        /** @var CreditCardConfig $creditCardConfig */
+        $creditCardConfig = $this->config->get(CreditCardTransaction::NAME);
+        $creditCard = new CreditCardTransaction();
+        $creditCard->setConfig($creditCardConfig);
+        $creditCard->setAmount(new Amount($amount, $currency));
+
+        $isThreeD = ($creditCard->isFallback() || $creditCard->getThreeD()) ? true : false;
         $requestData = array(
             'request_time_stamp' => gmdate('YmdHis'),
             self::REQUEST_ID => call_user_func($this->requestIdGenerator, 64),
-            'transaction_type' => 'authorization-only',
-            'merchant_account_id' => $this->config->get(CreditCardTransaction::NAME)->getMerchantAccountId(),
-            'requested_amount' => 0,
-            'requested_amount_currency' => $this->config->getDefaultCurrency(),
+            'transaction_type' => 0 == $amount ? 'authorization-only' : $paymentAction,
+            'merchant_account_id' => $isThreeD
+                ? $creditCardConfig->getThreeDMerchantAccountId()
+                : $creditCardConfig->getMerchantAccountId(),
+            'requested_amount' => $amount,
+            'requested_amount_currency' => $currency,
             'locale' => $language,
-            'payment_method' => 'creditcard',
+            'payment_method' => 'creditcard'
         );
 
+        if (strlen($notificationUrl)) {
+            $requestData['notification_url_1'] = $notificationUrl;
+        }
+
+        if ($isThreeD) {
+            $requestData['attempt_three_d'] = true;
+        }
+
+        $secret = $isThreeD ? $creditCardConfig->getThreeDSecret() : $creditCardConfig->getSecret();
         $requestData['request_signature'] = hash(
             'sha256',
             trim(
@@ -251,7 +283,7 @@ class TransactionService
                 $requestData['transaction_type'] .
                 $requestData['requested_amount'] .
                 $requestData['requested_amount_currency'] .
-                $this->config->get(CreditCardTransaction::NAME)->getSecret()
+                $secret
             )
         );
 
@@ -355,7 +387,7 @@ class TransactionService
     public function getRatePayScript($deviceIdentToken)
     {
         $script =
-          "<script language='JavaScript'>
+            "<script language='JavaScript'>
           var di = {t:'$deviceIdentToken',v:'WDWL',l:'Checkout'};
           </script>
           <script type='text/javascript' src='//d.ratepay.com/WDWL/di.js'>
@@ -484,7 +516,7 @@ class TransactionService
         $requestHeader = array_merge_recursive($this->httpHeader, $this->config->getShopHeader());
         $requestHeader['Accept'] = $acceptJson ? self::APPLICATION_JSON : 'application/xml';
 
-        $request =  $this->messageFactory->createRequest('GET', $endpoint, $requestHeader);
+        $request = $this->messageFactory->createRequest('GET', $endpoint, $requestHeader);
         $request = $this->basicAuth->authenticate($request);
         $response = $this->httpClient->sendRequest($request)->getBody()->getContents();
 
@@ -525,7 +557,7 @@ class TransactionService
                 && array_key_exists('transaction-type', $parentTransaction[Transaction::PARAM_PAYMENT])
             ) {
                 $transaction->setParentTransactionType($parentTransaction[Transaction::PARAM_PAYMENT]
-                    [Transaction::PARAM_TRANSACTION_TYPE]);
+                [Transaction::PARAM_TRANSACTION_TYPE]);
             }
         }
 
@@ -581,7 +613,7 @@ class TransactionService
         try {
             $requestHeader = array_merge_recursive($this->httpHeader, $this->config->getShopHeader());
 
-            $request =  $this->messageFactory->createRequest(
+            $request = $this->messageFactory->createRequest(
                 'GET',
                 $this->config->getBaseUrl() . '/engine/rest/merchants/',
                 $requestHeader
@@ -669,5 +701,16 @@ class TransactionService
         $transaction = $this->sendGetRequest($endpoint);
 
         return $this->responseMapper->map($transaction);
+    }
+
+    /**
+     * @since 2.1.0
+     * @param $payload
+     * @param $url
+     * @return FailureResponse|FormInteractionResponse|SuccessResponse
+     */
+    public function processJsResponse($payload, $url)
+    {
+        return $this->responseMapper->mapSeamlessResponse($payload, $url);
     }
 }
