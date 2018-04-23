@@ -9,6 +9,7 @@
 // ## Required libraries and objects
 // To include the necessary files, use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/../inc/common.php';
 require __DIR__ . '/../inc/config.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -127,7 +128,7 @@ $transactionService = new TransactionService($config);
 
         // We fill the _requestData_ with the return value
         // from the `getDataForCreditCardUi` method of the `transactionService`.
-        requestData: <?= $transactionService->getDataForCreditCardUi('en', new Amount(10, 'EUR'), 'http://requestbin.fullcontact.com/1nn7r9t1', 'authorization'); ?>,
+        requestData: <?= $transactionService->getDataForCreditCardUi('en', new Amount(10, 'EUR'), getUrl('notify.php'), 'authorization'); ?>,
         wrappingDivId: "creditcard-form-div",
         onSuccess: logCallback,
         onError: logCallback
