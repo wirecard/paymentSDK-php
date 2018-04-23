@@ -127,7 +127,7 @@ $transactionService = new TransactionService($config);
 
         // We fill the _requestData_ with the return value
         // from the `getDataForCreditCardUi` method of the `transactionService`.
-        requestData: <?= $transactionService->getDataForCreditCardUi('en', new Amount(10, 'EUR'), 'http://requestbin.fullcontact.com/1nn7r9t1'); ?>,
+        requestData: <?= $transactionService->getDataForCreditCardUi('en', new Amount(10, 'EUR'), 'http://requestbin.fullcontact.com/1nn7r9t1', 'authorization'); ?>,
         wrappingDivId: "creditcard-form-div",
         onSuccess: logCallback,
         onError: logCallback

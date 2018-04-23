@@ -229,10 +229,14 @@ class TransactionService
     }
 
     /**
+     * @param string $language
+     * @param Amount|null $amount
+     * @param string|null $notificationUrl
+     * @param string $paymentAction
      * @throws UnconfiguredPaymentMethodException
      * @return string
      */
-    public function getDataForCreditCardUi($language = 'en', Amount $amount = null, $notificationUrl = null)
+    public function getDataForCreditCardUi($language = 'en', Amount $amount = null, $notificationUrl = null, $paymentAction = 'authorization')
     {
         $currency = null == $amount ? 'EUR' : $amount->getCurrency();
         $amount = null == $amount ? 0 : $amount->getValue();
@@ -247,7 +251,7 @@ class TransactionService
         $requestData = array(
             'request_time_stamp' => gmdate('YmdHis'),
             self::REQUEST_ID => call_user_func($this->requestIdGenerator, 64),
-            'transaction_type' => 0 == $amount ? 'authorization-only' : 'authorization',
+            'transaction_type' => 0 == $amount ? 'authorization-only' : $paymentAction,
             'merchant_account_id' => $isThreeD
                 ? $creditCardConfig->getThreeDMerchantAccountId()
                 : $creditCardConfig->getMerchantAccountId(),
