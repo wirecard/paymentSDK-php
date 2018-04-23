@@ -129,7 +129,7 @@
 		<b>Namespace:</b> <a href="namespace-Wirecard.html">Wirecard</a>\<a href="namespace-Wirecard.PaymentSdk.html">PaymentSdk</a><br>
 		<b>Package:</b> Wirecard\PaymentSdk<br>
 
-			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.TransactionService.html#61-673" title="Go to source code">TransactionService.php</a>
+			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.TransactionService.html#64-716" title="Go to source code">TransactionService.php</a>
 		<br>
 	</div>
 
@@ -149,7 +149,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#___construct">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#123-164" title="Go to source code">__construct</a>( <span><code><a href="class-Wirecard.PaymentSdk.Config.Config.html">Wirecard\PaymentSdk\Config\Config</a></code> <var>$config</var></span>, <span>Psr\Log\LoggerInterface <var>$logger</var> = <span class="php-keyword1">null</span></span>, <span><code><a href="class-Wirecard.PaymentSdk.Mapper.RequestMapper.html">Wirecard\PaymentSdk\Mapper\RequestMapper</a></code> <var>$requestMapper</var> = <span class="php-keyword1">null</span></span>, <span><code><a href="class-Wirecard.PaymentSdk.Mapper.ResponseMapper.html">Wirecard\PaymentSdk\Mapper\ResponseMapper</a></code> <var>$responseMapper</var> = <span class="php-keyword1">null</span></span>, <span>Closure <var>$requestIdGenerator</var> = <span class="php-keyword1">null</span> </span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#126-167" title="Go to source code">__construct</a>( <span><code><a href="class-Wirecard.PaymentSdk.Config.Config.html">Wirecard\PaymentSdk\Config\Config</a></code> <var>$config</var></span>, <span>Psr\Log\LoggerInterface <var>$logger</var> = <span class="php-keyword1">null</span></span>, <span><code><a href="class-Wirecard.PaymentSdk.Mapper.RequestMapper.html">Wirecard\PaymentSdk\Mapper\RequestMapper</a></code> <var>$requestMapper</var> = <span class="php-keyword1">null</span></span>, <span><code><a href="class-Wirecard.PaymentSdk.Mapper.ResponseMapper.html">Wirecard\PaymentSdk\Mapper\ResponseMapper</a></code> <var>$responseMapper</var> = <span class="php-keyword1">null</span></span>, <span>Closure <var>$requestIdGenerator</var> = <span class="php-keyword1">null</span> </span> )</code>
 
 			<div class="description short">
 				<p>TransactionService constructor.</p>
@@ -191,7 +191,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_handleNotification">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#166-175" title="Go to source code">handleNotification</a>( <span>string <var>$xmlResponse</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#169-178" title="Go to source code">handleNotification</a>( <span>string <var>$xmlResponse</var></span> )</code>
 
 			<div class="description short">
 				
@@ -234,7 +234,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_handleResponse">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#177-226" title="Go to source code">handleResponse</a>( <span>array <var>$payload</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#180-229" title="Go to source code">handleResponse</a>( <span>array <var>$payload</var></span> )</code>
 
 			<div class="description short">
 				
@@ -279,7 +279,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getDataForCreditCardUi">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#228-259" title="Go to source code">getDataForCreditCardUi</a>( <span> <var>$language</var> = <span class="php-quote">'en'</span></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#231-291" title="Go to source code">getDataForCreditCardUi</a>( <span>string <var>$language</var> = <span class="php-quote">'en'</span></span>, <span><code><a href="class-Wirecard.PaymentSdk.Entity.Amount.html">Wirecard\PaymentSdk\Entity\Amount</a></code> <var>$amount</var> = <span class="php-keyword1">null</span></span>, <span>string|null <var>$notificationUrl</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$paymentAction</var> = <span class="php-quote">'authorization'</span> </span> )</code>
 
 			<div class="description short">
 				
@@ -289,6 +289,17 @@
 				
 
 
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$language</var></dt>
+						<dd></dd>
+						<dt><var>$amount</var></dt>
+						<dd></dd>
+						<dt><var>$notificationUrl</var></dt>
+						<dd></dd>
+						<dt><var>$paymentAction</var></dt>
+						<dd></dd>
+					</dl></div>
 
 					<h4>Returns</h4>
 					<div class="list">
@@ -316,7 +327,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getDataForCreditCardMotoUi">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#261-292" title="Go to source code">getDataForCreditCardMotoUi</a>( <span> <var>$language</var> = <span class="php-quote">'en'</span></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#293-324" title="Go to source code">getDataForCreditCardMotoUi</a>( <span> <var>$language</var> = <span class="php-quote">'en'</span></span> )</code>
 
 			<div class="description short">
 				
@@ -353,7 +364,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getDataForUpiUi">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#294-325" title="Go to source code">getDataForUpiUi</a>( <span> <var>$language</var> = <span class="php-quote">'en'</span></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#326-357" title="Go to source code">getDataForUpiUi</a>( <span> <var>$language</var> = <span class="php-quote">'en'</span></span> )</code>
 
 			<div class="description short">
 				
@@ -390,7 +401,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getRatePayInvoiceDeviceIdent">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#327-337" title="Go to source code">getRatePayInvoiceDeviceIdent</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#359-369" title="Go to source code">getRatePayInvoiceDeviceIdent</a>( )</code>
 
 			<div class="description short">
 				
@@ -423,7 +434,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getRatePayInstallmentDeviceIdent">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#339-349" title="Go to source code">getRatePayInstallmentDeviceIdent</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#371-381" title="Go to source code">getRatePayInstallmentDeviceIdent</a>( )</code>
 
 			<div class="description short">
 				
@@ -456,7 +467,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getRatePayScript">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#351-372" title="Go to source code">getRatePayScript</a>( <span> <var>$deviceIdentToken</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#383-404" title="Go to source code">getRatePayScript</a>( <span> <var>$deviceIdentToken</var></span> )</code>
 
 			<div class="description short">
 				
@@ -494,7 +505,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_reserve">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#374-386" title="Go to source code">reserve</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Reservable.html">Wirecard\PaymentSdk\Transaction\Reservable</a></code> <var>$transaction</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#406-418" title="Go to source code">reserve</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Reservable.html">Wirecard\PaymentSdk\Transaction\Reservable</a></code> <var>$transaction</var></span> )</code>
 
 			<div class="description short">
 				
@@ -540,7 +551,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_pay">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#388-400" title="Go to source code">pay</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></code> <var>$transaction</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#420-432" title="Go to source code">pay</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></code> <var>$transaction</var></span> )</code>
 
 			<div class="description short">
 				
@@ -586,7 +597,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_cancel">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#402-426" title="Go to source code">cancel</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></code> <var>$transaction</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#434-458" title="Go to source code">cancel</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></code> <var>$transaction</var></span> )</code>
 
 			<div class="description short">
 				<p>If a failureResponse returns from the cancel process call
@@ -636,7 +647,7 @@ we try a refund process call.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_credit">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#428-440" title="Go to source code">credit</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></code> <var>$transaction</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#460-472" title="Go to source code">credit</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></code> <var>$transaction</var></span> )</code>
 
 			<div class="description short">
 				
@@ -682,7 +693,7 @@ we try a refund process call.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getLogger">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#442-454" title="Go to source code">getLogger</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#474-486" title="Go to source code">getLogger</a>( )</code>
 
 			<div class="description short">
 				
@@ -715,7 +726,7 @@ we try a refund process call.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_process">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#499-546" title="Go to source code">process</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></code> <var>$transaction</var></span>, <span>string <var>$operation</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#531-578" title="Go to source code">process</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></code> <var>$transaction</var></span>, <span>string <var>$operation</var></span> )</code>
 
 			<div class="description short">
 				
@@ -763,7 +774,7 @@ we try a refund process call.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_checkCredentials">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#575-603" title="Go to source code">checkCredentials</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#607-635" title="Go to source code">checkCredentials</a>( )</code>
 
 			<div class="description short">
 				<p>We expect status code 404 for a successful authentication, otherwise the endpoint will return 401 unauthorized</p>
@@ -780,6 +791,50 @@ we try a refund process call.</p>
 					</div>
 
 
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="processJsResponse" id="_processJsResponse">
+
+			<td class="attributes"><code>
+				 public 
+				<code><a href="class-Wirecard.PaymentSdk.Response.FailureResponse.html">Wirecard\PaymentSdk\Response\FailureResponse</a></code>|<code><a href="class-Wirecard.PaymentSdk.Response.FormInteractionResponse.html">Wirecard\PaymentSdk\Response\FormInteractionResponse</a></code>|<code><a href="class-Wirecard.PaymentSdk.Response.SuccessResponse.html">Wirecard\PaymentSdk\Response\SuccessResponse</a></code>
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_processJsResponse">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#706-715" title="Go to source code">processJsResponse</a>( <span> <var>$payload</var></span>, <span> <var>$url</var></span> )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$payload</var></dt>
+						<dd></dd>
+						<dt><var>$url</var></dt>
+						<dd></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code><a href="class-Wirecard.PaymentSdk.Response.FailureResponse.html">Wirecard\PaymentSdk\Response\FailureResponse</a></code>|<code><a href="class-Wirecard.PaymentSdk.Response.FormInteractionResponse.html">Wirecard\PaymentSdk\Response\FormInteractionResponse</a></code>|<code><a href="class-Wirecard.PaymentSdk.Response.SuccessResponse.html">Wirecard\PaymentSdk\Response\SuccessResponse</a></code>
+					</div>
+
+
+					<h4>Since</h4>
+					<div class="list">
+							2.1.0<br>
+					</div>
 
 
 			</div>
@@ -803,7 +858,7 @@ we try a refund process call.</p>
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-Wirecard.PaymentSdk.TransactionService.html#69" title="Go to source code"><b>APPLICATION_JSON</b></a>
+						<a href="source-class-Wirecard.PaymentSdk.TransactionService.html#72" title="Go to source code"><b>APPLICATION_JSON</b></a>
 					</code>
 
 					<div class="description short">
@@ -827,7 +882,7 @@ we try a refund process call.</p>
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-Wirecard.PaymentSdk.TransactionService.html#70" title="Go to source code"><b>REQUEST_ID</b></a>
+						<a href="source-class-Wirecard.PaymentSdk.TransactionService.html#73" title="Go to source code"><b>REQUEST_ID</b></a>
 					</code>
 
 					<div class="description short">

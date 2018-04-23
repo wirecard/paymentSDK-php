@@ -726,6 +726,84 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "foldPrefix": "^",
                   "name": "PHP"
                 },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/CreditCard/notify.php",
+                "projectPath": "examples/CreditCard/notify.php",
+                "targetPath": "examples/CreditCard/notify",
+                "pageTitle": "examples/CreditCard/notify",
+                "title": "notify"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Credit Card notification",
+                    "slug": "credit-card-notification"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Validation",
+                            "slug": "validation"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Notification status",
+                        "slug": "notification-status"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
                 "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/CreditCard/pay.php",
                 "projectPath": "examples/CreditCard/pay.php",
                 "targetPath": "examples/CreditCard/pay",
@@ -983,18 +1061,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                             "slug": "transaction-related-objects"
                           },
                           "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
+                        }, {
                           "type": "heading",
                           "data": {
                             "level": 3,
@@ -1004,6 +1071,14 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                           "depth": 3
                         }
                       ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2
                     }, {
                       "type": "heading",
                       "data": {

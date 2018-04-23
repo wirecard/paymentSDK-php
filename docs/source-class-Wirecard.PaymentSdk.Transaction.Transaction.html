@@ -398,7 +398,7 @@
 </span><span id="229" class="l"><a href="#229">229 </a>            <span class="php-var">$result</span>[self::PARAM_PARENT_TRANSACTION_ID] = <span class="php-var">$this</span>-&gt;parentTransactionId;
 </span><span id="230" class="l"><a href="#230">230 </a>        }
 </span><span id="231" class="l"><a href="#231">231 </a>
-</span><span id="232" class="l"><a href="#232">232 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword2">array_key_exists</span>(<span class="php-quote">'REMOTE_ADDR'</span>, <span class="php-var">$_SERVER</span>)) {
+</span><span id="232" class="l"><a href="#232">232 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword2">array_key_exists</span>(<span class="php-quote">'REMOTE_ADDR'</span>, <span class="php-var">$_SERVER</span>) &amp;&amp; !<span class="php-keyword1">isset</span>(<span class="php-var">$result</span>[<span class="php-quote">'ip-address'</span>])) {
 </span><span id="233" class="l"><a href="#233">233 </a>            <span class="php-var">$result</span>[<span class="php-quote">'ip-address'</span>] = <span class="php-var">$_SERVER</span>[<span class="php-quote">'REMOTE_ADDR'</span>];
 </span><span id="234" class="l"><a href="#234">234 </a>        }
 </span><span id="235" class="l"><a href="#235">235 </a>

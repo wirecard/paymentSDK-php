@@ -384,89 +384,182 @@
 </span></span><span id="215" class="l"><a href="#215">215 </a><span class="php-comment">     * @throws MalformedResponseException
 </span></span><span id="216" class="l"><a href="#216">216 </a><span class="php-comment">     * @throws \InvalidArgumentException
 </span></span><span id="217" class="l"><a href="#217">217 </a><span class="php-comment">     * @return FormInteractionResponse
-</span></span><span id="218" class="l"><a href="#218">218 </a><span class="php-comment">     */</span>
-</span><span id="219" class="l"><a href="#219">219 </a>    <span class="php-keyword1">private</span> <span class="php-keyword1">function</span> mapThreeDResponse()
-</span><span id="220" class="l"><a href="#220">220 </a>    {
-</span><span id="221" class="l"><a href="#221">221 </a>        <span class="php-keyword1">if</span> (!(<span class="php-var">$this</span>-&gt;transaction <span class="php-keyword1">instanceof</span> CreditCardTransaction)) {
-</span><span id="222" class="l"><a href="#222">222 </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> \InvalidArgumentException(<span class="php-quote">'Trying to create a 3D response from a non-3D transaction.'</span>);
-</span><span id="223" class="l"><a href="#223">223 </a>        }
-</span><span id="224" class="l"><a href="#224">224 </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword1">isset</span>(<span class="php-var">$this</span>-&gt;simpleXml-&gt;{<span class="php-quote">'three-d'</span>})) {
-</span><span id="225" class="l"><a href="#225">225 </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> MalformedResponseException(<span class="php-quote">'Missing three-d element in enrollment-check response.'</span>);
+</span></span><span id="218" class="l"><a href="#218">218 </a><span class="php-comment">     *
+</span></span><span id="219" class="l"><a href="#219">219 </a><span class="php-comment">     * @deprecated This method is deprecated since 2.1.0 if you still are using it please update your front-end so that
+</span></span><span id="220" class="l"><a href="#220">220 </a><span class="php-comment">     * it uses mapSeamlessResponse.
+</span></span><span id="221" class="l"><a href="#221">221 </a><span class="php-comment">     */</span>
+</span><span id="222" class="l"><a href="#222">222 </a>    <span class="php-keyword1">private</span> <span class="php-keyword1">function</span> mapThreeDResponse()
+</span><span id="223" class="l"><a href="#223">223 </a>    {
+</span><span id="224" class="l"><a href="#224">224 </a>        <span class="php-keyword1">if</span> (!(<span class="php-var">$this</span>-&gt;transaction <span class="php-keyword1">instanceof</span> CreditCardTransaction)) {
+</span><span id="225" class="l"><a href="#225">225 </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> \InvalidArgumentException(<span class="php-quote">'Trying to create a 3D response from a non-3D transaction.'</span>);
 </span><span id="226" class="l"><a href="#226">226 </a>        }
-</span><span id="227" class="l"><a href="#227">227 </a>
-</span><span id="228" class="l"><a href="#228">228 </a>        <span class="php-var">$threeD</span> = <span class="php-var">$this</span>-&gt;simpleXml-&gt;{<span class="php-quote">'three-d'</span>};
-</span><span id="229" class="l"><a href="#229">229 </a>
-</span><span id="230" class="l"><a href="#230">230 </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword1">isset</span>(<span class="php-var">$threeD</span>-&gt;{<span class="php-quote">'acs-url'</span>})) {
-</span><span id="231" class="l"><a href="#231">231 </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> MalformedResponseException(<span class="php-quote">'Missing acs redirect url in enrollment-check response.'</span>);
-</span><span id="232" class="l"><a href="#232">232 </a>        }
-</span><span id="233" class="l"><a href="#233">233 </a>
-</span><span id="234" class="l"><a href="#234">234 </a>        <span class="php-var">$redirectUrl</span> = (string)<span class="php-var">$threeD</span>-&gt;{<span class="php-quote">'acs-url'</span>};
-</span><span id="235" class="l"><a href="#235">235 </a>
-</span><span id="236" class="l"><a href="#236">236 </a>        <span class="php-var">$response</span> = <span class="php-keyword1">new</span> FormInteractionResponse(<span class="php-var">$this</span>-&gt;simpleXml, <span class="php-var">$redirectUrl</span>);
-</span><span id="237" class="l"><a href="#237">237 </a>
-</span><span id="238" class="l"><a href="#238">238 </a>        <span class="php-var">$fields</span> = <span class="php-keyword1">new</span> FormFieldMap();
-</span><span id="239" class="l"><a href="#239">239 </a>        <span class="php-var">$fields</span>-&gt;add(<span class="php-quote">'TermUrl'</span>, <span class="php-var">$this</span>-&gt;transaction-&gt;getTermUrl());
-</span><span id="240" class="l"><a href="#240">240 </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword1">isset</span>(<span class="php-var">$threeD</span>-&gt;{<span class="php-quote">'pareq'</span>})) {
-</span><span id="241" class="l"><a href="#241">241 </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> MalformedResponseException(<span class="php-quote">'Missing pareq in enrollment-check response.'</span>);
-</span><span id="242" class="l"><a href="#242">242 </a>        }
-</span><span id="243" class="l"><a href="#243">243 </a>
-</span><span id="244" class="l"><a href="#244">244 </a>        <span class="php-var">$fields</span>-&gt;add(<span class="php-quote">'PaReq'</span>, (string)<span class="php-var">$threeD</span>-&gt;{<span class="php-quote">'pareq'</span>});
-</span><span id="245" class="l"><a href="#245">245 </a>
-</span><span id="246" class="l"><a href="#246">246 </a>        <span class="php-var">$fields</span>-&gt;add(
-</span><span id="247" class="l"><a href="#247">247 </a>            <span class="php-quote">'MD'</span>,
-</span><span id="248" class="l"><a href="#248">248 </a>            <span class="php-keyword2">base64_encode</span>(<span class="php-keyword2">json_encode</span>([
-</span><span id="249" class="l"><a href="#249">249 </a>                <span class="php-quote">'enrollment-check-transaction-id'</span> =&gt; <span class="php-var">$response</span>-&gt;getTransactionId(),
-</span><span id="250" class="l"><a href="#250">250 </a>                <span class="php-quote">'operation-type'</span> =&gt; <span class="php-var">$this</span>-&gt;transaction-&gt;retrieveOperationType()
-</span><span id="251" class="l"><a href="#251">251 </a>            ]))
-</span><span id="252" class="l"><a href="#252">252 </a>        );
-</span><span id="253" class="l"><a href="#253">253 </a>
-</span><span id="254" class="l"><a href="#254">254 </a>        <span class="php-var">$response</span>-&gt;setFormFields(<span class="php-var">$fields</span>);
-</span><span id="255" class="l"><a href="#255">255 </a>
-</span><span id="256" class="l"><a href="#256">256 </a>        <span class="php-keyword1">return</span> <span class="php-var">$response</span>;
-</span><span id="257" class="l"><a href="#257">257 </a>    }
+</span><span id="227" class="l"><a href="#227">227 </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword1">isset</span>(<span class="php-var">$this</span>-&gt;simpleXml-&gt;{<span class="php-quote">'three-d'</span>})) {
+</span><span id="228" class="l"><a href="#228">228 </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> MalformedResponseException(<span class="php-quote">'Missing three-d element in enrollment-check response.'</span>);
+</span><span id="229" class="l"><a href="#229">229 </a>        }
+</span><span id="230" class="l"><a href="#230">230 </a>
+</span><span id="231" class="l"><a href="#231">231 </a>        <span class="php-var">$threeD</span> = <span class="php-var">$this</span>-&gt;simpleXml-&gt;{<span class="php-quote">'three-d'</span>};
+</span><span id="232" class="l"><a href="#232">232 </a>
+</span><span id="233" class="l"><a href="#233">233 </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword1">isset</span>(<span class="php-var">$threeD</span>-&gt;{<span class="php-quote">'acs-url'</span>})) {
+</span><span id="234" class="l"><a href="#234">234 </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> MalformedResponseException(<span class="php-quote">'Missing acs redirect url in enrollment-check response.'</span>);
+</span><span id="235" class="l"><a href="#235">235 </a>        }
+</span><span id="236" class="l"><a href="#236">236 </a>
+</span><span id="237" class="l"><a href="#237">237 </a>        <span class="php-var">$redirectUrl</span> = (string)<span class="php-var">$threeD</span>-&gt;{<span class="php-quote">'acs-url'</span>};
+</span><span id="238" class="l"><a href="#238">238 </a>
+</span><span id="239" class="l"><a href="#239">239 </a>        <span class="php-var">$response</span> = <span class="php-keyword1">new</span> FormInteractionResponse(<span class="php-var">$this</span>-&gt;simpleXml, <span class="php-var">$redirectUrl</span>);
+</span><span id="240" class="l"><a href="#240">240 </a>
+</span><span id="241" class="l"><a href="#241">241 </a>        <span class="php-var">$fields</span> = <span class="php-keyword1">new</span> FormFieldMap();
+</span><span id="242" class="l"><a href="#242">242 </a>        <span class="php-var">$fields</span>-&gt;add(<span class="php-quote">'TermUrl'</span>, <span class="php-var">$this</span>-&gt;transaction-&gt;getTermUrl());
+</span><span id="243" class="l"><a href="#243">243 </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword1">isset</span>(<span class="php-var">$threeD</span>-&gt;{<span class="php-quote">'pareq'</span>})) {
+</span><span id="244" class="l"><a href="#244">244 </a>            <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> MalformedResponseException(<span class="php-quote">'Missing pareq in enrollment-check response.'</span>);
+</span><span id="245" class="l"><a href="#245">245 </a>        }
+</span><span id="246" class="l"><a href="#246">246 </a>
+</span><span id="247" class="l"><a href="#247">247 </a>        <span class="php-var">$fields</span>-&gt;add(<span class="php-quote">'PaReq'</span>, (string)<span class="php-var">$threeD</span>-&gt;{<span class="php-quote">'pareq'</span>});
+</span><span id="248" class="l"><a href="#248">248 </a>
+</span><span id="249" class="l"><a href="#249">249 </a>        <span class="php-var">$fields</span>-&gt;add(
+</span><span id="250" class="l"><a href="#250">250 </a>            <span class="php-quote">'MD'</span>,
+</span><span id="251" class="l"><a href="#251">251 </a>            <span class="php-keyword2">base64_encode</span>(<span class="php-keyword2">json_encode</span>([
+</span><span id="252" class="l"><a href="#252">252 </a>                <span class="php-quote">'enrollment-check-transaction-id'</span> =&gt; <span class="php-var">$response</span>-&gt;getTransactionId(),
+</span><span id="253" class="l"><a href="#253">253 </a>                <span class="php-quote">'operation-type'</span> =&gt; <span class="php-var">$this</span>-&gt;transaction-&gt;retrieveOperationType()
+</span><span id="254" class="l"><a href="#254">254 </a>            ]))
+</span><span id="255" class="l"><a href="#255">255 </a>        );
+</span><span id="256" class="l"><a href="#256">256 </a>
+</span><span id="257" class="l"><a href="#257">257 </a>        <span class="php-var">$response</span>-&gt;setFormFields(<span class="php-var">$fields</span>);
 </span><span id="258" class="l"><a href="#258">258 </a>
-</span><span id="259" class="l"><a href="#259">259 </a>    <span class="php-comment">/**
-</span></span><span id="260" class="l"><a href="#260">260 </a><span class="php-comment">     * @throws MalformedResponseException
-</span></span><span id="261" class="l"><a href="#261">261 </a><span class="php-comment">     * @return FormInteractionResponse
-</span></span><span id="262" class="l"><a href="#262">262 </a><span class="php-comment">     */</span>
-</span><span id="263" class="l"><a href="#263">263 </a>    <span class="php-keyword1">private</span> <span class="php-keyword1">function</span> redirectToSuccessUrlWithPayload()
-</span><span id="264" class="l"><a href="#264">264 </a>    {
-</span><span id="265" class="l"><a href="#265">265 </a>        <span class="php-var">$payload</span> = <span class="php-keyword2">base64_encode</span>(<span class="php-var">$this</span>-&gt;simpleXml-&gt;asXML());
-</span><span id="266" class="l"><a href="#266">266 </a>
-</span><span id="267" class="l"><a href="#267">267 </a>        <span class="php-var">$formFields</span> = <span class="php-keyword1">new</span> FormFieldMap();
-</span><span id="268" class="l"><a href="#268">268 </a>        <span class="php-var">$formFields</span>-&gt;add(<span class="php-quote">'sync_response'</span>, <span class="php-var">$payload</span>);
+</span><span id="259" class="l"><a href="#259">259 </a>        <span class="php-keyword1">return</span> <span class="php-var">$response</span>;
+</span><span id="260" class="l"><a href="#260">260 </a>    }
+</span><span id="261" class="l"><a href="#261">261 </a>
+</span><span id="262" class="l"><a href="#262">262 </a>    <span class="php-comment">/**
+</span></span><span id="263" class="l"><a href="#263">263 </a><span class="php-comment">     * @throws MalformedResponseException
+</span></span><span id="264" class="l"><a href="#264">264 </a><span class="php-comment">     * @return FormInteractionResponse
+</span></span><span id="265" class="l"><a href="#265">265 </a><span class="php-comment">     */</span>
+</span><span id="266" class="l"><a href="#266">266 </a>    <span class="php-keyword1">private</span> <span class="php-keyword1">function</span> redirectToSuccessUrlWithPayload()
+</span><span id="267" class="l"><a href="#267">267 </a>    {
+</span><span id="268" class="l"><a href="#268">268 </a>        <span class="php-var">$payload</span> = <span class="php-keyword2">base64_encode</span>(<span class="php-var">$this</span>-&gt;simpleXml-&gt;asXML());
 </span><span id="269" class="l"><a href="#269">269 </a>
-</span><span id="270" class="l"><a href="#270">270 </a>        <span class="php-var">$response</span> = <span class="php-keyword1">new</span> FormInteractionResponse(<span class="php-var">$this</span>-&gt;simpleXml, <span class="php-var">$this</span>-&gt;transaction-&gt;getSuccessUrl());
-</span><span id="271" class="l"><a href="#271">271 </a>        <span class="php-var">$response</span>-&gt;setFormFields(<span class="php-var">$formFields</span>);
+</span><span id="270" class="l"><a href="#270">270 </a>        <span class="php-var">$formFields</span> = <span class="php-keyword1">new</span> FormFieldMap();
+</span><span id="271" class="l"><a href="#271">271 </a>        <span class="php-var">$formFields</span>-&gt;add(<span class="php-quote">'sync_response'</span>, <span class="php-var">$payload</span>);
 </span><span id="272" class="l"><a href="#272">272 </a>
-</span><span id="273" class="l"><a href="#273">273 </a>        <span class="php-keyword1">return</span> <span class="php-var">$response</span>;
-</span><span id="274" class="l"><a href="#274">274 </a>    }
+</span><span id="273" class="l"><a href="#273">273 </a>        <span class="php-var">$response</span> = <span class="php-keyword1">new</span> FormInteractionResponse(<span class="php-var">$this</span>-&gt;simpleXml, <span class="php-var">$this</span>-&gt;transaction-&gt;getSuccessUrl());
+</span><span id="274" class="l"><a href="#274">274 </a>        <span class="php-var">$response</span>-&gt;setFormFields(<span class="php-var">$formFields</span>);
 </span><span id="275" class="l"><a href="#275">275 </a>
-</span><span id="276" class="l"><a href="#276">276 </a>    <span class="php-comment">/**
-</span></span><span id="277" class="l"><a href="#277">277 </a><span class="php-comment">     * @throws \InvalidArgumentException
-</span></span><span id="278" class="l"><a href="#278">278 </a><span class="php-comment">     * @throws MalformedResponseException
-</span></span><span id="279" class="l"><a href="#279">279 </a><span class="php-comment">     * @return FormInteractionResponse|InteractionResponse|SuccessResponse
-</span></span><span id="280" class="l"><a href="#280">280 </a><span class="php-comment">     */</span>
-</span><span id="281" class="l"><a href="#281">281 </a>    <span class="php-keyword1">private</span> <span class="php-keyword1">function</span> mapSuccessResponse()
-</span><span id="282" class="l"><a href="#282">282 </a>    {
-</span><span id="283" class="l"><a href="#283">283 </a>        <span class="php-keyword1">if</span> ((string)<span class="php-var">$this</span>-&gt;simpleXml-&gt;{<span class="php-quote">'transaction-type'</span>} === CreditCardTransaction::TYPE_CHECK_ENROLLMENT) {
-</span><span id="284" class="l"><a href="#284">284 </a>            <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;mapThreeDResponse();
-</span><span id="285" class="l"><a href="#285">285 </a>        }
-</span><span id="286" class="l"><a href="#286">286 </a>
-</span><span id="287" class="l"><a href="#287">287 </a>        <span class="php-var">$paymentMethod</span> = <span class="php-var">$this</span>-&gt;getPaymentMethod();
-</span><span id="288" class="l"><a href="#288">288 </a>
-</span><span id="289" class="l"><a href="#289">289 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$paymentMethod</span>[<span class="php-quote">'url'</span>])) {
-</span><span id="290" class="l"><a href="#290">290 </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">new</span> InteractionResponse(<span class="php-var">$this</span>-&gt;simpleXml, (string)<span class="php-var">$paymentMethod</span>[<span class="php-quote">'url'</span>]);
-</span><span id="291" class="l"><a href="#291">291 </a>        }
-</span><span id="292" class="l"><a href="#292">292 </a>
-</span><span id="293" class="l"><a href="#293">293 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">null</span> !== <span class="php-var">$this</span>-&gt;transaction &amp;&amp; <span class="php-keyword1">null</span> !== <span class="php-var">$this</span>-&gt;transaction-&gt;getSuccessUrl()) {
-</span><span id="294" class="l"><a href="#294">294 </a>            <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;redirectToSuccessUrlWithPayload();
-</span><span id="295" class="l"><a href="#295">295 </a>        }
-</span><span id="296" class="l"><a href="#296">296 </a>
-</span><span id="297" class="l"><a href="#297">297 </a>        <span class="php-keyword1">return</span> <span class="php-keyword1">new</span> SuccessResponse(<span class="php-var">$this</span>-&gt;simpleXml);
-</span><span id="298" class="l"><a href="#298">298 </a>    }
-</span><span id="299" class="l"><a href="#299">299 </a>}
-</span><span id="300" class="l"><a href="#300">300 </a></span></code></pre>
+</span><span id="276" class="l"><a href="#276">276 </a>        <span class="php-keyword1">return</span> <span class="php-var">$response</span>;
+</span><span id="277" class="l"><a href="#277">277 </a>    }
+</span><span id="278" class="l"><a href="#278">278 </a>
+</span><span id="279" class="l"><a href="#279">279 </a>    <span class="php-comment">/**
+</span></span><span id="280" class="l"><a href="#280">280 </a><span class="php-comment">     * @throws \InvalidArgumentException
+</span></span><span id="281" class="l"><a href="#281">281 </a><span class="php-comment">     * @throws MalformedResponseException
+</span></span><span id="282" class="l"><a href="#282">282 </a><span class="php-comment">     * @return FormInteractionResponse|InteractionResponse|SuccessResponse
+</span></span><span id="283" class="l"><a href="#283">283 </a><span class="php-comment">     */</span>
+</span><span id="284" class="l"><a href="#284">284 </a>    <span class="php-keyword1">private</span> <span class="php-keyword1">function</span> mapSuccessResponse()
+</span><span id="285" class="l"><a href="#285">285 </a>    {
+</span><span id="286" class="l"><a href="#286">286 </a>        <span class="php-keyword1">if</span> ((string)<span class="php-var">$this</span>-&gt;simpleXml-&gt;{<span class="php-quote">'transaction-type'</span>} === CreditCardTransaction::TYPE_CHECK_ENROLLMENT) {
+</span><span id="287" class="l"><a href="#287">287 </a>            <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;mapThreeDResponse();
+</span><span id="288" class="l"><a href="#288">288 </a>        }
+</span><span id="289" class="l"><a href="#289">289 </a>
+</span><span id="290" class="l"><a href="#290">290 </a>        <span class="php-var">$paymentMethod</span> = <span class="php-var">$this</span>-&gt;getPaymentMethod();
+</span><span id="291" class="l"><a href="#291">291 </a>
+</span><span id="292" class="l"><a href="#292">292 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">isset</span>(<span class="php-var">$paymentMethod</span>[<span class="php-quote">'url'</span>])) {
+</span><span id="293" class="l"><a href="#293">293 </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">new</span> InteractionResponse(<span class="php-var">$this</span>-&gt;simpleXml, (string)<span class="php-var">$paymentMethod</span>[<span class="php-quote">'url'</span>]);
+</span><span id="294" class="l"><a href="#294">294 </a>        }
+</span><span id="295" class="l"><a href="#295">295 </a>
+</span><span id="296" class="l"><a href="#296">296 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">null</span> !== <span class="php-var">$this</span>-&gt;transaction &amp;&amp; <span class="php-keyword1">null</span> !== <span class="php-var">$this</span>-&gt;transaction-&gt;getSuccessUrl()) {
+</span><span id="297" class="l"><a href="#297">297 </a>            <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;redirectToSuccessUrlWithPayload();
+</span><span id="298" class="l"><a href="#298">298 </a>        }
+</span><span id="299" class="l"><a href="#299">299 </a>
+</span><span id="300" class="l"><a href="#300">300 </a>        <span class="php-keyword1">return</span> <span class="php-keyword1">new</span> SuccessResponse(<span class="php-var">$this</span>-&gt;simpleXml);
+</span><span id="301" class="l"><a href="#301">301 </a>    }
+</span><span id="302" class="l"><a href="#302">302 </a>
+</span><span id="303" class="l"><a href="#303">303 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> mapSeamlessResponse(<span class="php-var">$payload</span>, <span class="php-var">$url</span>)
+</span><span id="304" class="l"><a href="#304">304 </a>    {
+</span><span id="305" class="l"><a href="#305">305 </a>        <span class="php-var">$this</span>-&gt;simpleXml = <span class="php-keyword1">new</span> SimpleXMLElement(<span class="php-quote">'&lt;payment&gt;&lt;/payment&gt;'</span>);
+</span><span id="306" class="l"><a href="#306">306 </a>
+</span><span id="307" class="l"><a href="#307">307 </a>        <span class="php-var">$this</span>-&gt;simpleXml-&gt;addChild(<span class="php-quote">&quot;merchant-account-id&quot;</span>, <span class="php-var">$payload</span>[<span class="php-quote">'merchant_account_id'</span>]);
+</span><span id="308" class="l"><a href="#308">308 </a>        <span class="php-var">$this</span>-&gt;simpleXml-&gt;addChild(<span class="php-quote">&quot;transaction-id&quot;</span>, <span class="php-var">$payload</span>[<span class="php-quote">'transaction_id'</span>]);
+</span><span id="309" class="l"><a href="#309">309 </a>        <span class="php-var">$this</span>-&gt;simpleXml-&gt;addChild(<span class="php-quote">&quot;transaction-state&quot;</span>, <span class="php-var">$payload</span>[<span class="php-quote">'transaction_state'</span>]);
+</span><span id="310" class="l"><a href="#310">310 </a>        <span class="php-var">$this</span>-&gt;simpleXml-&gt;addChild(<span class="php-quote">&quot;transaction-type&quot;</span>, <span class="php-var">$payload</span>[<span class="php-quote">'transaction_type'</span>]);
+</span><span id="311" class="l"><a href="#311">311 </a>        <span class="php-var">$this</span>-&gt;simpleXml-&gt;addChild(<span class="php-quote">&quot;payment-method&quot;</span>, <span class="php-var">$payload</span>[<span class="php-quote">'payment_method'</span>]);
+</span><span id="312" class="l"><a href="#312">312 </a>        <span class="php-var">$this</span>-&gt;simpleXml-&gt;addChild(<span class="php-quote">&quot;request-id&quot;</span>, <span class="php-var">$payload</span>[<span class="php-quote">'request_id'</span>]);
+</span><span id="313" class="l"><a href="#313">313 </a>
+</span><span id="314" class="l"><a href="#314">314 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword2">array_key_exists</span>(<span class="php-quote">'acs_url'</span>, <span class="php-var">$payload</span>) &amp;&amp; <span class="php-keyword2">array_key_exists</span>(<span class="php-quote">'pareq'</span>, <span class="php-var">$payload</span>)) {
+</span><span id="315" class="l"><a href="#315">315 </a>            <span class="php-var">$threeD</span> = <span class="php-keyword1">new</span> SimpleXMLElement(<span class="php-quote">'&lt;three-d&gt;&lt;/three-d&gt;'</span>);
+</span><span id="316" class="l"><a href="#316">316 </a>            <span class="php-var">$threeD</span>-&gt;addChild(<span class="php-quote">'acs-url'</span>, <span class="php-var">$payload</span>[<span class="php-quote">'acs_url'</span>]);
+</span><span id="317" class="l"><a href="#317">317 </a>            <span class="php-var">$threeD</span>-&gt;addChild(<span class="php-quote">'pareq'</span>, <span class="php-var">$payload</span>[<span class="php-quote">'pareq'</span>]);
+</span><span id="318" class="l"><a href="#318">318 </a>            <span class="php-var">$threeD</span>-&gt;addChild(<span class="php-quote">'cardholder-authentication-status'</span>, <span class="php-var">$payload</span>[<span class="php-quote">'cardholder_authentication_status'</span>]);
+</span><span id="319" class="l"><a href="#319">319 </a>            <span class="php-var">$this</span>-&gt;simpleXmlAppendNode(<span class="php-var">$this</span>-&gt;simpleXml, <span class="php-var">$threeD</span>);
+</span><span id="320" class="l"><a href="#320">320 </a>        }
+</span><span id="321" class="l"><a href="#321">321 </a>
+</span><span id="322" class="l"><a href="#322">322 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword2">array_key_exists</span>(<span class="php-quote">'parent_transaction_id'</span>, <span class="php-var">$payload</span>)) {
+</span><span id="323" class="l"><a href="#323">323 </a>            <span class="php-var">$this</span>-&gt;simpleXml-&gt;addChild(<span class="php-quote">'parent-transaction-id'</span>, <span class="php-var">$payload</span>[<span class="php-quote">'parent_transaction_id'</span>]);
+</span><span id="324" class="l"><a href="#324">324 </a>        }
+</span><span id="325" class="l"><a href="#325">325 </a>
+</span><span id="326" class="l"><a href="#326">326 </a>        <span class="php-comment">// parse statuses</span>
+</span><span id="327" class="l"><a href="#327">327 </a>        <span class="php-var">$statuses</span> = [];
+</span><span id="328" class="l"><a href="#328">328 </a>
+</span><span id="329" class="l"><a href="#329">329 </a>        <span class="php-keyword1">foreach</span> (<span class="php-var">$payload</span> <span class="php-keyword1">as</span> <span class="php-var">$key</span> =&gt; <span class="php-var">$value</span>) {
+</span><span id="330" class="l"><a href="#330">330 </a>            <span class="php-keyword1">if</span> (<span class="php-keyword2">strpos</span>(<span class="php-var">$key</span>, <span class="php-quote">'status_'</span>) === <span class="php-num">0</span>) {
+</span><span id="331" class="l"><a href="#331">331 </a>                <span class="php-keyword1">if</span> (<span class="php-keyword2">strpos</span>(<span class="php-var">$key</span>, <span class="php-quote">'status_code_'</span>) === <span class="php-num">0</span>) {
+</span><span id="332" class="l"><a href="#332">332 </a>                    <span class="php-var">$number</span> = <span class="php-keyword2">str_replace</span>(<span class="php-quote">'status_code_'</span>, <span class="php-quote">''</span>, <span class="php-var">$key</span>);
+</span><span id="333" class="l"><a href="#333">333 </a>                    <span class="php-var">$statuses</span>[<span class="php-var">$number</span>][<span class="php-quote">'code'</span>] = <span class="php-var">$value</span>;
+</span><span id="334" class="l"><a href="#334">334 </a>                }
+</span><span id="335" class="l"><a href="#335">335 </a>                <span class="php-keyword1">if</span> (<span class="php-keyword2">strpos</span>(<span class="php-var">$key</span>, <span class="php-quote">'status_severity_'</span>) === <span class="php-num">0</span>) {
+</span><span id="336" class="l"><a href="#336">336 </a>                    <span class="php-var">$number</span> = <span class="php-keyword2">str_replace</span>(<span class="php-quote">'status_severity_'</span>, <span class="php-quote">''</span>, <span class="php-var">$key</span>);
+</span><span id="337" class="l"><a href="#337">337 </a>                    <span class="php-var">$statuses</span>[<span class="php-var">$number</span>][<span class="php-quote">'severity'</span>] = <span class="php-var">$value</span>;
+</span><span id="338" class="l"><a href="#338">338 </a>                }
+</span><span id="339" class="l"><a href="#339">339 </a>                <span class="php-keyword1">if</span> (<span class="php-keyword2">strpos</span>(<span class="php-var">$key</span>, <span class="php-quote">'status_description_'</span>) === <span class="php-num">0</span>) {
+</span><span id="340" class="l"><a href="#340">340 </a>                    <span class="php-var">$number</span> = <span class="php-keyword2">str_replace</span>(<span class="php-quote">'status_description_'</span>, <span class="php-quote">''</span>, <span class="php-var">$key</span>);
+</span><span id="341" class="l"><a href="#341">341 </a>                    <span class="php-var">$statuses</span>[<span class="php-var">$number</span>][<span class="php-quote">'description'</span>] = <span class="php-var">$value</span>;
+</span><span id="342" class="l"><a href="#342">342 </a>                }
+</span><span id="343" class="l"><a href="#343">343 </a>            }
+</span><span id="344" class="l"><a href="#344">344 </a>        }
+</span><span id="345" class="l"><a href="#345">345 </a>
+</span><span id="346" class="l"><a href="#346">346 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword2">count</span>(<span class="php-var">$statuses</span>) &gt; <span class="php-num">0</span>) {
+</span><span id="347" class="l"><a href="#347">347 </a>            <span class="php-var">$statusesXml</span> = <span class="php-keyword1">new</span> SimpleXMLElement(<span class="php-quote">'&lt;statuses&gt;&lt;/statuses&gt;'</span>);
+</span><span id="348" class="l"><a href="#348">348 </a>
+</span><span id="349" class="l"><a href="#349">349 </a>            <span class="php-keyword1">foreach</span> (<span class="php-var">$statuses</span> <span class="php-keyword1">as</span> <span class="php-var">$status</span>) {
+</span><span id="350" class="l"><a href="#350">350 </a>                <span class="php-var">$statusXml</span> = <span class="php-keyword1">new</span> SimpleXMLElement(<span class="php-quote">'&lt;status&gt;&lt;/status&gt;'</span>);
+</span><span id="351" class="l"><a href="#351">351 </a>                <span class="php-var">$statusXml</span>-&gt;addAttribute(<span class="php-quote">'code'</span>, <span class="php-var">$status</span>[<span class="php-quote">'code'</span>]);
+</span><span id="352" class="l"><a href="#352">352 </a>                <span class="php-var">$statusXml</span>-&gt;addAttribute(<span class="php-quote">'description'</span>, <span class="php-var">$status</span>[<span class="php-quote">'description'</span>]);
+</span><span id="353" class="l"><a href="#353">353 </a>                <span class="php-var">$statusXml</span>-&gt;addAttribute(<span class="php-quote">'severity'</span>, <span class="php-var">$status</span>[<span class="php-quote">'severity'</span>]);
+</span><span id="354" class="l"><a href="#354">354 </a>                <span class="php-var">$this</span>-&gt;simpleXmlAppendNode(<span class="php-var">$statusesXml</span>, <span class="php-var">$statusXml</span>);
+</span><span id="355" class="l"><a href="#355">355 </a>            }
+</span><span id="356" class="l"><a href="#356">356 </a>            <span class="php-var">$this</span>-&gt;simpleXmlAppendNode(<span class="php-var">$this</span>-&gt;simpleXml, <span class="php-var">$statusesXml</span>);
+</span><span id="357" class="l"><a href="#357">357 </a>        }
+</span><span id="358" class="l"><a href="#358">358 </a>
+</span><span id="359" class="l"><a href="#359">359 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword2">array_key_exists</span>(<span class="php-quote">'acs_url'</span>, <span class="php-var">$payload</span>)) {
+</span><span id="360" class="l"><a href="#360">360 </a>            <span class="php-var">$response</span> = <span class="php-keyword1">new</span> FormInteractionResponse(<span class="php-var">$this</span>-&gt;simpleXml, <span class="php-var">$payload</span>[<span class="php-quote">'acs_url'</span>]);
+</span><span id="361" class="l"><a href="#361">361 </a>
+</span><span id="362" class="l"><a href="#362">362 </a>            <span class="php-var">$fields</span> = <span class="php-keyword1">new</span> FormFieldMap();
+</span><span id="363" class="l"><a href="#363">363 </a>            <span class="php-var">$fields</span>-&gt;add(<span class="php-quote">'TermUrl'</span>, <span class="php-var">$url</span>);
+</span><span id="364" class="l"><a href="#364">364 </a>            <span class="php-var">$fields</span>-&gt;add(<span class="php-quote">'PaReq'</span>, (string)<span class="php-var">$payload</span>[<span class="php-quote">'pareq'</span>]);
+</span><span id="365" class="l"><a href="#365">365 </a>
+</span><span id="366" class="l"><a href="#366">366 </a>            <span class="php-var">$fields</span>-&gt;add(
+</span><span id="367" class="l"><a href="#367">367 </a>                <span class="php-quote">'MD'</span>,
+</span><span id="368" class="l"><a href="#368">368 </a>                <span class="php-keyword2">base64_encode</span>(<span class="php-keyword2">json_encode</span>([
+</span><span id="369" class="l"><a href="#369">369 </a>                    <span class="php-quote">'enrollment-check-transaction-id'</span> =&gt; <span class="php-var">$response</span>-&gt;getTransactionId(),
+</span><span id="370" class="l"><a href="#370">370 </a>                    <span class="php-quote">'operation-type'</span> =&gt; <span class="php-quote">'authorization'</span>
+</span><span id="371" class="l"><a href="#371">371 </a>                ]))
+</span><span id="372" class="l"><a href="#372">372 </a>            );
+</span><span id="373" class="l"><a href="#373">373 </a>
+</span><span id="374" class="l"><a href="#374">374 </a>            <span class="php-var">$response</span>-&gt;setFormFields(<span class="php-var">$fields</span>);
+</span><span id="375" class="l"><a href="#375">375 </a>
+</span><span id="376" class="l"><a href="#376">376 </a>            <span class="php-keyword1">return</span> <span class="php-var">$response</span>;
+</span><span id="377" class="l"><a href="#377">377 </a>        } <span class="php-keyword1">else</span> {
+</span><span id="378" class="l"><a href="#378">378 </a>            <span class="php-keyword1">if</span> (<span class="php-var">$payload</span>[<span class="php-quote">'transaction_state'</span>] == <span class="php-quote">'success'</span>) {
+</span><span id="379" class="l"><a href="#379">379 </a>                <span class="php-keyword1">return</span> <span class="php-keyword1">new</span> SuccessResponse(<span class="php-var">$this</span>-&gt;simpleXml);
+</span><span id="380" class="l"><a href="#380">380 </a>            } <span class="php-keyword1">else</span> {
+</span><span id="381" class="l"><a href="#381">381 </a>                <span class="php-keyword1">return</span> <span class="php-keyword1">new</span> FailureResponse(<span class="php-var">$this</span>-&gt;simpleXml);
+</span><span id="382" class="l"><a href="#382">382 </a>            }
+</span><span id="383" class="l"><a href="#383">383 </a>        }
+</span><span id="384" class="l"><a href="#384">384 </a>    }
+</span><span id="385" class="l"><a href="#385">385 </a>
+</span><span id="386" class="l"><a href="#386">386 </a>    <span class="php-keyword1">private</span> <span class="php-keyword1">function</span> simpleXmlAppendNode(SimpleXMLElement <span class="php-var">$to</span>, SimpleXMLElement <span class="php-var">$from</span>)
+</span><span id="387" class="l"><a href="#387">387 </a>    {
+</span><span id="388" class="l"><a href="#388">388 </a>        <span class="php-var">$toDom</span> = <span class="php-keyword2">dom_import_simplexml</span>(<span class="php-var">$to</span>);
+</span><span id="389" class="l"><a href="#389">389 </a>        <span class="php-var">$fromDom</span> = <span class="php-keyword2">dom_import_simplexml</span>(<span class="php-var">$from</span>);
+</span><span id="390" class="l"><a href="#390">390 </a>        <span class="php-var">$toDom</span>-&gt;appendChild(<span class="php-var">$toDom</span>-&gt;ownerDocument-&gt;importNode(<span class="php-var">$fromDom</span>, <span class="php-keyword1">true</span>));
+</span><span id="391" class="l"><a href="#391">391 </a>    }
+</span><span id="392" class="l"><a href="#392">392 </a>}
+</span><span id="393" class="l"><a href="#393">393 </a></span></code></pre>
 	</div>
 
 	<div id="footer">
