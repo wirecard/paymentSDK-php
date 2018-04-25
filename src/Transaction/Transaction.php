@@ -272,8 +272,7 @@ abstract class Transaction extends Risk
         $specificProperties = $this->mappedSpecificProperties();
 
         if (
-            (
-                Transaction::TYPE_CHECK_ENROLLMENT == $this->retrieveTransactionType()
+            (Transaction::TYPE_CHECK_ENROLLMENT == $this->retrieveTransactionType()
                 || Transaction::TYPE_AUTHORIZATION == $this->retrieveTransactionType()
                 || Transaction::TYPE_PURCHASE == $this->retrieveTransactionType()
             )
