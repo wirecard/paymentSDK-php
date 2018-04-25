@@ -33,6 +33,7 @@ namespace WirecardTest\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Entity\Card;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\Transaction;
@@ -538,6 +539,13 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
             ],
             'locale' => 'de',
             'entry-mode' => 'telephone',
+            'card' => [
+                'account-number' => 'account number',
+                'card-security-code' => 'card security code',
+                'card-type' => 'card type',
+                'expiration-month' => 'expiration month',
+                'expiration-year' => 'expiration year'
+            ]
         ];
 
         if (in_array($expectedType, array('check-enrollment', 'purchase', 'authorization'))) {
@@ -557,6 +565,16 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
         $transaction->setOperation($operation);
         $transaction->setEntryMode('telephone');
         $transaction->setLocale('de');
+
+        $card = new Card();
+        $card->setExpirationMonth('expiration month');
+        $card->setExpirationYear('expiration year');
+        $card->setPan('account number');
+        $card->setSecurityCode('card security code');
+        $card->setType('card type');
+
+        $transaction->setCard($card);
+
         $result = $transaction->mappedProperties();
         $this->assertEquals($expectedResult, $result);
     }

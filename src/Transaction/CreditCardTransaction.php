@@ -33,6 +33,7 @@
 namespace Wirecard\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Config\CreditCardConfig;
+use Wirecard\PaymentSdk\Entity\Card;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
@@ -69,6 +70,24 @@ class CreditCardTransaction extends Transaction implements Reservable
      * @var boolean
      */
     private $threeD;
+
+    /**
+     * @var Card $card
+     */
+    private $card;
+
+
+    /**
+     * @param Card $card
+     * @return $this
+     *
+     * @since 2.1.1
+     */
+    public function setCard(Card $card)
+    {
+        $this->card = $card;
+        return $this;
+    }
 
     /**
      * @param CreditCardConfig $config
@@ -169,6 +188,10 @@ class CreditCardTransaction extends Transaction implements Reservable
             $result['three-d'] = [
                 'pares' => $this->paRes,
             ];
+        }
+
+        if (null !== $this->card) {
+            $result['card'] = $this->card->mappedProperties();
         }
 
         return $result;
