@@ -31,7 +31,6 @@
 
 namespace WirecardTest\PaymentSdk\Entity;
 
-
 use Wirecard\PaymentSdk\Entity\Card;
 
 class CardUTest extends \PHPUnit_Framework_TestCase
@@ -64,5 +63,4 @@ class CardUTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expectedResult, $this->card->mappedProperties());
     }
-
 }

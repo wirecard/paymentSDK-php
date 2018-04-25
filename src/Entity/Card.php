@@ -31,7 +31,6 @@
 
 namespace Wirecard\PaymentSdk\Entity;
 
-
 class Card implements MappableEntity
 {
     private $accountNumber;
