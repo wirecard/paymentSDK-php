@@ -144,7 +144,7 @@ class TransactionUTest extends \PHPUnit_Framework_TestCase
     public function testRetrieveTransactionTypeCallsFunctions($operation, $method, $transactionType)
     {
         $txMock = $this->getMockWithoutRetrieveMethod($method, $transactionType);
-        $txMock->expects($this->once())->method($method);
+        $txMock->expects($this->atLeastOnce())->method($method);
         /**
          * @var Transaction $tx
          */
