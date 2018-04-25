@@ -109,6 +109,7 @@ class UpiTransactionUTest extends \PHPUnit_Framework_TestCase
             'ip-address' => 'test IP',
             'entry-mode' => 'ecommerce',
             'locale' => 'de',
+            'periodic' => ['periodic-type' => 'recurring']
         ];
 
         $transaction = new UpiTransaction();
