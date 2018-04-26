@@ -147,7 +147,7 @@ $transactionService = new TransactionService($config);
     function submit(event) {
 
         // We check if the response fields are already set.
-        if ($("input[name='jsresponse']").length ) {
+        if ($("input#jsresponse]").length ) {
             console.log('Sending the following request to your server..');
             console.log($(event.target).serialize());
         } else {

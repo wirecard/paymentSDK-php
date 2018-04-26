@@ -255,7 +255,7 @@ class TransactionService
         $requestData = array(
             'request_time_stamp' => gmdate('YmdHis'),
             self::REQUEST_ID => call_user_func($this->requestIdGenerator, 64),
-            'transaction_type' => 0 == $amount ? 'authorization-only' : $paymentAction,
+            'transaction_type' => 0 == $amount ? 'tokenize' : $paymentAction,
             'merchant_account_id' => $isThreeD
                 ? $creditCardConfig->getThreeDMerchantAccountId()
                 : $creditCardConfig->getMerchantAccountId(),
