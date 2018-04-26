@@ -99,6 +99,7 @@
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Amount.html">Wirecard\PaymentSdk\Entity\Amount</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.BankAccount.html">Wirecard\PaymentSdk\Entity\BankAccount</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Basket.html">Wirecard\PaymentSdk\Entity\Basket</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.Card.html">Wirecard\PaymentSdk\Entity\Card</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.CustomField.html">Wirecard\PaymentSdk\Entity\CustomField</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.CustomFieldCollection.html">Wirecard\PaymentSdk\Entity\CustomFieldCollection</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Device.html">Wirecard\PaymentSdk\Entity\Device</a></li>
@@ -424,7 +425,7 @@
 </span><span id="255" class="l"><a href="#255">255 </a>        <span class="php-var">$requestData</span> = <span class="php-keyword1">array</span>(
 </span><span id="256" class="l"><a href="#256">256 </a>            <span class="php-quote">'request_time_stamp'</span> =&gt; <span class="php-keyword2">gmdate</span>(<span class="php-quote">'YmdHis'</span>),
 </span><span id="257" class="l"><a href="#257">257 </a>            self::REQUEST_ID =&gt; <span class="php-keyword2">call_user_func</span>(<span class="php-var">$this</span>-&gt;requestIdGenerator, <span class="php-num">64</span>),
-</span><span id="258" class="l"><a href="#258">258 </a>            <span class="php-quote">'transaction_type'</span> =&gt; <span class="php-num">0</span> == <span class="php-var">$amount</span> ? <span class="php-quote">'authorization-only'</span> : <span class="php-var">$paymentAction</span>,
+</span><span id="258" class="l"><a href="#258">258 </a>            <span class="php-quote">'transaction_type'</span> =&gt; <span class="php-num">0</span> == <span class="php-var">$amount</span> ? <span class="php-quote">'tokenize'</span> : <span class="php-var">$paymentAction</span>,
 </span><span id="259" class="l"><a href="#259">259 </a>            <span class="php-quote">'merchant_account_id'</span> =&gt; <span class="php-var">$isThreeD</span>
 </span><span id="260" class="l"><a href="#260">260 </a>                ? <span class="php-var">$creditCardConfig</span>-&gt;getThreeDMerchantAccountId()
 </span><span id="261" class="l"><a href="#261">261 </a>                : <span class="php-var">$creditCardConfig</span>-&gt;getMerchantAccountId(),
@@ -891,6 +892,6 @@
 	</div>
 </div>
 <script src="resources/combined.js?cfd636dbffd7235c2f8960621ad1ba069499eba1"></script>
-<script src="elementlist.js?2d080f9513cdc637c2bb17ad44795ea87970fc29"></script>
+<script src="elementlist.js?f4eb903ec4b6741ae36cb1b020731a7c9d3745ad"></script>
 </body>
 </html>
