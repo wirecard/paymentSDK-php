@@ -266,7 +266,8 @@ class TransactionService
         );
 
         if (strlen($notificationUrl)) {
-            $requestData['notification_url_1'] = $notificationUrl;
+            $requestData['notification_transaction_url'] = $notificationUrl;
+            $requestData['notifications_format'] = 'application/xml';
         }
 
         if ($isThreeD) {
