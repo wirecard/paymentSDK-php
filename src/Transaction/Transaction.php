@@ -54,6 +54,7 @@ abstract class Transaction extends Risk
     const TYPE_AUTHORIZATION_ONLY = 'authorization-only';
     const TYPE_REFERENCED_AUTHORIZATION = 'referenced-authorization';
     const TYPE_CAPTURE_AUTHORIZATION = 'capture-authorization';
+    const TYPE_CHECK_ENROLLMENT = 'check-enrollment';
     const TYPE_VOID_AUTHORIZATION = 'void-authorization';
     const TYPE_PENDING_CREDIT = 'pending-credit';
     const TYPE_CREDIT = 'credit';
@@ -268,7 +269,17 @@ abstract class Transaction extends Risk
 
         $result[self::PARAM_TRANSACTION_TYPE] = $this->retrieveTransactionType();
 
-        return array_merge($result, $this->mappedSpecificProperties());
+        $specificProperties = $this->mappedSpecificProperties();
+
+        if (in_array(
+            $this->retrieveTransactionType(),
+            [Transaction::TYPE_CHECK_ENROLLMENT, Transaction::TYPE_AUTHORIZATION, Transaction::TYPE_PURCHASE]
+        )
+            && array_key_exists('card-token', $specificProperties)) {
+            $result['periodic']['periodic-type'] = 'recurring';
+        }
+
+        return array_merge($result, $specificProperties);
     }
 
     /**
