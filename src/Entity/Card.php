@@ -33,21 +33,9 @@ namespace Wirecard\PaymentSdk\Entity;
 
 class Card implements MappableEntity
 {
-    private $accountNumber;
     private $expirationMonth;
     private $expirationYear;
-    private $securityCode;
     private $type;
-
-    /**
-     * @param string $accountNumber
-     * @return Card
-     */
-    public function setAccountNumber($accountNumber)
-    {
-        $this->accountNumber = $accountNumber;
-        return $this;
-    }
 
     /**
      * @param mixed $expirationMonth
@@ -66,23 +54,6 @@ class Card implements MappableEntity
     }
 
     /**
-     * @param string $pan
-     * @return Card
-     */
-    public function setPan($pan)
-    {
-        return $this->setAccountNumber($pan);
-    }
-
-    /**
-     * @param mixed $securityCode
-     */
-    public function setSecurityCode($securityCode)
-    {
-        $this->securityCode = $securityCode;
-    }
-
-    /**
      * @param mixed $type
      */
     public function setType($type)
@@ -97,20 +68,12 @@ class Card implements MappableEntity
     {
         $card = [];
 
-        if (isset($this->accountNumber)) {
-            $card['account-number'] = $this->accountNumber;
-        }
-
         if (isset($this->expirationMonth)) {
             $card['expiration-month'] = $this->expirationMonth;
         }
 
         if (isset($this->expirationYear)) {
             $card['expiration-year'] = $this->expirationYear;
-        }
-
-        if (isset($this->securityCode)) {
-            $card['card-security-code'] = $this->securityCode;
         }
 
         if (isset($this->type)) {
