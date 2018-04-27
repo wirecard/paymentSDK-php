@@ -270,7 +270,7 @@ class TransactionService
         if (count($additionalFields) > 0) {
             $additionalFieldIterator = 1;
             foreach ($additionalFields as $key => $value) {
-                if ($additionalFieldIterator > 10){
+                if ($additionalFieldIterator > 10) {
                     throw new UnsupportedOperationException('Maximum allowed number of additional fields is 10.');
                 } else {
                     $requestData["field_name_$additionalFieldIterator"] = $key;
