@@ -540,8 +540,6 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
             'locale' => 'de',
             'entry-mode' => 'telephone',
             'card' => [
-                'account-number' => 'account number',
-                'card-security-code' => 'card security code',
                 'card-type' => 'card type',
                 'expiration-month' => 'expiration month',
                 'expiration-year' => 'expiration year'
@@ -569,8 +567,6 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
         $card = new Card();
         $card->setExpirationMonth('expiration month');
         $card->setExpirationYear('expiration year');
-        $card->setPan('account number');
-        $card->setSecurityCode('card security code');
         $card->setType('card type');
 
         $transaction->setCard($card);

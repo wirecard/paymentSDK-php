@@ -44,6 +44,7 @@ use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException;
+use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 use Wirecard\PaymentSdk\Mapper\RequestMapper;
 use Wirecard\PaymentSdk\Mapper\ResponseMapper;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -240,7 +241,8 @@ class TransactionService
         $language = 'en',
         Amount $amount = null,
         $notificationUrl = null,
-        $paymentAction = 'authorization'
+        $paymentAction = 'authorization',
+        array $additionalFields = []
     ) {
         $currency = null == $amount ? 'EUR' : $amount->getCurrency();
         $amount = null == $amount ? 0 : $amount->getValue();
@@ -264,6 +266,19 @@ class TransactionService
             'locale' => $language,
             'payment_method' => 'creditcard'
         );
+
+        if (count($additionalFields) > 0) {
+            $additionalFieldIterator = 1;
+            foreach ($additionalFields as $key => $value) {
+                if ($additionalFieldIterator > 10) {
+                    throw new UnsupportedOperationException('Maximum allowed number of additional fields is 10.');
+                } else {
+                    $requestData["field_name_$additionalFieldIterator"] = $key;
+                    $requestData["field_value_$additionalFieldIterator"] = $value;
+                }
+                $additionalFieldIterator++;
+            }
+        }
 
         if (strlen($notificationUrl)) {
             $requestData['notification_transaction_url'] = $notificationUrl;
@@ -328,18 +343,44 @@ class TransactionService
      * @throws UnconfiguredPaymentMethodException
      * @return string
      */
-    public function getDataForUpiUi($language = 'en')
-    {
+    public function getDataForUpiUi(
+        $language = 'en',
+        Amount $amount = null,
+        $notificationUrl = null,
+        $paymentAction = 'authorization',
+        array $additionalFields = []
+    ) {
+        $currency = null == $amount ? 'EUR' : $amount->getCurrency();
+        $amount = null == $amount ? 0 : $amount->getValue();
+
         $requestData = array(
             'request_time_stamp' => gmdate('YmdHis'),
             self::REQUEST_ID => call_user_func($this->requestIdGenerator, 64),
-            'transaction_type' => 'authorization-only',
+            'transaction_type' => 0 == $amount ? 'tokenize' : $paymentAction,
             'merchant_account_id' => $this->config->get(UpiTransaction::NAME)->getMerchantAccountId(),
-            'requested_amount' => 0,
-            'requested_amount_currency' => $this->config->getDefaultCurrency(),
+            'requested_amount' => $amount,
+            'requested_amount_currency' => $currency,
             'locale' => $language,
             'payment_method' => 'creditcard',
         );
+
+        if (strlen($notificationUrl)) {
+            $requestData['notification_transaction_url'] = $notificationUrl;
+            $requestData['notifications_format'] = 'application/xml';
+        }
+
+        if (count($additionalFields) > 0) {
+            $additionalFieldIterator = 1;
+            foreach ($additionalFields as $key => $value) {
+                if ($additionalFieldIterator > 10) {
+                    throw new UnsupportedOperationException('Maximum allowed number of additional fields is 10.');
+                } else {
+                    $requestData["field_name_$additionalFieldIterator"] = $key;
+                    $requestData["field_value_$additionalFieldIterator"] = $value;
+                }
+                $additionalFieldIterator++;
+            }
+        }
 
         $requestData['request_signature'] = hash(
             'sha256',
@@ -642,7 +683,7 @@ class TransactionService
      * @throws \RuntimeException
      * @return null|array
      */
-    private function getTransactionByTransactionId($transactionId, $paymentMethod)
+    public function getTransactionByTransactionId($transactionId, $paymentMethod)
     {
         $endpoint =
             $this->config->getBaseUrl() .

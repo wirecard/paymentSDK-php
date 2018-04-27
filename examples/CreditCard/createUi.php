@@ -126,9 +126,14 @@ $transactionService = new TransactionService($config);
     // This function will render the credit card UI in the specified div.
     WirecardPaymentPage.seamlessRenderForm({
 
+        <?php
+        // We can send additional fields if we need to. E.g. shopOrderId
+        $additionalData = ['shopOrderId' => 53];
+        ?>
+
         // We fill the _requestData_ with the return value
         // from the `getDataForCreditCardUi` method of the `transactionService`.
-        requestData: <?= $transactionService->getDataForCreditCardUi('en', new Amount(10, 'EUR'), getUrl('notify.php'), 'authorization'); ?>,
+        requestData: <?= $transactionService->getDataForCreditCardUi('en', new Amount(10, 'EUR'), getUrl('notify.php'), 'authorization', $additionalData); ?>,
         wrappingDivId: "creditcard-form-div",
         onSuccess: logCallback,
         onError: logCallback
@@ -147,7 +152,7 @@ $transactionService = new TransactionService($config);
     function submit(event) {
 
         // We check if the response fields are already set.
-        if ($("input#jsresponse]").length ) {
+        if ($("input#jsresponse").length ) {
             console.log('Sending the following request to your server..');
             console.log($(event.target).serialize());
         } else {

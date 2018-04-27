@@ -48,8 +48,6 @@ class CardUTest extends \PHPUnit_Framework_TestCase
     public function testMappingOnlyRequiredFields()
     {
         $expectedResult = [
-            'account-number' => 'account number',
-            'card-security-code' => 'card security code',
             'card-type' => 'card type',
             'expiration-month' => 'expiration month',
             'expiration-year' => 'expiration year'
@@ -57,8 +55,6 @@ class CardUTest extends \PHPUnit_Framework_TestCase
 
         $this->card->setExpirationMonth('expiration month');
         $this->card->setExpirationYear('expiration year');
-        $this->card->setPan('account number');
-        $this->card->setSecurityCode('card security code');
         $this->card->setType('card type');
 
         $this->assertEquals($expectedResult, $this->card->mappedProperties());
