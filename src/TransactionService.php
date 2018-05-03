@@ -595,12 +595,23 @@ class TransactionService
             if ($transaction instanceof CreditCardTransaction) {
                 $transaction->getThreeD() ? $transaction->setThreeD(true) : $transaction->setThreeD($this->isThreeD);
             }
-            if (null !== $parentTransaction && array_key_exists(Transaction::PARAM_PAYMENT, $parentTransaction)
-                && array_key_exists('transaction-type', $parentTransaction[Transaction::PARAM_PAYMENT])
-            ) {
-                $transaction->setParentTransactionType($parentTransaction[Transaction::PARAM_PAYMENT]
-                [Transaction::PARAM_TRANSACTION_TYPE]);
-            }
+
+			if (null !== $parentTransaction) {
+				if(array_key_exists(Transaction::PARAM_PAYMENT, $parentTransaction)
+					&& array_key_exists('order-id', $parentTransaction[Transaction::PARAM_PAYMENT])
+				) {
+					$transaction->setOrderId($parentTransaction[Transaction::PARAM_PAYMENT]['order-id']);
+				}
+
+				if (array_key_exists(Transaction::PARAM_PAYMENT, $parentTransaction)
+					&& array_key_exists('transaction-type', $parentTransaction[Transaction::PARAM_PAYMENT])
+				) {
+					$transaction->setParentTransactionType($parentTransaction[Transaction::PARAM_PAYMENT]
+					[Transaction::PARAM_TRANSACTION_TYPE]);
+				}
+			}
+
+
         }
 
         $requestBody = $this->requestMapper->map($transaction);
