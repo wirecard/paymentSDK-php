@@ -597,7 +597,7 @@ class TransactionService
             }
 
             if (null !== $parentTransaction) {
-                if(array_key_exists(Transaction::PARAM_PAYMENT, $parentTransaction)
+                if (array_key_exists(Transaction::PARAM_PAYMENT, $parentTransaction)
                     && array_key_exists('order-id', $parentTransaction[Transaction::PARAM_PAYMENT])
                 ) {
                     $transaction->setOrderId($parentTransaction[Transaction::PARAM_PAYMENT]['order-id']);
@@ -610,8 +610,7 @@ class TransactionService
                     [Transaction::PARAM_TRANSACTION_TYPE]);
                 }
             }
-
-
+            
         }
 
         $requestBody = $this->requestMapper->map($transaction);
