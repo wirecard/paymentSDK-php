@@ -610,7 +610,6 @@ class TransactionService
                     [Transaction::PARAM_TRANSACTION_TYPE]);
                 }
             }
-            
         }
 
         $requestBody = $this->requestMapper->map($transaction);
