@@ -119,10 +119,10 @@ abstract class Transaction extends Risk
      */
     protected $entryMode;
 
-	/**
-	 * @var string
-	 */
-	protected $orderId;
+    /**
+     * @var string
+     */
+    protected $orderId;
 
     /**
      * @param string $entryMode
@@ -162,13 +162,13 @@ abstract class Transaction extends Risk
         $this->amount = $amount;
     }
 
-	/**
-	 * @param string $orderId
-	 */
-	public function setOrderId($orderId)
-	{
-		$this->orderId = $orderId;
-	}
+    /**
+     * @param string $orderId
+     */
+    public function setOrderId($orderId)
+    {
+        $this->orderId = $orderId;
+    }
 
     /**
      * @return string
@@ -280,9 +280,9 @@ abstract class Transaction extends Risk
             $result['entry-mode'] = 'ecommerce';
         }
 
-		if (null !== $this->orderId) {
-			$result['order-id'] = $this->orderId;
-		}
+        if (null !== $this->orderId) {
+            $result['order-id'] = $this->orderId;
+        }
 
         $result[self::PARAM_TRANSACTION_TYPE] = $this->retrieveTransactionType();
 
