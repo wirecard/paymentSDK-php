@@ -69,6 +69,11 @@ class Item implements MappableEntity
     private $taxRate;
 
     /**
+     * @var Amount
+     */
+    private $taxAmount;
+
+    /**
      * @var int
      */
     private $quantity;
@@ -140,6 +145,16 @@ class Item implements MappableEntity
     }
 
     /**
+     * @param Amount $taxAmount
+     * @return $this
+     */
+    public function setTaxAmount($taxAmount)
+    {
+        $this->taxAmount = $taxAmount;
+        return $this;
+    }
+
+    /**
      * @param string $version
      * @return Item
      */
@@ -188,7 +203,9 @@ class Item implements MappableEntity
      */
     private function payPalMappedProperties($data)
     {
-        if (null !== $this->taxRate) {
+        if (null !== $this->taxAmount) {
+            $data['tax-amount'] = $this->taxAmount->mappedProperties();
+        } elseif (null !== $this->taxRate) {
             $taxAmountValue = number_format($this->price->getValue() * $this->quantity * ($this->taxRate / 100.0), 2);
             $taxAmount = new Amount($taxAmountValue, $this->price->getCurrency());
 
