@@ -31,35 +31,55 @@
 
 namespace Wirecard\PaymentSdk\Entity;
 
-class Card implements MappableEntity
+/**
+ * Class Periodic
+ * @package Wirecard\PaymentSdk\Entity
+ * @since 2.1.6
+ */
+class Periodic implements MappableEntity
 {
-    private $expirationMonth;
-    private $expirationYear;
-    private $type;
-    private $merchantTokenizationFlag;
+    /**
+     * @var string
+     */
+    private $periodicType;
 
     /**
-     * @param mixed $expirationMonth
+     * @var string
      */
-    public function setExpirationMonth($expirationMonth)
+    private $sequenceType;
+
+    public function __construct($periodicType = null, $sequenceType = null)
     {
-        $this->expirationMonth = $expirationMonth;
+        if (null !== $periodicType) {
+            $this->setPeriodicType($periodicType);
+        }
+        if (null !== $sequenceType) {
+            $this->setSequenceType($sequenceType);
+        }
     }
 
     /**
-     * @param mixed $expirationYear
+     * @return $this
      */
-    public function setExpirationYear($expirationYear)
+    public function setPeriodicType($periodicType)
     {
-        $this->expirationYear = $expirationYear;
+        if (!in_array($periodicType, ['ucof', 'ci', 'recurring', 'installment'])) {
+            throw new \UnexpectedValueException("Periodic type '$periodicType' is not supported!");
+        }
+        $this->periodicType = $periodicType;
+        return $this;
     }
 
     /**
-     * @param mixed $type
+     * @return $this
      */
-    public function setType($type)
+    public function setSequenceType($sequenceType)
     {
-        $this->type = $type;
+        if (!in_array($sequenceType, ['final', 'first', 'recurring'])) {
+            throw new \UnexpectedValueException("Sequence type '$sequenceType' is not supported!");
+        }
+        $this->sequenceType = $sequenceType;
+        return $this;
     }
 
     /**
@@ -67,29 +87,15 @@ class Card implements MappableEntity
      */
     public function mappedProperties()
     {
-        $card = [];
-
-        if (isset($this->expirationMonth)) {
-            $card['expiration-month'] = $this->expirationMonth;
+        $periodic = null;
+        if (null !== $this->periodicType) {
+            $periodic['periodic-type'] = $this->periodicType;
         }
 
-        if (isset($this->expirationYear)) {
-            $card['expiration-year'] = $this->expirationYear;
+        if (null !== $this->sequenceType) {
+            $periodic['sequence-type'] = $this->sequenceType;
         }
 
-        if (isset($this->type)) {
-            $card['card-type'] = $this->type;
-        }
-
-        if (isset($this->merchantTokenizationFlag)) {
-            $card['merchant-tokenization-flag'] = boolval($this->merchantTokenizationFlag);
-        }
-
-        return $card;
-    }
-
-    public function setMerchantTokenizationFlag($merchantTokenizationFlag)
-    {
-        $this->merchantTokenizationFlag = $merchantTokenizationFlag;
+        return $periodic;
     }
 }

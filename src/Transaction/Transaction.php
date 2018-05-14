@@ -34,6 +34,7 @@ namespace Wirecard\PaymentSdk\Transaction;
 use Locale;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
+use Wirecard\PaymentSdk\Entity\Periodic;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
@@ -123,6 +124,11 @@ abstract class Transaction extends Risk
      * @var string
      */
     protected $orderId;
+
+    /**
+     * @var Periodic
+     */
+    protected $periodic;
 
     /**
      * @param string $entryMode
@@ -219,6 +225,16 @@ abstract class Transaction extends Risk
     }
 
     /**
+     * @param Periodic $periodic
+     */
+    public function setPeriodic($periodic)
+    {
+        if ($periodic instanceof Periodic) {
+            $this->periodic = $periodic;
+        }
+    }
+
+    /**
      * @throws MandatoryFieldMissingException
      * @throws UnsupportedOperationException
      * @return array
@@ -293,7 +309,11 @@ abstract class Transaction extends Risk
             [Transaction::TYPE_CHECK_ENROLLMENT, Transaction::TYPE_AUTHORIZATION, Transaction::TYPE_PURCHASE]
         )
             && array_key_exists('card-token', $specificProperties)) {
-            $result['periodic']['periodic-type'] = 'recurring';
+            $this->periodic = new Periodic('recurring');
+        }
+
+        if (null !== $this->periodic) {
+            $result['periodic'] = $this->periodic->mappedProperties();
         }
 
         return array_merge($result, $specificProperties);
