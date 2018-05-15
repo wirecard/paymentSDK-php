@@ -441,4 +441,31 @@ abstract class Transaction extends Risk
 
         return $this->redirect->getSuccessUrl();
     }
+
+    public function getBackendOperationForPay()
+    {
+    	try {
+			return $this->retrieveTransactionTypeForPay();
+        } catch (UnsupportedOperationException $e) {
+			return false;
+		}
+    }
+
+	public function getBackendOperationForCancel()
+	{
+		try {
+			return $this->retrieveTransactionTypeForCancel();
+		} catch (UnsupportedOperationException $e) {
+			return false;
+		}
+	}
+
+	public function getBackendOperationForRefund()
+	{
+		try {
+			return $this->retrieveTransactionTypeForRefund();
+		} catch (UnsupportedOperationException $e) {
+			return false;
+		}
+	}
 }

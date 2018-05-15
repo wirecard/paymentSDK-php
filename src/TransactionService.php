@@ -692,7 +692,7 @@ class TransactionService
      * @throws \RuntimeException
      * @return null|array
      */
-    public function getTransactionByTransactionId($transactionId, $paymentMethod)
+    protected function getTransactionByTransactionId($transactionId, $paymentMethod)
     {
         $endpoint =
             $this->config->getBaseUrl() .
