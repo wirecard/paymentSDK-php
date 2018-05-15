@@ -307,6 +307,64 @@ class TransactionService
     }
 
     /**
+     * New ui
+     *
+     * @param string $language
+     * @param Transaction $transaction
+     * @param string $paymentAction
+     *
+     * @return json
+     */
+    public function getCreditCardUiWithData(
+        $language = 'en',
+        $transaction,
+        $paymentAction
+    ) {
+        $config = $this->config->get($transaction::NAME);
+        $merchantAccountId = $config->getMerchantAccountId();
+        $secret = $config->getSecret();
+        $isThreeD = false;
+
+        if( $transaction instanceof CreditCardTransaction ) {
+            $isThreeD = ($transaction->isFallback() || $transaction->getThreeD()) ? true : false;
+            $merchantAccountId = $isThreeD ? $config->getThreeDMerchantAccountId() : $config->getMerchantAccountId();
+            $secret = $isThreeD ? $config->getThreeDSecret() : $config->getSecret();
+        }
+
+        $requestData = array(
+            'request_time_stamp' => gmdate('YmdHis'),
+            self::REQUEST_ID => call_user_func($this->requestIdGenerator, 64),
+            'transaction_type' => is_null($transaction->getAmount()) ? 'tokenize' : $paymentAction,
+            'merchant_account_id' => $merchantAccountId,
+            'requested_amount' => $transaction->getAmount()->getValue(),
+            'requested_amount_currency' => $transaction->getAmount()->getCurrency(),
+            'locale' => $language,
+            'payment_method' => 'creditcard',
+            'attempt_three_d' => $isThreeD ? true : false,
+        );
+
+        if (strlen($transaction->getNotificationUrl())) {
+            $requestData['notification_transaction_url'] = $transaction->getNotificationUrl();
+            $requestData['notifications_format'] = 'application/xml';
+        }
+
+        $requestData['request_signature'] = hash(
+            'sha256',
+            trim(
+                $requestData['request_time_stamp'] .
+                $requestData[self::REQUEST_ID] .
+                $requestData['merchant_account_id'] .
+                $requestData['transaction_type'] .
+                $requestData['requested_amount'] .
+                $requestData['requested_amount_currency'] .
+                $secret
+            )
+        );
+
+        return json_encode($requestData);
+    }
+
+    /**
      * @throws UnconfiguredPaymentMethodException
      * @return string
      */

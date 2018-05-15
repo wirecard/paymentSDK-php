@@ -441,4 +441,14 @@ abstract class Transaction extends Risk
 
         return $this->redirect->getSuccessUrl();
     }
+
+    public function getAmount()
+    {
+        return $this->amount;
+    }
+
+    public function getNotificationUrl()
+    {
+        return $this->notificationUrl;
+    }
 }
