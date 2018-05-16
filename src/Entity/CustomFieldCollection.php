@@ -110,4 +110,24 @@ class CustomFieldCollection implements \IteratorAggregate, MappableEntity
 
         return $data;
     }
+
+    public function mappedSeamlessProperties()
+    {
+        $data = array();
+        $count = 1;
+
+        /**
+         * @var CustomField $customField
+         */
+        foreach ($this->getIterator() as $customField) {
+            if ($count > 10) {
+                throw new UnsupportedOperationException('Maximum allowed number of additional fields is 10.');
+            }
+            $data["field_name_$count"] = $customField->getName();
+            $data["field_value_$count"] = $customField->getValue();
+            $count++;
+        }
+
+        return $data;
+    }
 }

@@ -151,6 +151,14 @@ abstract class Transaction extends Risk
     }
 
     /**
+     * @return CustomFieldCollection
+     */
+    public function getCustomFields()
+    {
+        return $this->customFields;
+    }
+
+    /**
      * @param CustomFieldCollection $customFields
      * @return Transaction
      */

@@ -34,6 +34,7 @@ namespace Wirecard\PaymentSdk\Mapper;
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Basket;
+use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Entity\Device;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException;
@@ -106,6 +107,7 @@ class RequestMapper
         $shipping = $transaction->getShipping();
         $basket = $transaction->getBasket();
         $device = $transaction->getDevice();
+        $customFields = $transaction->getCustomFields();
 
         if ($accountHolder instanceof AccountHolder) {
             $accountHolder = $accountHolder->mappedSeamlessProperties();
@@ -120,6 +122,10 @@ class RequestMapper
         if ($basket instanceof Basket) {
             $basket = $basket->mappedSeamlessProperties();
             $requestData = array_merge($requestData, $basket);
+        }
+
+        if ($customFields instanceof CustomFieldCollection) {
+            $requestData = array_merge($requestData, $customFields->mappedSeamlessProperties());
         }
 
         if (null !== $transaction->getDescriptor()) {
