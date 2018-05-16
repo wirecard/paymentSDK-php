@@ -128,6 +128,11 @@ class RequestMapper
             $requestData = array_merge($requestData, $customFields->mappedSeamlessProperties());
         }
 
+        if (strlen($transaction->getNotificationUrl())) {
+            $requestData['notification_transaction_url'] = $transaction->getNotificationUrl();
+            $requestData['notifications_format'] = 'application/xml';
+        }
+
         if (null !== $transaction->getDescriptor()) {
             $requestData['descriptor'] = $transaction->getDescriptor();
         }

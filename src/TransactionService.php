@@ -41,6 +41,8 @@ use Psr\Log\LoggerInterface;
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Entity\CustomField;
+use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException;
@@ -234,8 +236,12 @@ class TransactionService
      * @param Amount|null $amount
      * @param string|null $notificationUrl
      * @param string $paymentAction
+     * @param array $additionalFields
      * @throws UnconfiguredPaymentMethodException
      * @return string
+     *
+     * @deprecated This method is deprecated since 2.2.0 if you still are using it please update your front-end so that
+     * it uses getCreditCardUiWithData.
      */
     public function getDataForCreditCardUi(
         $language = 'en',
@@ -252,68 +258,27 @@ class TransactionService
         $creditCard = new CreditCardTransaction();
         $creditCard->setConfig($creditCardConfig);
         $creditCard->setAmount(new Amount($amount, $currency));
+        $creditCard->setNotificationUrl($notificationUrl);
 
-        $isThreeD = ($creditCard->isFallback() || $creditCard->getThreeD()) ? true : false;
-        $requestData = array(
-            'request_time_stamp' => gmdate('YmdHis'),
-            self::REQUEST_ID => call_user_func($this->requestIdGenerator, 64),
-            'transaction_type' => 0 == $amount ? 'tokenize' : $paymentAction,
-            'merchant_account_id' => $isThreeD
-                ? $creditCardConfig->getThreeDMerchantAccountId()
-                : $creditCardConfig->getMerchantAccountId(),
-            'requested_amount' => $amount,
-            'requested_amount_currency' => $currency,
-            'locale' => $language,
-            'payment_method' => 'creditcard'
-        );
-
-        if (count($additionalFields) > 0) {
-            $additionalFieldIterator = 1;
+        if ($additionalFields) {
+            $customFields = new CustomFieldCollection();
             foreach ($additionalFields as $key => $value) {
-                if ($additionalFieldIterator > 10) {
-                    throw new UnsupportedOperationException('Maximum allowed number of additional fields is 10.');
-                } else {
-                    $requestData["field_name_$additionalFieldIterator"] = $key;
-                    $requestData["field_value_$additionalFieldIterator"] = $value;
-                }
-                $additionalFieldIterator++;
+                $customFields->add(new CustomField($key, $value));
             }
+            $creditCard->setCustomFields($customFields);
         }
 
-        if (strlen($notificationUrl)) {
-            $requestData['notification_transaction_url'] = $notificationUrl;
-            $requestData['notifications_format'] = 'application/xml';
-        }
-
-        if ($isThreeD) {
-            $requestData['attempt_three_d'] = true;
-        }
-
-        $secret = $isThreeD ? $creditCardConfig->getThreeDSecret() : $creditCardConfig->getSecret();
-        $requestData['request_signature'] = hash(
-            'sha256',
-            trim(
-                $requestData['request_time_stamp'] .
-                $requestData[self::REQUEST_ID] .
-                $requestData['merchant_account_id'] .
-                $requestData['transaction_type'] .
-                $requestData['requested_amount'] .
-                $requestData['requested_amount_currency'] .
-                $secret
-            )
-        );
-
-        return json_encode($requestData);
+        return $this->getCreditCardUiWithData($language, $creditCard, $paymentAction);
     }
 
     /**
-     * New ui
+     * Get CreditCard Ui for Transaction
      *
      * @param string $language
      * @param Transaction $transaction
      * @param string $paymentAction
      *
-     * @return json
+     * @return string
      */
     public function getCreditCardUiWithData(
         $language = 'en',
@@ -343,11 +308,6 @@ class TransactionService
             'attempt_three_d' => $isThreeD ? true : false,
         );
 
-        if (strlen($transaction->getNotificationUrl())) {
-            $requestData['notification_transaction_url'] = $transaction->getNotificationUrl();
-            $requestData['notifications_format'] = 'application/xml';
-        }
-
         $requestData = $this->requestMapper->mapSeamlessRequest($transaction, $requestData);
 
         $requestData['request_signature'] = hash(
@@ -369,6 +329,9 @@ class TransactionService
     /**
      * @throws UnconfiguredPaymentMethodException
      * @return string
+     *
+     * @deprecated This method is deprecated since 2.2.0 if you still are using it please update your front-end so that
+     * it uses getCreditCardUiWithData.
      */
     public function getDataForCreditCardMotoUi($language = 'en')
     {
@@ -402,6 +365,9 @@ class TransactionService
     /**
      * @throws UnconfiguredPaymentMethodException
      * @return string
+     *
+     * @deprecated This method is deprecated since 2.2.0 if you still are using it please update your front-end so that
+     * it uses getCreditCardUiWithData.
      */
     public function getDataForUpiUi(
         $language = 'en',
@@ -413,49 +379,22 @@ class TransactionService
         $currency = null == $amount ? 'EUR' : $amount->getCurrency();
         $amount = null == $amount ? 0 : $amount->getValue();
 
-        $requestData = array(
-            'request_time_stamp' => gmdate('YmdHis'),
-            self::REQUEST_ID => call_user_func($this->requestIdGenerator, 64),
-            'transaction_type' => 0 == $amount ? 'tokenize' : $paymentAction,
-            'merchant_account_id' => $this->config->get(UpiTransaction::NAME)->getMerchantAccountId(),
-            'requested_amount' => $amount,
-            'requested_amount_currency' => $currency,
-            'locale' => $language,
-            'payment_method' => 'creditcard',
-        );
+        /** @var CreditCardConfig $creditCardConfig */
+        $creditCardConfig = $this->config->get(UpiTransaction::NAME);
+        $creditCard = new UpiTransaction();
+        $creditCard->setConfig($creditCardConfig);
+        $creditCard->setAmount(new Amount($amount, $currency));
+        $creditCard->setNotificationUrl($notificationUrl);
 
-        if (strlen($notificationUrl)) {
-            $requestData['notification_transaction_url'] = $notificationUrl;
-            $requestData['notifications_format'] = 'application/xml';
-        }
-
-        if (count($additionalFields) > 0) {
-            $additionalFieldIterator = 1;
+        if ($additionalFields) {
+            $customFields = new CustomFieldCollection();
             foreach ($additionalFields as $key => $value) {
-                if ($additionalFieldIterator > 10) {
-                    throw new UnsupportedOperationException('Maximum allowed number of additional fields is 10.');
-                } else {
-                    $requestData["field_name_$additionalFieldIterator"] = $key;
-                    $requestData["field_value_$additionalFieldIterator"] = $value;
-                }
-                $additionalFieldIterator++;
+                $customFields->add(new CustomField($key, $value));
             }
+            $creditCard->setCustomFields($customFields);
         }
 
-        $requestData['request_signature'] = hash(
-            'sha256',
-            trim(
-                $requestData['request_time_stamp'] .
-                $requestData[self::REQUEST_ID] .
-                $requestData['merchant_account_id'] .
-                $requestData['transaction_type'] .
-                $requestData['requested_amount'] .
-                $requestData['requested_amount_currency'] .
-                $this->config->get(UpiTransaction::NAME)->getSecret()
-            )
-        );
-
-        return json_encode($requestData);
+        return $this->getCreditCardUiWithData($language, $creditCard, $paymentAction);
     }
 
     /**
