@@ -433,6 +433,9 @@ abstract class Transaction extends Risk
         return $this;
     }
 
+    /**
+     * @return null|string
+     */
     public function getSuccessUrl()
     {
         if (null === $this->redirect) {
@@ -442,11 +445,17 @@ abstract class Transaction extends Risk
         return $this->redirect->getSuccessUrl();
     }
 
+    /**
+     * @return Amount
+     */
     public function getAmount()
     {
         return $this->amount;
     }
 
+    /**
+     * @return string
+     */
     public function getNotificationUrl()
     {
         return $this->notificationUrl;

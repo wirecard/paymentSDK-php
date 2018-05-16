@@ -91,4 +91,9 @@ class RequestMapper
 
         return json_encode($result);
     }
+
+    public function mapSeamlessRequest(Transaction $transaction, $requestData)
+    {
+        //prepare risk parameter
+    }
 }

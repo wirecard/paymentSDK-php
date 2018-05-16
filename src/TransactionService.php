@@ -348,6 +348,8 @@ class TransactionService
             $requestData['notifications_format'] = 'application/xml';
         }
 
+        $requestData = $this->requestMapper->mapSeamlessRequest($transaction, $requestData);
+
         $requestData['request_signature'] = hash(
             'sha256',
             trim(

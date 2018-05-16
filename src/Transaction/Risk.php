@@ -189,4 +189,19 @@ abstract class Risk
 
         return $data;
     }
+
+    public function getBasket()
+    {
+        return $this->basket;
+    }
+
+    public function getAccountHolder()
+    {
+        return $this->accountHolder;
+    }
+
+    public function getShipping()
+    {
+        return $this->shipping;
+    }
 }
