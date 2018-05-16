@@ -61,16 +61,25 @@ class BackendService extends TransactionService
      */
     public function retrieveBackendOperations($transaction, $limit = false)
     {
-        $parentTransaction = $this->getTransactionByTransactionId($transaction->getParentTransactionId(), $transaction::NAME);
-        if (!is_null($parentTransaction) && (!$this->isFinal($parentTransaction[Transaction::PARAM_PAYMENT][Transaction::PARAM_TRANSACTION_TYPE]) || !$limit)) {
-            $transaction->setParentTransactionType($parentTransaction[Transaction::PARAM_PAYMENT][Transaction::PARAM_TRANSACTION_TYPE]);
+        $parentTransaction = $this->getTransactionByTransactionId(
+            $transaction->getParentTransactionId(),
+            $transaction::NAME
+        );
+        if (!is_null($parentTransaction) && (
+            !$this->isFinal($parentTransaction[Transaction::PARAM_PAYMENT][Transaction::PARAM_TRANSACTION_TYPE]) ||
+            !$limit)) {
+            $transaction->setParentTransactionType(
+                $parentTransaction[Transaction::PARAM_PAYMENT][Transaction::PARAM_TRANSACTION_TYPE]
+            );
         } else {
             return false;
         }
 
         $operations = false;
-        if ($transaction->getBackendOperationForPay() &&
-            (!$limit || $parentTransaction[Transaction::PARAM_PAYMENT][Transaction::PARAM_TRANSACTION_TYPE] == Transaction::TYPE_AUTHORIZATION)) {
+        if ($transaction->getBackendOperationForPay() && (!$limit ||
+            $parentTransaction[Transaction::PARAM_PAYMENT][Transaction::PARAM_TRANSACTION_TYPE] ==
+            Transaction::TYPE_AUTHORIZATION
+            )) {
             $operations[] = Operation::PAY;
         }
         if ($transaction->getBackendOperationForCancel()) {
@@ -147,7 +156,12 @@ class BackendService extends TransactionService
      */
     public function isFinal($transaction_type)
     {
-        if (in_array($transaction_type, [Transaction::TYPE_CAPTURE_AUTHORIZATION, Transaction::TYPE_DEBIT, Transaction::TYPE_PURCHASE, Transaction::TYPE_AUTHORIZATION])) {
+        if (in_array($transaction_type, [
+            Transaction::TYPE_CAPTURE_AUTHORIZATION,
+            Transaction::TYPE_DEBIT,
+            Transaction::TYPE_PURCHASE,
+            Transaction::TYPE_AUTHORIZATION
+        ])) {
             return false;
         }
 
