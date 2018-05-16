@@ -32,6 +32,7 @@
 namespace Wirecard\PaymentSdk\Mapper;
 
 use Wirecard\PaymentSdk\Config\Config;
+use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException;
 use Wirecard\PaymentSdk\Transaction\Transaction;
@@ -94,6 +95,11 @@ class RequestMapper
 
     public function mapSeamlessRequest(Transaction $transaction, $requestData)
     {
-        //prepare risk parameter
+        $accountHolder = $transaction->getAccountHolder();
+        if ($accountHolder instanceof AccountHolder) {
+            $accountHolder = $accountHolder->mappedSeamlessProperties();
+            $requestData = array_merge($requestData, $accountHolder);
+        }
+        return $requestData;
     }
 }

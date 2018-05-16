@@ -217,4 +217,52 @@ class AccountHolder implements MappableEntity
 
         return $result;
     }
+
+    /**
+     * @return array
+     */
+    public function mappedSeamlessProperties()
+    {
+        $result = array();
+
+        if (null !== $this->lastName) {
+            $result['last_name'] = $this->lastName;
+        }
+
+        if (null !== $this->firstName) {
+            $result['first_name'] = $this->firstName;
+        }
+
+        if (null !== $this->email) {
+            $result['email'] = $this->email;
+        }
+
+        //find field for birthdate
+        /*if (null !== $this->dateOfBirth) {
+            $result['date-of-birth'] = $this->dateOfBirth->format('d-m-Y');
+        }*/
+
+        if (null !== $this->phone) {
+            $result['phone'] = $this->phone;
+        }
+
+        //extra mapper for address
+        /*if (null !== $this->address) {
+            $result['address'] = $this->address->mappedProperties();
+        }*/
+
+        if (null !== $this->crmId) {
+            $result['merchant_crm_id'] = $this->crmId;
+        }
+
+        if (null !== $this->gender) {
+            $result['gender'] = $this->gender;
+        }
+
+        if (null !== $this->socialSecurityNumber) {
+            $result['consumer_social_security_number'] = $this->socialSecurityNumber;
+        }
+
+        return $result;
+    }
 }
