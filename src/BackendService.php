@@ -41,7 +41,6 @@ use Wirecard\PaymentSdk\Transaction\Transaction;
  * This service manages backend operations
  * @package Wirecard\PaymentSdk
  * @extends TransactionService
- * @since 2.1.6
  */
 class BackendService extends TransactionService
 {
@@ -57,7 +56,6 @@ class BackendService extends TransactionService
      * @param Transaction $transaction
      * @param boolean $limit
      * @return array|bool
-     * @since 2.1.6
      */
     public function retrieveBackendOperations($transaction, $limit = false)
     {
@@ -98,7 +96,6 @@ class BackendService extends TransactionService
      * @param Transaction $transaction
      * @param string $operation
      * @return FailureResponse|Response\InteractionResponse|Response\Response|Response\SuccessResponse
-     * @since 2.1.6
      */
     public function process(Transaction $transaction, $operation)
     {
@@ -116,7 +113,6 @@ class BackendService extends TransactionService
      *
      * @param $transaction_type
      * @return string
-     * @since 2.1.6
      */
     public function getOrderState($transaction_type)
     {
@@ -152,7 +148,6 @@ class BackendService extends TransactionService
      *
      * @param $transaction_type
      * @return bool
-     * @since 2.1.6
      */
     public function isFinal($transaction_type)
     {
