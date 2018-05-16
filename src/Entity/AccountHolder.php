@@ -237,19 +237,17 @@ class AccountHolder implements MappableEntity
             $result['email'] = $this->email;
         }
 
-        //find field for birthdate
-        /*if (null !== $this->dateOfBirth) {
-            $result['date-of-birth'] = $this->dateOfBirth->format('d-m-Y');
-        }*/
+        if (null !== $this->dateOfBirth) {
+            $result['date_of_birth'] = $this->dateOfBirth->format('d-m-Y');
+        }
 
         if (null !== $this->phone) {
             $result['phone'] = $this->phone;
         }
 
-        //extra mapper for address
-        /*if (null !== $this->address) {
-            $result['address'] = $this->address->mappedProperties();
-        }*/
+        if (null !== $this->address) {
+            $result = array_merge($result, $this->address->mappedSeamlessProperties());
+        }
 
         if (null !== $this->crmId) {
             $result['merchant_crm_id'] = $this->crmId;
