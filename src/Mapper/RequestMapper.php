@@ -34,6 +34,7 @@ namespace Wirecard\PaymentSdk\Mapper;
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Basket;
+use Wirecard\PaymentSdk\Entity\Device;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException;
 use Wirecard\PaymentSdk\Transaction\Transaction;
@@ -94,11 +95,17 @@ class RequestMapper
         return json_encode($result);
     }
 
+    /**
+     * @param Transaction $transaction
+     * @param array $requestData
+     * @return array
+     */
     public function mapSeamlessRequest(Transaction $transaction, $requestData)
     {
         $accountHolder = $transaction->getAccountHolder();
         $shipping = $transaction->getShipping();
         $basket = $transaction->getBasket();
+        $device = $transaction->getDevice();
 
         if ($accountHolder instanceof AccountHolder) {
             $accountHolder = $accountHolder->mappedSeamlessProperties();
@@ -113,6 +120,26 @@ class RequestMapper
         if ($basket instanceof Basket) {
             $basket = $basket->mappedSeamlessProperties();
             $requestData = array_merge($requestData, $basket);
+        }
+
+        if (null !== $transaction->getDescriptor()) {
+            $requestData['descriptor'] = $transaction->getDescriptor();
+        }
+
+        if (null !== $transaction->getOrderNumber()) {
+            $requestData['order_number'] = $transaction->getOrderNumber();
+        }
+
+        if (null !== $transaction->getIpAddress()) {
+            $requestData['ip_address'] = $transaction->getIpAddress();
+        }
+
+        if (null !== $transaction->getConsumerId()) {
+            $requestData['consumer_id'] = $transaction->getConsumerId();
+        }
+
+        if ($device instanceof Device) {
+            $requestData['device_fingerprint'] = $device->getFingerprint();
         }
 
         return $requestData;
