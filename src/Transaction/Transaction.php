@@ -69,6 +69,7 @@ abstract class Transaction extends Risk
     const TYPE_REFUND_PURCHASE = 'refund-purchase';
     const TYPE_REFERENCED_PURCHASE = 'referenced-purchase';
     const TYPE_VOID_PURCHASE = 'void-purchase';
+    const TYPE_DEPOSIT = 'deposit';
 
     /**
      * @var Amount
@@ -444,28 +445,28 @@ abstract class Transaction extends Risk
 
     public function getBackendOperationForPay()
     {
-    	try {
-			return $this->retrieveTransactionTypeForPay();
+        try {
+            return $this->retrieveTransactionTypeForPay();
         } catch (UnsupportedOperationException $e) {
-			return false;
-		}
+            return false;
+        }
     }
 
-	public function getBackendOperationForCancel()
-	{
-		try {
-			return $this->retrieveTransactionTypeForCancel();
-		} catch (UnsupportedOperationException $e) {
-			return false;
-		}
-	}
+    public function getBackendOperationForCancel()
+    {
+        try {
+            return $this->retrieveTransactionTypeForCancel();
+        } catch (UnsupportedOperationException $e) {
+            return false;
+        }
+    }
 
-	public function getBackendOperationForRefund()
-	{
-		try {
-			return $this->retrieveTransactionTypeForRefund();
-		} catch (UnsupportedOperationException $e) {
-			return false;
-		}
-	}
+    public function getBackendOperationForRefund()
+    {
+        try {
+            return $this->retrieveTransactionTypeForRefund();
+        } catch (UnsupportedOperationException $e) {
+            return false;
+        }
+    }
 }

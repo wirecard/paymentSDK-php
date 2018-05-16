@@ -31,46 +31,126 @@
 
 namespace Wirecard\PaymentSdk;
 
+use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
 /**
  * Class BackendService
-
  *
  * This service manages backend operations
  * @package Wirecard\PaymentSdk
  * @extends TransactionService
+ * @since 2.1.6
  */
 class BackendService extends TransactionService
 {
-	/**
-	 * @param Transaction $transaction
-	 * @param boolean $limit
-	 * @return array|bool
-	 */
-	public function retrieveBackendOperations($transaction, $limit = false)
-	{
-		/** @var Transaction $transaction */
-		$parentTransaction = $this->getTransactionByTransactionId($transaction->getParentTransactionId(), $transaction::NAME);
-		if (!is_null($parentTransaction)) {
-			var_dump($parentTransaction[Transaction::PARAM_PAYMENT][Transaction::PARAM_TRANSACTION_TYPE]);
-			$transaction->setParentTransactionType($parentTransaction[Transaction::PARAM_PAYMENT][Transaction::PARAM_TRANSACTION_TYPE]);
-		} else {
-			return false;
-		}
+    const TYPE_AUTHORIZATION = 'authorization';
+    const TYPE_CANCELLED = 'cancelled';
+    const TYPE_PROCESSING = 'processing';
+    const TYPE_REFUNDED = 'refunded';
 
-		$operations = [];
-		if ($transaction->getBackendOperationForPay() && $limit) {
-			array_push($operations, Operation::PAY);
-		}
-		if ($transaction->getBackendOperationForCancel()) {
-			array_push($operations, Operation::CANCEL);
-		}
-		if ($transaction->getBackendOperationForRefund()) {
-			array_push($operations, Operation::REFUND);
-		}
+    /**
+     * Method returns possible follow up operations for transaction.
+     * If limit is set to false (default), all possible operations will be returned.
+     *
+     * @param Transaction $transaction
+     * @param boolean $limit
+     * @return array|bool
+     * @since 2.1.6
+     */
+    public function retrieveBackendOperations($transaction, $limit = false)
+    {
+        $parentTransaction = $this->getTransactionByTransactionId($transaction->getParentTransactionId(), $transaction::NAME);
+        if (!is_null($parentTransaction) && (!$this->isFinal($parentTransaction[Transaction::PARAM_PAYMENT][Transaction::PARAM_TRANSACTION_TYPE]) || !$limit)) {
+            $transaction->setParentTransactionType($parentTransaction[Transaction::PARAM_PAYMENT][Transaction::PARAM_TRANSACTION_TYPE]);
+        } else {
+            return false;
+        }
 
-		return $operations;
-	}
+        $operations = false;
+        if ($transaction->getBackendOperationForPay() &&
+            (!$limit || $parentTransaction[Transaction::PARAM_PAYMENT][Transaction::PARAM_TRANSACTION_TYPE] == Transaction::TYPE_AUTHORIZATION)) {
+            $operations[] = Operation::PAY;
+        }
+        if ($transaction->getBackendOperationForCancel()) {
+            $operations[] = Operation::CANCEL;
+        }
+        if ($transaction->getBackendOperationForRefund()) {
+            $operations[] = Operation::REFUND;
+        }
+
+        return $operations;
+    }
+
+    /**
+     * Build in fallback for refund
+     *
+     * @param Transaction $transaction
+     * @param string $operation
+     * @return FailureResponse|Response\InteractionResponse|Response\Response|Response\SuccessResponse
+     * @since 2.1.6
+     */
+    public function process(Transaction $transaction, $operation)
+    {
+        $response = parent::process($transaction, $operation);
+
+        if ($response instanceof FailureResponse && $operation == Operation::REFUND) {
+            return parent::process($transaction, Operation::CANCEL);
+        } else {
+            return $response;
+        }
+    }
+
+    /**
+     * Return order state of the transaction
+     *
+     * @param $transaction_type
+     * @return string
+     * @since 2.1.6
+     */
+    public function getOrderState($transaction_type)
+    {
+        switch ($transaction_type) {
+            case Transaction::TYPE_CAPTURE_AUTHORIZATION:
+            case Transaction::TYPE_DEBIT:
+            case Transaction::TYPE_PURCHASE:
+            case Transaction::TYPE_DEPOSIT:
+                $state = self::TYPE_PROCESSING;
+                break;
+            case Transaction::TYPE_VOID_AUTHORIZATION:
+                $state = self::TYPE_CANCELLED;
+                break;
+            case Transaction::TYPE_REFUND_CAPTURE:
+            case Transaction::TYPE_REFUND_DEBIT:
+            case Transaction::TYPE_REFUND_PURCHASE:
+            case Transaction::TYPE_CREDIT:
+            case Transaction::TYPE_VOID_CAPTURE:
+            case Transaction::TYPE_VOID_PURCHASE:
+                $state = self::TYPE_REFUNDED;
+                break;
+            case Transaction::TYPE_AUTHORIZATION:
+            default:
+                $state = self::TYPE_AUTHORIZATION;
+                break;
+        }
+
+        return $state;
+    }
+
+    /**
+     * Check if the transaction is final
+     *
+     * @param $transaction_type
+     * @return bool
+     * @since 2.1.6
+     */
+    public function isFinal($transaction_type)
+    {
+        if (in_array($transaction_type, [Transaction::TYPE_CAPTURE_AUTHORIZATION, Transaction::TYPE_DEBIT, Transaction::TYPE_PURCHASE, Transaction::TYPE_AUTHORIZATION])) {
+            return false;
+        }
+
+        return true;
+    }
 }
