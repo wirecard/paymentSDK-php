@@ -96,10 +96,18 @@ class RequestMapper
     public function mapSeamlessRequest(Transaction $transaction, $requestData)
     {
         $accountHolder = $transaction->getAccountHolder();
+        $shipping = $transaction->getShipping();
+
         if ($accountHolder instanceof AccountHolder) {
             $accountHolder = $accountHolder->mappedSeamlessProperties();
             $requestData = array_merge($requestData, $accountHolder);
         }
+
+        if ($shipping instanceof AccountHolder) {
+            $shipping = $shipping->mappedSeamlessProperties(AccountHolder::SHIPPING);
+            $requestData = array_merge($requestData, $shipping);
+        }
+
         return $requestData;
     }
 }

@@ -39,6 +39,8 @@ namespace Wirecard\PaymentSdk\Entity;
  */
 class AccountHolder implements MappableEntity
 {
+    const SHIPPING = 'shipping_';
+
     /**
      * @var string
      */
@@ -219,11 +221,32 @@ class AccountHolder implements MappableEntity
     }
 
     /**
+     * @param string $type
      * @return array
      */
-    public function mappedSeamlessProperties()
+    public function mappedSeamlessProperties($type = '')
     {
         $result = array();
+
+        if (self::SHIPPING == $type) {
+            if (null !== $this->lastName) {
+                $result[$type . 'last_name'] = $this->lastName;
+            }
+
+            if (null !== $this->firstName) {
+                $result[$type . 'first_name'] = $this->firstName;
+            }
+
+            if (null !== $this->phone) {
+                $result[$type . 'phone'] = $this->phone;
+            }
+
+            if (null !== $this->address) {
+                $result = array_merge($result, $this->address->mappedSeamlessProperties($type));
+            }
+
+            return $result;
+        }
 
         if (null !== $this->lastName) {
             $result['last_name'] = $this->lastName;
