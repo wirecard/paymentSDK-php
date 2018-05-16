@@ -197,6 +197,29 @@ class Item implements MappableEntity
     }
 
     /**
+     * @param integer $iterator
+     * @return array
+     */
+    public function mappedSeamlessProperties($iterator)
+    {
+        $item = array();
+        $item['orderItems' . $iterator . '.name'] = $this->name;
+        $item['orderItems' . $iterator . '.quantity'] = $this->quantity;
+        $item['orderItems' . $iterator . '.amount.value'] = $this->price->getValue();
+        $item['orderItems' . $iterator . '.amount.currency'] = $this->price->getCurrency();
+
+        if (null !== $this->articleNumber) {
+            $item['orderItems' . $iterator . '.articleNumber'] = $this->articleNumber;
+        }
+
+        if (null !== $this->taxRate) {
+            $item['orderItems' . $iterator . '.taxRate'] = $this->taxRate;
+        }
+
+        return $item;
+    }
+
+    /**
      * @param array $data
      * @throws MandatoryFieldMissingException
      * @return array

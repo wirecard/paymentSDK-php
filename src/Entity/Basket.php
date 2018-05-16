@@ -127,4 +127,23 @@ class Basket implements \IteratorAggregate, MappableEntity
 
         return $data;
     }
+
+    /**
+     * @return array
+     */
+    public function mappedSeamlessProperties()
+    {
+        $basket = array();
+        $quantity = 1;
+
+        /**
+         * @var Item $item
+         */
+        foreach ($this->getIterator() as $item) {
+            $basket = $basket + $item->mappedSeamlessProperties($quantity);
+            $quantity++;
+        }
+
+        return $basket;
+    }
 }
