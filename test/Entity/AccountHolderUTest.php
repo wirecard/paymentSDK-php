@@ -188,6 +188,22 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetMappedSeamlessPropertiesLastAndFirstNameShipping()
+    {
+        $firstName = 'Jane';
+        $lastName = 'Doe';
+        $this->accountHolder->setLastName($lastName);
+        $this->accountHolder->setFirstName($firstName);
+
+        $this->assertEquals(
+            [
+                'shipping_last_name' => $lastName,
+                'shipping_first_name' => $firstName
+            ],
+            $this->accountHolder->mappedSeamlessProperties('shipping_')
+        );
+    }
+
     public function testGetMappedSeamlessPropertiesLastNameAndEmail()
     {
         $email = 'Jane@doe.com';
@@ -211,6 +227,19 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
                 'phone' => $phone
             ],
             $this->accountHolder->mappedSeamlessProperties()
+        );
+    }
+
+    public function testGetMappedSeamlessPropertiesLastNameAndPhoneShipping()
+    {
+        $phone = '+123 456 789';
+        $this->accountHolder->setPhone($phone);
+
+        $this->assertEquals(
+            [
+                'shipping_phone' => $phone
+            ],
+            $this->accountHolder->mappedSeamlessProperties('shipping_')
         );
     }
 
@@ -264,5 +293,39 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
             ],
             $this->accountHolder->mappedSeamlessProperties()
         );
+    }
+
+    public function testMappedSeamlessPropertiesWithAddress()
+    {
+        $addr = new Address('AT', 'Graz', 'Reininghausstraße 13a');
+        $addr->setPostalCode('8020');
+
+        $this->accountHolder->setAddress($addr);
+
+        $expectedResult = [
+            'street1' => 'Reininghausstraße 13a',
+            'city' => 'Graz',
+            'country' => 'AT',
+            'postal_code' => '8020'
+        ];
+
+        $this->assertEquals($expectedResult, $this->accountHolder->mappedSeamlessProperties());
+    }
+
+    public function testMappedSeamlessPropertiesWithAddressShipping()
+    {
+        $addr = new Address('AT', 'Graz', 'Reininghausstraße 13a');
+        $addr->setPostalCode('8020');
+
+        $this->accountHolder->setAddress($addr);
+
+        $expectedResult = [
+            'shipping_street1' => 'Reininghausstraße 13a',
+            'shipping_city' => 'Graz',
+            'shipping_country' => 'AT',
+            'shipping_postal_code' => '8020'
+        ];
+
+        $this->assertEquals($expectedResult, $this->accountHolder->mappedSeamlessProperties('shipping_'));
     }
 }
