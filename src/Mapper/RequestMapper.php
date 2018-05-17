@@ -32,6 +32,10 @@
 namespace Wirecard\PaymentSdk\Mapper;
 
 use Wirecard\PaymentSdk\Config\Config;
+use Wirecard\PaymentSdk\Entity\AccountHolder;
+use Wirecard\PaymentSdk\Entity\Basket;
+use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
+use Wirecard\PaymentSdk\Entity\Device;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException;
 use Wirecard\PaymentSdk\Transaction\Transaction;
@@ -90,5 +94,65 @@ class RequestMapper
         $result = [Transaction::PARAM_PAYMENT => $allProperties];
 
         return json_encode($result);
+    }
+
+    /**
+     * @param Transaction $transaction
+     * @param array $requestData
+     * @return array
+     */
+    public function mapSeamlessRequest(Transaction $transaction, $requestData)
+    {
+        $accountHolder = $transaction->getAccountHolder();
+        $shipping = $transaction->getShipping();
+        $basket = $transaction->getBasket();
+        $device = $transaction->getDevice();
+        $customFields = $transaction->getCustomFields();
+
+        if ($accountHolder instanceof AccountHolder) {
+            $accountHolder = $accountHolder->mappedSeamlessProperties();
+            $requestData = array_merge($requestData, $accountHolder);
+        }
+
+        if ($shipping instanceof AccountHolder) {
+            $shipping = $shipping->mappedSeamlessProperties(AccountHolder::SHIPPING);
+            $requestData = array_merge($requestData, $shipping);
+        }
+
+        if ($basket instanceof Basket) {
+            $basket = $basket->mappedSeamlessProperties();
+            $requestData = array_merge($requestData, $basket);
+        }
+
+        if ($customFields instanceof CustomFieldCollection) {
+            $requestData = array_merge($requestData, $customFields->mappedSeamlessProperties());
+        }
+
+        if (strlen($transaction->getNotificationUrl())) {
+            $requestData['notification_transaction_url'] = $transaction->getNotificationUrl();
+            $requestData['notifications_format'] = 'application/xml';
+        }
+
+        if (null !== $transaction->getDescriptor()) {
+            $requestData['descriptor'] = $transaction->getDescriptor();
+        }
+
+        if (null !== $transaction->getOrderNumber()) {
+            $requestData['order_number'] = $transaction->getOrderNumber();
+        }
+
+        if (null !== $transaction->getIpAddress()) {
+            $requestData['ip_address'] = $transaction->getIpAddress();
+        }
+
+        if (null !== $transaction->getConsumerId()) {
+            $requestData['consumer_id'] = $transaction->getConsumerId();
+        }
+
+        if ($device instanceof Device) {
+            $requestData['device_fingerprint'] = $device->getFingerprint();
+        }
+
+        return $requestData;
     }
 }

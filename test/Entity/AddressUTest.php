@@ -141,4 +141,83 @@ class AddressUTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expectedResult, $this->addr->mappedProperties());
     }
+
+    public function testMappingOnlyRequiredFieldsSeamless()
+    {
+        $expectedResult = [
+            'street1' => self::DUMMY_ADDRESS,
+            'city' => self::GRAZ,
+            'country' => self::AT_COUNTRY_CODE,
+        ];
+
+        $this->assertEquals($expectedResult, $this->addr->mappedSeamlessProperties());
+    }
+
+    public function testMappingWithPostalCodeSeamless()
+    {
+        $this->addr->setPostalCode('8020');
+
+        $expectedResult = [
+            'street1' => self::DUMMY_ADDRESS,
+            'city' => self::GRAZ,
+            'country' => self::AT_COUNTRY_CODE,
+            'postal_code' => '8020'
+        ];
+
+        $this->assertEquals($expectedResult, $this->addr->mappedSeamlessProperties());
+    }
+
+    public function testMappingWithStreet2Seamless()
+    {
+        $this->addr->setStreet2('1st floor');
+
+        $expectedResult = [
+            'street1' => self::DUMMY_ADDRESS,
+            'city' => self::GRAZ,
+            'country' => self::AT_COUNTRY_CODE,
+            'street2' => '1st floor'
+        ];
+
+        $this->assertEquals($expectedResult, $this->addr->mappedSeamlessProperties());
+    }
+
+    public function testMappingWithVeryLongStreet1Seamless()
+    {
+        // @codingStandardsIgnoreStart
+        $street1 = 'This is a long street name in order to test an improbable but possible input. And to verify that it is split into the two fieldsWith this sentence the 2nd part starts.';
+        // @codingStandardsIgnoreEnd
+        $this->addr = new Address(self::AT_COUNTRY_CODE, self::GRAZ, $street1);
+
+        $expectedResult = [
+            // @codingStandardsIgnoreStart
+            'street1' => 'This is a long street name in order to test an improbable but possible input. And to verify that it is split into the two fields',
+            // @codingStandardsIgnoreEnd
+            'city' => self::GRAZ,
+            'country' => self::AT_COUNTRY_CODE,
+            'street2' => 'With this sentence the 2nd part starts.'
+        ];
+
+        $this->assertEquals($expectedResult, $this->addr->mappedSeamlessProperties());
+    }
+
+    public function testMappingWithVeryLongStreet1WithStreet2Seamless()
+    {
+        // @codingStandardsIgnoreStart
+        $street1 = 'This is a long street name in order to test an improbable but possible input. And to verify that it is not split, if street2 is also given.';
+        // @codingStandardsIgnoreEnd
+        $this->addr = new Address(self::AT_COUNTRY_CODE, self::GRAZ, $street1);
+        $this->addr->setStreet2('some suffix');
+
+        $expectedResult = [
+            'street1' =>
+            // @codingStandardsIgnoreStart
+                'This is a long street name in order to test an improbable but possible input. And to verify that it is not split, if street2 is also given.',
+            // @codingStandardsIgnoreEnd
+            'city' => self::GRAZ,
+            'country' => self::AT_COUNTRY_CODE,
+            'street2' => 'some suffix'
+        ];
+
+        $this->assertEquals($expectedResult, $this->addr->mappedSeamlessProperties());
+    }
 }

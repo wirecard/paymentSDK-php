@@ -171,4 +171,161 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
             $this->accountHolder->mappedProperties()
         );
     }
+
+    public function testGetMappedSeamlessPropertiesLastAndFirstName()
+    {
+        $firstName = 'Jane';
+        $lastName = 'Doe';
+        $this->accountHolder->setLastName($lastName);
+        $this->accountHolder->setFirstName($firstName);
+
+        $this->assertEquals(
+            [
+                'last_name' => $lastName,
+                'first_name' => $firstName
+            ],
+            $this->accountHolder->mappedSeamlessProperties()
+        );
+    }
+
+    public function testGetMappedSeamlessPropertiesLastAndFirstNameShipping()
+    {
+        $firstName = 'Jane';
+        $lastName = 'Doe';
+        $this->accountHolder->setLastName($lastName);
+        $this->accountHolder->setFirstName($firstName);
+
+        $this->assertEquals(
+            [
+                'shipping_last_name' => $lastName,
+                'shipping_first_name' => $firstName
+            ],
+            $this->accountHolder->mappedSeamlessProperties('shipping_')
+        );
+    }
+
+    public function testGetMappedSeamlessPropertiesLastNameAndEmail()
+    {
+        $email = 'Jane@doe.com';
+        $this->accountHolder->setEmail($email);
+
+        $this->assertEquals(
+            [
+                'email' => $email
+            ],
+            $this->accountHolder->mappedSeamlessProperties()
+        );
+    }
+
+    public function testGetMappedSeamlessPropertiesLastNameAndPhone()
+    {
+        $phone = '+123 456 789';
+        $this->accountHolder->setPhone($phone);
+
+        $this->assertEquals(
+            [
+                'phone' => $phone
+            ],
+            $this->accountHolder->mappedSeamlessProperties()
+        );
+    }
+
+    public function testGetMappedSeamlessPropertiesLastNameAndPhoneShipping()
+    {
+        $phone = '+123 456 789';
+        $this->accountHolder->setPhone($phone);
+
+        $this->assertEquals(
+            [
+                'shipping_phone' => $phone
+            ],
+            $this->accountHolder->mappedSeamlessProperties('shipping_')
+        );
+    }
+
+    public function testGetMappedSeamlessPropertiesCrmId()
+    {
+        $crmId = '1243df';
+        $this->accountHolder->setCrmId($crmId);
+
+        $this->assertEquals(
+            [
+                'merchant_crm_id' => $crmId
+            ],
+            $this->accountHolder->mappedSeamlessProperties()
+        );
+    }
+
+    public function testGetMappedSeamlessPropertiesDateOfBirth()
+    {
+        $dateOfBirth = new \DateTime('2016-01-01');
+        $this->accountHolder->setDateOfBirth($dateOfBirth);
+
+        $this->assertEquals(
+            [
+                'date_of_birth' => $dateOfBirth->format('d-m-Y')
+            ],
+            $this->accountHolder->mappedSeamlessProperties()
+        );
+    }
+
+    public function testGetMappedSeamlessPropertiesGender()
+    {
+        $gender = 'f';
+        $this->accountHolder->setGender($gender);
+
+        $this->assertEquals(
+            [
+                'gender' => $gender
+            ],
+            $this->accountHolder->mappedSeamlessProperties()
+        );
+    }
+
+    public function testGetMappedSeamlessPropertiesSecurityNumber()
+    {
+        $securityNumber = '1234567';
+        $this->accountHolder->setSocialSecurityNumber($securityNumber);
+
+        $this->assertEquals(
+            [
+                'consumer_social_security_number' => $securityNumber
+            ],
+            $this->accountHolder->mappedSeamlessProperties()
+        );
+    }
+
+    public function testMappedSeamlessPropertiesWithAddress()
+    {
+        $addr = new Address('AT', 'Graz', 'Reininghausstraße 13a');
+        $addr->setPostalCode('8020');
+
+        $this->accountHolder->setAddress($addr);
+
+        $expectedResult = [
+            'street1' => 'Reininghausstraße 13a',
+            'city' => 'Graz',
+            'country' => 'AT',
+            'postal_code' => '8020'
+        ];
+
+        $this->assertEquals($expectedResult, $this->accountHolder->mappedSeamlessProperties());
+    }
+
+    public function testMappedSeamlessPropertiesWithAddressShipping()
+    {
+        $addr = new Address('AT', 'Graz', 'Reininghausstraße 13a');
+        $addr->setPostalCode('8020');
+
+        $this->accountHolder->setAddress($addr);
+
+        $expectedResult = [
+            'shipping_street1' => 'Reininghausstraße 13a',
+            'shipping_city' => 'Graz',
+            'shipping_country' => 'AT',
+            'shipping_postal_code' => '8020'
+        ];
+
+        $this->assertEquals($expectedResult, $this->accountHolder->mappedSeamlessProperties('shipping_'));
+    }
 }

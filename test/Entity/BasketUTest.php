@@ -99,4 +99,18 @@ class BasketUTest extends \PHPUnit_Framework_TestCase
         ];
         $this->assertEquals($expected, $this->itemCollection->mappedProperties());
     }
+
+    public function testMappedSeamlessProperties()
+    {
+        $item = new Item('test item name', new Amount(1, 'EUR'), 1);
+        $this->itemCollection->add($item);
+
+        $expected = [
+            'orderItems1.name' => 'test item name',
+            'orderItems1.amount.value' =>  '1',
+            'orderItems1.amount.currency' => 'EUR',
+            'orderItems1.quantity' => '1'
+        ];
+        $this->assertEquals($expected, $this->itemCollection->mappedSeamlessProperties());
+    }
 }
