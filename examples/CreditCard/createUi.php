@@ -185,7 +185,7 @@ $transaction->setCustomFields( $custom_fields );
 
         // We fill the _requestData_ with the return value
         // from the `getCreditCardUiWithData` method of the `transactionService` which expects a transaction with all desired parameters.
-        requestData: <?= $transactionService->getCreditCardUiWithData('en', $transaction, 'authorization'); ?>,
+        requestData: <?= $transactionService->getCreditCardUiWithData($transaction, 'authorization', 'en'); ?>,
         wrappingDivId: "creditcard-form-div",
         onSuccess: logCallback,
         onError: logCallback

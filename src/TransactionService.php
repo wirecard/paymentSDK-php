@@ -268,22 +268,22 @@ class TransactionService
             $creditCard->setCustomFields($customFields);
         }
 
-        return $this->getCreditCardUiWithData($language, $creditCard, $paymentAction);
+        return $this->getCreditCardUiWithData($creditCard, $paymentAction, $language);
     }
 
     /**
      * Get CreditCard Ui for Transaction
      *
-     * @param string $language
      * @param Transaction $transaction
      * @param string $paymentAction
+     * @param string $language
      *
      * @return string
      */
     public function getCreditCardUiWithData(
-        $language = 'en',
         $transaction,
-        $paymentAction
+        $paymentAction,
+        $language = 'en'
     ) {
         $config = $this->config->get($transaction::NAME);
         $merchantAccountId = $config->getMerchantAccountId();
@@ -394,7 +394,7 @@ class TransactionService
             $creditCard->setCustomFields($customFields);
         }
 
-        return $this->getCreditCardUiWithData($language, $creditCard, $paymentAction);
+        return $this->getCreditCardUiWithData($creditCard, $paymentAction, $language);
     }
 
     /**
