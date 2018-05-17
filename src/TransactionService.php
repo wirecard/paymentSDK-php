@@ -290,7 +290,7 @@ class TransactionService
         $secret = $config->getSecret();
         $isThreeD = false;
 
-        if( $transaction instanceof CreditCardTransaction ) {
+        if ($transaction instanceof CreditCardTransaction) {
             $isThreeD = ($transaction->isFallback() || $transaction->getThreeD()) ? true : false;
             $merchantAccountId = $isThreeD ? $config->getThreeDMerchantAccountId() : $config->getMerchantAccountId();
             $secret = $isThreeD ? $config->getThreeDSecret() : $config->getSecret();
