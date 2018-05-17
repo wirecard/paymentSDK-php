@@ -171,4 +171,98 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
             $this->accountHolder->mappedProperties()
         );
     }
+
+    public function testGetMappedSeamlessPropertiesLastAndFirstName()
+    {
+        $firstName = 'Jane';
+        $lastName = 'Doe';
+        $this->accountHolder->setLastName($lastName);
+        $this->accountHolder->setFirstName($firstName);
+
+        $this->assertEquals(
+            [
+                'last_name' => $lastName,
+                'first_name' => $firstName
+            ],
+            $this->accountHolder->mappedSeamlessProperties()
+        );
+    }
+
+    public function testGetMappedSeamlessPropertiesLastNameAndEmail()
+    {
+        $email = 'Jane@doe.com';
+        $this->accountHolder->setEmail($email);
+
+        $this->assertEquals(
+            [
+                'email' => $email
+            ],
+            $this->accountHolder->mappedSeamlessProperties()
+        );
+    }
+
+    public function testGetMappedSeamlessPropertiesLastNameAndPhone()
+    {
+        $phone = '+123 456 789';
+        $this->accountHolder->setPhone($phone);
+
+        $this->assertEquals(
+            [
+                'phone' => $phone
+            ],
+            $this->accountHolder->mappedSeamlessProperties()
+        );
+    }
+
+    public function testGetMappedSeamlessPropertiesCrmId()
+    {
+        $crmId = '1243df';
+        $this->accountHolder->setCrmId($crmId);
+
+        $this->assertEquals(
+            [
+                'merchant_crm_id' => $crmId
+            ],
+            $this->accountHolder->mappedSeamlessProperties()
+        );
+    }
+
+    public function testGetMappedSeamlessPropertiesDateOfBirth()
+    {
+        $dateOfBirth = new \DateTime('2016-01-01');
+        $this->accountHolder->setDateOfBirth($dateOfBirth);
+
+        $this->assertEquals(
+            [
+                'date_of_birth' => $dateOfBirth->format('d-m-Y')
+            ],
+            $this->accountHolder->mappedSeamlessProperties()
+        );
+    }
+
+    public function testGetMappedSeamlessPropertiesGender()
+    {
+        $gender = 'f';
+        $this->accountHolder->setGender($gender);
+
+        $this->assertEquals(
+            [
+                'gender' => $gender
+            ],
+            $this->accountHolder->mappedSeamlessProperties()
+        );
+    }
+
+    public function testGetMappedSeamlessPropertiesSecurityNumber()
+    {
+        $securityNumber = '1234567';
+        $this->accountHolder->setSocialSecurityNumber($securityNumber);
+
+        $this->assertEquals(
+            [
+                'consumer_social_security_number' => $securityNumber
+            ],
+            $this->accountHolder->mappedSeamlessProperties()
+        );
+    }
 }
