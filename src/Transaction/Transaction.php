@@ -469,4 +469,13 @@ abstract class Transaction extends Risk
             return false;
         }
     }
+
+    public function getBackendOperationForCredit()
+    {
+        try {
+            return $this->retrieveTransactionTypeForCredit();
+        } catch (UnsupportedOperationException $e) {
+            return false;
+        }
+    }
 }

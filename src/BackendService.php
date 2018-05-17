@@ -32,7 +32,10 @@
 namespace Wirecard\PaymentSdk;
 
 use Wirecard\PaymentSdk\Response\FailureResponse;
+use Wirecard\PaymentSdk\Transaction\IdealTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
+use Wirecard\PaymentSdk\Transaction\SepaTransaction;
+use Wirecard\PaymentSdk\Transaction\SofortTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
 /**
@@ -85,6 +88,10 @@ class BackendService extends TransactionService
         }
         if ($transaction->getBackendOperationForRefund()) {
             $operations[] = Operation::REFUND;
+        }
+        if ($transaction->getBackendOperationForCredit() && ($transaction instanceof IdealTransaction ||
+            $transaction instanceof SofortTransaction || $transaction instanceof SepaTransaction)) {
+            $operations[] = Operation::CREDIT;
         }
 
         return $operations;
@@ -155,7 +162,9 @@ class BackendService extends TransactionService
             Transaction::TYPE_CAPTURE_AUTHORIZATION,
             Transaction::TYPE_DEBIT,
             Transaction::TYPE_PURCHASE,
-            Transaction::TYPE_AUTHORIZATION
+            Transaction::TYPE_AUTHORIZATION,
+            Transaction::TYPE_PENDING_CREDIT,
+            Transaction::TYPE_PENDING_DEBIT
         ])) {
             return false;
         }
