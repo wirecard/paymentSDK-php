@@ -57,4 +57,12 @@ class DeviceUTest extends \PHPUnit_Framework_TestCase
             $this->device->mappedProperties()
         );
     }
+
+    public function testGetFingerprint()
+    {
+        $fingerprint = 'ABCD1234EFG';
+        $this->device->setFingerprint($fingerprint);
+
+        $this->assertEquals($fingerprint, $this->device->getFingerprint());
+    }
 }
