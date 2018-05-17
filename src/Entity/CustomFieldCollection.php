@@ -31,6 +31,7 @@
 namespace Wirecard\PaymentSdk\Entity;
 
 use Traversable;
+use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
 /**
  * Class CustomFieldCollection

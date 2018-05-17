@@ -33,6 +33,7 @@ namespace WirecardTest\PaymentSdk\Entity;
 
 use Wirecard\PaymentSdk\Entity\CustomField;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
+use Wirecard\PaymentSdk\Entity\UnsupportedOperationException;
 
 class CustomFieldCollectionUTest extends \PHPUnit_Framework_TestCase
 {
@@ -87,5 +88,48 @@ class CustomFieldCollectionUTest extends \PHPUnit_Framework_TestCase
         $customField = new CustomField('test', 'abc');
         $this->customFieldCollection->add($customField);
         $this->assertEquals(null, $this->customFieldCollection->get('test_not_set'));
+    }
+
+    public function testMappedSeamlessProperties()
+    {
+        $customField = new CustomField('test', 'abc');
+        $this->customFieldCollection->add($customField);
+
+        $expected = [
+            'field_name_1' => 'test',
+            'field_value_1' => 'abc'
+        ];
+        $this->assertEquals($expected, $this->customFieldCollection->mappedSeamlessProperties());
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
+     */
+    public function testMappedSeamlessPropertiesMax()
+    {
+        $customField = new CustomField('test', 'abc');
+        $this->customFieldCollection->add($customField);
+        $customField = new CustomField('test', 'abc');
+        $this->customFieldCollection->add($customField);
+        $customField = new CustomField('test', 'abc');
+        $this->customFieldCollection->add($customField);
+        $customField = new CustomField('test', 'abc');
+        $this->customFieldCollection->add($customField);
+        $customField = new CustomField('test', 'abc');
+        $this->customFieldCollection->add($customField);
+        $customField = new CustomField('test', 'abc');
+        $this->customFieldCollection->add($customField);
+        $customField = new CustomField('test', 'abc');
+        $this->customFieldCollection->add($customField);
+        $customField = new CustomField('test', 'abc');
+        $this->customFieldCollection->add($customField);
+        $customField = new CustomField('test', 'abc');
+        $this->customFieldCollection->add($customField);
+        $customField = new CustomField('test', 'abc');
+        $this->customFieldCollection->add($customField);
+        $customField = new CustomField('test', 'abc');
+        $this->customFieldCollection->add($customField);
+
+        $data = $this->customFieldCollection->mappedSeamlessProperties();
     }
 }
