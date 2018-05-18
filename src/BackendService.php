@@ -90,7 +90,7 @@ class BackendService extends TransactionService
         if ($transaction->getBackendOperationForRefund()) {
             $operations[] = Operation::REFUND;
         }
-        if ($transaction->getBackendOperationForCredit() && ($transaction instanceof IdealTransaction ||
+        if ($transaction->getBackendOperationForCredit() && (!$limit || $transaction instanceof IdealTransaction ||
             $transaction instanceof SofortTransaction || $transaction instanceof SepaTransaction)) {
             $operations[] = Operation::CREDIT;
         }
