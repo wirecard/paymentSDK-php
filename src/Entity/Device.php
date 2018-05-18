@@ -45,6 +45,14 @@ class Device implements MappableEntity
     private $fingerprint;
 
     /**
+     * @return string
+     */
+    public function getFingerprint()
+    {
+        return $this->fingerprint;
+    }
+
+    /**
      * @param string $fingerprint
      */
     public function setFingerprint($fingerprint)

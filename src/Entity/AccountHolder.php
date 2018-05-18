@@ -39,6 +39,8 @@ namespace Wirecard\PaymentSdk\Entity;
  */
 class AccountHolder implements MappableEntity
 {
+    const SHIPPING = 'shipping_';
+
     /**
      * @var string
      */
@@ -213,6 +215,73 @@ class AccountHolder implements MappableEntity
 
         if (null !== $this->shippingMethod) {
             $result['shipping-method'] = $this->shippingMethod;
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param string $type
+     * @return array
+     */
+    public function mappedSeamlessProperties($type = '')
+    {
+        $result = array();
+
+        if (self::SHIPPING == $type) {
+            if (null !== $this->lastName) {
+                $result[$type . 'last_name'] = $this->lastName;
+            }
+
+            if (null !== $this->firstName) {
+                $result[$type . 'first_name'] = $this->firstName;
+            }
+
+            if (null !== $this->phone) {
+                $result[$type . 'phone'] = $this->phone;
+            }
+
+            if (null !== $this->address) {
+                $result = array_merge($result, $this->address->mappedSeamlessProperties($type));
+            }
+
+            return $result;
+        }
+
+        if (null !== $this->lastName) {
+            $result['last_name'] = $this->lastName;
+        }
+
+        if (null !== $this->firstName) {
+            $result['first_name'] = $this->firstName;
+        }
+
+        if (null !== $this->email) {
+            $result['email'] = $this->email;
+        }
+
+        if (null !== $this->dateOfBirth) {
+            $result['date_of_birth'] = $this->dateOfBirth->format('d-m-Y');
+        }
+
+        if (null !== $this->phone) {
+            $result['phone'] = $this->phone;
+        }
+
+        if (null !== $this->address) {
+            $result = array_merge($result, $this->address->mappedSeamlessProperties());
+        }
+
+        if (null !== $this->crmId) {
+            $result['merchant_crm_id'] = $this->crmId;
+        }
+
+        if (null !== $this->gender) {
+            $result['gender'] = $this->gender;
+        }
+
+        if (null !== $this->socialSecurityNumber) {
+            $result['consumer_social_security_number'] = $this->socialSecurityNumber;
         }
 
         return $result;

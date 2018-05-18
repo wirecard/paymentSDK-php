@@ -91,12 +91,12 @@ class ItemUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $this->item->mappedProperties());
     }
 
-    public function testMappedPropertiesWithAllPropertiesForPayPal()
+    public function testMappedPropertiesWithAllPropertiesForPayPalWithRate()
     {
         $this->item->setVersion(PayPalTransaction::class);
         $this->item->setArticleNumber('1232f5445');
         $this->item->setDescription('dthfbvdfg');
-        $this->item->setTaxRate(10.0);
+        $this->item->setTaxRate(10);
 
         $expected = [
             'name' => self::NAME,
@@ -114,5 +114,47 @@ class ItemUTest extends \PHPUnit_Framework_TestCase
         ];
 
         $this->assertEquals($expected, $this->item->mappedProperties());
+    }
+
+    public function testMappedPropertiesWithAllPropertiesForPayPal()
+    {
+        $this->item->setVersion(PayPalTransaction::class);
+        $this->item->setArticleNumber('1232f5445');
+        $this->item->setDescription('dthfbvdfg');
+        $this->item->setTaxAmount(new Amount(5, 'EUR'));
+
+        $expected = [
+            'name' => self::NAME,
+            'description' => 'dthfbvdfg',
+            'article-number' => '1232f5445',
+            'amount' => [
+                'value' => '1',
+                'currency' => 'EUR'
+            ],
+            'quantity' => self::QUANTITY,
+            'tax-amount' => [
+                'value' => '5.00',
+                'currency' => 'EUR'
+            ],
+        ];
+
+        $this->assertEquals($expected, $this->item->mappedProperties());
+    }
+
+    public function testMappedSeamlessPropertiesWithAllProperties()
+    {
+        $this->item->setArticleNumber('1232f5445');
+        $this->item->setTaxRate(10.0);
+
+        $expected = [
+            'orderItems1.name' => self::NAME,
+            'orderItems1.articleNumber' => '1232f5445',
+            'orderItems1.amount.value' => '1',
+            'orderItems1.amount.currency' => 'EUR',
+            'orderItems1.quantity' => self::QUANTITY,
+            'orderItems1.taxRate' => 10.0,
+        ];
+
+        $this->assertEquals($expected, $this->item->mappedSeamlessProperties(1));
     }
 }

@@ -14,13 +14,65 @@ require __DIR__ . '/../inc/config.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\TransactionService;
-
+use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 
 // ## Transaction
 
 // ### Transaction Service
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
+
+$redirectUrl = getUrl('return.php?status=success');
+$amount = new Amount(70.00, 'EUR');
+$orderNumber = 'A2';
+
+// ### Basket items
+// A Basket contains one or more items.
+
+// For each item you have to set some properties as described here.
+// Required: name, price, quantity, article number, tax rate.
+$item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(400, 'EUR'), 1);
+$item1->setArticleNumber('A1');
+$item1->setTaxRate(10.0);
+
+$item2 = new \Wirecard\PaymentSdk\Entity\Item('Item 2', new Amount(1000, 'EUR'), 2);
+$item2->setArticleNumber('B2');
+$item2->setTaxRate(20.0);
+
+// Create a basket to store the items.
+$basket = new \Wirecard\PaymentSdk\Entity\Basket();
+$basket->add($item1);
+$basket->add($item2);
+
+// #### Account holder with address
+$address = new \Wirecard\PaymentSdk\Entity\Address('DE', 'Berlin', 'Teststrasse');
+$address->setPostalCode('13353');
+
+$accountHolder = new \Wirecard\PaymentSdk\Entity\AccountHolder();
+$accountHolder->setFirstName('John');
+$accountHolder->setLastName('Constantine');
+$accountHolder->setEmail('john.doe@test.com');
+$accountHolder->setPhone('03018425165');
+$accountHolder->setDateOfBirth(new \DateTime('1973-12-07'));
+$accountHolder->setAddress($address);
+
+// ### Basic CreditCardTransaction
+// Create a CreditCardTransaction with all parameters which should be sent in the initial transaction.
+// The fields will be mapped for the javascript request.
+$transaction = new CreditCardTransaction();
+$transaction->setConfig($creditcardConfig);
+$transaction->setAmount($amount);
+$transaction->setTermUrl($redirectUrl);
+$transaction->setNotificationUrl($redirectUrl);
+$transaction->setBasket($basket);
+$transaction->setOrderNumber($orderNumber);
+$transaction->setAccountHolder($accountHolder);
+$transaction->setShipping($accountHolder);
+
+// Send custom fields for CreditCard transactions
+$custom_fields = new \Wirecard\PaymentSdk\Entity\CustomFieldCollection();
+$custom_fields->add( new \Wirecard\PaymentSdk\Entity\CustomField( 'orderId', '123' ) );
+$transaction->setCustomFields( $custom_fields );
 
 ?>
 
@@ -132,8 +184,8 @@ $transactionService = new TransactionService($config);
         ?>
 
         // We fill the _requestData_ with the return value
-        // from the `getDataForCreditCardUi` method of the `transactionService`.
-        requestData: <?= $transactionService->getDataForCreditCardUi('en', new Amount(10, 'EUR'), getUrl('notify.php'), 'authorization', $additionalData); ?>,
+        // from the `getCreditCardUiWithData` method of the `transactionService` which expects a transaction with all desired parameters.
+        requestData: <?= $transactionService->getCreditCardUiWithData($transaction, 'authorization', 'en'); ?>,
         wrappingDivId: "creditcard-form-div",
         onSuccess: logCallback,
         onError: logCallback
