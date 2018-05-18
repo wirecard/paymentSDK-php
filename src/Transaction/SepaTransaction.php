@@ -154,10 +154,6 @@ class SepaTransaction extends Transaction implements Reservable
      */
     protected function retrieveTransactionTypeForCredit()
     {
-        if ($this->parentTransactionType != self::TYPE_AUTHORIZATION) {
-            return self::TYPE_CREDIT;
-        } else {
-            throw new UnsupportedOperationException('The transaction cannot be credited');
-        }
+        return self::TYPE_CREDIT;
     }
 }
