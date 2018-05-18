@@ -194,6 +194,14 @@ abstract class Transaction extends Risk
     }
 
     /**
+     * @return string
+     */
+    public function getParentTransactionType()
+    {
+        return $this->parentTransactionType;
+    }
+
+    /**
      * @param string $parentTransactionId
      */
     public function setParentTransactionId($parentTransactionId)

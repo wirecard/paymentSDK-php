@@ -84,9 +84,7 @@ class BackendService extends TransactionService
 
         $operations = false;
         if ($transaction->getBackendOperationForPay() && (!$limit ||
-            $parentTransaction[Transaction::PARAM_PAYMENT][Transaction::PARAM_TRANSACTION_TYPE] ==
-            Transaction::TYPE_AUTHORIZATION
-            )) {
+            $transaction->getParentTransactionType() == Transaction::TYPE_AUTHORIZATION)) {
             $operations[] = [Operation::PAY => self::CAPTURE_BUTTON_TEXT];
         }
         if ($transaction->getBackendOperationForCancel()) {
