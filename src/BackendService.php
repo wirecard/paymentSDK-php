@@ -47,7 +47,7 @@ use Wirecard\PaymentSdk\Transaction\Transaction;
  */
 class BackendService extends TransactionService
 {
-    const TYPE_AUTHORIZATION = 'authorization';
+    const TYPE_AUTHORIZED = 'authorized';
     const TYPE_CANCELLED = 'cancelled';
     const TYPE_PROCESSING = 'processing';
     const TYPE_REFUNDED = 'refunded';
@@ -67,8 +67,9 @@ class BackendService extends TransactionService
             $transaction::NAME
         );
         if (!is_null($parentTransaction) && (
-            !$this->isFinal($parentTransaction[Transaction::PARAM_PAYMENT][Transaction::PARAM_TRANSACTION_TYPE]) ||
-            !$limit)) {
+            !$limit ||
+            !$this->isFinal($parentTransaction[Transaction::PARAM_PAYMENT][Transaction::PARAM_TRANSACTION_TYPE])
+            )) {
             $transaction->setParentTransactionType(
                 $parentTransaction[Transaction::PARAM_PAYMENT][Transaction::PARAM_TRANSACTION_TYPE]
             );
