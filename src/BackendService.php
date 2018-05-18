@@ -52,6 +52,11 @@ class BackendService extends TransactionService
     const TYPE_PROCESSING = 'processing';
     const TYPE_REFUNDED = 'refunded';
 
+    const CANCEL_BUTTON_TEXT = 'Cancel';
+    const REFUND_BUTTON_TEXT = 'Refund';
+    const CAPTURE_BUTTON_TEXT = 'Capture';
+    const CREDIT_BUTTON_TEXT = 'Credit';
+
     /**
      * Method returns possible follow up operations for transaction.
      * If limit is set to false (default), all possible operations will be returned.
@@ -82,17 +87,25 @@ class BackendService extends TransactionService
             $parentTransaction[Transaction::PARAM_PAYMENT][Transaction::PARAM_TRANSACTION_TYPE] ==
             Transaction::TYPE_AUTHORIZATION
             )) {
-            $operations[] = Operation::PAY;
+            $operations[] = [Operation::PAY => self::CAPTURE_BUTTON_TEXT];
         }
         if ($transaction->getBackendOperationForCancel()) {
-            $operations[] = Operation::CANCEL;
+            if (stristr($transaction->getBackendOperationForCancel(), 'refund')) {
+                $operations[] = [Operation::CANCEL => self::REFUND_BUTTON_TEXT];
+            } else {
+                $operations[] = [Operation::CANCEL => self::CANCEL_BUTTON_TEXT];
+            }
         }
         if ($transaction->getBackendOperationForRefund()) {
-            $operations[] = Operation::REFUND;
+            $operations[] = [Operation::REFUND => self::REFUND_BUTTON_TEXT];
         }
-        if ($transaction->getBackendOperationForCredit() && (!$limit || $transaction instanceof IdealTransaction ||
-            $transaction instanceof SofortTransaction || $transaction instanceof SepaTransaction)) {
-            $operations[] = Operation::CREDIT;
+        if ($transaction->getBackendOperationForCredit()) {
+            if (!$limit || $transaction instanceof IdealTransaction ||
+                $transaction instanceof SofortTransaction || $transaction instanceof SepaTransaction) {
+                $operations[] = [Operation::CREDIT => self::REFUND_BUTTON_TEXT];
+            } else {
+                $operations[] = [Operation::CREDIT => self::CREDIT_BUTTON_TEXT];
+            }
         }
 
         return $operations;
@@ -109,8 +122,8 @@ class BackendService extends TransactionService
     {
         $response = parent::process($transaction, $operation);
 
-        if ($response instanceof FailureResponse && $operation == Operation::REFUND) {
-            return parent::process($transaction, Operation::CANCEL);
+        if ($response instanceof FailureResponse && $operation == Operation::CANCEL) {
+            return parent::process($transaction, Operation::REFUND);
         } else {
             return $response;
         }
