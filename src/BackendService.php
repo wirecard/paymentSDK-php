@@ -164,7 +164,10 @@ class BackendService extends TransactionService
             Transaction::TYPE_PURCHASE,
             Transaction::TYPE_AUTHORIZATION,
             Transaction::TYPE_PENDING_CREDIT,
-            Transaction::TYPE_PENDING_DEBIT
+            Transaction::TYPE_PENDING_DEBIT,
+            Transaction::TYPE_AUTHORIZATION_ONLY,
+            Transaction::TYPE_CHECK_ENROLLMENT,
+            Transaction::TYPE_REFERENCED_AUTHORIZATION
         ])) {
             return false;
         }
