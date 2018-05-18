@@ -126,11 +126,21 @@ class PayPalTransaction extends Transaction implements Reservable
      */
     protected function retrieveTransactionTypeForPay()
     {
-        if ($this->parentTransactionType) {
-            return self::TYPE_CAPTURE_AUTHORIZATION;
+        if (!$this->parentTransactionId) {
+            throw new MandatoryFieldMissingException('No transaction for capture set.');
+        }
+        switch ($this->parentTransactionType) {
+            case self::TYPE_AUTHORIZATION:
+                $transactionType = self::TYPE_CAPTURE_AUTHORIZATION;
+                break;
+            case self::TYPE_DEBIT:
+                $transactionType = self::TYPE_DEBIT;
+                break;
+            default:
+                throw new UnsupportedOperationException('The transaction cannot be captured');
         }
 
-        return self::TYPE_DEBIT;
+        return $transactionType;
     }
 
     /**
