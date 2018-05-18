@@ -132,6 +132,11 @@ abstract class Transaction extends Risk
     protected $periodic;
 
     /**
+     * @var  bool|null
+     */
+    protected $sepaCredit;
+
+    /**
      * @param string $entryMode
      * @return Transaction
      */
@@ -524,5 +529,10 @@ abstract class Transaction extends Risk
         } catch (UnsupportedOperationException $e) {
             return false;
         }
+    }
+
+    public function getSepaCredit()
+    {
+        return $this->sepaCredit ? $this->sepaCredit : false;
     }
 }

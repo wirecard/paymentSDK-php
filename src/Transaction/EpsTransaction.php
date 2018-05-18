@@ -40,6 +40,11 @@ class EpsTransaction extends Transaction
     const NAME='eps';
 
     /**
+     * @var bool
+     */
+    protected $sepaCredit = true;
+
+    /**
      * @return array
      */
     protected function mappedSpecificProperties()
