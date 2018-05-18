@@ -157,7 +157,7 @@ class BackendService extends TransactionService
                 break;
             case Transaction::TYPE_AUTHORIZATION:
             default:
-                $state = self::TYPE_AUTHORIZATION;
+                $state = self::TYPE_AUTHORIZED;
                 break;
         }
 

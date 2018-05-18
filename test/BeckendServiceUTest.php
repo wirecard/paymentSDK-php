@@ -76,7 +76,7 @@ class BeckendServiceUTest extends \PHPUnit_Framework_TestCase
     public function testGetOrderState()
     {
         $testTransactionType = [
-            Transaction::TYPE_AUTHORIZATION => BackendService::TYPE_AUTHORIZATION,
+            Transaction::TYPE_AUTHORIZATION => BackendService::TYPE_AUTHORIZED,
             Transaction::TYPE_VOID_PURCHASE => BackendService::TYPE_REFUNDED,
             Transaction::TYPE_VOID_AUTHORIZATION => BackendService::TYPE_CANCELLED,
             Transaction::TYPE_REFUND_DEBIT => BackendService::TYPE_REFUNDED,
