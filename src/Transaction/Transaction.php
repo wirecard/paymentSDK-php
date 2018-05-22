@@ -134,7 +134,7 @@ abstract class Transaction extends Risk
     /**
      * @var  bool|null
      */
-    protected $sepaCredit;
+    protected $sepaCredit = false;
 
     /**
      * @param string $entryMode
@@ -533,6 +533,6 @@ abstract class Transaction extends Risk
 
     public function getSepaCredit()
     {
-        return $this->sepaCredit ? $this->sepaCredit : false;
+        return $this->sepaCredit;
     }
 }
