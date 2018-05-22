@@ -108,8 +108,7 @@ class CreditCardMotoTransactionUTest extends \PHPUnit_Framework_TestCase
             ],
             'ip-address' => 'test IP',
             'entry-mode' => 'ecommerce',
-            'locale' => 'de',
-            'periodic' => ['periodic-type' => 'recurring']
+            'locale' => 'de'
         ];
 
         $transaction = new CreditCardMotoTransaction();

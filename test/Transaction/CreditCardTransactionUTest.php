@@ -105,8 +105,7 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
                 'value' => 'maid'
             ],
             'entry-mode' => 'ecommerce',
-            'locale' => 'de',
-            'periodic' => ['periodic-type' => 'recurring']
+            'locale' => 'de'
         ];
 
         $transaction = new CreditCardTransaction();
@@ -545,10 +544,6 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
                 'expiration-year' => 'expiration year'
             ]
         ];
-
-        if (in_array($expectedType, array('check-enrollment', 'purchase', 'authorization'))) {
-            $expectedResult['periodic'] = ['periodic-type' => 'recurring'];
-        }
 
         $this->config->addSslMaxLimit(new Amount(20.0, 'EUR'));
         $this->config->setThreeDCredentials('maid', '123abcd');

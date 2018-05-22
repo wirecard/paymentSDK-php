@@ -247,6 +247,14 @@ abstract class Transaction extends Risk
     }
 
     /**
+     * @return Periodic
+     */
+    public function getPeriodic()
+    {
+        return $this->periodic;
+    }
+
+    /**
      * @param Periodic $periodic
      */
     public function setPeriodic($periodic)
@@ -325,14 +333,6 @@ abstract class Transaction extends Risk
         $result[self::PARAM_TRANSACTION_TYPE] = $this->retrieveTransactionType();
 
         $specificProperties = $this->mappedSpecificProperties();
-
-        if (in_array(
-            $this->retrieveTransactionType(),
-            [Transaction::TYPE_CHECK_ENROLLMENT, Transaction::TYPE_AUTHORIZATION, Transaction::TYPE_PURCHASE]
-        )
-            && array_key_exists('card-token', $specificProperties)) {
-            $this->periodic = new Periodic('recurring');
-        }
 
         if (null !== $this->periodic) {
             $result['periodic'] = $this->periodic->mappedProperties();
