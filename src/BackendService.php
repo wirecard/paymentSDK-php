@@ -98,9 +98,9 @@ class BackendService extends TransactionService
             $operations[] = [Operation::REFUND => self::REFUND_BUTTON_TEXT];
         }
         if ($transaction->getBackendOperationForCredit() || $transaction->getSepaCredit()) {
-            if (!$limit || $transaction->getSepaCredit()) {
+            if ($limit && $transaction->getSepaCredit()) {
                 $operations[] = [Operation::CREDIT => self::REFUND_BUTTON_TEXT];
-            } else {
+            } elseif (!$limit) {
                 $operations[] = [Operation::CREDIT => self::CREDIT_BUTTON_TEXT];
             }
         }
