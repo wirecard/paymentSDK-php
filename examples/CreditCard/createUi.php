@@ -49,8 +49,6 @@ $address = new \Wirecard\PaymentSdk\Entity\Address('DE', 'Berlin', 'Teststrasse'
 $address->setPostalCode('13353');
 
 $accountHolder = new \Wirecard\PaymentSdk\Entity\AccountHolder();
-$accountHolder->setFirstName('John');
-$accountHolder->setLastName('Constantine');
 $accountHolder->setEmail('john.doe@test.com');
 $accountHolder->setPhone('03018425165');
 $accountHolder->setDateOfBirth(new \DateTime('1973-12-07'));
