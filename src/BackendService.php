@@ -119,7 +119,8 @@ class BackendService extends TransactionService
     {
         $response = parent::process($transaction, $operation);
 
-        if ($response instanceof FailureResponse && $operation == Operation::CANCEL) {
+        if ($response instanceof FailureResponse && $operation == Operation::CANCEL
+            && $transaction->getBackendOperationForRefund()) {
             return parent::process($transaction, Operation::REFUND);
         } else {
             return $response;
