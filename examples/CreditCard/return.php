@@ -50,13 +50,15 @@ if ($_POST) {
             <button type="submit" class="btn btn-primary">Cancel the payment</button>
         </form>
        <?php
-	    // ##  BackendService use
+	    // ##  Example of BackendService use
+	    // For more info on BackendService please see the backendService example under Features
+	    // Create an transaction with the response transaction id.
        $backendService = new BackendService($config);
        $transaction = new \Wirecard\PaymentSdk\Transaction\CreditCardTransaction();
        $transaction->setParentTransactionId($response->getTransactionId());
-       // ### Retrieve possible operations on the transaction
+       // ### Retrieve possible operations for the transaction. An array of possible operations is returned
        echo '<br>Possible backend operations: ' . print_r($backendService->retrieveBackendOperations($transaction, true), true) . '<br>';
-       // ### check it the state is final
+       // ### Check it the state of the transaction is final.
        echo '<br>Is '. $response->getTransactionType() .' final: ' . $backendService->isFinal($response->getTransactionType()) === true ? 'true' : 'false' . '<br>';
        // ### Get order state of the transaction
        echo '<br>Order state: ' . $backendService->getOrderState($response->getTransactionType());

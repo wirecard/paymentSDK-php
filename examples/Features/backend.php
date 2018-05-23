@@ -1,7 +1,7 @@
 <?php
 // # Backend Service
 
-// This example displays the usage of backend service
+// This example displays the usage of backend service. The service can be used to get all possible follow up operations on an transaction, check if the transaction is an "final" transaction, where no follow up operations are possible, or get the correct order state depending on the transaction type. The backend service also provides a process method where a fallback for refund is build in, if an cancel operation fails the SDK will automatically try to make an refund operation if the payment method supports it.
 
 // ## Required objects
 
@@ -9,7 +9,6 @@
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 require __DIR__ . '/../inc/config.php';
-//Header design
 require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Transaction\IdealTransaction;
@@ -18,31 +17,29 @@ use Wirecard\PaymentSdk\Transaction\Transaction;
 
 // ### Transaction
 
-// Creating an example transaction
+// To get the possible backend operation you need a transaction.
 $transaction = new IdealTransaction();
 
-// To get the backend operations we need to set the parent transaction id
+// Parent transaction needs to be set.
 $transaction->setParentTransactionId('02e0a411-44ce-4a41-bd90-062eb586d164');
 
-
-// ### Example calls
 $backendService = new BackendService($config);
 
-// #### Backend operations
+// ### Backend operations
 
-// Get all possible backend operations on the transaction, it is possible to set second parameter to true for plugin operations only or leave it default to get all possible operations.
+// Get all possible backend operations on the transaction, it is possible to set the limit parameter to true for plugin operations only or leave it default to get all possible operations.
 echo "Possible backend operations: ". print_r($backendService->retrieveBackendOperations($transaction), true)
     . "<br/>";
 
-// #### Final status
+// ### Final status
 
-// Check if the transaction type is final, we get true for final.
+// Check if the transaction type is final, if so true is returned.
 echo "For transaction type debit <br/>";
 echo "Is the transaction final: " . printf($backendService->isFinal(Transaction::TYPE_DEBIT)) . "<br/>";
 
-// #### Order state
+// ### Order state
 
-// Depending on the transaction type we get the order state witch can be authorized, cancelled, processing or refunded.
+// We can also get the correct order state depending on the transaction type from the service authorized, cancelled, processing or refunded are possible.
 echo "Order state: " . $backendService->getOrderState(Transaction::TYPE_DEBIT);
 
 // #### Backend process
