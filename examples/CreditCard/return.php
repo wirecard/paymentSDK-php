@@ -12,6 +12,7 @@ require __DIR__ . '/../inc/config.php';
 //Header design
 require __DIR__ . '/../inc/header.php';
 
+use Wirecard\PaymentSdk\BackendService;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\TransactionService;
@@ -48,7 +49,18 @@ if ($_POST) {
             <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
             <button type="submit" class="btn btn-primary">Cancel the payment</button>
         </form>
-        <?php
+       <?php
+	    // ##  BackendService use
+       $backendService = new BackendService($config);
+       $transaction = new \Wirecard\PaymentSdk\Transaction\CreditCardTransaction();
+       $transaction->setParentTransactionId($response->getTransactionId());
+       // ### Retrieve possible operations on the transaction
+       echo '<br>Possible backend operations: ' . print_r($backendService->retrieveBackendOperations($transaction, true), true) . '<br>';
+       // ### check it the state is final
+       echo '<br>Is '. $response->getTransactionType() .' final: ' . $backendService->isFinal($response->getTransactionType()) === true ? 'true' : 'false' . '<br>';
+       // ### Get order state of the transaction
+       echo '<br>Order state: ' . $backendService->getOrderState($response->getTransactionType());
+
 // In case of a failed transaction, a `FailureResponse` object is returned.
     } elseif ($response instanceof FailureResponse) {
         echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');

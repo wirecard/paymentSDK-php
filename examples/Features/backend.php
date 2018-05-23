@@ -44,3 +44,9 @@ echo "Is the transaction final: " . printf($backendService->isFinal(Transaction:
 
 // Depending on the transaction type we get the order state witch can be authorized, cancelled, processing or refunded.
 echo "Order state: " . $backendService->getOrderState(Transaction::TYPE_DEBIT);
+
+// #### Backend process
+
+// It is also possible to process orders over the backend service where the fallback for refund is build in. If an cancel transaction fails the sdk will try to do a refund
+
+$backendService->process($transaction, \Wirecard\PaymentSdk\Transaction\Operation::CANCEL);
