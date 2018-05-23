@@ -1,5 +1,5 @@
 <?php
-// # backend service
+// # Backend Service
 
 // This example displays the usage of backend service
 
@@ -16,21 +16,31 @@ use Wirecard\PaymentSdk\Transaction\IdealTransaction;
 use Wirecard\PaymentSdk\BackendService;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
+// ### Transaction
+
 // Creating an example transaction
 $transaction = new IdealTransaction();
 
-// Setting an parent transaction
+// To get the backend operations we need to set the parent transaction id
 $transaction->setParentTransactionId('02e0a411-44ce-4a41-bd90-062eb586d164');
 
+
+// ### Example calls
 $backendService = new BackendService($config);
 
-// Get all possible backend operations on the transaction
+// #### Backend operations
+
+// Get all possible backend operations on the transaction, it is possible to set second parameter to true for plugin operations only or leave it default to get all possible operations.
 echo "Possible backend operations: ". print_r($backendService->retrieveBackendOperations($transaction), true)
     . "<br/>";
 
+// #### Final status
+
+// Check if the transaction type is final, we get true for final.
 echo "For transaction type debit <br/>";
-// Check if the transaction type debit is final
 echo "Is the transaction final: " . printf($backendService->isFinal(Transaction::TYPE_DEBIT)) . "<br/>";
 
-// Get the order state
+// #### Order state
+
+// Depending on the transaction type we get the order state witch can be authorized, cancelled, processing or refunded.
 echo "Order state: " . $backendService->getOrderState(Transaction::TYPE_DEBIT);
