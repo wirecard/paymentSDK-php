@@ -36,6 +36,11 @@ class SofortTransaction extends Transaction
     const NAME = 'sofortbanking';
 
     /**
+     * @var bool
+     */
+    protected $sepaCredit = true;
+
+    /**
      * @return array
      */
     protected function mappedSpecificProperties()

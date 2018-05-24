@@ -69,6 +69,7 @@ abstract class Transaction extends Risk
     const TYPE_REFUND_PURCHASE = 'refund-purchase';
     const TYPE_REFERENCED_PURCHASE = 'referenced-purchase';
     const TYPE_VOID_PURCHASE = 'void-purchase';
+    const TYPE_DEPOSIT = 'deposit';
 
     /**
      * @var Amount
@@ -129,6 +130,11 @@ abstract class Transaction extends Risk
      * @var Periodic
      */
     protected $periodic;
+
+    /**
+     * @var  bool|null
+     */
+    protected $sepaCredit = false;
 
     /**
      * @param string $entryMode
@@ -193,6 +199,14 @@ abstract class Transaction extends Risk
     }
 
     /**
+     * @return string
+     */
+    public function getParentTransactionType()
+    {
+        return $this->parentTransactionType;
+    }
+
+    /**
      * @param string $parentTransactionId
      */
     public function setParentTransactionId($parentTransactionId)
@@ -230,6 +244,14 @@ abstract class Transaction extends Risk
     public function setOperation($operation)
     {
         $this->operation = $operation;
+    }
+
+    /**
+     * @return Periodic
+     */
+    public function getPeriodic()
+    {
+        return $this->periodic;
     }
 
     /**
@@ -311,14 +333,6 @@ abstract class Transaction extends Risk
         $result[self::PARAM_TRANSACTION_TYPE] = $this->retrieveTransactionType();
 
         $specificProperties = $this->mappedSpecificProperties();
-
-        if (in_array(
-            $this->retrieveTransactionType(),
-            [Transaction::TYPE_CHECK_ENROLLMENT, Transaction::TYPE_AUTHORIZATION, Transaction::TYPE_PURCHASE]
-        )
-            && array_key_exists('card-token', $specificProperties)) {
-            $this->periodic = new Periodic('recurring');
-        }
 
         if (null !== $this->periodic) {
             $result['periodic'] = $this->periodic->mappedProperties();
@@ -467,5 +481,58 @@ abstract class Transaction extends Risk
     public function getNotificationUrl()
     {
         return $this->notificationUrl;
+    }
+
+    /**
+     * @return string|bool
+     */
+    public function getBackendOperationForPay()
+    {
+        try {
+            return $this->retrieveTransactionTypeForPay();
+        } catch (UnsupportedOperationException $e) {
+            return false;
+        }
+    }
+
+    /**
+     * @return string|bool
+     */
+    public function getBackendOperationForCancel()
+    {
+        try {
+            return $this->retrieveTransactionTypeForCancel();
+        } catch (UnsupportedOperationException $e) {
+            return false;
+        }
+    }
+
+    /**
+     * @return string|bool
+     */
+    public function getBackendOperationForRefund()
+    {
+        try {
+            return $this->retrieveTransactionTypeForRefund();
+        } catch (UnsupportedOperationException $e) {
+            return false;
+        }
+    }
+
+    /**
+     * @return string|bool
+     */
+    public function getBackendOperationForCredit()
+    {
+        try {
+            return $this->retrieveTransactionTypeForCredit();
+        } catch (UnsupportedOperationException $e) {
+            return false;
+        }
+    }
+
+    public function getSepaCredit()
+    {
+        return $this->sepaCredit;
     }
 }

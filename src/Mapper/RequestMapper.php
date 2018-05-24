@@ -36,6 +36,7 @@ use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Entity\Device;
+use Wirecard\PaymentSdk\Entity\Periodic;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException;
 use Wirecard\PaymentSdk\Transaction\Transaction;
@@ -108,6 +109,7 @@ class RequestMapper
         $basket = $transaction->getBasket();
         $device = $transaction->getDevice();
         $customFields = $transaction->getCustomFields();
+        $periodic = $transaction->getPeriodic();
 
         if ($accountHolder instanceof AccountHolder) {
             $accountHolder = $accountHolder->mappedSeamlessProperties();
@@ -151,6 +153,10 @@ class RequestMapper
 
         if ($device instanceof Device) {
             $requestData['device_fingerprint'] = $device->getFingerprint();
+        }
+
+        if ($periodic instanceof Periodic) {
+            $requestData = array_merge($requestData, $periodic->mappedSeamlessProperties());
         }
 
         return $requestData;

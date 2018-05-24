@@ -144,7 +144,7 @@ class SepaTransaction extends Transaction implements Reservable
             throw new MandatoryFieldMissingException('No transaction for cancellation set.');
         }
         if (!in_array($this->parentTransactionType, [self::TYPE_PENDING_DEBIT, self::TYPE_PENDING_CREDIT], false)) {
-            throw new UnsupportedOperationException('The transaction can not be canceled.');
+            throw new UnsupportedOperationException('The transaction cannot be canceled.');
         }
         return 'void-' . $this->parentTransactionType;
     }

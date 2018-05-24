@@ -98,4 +98,21 @@ class Periodic implements MappableEntity
 
         return $periodic;
     }
+
+    /**
+     * @return array
+     */
+    public function mappedSeamlessProperties()
+    {
+        $periodic = null;
+        if (null !== $this->periodicType) {
+            $periodic['periodic_type'] = $this->periodicType;
+        }
+
+        if (null !== $this->sequenceType) {
+            $periodic['sequence_type'] = $this->sequenceType;
+        }
+
+        return $periodic;
+    }
 }

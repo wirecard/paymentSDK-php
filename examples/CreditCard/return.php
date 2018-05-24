@@ -12,6 +12,7 @@ require __DIR__ . '/../inc/config.php';
 //Header design
 require __DIR__ . '/../inc/header.php';
 
+use Wirecard\PaymentSdk\BackendService;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\TransactionService;
@@ -48,7 +49,20 @@ if ($_POST) {
             <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
             <button type="submit" class="btn btn-primary">Cancel the payment</button>
         </form>
-        <?php
+       <?php
+	    // ##  Example of BackendService use
+	    // For more info on BackendService please see the backendService example under Features
+	    // Create an transaction with the response transaction id.
+       $backendService = new BackendService($config);
+       $transaction = new \Wirecard\PaymentSdk\Transaction\CreditCardTransaction();
+       $transaction->setParentTransactionId($response->getTransactionId());
+       // ### Retrieve possible operations for the transaction. An array of possible operations is returned
+       echo '<br>Possible backend operations: ' . print_r($backendService->retrieveBackendOperations($transaction, true), true) . '<br>';
+       // ### Check it the state of the transaction is final.
+       echo '<br>Is '. $response->getTransactionType() .' final: ' . $backendService->isFinal($response->getTransactionType()) === true ? 'true' : 'false' . '<br>';
+       // ### Get order state of the transaction
+       echo '<br>Order state: ' . $backendService->getOrderState($response->getTransactionType());
+
 // In case of a failed transaction, a `FailureResponse` object is returned.
     } elseif ($response instanceof FailureResponse) {
         echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');

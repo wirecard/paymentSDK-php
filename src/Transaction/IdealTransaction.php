@@ -48,6 +48,11 @@ class IdealTransaction extends Transaction
     private $bic;
 
     /**
+     * @var bool
+     */
+    protected $sepaCredit = true;
+
+    /**
      * @param string $bank
      * @throws MandatoryFieldMissingException
      */

@@ -229,14 +229,6 @@ class AccountHolder implements MappableEntity
         $result = array();
 
         if (self::SHIPPING == $type) {
-            if (null !== $this->lastName) {
-                $result[$type . 'last_name'] = $this->lastName;
-            }
-
-            if (null !== $this->firstName) {
-                $result[$type . 'first_name'] = $this->firstName;
-            }
-
             if (null !== $this->phone) {
                 $result[$type . 'phone'] = $this->phone;
             }
@@ -246,14 +238,6 @@ class AccountHolder implements MappableEntity
             }
 
             return $result;
-        }
-
-        if (null !== $this->lastName) {
-            $result['last_name'] = $this->lastName;
-        }
-
-        if (null !== $this->firstName) {
-            $result['first_name'] = $this->firstName;
         }
 
         if (null !== $this->email) {

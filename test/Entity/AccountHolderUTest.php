@@ -172,38 +172,6 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetMappedSeamlessPropertiesLastAndFirstName()
-    {
-        $firstName = 'Jane';
-        $lastName = 'Doe';
-        $this->accountHolder->setLastName($lastName);
-        $this->accountHolder->setFirstName($firstName);
-
-        $this->assertEquals(
-            [
-                'last_name' => $lastName,
-                'first_name' => $firstName
-            ],
-            $this->accountHolder->mappedSeamlessProperties()
-        );
-    }
-
-    public function testGetMappedSeamlessPropertiesLastAndFirstNameShipping()
-    {
-        $firstName = 'Jane';
-        $lastName = 'Doe';
-        $this->accountHolder->setLastName($lastName);
-        $this->accountHolder->setFirstName($firstName);
-
-        $this->assertEquals(
-            [
-                'shipping_last_name' => $lastName,
-                'shipping_first_name' => $firstName
-            ],
-            $this->accountHolder->mappedSeamlessProperties('shipping_')
-        );
-    }
-
     public function testGetMappedSeamlessPropertiesLastNameAndEmail()
     {
         $email = 'Jane@doe.com';
