@@ -59,7 +59,7 @@ if ($_POST) {
        // ### Retrieve possible operations for the transaction. An array of possible operations is returned
        echo '<br>Possible backend operations: ' . print_r($backendService->retrieveBackendOperations($transaction, true), true) . '<br>';
        // ### Check it the state of the transaction is final.
-       echo '<br>Is '. $response->getTransactionType() .' final: ' . $backendService->isFinal($response->getTransactionType()) === true ? 'true' : 'false' . '<br>';
+       echo '<br>Is '. $response->getTransactionType() .' final: ' . printf($backendService->isFinal($response->getTransactionType())) . '<br>';
        // ### Get order state of the transaction
        echo '<br>Order state: ' . $backendService->getOrderState($response->getTransactionType());
 
