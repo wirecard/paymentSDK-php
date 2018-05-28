@@ -31,7 +31,6 @@
 
 namespace WirecardTest\PaymentSdk\Entity;
 
-
 use Wirecard\PaymentSdk\Entity\Browser;
 
 class BrowserUTest extends \PHPUnit_Framework_TestCase

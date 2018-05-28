@@ -103,6 +103,9 @@ class PeriodicUTest extends \PHPUnit_Framework_TestCase
         $periodic = new Periodic();
         $periodic->setPeriodicType('ci');
         $periodic->setSequenceType('first');
-        $this->assertEquals(['periodic_type' => 'ci', 'sequence_type' => 'first'], $periodic->mappedSeamlessProperties());
+        $this->assertEquals(
+            ['periodic_type' => 'ci', 'sequence_type' => 'first'],
+            $periodic->mappedSeamlessProperties()
+        );
     }
 }

@@ -31,7 +31,6 @@
 
 namespace Wirecard\PaymentSdk\Entity;
 
-
 class Browser implements MappableEntity
 {
     protected $accept;
