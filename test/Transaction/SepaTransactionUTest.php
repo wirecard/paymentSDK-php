@@ -75,6 +75,7 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
     {
         $this->tx->setIban(self::IBAN);
         $this->tx->setAccountHolder($this->accountHolder);
+        $this->tx->setNotificationUrl('notification url');
         $expectedResult = $this->getExpectedResultReserveIbanOnly();
 
         $this->tx->setOperation(Operation::RESERVE);
@@ -89,6 +90,7 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx->setAccountHolder($this->accountHolder);
         $bic = '42B';
         $this->tx->setBic($bic);
+        $this->tx->setNotificationUrl('notification url');
 
         $expectedResult = $this->getExpectedResultReserveIbanOnly();
         $expectedResult['bank-account']['bic'] = $bic;
@@ -106,6 +108,7 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'transaction-type' => 'authorization',
+            'notifications' => ['notification' => [['url' => 'notification url']]],
             'requested-amount' => [
                 'currency' => 'EUR',
                 'value' => '55.5'
@@ -232,6 +235,11 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
     {
         $this->tx->setOperation(Operation::CREDIT);
         $this->assertEquals(SepaTransaction::CREDIT_TRANSFER, $this->tx->getConfigKey());
+    }
+
+    public function testGetSepaCredit()
+    {
+        $this->assertEquals(null, $this->tx->getSepaCredit());
     }
 
     private function getExpectedResultCancelPay($parentTransactionId)
