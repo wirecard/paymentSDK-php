@@ -46,4 +46,9 @@ echo "Order state: " . $backendService->getOrderState(Transaction::TYPE_DEBIT);
 
 // It is also possible to process orders over the backend service where the fallback for refund is build in. If an cancel transaction fails the sdk will try to do a refund
 
-$backendService->process($transaction, \Wirecard\PaymentSdk\Transaction\Operation::CANCEL);
+try {
+	// This is only a example of the use, for testing you need to provide a real transaction otherwise it will fail
+	$backendService->process($transaction, \Wirecard\PaymentSdk\Transaction\Operation::CANCEL);
+} catch (Exception $exception) {
+	die();
+}
