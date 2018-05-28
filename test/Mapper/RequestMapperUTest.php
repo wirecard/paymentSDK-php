@@ -39,6 +39,7 @@ use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Entity\Device;
+use Wirecard\PaymentSdk\Entity\Periodic;
 use Wirecard\PaymentSdk\Mapper\RequestMapper;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
@@ -135,6 +136,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $transaction->setIpAddress('127.0.0.1');
         $transaction->setConsumerId('cons123');
         $transaction->setDevice(new Device());
+        $transaction->setPeriodic(new Periodic('ci', 'first'));
 
         $_SERVER['REMOTE_ADDR'] = 'test';
 
@@ -150,7 +152,9 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
             'order_number' => '123',
             'ip_address' => '127.0.0.1',
             'consumer_id' => 'cons123',
-            'device_fingerprint' => null
+            'device_fingerprint' => null,
+            'periodic_type' => 'ci',
+            'sequence_type' => 'first'
         ];
 
         $this->assertEquals($expectedResult, $result);
