@@ -33,6 +33,7 @@ namespace Wirecard\PaymentSdk\Transaction;
 
 use Locale;
 use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Entity\Browser;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Entity\Periodic;
 use Wirecard\PaymentSdk\Entity\Redirect;
@@ -137,6 +138,11 @@ abstract class Transaction extends Risk
     protected $sepaCredit = false;
 
     /**
+     * @var Browser
+     */
+    protected $browser;
+
+    /**
      * @param string $entryMode
      * @return Transaction
      */
@@ -176,18 +182,41 @@ abstract class Transaction extends Risk
 
     /**
      * @param Amount $amount
+     * @return Transaction
      */
     public function setAmount($amount)
     {
         $this->amount = $amount;
+        return $this;
     }
 
     /**
      * @param string $orderId
+     * @return Transaction
      */
     public function setOrderId($orderId)
     {
         $this->orderId = $orderId;
+        return $this;
+    }
+
+    /**
+     * @param Browser $browser
+     * @return Transaction
+     * @since
+     */
+    public function setBrowser($browser)
+    {
+        $this->browser = $browser;
+        return $this;
+    }
+
+    /**
+     * @return Browser
+     */
+    public function getBrowser()
+    {
+        return $this->browser;
     }
 
     /**
@@ -208,42 +237,52 @@ abstract class Transaction extends Risk
 
     /**
      * @param string $parentTransactionId
+     * @return Transaction
      */
     public function setParentTransactionId($parentTransactionId)
     {
         $this->parentTransactionId = $parentTransactionId;
+        return $this;
     }
 
     /**
      * @param string $parentTransactionType
+     * @return Transaction
      */
     public function setParentTransactionType($parentTransactionType)
     {
         $this->parentTransactionType = $parentTransactionType;
+        return $this;
     }
 
     /**
      * @param mixed $requestId
+     * @return Transaction
      */
     public function setRequestId($requestId)
     {
         $this->requestId = $requestId;
+        return $this;
     }
 
     /**
      * @param string $notificationUrl
+     * @return Transaction
      */
     public function setNotificationUrl($notificationUrl)
     {
         $this->notificationUrl = $notificationUrl;
+        return $this;
     }
 
     /**
      * @param string $operation
+     * @return Transaction
      */
     public function setOperation($operation)
     {
         $this->operation = $operation;
+        return $this;
     }
 
     /**
@@ -256,12 +295,14 @@ abstract class Transaction extends Risk
 
     /**
      * @param Periodic $periodic
+     * @return Transaction
      */
     public function setPeriodic($periodic)
     {
         if ($periodic instanceof Periodic) {
             $this->periodic = $periodic;
         }
+        return $this;
     }
 
     /**
@@ -336,6 +377,13 @@ abstract class Transaction extends Risk
 
         if (null !== $this->periodic) {
             $result['periodic'] = $this->periodic->mappedProperties();
+        }
+
+        if ($this->browser instanceof Browser) {
+            $browser = $this->browser->mappedProperties();
+            if (count($browser) > 0) {
+                $result['browser'] = $this->browser->mappedProperties();
+            }
         }
 
         return array_merge($result, $specificProperties);

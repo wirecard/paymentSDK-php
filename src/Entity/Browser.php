@@ -29,51 +29,79 @@
  * Please do not use the SDK if you do not agree to these terms of use!
  */
 
-namespace WirecardTest\PaymentSdk\Entity;
+namespace Wirecard\PaymentSdk\Entity;
 
-use Wirecard\PaymentSdk\Entity\Card;
-
-class CardUTest extends \PHPUnit_Framework_TestCase
+/**
+ * Class Browser
+ * @package Wirecard\PaymentSdk\Entity
+ * @since 2.2.0
+ */
+class Browser implements MappableEntity
 {
     /**
-     * @var Card
+     * @var string $accept
      */
-    private $card;
+    protected $accept;
 
-    protected function setUp()
+    /**
+     * @var string $userAgent
+     */
+    protected $userAgent;
+
+    /**
+     * Browser constructor.
+     * @param null $accept
+     * @param null $userAgent
+     */
+    public function __construct($accept = null, $userAgent = null)
     {
-        $this->card = new Card();
+        if (null !== $accept) {
+            $this->setAccept($accept);
+        }
+        if (null !== $userAgent) {
+            $this->setUserAgent($userAgent);
+        }
     }
 
-    public function testMappingOnlyRequiredFields()
+    /**
+     * @param $accept
+     * @return $this
+     */
+    public function setAccept($accept)
     {
-        $expectedResult = [
-            'card-type' => 'card type',
-            'expiration-month' => 'expiration month',
-            'expiration-year' => 'expiration year'
-        ];
-
-        $this->card->setExpirationMonth('expiration month');
-        $this->card->setExpirationYear('expiration year');
-        $this->card->setType('card type');
-
-        $this->assertEquals($expectedResult, $this->card->mappedProperties());
+        $this->accept = $accept;
+        return $this;
     }
 
-    public function testSetMerchantTokenizationFlag()
+    /**
+     * @param $userAgent
+     * @return $this
+     */
+    public function setUserAgent($userAgent)
     {
-        $expectedResult = [
-            'card-type' => 'card type',
-            'expiration-month' => 'expiration month',
-            'expiration-year' => 'expiration year',
-            'merchant-tokenization-flag' => true
-        ];
+        $this->userAgent = $userAgent;
+        return $this;
+    }
 
-        $this->card->setExpirationMonth('expiration month');
-        $this->card->setExpirationYear('expiration year');
-        $this->card->setMerchantTokenizationFlag(true);
-        $this->card->setType('card type');
+    /**
+     * @return array
+     */
+    public function mappedProperties()
+    {
+        $data = [];
 
-        $this->assertEquals($expectedResult, $this->card->mappedProperties());
+        if (strlen($this->accept)) {
+            $data['accept'] = $this->accept;
+        } elseif (isset($_SERVER['HTTP_ACCEPT'])) {
+            $data['accept'] = $_SERVER['HTTP_ACCEPT'];
+        }
+
+        if (strlen($this->userAgent)) {
+            $data['user-agent'] = $this->userAgent;
+        } elseif (isset($_SERVER['HTTP_USER_AGENT'])) {
+            $data['user-agent'] = $_SERVER['HTTP_USER_AGENT'];
+        }
+
+        return $data;
     }
 }

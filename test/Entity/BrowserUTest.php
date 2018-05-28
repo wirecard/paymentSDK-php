@@ -31,49 +31,49 @@
 
 namespace WirecardTest\PaymentSdk\Entity;
 
-use Wirecard\PaymentSdk\Entity\Card;
+use Wirecard\PaymentSdk\Entity\Browser;
 
-class CardUTest extends \PHPUnit_Framework_TestCase
+class BrowserUTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var Card
-     */
-    private $card;
-
-    protected function setUp()
+    public function setUp()
     {
-        $this->card = new Card();
+        $_SERVER['HTTP_ACCEPT'] = 'first';
+        $_SERVER['HTTP_USER_AGENT'] = 'second';
     }
 
-    public function testMappingOnlyRequiredFields()
+    public function testConstructWithParams()
     {
-        $expectedResult = [
-            'card-type' => 'card type',
-            'expiration-month' => 'expiration month',
-            'expiration-year' => 'expiration year'
-        ];
+        $browser = new Browser('first', 'second');
+        $expected = ['accept' => 'first', 'user-agent' => 'second'];
 
-        $this->card->setExpirationMonth('expiration month');
-        $this->card->setExpirationYear('expiration year');
-        $this->card->setType('card type');
-
-        $this->assertEquals($expectedResult, $this->card->mappedProperties());
+        $this->assertEquals($expected, $browser->mappedProperties());
     }
 
-    public function testSetMerchantTokenizationFlag()
+    public function testConstructorWithoutParams()
     {
-        $expectedResult = [
-            'card-type' => 'card type',
-            'expiration-month' => 'expiration month',
-            'expiration-year' => 'expiration year',
-            'merchant-tokenization-flag' => true
-        ];
+        $browser = new Browser();
+        $expected = ['accept' => $_SERVER['HTTP_ACCEPT'], 'user-agent' => $_SERVER['HTTP_USER_AGENT']];
 
-        $this->card->setExpirationMonth('expiration month');
-        $this->card->setExpirationYear('expiration year');
-        $this->card->setMerchantTokenizationFlag(true);
-        $this->card->setType('card type');
+        $this->assertEquals($expected, $browser->mappedProperties());
+    }
 
-        $this->assertEquals($expectedResult, $this->card->mappedProperties());
+    public function testSetAccept()
+    {
+        $browser = new Browser();
+        $browser->setAccept('first');
+
+        $expected = ['accept' => 'first', 'user-agent' => $_SERVER['HTTP_USER_AGENT']];
+
+        $this->assertEquals($expected, $browser->mappedProperties());
+    }
+
+    public function setTestUserAgent()
+    {
+        $browser = new Browser();
+        $browser->setUserAgent('second');
+
+        $expected = ['accept' => $_SERVER['HTTP_ACCEPT'], 'user-agent' => $_SERVER['HTTP_USER_AGENT']];
+
+        $this->assertEquals($expected, $browser->mappedProperties());
     }
 }

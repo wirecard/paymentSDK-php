@@ -34,6 +34,7 @@ namespace WirecardTest\PaymentSdk\Transaction;
 use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Card;
+use Wirecard\PaymentSdk\Entity\Periodic;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\Transaction;
@@ -542,7 +543,9 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
                 'card-type' => 'card type',
                 'expiration-month' => 'expiration month',
                 'expiration-year' => 'expiration year'
-            ]
+            ],
+            'order-id' => 'orderid123',
+            'periodic' => ['periodic-type' => 'ci']
         ];
 
         $this->config->addSslMaxLimit(new Amount(20.0, 'EUR'));
@@ -558,6 +561,8 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
         $transaction->setOperation($operation);
         $transaction->setEntryMode('telephone');
         $transaction->setLocale('de');
+        $transaction->setOrderId('orderid123');
+        $transaction->setPeriodic(new Periodic('ci'));
 
         $card = new Card();
         $card->setExpirationMonth('expiration month');
