@@ -33,6 +33,7 @@ namespace Wirecard\PaymentSdk\Transaction;
 
 use Locale;
 use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Entity\Browser;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Entity\Periodic;
 use Wirecard\PaymentSdk\Entity\Redirect;
@@ -137,6 +138,11 @@ abstract class Transaction extends Risk
     protected $sepaCredit = false;
 
     /**
+     * @var Browser
+     */
+    protected $browser;
+
+    /**
      * @param string $entryMode
      * @return Transaction
      */
@@ -188,6 +194,25 @@ abstract class Transaction extends Risk
     public function setOrderId($orderId)
     {
         $this->orderId = $orderId;
+    }
+
+    /**
+     * @param Browser $browser
+     * @return Transaction
+     * @since
+     */
+    public function setBrowser($browser)
+    {
+        $this->browser = $browser;
+        return $this;
+    }
+
+    /**
+     * @return Browser
+     */
+    public function getBrowser()
+    {
+        return $this->browser;
     }
 
     /**
@@ -336,6 +361,13 @@ abstract class Transaction extends Risk
 
         if (null !== $this->periodic) {
             $result['periodic'] = $this->periodic->mappedProperties();
+        }
+
+        if ($this->browser instanceof Browser) {
+            $browser = $this->browser->mappedProperties();
+            if (count($browser) > 0) {
+                $result['browser'] = $this->browser->mappedProperties();
+            }
         }
 
         return array_merge($result, $specificProperties);
