@@ -160,7 +160,9 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $paypalConfig = new PaymentMethodConfig(PayPalTransaction::NAME, 'maid', 'secret');
         $config->add($paypalConfig);
 
-        $requestIdGenerator = function() {return 'request id';};
+        $requestIdGenerator = function () {
+            return 'request id';
+        };
 
         $service = new TransactionService($config, $logger, null, null, $requestIdGenerator);
 
