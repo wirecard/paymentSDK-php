@@ -59,4 +59,21 @@ class CardUTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expectedResult, $this->card->mappedProperties());
     }
+
+    public function testSetMerchantTokenizationFlag()
+    {
+        $expectedResult = [
+            'card-type' => 'card type',
+            'expiration-month' => 'expiration month',
+            'expiration-year' => 'expiration year',
+            'merchant-tokenization-flag' => true
+        ];
+
+        $this->card->setExpirationMonth('expiration month');
+        $this->card->setExpirationYear('expiration year');
+        $this->card->setMerchantTokenizationFlag(true);
+        $this->card->setType('card type');
+
+        $this->assertEquals($expectedResult, $this->card->mappedProperties());
+    }
 }
