@@ -31,9 +31,21 @@
 
 namespace Wirecard\PaymentSdk\Entity;
 
+/**
+ * Class Browser
+ * @package Wirecard\PaymentSdk\Entity
+ * @since 2.2.0
+ */
 class Browser implements MappableEntity
 {
+    /**
+     * @var string $accept
+     */
     protected $accept;
+
+    /**
+     * @var string $userAgent
+     */
     protected $userAgent;
 
     /**
@@ -51,12 +63,20 @@ class Browser implements MappableEntity
         }
     }
 
+    /**
+     * @param $accept
+     * @return $this
+     */
     public function setAccept($accept)
     {
         $this->accept = $accept;
         return $this;
     }
 
+    /**
+     * @param $userAgent
+     * @return $this
+     */
     public function setUserAgent($userAgent)
     {
         $this->userAgent = $userAgent;
