@@ -35,6 +35,7 @@ use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\Operation;
+use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
 class TransactionUTest extends \PHPUnit_Framework_TestCase
@@ -180,5 +181,71 @@ class TransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx->setRedirect($redirect);
 
         $this->assertEquals($successUrl, $this->tx->getSuccessUrl());
+    }
+
+    public function testGetBackendOperationForPay()
+    {
+        $this->assertNotNull($this->tx->getBackendOperationForPay());
+    }
+
+    public function testGetBackendOperationForPayException()
+    {
+        /**
+         * @var Transaction $stub
+         */
+        $stub = $this->getMockForAbstractClass(Transaction::class);
+        $this->assertFalse($stub->getBackendOperationForPay());
+    }
+
+    public function testGetBackendOperationForCancel()
+    {
+        $this->assertNotNull($this->tx->getBackendOperationForPay());
+    }
+
+    public function testGetBackendOperationForCancelException()
+    {
+        /**
+         * @var Transaction $stub
+         */
+        $stub = $this->getMockForAbstractClass(Transaction::class);
+        $this->assertFalse($stub->getBackendOperationForCancel());
+    }
+
+    public function testGetBackendOperationForRefund()
+    {
+        $this->assertNotNull($this->tx->getBackendOperationForPay());
+    }
+
+    public function testGetBackendOperationForRefundException()
+    {
+        /**
+         * @var Transaction $stub
+         */
+        $stub = $this->getMockForAbstractClass(Transaction::class);
+        $this->assertFalse($stub->getBackendOperationForRefund());
+    }
+
+    public function testGetBackendOperationForCredit()
+    {
+        $this->assertNotNull($this->tx->getBackendOperationForPay());
+    }
+
+    public function testGetBackendOperationForCreditException()
+    {
+        /**
+         * @var Transaction $stub
+         */
+        $stub = $this->getMockForAbstractClass(Transaction::class);
+        $this->assertFalse($stub->getBackendOperationForCredit());
+    }
+
+    public function testGetters()
+    {
+        /**
+         * @var Transaction $stub
+         */
+        $stub = $this->getMockForAbstractClass(Transaction::class);
+        $this->assertNull($stub->getParentTransactionType());
+        $this->assertNull($stub->getBrowser());
     }
 }
