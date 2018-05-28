@@ -33,6 +33,7 @@
 namespace Wirecard\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Config\CreditCardConfig;
+use Wirecard\PaymentSdk\Entity\Browser;
 use Wirecard\PaymentSdk\Entity\Card;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
@@ -192,6 +193,10 @@ class CreditCardTransaction extends Transaction implements Reservable
 
         if (null !== $this->card) {
             $result['card'] = $this->card->mappedProperties();
+        }
+
+        if ($this->parentTransactionType === Transaction::TYPE_CHECK_ENROLLMENT && !$this->browser instanceof Browser) {
+            $this->setBrowser(new Browser());
         }
 
         return $result;
