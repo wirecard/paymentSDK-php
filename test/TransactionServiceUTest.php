@@ -34,10 +34,16 @@ namespace WirecardTest\PaymentSdk;
 use Psr\Log\LoggerInterface;
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Config\CreditCardConfig;
+use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
+use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayDirectDebitTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 /**
@@ -145,5 +151,38 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         $response = $this->service->processJsResponse($data, $url);
         $this->assertTrue($response instanceof FailureResponse);
+    }
+
+    public function testConstructorWithRequestIdGenerator()
+    {
+        $logger = $this->createMock(LoggerInterface::class);
+        $config = new Config('https://api-test.wirecard.com', 'user', 'password');
+        $paypalConfig = new PaymentMethodConfig(PayPalTransaction::NAME, 'maid', 'secret');
+        $config->add($paypalConfig);
+
+        $requestIdGenerator = function() {return 'request id';};
+
+        $service = new TransactionService($config, $logger, null, null, $requestIdGenerator);
+
+        $response = $service->handleNotification('
+            <xml>
+                <transaction-state>success</transaction-state>
+                <payment-methods><payment-method value="ccard"/></payment-methods>
+                <statuses></statuses>
+                <request-id>request id</request-id>
+                <transaction-id>transaction id</transaction-id>
+                <transaction-type>purchase</transaction-type>
+            </xml>');
+
+        $this->assertTrue($response instanceof SuccessResponse);
+    }
+
+    public function testHandleResponseCheckEnrollment()
+    {
+        $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'en';
+
+        $this->expectException(MalformedResponseException::class);
+
+        $this->service->handleResponse(['MD' => 'md', 'PaRes' => 'pares']);
     }
 }
