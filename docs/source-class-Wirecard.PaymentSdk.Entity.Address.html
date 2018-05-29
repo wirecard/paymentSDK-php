@@ -90,6 +90,7 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
+				<li><a href="class-Wirecard.PaymentSdk.BackendService.html">Wirecard\PaymentSdk\BackendService</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Config.Config.html">Wirecard\PaymentSdk\Config\Config</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Config.CreditCardConfig.html">Wirecard\PaymentSdk\Config\CreditCardConfig</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Config.PaymentMethodConfig.html">Wirecard\PaymentSdk\Config\PaymentMethodConfig</a></li>
@@ -99,6 +100,7 @@
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Amount.html">Wirecard\PaymentSdk\Entity\Amount</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.BankAccount.html">Wirecard\PaymentSdk\Entity\BankAccount</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Basket.html">Wirecard\PaymentSdk\Entity\Basket</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.Browser.html">Wirecard\PaymentSdk\Entity\Browser</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Card.html">Wirecard\PaymentSdk\Entity\Card</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.CustomField.html">Wirecard\PaymentSdk\Entity\CustomField</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.CustomFieldCollection.html">Wirecard\PaymentSdk\Entity\CustomFieldCollection</a></li>
@@ -107,6 +109,7 @@
 				<li><a href="class-Wirecard.PaymentSdk.Entity.IdealBic.html">Wirecard\PaymentSdk\Entity\IdealBic</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Item.html">Wirecard\PaymentSdk\Entity\Item</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Mandate.html">Wirecard\PaymentSdk\Entity\Mandate</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.Periodic.html">Wirecard\PaymentSdk\Entity\Periodic</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Redirect.html">Wirecard\PaymentSdk\Entity\Redirect</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Status.html">Wirecard\PaymentSdk\Entity\Status</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.StatusCollection.html">Wirecard\PaymentSdk\Entity\StatusCollection</a></li>
@@ -309,8 +312,36 @@
 </span><span id="139" class="l"><a href="#139">139 </a>
 </span><span id="140" class="l"><a href="#140">140 </a>        <span class="php-keyword1">return</span> <span class="php-var">$result</span>;
 </span><span id="141" class="l"><a href="#141">141 </a>    }
-</span><span id="142" class="l"><a href="#142">142 </a>}
-</span><span id="143" class="l"><a href="#143">143 </a></span></code></pre>
+</span><span id="142" class="l"><a href="#142">142 </a>
+</span><span id="143" class="l"><a href="#143">143 </a>    <span class="php-comment">/**
+</span></span><span id="144" class="l"><a href="#144">144 </a><span class="php-comment">     * @param string $type
+</span></span><span id="145" class="l"><a href="#145">145 </a><span class="php-comment">     * @return array
+</span></span><span id="146" class="l"><a href="#146">146 </a><span class="php-comment">     */</span>
+</span><span id="147" class="l"><a href="#147">147 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> mappedSeamlessProperties(<span class="php-var">$type</span> = <span class="php-quote">''</span>)
+</span><span id="148" class="l"><a href="#148">148 </a>    {
+</span><span id="149" class="l"><a href="#149">149 </a>        <span class="php-var">$result</span> = [
+</span><span id="150" class="l"><a href="#150">150 </a>            <span class="php-var">$type</span> . <span class="php-quote">'street1'</span> =&gt; <span class="php-var">$this</span>-&gt;street1,
+</span><span id="151" class="l"><a href="#151">151 </a>            <span class="php-var">$type</span> . <span class="php-quote">'city'</span> =&gt; <span class="php-var">$this</span>-&gt;city,
+</span><span id="152" class="l"><a href="#152">152 </a>            <span class="php-var">$type</span> . <span class="php-quote">'country'</span> =&gt; <span class="php-var">$this</span>-&gt;countryCode
+</span><span id="153" class="l"><a href="#153">153 </a>        ];
+</span><span id="154" class="l"><a href="#154">154 </a>
+</span><span id="155" class="l"><a href="#155">155 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">null</span> !== <span class="php-var">$this</span>-&gt;postalCode) {
+</span><span id="156" class="l"><a href="#156">156 </a>            <span class="php-var">$result</span>[<span class="php-var">$type</span> . <span class="php-quote">'postal_code'</span>] = <span class="php-var">$this</span>-&gt;postalCode;
+</span><span id="157" class="l"><a href="#157">157 </a>        }
+</span><span id="158" class="l"><a href="#158">158 </a>
+</span><span id="159" class="l"><a href="#159">159 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">null</span> !== <span class="php-var">$this</span>-&gt;street2) {
+</span><span id="160" class="l"><a href="#160">160 </a>            <span class="php-var">$result</span>[<span class="php-var">$type</span> . <span class="php-quote">'street2'</span>] = <span class="php-var">$this</span>-&gt;street2;
+</span><span id="161" class="l"><a href="#161">161 </a>        } <span class="php-keyword1">else</span> {
+</span><span id="162" class="l"><a href="#162">162 </a>            <span class="php-keyword1">if</span> (<span class="php-keyword2">strlen</span>(<span class="php-var">$this</span>-&gt;street1) &gt; <span class="php-num">128</span>) {
+</span><span id="163" class="l"><a href="#163">163 </a>                <span class="php-var">$result</span>[<span class="php-var">$type</span> . <span class="php-quote">'street1'</span>] = <span class="php-keyword2">substr</span>(<span class="php-var">$this</span>-&gt;street1, <span class="php-num">0</span>, <span class="php-num">128</span>);
+</span><span id="164" class="l"><a href="#164">164 </a>                <span class="php-var">$result</span>[<span class="php-var">$type</span> . <span class="php-quote">'street2'</span>] = <span class="php-keyword2">substr</span>(<span class="php-var">$this</span>-&gt;street1, <span class="php-num">128</span>);
+</span><span id="165" class="l"><a href="#165">165 </a>            }
+</span><span id="166" class="l"><a href="#166">166 </a>        }
+</span><span id="167" class="l"><a href="#167">167 </a>
+</span><span id="168" class="l"><a href="#168">168 </a>        <span class="php-keyword1">return</span> <span class="php-var">$result</span>;
+</span><span id="169" class="l"><a href="#169">169 </a>    }
+</span><span id="170" class="l"><a href="#170">170 </a>}
+</span><span id="171" class="l"><a href="#171">171 </a></span></code></pre>
 	</div>
 
 	<div id="footer">
@@ -318,6 +349,6 @@
 	</div>
 </div>
 <script src="resources/combined.js?cfd636dbffd7235c2f8960621ad1ba069499eba1"></script>
-<script src="elementlist.js?f4eb903ec4b6741ae36cb1b020731a7c9d3745ad"></script>
+<script src="elementlist.js?f04f7acb2ef9022703df34e8a36b9224fd9d2f63"></script>
 </body>
 </html>

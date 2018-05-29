@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class Wirecard\PaymentSdk\BackendService</title>
+
+	<link rel="stylesheet" href="resources/bootstrap.min.css?973e37a8502921d56bc02bb55321f45b072b6f71">
+	<link rel="stylesheet" href="resources/style.css?49f43d3208c5d7e33fa16d36107a345bf11cc00d">
+
+</head>
+
+<body>
+	<nav id="navigation" class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a href="index.html" class="navbar-brand">Overview</a>
+			</div>
+			<div class="collapse navbar-collapse">
+
+                <form id="search" class="navbar-form navbar-left" role="search">
+                    <input type="hidden" name="cx" value="">
+                    <input type="hidden" name="ie" value="UTF-8">
+                    <div class="form-group">
+                        <input type="text" name="q" class="search-query form-control" placeholder="Search">
+					</div>
+				</form>
+
+				<ul class="nav navbar-nav">
+					<li>
+						<a href="namespace-Wirecard.PaymentSdk.html" title="Summary of Wirecard\PaymentSdk"><span>Namespace</span></a>
+					</li>
+					<li class="active">
+<span>Class</span>					</li>
+
+
+
+
+
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div id="left">
+	<div id="menu">
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+					<li class="active">
+						<a href="namespace-Wirecard.html">
+							Wirecard<span></span>
+						</a>
+							<ul>
+					<li class="active">
+						<a href="namespace-Wirecard.PaymentSdk.html">
+							PaymentSdk<span></span>
+						</a>
+							<ul>
+					<li>
+						<a href="namespace-Wirecard.PaymentSdk.Config.html">
+							Config						</a>
+							</li>
+					<li>
+						<a href="namespace-Wirecard.PaymentSdk.Entity.html">
+							Entity						</a>
+							</li>
+					<li>
+						<a href="namespace-Wirecard.PaymentSdk.Exception.html">
+							Exception						</a>
+							</li>
+					<li>
+						<a href="namespace-Wirecard.PaymentSdk.Mapper.html">
+							Mapper						</a>
+							</li>
+					<li>
+						<a href="namespace-Wirecard.PaymentSdk.Response.html">
+							Response						</a>
+							</li>
+					<li>
+						<a href="namespace-Wirecard.PaymentSdk.Transaction.html">
+							Transaction						</a>
+							</li>
+								</ul></li></ul></li>
+			</ul>
+		</div>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li class="active"><a href="class-Wirecard.PaymentSdk.BackendService.html">BackendService</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.TransactionService.html">TransactionService</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+	<div id="rightInner">
+<div id="content" class="class">
+	<h1>Class BackendService</h1>
+
+
+	<div class="description">
+	<p>Class BackendService</p>
+
+<p>This service manages backend operations</p>
+	</div>
+
+	<dl class="tree well">
+		<dd style="padding-left:0px">
+			<a href="class-Wirecard.PaymentSdk.TransactionService.html"><span>Wirecard\PaymentSdk\TransactionService</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by">
+<b><span>Wirecard\PaymentSdk\BackendService</span></b>			
+			
+			
+		</dd>
+	</dl>
+
+
+
+
+
+
+
+
+	<div class="alert alert-info">
+		
+		
+		<b>Namespace:</b> <a href="namespace-Wirecard.html">Wirecard</a>\<a href="namespace-Wirecard.PaymentSdk.html">PaymentSdk</a><br>
+		<b>Package:</b> Wirecard\PaymentSdk<br>
+
+				<b>Extends:</b>
+				TransactionService<br>
+			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.BackendService.html#41-189" title="Go to source code">BackendService.php</a>
+		<br>
+	</div>
+
+
+
+		<div class="panel panel-default">
+			<div class="panel-heading"><h2>Methods summary</h2></div>
+			<table class="summary table table-bordered table-striped methods" id="methods">
+		<tr data-order="retrieveBackendOperations" id="_retrieveBackendOperations">
+
+			<td class="attributes"><code>
+				 public 
+				array|boolean
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_retrieveBackendOperations">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.BackendService.html#60-109" title="Go to source code">retrieveBackendOperations</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></code> <var>$transaction</var></span>, <span>boolean <var>$limit</var> = <span class="php-keyword1">false</span></span> )</code>
+
+			<div class="description short">
+				<p>Method returns possible follow up operations for transaction.
+If limit is set to false (default), all possible operations will be returned.</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Method returns possible follow up operations for transaction.
+If limit is set to false (default), all possible operations will be returned.</p>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$transaction</var></dt>
+						<dd></dd>
+						<dt><var>$limit</var></dt>
+						<dd></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						array|boolean
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="process" id="_process">
+
+			<td class="attributes"><code>
+				 public 
+				<code><a href="class-Wirecard.PaymentSdk.Response.FailureResponse.html">Wirecard\PaymentSdk\Response\FailureResponse</a></code>|<code><a href="class-Wirecard.PaymentSdk.Response.InteractionResponse.html">Wirecard\PaymentSdk\Response\InteractionResponse</a></code>|<code><a href="class-Wirecard.PaymentSdk.Response.Response.html">Wirecard\PaymentSdk\Response\Response</a></code>|<code><a href="class-Wirecard.PaymentSdk.Response.SuccessResponse.html">Wirecard\PaymentSdk\Response\SuccessResponse</a></code>
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_process">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.BackendService.html#111-128" title="Go to source code">process</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></code> <var>$transaction</var></span>, <span>string <var>$operation</var></span> )</code>
+
+			<div class="description short">
+				<p>Build in fallback for refund</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Build in fallback for refund</p>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$transaction</var></dt>
+						<dd></dd>
+						<dt><var>$operation</var></dt>
+						<dd></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code><a href="class-Wirecard.PaymentSdk.Response.FailureResponse.html">Wirecard\PaymentSdk\Response\FailureResponse</a></code>|<code><a href="class-Wirecard.PaymentSdk.Response.InteractionResponse.html">Wirecard\PaymentSdk\Response\InteractionResponse</a></code>|<code><a href="class-Wirecard.PaymentSdk.Response.Response.html">Wirecard\PaymentSdk\Response\Response</a></code>|<code><a href="class-Wirecard.PaymentSdk.Response.SuccessResponse.html">Wirecard\PaymentSdk\Response\SuccessResponse</a></code>
+					</div>
+
+					<h4>Throws</h4>
+					<div class="list">
+						UnconfiguredPaymentMethodException<br>
+						MalformedResponseException<br>
+						MandatoryFieldMissingException<br>
+						RuntimeException<br>
+						InvalidArgumentException
+					</div>
+
+
+					<h4>Overrides</h4>
+					<div class="list"><code><a href="class-Wirecard.PaymentSdk.TransactionService.html#_process">Wirecard\PaymentSdk\TransactionService::process</a></code></div>
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getOrderState" id="_getOrderState">
+
+			<td class="attributes"><code>
+				 public 
+				string
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getOrderState">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.BackendService.html#130-163" title="Go to source code">getOrderState</a>( <span> <var>$transaction_type</var></span> )</code>
+
+			<div class="description short">
+				<p>Return order state of the transaction</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Return order state of the transaction</p>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$transaction_type</var></dt>
+						<dd></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						string
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="isFinal" id="_isFinal">
+
+			<td class="attributes"><code>
+				 public 
+				boolean
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_isFinal">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.BackendService.html#165-188" title="Go to source code">isFinal</a>( <span> <var>$transaction_type</var></span> )</code>
+
+			<div class="description short">
+				<p>Check if the transaction is final</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Check if the transaction is final</p>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$transaction_type</var></dt>
+						<dd></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						boolean
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+			</table>
+		</div>
+
+		<div class="panel panel-default">
+	        <div class="panel-heading"><h3>Methods inherited from <a href="class-Wirecard.PaymentSdk.TransactionService.html#methods">Wirecard\PaymentSdk\TransactionService</a></h3></div>
+			<p class="elementList">
+				<code><a href="class-Wirecard.PaymentSdk.TransactionService.html#___construct">__construct()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.TransactionService.html#_cancel">cancel()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.TransactionService.html#_checkCredentials">checkCredentials()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.TransactionService.html#_credit">credit()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.TransactionService.html#_getCreditCardUiWithData">getCreditCardUiWithData()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.TransactionService.html#_getDataForCreditCardMotoUi"><span class="deprecated">getDataForCreditCardMotoUi()</span></a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.TransactionService.html#_getDataForCreditCardUi"><span class="deprecated">getDataForCreditCardUi()</span></a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.TransactionService.html#_getDataForUpiUi"><span class="deprecated">getDataForUpiUi()</span></a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.TransactionService.html#_getLogger">getLogger()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.TransactionService.html#_getRatePayInstallmentDeviceIdent">getRatePayInstallmentDeviceIdent()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.TransactionService.html#_getRatePayInvoiceDeviceIdent">getRatePayInvoiceDeviceIdent()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.TransactionService.html#_getRatePayScript">getRatePayScript()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.TransactionService.html#_getTransactionByTransactionId">getTransactionByTransactionId()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.TransactionService.html#_handleNotification">handleNotification()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.TransactionService.html#_handleResponse">handleResponse()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.TransactionService.html#_pay">pay()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.TransactionService.html#_processJsResponse">processJsResponse()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.TransactionService.html#_reserve">reserve()</a></code>
+			</p>
+		</div>
+
+
+
+
+
+
+
+		<div class="panel panel-default">
+            <div class="panel-heading"><h2>Constants summary</h2></div>
+			<table class="summary table table-bordered table-striped constants" id="constants">
+			<tr data-order="TYPE_AUTHORIZED" id="TYPE_AUTHORIZED">
+
+				<td class="attributes"><code>string</code></td>
+				<td class="name">
+					<code>
+						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#50" title="Go to source code"><b>TYPE_AUTHORIZED</b></a>
+					</code>
+
+					<div class="description short">
+						
+					</div>
+
+					<div class="description detailed hidden">
+						
+
+					</div>
+				</td>
+				<td class="value">
+					<div>
+						<a href="#TYPE_AUTHORIZED" class="anchor">#</a>
+						<code><span class="php-quote">'authorized'</span></code>
+					</div>
+				</td>
+			</tr>
+			<tr data-order="TYPE_CANCELLED" id="TYPE_CANCELLED">
+
+				<td class="attributes"><code>string</code></td>
+				<td class="name">
+					<code>
+						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#51" title="Go to source code"><b>TYPE_CANCELLED</b></a>
+					</code>
+
+					<div class="description short">
+						
+					</div>
+
+					<div class="description detailed hidden">
+						
+
+					</div>
+				</td>
+				<td class="value">
+					<div>
+						<a href="#TYPE_CANCELLED" class="anchor">#</a>
+						<code><span class="php-quote">'cancelled'</span></code>
+					</div>
+				</td>
+			</tr>
+			<tr data-order="TYPE_PROCESSING" id="TYPE_PROCESSING">
+
+				<td class="attributes"><code>string</code></td>
+				<td class="name">
+					<code>
+						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#52" title="Go to source code"><b>TYPE_PROCESSING</b></a>
+					</code>
+
+					<div class="description short">
+						
+					</div>
+
+					<div class="description detailed hidden">
+						
+
+					</div>
+				</td>
+				<td class="value">
+					<div>
+						<a href="#TYPE_PROCESSING" class="anchor">#</a>
+						<code><span class="php-quote">'processing'</span></code>
+					</div>
+				</td>
+			</tr>
+			<tr data-order="TYPE_REFUNDED" id="TYPE_REFUNDED">
+
+				<td class="attributes"><code>string</code></td>
+				<td class="name">
+					<code>
+						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#53" title="Go to source code"><b>TYPE_REFUNDED</b></a>
+					</code>
+
+					<div class="description short">
+						
+					</div>
+
+					<div class="description detailed hidden">
+						
+
+					</div>
+				</td>
+				<td class="value">
+					<div>
+						<a href="#TYPE_REFUNDED" class="anchor">#</a>
+						<code><span class="php-quote">'refunded'</span></code>
+					</div>
+				</td>
+			</tr>
+			<tr data-order="CANCEL_BUTTON_TEXT" id="CANCEL_BUTTON_TEXT">
+
+				<td class="attributes"><code>string</code></td>
+				<td class="name">
+					<code>
+						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#55" title="Go to source code"><b>CANCEL_BUTTON_TEXT</b></a>
+					</code>
+
+					<div class="description short">
+						
+					</div>
+
+					<div class="description detailed hidden">
+						
+
+					</div>
+				</td>
+				<td class="value">
+					<div>
+						<a href="#CANCEL_BUTTON_TEXT" class="anchor">#</a>
+						<code><span class="php-quote">'Cancel'</span></code>
+					</div>
+				</td>
+			</tr>
+			<tr data-order="REFUND_BUTTON_TEXT" id="REFUND_BUTTON_TEXT">
+
+				<td class="attributes"><code>string</code></td>
+				<td class="name">
+					<code>
+						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#56" title="Go to source code"><b>REFUND_BUTTON_TEXT</b></a>
+					</code>
+
+					<div class="description short">
+						
+					</div>
+
+					<div class="description detailed hidden">
+						
+
+					</div>
+				</td>
+				<td class="value">
+					<div>
+						<a href="#REFUND_BUTTON_TEXT" class="anchor">#</a>
+						<code><span class="php-quote">'Refund'</span></code>
+					</div>
+				</td>
+			</tr>
+			<tr data-order="CAPTURE_BUTTON_TEXT" id="CAPTURE_BUTTON_TEXT">
+
+				<td class="attributes"><code>string</code></td>
+				<td class="name">
+					<code>
+						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#57" title="Go to source code"><b>CAPTURE_BUTTON_TEXT</b></a>
+					</code>
+
+					<div class="description short">
+						
+					</div>
+
+					<div class="description detailed hidden">
+						
+
+					</div>
+				</td>
+				<td class="value">
+					<div>
+						<a href="#CAPTURE_BUTTON_TEXT" class="anchor">#</a>
+						<code><span class="php-quote">'Capture'</span></code>
+					</div>
+				</td>
+			</tr>
+			<tr data-order="CREDIT_BUTTON_TEXT" id="CREDIT_BUTTON_TEXT">
+
+				<td class="attributes"><code>string</code></td>
+				<td class="name">
+					<code>
+						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#58" title="Go to source code"><b>CREDIT_BUTTON_TEXT</b></a>
+					</code>
+
+					<div class="description short">
+						
+					</div>
+
+					<div class="description detailed hidden">
+						
+
+					</div>
+				</td>
+				<td class="value">
+					<div>
+						<a href="#CREDIT_BUTTON_TEXT" class="anchor">#</a>
+						<code><span class="php-quote">'Credit'</span></code>
+					</div>
+				</td>
+			</tr>
+			</table>
+		</div>
+
+		<div class="panel panel-default">
+            <div class="panel-heading"><h3>Constants inherited from <a href="class-Wirecard.PaymentSdk.TransactionService.html#constants">Wirecard\PaymentSdk\TransactionService</a></h3></div>
+			<p class="elementList">
+				<code><a href="class-Wirecard.PaymentSdk.TransactionService.html#APPLICATION_JSON"><b>APPLICATION_JSON</b></a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.TransactionService.html#REQUEST_ID"><b>REQUEST_ID</b></a></code>
+			</p>
+		</div>
+
+
+
+</div>
+	</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+<script src="resources/combined.js"></script>
+<script src="elementlist.js"></script>
+</body>
+</html>
