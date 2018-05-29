@@ -644,4 +644,9 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $this->tx->isFallback());
     }
+
+    public function testGetEndpoint()
+    {
+        $this->assertEquals(Transaction::ENDPOINT_PAYMENTS, $this->tx->getEndpoint());
+    }
 }
