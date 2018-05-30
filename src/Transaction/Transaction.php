@@ -375,6 +375,13 @@ abstract class Transaction extends Risk
 
         $specificProperties = $this->mappedSpecificProperties();
 
+        if (in_array(
+            $this->retrieveTransactionType(),
+            [Transaction::TYPE_CHECK_ENROLLMENT, Transaction::TYPE_AUTHORIZATION, Transaction::TYPE_PURCHASE]
+        ) && array_key_exists('card-token', $specificProperties) && is_null($this->periodic)) {
+            $this->periodic = new Periodic('recurring');
+        }
+
         if (null !== $this->periodic) {
             $result['periodic'] = $this->periodic->mappedProperties();
         }

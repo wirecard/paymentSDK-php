@@ -46,7 +46,7 @@ use Wirecard\PaymentSdk\Transaction\Transaction;
  * Class TransactionServiceUTest
  * @package WirecardTest\PaymentSdk
  */
-class BeckendServiceUTest extends \PHPUnit_Framework_TestCase
+class BackendServiceUTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
