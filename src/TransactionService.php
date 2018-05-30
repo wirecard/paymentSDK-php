@@ -250,14 +250,11 @@ class TransactionService
         $paymentAction = 'authorization',
         array $additionalFields = []
     ) {
-        $currency = null == $amount ? 'EUR' : $amount->getCurrency();
-        $amount = null == $amount ? 0 : $amount->getValue();
-
         /** @var CreditCardConfig $creditCardConfig */
         $creditCardConfig = $this->config->get(CreditCardTransaction::NAME);
         $creditCard = new CreditCardTransaction();
         $creditCard->setConfig($creditCardConfig);
-        $creditCard->setAmount(new Amount($amount, $currency));
+        $creditCard->setAmount($amount);
         $creditCard->setNotificationUrl($notificationUrl);
 
         if ($additionalFields) {
@@ -301,8 +298,8 @@ class TransactionService
             self::REQUEST_ID => call_user_func($this->requestIdGenerator, 64),
             'transaction_type' => is_null($transaction->getAmount()) ? 'tokenize' : $paymentAction,
             'merchant_account_id' => $merchantAccountId,
-            'requested_amount' => $transaction->getAmount()->getValue(),
-            'requested_amount_currency' => $transaction->getAmount()->getCurrency(),
+            'requested_amount' => is_null($transaction->getAmount()) ? 0 : $transaction->getAmount()->getValue(),
+            'requested_amount_currency' => is_null($transaction->getAmount()) ? 'EUR' : $transaction->getAmount()->getCurrency(),
             'locale' => $language,
             'payment_method' => 'creditcard',
             'attempt_three_d' => $isThreeD ? true : false,
@@ -376,14 +373,11 @@ class TransactionService
         $paymentAction = 'authorization',
         array $additionalFields = []
     ) {
-        $currency = null == $amount ? 'EUR' : $amount->getCurrency();
-        $amount = null == $amount ? 0 : $amount->getValue();
-
         /** @var CreditCardConfig $creditCardConfig */
         $creditCardConfig = $this->config->get(UpiTransaction::NAME);
         $creditCard = new UpiTransaction();
         $creditCard->setConfig($creditCardConfig);
-        $creditCard->setAmount(new Amount($amount, $currency));
+        $creditCard->setAmount($amount);
         $creditCard->setNotificationUrl($notificationUrl);
 
         if ($additionalFields) {
@@ -549,19 +543,24 @@ class TransactionService
     /**
      * @param $endpoint
      * @param bool $acceptJson
+     * @param bool $logNotFound
      * @throws \RuntimeException
      * @return string|array
      */
-    private function sendGetRequest($endpoint, $acceptJson = false)
+    private function sendGetRequest($endpoint, $acceptJson = false, $logNotFound = true)
     {
         $requestHeader = array_merge_recursive($this->httpHeader, $this->config->getShopHeader());
         $requestHeader['Accept'] = $acceptJson ? self::APPLICATION_JSON : 'application/xml';
 
         $request = $this->messageFactory->createRequest('GET', $endpoint, $requestHeader);
         $request = $this->basicAuth->authenticate($request);
-        $response = $this->httpClient->sendRequest($request)->getBody()->getContents();
+        $response = $this->httpClient->sendRequest($request);
+        $logResponse = ($response->getStatusCode() == 404) && !$logNotFound ? false : true;
+        $response = $response->getBody()->getContents();
 
-        $this->getLogger()->debug('GET response: ' . $response);
+        if ($logResponse) {
+            $this->getLogger()->debug('GET response: ' . $response);
+        }
 
         if ($acceptJson) {
             return json_decode($response, true);
@@ -693,13 +692,14 @@ class TransactionService
      */
     protected function getTransactionByTransactionId($transactionId, $paymentMethod)
     {
+        $logNotFound = ($paymentMethod == CreditCardTransaction::NAME) ? false : true;
         $endpoint =
             $this->config->getBaseUrl() .
             '/engine/rest/merchants/' .
             $this->config->get($paymentMethod)->getMerchantAccountId() .
             '/payments/' . $transactionId;
 
-        $request = $this->sendGetRequest($endpoint, true);
+        $request = $this->sendGetRequest($endpoint, true, $logNotFound);
         if ($request == null && $paymentMethod == CreditCardTransaction::NAME) {
             $endpoint =
                 $this->config->getBaseUrl() .
