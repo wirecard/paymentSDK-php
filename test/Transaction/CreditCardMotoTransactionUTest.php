@@ -108,7 +108,8 @@ class CreditCardMotoTransactionUTest extends \PHPUnit_Framework_TestCase
             ],
             'ip-address' => 'test IP',
             'entry-mode' => 'ecommerce',
-            'locale' => 'de'
+            'locale' => 'de',
+            'periodic' => ['periodic-type' => 'recurring']
         ];
 
         $transaction = new CreditCardMotoTransaction();
@@ -131,7 +132,7 @@ class CreditCardMotoTransactionUTest extends \PHPUnit_Framework_TestCase
             'parent-transaction-id' => 'parent5',
             'transaction-type' => 'referenced-authorization',
             'entry-mode' => 'ecommerce',
-            'locale' => 'de',
+            'locale' => 'de'
         ];
 
         $transaction = new CreditCardMotoTransaction();

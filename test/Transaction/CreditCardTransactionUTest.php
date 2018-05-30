@@ -106,7 +106,8 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
                 'value' => 'maid'
             ],
             'entry-mode' => 'ecommerce',
-            'locale' => 'de'
+            'locale' => 'de',
+            'periodic' => ['periodic-type' => 'recurring']
         ];
 
         $transaction = new CreditCardTransaction();

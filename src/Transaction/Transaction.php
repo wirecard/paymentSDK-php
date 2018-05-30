@@ -378,7 +378,7 @@ abstract class Transaction extends Risk
         if (in_array(
                 $this->retrieveTransactionType(),
                 [Transaction::TYPE_CHECK_ENROLLMENT, Transaction::TYPE_AUTHORIZATION, Transaction::TYPE_PURCHASE]
-            ) && array_key_exists('card-token', $specificProperties)) {
+            ) && array_key_exists('card-token', $specificProperties) && is_null($this->periodic)) {
             $this->periodic = new Periodic('recurring');
         }
 
