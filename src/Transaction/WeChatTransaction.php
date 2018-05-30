@@ -35,6 +35,11 @@ use Wirecard\PaymentSdk\Entity\SubMerchantInfo;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
+/**
+ * Class WeChatTransaction
+ * @package Wirecard\PaymentSdk\Transaction
+ * @since 2.3.0
+ */
 class WeChatTransaction extends Transaction implements Reservable
 {
     const NAME = 'wechat-qrpay';

@@ -36,6 +36,8 @@ namespace Wirecard\PaymentSdk\Entity;
  * @package Wirecard\PaymentSdk\Entity
  *
  * An immutable entity representing a SubMerchant.
+ *
+ * @since 2.3.0
  */
 class SubMerchantInfo implements MappableEntity
 {
