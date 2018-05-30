@@ -33,6 +33,8 @@ namespace WirecardTest\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Entity\Card;
+use Wirecard\PaymentSdk\Entity\Periodic;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\Transaction;
@@ -105,6 +107,7 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
             ],
             'entry-mode' => 'ecommerce',
             'locale' => 'de',
+            'periodic' => ['periodic-type' => 'recurring']
         ];
 
         $transaction = new CreditCardTransaction();
@@ -537,7 +540,15 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
             ],
             'locale' => 'de',
             'entry-mode' => 'telephone',
+            'card' => [
+                'card-type' => 'card type',
+                'expiration-month' => 'expiration month',
+                'expiration-year' => 'expiration year'
+            ],
+            'order-id' => 'orderid123',
+            'periodic' => ['periodic-type' => 'ci']
         ];
+
         $this->config->addSslMaxLimit(new Amount(20.0, 'EUR'));
         $this->config->setThreeDCredentials('maid', '123abcd');
         $amount = new Amount(24, 'EUR');
@@ -551,6 +562,16 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
         $transaction->setOperation($operation);
         $transaction->setEntryMode('telephone');
         $transaction->setLocale('de');
+        $transaction->setOrderId('orderid123');
+        $transaction->setPeriodic(new Periodic('ci'));
+
+        $card = new Card();
+        $card->setExpirationMonth('expiration month');
+        $card->setExpirationYear('expiration year');
+        $card->setType('card type');
+
+        $transaction->setCard($card);
+
         $result = $transaction->mappedProperties();
         $this->assertEquals($expectedResult, $result);
     }
@@ -623,5 +644,10 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->assertEquals($expected, $this->tx->isFallback());
+    }
+
+    public function testGetEndpoint()
+    {
+        $this->assertEquals(Transaction::ENDPOINT_PAYMENTS, $this->tx->getEndpoint());
     }
 }

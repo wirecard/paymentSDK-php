@@ -69,6 +69,11 @@ class Item implements MappableEntity
     private $taxRate;
 
     /**
+     * @var Amount
+     */
+    private $taxAmount;
+
+    /**
      * @var int
      */
     private $quantity;
@@ -92,6 +97,14 @@ class Item implements MappableEntity
     }
 
     /**
+     * @return int
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
      * @param string $description
      * @return Item
      */
@@ -112,12 +125,32 @@ class Item implements MappableEntity
     }
 
     /**
+     * @param int $quantity
+     * @return Item
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+        return $this;
+    }
+
+    /**
      * @param float $taxRate
      * @return Item
      */
     public function setTaxRate($taxRate)
     {
         $this->taxRate = $taxRate;
+        return $this;
+    }
+
+    /**
+     * @param Amount $taxAmount
+     * @return $this
+     */
+    public function setTaxAmount($taxAmount)
+    {
+        $this->taxAmount = $taxAmount;
         return $this;
     }
 
@@ -164,13 +197,38 @@ class Item implements MappableEntity
     }
 
     /**
+     * @param integer $iterator
+     * @return array
+     */
+    public function mappedSeamlessProperties($iterator)
+    {
+        $item = array();
+        $item['orderItems' . $iterator . '.name'] = $this->name;
+        $item['orderItems' . $iterator . '.quantity'] = $this->quantity;
+        $item['orderItems' . $iterator . '.amount.value'] = $this->price->getValue();
+        $item['orderItems' . $iterator . '.amount.currency'] = $this->price->getCurrency();
+
+        if (null !== $this->articleNumber) {
+            $item['orderItems' . $iterator . '.articleNumber'] = $this->articleNumber;
+        }
+
+        if (null !== $this->taxRate) {
+            $item['orderItems' . $iterator . '.taxRate'] = $this->taxRate;
+        }
+
+        return $item;
+    }
+
+    /**
      * @param array $data
      * @throws MandatoryFieldMissingException
      * @return array
      */
     private function payPalMappedProperties($data)
     {
-        if (null !== $this->taxRate) {
+        if (null !== $this->taxAmount) {
+            $data['tax-amount'] = $this->taxAmount->mappedProperties();
+        } elseif (null !== $this->taxRate) {
             $taxAmountValue = number_format($this->price->getValue() * $this->quantity * ($this->taxRate / 100.0), 2);
             $taxAmount = new Amount($taxAmountValue, $this->price->getCurrency());
 

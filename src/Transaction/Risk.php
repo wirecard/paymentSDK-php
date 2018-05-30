@@ -84,11 +84,27 @@ abstract class Risk
     protected $device;
 
     /**
+     * @return AccountHolder
+     */
+    public function getAccountHolder()
+    {
+        return $this->accountHolder;
+    }
+
+    /**
      * @param AccountHolder $accountHolder
      */
     public function setAccountHolder($accountHolder)
     {
         $this->accountHolder = $accountHolder;
+    }
+
+    /**
+     * @return string
+     */
+    public function getConsumerId()
+    {
+        return $this->consumerId;
     }
 
     /**
@@ -100,11 +116,27 @@ abstract class Risk
     }
 
     /**
+     * @return string
+     */
+    public function getIpAddress()
+    {
+        return $this->ipAddress;
+    }
+
+    /**
      * @param string $ipAddress
      */
     public function setIpAddress($ipAddress)
     {
         $this->ipAddress = $ipAddress;
+    }
+
+    /**
+     * @return AccountHolder
+     */
+    public function getShipping()
+    {
+        return $this->shipping;
     }
 
     /**
@@ -116,11 +148,27 @@ abstract class Risk
     }
 
     /**
+     * @return Basket
+     */
+    public function getBasket()
+    {
+        return $this->basket;
+    }
+
+    /**
      * @param Basket $basket
      */
     public function setBasket($basket)
     {
         $this->basket = $basket;
+    }
+
+    /**
+     * @return Device
+     */
+    public function getDevice()
+    {
+        return $this->device;
     }
 
     /**
@@ -132,11 +180,27 @@ abstract class Risk
     }
 
     /**
+     * @return string
+     */
+    public function getOrderNumber()
+    {
+        return $this->orderNumber;
+    }
+
+    /**
      * @param string $orderNumber
      */
     public function setOrderNumber($orderNumber)
     {
         $this->orderNumber = $orderNumber;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescriptor()
+    {
+        return $this->descriptor;
     }
 
     /**

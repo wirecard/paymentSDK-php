@@ -212,10 +212,12 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
             "payment-methods.0.name" => "paypal",
             "statuses.0.code" => '1',
             "statuses.0.description" => "a",
-            "statuses.0.severity" => 0,
-            "card-token.0.token-id" => 4748178566351002,
+            "statuses.0.severity" => '0',
+            "card-token.0.token-id" => '4748178566351002',
             "card-token.0.masked-account-number" => "541333******1006",
-            "three-d.0.cardholder-authentication-status" => "Y"
+            "three-d.0.cardholder-authentication-status" => "Y",
+            "payment-methods.0.payment-method" => '',
+            "statuses.0.status" => ''
         ];
 
         $this->assertEquals($expected, $this->response->getData());

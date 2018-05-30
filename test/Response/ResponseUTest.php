@@ -34,6 +34,7 @@ namespace WirecardTest\PaymentSdk\Response;
 use Wirecard\PaymentSdk\Entity\CustomField;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Response\Response;
+use Wirecard\PaymentSdk\Transaction\Operation;
 
 class ResponseUTest extends \PHPUnit_Framework_TestCase
 {
@@ -63,5 +64,11 @@ class ResponseUTest extends \PHPUnit_Framework_TestCase
         $customFieldCollection->add(new CustomField('testfield1', 'value1'));
         $customFieldCollection->add(new CustomField('testfield2', 'value2'));
         $this->assertEquals($customFieldCollection, $this->response->getCustomFields());
+    }
+
+    public function testSetOperation()
+    {
+        $this->response->setOperation(Operation::PAY);
+        $this->assertEquals(Operation::PAY, $this->response->getOperation());
     }
 }

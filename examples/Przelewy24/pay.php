@@ -17,7 +17,7 @@ use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Redirect ;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
-use Wirecard\PaymentSdk\Transaction\P24Transaction;
+use Wirecard\PaymentSdk\Transaction\PtwentyfourTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 // ### Transaction related objects
@@ -46,7 +46,7 @@ $notificationUrl = getUrl('notify.php');
 // ## Transaction
 
 // The Przelewy24 transaction contains all relevant data for the payment process.
-$transaction = new P24Transaction();
+$transaction = new PtwentyfourTransaction();
 $transaction->setAmount($amount);
 $transaction->setRedirect($redirectUrls);
 $transaction->setNotificationUrl($notificationUrl);

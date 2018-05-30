@@ -34,25 +34,25 @@ namespace WirecardTest\PaymentSdk\Transaction;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
-use Wirecard\PaymentSdk\Transaction\P24Transaction;
+use Wirecard\PaymentSdk\Transaction\PtwentyfourTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
-class P24TransactionUTest extends \PHPUnit_Framework_TestCase
+class PtwentyfourTransactionUTest extends \PHPUnit_Framework_TestCase
 {
     const SUCCESS_URL = 'http://www.example.com/success';
     const CANCEL_URL = 'http://www.example.com/cancel';
     const FAILURE_URL = 'http://www.example.com/failure';
 
     /**
-     * @var P24Transaction
+     * @var PtwentyfourTransaction
      */
     private $tx;
 
     public function setUp()
     {
         $redirect = new Redirect(self::SUCCESS_URL, self::CANCEL_URL, self::FAILURE_URL);
-        $this->tx = new P24Transaction();
+        $this->tx = new PtwentyfourTransaction();
         $this->tx->setRedirect($redirect);
         $this->tx->setAmount(new Amount(33, 'PLN'));
     }

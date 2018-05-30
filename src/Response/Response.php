@@ -219,6 +219,7 @@ abstract class Response
                         /** @var SimpleXMLElement $attrs */
                         $arr[$attrs->getName()] = strval($attrs);
                     }
+                    $arr[$child->getName()] = strval($child);
                 } else {
                     $arr[$child->getName()][] = self::xmlToArray($child);
                 }

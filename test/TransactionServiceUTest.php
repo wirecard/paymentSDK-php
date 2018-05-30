@@ -31,786 +31,160 @@
 
 namespace WirecardTest\PaymentSdk;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Response;
-use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Entity\Amount;
-use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
-use Wirecard\PaymentSdk\Response\InteractionResponse;
+use Wirecard\PaymentSdk\Response\FailureResponse;
+use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
-use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
-use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
-use Wirecard\PaymentSdk\Transaction\SepaTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayDirectDebitTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 /**
  * Class TransactionServiceUTest
  * @package WirecardTest\PaymentSdk
- * @method getLogger
- * @method getHttpClient
- * @method getRequestMapper
- * @method getResponseMapper
- * @method getRequestIdGenerator
  */
 class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 {
-    const HANDLER = 'handler';
-    const MAID = '213asdf';
 
     /**
-     * @var TransactionService
+     * @var TransactionService $service
      */
-    private $instance;
-
-    /**
-     * @var Config
-     */
-    private $config;
-
-    /**
-     * @var array
-     */
-    private $shopData;
+    private $service;
 
     public function setUp()
     {
-        $paymentMethodConfig = $this->createMock(PaymentMethodConfig::class);
-        $paymentMethodConfig->method('getMerchantAccountId')->willReturn(self::MAID);
-        $paymentMethodConfig->method('mappedProperties')->willReturn([]);
+        $logger = $this->createMock(LoggerInterface::class);
+        $config = new Config('https://api-test.wirecard.com', 'user', 'password');
+        $ccardConfig = new CreditCardConfig('maid', 'secret');
+        $ccardConfig->setThreeDCredentials('3dmaid', '3dsecret');
+        $ccardConfig->addSslMaxLimit(new Amount(100, 'EUR'));
+        $ccardConfig->addThreeDMinLimit(new Amount(50, 'EUR'));
+        $config->add($ccardConfig);
+        $this->service = new TransactionService($config, $logger);
+    }
 
-        $this->shopData = array(
-            'shop-system-name' => 'paymentSDK',
-            'shop-system-version' => '1.0',
-            'plugin-name' => 'plugin',
-            'plugin-version' => '1.1'
+    public function testGetDataFor3dCreditCardUi()
+    {
+        $uiData = $this->service->getDataForCreditCardUi('en', new Amount(300, 'EUR'));
+
+        $expected = [
+            'transaction_type' => 'authorization',
+            'merchant_account_id' => '3dmaid',
+            'requested_amount' => 300,
+            'requested_amount_currency' => 'EUR',
+            'locale' => 'en',
+            'payment_method' => 'creditcard',
+            'attempt_three_d' => true
+        ];
+
+        $uiData = (array)json_decode($uiData);
+        unset($uiData['request_time_stamp'], $uiData['request_id'], $uiData['request_signature']);
+
+        $this->assertEquals($expected, $uiData);
+    }
+
+    public function testMapJsResponseThreeD()
+    {
+        $url = 'dummyreturnurl';
+        $data = array(
+            'merchant_account_id' => 'maid',
+            'transaction_id' => 'trid',
+            'transaction_state' => 'success',
+            'transaction_type' => 'authorization',
+            'payment_method' => 'creditcard',
+            'request_id' => 'reqid',
+            'status_code_0' => '201.000',
+            'status_description_0' => 'Dummy status description',
+            'status_severity_0' => 'information',
+            'acs_url' => 'http://dummy.acs.url',
+            'pareq' => 'testpareq',
+            'cardholder_authentication_status' => 'Y',
+            'parent_transaction_id' => 'ptrid'
         );
 
-
-        $this->config = $this->createMock('\Wirecard\PaymentSdk\Config\Config');
-        $this->config->method('getHttpUser')->willReturn('abc123');
-        $this->config->method('getHttpPassword')->willReturn('password');
-        $this->config->method('get')->willReturn($paymentMethodConfig);
-        $this->config->method('getBaseUrl')->willReturn('http://engine.ok');
-        $this->config->method('getDefaultCurrency')->willReturn('EUR');
-        $this->config->method('getLogLevel')->willReturn(Logger::ERROR);
-        $this->config->method('getShopHeader')->willReturn(array('headers' => $this->shopData));
-        $this->instance = new TransactionService($this->config);
+        $response = $this->service->processJsResponse($data, $url);
+        $this->assertTrue($response instanceof FormInteractionResponse);
     }
 
-    public function testFullConstructor()
+    public function testMapJsResponseSSL()
     {
-        $logger = $this->createMock('\Monolog\Logger');
-        $httpClient = $this->createMock('\GuzzleHttp\Client');
-        $requestMapper = $this->createMock('\Wirecard\PaymentSdk\Mapper\RequestMapper');
-        $responseMapper = $this->createMock('\Wirecard\PaymentSdk\Mapper\ResponseMapper');
-        $requestIdGenerator = function () {
-            return 42;
-        };
-
-        $service = new TransactionService(
-            $this->config,
-            $logger,
-            $httpClient,
-            $requestMapper,
-            $responseMapper,
-            $requestIdGenerator
+        $url = 'dummyreturnurl';
+        $data = array(
+            'merchant_account_id' => 'maid',
+            'transaction_id' => 'trid',
+            'transaction_state' => 'success',
+            'transaction_type' => 'authorization',
+            'payment_method' => 'creditcard',
+            'request_id' => 'reqid',
+            'status_code_0' => '201.000',
+            'status_description_0' => 'Dummy status description',
+            'status_severity_0' => 'information',
+            'parent_transaction_id' => 'ptrid'
         );
 
-        $this->assertAttributeEquals($this->config, 'config', $service);
-        $this->assertAttributeEquals($logger, 'logger', $service);
-        $this->assertAttributeEquals($requestMapper, 'requestMapper', $service);
-        $this->assertAttributeEquals($responseMapper, 'responseMapper', $service);
-        $this->assertAttributeEquals($requestIdGenerator, 'requestIdGenerator', $service);
+        $response = $this->service->processJsResponse($data, $url);
+        $this->assertTrue($response instanceof SuccessResponse);
     }
 
-    public function testGetLogger()
+    public function testMapJsResponseSSLFailed()
     {
-        $helper = function () {
-            return $this->getLogger();
-        };
+        $url = 'dummyreturnurl';
+        $data = array(
+            'merchant_account_id' => 'maid',
+            'transaction_id' => 'trid',
+            'transaction_state' => 'failed',
+            'transaction_type' => 'authorization',
+            'payment_method' => 'creditcard',
+            'request_id' => 'reqid',
+            'status_code_0' => '500.000',
+            'status_description_0' => 'Dummy status description',
+            'status_severity_0' => 'information',
+            'parent_transaction_id' => 'ptrid'
+        );
 
-        $method = $helper->bindTo($this->instance, $this->instance);
-
-        $this->assertInstanceOf('\Psr\Log\LoggerInterface', $method());
+        $response = $this->service->processJsResponse($data, $url);
+        $this->assertTrue($response instanceof FailureResponse);
     }
 
-    /**
-     * @param $response
-     * @param $class
-     * @dataProvider testPayProvider
-     */
-    public function testPay($response, $class)
+    public function testConstructorWithRequestIdGenerator()
     {
-        $mock = new MockHandler([
-            $response
-        ]);
-
-        $handler = HandlerStack::create($mock);
-        $client = new Client([self::HANDLER => $handler, 'http_errors' => false]);
-
-        $service = new TransactionService($this->config, null, $client);
-
-        $this->assertInstanceOf($class, $service->pay($this->getTestPayPalTransaction()));
-    }
-
-    public function testCheckCredentialsHandlesException()
-    {
-        $mock = new MockHandler([
-            new RequestException('Error Communicating with Server', new Request('GET', 'test'))
-        ]);
-
-        $handler = HandlerStack::create($mock);
-        $client = new Client([self::HANDLER => $handler, 'http_errors' => false]);
-
         $logger = $this->createMock(LoggerInterface::class);
-        $service = new TransactionService($this->config, $logger, $client);
+        $config = new Config('https://api-test.wirecard.com', 'user', 'password');
+        $paypalConfig = new PaymentMethodConfig(PayPalTransaction::NAME, 'maid', 'secret');
+        $config->add($paypalConfig);
 
-        $this->assertFalse($service->checkCredentials());
-    }
-
-    public function testReserveCreditCardTransaction()
-    {
-        $globalConfig = new Config('http://api-test.wirecard.com', 'test', 'pass', 'EUR');
-        $config = new CreditCardConfig('maid', 'secret');
-        $config->addThreeDMinLimit(new Amount(50.0, 'EUR'));
-        $globalConfig->add($config);
-
-        $transaction = new CreditCardTransaction();
-        $transaction->setAmount(new Amount(70.0, 'EUR'));
-
-        //prepare RequestMapper
-        $mappedRequest = '{"mocked": "json", "response": "object"}';
-        $requestMapper = $this->createMock('\Wirecard\PaymentSdk\Mapper\RequestMapper');
-        $requestMapper->expects($this->once())
-            ->method('map')
-            ->with($this->equalTo($transaction))
-            ->willReturn($mappedRequest);
-
-        //prepare Guzzle
-        $guzzleMock = new MockHandler([
-            new Response(200, [], '<payment>
-                                                <transaction-state>success</transaction-state>
-                                                <transaction-type>debit</transaction-type>
-                                                <transaction-id>myid</transaction-id>
-                                                <request-id>123</request-id>
-                                                <payment-methods>
-                                                    <payment-method name="creditcard" />
-                                                </payment-methods>
-                                                <statuses>
-                                                    <status code="200.000" description="ok" severity="info"/>
-                                                </statuses>
-                                              </payment>')
-        ]);
-        $handler = HandlerStack::create($guzzleMock);
-        $client = new Client([self::HANDLER => $handler, 'http_errors' => false]);
-
-        $logger = $this->createMock(LoggerInterface::class);
-
-        $service = new TransactionService($globalConfig, $logger, $client, $requestMapper);
-        $this->assertInstanceOf(SuccessResponse::class, $service->reserve($transaction));
-    }
-
-    public function testReserveCreditCardWithFallback()
-    {
-        $globalConfig = new Config('http://api-test.wirecard.com', 'test', 'pass', 'EUR');
-        $config = new CreditCardConfig('maid', 'secret');
-        $config->addThreeDMinLimit(new Amount(50.0, 'EUR'));
-        $globalConfig->add($config);
-
-        $transaction = new CreditCardTransaction();
-        $transaction->setAmount(new Amount(70.0, 'EUR'));
-
-        //prepare RequestMapper
-        $mappedRequest = '{"mocked": "json", "response": "object"}';
-        $requestMapper = $this->createMock('\Wirecard\PaymentSdk\Mapper\RequestMapper');
-        $requestMapper->method('map')
-            ->with($this->equalTo($transaction))
-            ->willReturn($mappedRequest);
-
-        //prepare Guzzle
-        $responseToMap = '<payment>
-                            <transaction-state>failure</transaction-state>
-                            <transaction-type>debit</transaction-type>
-                            <transaction-id>myid</transaction-id>
-                            <request-id>123</request-id>
-                            <payment-methods>
-                                <payment-method name="creditcard" />
-                            </payment-methods>
-                            <statuses>
-                             <status code="500.1072" description="error check enrollment" severity="error"/>
-                            </statuses>
-                          </payment>';
-        $responseToMap2 = '<payment>
-                            <transaction-state>success</transaction-state>
-                            <transaction-type>debit</transaction-type>
-                            <transaction-id>myid</transaction-id>
-                            <request-id>123</request-id>
-                            <payment-methods>
-                                <payment-method name="creditcard" />
-                            </payment-methods>
-                            <statuses>
-                                <status code="200" description="test: payment OK" severity="information"/>
-                            </statuses>
-                          </payment>';
-        $guzzleMock = new MockHandler([
-            new Response(200, [], $responseToMap),
-            new Response(200, [], $responseToMap2)
-        ]);
-        $handler = HandlerStack::create($guzzleMock);
-        $client = new Client([self::HANDLER => $handler, 'http_errors' => false]);
-
-        $logger = $this->createMock(LoggerInterface::class);
-        $service = new TransactionService($globalConfig, $logger, $client, $requestMapper);
-        $this->assertInstanceOf(SuccessResponse::class, $service->reserve($transaction));
-    }
-
-    public function testGetParentTransactionDetails()
-    {
-        $transaction = new CreditCardTransaction();
-        $transaction->setParentTransactionId('myparentid');
-        $transaction->setParentTransactionType('credit');
-        $transaction->setOperation('reserve');
-        //prepare RequestMapper
-        $mappedRequest = '{"mocked": "json", "response": "object"}';
-        $requestMapper = $this->createMock('\Wirecard\PaymentSdk\Mapper\RequestMapper');
-        $requestMapper->expects($this->once())
-            ->method('map')
-            ->with($this->equalTo($transaction))
-            ->willReturn($mappedRequest);
-
-        //prepare Guzzle
-        $guzzleMock = new MockHandler([
-            new Response(200, [], '{"payment":{"transaction-type":"credit"}}'),
-            new Response(200, [], '<payment><xml-response></xml-response></payment>')
-        ]);
-        $handler = HandlerStack::create($guzzleMock);
-        $client = new Client([self::HANDLER => $handler, 'http_errors' => false]);
-
-        //prepare ResponseMapper
-        $responseMapper = $this->createMock('\Wirecard\PaymentSdk\Mapper\ResponseMapper');
-        $response = $this->createMock('\Wirecard\PaymentSdk\Response\Response');
-        $responseMapper
-            ->method('map')
-            ->willReturn($response);
-
-        $service = new TransactionService($this->config, null, $client, $requestMapper, $responseMapper);
-        $service->reserve($transaction);
-    }
-
-    protected function getTestPayPalTransaction()
-    {
-        $redirect = new Redirect('http://www.example.com/success', 'http://www.example.com/cancel');
-        $payPalTransaction = new PayPalTransaction();
-        $payPalTransaction->setNotificationUrl('notUrl');
-        $payPalTransaction->setRedirect($redirect);
-        $payPalTransaction->setAmount(new Amount(20.23, 'EUR'));
-
-        return $payPalTransaction;
-    }
-
-    public function testPayProvider()
-    {
-        return [
-            [
-                new Response(
-                    200,
-                    [],
-                    '<payment>
-                        <transaction-state>success</transaction-state>
-                        <transaction-id>myid</transaction-id>
-                        <transaction-type>debit</transaction-type>
-                        <request-id>123</request-id>
-                        <statuses>
-                            <status code="200" description="test: payment OK" severity="information"/>
-                        </statuses>
-                        <payment-methods>
-                            <payment-method name="paypal" url="http://www.example.com" />
-                        </payment-methods>
-                    </payment>'
-                ),
-                '\Wirecard\PaymentSdk\Response\InteractionResponse'
-            ],
-            [
-                new Response(
-                    400,
-                    [],
-                    '<payment>
-                        <transaction-state>failure</transaction-state>
-                        <transaction-type>debit</transaction-type>
-                        <request-id>123</request-id>
-                        <statuses>
-                            <status code="42" description="my test" severity="information"/>
-                        </statuses>
-                    </payment>'
-                ),
-                '\Wirecard\PaymentSdk\Response\FailureResponse'
-            ]
-        ];
-    }
-
-    /**
-     * @expectedException \GuzzleHttp\Exception\RequestException
-     */
-    public function testPayRequestException()
-    {
-        $mock = new MockHandler([
-            new Response(500, [], json_encode([
-                'payment' => [
-                    'transaction-state' => 'success',
-                ]
-            ]))
-        ]);
-
-        $handler = HandlerStack::create($mock);
-        $client = new Client([self::HANDLER => $handler]);
-
-        $this->instance = new TransactionService($this->config, null, $client);
-
-        $this->instance->pay($this->getTestPayPalTransaction());
-    }
-
-    /**
-     * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
-     */
-    public function testPayMalformedResponseException()
-    {
-        $mock = new MockHandler([
-            new Response(
-                200,
-                [],
-                '<payment><transaction-state>success</transaction-state></payment>'
-            )
-        ]);
-
-        $handler = HandlerStack::create($mock);
-        $client = new Client([self::HANDLER => $handler]);
-
-        $this->instance = new TransactionService($this->config, null, $client);
-
-        $this->instance->pay($this->getTestPayPalTransaction());
-    }
-
-    public function testHandleNotificationHappyPath()
-    {
-        $validXmlContent = '<payment>
-                    <transaction-type>none</transaction-type>
-                    <request-id>1</request-id>
-                    <transaction-id>2</transaction-id>
-                    <statuses><status code="1" description="a" severity="0"></status></statuses>
-                </payment>';
-
-        $responseMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\ResponseMapper');
-        $interactionResponse = new InteractionResponse(simplexml_load_string($validXmlContent), 'http://y.z');
-        $responseMapper->method('mapInclSignature')->with($validXmlContent)->willReturn($interactionResponse);
-
-        $this->instance = new TransactionService($this->config, null, null, null, $responseMapper);
-
-        $result = $this->instance->handleNotification($validXmlContent);
-
-        $this->assertEquals($interactionResponse, $result);
-    }
-
-    /**
-     * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
-     */
-    public function testHandleNotificationMalformedResponseException()
-    {
-        $invalidXmlContent = '<xml><payment></payment></xml>';
-
-        $responseMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\ResponseMapper');
-        $responseMapper
-            ->method('mapInclSignature')
-            ->with($invalidXmlContent)
-            ->willThrowException(new MalformedResponseException());
-
-        $this->instance = new TransactionService($this->config, null, null, null, $responseMapper);
-
-        $this->instance->handleNotification($invalidXmlContent);
-    }
-
-    public function testHandle3DResponseHappyPath()
-    {
-        $validContent = [
-            'eppresponse' => base64_encode('<xml>
-                    <payment></payment>
-                    <transaction-type>none</transaction-type>
-                    <request-id>1</request-id>
-                    <transaction-id>2</transaction-id>
-                    <statuses><status code="1" description="a" severity="0"></status></statuses>
-                </xml>')
-        ];
-        $simpleXml = simplexml_load_string(base64_decode($validContent['eppresponse']));
-
-        $responseMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\ResponseMapper');
-        $interactionResponse = new InteractionResponse($simpleXml, 'http://y.z');
-        $responseMapper
-            ->method('mapInclSignature')
-            ->with($validContent['eppresponse'])
-            ->willReturn($interactionResponse);
-
-        $this->instance = new TransactionService($this->config, null, null, null, $responseMapper);
-
-        $result = $this->instance->handleResponse($validContent);
-
-        $this->assertEquals($interactionResponse, $result);
-    }
-
-    public function testHandleResponseIdealHappyPath()
-    {
-        $validContent = [
-            'ec' => '123',
-            'trxid' => '456',
-            'request_id' => '789'
-        ];
-
-        $responseMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\ResponseMapper');
-        $response = $this->createMock('Wirecard\PaymentSdk\Response\SuccessResponse');
-        $responseMapper->method('map')->willReturn($response);
-
-        $httpClient = $this->createMock('GuzzleHttp\Client');
-        $httpResponse = $this->createMock('Psr\Http\Message\ResponseInterface');
-        $streamInterface = $this->createMock('Psr\Http\Message\StreamInterface');
-        $streamInterface->method('getContents')->willReturn('<xml></xml>');
-        $httpResponse->method('getBody')->willReturn($streamInterface);
-        $httpClient->method('request')->willReturn($httpResponse);
-
-        $this->instance = new TransactionService($this->config, null, $httpClient, null, $responseMapper);
-
-        $result = $this->instance->handleResponse($validContent);
-
-        $this->assertEquals($response, $result);
-    }
-
-    /**
-     * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
-     */
-    public function testHandleResponseMalformedResponseException()
-    {
-        $invalidXmlContent = [];
-
-        $responseMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\ResponseMapper');
-
-        $this->instance = new TransactionService($this->config, null, null, null, $responseMapper);
-
-        $this->instance->handleResponse($invalidXmlContent);
-    }
-
-    public function testGetUI()
-    {
         $requestIdGenerator = function () {
-            return 'abc123';
+            return 'request id';
         };
 
-        $this->instance = new TransactionService($this->config, null, null, null, null, $requestIdGenerator);
+        $service = new TransactionService($config, $logger, null, null, $requestIdGenerator);
 
-        $data['creditCard'] = json_decode($this->instance->getDataForCreditCardUi(), true);
-        $data['creditCardMoto'] = json_decode($this->instance->getDataForCreditCardMotoUi(), true);
-        $data['Upi'] = json_decode($this->instance->getDataForUpiUi(), true);
+        $response = $service->handleNotification('
+            <xml>
+                <transaction-state>success</transaction-state>
+                <payment-methods><payment-method value="ccard"/></payment-methods>
+                <statuses></statuses>
+                <request-id>request id</request-id>
+                <transaction-id>transaction id</transaction-id>
+                <transaction-type>purchase</transaction-type>
+            </xml>');
 
-        foreach ($data as $ui) {
-            $this->assertArrayHasKey('request_signature', $ui);
-            unset($ui['request_signature']);
-
-            $this->assertArrayHasKey('request_time_stamp', $ui);
-            unset($ui['request_time_stamp']);
-
-            $this->assertEquals(array(
-                'request_id' => 'abc123',
-                'merchant_account_id' => self::MAID,
-                'transaction_type' => 'authorization-only',
-                'requested_amount' => 0,
-                'requested_amount_currency' => $this->config->getDefaultCurrency(),
-                'locale' => 'en',
-                'payment_method' => 'creditcard',
-            ), $ui);
-        }
+        $this->assertTrue($response instanceof SuccessResponse);
     }
 
-    public function testRatePayInvoiceDeviceIdent()
+    public function testHandleResponseCheckEnrollment()
     {
-        $data = $this->instance->getRatePayInvoiceDeviceIdent();
-        $this->assertNotEmpty($data);
-    }
+        $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'en';
 
-    public function testRatePayInstallmentDeviceIdent()
-    {
-        $data = $this->instance->getRatePayInstallmentDeviceIdent();
+        $this->expectException(MalformedResponseException::class);
 
-        $this->assertNotEmpty($data);
-    }
-
-    public function testgetRatePayScript()
-    {
-        $deviceIdentToken = 'abc123token';
-        $script = $this->instance->getRatePayScript($deviceIdentToken);
-
-        $this->assertContains($deviceIdentToken, $script);
-    }
-
-    public function testHandleResponseThreeD()
-    {
-        $md = [
-            'enrollment-check-transaction-id' => 'parentid',
-            'operation-type' => 'authorization'
-        ];
-
-        $validContent = [
-            'MD' => base64_encode(json_encode($md)),
-            'PaRes' => 'arbitrary PaRes',
-            'eppresponse' => 'content',
-
-        ];
-
-        $transaction = new CreditCardTransaction();
-        $transaction->setParentTransactionId($md['enrollment-check-transaction-id']);
-        $transaction->setOperation('authorization');
-        $transaction->setPaRes($validContent['PaRes']);
-        $transaction->setThreeD(true);
-        $transaction->setConfig($this->createMock(PaymentMethodConfig::class));
-
-        $successResponse = $this->mockProcessingRequest($transaction);
-        $result = $this->instance->handleResponse($validContent);
-
-        $this->assertEquals($successResponse, $result);
-    }
-
-    public function testHandleRatepayResponse()
-    {
-        $md = 'content';
-
-        $validContent = [
-            'base64payload' => $md,
-            'psp_name' => 'engine_payments'
-        ];
-
-        $transaction = new RatepayInstallmentTransaction();
-        $transaction->setOperation('reserve');
-
-        $successResponse = $this->mockProcessingRequestInclSignature($transaction);
-
-        $result = $this->instance->handleResponse($validContent);
-
-        $this->assertEquals($successResponse, $result);
-    }
-
-    public function testHandleSyncResponse()
-    {
-        $validContent = [
-            'sync_response' => 'content',
-
-        ];
-
-        $transaction = new SepaTransaction();
-        $transaction->setOperation(Operation::PAY);
-
-        $successResponse = $this->mockProcessingRequestInclSignature($transaction);
-
-        $result = $this->instance->handleResponse($validContent);
-
-        $this->assertEquals($successResponse, $result);
-    }
-
-    public function testCancel()
-    {
-        $tx = new CreditCardTransaction();
-        $tx->setParentTransactionId('parent-id');
-
-        $successResponse = $this->mockProcessingRequest($tx);
-
-        $result = $this->instance->cancel($tx);
-
-        $this->assertEquals(Operation::CANCEL, $result->getOperation());
-
-        $this->assertEquals($successResponse, $result);
-    }
-
-    public function testCancelRefund()
-    {
-        $mock = new MockHandler([
-            new Response(
-                200,
-                [],
-                '{"payment":{"transaction-type":"capture-authorization"}}'
-            ),
-            new Response(
-                200,
-                [],
-                '<payment>
-<transaction-state>failure</transaction-state>
-<statuses><status code="500.1057" description="a" severity="0"></status></statuses>
-</payment>'
-            ),
-            new Response(
-                200,
-                [],
-                '{"payment":{"transaction-type":"capture-authorization"}}'
-            ),
-            new Response(
-                200,
-                [],
-                '<payment>
-<transaction-type>refund-capture</transaction-type>
-<transaction-id>23tghfrhfgh</transaction-id>
-<request-id>afhnfgdg</request-id>
-<payment-methods><payment-method name="creditcard" /></payment-methods>
-<transaction-state>success</transaction-state>
-<statuses><status code="200.000" description="a" severity="0"></status></statuses>
-</payment>'
-            ),
-        ]);
-
-        $handler = HandlerStack::create($mock);
-        $client = new Client([self::HANDLER => $handler]);
-
-        $this->instance = new TransactionService($this->config, null, $client);
-
-        $tx = new CreditCardTransaction();
-        $tx->setParentTransactionId('parent-id');
-        $this->assertInstanceOf(SuccessResponse::class, $this->instance->cancel($tx));
-    }
-
-    public function testCredit()
-    {
-        $tx = new CreditCardTransaction();
-        $tx->setTokenId('token-id');
-
-        $successResponse = $this->mockProcessingRequest($tx);
-
-        $result = $this->instance->credit($tx);
-
-        $this->assertEquals($successResponse, $result);
-    }
-
-    public function testRequestIdRandomness()
-    {
-        $bindHelper = function () {
-            return $this->requestIdGenerator;
-        };
-
-        $bound = $bindHelper->bindTo($this->instance, $this->instance);
-
-        $requestId = call_user_func($bound());
-        usleep(1);
-        $laterRequestId = call_user_func($bound());
-
-        $this->assertTrue(is_string($requestId));
-        $this->assertTrue(is_string($laterRequestId));
-        $this->assertNotEquals($requestId, $laterRequestId);
-    }
-
-    /**
-     * @param $tx
-     * @return SuccessResponse
-     */
-    private function mockProcessingRequest($tx)
-    {
-        $requestMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\RequestMapper');
-        $authRequestObject = "dummy_request_payload";
-        $requestMapper->method('map')->with($tx)->willReturn($authRequestObject);
-
-        $httpResponse = $this->createMock('\Psr\Http\Message\ResponseInterface');
-        $client = $this->createMock('\GuzzleHttp\Client');
-        $client->method('request')->willReturn($httpResponse);
-        $httpResponseBody = $this->createMock('\Psr\Http\Message\StreamInterface');
-        $httpResponse->method('getBody')->willReturn($httpResponseBody);
-        $httpResponseContent = 'content';
-        $httpResponseBody->method('getContents')->willReturn($httpResponseContent);
-
-        $xmlResponse = '<xml>
-                <transaction-id></transaction-id>
-                <request-id></request-id>
-                <transaction-type></transaction-type>
-                <statuses><status code="1" description="a" severity="0"></status></statuses>
-            </xml>';
-        $successResponse = new SuccessResponse(simplexml_load_string($xmlResponse), 'y');
-        $responseMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\ResponseMapper');
-        $responseMapper->method('map')->with($httpResponseContent)->willReturn($successResponse);
-
-        $this->instance = new TransactionService($this->config, null, $client, $requestMapper, $responseMapper);
-        return $successResponse;
-    }
-
-    private function mockProcessingRequestInclSignature($tx)
-    {
-        $requestMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\RequestMapper');
-        $authRequestObject = "dummy_request_payload";
-        $requestMapper->method('map')->with($tx)->willReturn($authRequestObject);
-
-        $httpResponse = $this->createMock('\Psr\Http\Message\ResponseInterface');
-        $client = $this->createMock('\GuzzleHttp\Client');
-        $client->method('request')->willReturn($httpResponse);
-        $httpResponseBody = $this->createMock('\Psr\Http\Message\StreamInterface');
-        $httpResponse->method('getBody')->willReturn($httpResponseBody);
-        $httpResponseContent = 'content';
-        $httpResponseBody->method('getContents')->willReturn($httpResponseContent);
-
-        $xmlResponse = '<xml>
-                <transaction-id></transaction-id>
-                <request-id></request-id>
-                <transaction-type></transaction-type>
-                <statuses><status code="1" description="a" severity="0"></status></statuses>
-            </xml>';
-        $successResponse = new SuccessResponse(simplexml_load_string($xmlResponse), 'y');
-        $responseMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\ResponseMapper');
-        $responseMapper->method('mapInclSignature')->with($httpResponseContent)->willReturn($successResponse);
-
-        $this->instance = new TransactionService($this->config, null, $client, $requestMapper, $responseMapper);
-        return $successResponse;
-    }
-
-
-    public function testShopDataOnSendRequest()
-    {
-        $shopData = $this->shopData;
-        $checkRequestForShopData = function ($callback) use ($shopData) {
-            $headers = $callback['headers'];
-            $intersect = array_intersect($headers, $shopData);
-            return empty(array_diff($intersect, $shopData));
-        };
-
-        $transaction = new PayPalTransaction();
-        $transaction->setParentTransactionId('1');
-        $client = $this->createMock('\GuzzleHttp\Client');
-
-        $streamInterface = $this->createMock('Psr\Http\Message\StreamInterface');
-        $streamInterface->method('getContents')->willReturn(null);
-        $httpResponse = $this->createMock('Psr\Http\Message\ResponseInterface');
-        $httpResponse->method('getBody')->willReturn($streamInterface);
-
-        $requestMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\RequestMapper');
-        $requestMapper->method('map')->willReturn(null);
-
-        $responseMapper = $this->createMock('Wirecard\PaymentSdk\Mapper\ResponseMapper');
-        $responseMapper->method('map')->willReturn(null);
-
-        $client->expects($this->at(0))
-            ->method('request')->with(
-                'GET',
-                $this->anything(),
-                $this->callback($checkRequestForShopData)
-            )
-            ->willReturn($httpResponse);
-
-        $client->expects($this->at(1))
-            ->method('request')->with(
-                'POST',
-                $this->anything(),
-                $this->callback($checkRequestForShopData)
-            )
-            ->willReturn($httpResponse);
-
-        $service = new TransactionService($this->config, null, $client, $requestMapper, $responseMapper);
-        $service->pay($transaction);
+        $this->service->handleResponse(['MD' => 'md', 'PaRes' => 'pares']);
     }
 }

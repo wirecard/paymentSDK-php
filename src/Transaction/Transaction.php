@@ -33,7 +33,9 @@ namespace Wirecard\PaymentSdk\Transaction;
 
 use Locale;
 use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Entity\Browser;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
+use Wirecard\PaymentSdk\Entity\Periodic;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
@@ -54,6 +56,7 @@ abstract class Transaction extends Risk
     const TYPE_AUTHORIZATION_ONLY = 'authorization-only';
     const TYPE_REFERENCED_AUTHORIZATION = 'referenced-authorization';
     const TYPE_CAPTURE_AUTHORIZATION = 'capture-authorization';
+    const TYPE_CHECK_ENROLLMENT = 'check-enrollment';
     const TYPE_VOID_AUTHORIZATION = 'void-authorization';
     const TYPE_PENDING_CREDIT = 'pending-credit';
     const TYPE_CREDIT = 'credit';
@@ -68,6 +71,7 @@ abstract class Transaction extends Risk
     const TYPE_REFERENCED_PURCHASE = 'referenced-purchase';
     const TYPE_VOID_PURCHASE = 'void-purchase';
     const TYPE_VOID_DEBIT= 'void-debit';
+    const TYPE_DEPOSIT = 'deposit';
 
     /**
      * @var Amount
@@ -120,6 +124,26 @@ abstract class Transaction extends Risk
     protected $entryMode;
 
     /**
+     * @var string
+     */
+    protected $orderId;
+
+    /**
+     * @var Periodic
+     */
+    protected $periodic;
+
+    /**
+     * @var  bool|null
+     */
+    protected $sepaCredit = false;
+
+    /**
+     * @var Browser
+     */
+    protected $browser;
+
+    /**
      * @param string $entryMode
      * @return Transaction
      */
@@ -140,6 +164,14 @@ abstract class Transaction extends Risk
     }
 
     /**
+     * @return CustomFieldCollection
+     */
+    public function getCustomFields()
+    {
+        return $this->customFields;
+    }
+
+    /**
      * @param CustomFieldCollection $customFields
      * @return Transaction
      */
@@ -151,10 +183,41 @@ abstract class Transaction extends Risk
 
     /**
      * @param Amount $amount
+     * @return Transaction
      */
     public function setAmount($amount)
     {
         $this->amount = $amount;
+        return $this;
+    }
+
+    /**
+     * @param string $orderId
+     * @return Transaction
+     */
+    public function setOrderId($orderId)
+    {
+        $this->orderId = $orderId;
+        return $this;
+    }
+
+    /**
+     * @param Browser $browser
+     * @return Transaction
+     * @since
+     */
+    public function setBrowser($browser)
+    {
+        $this->browser = $browser;
+        return $this;
+    }
+
+    /**
+     * @return Browser
+     */
+    public function getBrowser()
+    {
+        return $this->browser;
     }
 
     /**
@@ -166,43 +229,81 @@ abstract class Transaction extends Risk
     }
 
     /**
+     * @return string
+     */
+    public function getParentTransactionType()
+    {
+        return $this->parentTransactionType;
+    }
+
+    /**
      * @param string $parentTransactionId
+     * @return Transaction
      */
     public function setParentTransactionId($parentTransactionId)
     {
         $this->parentTransactionId = $parentTransactionId;
+        return $this;
     }
 
     /**
      * @param string $parentTransactionType
+     * @return Transaction
      */
     public function setParentTransactionType($parentTransactionType)
     {
         $this->parentTransactionType = $parentTransactionType;
+        return $this;
     }
 
     /**
      * @param mixed $requestId
+     * @return Transaction
      */
     public function setRequestId($requestId)
     {
         $this->requestId = $requestId;
+        return $this;
     }
 
     /**
      * @param string $notificationUrl
+     * @return Transaction
      */
     public function setNotificationUrl($notificationUrl)
     {
         $this->notificationUrl = $notificationUrl;
+        return $this;
     }
 
     /**
      * @param string $operation
+     * @return Transaction
      */
     public function setOperation($operation)
     {
         $this->operation = $operation;
+        return $this;
+    }
+
+    /**
+     * @return Periodic
+     */
+    public function getPeriodic()
+    {
+        return $this->periodic;
+    }
+
+    /**
+     * @param Periodic $periodic
+     * @return Transaction
+     */
+    public function setPeriodic($periodic)
+    {
+        if ($periodic instanceof Periodic) {
+            $this->periodic = $periodic;
+        }
+        return $this;
     }
 
     /**
@@ -230,7 +331,7 @@ abstract class Transaction extends Risk
             $result[self::PARAM_PARENT_TRANSACTION_ID] = $this->parentTransactionId;
         }
 
-        if (array_key_exists('REMOTE_ADDR', $_SERVER)) {
+        if (array_key_exists('REMOTE_ADDR', $_SERVER) && !isset($result['ip-address'])) {
             $result['ip-address'] = $_SERVER['REMOTE_ADDR'];
         }
 
@@ -267,9 +368,33 @@ abstract class Transaction extends Risk
             $result['entry-mode'] = 'ecommerce';
         }
 
+        if (null !== $this->orderId) {
+            $result['order-id'] = $this->orderId;
+        }
+
         $result[self::PARAM_TRANSACTION_TYPE] = $this->retrieveTransactionType();
 
-        return array_merge($result, $this->mappedSpecificProperties());
+        $specificProperties = $this->mappedSpecificProperties();
+
+        if (in_array(
+            $this->retrieveTransactionType(),
+            [Transaction::TYPE_CHECK_ENROLLMENT, Transaction::TYPE_AUTHORIZATION, Transaction::TYPE_PURCHASE]
+        ) && array_key_exists('card-token', $specificProperties) && is_null($this->periodic)) {
+            $this->periodic = new Periodic('recurring');
+        }
+
+        if (null !== $this->periodic) {
+            $result['periodic'] = $this->periodic->mappedProperties();
+        }
+
+        if ($this->browser instanceof Browser) {
+            $browser = $this->browser->mappedProperties();
+            if (count($browser) > 0) {
+                $result['browser'] = $this->browser->mappedProperties();
+            }
+        }
+
+        return array_merge($result, $specificProperties);
     }
 
     /**
@@ -386,6 +511,9 @@ abstract class Transaction extends Risk
         return $this;
     }
 
+    /**
+     * @return null|string
+     */
     public function getSuccessUrl()
     {
         if (null === $this->redirect) {
@@ -393,5 +521,74 @@ abstract class Transaction extends Risk
         }
 
         return $this->redirect->getSuccessUrl();
+    }
+
+    /**
+     * @return Amount
+     */
+    public function getAmount()
+    {
+        return $this->amount;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNotificationUrl()
+    {
+        return $this->notificationUrl;
+    }
+
+    /**
+     * @return string|bool
+     */
+    public function getBackendOperationForPay()
+    {
+        try {
+            return $this->retrieveTransactionTypeForPay();
+        } catch (UnsupportedOperationException $e) {
+            return false;
+        }
+    }
+
+    /**
+     * @return string|bool
+     */
+    public function getBackendOperationForCancel()
+    {
+        try {
+            return $this->retrieveTransactionTypeForCancel();
+        } catch (UnsupportedOperationException $e) {
+            return false;
+        }
+    }
+
+    /**
+     * @return string|bool
+     */
+    public function getBackendOperationForRefund()
+    {
+        try {
+            return $this->retrieveTransactionTypeForRefund();
+        } catch (UnsupportedOperationException $e) {
+            return false;
+        }
+    }
+
+    /**
+     * @return string|bool
+     */
+    public function getBackendOperationForCredit()
+    {
+        try {
+            return $this->retrieveTransactionTypeForCredit();
+        } catch (UnsupportedOperationException $e) {
+            return false;
+        }
+    }
+
+    public function getSepaCredit()
+    {
+        return $this->sepaCredit;
     }
 }

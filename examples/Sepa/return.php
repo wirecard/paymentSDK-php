@@ -43,7 +43,7 @@ if ($response instanceof SuccessResponse) {
         <button type="submit" class="btn btn-primary">Request a new payment based on this payment</button>
     </form>
 
-    <form action="credit.php" method="post">
+    <form action="referencedcredit.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <div class="form-group">
             <label for="amount">Amount:</label>

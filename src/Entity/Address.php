@@ -139,4 +139,32 @@ class Address implements MappableEntity
 
         return $result;
     }
+
+    /**
+     * @param string $type
+     * @return array
+     */
+    public function mappedSeamlessProperties($type = '')
+    {
+        $result = [
+            $type . 'street1' => $this->street1,
+            $type . 'city' => $this->city,
+            $type . 'country' => $this->countryCode
+        ];
+
+        if (null !== $this->postalCode) {
+            $result[$type . 'postal_code'] = $this->postalCode;
+        }
+
+        if (null !== $this->street2) {
+            $result[$type . 'street2'] = $this->street2;
+        } else {
+            if (strlen($this->street1) > 128) {
+                $result[$type . 'street1'] = substr($this->street1, 0, 128);
+                $result[$type . 'street2'] = substr($this->street1, 128);
+            }
+        }
+
+        return $result;
+    }
 }

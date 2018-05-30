@@ -34,7 +34,9 @@ namespace WirecardTest\PaymentSdk\Transaction;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Entity\Browser;
 use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
@@ -102,6 +104,7 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx->setDescriptor('descriptor');
         $this->tx->setOperation('pay');
         $this->tx->setRedirect($redirect);
+        $this->tx->setBrowser(new Browser('application/xml'));
         $data = $this->tx->mappedProperties();
 
         $expected = [
@@ -121,6 +124,7 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
             'order-number' => 'order number 13',
             'order-detail' => 'order-detail my',
             'descriptor' => 'descriptor',
+            'browser' => ['accept' => 'application/xml']
         ];
 
         $this->assertEquals($expected, $data);
@@ -173,7 +177,15 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [null, Transaction::TYPE_DEBIT],
-            [Transaction::TYPE_AUTHORIZATION, Transaction::TYPE_CAPTURE_AUTHORIZATION]
+            [Transaction::TYPE_AUTHORIZATION, Transaction::TYPE_CAPTURE_AUTHORIZATION],
+            [Transaction::TYPE_DEBIT, Transaction::TYPE_DEBIT]
+        ];
+    }
+
+    public function payDataProviderException()
+    {
+        return [
+            [Transaction::TYPE_CHECK_ENROLLMENT, Transaction::TYPE_DEBIT]
         ];
     }
 
@@ -184,6 +196,35 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRetrieveTransactionTypePay($parentTransactionType, $expected)
     {
+        $redirect = $this->createMock(Redirect::class);
+        $redirect->method('getCancelUrl')->willReturn('cancel-url');
+        $redirect->method('getSuccessUrl')->willReturn('success-url');
+
+        $amount = $this->createMock(Amount::class);
+        $amount->method('getValue')->willReturn(1.00);
+
+        /**
+         * @var Redirect $redirect
+         * @var Amount $amount
+         */
+        $this->tx->setRedirect($redirect);
+        $this->tx->setAmount($amount);
+        $this->tx->setParentTransactionType($parentTransactionType);
+        $this->tx->setOperation('pay');
+        $data = $this->tx->mappedProperties();
+
+        $this->assertEquals($expected, $data['transaction-type']);
+    }
+
+    /**
+     * @param string $parentTransactionType
+     * @param string $expected
+     * @dataProvider payDataProviderException
+     */
+    public function testGetRetrieveTransactionTypePayException($parentTransactionType, $expected)
+    {
+        $this->expectException(UnsupportedOperationException::class);
+
         $redirect = $this->createMock(Redirect::class);
         $redirect->method('getCancelUrl')->willReturn('cancel-url');
         $redirect->method('getSuccessUrl')->willReturn('success-url');

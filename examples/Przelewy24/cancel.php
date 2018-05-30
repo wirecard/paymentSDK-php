@@ -14,7 +14,7 @@ require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\P24Transaction;
+use Wirecard\PaymentSdk\Transaction\PtwentyfourTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 if (!isset($_POST['parentTransactionId'])) {
@@ -29,7 +29,7 @@ if (!isset($_POST['parentTransactionId'])) {
 <?php
 } else {
 // ## Transaction
-    $transaction = new P24Transaction();
+    $transaction = new PtwentyfourTransaction();
     $transaction->setParentTransactionId($_POST['parentTransactionId']);
 
 // ### Transaction Service

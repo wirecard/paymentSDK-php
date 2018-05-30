@@ -31,60 +31,43 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\AccountHolder;
-use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
-/**
- * Class P24Transaction
- * @package Wirecard\PaymentSdk\Transaction
- */
-class P24Transaction extends Transaction implements Reservable
+class SepaBtwobTransaction extends SepaTransaction implements Reservable
 {
-    const NAME = 'p24';
+    /** @var  string $companyName */
+    private $companyName;
 
     /**
-     * return string
+     * Set company name
+     * @param string $companyName
      */
-    public function getEndpoint()
+    public function setCompanyName($companyName)
     {
-        if ($this->operation == Operation::CANCEL) {
-            return self::ENDPOINT_PAYMENTS;
-        }
-        return self::ENDPOINT_PAYMENT_METHODS;
+        $this->companyName = $companyName;
     }
 
+
     /**
+     * @throws UnsupportedOperationException
      * @return array
      */
     protected function mappedSpecificProperties()
     {
-        if (null === $this->accountHolder && Operation::PAY === $this->operation) {
-            throw new MandatoryFieldMissingException('Account Holder is a mandatory field.');
-        }
-        return [];
-    }
+        $result = parent::mappedSpecificProperties();
 
-    /**
-     * @return string
-     */
-    protected function retrieveTransactionTypeForPay()
-    {
-        return self::TYPE_DEBIT;
-    }
+        /**
+         * The only operation allowed for b2b is PAY,
+         * other operations have to be executed without the b2b parameter.o
+         */
+        if ($this->operation == Operation::PAY) {
+            $result['b2b'] = 'true';
+        }
 
-    /**
-     * @throws MandatoryFieldMissingException|UnsupportedOperationException
-     * @return string
-     */
-    protected function retrieveTransactionTypeForCancel()
-    {
-        if (!$this->parentTransactionId) {
-            throw new MandatoryFieldMissingException('No transaction for cancellation set.');
+        if (null !== $this->companyName) {
+            $result['account-holder']['last-name'] = $this->companyName;
         }
-        if ($this->parentTransactionType != Transaction::TYPE_DEBIT) {
-            throw new UnsupportedOperationException('Only debit can be refunded.');
-        }
-        return Transaction::TYPE_REFUND_REQUEST;
+
+        return $result;
     }
 }
