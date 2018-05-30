@@ -23,7 +23,8 @@ use Wirecard\PaymentSdk\TransactionService;
 // ### Transaction related objects
 
 // Use the amount object as amount which has to be paid by the consumer.
-$amount = new Amount(1, 'USD');
+// NOTICE: For the sandbox
+$amount = new Amount(1.01, 'USD');
 
 
 // The redirect URLs determine where the consumer should be redirected by WeChat QRPay after approval/cancellation.

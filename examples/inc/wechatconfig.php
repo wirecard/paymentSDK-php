@@ -15,9 +15,9 @@ use Wirecard\PaymentSdk\Transaction\WeChatTransaction;
 // ## Connection
 
 // The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
-$baseUrl = 'https://api-test.wirecard.com';
-$httpUser = 'engine.wechatqrpay';
-$httpPass = 'IirVRtCIp9WvtqZp';
+$baseUrl = 'https://api-wdcee-test.wirecard.com';
+$httpUser = 'wechat_sandbox';
+$httpPass = '9p0q8w8i';
 
 // The configuration is stored in an object containing the connection settings set above.
 // A default currency can also be provided.
@@ -34,7 +34,7 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
 // ### WeChat QRPay
 
-$wechatMAID = 'e9892fc3-1886-4564-8153-f3c7d4dc2b39';
-$wechatSecret = '980624d8-3be5-40c8-afca-5347e087a338';
+$wechatMAID = '20216dc1-0656-454a-94a1-ee51140d57fa';
+$wechatSecret = '9486b283-778f-4623-a70a-9ca663928d28';
 $wechatConfig = new PaymentMethodConfig(WeChatTransaction::NAME, $wechatMAID, $wechatSecret);
 $config->add($wechatConfig);
