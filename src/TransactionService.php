@@ -286,6 +286,7 @@ class TransactionService
         $merchantAccountId = $config->getMerchantAccountId();
         $secret = $config->getSecret();
         $isThreeD = false;
+        $amount = $transaction->getAmount();
 
         if ($transaction instanceof CreditCardTransaction) {
             $isThreeD = ($transaction->isFallback() || $transaction->getThreeD()) ? true : false;
@@ -296,10 +297,10 @@ class TransactionService
         $requestData = array(
             'request_time_stamp' => gmdate('YmdHis'),
             self::REQUEST_ID => call_user_func($this->requestIdGenerator, 64),
-            'transaction_type' => is_null($transaction->getAmount()) ? 'tokenize' : $paymentAction,
+            'transaction_type' => is_null($amount) ? 'tokenize' : $paymentAction,
             'merchant_account_id' => $merchantAccountId,
-            'requested_amount' => is_null($transaction->getAmount()) ? 0 : $transaction->getAmount()->getValue(),
-            'requested_amount_currency' => is_null($transaction->getAmount()) ? 'EUR' : $transaction->getAmount()->getCurrency(),
+            'requested_amount' => is_null($amount) ? 0 : $amount->getValue(),
+            'requested_amount_currency' => is_null($amount) ? 'EUR' : $amount->getCurrency(),
             'locale' => $language,
             'payment_method' => 'creditcard',
             'attempt_three_d' => $isThreeD ? true : false,
