@@ -36,12 +36,6 @@ if (!isset($_POST['parentTransactionId'])) {
 } else {
 // ### Transaction related objects
 
-// Create an amount object as amount which has to be paid by the consumer.
-    $amount = null;
-    if (empty($_POST['parentTransactionId'])) {
-        $amount = new Amount(10, 'EUR');
-    }
-
 // The account holder (first name, last name) is required.
     $accountHolder = new AccountHolder();
     $accountHolder->setLastName('Doe');
