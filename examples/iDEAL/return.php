@@ -38,6 +38,10 @@ if ($response instanceof SuccessResponse) {
     echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');
     echo getTransactionLink($baseUrl, $response);
     ?>
+    <form action="../iDEAL/credit-based-on-pay.php" method="post">
+        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+        <button type="submit" class="btn btn-primary">Request a credit based on this payment</button>
+    </form>
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
