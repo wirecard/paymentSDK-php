@@ -4,6 +4,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/wirecard/paymentSDK-php/badge.svg?branch=master)](https://coveralls.io/github/wirecard/paymentSDK-php?branch=master)
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=wirecard-paymentSDK-php&metric=alert_status)](https://sonarcloud.io/api/project_badges/measure?project=wirecard-paymentSDK-php&metric=alert_status)
 [![Wirecard Company](https://img.shields.io/badge/Wirecard-Company-blue.svg)](https://www.wirecard.com/)
+[![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=UTFaa2g0ejE5b25Cb0loNVRSUHBHSXBNSXZERXFJaXI2VFd3V2NQSG1PST0tLUc0U0lZQUZReFJUTWQ2amhWc09zdmc9PQ==--7aef9afe880529fe180288177396a91b8f537d3c)](https://www.browserstack.com/automate/public-build/UTFaa2g0ejE5b25Cb0loNVRSUHBHSXBNSXZERXFJaXI2VFd3V2NQSG1PST0tLUc0U0lZQUZReFJUTWQ2amhWc09zdmc9PQ==--7aef9afe880529fe180288177396a91b8f537d3c)
 
 ***
 ### General information 
