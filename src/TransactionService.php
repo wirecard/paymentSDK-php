@@ -317,6 +317,7 @@ class TransactionService
                 $requestData['transaction_type'] .
                 $requestData['requested_amount'] .
                 $requestData['requested_amount_currency'] .
+                $requestData['ip_address'] .
                 $secret
             )
         );
