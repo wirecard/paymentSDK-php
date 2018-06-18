@@ -321,7 +321,8 @@ class TransactionService
      * @return string
      * @since 2.3.1
      */
-    private function toSha256($fields, $secret) {
+    private function toSha256($fields, $secret)
+    {
         $hasData = '';
 
         foreach ($this->getHashKeys() as $key) {
@@ -330,7 +331,7 @@ class TransactionService
             }
         }
         $hasData .= $secret;
-        return hash('sha256',trim($hasData));
+        return hash('sha256', trim($hasData));
     }
 
     /**
@@ -339,7 +340,8 @@ class TransactionService
      * @return array
      * @since 2.3.1
      */
-    private function getHashKeys() {
+    private function getHashKeys()
+    {
         return array(
             'request_time_stamp',
             self::REQUEST_ID,
