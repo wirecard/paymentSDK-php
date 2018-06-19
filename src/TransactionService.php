@@ -308,20 +308,51 @@ class TransactionService
 
         $requestData = $this->requestMapper->mapSeamlessRequest($transaction, $requestData);
 
-        $requestData['request_signature'] = hash(
-            'sha256',
-            trim(
-                $requestData['request_time_stamp'] .
-                $requestData[self::REQUEST_ID] .
-                $requestData['merchant_account_id'] .
-                $requestData['transaction_type'] .
-                $requestData['requested_amount'] .
-                $requestData['requested_amount_currency'] .
-                $secret
-            )
-        );
+        $requestData['request_signature'] = $this->toSha256($requestData, $secret);
 
         return json_encode($requestData);
+    }
+
+    /**
+     * Get calculated signature
+     *
+     * @param array $fields
+     * @param string $secret
+     * @return string
+     * @since 2.3.1
+     */
+    private function toSha256($fields, $secret)
+    {
+        $hasData = '';
+
+        foreach ($this->getHashKeys() as $key) {
+            if (isset($fields[$key])) {
+                $hasData .= $fields[$key];
+            }
+        }
+        $hasData .= $secret;
+        return hash('sha256', trim($hasData));
+    }
+
+    /**
+     * return order of fields for calculating the signature
+     *
+     * @return array
+     * @since 2.3.1
+     */
+    private function getHashKeys()
+    {
+        return array(
+            'request_time_stamp',
+            self::REQUEST_ID,
+            'merchant_account_id',
+            'transaction_type',
+            'requested_amount',
+            'requested_amount_currency',
+            'redirect_url',
+            'custom_css_url',
+            'ip_address'
+        );
     }
 
     /**
