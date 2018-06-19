@@ -195,7 +195,9 @@ class CreditCardTransaction extends Transaction implements Reservable
             $result['card'] = $this->card->mappedProperties();
         }
 
-        if ($this->retrieveTransactionType() === Transaction::TYPE_CHECK_ENROLLMENT && !$this->browser instanceof Browser) {
+        if ($this->retrieveTransactionType() === Transaction::TYPE_CHECK_ENROLLMENT
+            && !$this->browser instanceof Browser
+        ) {
             $this->setBrowser(new Browser());
         }
 
