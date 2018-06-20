@@ -274,7 +274,7 @@ abstract class Response
             /** @var SimpleXMLElement $field */
             foreach ($this->simpleXml->{'custom-fields'}->children() as $field) {
                 if (isset($field->attributes()->{'field-name'}) && isset($field->attributes()->{'field-value'})) {
-                    $name = substr((string)$field->attributes()->{'field-name'}, 7);
+                    $name = str_replace('paysdk_', '', (string)$field->attributes()->{'field-name'});
                     $value = (string)$field->attributes()->{'field-value'};
                     $customFieldCollection->add(new CustomField($name, $value));
                 }
