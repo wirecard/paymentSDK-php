@@ -96,7 +96,7 @@ class CustomFieldCollectionUTest extends \PHPUnit_Framework_TestCase
         $this->customFieldCollection->add($customField);
 
         $expected = [
-            'field_name_1' => 'test',
+            'field_name_1' => CustomField::PREFIX . 'test',
             'field_value_1' => 'abc'
         ];
         $this->assertEquals($expected, $this->customFieldCollection->mappedSeamlessProperties());
