@@ -85,23 +85,23 @@ class BackendService extends TransactionService
         $operations = false;
         if ($transaction->getBackendOperationForPay() && (!$limit ||
             $transaction->getParentTransactionType() == Transaction::TYPE_AUTHORIZATION)) {
-            $operations[] = [Operation::PAY => self::CAPTURE_BUTTON_TEXT];
+            $operations[Operation::PAY] = self::CAPTURE_BUTTON_TEXT;
         }
         if ($transaction->getBackendOperationForCancel()) {
             if (stristr($transaction->getBackendOperationForCancel(), 'refund')) {
-                $operations[] = [Operation::CANCEL => self::REFUND_BUTTON_TEXT];
+                $operations[Operation::CANCEL] = self::REFUND_BUTTON_TEXT;
             } else {
-                $operations[] = [Operation::CANCEL => self::CANCEL_BUTTON_TEXT];
+                $operations[Operation::CANCEL] = self::CANCEL_BUTTON_TEXT;
             }
         }
         if ($transaction->getBackendOperationForRefund()) {
-            $operations[] = [Operation::REFUND => self::REFUND_BUTTON_TEXT];
+            $operations[Operation::REFUND] = self::REFUND_BUTTON_TEXT;
         }
         if ($transaction->getBackendOperationForCredit() || $transaction->getSepaCredit()) {
             if ($limit && $transaction->getSepaCredit()) {
-                $operations[] = [Operation::CREDIT => self::REFUND_BUTTON_TEXT];
+                $operations[Operation::CREDIT] = self::REFUND_BUTTON_TEXT;
             } elseif (!$limit) {
-                $operations[] = [Operation::CREDIT => self::CREDIT_BUTTON_TEXT];
+                $operations[Operation::CREDIT] = self::CREDIT_BUTTON_TEXT;
             }
         }
 
