@@ -124,7 +124,7 @@ class CustomFieldCollection implements \IteratorAggregate, MappableEntity
             if ($count > 10) {
                 throw new UnsupportedOperationException('Maximum allowed number of additional fields is 10.');
             }
-            $data["field_name_$count"] = $customField->getName();
+            $data["field_name_$count"] = CustomField::PREFIX . $customField->getName();
             $data["field_value_$count"] = $customField->getValue();
             $count++;
         }
