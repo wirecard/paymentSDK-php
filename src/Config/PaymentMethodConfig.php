@@ -60,8 +60,8 @@ class PaymentMethodConfig implements MappableEntity
      */
     public function __construct($paymentMethodName, $merchantAccountId = null, $secret = null)
     {
-        if (!in_array($paymentMethodName,
-                [CreditCardTransaction::NAME]) && (is_null($merchantAccountId) || is_null($secret))) {
+        if (!in_array($paymentMethodName, [CreditCardTransaction::NAME])
+            && (is_null($merchantAccountId) || is_null($secret))) {
             throw new MandatoryFieldMissingException('MAID and secret are mandatory!');
         }
         $this->paymentMethodName = $paymentMethodName;
