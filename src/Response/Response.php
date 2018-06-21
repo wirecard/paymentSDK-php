@@ -32,8 +32,13 @@
 namespace Wirecard\PaymentSdk\Response;
 
 use SimpleXMLElement;
+use Wirecard\PaymentSdk\Entity\AccountHolder;
+use Wirecard\PaymentSdk\Entity\Address;
+use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Entity\CustomField;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
+use Wirecard\PaymentSdk\Entity\Item;
 use Wirecard\PaymentSdk\Entity\Status;
 use Wirecard\PaymentSdk\Entity\StatusCollection;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
@@ -75,6 +80,31 @@ abstract class Response
     protected $operation = null;
 
     /**
+     * @var Basket $basket
+     */
+    protected $basket;
+
+    /**
+     * @var Amount $amount
+     */
+    protected $requestedAmount;
+
+    /**
+     * @var AccountHolder
+     */
+    protected $accountHolder;
+
+    /**
+     * @var AccountHolder
+     */
+    protected $shipping;
+
+    /**
+     * @var CustomFieldCollection
+     */
+    protected $customFields;
+
+    /**
      * Response constructor.
      * @param SimpleXMLElement $simpleXml
      * @throws MalformedResponseException
@@ -84,6 +114,11 @@ abstract class Response
         $this->simpleXml = $simpleXml;
         $this->statusCollection = $this->generateStatusCollection();
         $this->setValueForRequestId();
+        $this->setBasket();
+        $this->setRequestedAmount();
+        $this->setAccountHolder();
+        $this->setShipping();
+        $this->setCustomFields();
     }
 
     /**
@@ -268,19 +303,7 @@ abstract class Response
      */
     public function getCustomFields()
     {
-        $customFieldCollection = new CustomFieldCollection();
-
-        if (isset($this->simpleXml->{'custom-fields'})) {
-            /** @var SimpleXMLElement $field */
-            foreach ($this->simpleXml->{'custom-fields'}->children() as $field) {
-                if (isset($field->attributes()->{'field-name'}) && isset($field->attributes()->{'field-value'})) {
-                    $name = substr((string)$field->attributes()->{'field-name'}, strlen(CustomField::PREFIX));
-                    $value = (string)$field->attributes()->{'field-value'};
-                    $customFieldCollection->add(new CustomField($name, $value));
-                }
-            }
-        }
-        return $customFieldCollection;
+        return $this->customFields;
     }
 
     /**
@@ -303,5 +326,190 @@ abstract class Response
     public function getOperation()
     {
         return $this->operation;
+    }
+
+    /**
+     * Parse simplexml and create basket object
+     *
+     * @since 2.4.0
+     */
+    private function setBasket()
+    {
+        if (!isset($this->simpleXml->{'order-items'})) {
+            return;
+        }
+
+        $orderItems = $this->simpleXml->{'order-items'}->{'order-item'};
+
+        if (!isset($orderItems)) {
+            return;
+        }
+
+        $basket = new Basket();
+
+        foreach ($orderItems as $orderItem) {
+
+            $amountAttrs = $orderItem->amount->attributes();
+            $amount = new Amount(
+                (float)$orderItem->amount,
+                (string)$amountAttrs->currency
+            );
+
+            $basketItem = new Item((string)$orderItem->name, $amount, (int)$orderItem->quantity);
+
+            if (isset($orderItems->{'tax-amount'})) {
+                $taxAmount = new Amount(
+                    (float)$orderItem->{'tax-amount'},
+                    (string)$orderItem->{'tax-amount'}->attributes()->currency
+                );
+                $basketItem->setTaxAmount($taxAmount);
+            }
+
+            $basketItem->setDescription((string)$orderItem->description);
+            $basketItem->setArticleNumber((string)$orderItem->{'article-number'});
+
+            $basket->add($basketItem);
+        }
+
+        $this->basket = $basket;
+    }
+
+    /**
+     * Parse simplexml and create requestedAmount object
+     *
+     * @since 2.4.0
+     */
+    private function setRequestedAmount()
+    {
+        if ($this->simpleXml->{'requested-amount'}->count() < 1) {
+            return;
+        }
+
+        $this->requestedAmount = new Amount(
+            (float)$this->simpleXml->{'requested-amount'},
+            (string)$this->simpleXml->{'requested-amount'}->attributes()->currency
+        );
+    }
+
+    /**
+     * @since 2.4.0
+     */
+    private function setAccountHolder()
+    {
+        $accountHolderXml = $this->simpleXml->{'account-holder'};
+        if (!isset($accountHolderXml)) {
+            return;
+        }
+
+        $this->accountHolder = $this->parseAccountHolder($accountHolderXml);
+    }
+
+    private function parseAccountHolder($simpleXmlElement)
+    {
+        $accountHolder = new AccountHolder();
+
+        $fields = [
+            'first-name' => 'setFirstName',
+            'last-name' => 'setLastName',
+            'email' => 'setEmail',
+            'phone' => 'setPhone'
+        ];
+
+        if (isset($simpleXmlElement->{'date-of-birth'})) {
+            $dob = \DateTime::createFromFormat('d-m-Y', (string)$simpleXmlElement->{'date-of-birth'});
+            $accountHolder->setDateOfBirth($dob);
+        }
+
+        foreach ($fields as $field => $function) {
+            if (isset($simpleXmlElement->{$field})) {
+                $accountHolder->{$function}((string)$simpleXmlElement->{$field});
+            }
+        }
+
+        if (isset($simpleXmlElement->address)) {
+            $address = new Address(
+                (string)$simpleXmlElement->address->country,
+                (string)$simpleXmlElement->address->city,
+                (string)$simpleXmlElement->address->street1
+            );
+
+            if (isset($simpleXmlElement->address->{'postal-code'})) {
+                $address->setPostalCode((string)$simpleXmlElement->address->{'postal-code'});
+            }
+
+            if (isset($simpleXmlElement->address->street2)) {
+                $address->setStreet2((string)$simpleXmlElement->address->street2);
+            }
+
+            if (isset($simpleXmlElement->address->{'house-extension'})) {
+                $address->setHouseExtension((string)$simpleXmlElement->address->{'house-extension'});
+            }
+
+            $accountHolder->setAddress($address);
+        }
+
+        return $accountHolder;
+    }
+
+    /**
+     * @since 2.4.0
+     */
+    private function setShipping()
+    {
+        $shipping = $this->simpleXml->shipping;
+        if (!isset($shipping)) {
+            return;
+        }
+        $this->shipping = $this->parseAccountHolder($this->simpleXml->shipping);
+    }
+
+    /**
+     * parse simplexml to load all custom fields
+     *
+     * @since 2.4.0
+     */
+    private function setCustomFields()
+    {
+        $customFieldCollection = new CustomFieldCollection();
+
+        if (isset($this->simpleXml->{'custom-fields'})) {
+            /** @var SimpleXMLElement $field */
+            foreach ($this->simpleXml->{'custom-fields'}->children() as $field) {
+                if (isset($field->attributes()->{'field-name'}) && isset($field->attributes()->{'field-value'})) {
+                    $name = substr((string)$field->attributes()->{'field-name'}, strlen(CustomField::PREFIX));
+                    $value = (string)$field->attributes()->{'field-value'};
+                    $customFieldCollection->add(new CustomField($name, $value));
+                }
+            }
+        }
+        $this->customFields = $customFieldCollection;
+    }
+
+    /**
+     * @return Basket
+     * @since 2.4.0
+     */
+    public function getBasket()
+    {
+        return $this->basket;
+    }
+
+    public function getShipping()
+    {
+        return $this->shipping;
+    }
+
+    public function getAccountHolder()
+    {
+        return $this->accountHolder;
+    }
+
+    /**
+     * @return Amount
+     * @since 2.4.0
+     */
+    public function getRequestedAmount()
+    {
+        return $this->requestedAmount;
     }
 }
