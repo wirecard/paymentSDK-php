@@ -32,6 +32,8 @@
 namespace Wirecard\PaymentSdk\Config;
 
 use Wirecard\PaymentSdk\Entity\MappableEntity;
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
+use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 
 class PaymentMethodConfig implements MappableEntity
 {
@@ -43,21 +45,25 @@ class PaymentMethodConfig implements MappableEntity
     /**
      * @var string
      */
-    private $merchantAccountId;
+    protected $merchantAccountId;
 
     /**
      * @var string
      */
-    private $secret;
+    protected $secret;
 
     /**
      * PaymentMethodConfig constructor.
      * @param string $paymentMethodName
-     * @param string $merchantAccountId
-     * @param string $secret
+     * @param string|null $merchantAccountId
+     * @param string|null $secret
      */
-    public function __construct($paymentMethodName, $merchantAccountId, $secret)
+    public function __construct($paymentMethodName, $merchantAccountId = null, $secret = null)
     {
+        if (!in_array($paymentMethodName, [CreditCardTransaction::NAME])
+            && (is_null($merchantAccountId) || is_null($secret))) {
+            throw new MandatoryFieldMissingException('MAID and secret are mandatory!');
+        }
         $this->paymentMethodName = $paymentMethodName;
         $this->merchantAccountId = $merchantAccountId;
         $this->secret = $secret;

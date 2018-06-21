@@ -58,12 +58,16 @@ class CreditCardConfig extends PaymentMethodConfig
 
     /**
      * SepaConfig constructor.
-     * @param string $merchantAccountId
-     * @param string $secret
+     * @param string|null $merchantAccountId
+     * @param string|null $secret
      */
-    public function __construct($merchantAccountId, $secret)
+    public function __construct($merchantAccountId = null, $secret = null)
     {
-        parent::__construct(CreditCardTransaction::NAME, $merchantAccountId, $secret);
+        parent::__construct(CreditCardTransaction::NAME, null, null);
+
+        if ($merchantAccountId !== null && $secret !== null) {
+            $this->setSSLCredentials($merchantAccountId, $secret);
+        }
     }
 
     /**
@@ -95,6 +99,18 @@ class CreditCardConfig extends PaymentMethodConfig
     {
         $this->threeDMerchantAccountId = $threeDMerchantAccountId;
         $this->threeDSecret = $threeDSecret;
+        return $this;
+    }
+
+    /**
+     * @param string $merchantAccountId
+     * @param string $secret
+     * @return CreditCardConfig
+     */
+    public function setSSLCredentials($merchantAccountId, $secret)
+    {
+        $this->merchantAccountId = $merchantAccountId;
+        $this->secret = $secret;
         return $this;
     }
 
