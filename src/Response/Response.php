@@ -401,6 +401,12 @@ abstract class Response
         $this->accountHolder = $this->parseAccountHolder($accountHolderXml);
     }
 
+    /**
+     * parse account holder informations from response
+     *
+     * @return AccountHolder
+     * @since 2.4.0
+     */
     private function parseAccountHolder($simpleXmlElement)
     {
         $accountHolder = new AccountHolder();
@@ -491,11 +497,19 @@ abstract class Response
         return $this->basket;
     }
 
+    /**
+     * @return AccountHolder
+     * @since 2.4.0
+     */
     public function getShipping()
     {
         return $this->shipping;
     }
 
+    /**
+     * @return AccountHolder
+     * @since 2.4.0
+     */
     public function getAccountHolder()
     {
         return $this->accountHolder;
