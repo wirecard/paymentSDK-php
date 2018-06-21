@@ -23,12 +23,12 @@
 <span class="hljs-variable">$httpUser</span> = <span class="hljs-string">'70000-APITEST-AP'</span>;
 <span class="hljs-variable">$httpPass</span> = <span class="hljs-string">'qD2wzQ_hrc!8'</span>;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>The configuration is stored in an object containing the connection settings set above.
 A default currency can also be provided.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$config</span> = <span class="hljs-keyword">new</span> Config\Config(<span class="hljs-variable">$baseUrl</span>, <span class="hljs-variable">$httpUser</span>, <span class="hljs-variable">$httpPass</span>, <span class="hljs-string">'EUR'</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="payment-methods">Payment methods</h2></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Each payment method can be configured with an individual merchant account ID and the corresponding key.
-The configuration object for payment methods requires three parameters:</p>
-<ul>
-<li>the name of the payment method</li>
-<li>the merchant account ID</li>
-<li>the corresponding secret key</li>
-</ul></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="credit-card-ssl">Credit Card SSL</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-variable">$creditcardConfig</span> = <span class="hljs-keyword">new</span> CreditCardConfig(
+The configuration object for Credit Card is a little different than other payment methods and can be
+instantiated without any parameters. If you wish to omit ssl transactions you can just leave out the
+maid and secret in the default CreditCardConfig. However if you want to use ssl transactions you have two
+ways of setting the credentials. First via setting the parameters maid and secret -</p></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="credit-card-ssl">Credit Card SSL</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-variable">$creditcardConfig</span> = <span class="hljs-keyword">new</span> CreditCardConfig();</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><ul>
+<li>second via using this specific setter.</li>
+</ul></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$creditcardConfig</span>-&gt;setSSLCredentials(
     <span class="hljs-string">'53f2895a-e4de-4e82-a813-0d87a10e55e6'</span>,
     <span class="hljs-string">'dbc5a498-9a66-43b9-bf1d-a618dd399684'</span>
 );</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Define the limit to allow the maximum amount for a ssl transaction, all amounts above this value will be done as

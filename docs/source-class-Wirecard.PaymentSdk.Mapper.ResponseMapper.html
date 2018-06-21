@@ -542,7 +542,7 @@
 </span><span id="367" class="l"><a href="#367">367 </a>                <span class="php-quote">'MD'</span>,
 </span><span id="368" class="l"><a href="#368">368 </a>                <span class="php-keyword2">base64_encode</span>(<span class="php-keyword2">json_encode</span>([
 </span><span id="369" class="l"><a href="#369">369 </a>                    <span class="php-quote">'enrollment-check-transaction-id'</span> =&gt; <span class="php-var">$response</span>-&gt;getTransactionId(),
-</span><span id="370" class="l"><a href="#370">370 </a>                    <span class="php-quote">'operation-type'</span> =&gt; <span class="php-quote">'authorization'</span>
+</span><span id="370" class="l"><a href="#370">370 </a>                    <span class="php-quote">'operation-type'</span> =&gt; <span class="php-var">$payload</span>[<span class="php-quote">'transaction_type'</span>]
 </span><span id="371" class="l"><a href="#371">371 </a>                ]))
 </span><span id="372" class="l"><a href="#372">372 </a>            );
 </span><span id="373" class="l"><a href="#373">373 </a>

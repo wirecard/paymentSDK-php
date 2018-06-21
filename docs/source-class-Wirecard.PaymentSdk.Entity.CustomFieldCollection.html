@@ -299,7 +299,7 @@
 </span><span id="124" class="l"><a href="#124">124 </a>            <span class="php-keyword1">if</span> (<span class="php-var">$count</span> &gt; <span class="php-num">10</span>) {
 </span><span id="125" class="l"><a href="#125">125 </a>                <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> UnsupportedOperationException(<span class="php-quote">'Maximum allowed number of additional fields is 10.'</span>);
 </span><span id="126" class="l"><a href="#126">126 </a>            }
-</span><span id="127" class="l"><a href="#127">127 </a>            <span class="php-var">$data</span>[<span class="php-quote">&quot;field_name_</span><span class="php-var">$count</span><span class="php-quote">&quot;</span>] = <span class="php-var">$customField</span>-&gt;getName();
+</span><span id="127" class="l"><a href="#127">127 </a>            <span class="php-var">$data</span>[<span class="php-quote">&quot;field_name_</span><span class="php-var">$count</span><span class="php-quote">&quot;</span>] = CustomField::PREFIX . <span class="php-var">$customField</span>-&gt;getName();
 </span><span id="128" class="l"><a href="#128">128 </a>            <span class="php-var">$data</span>[<span class="php-quote">&quot;field_value_</span><span class="php-var">$count</span><span class="php-quote">&quot;</span>] = <span class="php-var">$customField</span>-&gt;getValue();
 </span><span id="129" class="l"><a href="#129">129 </a>            <span class="php-var">$count</span>++;
 </span><span id="130" class="l"><a href="#130">130 </a>        }
