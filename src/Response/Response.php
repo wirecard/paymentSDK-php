@@ -339,15 +339,13 @@ abstract class Response
             return;
         }
 
-        $orderItems = $this->simpleXml->{'order-items'}->{'order-item'};
-
-        if (!isset($orderItems)) {
+        if ($this->simpleXml->{'order-items'}->children()->count() < 1) {
             return;
         }
 
         $basket = new Basket();
 
-        foreach ($orderItems as $orderItem) {
+        foreach ($this->simpleXml->{'order-items'}->children() as $orderItem) {
 
             $amountAttrs = $orderItem->amount->attributes();
             $amount = new Amount(
