@@ -346,7 +346,6 @@ abstract class Response
         $basket = new Basket();
 
         foreach ($this->simpleXml->{'order-items'}->children() as $orderItem) {
-
             $amountAttrs = $orderItem->amount->attributes();
             $amount = new Amount(
                 (float)$orderItem->amount,
