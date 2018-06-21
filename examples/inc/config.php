@@ -44,14 +44,17 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 // ## Payment methods
 
 // Each payment method can be configured with an individual merchant account ID and the corresponding key.
-// The configuration object for payment methods requires three parameters:
-// * the name of the payment method
-// * the merchant account ID
-// * the corresponding secret key
+// The configuration object for Credit Card is a little different than other payment methods and can be
+// instantiated without any parameters. If you wish to omit ssl transactions you can just leave out the
+// maid and secret in the default CreditCardConfig. However if you want to use ssl transactions you have two
+// ways of setting the credentials. First via setting the parameters maid and secret -
 
 // ### Credit Card SSL
 
-$creditcardConfig = new CreditCardConfig(
+$creditcardConfig = new CreditCardConfig();
+
+// - second via using this specific setter.
+$creditcardConfig->setSSLCredentials(
     '53f2895a-e4de-4e82-a813-0d87a10e55e6',
     'dbc5a498-9a66-43b9-bf1d-a618dd399684'
 );
