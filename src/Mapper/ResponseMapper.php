@@ -367,7 +367,7 @@ class ResponseMapper
                 'MD',
                 base64_encode(json_encode([
                     'enrollment-check-transaction-id' => $response->getTransactionId(),
-                    'operation-type' => 'authorization'
+                    'operation-type' => $payload['transaction_type']
                 ]))
             );
 
