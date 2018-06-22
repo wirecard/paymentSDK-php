@@ -146,4 +146,33 @@ class Basket implements \IteratorAggregate, MappableEntity
 
         return $basket;
     }
+
+    public function getAsHtml($customId = null){
+        $html = "<table id='$customId'>";
+        $html .= "<tr id='{$customId}_firstrow'><td colspan='99' align='center'><b>Basket</b></td></tr>";
+
+        /** @var Item $item */
+        $itemNumber = 1;
+        foreach ($this->getIterator() as $item) {
+            $html .= "<tr id='{$customId}_otherrows'>";
+            $html .= "<td valign='top' rowspan='" . count($item->mappedProperties()) . "'>Item #$itemNumber</td>";
+            $attrIter = 0;
+            foreach($item->mappedProperties() as $key=>$value) {
+                // this is for the amount object
+                if (is_array($value) && isset($value['currency']) && isset($value['value'])) {
+                    $value = "{$value['currency']} {$value['value']}";
+                }
+                if ($attrIter++ != 0) {
+                    $html .= "</tr><tr>";
+                }
+                $html .= "<td>$key</td><td>$value</td>";
+            }
+
+            $itemNumber++;
+            $html .= "</tr>";
+        }
+
+        $html .= "</table>";
+        return $html;
+    }
 }

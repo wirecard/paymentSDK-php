@@ -113,4 +113,12 @@ class BasketUTest extends \PHPUnit_Framework_TestCase
         ];
         $this->assertEquals($expected, $this->itemCollection->mappedSeamlessProperties());
     }
+
+    public function testGetAsHtml()
+    {
+        $item = new Item('test item name', new Amount(1, 'EUR'), 1);
+        $this->itemCollection->add($item);
+
+        echo $this->itemCollection->getAsHtml('myid');
+    }
 }
