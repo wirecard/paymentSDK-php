@@ -119,6 +119,6 @@ class BasketUTest extends \PHPUnit_Framework_TestCase
         $item = new Item('test item name', new Amount(1, 'EUR'), 1);
         $this->itemCollection->add($item);
 
-        echo $this->itemCollection->getAsHtml('myid');
+        $this->assertNotEmpty($this->itemCollection->getAsHtml('myid'));
     }
 }

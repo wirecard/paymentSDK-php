@@ -222,4 +222,40 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $this->response->getData());
     }
+
+    public function testWithoutOrderItemsContent()
+    {
+        $xml = $this->simpleXml;
+        $xml->addChild('order-items');
+
+        $response = new SuccessResponse($xml);
+        $this->assertNull($response->getBasket());
+    }
+
+    public function testWithoutOrderItemsTaxAmount()
+    {
+        $xml = $this->simpleXml;
+
+        $orderItems = $xml->addChild('order-items');
+        $orderItem = $orderItems->addChild('order-item');
+        $orderItem->addChild('name', 'Beanie with Logo');
+        $orderItem->addChild('tax-amount', 3.42)->addAttribute('currency', 'EUR');
+        $orderItem->addChild('amount', 21.42)->addAttribute('currency', 'EUR');
+
+        $response = new SuccessResponse($xml);
+
+        $this->assertEquals(
+            [
+                'name' => 'Beanie with Logo',
+                'quantity' => 0,
+                'amount' => [
+                    'currency' => 'EUR',
+                    'value' => 21.42
+                ],
+                'description' => '',
+                'article-number' => ''
+            ],
+            $response->getBasket()->mappedProperties()['order-item'][0]
+        );
+    }
 }

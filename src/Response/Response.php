@@ -42,6 +42,10 @@ use Wirecard\PaymentSdk\Entity\Item;
 use Wirecard\PaymentSdk\Entity\Status;
 use Wirecard\PaymentSdk\Entity\StatusCollection;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
+use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayTransaction;
 
 /**
  * Class Response
@@ -343,6 +347,17 @@ abstract class Response
             return;
         }
 
+        $basketVersion = '';
+        switch ((string)$this->simpleXml->{'payment-methods'}->{'payment-method'}['name']) {
+            case PayPalTransaction::NAME:
+                $basketVersion = PayPalTransaction::class;
+                break;
+            case RatepayInvoiceTransaction::NAME:
+            case RatepayInstallmentTransaction::NAME:
+                $basketVersion = RatepayTransaction::class;
+                break;
+        }
+
         $basket = new Basket();
 
         foreach ($this->simpleXml->{'order-items'}->children() as $orderItem) {
@@ -354,16 +369,17 @@ abstract class Response
 
             $basketItem = new Item((string)$orderItem->name, $amount, (int)$orderItem->quantity);
 
-            if (isset($orderItems->{'tax-amount'})) {
+            if (isset($orderItem->{'tax-amount'})) {
+                $taxAmountAttrs = $orderItem->{'tax-amount'}->attributes();
                 $taxAmount = new Amount(
                     (float)$orderItem->{'tax-amount'},
-                    (string)$orderItem->{'tax-amount'}->attributes()->currency
+                    (string)$taxAmountAttrs->currency
                 );
                 $basketItem->setTaxAmount($taxAmount);
             }
-
-            $basketItem->setDescription((string)$orderItem->description);
-            $basketItem->setArticleNumber((string)$orderItem->{'article-number'});
+            $basketItem->setVersion($basketVersion)
+                ->setDescription((string)$orderItem->description)
+                ->setArticleNumber((string)$orderItem->{'article-number'});
 
             $basket->add($basketItem);
         }
