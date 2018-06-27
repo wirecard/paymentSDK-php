@@ -9,13 +9,13 @@
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
-require __DIR__ . '/../inc/config.php';
+require __DIR__ . '/../inc/sepaconfig.php';
 //Header design
 require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\SepaTransaction;
+use Wirecard\PaymentSdk\Transaction\SepaCreditTransferTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 if (!isset($_POST['parentTransactionId'])) {
@@ -31,7 +31,7 @@ if (!isset($_POST['parentTransactionId'])) {
 } else {
 // ## Transaction
 
-    $transaction = new SepaTransaction();
+    $transaction = new SepaCreditTransferTransaction();
     $transaction->setParentTransactionId($_POST['parentTransactionId']);
 
 // ### Transaction Service
@@ -47,7 +47,7 @@ if (!isset($_POST['parentTransactionId'])) {
 // In case of a successful transaction, a `SuccessResponse` object is returned.
     if ($response instanceof SuccessResponse) {
         echo 'Payment successfully cancelled.<br>';
-        echo getTransactionLink($baseUrl, $response);
+        echo getTransactionLink($baseUrl, $response, $config);
 // In case of a failed transaction, a `FailureResponse` object is returned.
     } elseif ($response instanceof FailureResponse) {
         // In our example we iterate over all errors and echo them out.

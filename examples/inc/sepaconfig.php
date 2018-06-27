@@ -10,6 +10,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Config\SepaConfig;
+use Wirecard\PaymentSdk\Transaction\SepaCreditTransferTransaction;
 use Wirecard\PaymentSdk\Transaction\SepaDirectDebitTransaction;
 
 // ## Connection
@@ -41,3 +42,11 @@ $sepaDirectDebitConfig = new SepaConfig(SepaDirectDebitTransaction::NAME, $sepaD
 $sepaDirectDebitConfig->setCreditorId('DE98ZZZ09999999999');
 $config->add($sepaDirectDebitConfig);
 
+// ### SEPA Credit Transfer
+
+$sepaCreditTransferMAID = '	59a01668-693b-49f0-8a1f-f3c1ba025d45';
+$sepaCreditTransferKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
+// SEPA requires the creditor ID, therefore a different config object is used.
+$sepaCreditTransferConfig = new SepaConfig(SepaCreditTransferTransaction::NAME, $sepaCreditTransferMAID, $sepaCreditTransferKey);
+$sepaCreditTransferConfig->setCreditorId('DE98ZZZ09999999999');
+$config->add($sepaCreditTransferConfig);

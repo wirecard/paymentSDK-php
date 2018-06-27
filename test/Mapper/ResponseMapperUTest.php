@@ -43,6 +43,7 @@ use Wirecard\PaymentSdk\Response\PendingResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
+use Wirecard\PaymentSdk\Transaction\SepaCreditTransferTransaction;
 use Wirecard\PaymentSdk\Transaction\SepaTransaction;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 
@@ -527,7 +528,7 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         /**
          * @var PendingResponse $mapped
          */
-        $mapped = $this->mapper->map($response, new SepaTransaction());
+        $mapped = $this->mapper->map($response, new SepaCreditTransferTransaction());
         $this->assertInstanceOf(PendingResponse::class, $mapped);
         $this->assertEquals('123', $mapped->getRequestId());
     }
