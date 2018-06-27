@@ -67,7 +67,10 @@ class SepaCreditTransferTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->accountHolder->setLastName(self::LAST_NAME);
         $this->accountHolder->setFirstName(self::FIRST_NAME);
 
+        $mandate = new Mandate(self::MANDATE_ID);
+
         $this->tx = new SepaCreditTransferTransaction();
+        $this->tx->setMandate($mandate);
         $this->tx->setAmount($this->amount);
     }
 
@@ -175,8 +178,6 @@ class SepaCreditTransferTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx->mappedProperties();
     }
 
-
-
     private function getExpectedResultCancelPay($parentTransactionId)
     {
         return [
@@ -196,14 +197,6 @@ class SepaCreditTransferTransactionUTest extends \PHPUnit_Framework_TestCase
             'locale' => 'de',
             'entry-mode' => 'ecommerce',
         ];
-    }
-
-    /**
-     * @return false|string
-     */
-    private function today()
-    {
-        return gmdate('Y-m-d');
     }
 
     public function testRetrieveTransactionTypeForCredit()

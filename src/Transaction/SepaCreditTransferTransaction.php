@@ -31,6 +31,7 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Entity\Mandate;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
@@ -49,12 +50,25 @@ class SepaCreditTransferTransaction extends Transaction implements Reservable
     private $bic;
 
     /**
+     * @var Mandate
+     */
+    private $mandate;
+
+    /**
      * @since 3.0.0
      * @param string $bic
      */
     public function setBic($bic)
     {
         $this->bic = $bic;
+    }
+
+    /**
+     * @param Mandate $mandate
+     */
+    public function setMandate($mandate)
+    {
+        $this->mandate = $mandate;
     }
 
     /**
