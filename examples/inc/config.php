@@ -11,7 +11,6 @@ require __DIR__ . '/../../vendor/autoload.php';
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
-use Wirecard\PaymentSdk\Config\SepaConfig;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Transaction\BancontactTransaction;
 use Wirecard\PaymentSdk\Transaction\EpsTransaction;
@@ -127,15 +126,6 @@ $config->add($ratepayInvoiceConfig);
 
 $ratepayDirectDebit = new PaymentMethodConfig(RatepayDirectDebitTransaction::NAME, $ratepayMAID, $ratepayKey);
 $config->add($ratepayDirectDebit);
-
-// ### SEPA
-
-$sepaMAID = '4c901196-eff7-411e-82a3-5ef6b6860d64';
-$sepaKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
-// SEPA requires the creditor ID, therefore a different config object is used.
-$sepaConfig = new SepaConfig($sepaMAID, $sepaKey);
-$sepaConfig->setCreditorId('DE98ZZZ09999999999');
-$config->add($sepaConfig);
 
 // ### Sofortbanking
 
