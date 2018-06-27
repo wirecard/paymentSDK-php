@@ -74,7 +74,7 @@ if (!isset($_POST['parentTransactionId'])) {
         echo getTransactionLink($baseUrl, $response);
         ?>
         <br>
-        <form action="../Sepa/cancel.php" method="post">
+        <form action="../SepaDirectDebit/cancel.php" method="post">
             <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
             <button type="submit" class="btn btn-primary">Cancel the credit</button>
         </form>

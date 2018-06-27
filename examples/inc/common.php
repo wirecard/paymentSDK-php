@@ -19,10 +19,16 @@ function getUrl($path)
 /**
  * @param $baseUrl
  * @param \Wirecard\PaymentSdk\Response\SuccessResponse $response
+ * @param \Wirecard\PaymentSdk\Config\Config|null $config
  * @return string
  */
-function getTransactionLink($baseUrl, $response)
+function getTransactionLink($baseUrl, $response, $config = null)
 {
+    if ($config !== null) {
+        $authorization = $config->getHttpUser() . ':' . $config->getHttpPassword();
+        $baseUrl = str_replace("//", "//$authorization@", $baseUrl);
+    }
+
     $transactionId = $response->getTransactionId();
     $output = 'Transaction ID: ';
     $output .= sprintf(

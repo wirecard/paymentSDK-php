@@ -9,7 +9,7 @@
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
-require __DIR__ . '/../inc/config.php';
+require __DIR__ . '/../inc/sepaconfig.php';
 //Header design
 require __DIR__ . '/../inc/header.php';
 
@@ -19,10 +19,10 @@ use Wirecard\PaymentSdk\Entity\Mandate;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\FormInteractionResponse;
-use Wirecard\PaymentSdk\Transaction\SepaTransaction;
+use Wirecard\PaymentSdk\Transaction\SepaDirectDebitTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
-if (!isset($_POST['iban'])) {
+if (!isset($_POST['iban']) && !isset($_POST['parentTransactionId'])) {
     ?>
     <form action="pay.php" method="post">
         <div class="form-group">
@@ -62,7 +62,7 @@ if (!isset($_POST['iban'])) {
 // ## Transaction
 
 // Create a `SepaTransaction` object, which contains all relevant data for the payment process.
-    $transaction = new SepaTransaction();
+    $transaction = new SepaDirectDebitTransaction();
     if (null !== $amount) {
         $transaction->setAmount($amount);
     }

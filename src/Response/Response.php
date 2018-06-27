@@ -46,6 +46,7 @@ use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayTransaction;
+use Wirecard\PaymentSdk\TransactionService;
 
 /**
  * Class Response
@@ -436,6 +437,9 @@ abstract class Response
 
         if (isset($simpleXmlElement->{'date-of-birth'})) {
             $dob = \DateTime::createFromFormat('d-m-Y', (string)$simpleXmlElement->{'date-of-birth'});
+            if (!$dob) {
+                $dob = \DateTime::createFromFormat('Y-m-d', (string)$simpleXmlElement->{'date-of-birth'});
+            }
             $accountHolder->setDateOfBirth($dob);
         }
 

@@ -9,7 +9,7 @@
 // To include the necessary files, use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
-require __DIR__ . '/../inc/config.php';
+require __DIR__ . '/../inc/sepaconfig.php';
 //Header design
 require __DIR__ . '/../inc/header.php';
 
@@ -17,7 +17,7 @@ use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\SepaTransaction;
+use Wirecard\PaymentSdk\Transaction\SepaDirectDebitTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 if (!isset($_POST['iban'])) {
@@ -49,7 +49,7 @@ if (!isset($_POST['iban'])) {
 // ## Transaction
 
 // Create a `SepaTransaction` object, which contains all relevant data for the payment process.
-    $transaction = new SepaTransaction();
+    $transaction = new SepaDirectDebitTransaction();
     $transaction->setAmount($amount);
     $transaction->setIban($_POST['iban']);
     if (null !== $_POST['bic']) {
@@ -70,7 +70,7 @@ if (!isset($_POST['iban'])) {
 // In case of a successful transaction, a `SuccessResponse` object is returned.
     if ($response instanceof SuccessResponse) {
         echo 'Reservation successfully completed.<br>';
-        echo getTransactionLink($baseUrl, $response);
+        echo getTransactionLink($baseUrl, $response, $config);
         ?>
         <br>
         <form action="pay.php" method="post">

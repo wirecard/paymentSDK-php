@@ -44,7 +44,7 @@ if ($_POST) {
         echo getTransactionLink($baseUrl, $response);
         ?>
         <br>
-        <form action="../Sepa/pay.php" method="post">
+        <form action="../SepaDirectDebit/pay.php" method="post">
             <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
             <button type="submit" class="btn btn-primary">Request a new payment based on this payment</button>
         </form>
