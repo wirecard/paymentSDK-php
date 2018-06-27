@@ -35,10 +35,10 @@ use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Mandate;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Transaction\Operation;
-use Wirecard\PaymentSdk\Transaction\SepaTransaction;
+use Wirecard\PaymentSdk\Transaction\SepaDirectDebitTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
-class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
+class SepaDirectDebitTransactionUTest extends \PHPUnit_Framework_TestCase
 {
     const IBAN = 'DE42512308000000060004';
     const LAST_NAME = 'Doe';
@@ -46,7 +46,7 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
     const MANDATE_ID = '2345';
 
     /**
-     * @var SepaTransaction
+     * @var SepaDirectDebitTransaction
      */
     private $tx;
 
@@ -67,7 +67,7 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->accountHolder->setLastName(self::LAST_NAME);
         $this->accountHolder->setFirstName(self::FIRST_NAME);
 
-        $this->tx = new SepaTransaction();
+        $this->tx = new SepaDirectDebitTransaction();
         $this->tx->setAmount($this->amount);
     }
 
@@ -225,23 +225,6 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx->mappedProperties();
     }
 
-    public function testRetrievePaymentMethodNamePay()
-    {
-        $this->tx->setOperation(Operation::PAY);
-        $this->assertEquals(SepaTransaction::DIRECT_DEBIT, $this->tx->getConfigKey());
-    }
-
-    public function testRetrievePaymentMethodNameCredit()
-    {
-        $this->tx->setOperation(Operation::CREDIT);
-        $this->assertEquals(SepaTransaction::CREDIT_TRANSFER, $this->tx->getConfigKey());
-    }
-
-    public function testGetSepaCredit()
-    {
-        $this->assertEquals(null, $this->tx->getSepaCredit());
-    }
-
     private function getExpectedResultCancelPay($parentTransactionId)
     {
         return [
@@ -269,13 +252,5 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
     private function today()
     {
         return gmdate('Y-m-d');
-    }
-
-    public function testRetrieveTransactionTypeForCredit()
-    {
-        $this->tx->setOperation(Operation::CREDIT);
-        $data = $this->tx->mappedProperties();
-
-        $this->assertEquals(Transaction::TYPE_CREDIT, $data['transaction-type']);
     }
 }
