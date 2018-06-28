@@ -248,4 +248,15 @@ class TransactionUTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($stub->getParentTransactionType());
         $this->assertNull($stub->getBrowser());
     }
+
+    public function testSetAndGetArticleNumbers()
+    {
+        /**
+         * @var Transaction $stub
+         */
+        $stub = $this->getMockForAbstractClass(Transaction::class);
+        $stub->setArticleNumbers(['A1', 'A2', 'A3']);
+
+        $this->assertEquals(['A1', 'A2', 'A3'], $stub->getArticleNumbers());
+    }
 }

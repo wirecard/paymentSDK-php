@@ -144,6 +144,11 @@ abstract class Transaction extends Risk
     protected $browser;
 
     /**
+     * @var array
+     */
+    protected $articleNumbers = [];
+
+    /**
      * @param string $entryMode
      * @return Transaction
      */
@@ -304,6 +309,26 @@ abstract class Transaction extends Risk
             $this->periodic = $periodic;
         }
         return $this;
+    }
+
+    /**
+     * This method can be used to set article numbers in the transaction. These article numbers can and will be used
+     * in the TransactionService class.
+     * @since 3.0.0
+     * @param array $articleNumber
+     * @return Transaction
+     */
+    public function setArticleNumbers($articleNumber) {
+        $this->articleNumbers = array_merge($articleNumber, $this->articleNumbers);
+        return $this;
+    }
+
+    /**
+     * @since 3.0.0
+     * @return array
+     */
+    public function getArticleNumbers() {
+        return $this->articleNumbers;
     }
 
     /**
