@@ -32,6 +32,7 @@
 namespace WirecardTest\PaymentSdk\Config;
 
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 
 class PaymentMethodConfigUTest extends \PHPUnit_Framework_TestCase
 {
@@ -49,6 +50,14 @@ class PaymentMethodConfigUTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->instance = new PaymentMethodConfig(self::PAYMENT_METHOD_NAME, self::MAID, self::SECRET);
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
+     */
+    public function testMissingCredentials()
+    {
+        new PaymentMethodConfig(self::PAYMENT_METHOD_NAME);
     }
 
     public function testGetPaymentMethodName()
