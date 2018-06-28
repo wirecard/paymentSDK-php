@@ -177,4 +177,25 @@ class Basket implements \IteratorAggregate, MappableEntity
         $html .= "</table>";
         return $html;
     }
+
+    /**
+     * @since 3.0.0
+     * @return Amount
+     */
+    public function getTotalAmount()
+    {
+        $amount = 0;
+        $currency = '';
+        /** @var Item $item */
+        foreach ($this->getIterator() as $item) {
+            $amount += floatval($item->getPrice()->getValue()) * $item->getQuantity();
+            if (strlen($currency) == 0) {
+                $currency = $item->getPrice()->getCurrency();
+            } elseif ($currency !== $item->getPrice()->getCurrency()) {
+                throw new \InvalidArgumentException('You cannot have different currencies in your basket.');
+            }
+        }
+
+        return new Amount($amount, $currency);
+    }
 }
