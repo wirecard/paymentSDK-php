@@ -318,7 +318,8 @@ abstract class Transaction extends Risk
      * @param array $articleNumber
      * @return Transaction
      */
-    public function setArticleNumbers($articleNumber) {
+    public function setArticleNumbers($articleNumber)
+    {
         $this->articleNumbers = array_merge($articleNumber, $this->articleNumbers);
         return $this;
     }
@@ -327,7 +328,8 @@ abstract class Transaction extends Risk
      * @since 3.0.0
      * @return array
      */
-    public function getArticleNumbers() {
+    public function getArticleNumbers()
+    {
         return $this->articleNumbers;
     }
 

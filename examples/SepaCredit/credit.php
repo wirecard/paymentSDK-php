@@ -56,7 +56,7 @@ if (!isset($_POST['iban'])) {
 
 // ## Transaction
 
-// Create a `SepaTransaction` object, which contains all relevant data for the credit process.
+// Create a `SepaCreditTransferTransaction` object, which contains all relevant data for the credit process.
     $transaction = new SepaCreditTransferTransaction();
     if (null !== $amount) {
         $transaction->setAmount($amount);

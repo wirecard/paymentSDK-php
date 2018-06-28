@@ -11,16 +11,15 @@
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
-require __DIR__ . '/../inc/config.php';
+require __DIR__ . '/../inc/sepaconfig.php';
 //Header design
 require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\AccountHolder;
-use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Mandate;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\SepaTransaction;
+use Wirecard\PaymentSdk\Transaction\SepaCreditTransferTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 if (!isset($_POST['parentTransactionId'])) {
@@ -47,8 +46,8 @@ if (!isset($_POST['parentTransactionId'])) {
 
 // ## Transaction
 
-// Create a `SepaTransaction` object, which contains all relevant data for the credit process.
-    $transaction = new SepaTransaction();
+// Create a `SepaCreditTransferTransaction` object, which contains all relevant data for the credit process.
+    $transaction = new SepaCreditTransferTransaction();
 
     // Providing the parent transaction id is enough to make a successful "refund". If you wish to transfer
     // a different amount you can set it via `$transaction->setAmount(new Amount(10, 'EUR');`

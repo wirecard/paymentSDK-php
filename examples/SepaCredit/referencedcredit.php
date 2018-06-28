@@ -29,7 +29,7 @@ $mandate = new Mandate('12345678');
 
 // ## Transaction
 
-// Create a `SepaTransaction` object, which contains all relevant data for the credit process.
+// Create a `SepaCreditTransferTransaction` object, which contains all relevant data for the credit process.
 $transaction = new SepaCreditTransferTransaction();
 $transaction->setAmount(new Amount(intval($_POST['amount']), 'EUR'));
 

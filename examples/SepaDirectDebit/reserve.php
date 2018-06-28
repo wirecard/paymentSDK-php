@@ -48,7 +48,7 @@ if (!isset($_POST['iban'])) {
 
 // ## Transaction
 
-// Create a `SepaTransaction` object, which contains all relevant data for the payment process.
+// Create a `SepaDirectDebitTransaction` object, which contains all relevant data for the payment process.
     $transaction = new SepaDirectDebitTransaction();
     $transaction->setAmount($amount);
     $transaction->setIban($_POST['iban']);
