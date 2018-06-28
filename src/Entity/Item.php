@@ -105,6 +105,24 @@ class Item implements MappableEntity
     }
 
     /**
+     * @since 3.0.0
+     * @return Amount
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * @since 3.0.0
+     * @return string
+     */
+    public function getArticleNumber()
+    {
+        return $this->articleNumber;
+    }
+
+    /**
      * @param string $description
      * @return Item
      */
