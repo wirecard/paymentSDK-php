@@ -86,6 +86,11 @@ abstract class Transaction extends Risk
     /**
      * @var string
      */
+    protected $emailNotificationUrl;
+
+    /**
+     * @var string
+     */
     protected $operation;
 
     /**
@@ -282,6 +287,18 @@ abstract class Transaction extends Risk
     }
 
     /**
+     * Setter for optional parameter. If it is set it will forward notifications to email as well.
+     *
+     * @param $email
+     * @return $this
+     */
+    public function setEmailNotification($email)
+    {
+        $this->emailNotificationUrl = $email;
+        return $this;
+    }
+
+    /**
      * @param string $operation
      * @return Transaction
      */
@@ -363,10 +380,12 @@ abstract class Transaction extends Risk
         }
 
         if (null !== $this->notificationUrl) {
-            $onlyNotificationUrl = [
-                'notification' => [['url' => $this->notificationUrl]]
-            ];
+            $onlyNotificationUrl = ['notification' => [['url' => $this->notificationUrl]]];
             $result['notifications'] = $onlyNotificationUrl;
+        }
+
+        if (null !== $this->emailNotificationUrl) {
+            $result['notifications']['notification'][] = ['url' => "mailto:{$this->emailNotificationUrl}"];
         }
 
         if ($this->redirect instanceof Redirect) {

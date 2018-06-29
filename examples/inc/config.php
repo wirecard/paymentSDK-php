@@ -129,7 +129,7 @@ $config->add($ratepayDirectDebit);
 
 // ### Sofortbanking
 
-$sofortMAID = 'c021a23a-49a5-4987-aa39-e8e858d29bad';
+$sofortMAID = '6c0e7efd-ee58-40f7-9bbd-5e7337a052cd';
 $sofortSecretKey = 'dbc5a498-9a66-43b9-bf1d-a618dd399684';
 $sofortConfig = new PaymentMethodConfig(SofortTransaction::NAME, $sofortMAID, $sofortSecretKey);
 $config->add($sofortConfig);
