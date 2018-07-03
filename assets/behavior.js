@@ -4637,462 +4637,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         }, {
           "type": "folder",
           "data": {
-            "path": "examples/Sepa",
-            "title": "Sepa"
-          },
-          "depth": 2,
-          "children": [
-            {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Sepa/cancel.php",
-                "projectPath": "examples/Sepa/cancel.php",
-                "targetPath": "examples/Sepa/cancel",
-                "pageTitle": "examples/Sepa/cancel",
-                "title": "cancel"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Cancelling a SEPA-transaction",
-                    "slug": "cancelling-a-sepa-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Sepa/credit.php",
-                "projectPath": "examples/Sepa/credit.php",
-                "targetPath": "examples/Sepa/credit",
-                "pageTitle": "examples/Sepa/credit",
-                "title": "credit"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "SEPA credit transfer",
-                    "slug": "sepa-credit-transfer"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Sepa/pay.php",
-                "projectPath": "examples/Sepa/pay.php",
-                "targetPath": "examples/Sepa/pay",
-                "pageTitle": "examples/Sepa/pay",
-                "title": "pay"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "SEPA amount payment",
-                    "slug": "sepa-amount-payment"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Sepa/referencedcredit.php",
-                "projectPath": "examples/Sepa/referencedcredit.php",
-                "targetPath": "examples/Sepa/referencedcredit",
-                "pageTitle": "examples/Sepa/referencedcredit",
-                "title": "referencedcredit"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "SEPA credit transfer",
-                    "slug": "sepa-credit-transfer"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Sepa/reserve.php",
-                "projectPath": "examples/Sepa/reserve.php",
-                "targetPath": "examples/Sepa/reserve",
-                "pageTitle": "examples/Sepa/reserve",
-                "title": "reserve"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "SEPA amount reservation",
-                    "slug": "sepa-amount-reservation"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Sepa/return.php",
-                "projectPath": "examples/Sepa/return.php",
-                "targetPath": "examples/Sepa/return",
-                "pageTitle": "examples/Sepa/return",
-                "title": "return"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "SEPA return after transaction",
-                    "slug": "sepa-return-after-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }, {
-          "type": "folder",
-          "data": {
             "path": "examples/SepaBtwoB",
             "title": "SepaBtwoB"
           },
@@ -5424,6 +4968,606 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                     "level": 1,
                     "title": "SEPA B2B return after transaction",
                     "slug": "sepa-b2b-return-after-transaction"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }, {
+          "type": "folder",
+          "data": {
+            "path": "examples/SepaCredit",
+            "title": "SepaCredit"
+          },
+          "depth": 2,
+          "children": [
+            {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/SepaCredit/cancel.php",
+                "projectPath": "examples/SepaCredit/cancel.php",
+                "targetPath": "examples/SepaCredit/cancel",
+                "pageTitle": "examples/SepaCredit/cancel",
+                "title": "cancel"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Cancelling a SEPA-transaction",
+                    "slug": "cancelling-a-sepa-transaction"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/SepaCredit/credit.php",
+                "projectPath": "examples/SepaCredit/credit.php",
+                "targetPath": "examples/SepaCredit/credit",
+                "pageTitle": "examples/SepaCredit/credit",
+                "title": "credit"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "SEPA credit transfer",
+                    "slug": "sepa-credit-transfer"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/SepaCredit/referencedcredit.php",
+                "projectPath": "examples/SepaCredit/referencedcredit.php",
+                "targetPath": "examples/SepaCredit/referencedcredit",
+                "pageTitle": "examples/SepaCredit/referencedcredit",
+                "title": "referencedcredit"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "SEPA credit transfer",
+                    "slug": "sepa-credit-transfer"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/SepaCredit/return.php",
+                "projectPath": "examples/SepaCredit/return.php",
+                "targetPath": "examples/SepaCredit/return",
+                "pageTitle": "examples/SepaCredit/return",
+                "title": "return"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "SEPA return after transaction",
+                    "slug": "sepa-return-after-transaction"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }, {
+          "type": "folder",
+          "data": {
+            "path": "examples/SepaDirectDebit",
+            "title": "SepaDirectDebit"
+          },
+          "depth": 2,
+          "children": [
+            {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/SepaDirectDebit/cancel.php",
+                "projectPath": "examples/SepaDirectDebit/cancel.php",
+                "targetPath": "examples/SepaDirectDebit/cancel",
+                "pageTitle": "examples/SepaDirectDebit/cancel",
+                "title": "cancel"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Cancelling a SEPA-transaction",
+                    "slug": "cancelling-a-sepa-transaction"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/SepaDirectDebit/pay.php",
+                "projectPath": "examples/SepaDirectDebit/pay.php",
+                "targetPath": "examples/SepaDirectDebit/pay",
+                "pageTitle": "examples/SepaDirectDebit/pay",
+                "title": "pay"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "SEPA amount payment",
+                    "slug": "sepa-amount-payment"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/SepaDirectDebit/reserve.php",
+                "projectPath": "examples/SepaDirectDebit/reserve.php",
+                "targetPath": "examples/SepaDirectDebit/reserve",
+                "pageTitle": "examples/SepaDirectDebit/reserve",
+                "title": "reserve"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "SEPA amount reservation",
+                    "slug": "sepa-amount-reservation"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/SepaDirectDebit/return.php",
+                "projectPath": "examples/SepaDirectDebit/return.php",
+                "targetPath": "examples/SepaDirectDebit/return",
+                "pageTitle": "examples/SepaDirectDebit/return",
+                "title": "return"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "SEPA return after transaction",
+                    "slug": "sepa-return-after-transaction"
                   },
                   "depth": 1,
                   "children": [
@@ -7249,14 +7393,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                           "type": "heading",
                           "data": {
                             "level": 3,
-                            "title": "iDEAL",
-                            "slug": "ideal"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
                             "title": "PayPal",
                             "slug": "paypal"
                           },
@@ -7302,22 +7438,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                             "level": 3,
                             "title": "RatePay Direct Debit",
                             "slug": "ratepay-direct-debit"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "SEPA",
-                            "slug": "sepa"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Sofortbanking",
-                            "slug": "sofortbanking"
                           },
                           "depth": 3
                         }, {
@@ -7431,6 +7551,73 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "foldPrefix": "^",
                   "name": "PHP"
                 },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/idealconfig.php",
+                "projectPath": "examples/inc/idealconfig.php",
+                "targetPath": "examples/inc/idealconfig",
+                "pageTitle": "examples/inc/idealconfig",
+                "title": "idealconfig"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "iDEAL. Configuration",
+                    "slug": "ideal-configuration"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Connection",
+                        "slug": "connection"
+                      },
+                      "depth": 2
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Payment methods",
+                        "slug": "payment-methods"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "iDEAL",
+                            "slug": "ideal"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
                 "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/maestroconfig.php",
                 "projectPath": "examples/inc/maestroconfig.php",
                 "targetPath": "examples/inc/maestroconfig",
@@ -7479,6 +7666,148 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                             "level": 3,
                             "title": "Maestro",
                             "slug": "maestro"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/sepaconfig.php",
+                "projectPath": "examples/inc/sepaconfig.php",
+                "targetPath": "examples/inc/sepaconfig",
+                "pageTitle": "examples/inc/sepaconfig",
+                "title": "sepaconfig"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "SEPA Configuration",
+                    "slug": "sepa-configuration"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Connection",
+                        "slug": "connection"
+                      },
+                      "depth": 2
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Payment methods",
+                        "slug": "payment-methods"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "SEPA Direct Debit",
+                            "slug": "sepa-direct-debit"
+                          },
+                          "depth": 3
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "SEPA Credit Transfer",
+                            "slug": "sepa-credit-transfer"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/sofortconfig.php",
+                "projectPath": "examples/inc/sofortconfig.php",
+                "targetPath": "examples/inc/sofortconfig",
+                "pageTitle": "examples/inc/sofortconfig",
+                "title": "sofortconfig"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Sofort. Configuration",
+                    "slug": "sofort-configuration"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Connection",
+                        "slug": "connection"
+                      },
+                      "depth": 2
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Payment methods",
+                        "slug": "payment-methods"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Sofortbanking",
+                            "slug": "sofortbanking"
                           },
                           "depth": 3
                         }

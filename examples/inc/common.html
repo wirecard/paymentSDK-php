@@ -15,10 +15,16 @@
 <span class="hljs-comment">/**
  * <span class="hljs-doctag">@param</span> $baseUrl
  * <span class="hljs-doctag">@param</span> \Wirecard\PaymentSdk\Response\SuccessResponse $response
+ * <span class="hljs-doctag">@param</span> \Wirecard\PaymentSdk\Config\Config|null $config
  * <span class="hljs-doctag">@return</span> string
  */</span>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getTransactionLink</span><span class="hljs-params">(<span class="hljs-variable">$baseUrl</span>, <span class="hljs-variable">$response</span>)</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getTransactionLink</span><span class="hljs-params">(<span class="hljs-variable">$baseUrl</span>, <span class="hljs-variable">$response</span>, <span class="hljs-variable">$config</span> = null)</span>
 </span>{
+    <span class="hljs-keyword">if</span> (<span class="hljs-variable">$config</span> !== <span class="hljs-keyword">null</span>) {
+        <span class="hljs-variable">$authorization</span> = <span class="hljs-variable">$config</span>-&gt;getHttpUser() . <span class="hljs-string">':'</span> . <span class="hljs-variable">$config</span>-&gt;getHttpPassword();
+        <span class="hljs-variable">$baseUrl</span> = str_replace(<span class="hljs-string">"//"</span>, <span class="hljs-string">"//$authorization@"</span>, <span class="hljs-variable">$baseUrl</span>);
+    }
+
     <span class="hljs-variable">$transactionId</span> = <span class="hljs-variable">$response</span>-&gt;getTransactionId();
     <span class="hljs-variable">$output</span> = <span class="hljs-string">'Transaction ID: '</span>;
     <span class="hljs-variable">$output</span> .= sprintf(

@@ -140,7 +140,8 @@
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.RatepayTransaction.html">Wirecard\PaymentSdk\Transaction\RatepayTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.Risk.html">Wirecard\PaymentSdk\Transaction\Risk</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.SepaBtwobTransaction.html">Wirecard\PaymentSdk\Transaction\SepaBtwobTransaction</a></li>
-				<li><a href="class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html">Wirecard\PaymentSdk\Transaction\SepaTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.SepaCreditTransferTransaction.html">Wirecard\PaymentSdk\Transaction\SepaCreditTransferTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.SepaDirectDebitTransaction.html">Wirecard\PaymentSdk\Transaction\SepaDirectDebitTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.SofortTransaction.html">Wirecard\PaymentSdk\Transaction\SofortTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.UpiTransaction.html">Wirecard\PaymentSdk\Transaction\UpiTransaction</a></li>
@@ -321,8 +322,60 @@
 </span><span id="146" class="l"><a href="#146">146 </a>
 </span><span id="147" class="l"><a href="#147">147 </a>        <span class="php-keyword1">return</span> <span class="php-var">$basket</span>;
 </span><span id="148" class="l"><a href="#148">148 </a>    }
-</span><span id="149" class="l"><a href="#149">149 </a>}
-</span><span id="150" class="l"><a href="#150">150 </a></span></code></pre>
+</span><span id="149" class="l"><a href="#149">149 </a>
+</span><span id="150" class="l"><a href="#150">150 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getAsHtml(<span class="php-var">$customId</span> = <span class="php-keyword1">null</span>)
+</span><span id="151" class="l"><a href="#151">151 </a>    {
+</span><span id="152" class="l"><a href="#152">152 </a>        <span class="php-var">$html</span> = <span class="php-quote">&quot;&lt;table id='</span><span class="php-var">$customId</span><span class="php-quote">'&gt;&quot;</span>;
+</span><span id="153" class="l"><a href="#153">153 </a>        <span class="php-var">$html</span> .= <span class="php-quote">&quot;&lt;tr id='</span><span class="php-var">{$customId}</span><span class="php-quote">_firstrow'&gt;&lt;td colspan='99' align='center'&gt;&lt;b&gt;Basket&lt;/b&gt;&lt;/td&gt;&lt;/tr&gt;&quot;</span>;
+</span><span id="154" class="l"><a href="#154">154 </a>
+</span><span id="155" class="l"><a href="#155">155 </a>        <span class="php-comment">/** @var Item $item */</span>
+</span><span id="156" class="l"><a href="#156">156 </a>        <span class="php-var">$itemNumber</span> = <span class="php-num">1</span>;
+</span><span id="157" class="l"><a href="#157">157 </a>        <span class="php-keyword1">foreach</span> (<span class="php-var">$this</span>-&gt;getIterator() <span class="php-keyword1">as</span> <span class="php-var">$item</span>) {
+</span><span id="158" class="l"><a href="#158">158 </a>            <span class="php-var">$itemProperties</span> = <span class="php-var">$item</span>-&gt;mappedProperties();
+</span><span id="159" class="l"><a href="#159">159 </a>            <span class="php-var">$html</span> .= <span class="php-quote">&quot;&lt;tr id='</span><span class="php-var">{$customId}</span><span class="php-quote">_otherrows'&gt;&quot;</span>;
+</span><span id="160" class="l"><a href="#160">160 </a>            <span class="php-var">$html</span> .= <span class="php-quote">&quot;&lt;td valign='top' rowspan='&quot;</span> . <span class="php-keyword2">count</span>(<span class="php-var">$itemProperties</span>) . <span class="php-quote">&quot;'&gt;Item #</span><span class="php-var">$itemNumber</span><span class="php-quote">&lt;/td&gt;&quot;</span>;
+</span><span id="161" class="l"><a href="#161">161 </a>            <span class="php-var">$attrIter</span> = <span class="php-num">0</span>;
+</span><span id="162" class="l"><a href="#162">162 </a>            <span class="php-keyword1">foreach</span> (<span class="php-var">$itemProperties</span> <span class="php-keyword1">as</span> <span class="php-var">$key</span> =&gt; <span class="php-var">$value</span>) {
+</span><span id="163" class="l"><a href="#163">163 </a>                <span class="php-comment">// this is for the amount object</span>
+</span><span id="164" class="l"><a href="#164">164 </a>                <span class="php-keyword1">if</span> (<span class="php-keyword2">in_array</span>(<span class="php-var">$key</span>, [<span class="php-quote">'amount'</span>, <span class="php-quote">'tax-amount'</span>]) &amp;&amp; <span class="php-keyword1">isset</span>(<span class="php-var">$value</span>[<span class="php-quote">'currency'</span>]) &amp;&amp; <span class="php-keyword1">isset</span>(<span class="php-var">$value</span>[<span class="php-quote">'value'</span>])) {
+</span><span id="165" class="l"><a href="#165">165 </a>                    <span class="php-var">$value</span> = <span class="php-quote">&quot;</span><span class="php-var">{$value['currency']}</span><span class="php-quote"> </span><span class="php-var">{$value['value']}</span><span class="php-quote">&quot;</span>;
+</span><span id="166" class="l"><a href="#166">166 </a>                }
+</span><span id="167" class="l"><a href="#167">167 </a>                <span class="php-keyword1">if</span> (<span class="php-var">$attrIter</span>++ != <span class="php-num">0</span>) {
+</span><span id="168" class="l"><a href="#168">168 </a>                    <span class="php-var">$html</span> .= <span class="php-quote">&quot;&lt;/tr&gt;&lt;tr&gt;&quot;</span>;
+</span><span id="169" class="l"><a href="#169">169 </a>                }
+</span><span id="170" class="l"><a href="#170">170 </a>                <span class="php-var">$html</span> .= <span class="php-quote">&quot;&lt;td&gt;</span><span class="php-var">$key</span><span class="php-quote">&lt;/td&gt;&lt;td&gt;</span><span class="php-var">$value</span><span class="php-quote">&lt;/td&gt;&quot;</span>;
+</span><span id="171" class="l"><a href="#171">171 </a>            }
+</span><span id="172" class="l"><a href="#172">172 </a>
+</span><span id="173" class="l"><a href="#173">173 </a>            <span class="php-var">$itemNumber</span>++;
+</span><span id="174" class="l"><a href="#174">174 </a>            <span class="php-var">$html</span> .= <span class="php-quote">&quot;&lt;/tr&gt;&quot;</span>;
+</span><span id="175" class="l"><a href="#175">175 </a>        }
+</span><span id="176" class="l"><a href="#176">176 </a>
+</span><span id="177" class="l"><a href="#177">177 </a>        <span class="php-var">$html</span> .= <span class="php-quote">&quot;&lt;/table&gt;&quot;</span>;
+</span><span id="178" class="l"><a href="#178">178 </a>        <span class="php-keyword1">return</span> <span class="php-var">$html</span>;
+</span><span id="179" class="l"><a href="#179">179 </a>    }
+</span><span id="180" class="l"><a href="#180">180 </a>
+</span><span id="181" class="l"><a href="#181">181 </a>    <span class="php-comment">/**
+</span></span><span id="182" class="l"><a href="#182">182 </a><span class="php-comment">     * @since 3.0.0
+</span></span><span id="183" class="l"><a href="#183">183 </a><span class="php-comment">     * @return Amount
+</span></span><span id="184" class="l"><a href="#184">184 </a><span class="php-comment">     */</span>
+</span><span id="185" class="l"><a href="#185">185 </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> getTotalAmount()
+</span><span id="186" class="l"><a href="#186">186 </a>    {
+</span><span id="187" class="l"><a href="#187">187 </a>        <span class="php-var">$amount</span> = <span class="php-num">0</span>;
+</span><span id="188" class="l"><a href="#188">188 </a>        <span class="php-var">$currency</span> = <span class="php-quote">''</span>;
+</span><span id="189" class="l"><a href="#189">189 </a>        <span class="php-comment">/** @var Item $item */</span>
+</span><span id="190" class="l"><a href="#190">190 </a>        <span class="php-keyword1">foreach</span> (<span class="php-var">$this</span>-&gt;getIterator() <span class="php-keyword1">as</span> <span class="php-var">$item</span>) {
+</span><span id="191" class="l"><a href="#191">191 </a>            <span class="php-var">$amount</span> += <span class="php-keyword2">floatval</span>(<span class="php-var">$item</span>-&gt;getPrice()-&gt;getValue()) * <span class="php-var">$item</span>-&gt;getQuantity();
+</span><span id="192" class="l"><a href="#192">192 </a>            <span class="php-keyword1">if</span> (<span class="php-keyword2">strlen</span>(<span class="php-var">$currency</span>) == <span class="php-num">0</span>) {
+</span><span id="193" class="l"><a href="#193">193 </a>                <span class="php-var">$currency</span> = <span class="php-var">$item</span>-&gt;getPrice()-&gt;getCurrency();
+</span><span id="194" class="l"><a href="#194">194 </a>            } <span class="php-keyword1">elseif</span> (<span class="php-var">$currency</span> !== <span class="php-var">$item</span>-&gt;getPrice()-&gt;getCurrency()) {
+</span><span id="195" class="l"><a href="#195">195 </a>                <span class="php-keyword1">throw</span> <span class="php-keyword1">new</span> \InvalidArgumentException(<span class="php-quote">'You cannot have different currencies in your basket.'</span>);
+</span><span id="196" class="l"><a href="#196">196 </a>            }
+</span><span id="197" class="l"><a href="#197">197 </a>        }
+</span><span id="198" class="l"><a href="#198">198 </a>
+</span><span id="199" class="l"><a href="#199">199 </a>        <span class="php-keyword1">return</span> <span class="php-keyword1">new</span> Amount(<span class="php-var">$amount</span>, <span class="php-var">$currency</span>);
+</span><span id="200" class="l"><a href="#200">200 </a>    }
+</span><span id="201" class="l"><a href="#201">201 </a>}
+</span><span id="202" class="l"><a href="#202">202 </a></span></code></pre>
 	</div>
 
 	<div id="footer">
@@ -330,6 +383,6 @@
 	</div>
 </div>
 <script src="resources/combined.js?cfd636dbffd7235c2f8960621ad1ba069499eba1"></script>
-<script src="elementlist.js?897020112143d37b8798ecaad70d7c0dbe8a613d"></script>
+<script src="elementlist.js?54fef4e760f34f2fad73c2cfd58068ff71bf0c59"></script>
 </body>
 </html>

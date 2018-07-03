@@ -108,7 +108,8 @@
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.RatepayTransaction.html">RatepayTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.Risk.html">Risk</a></li>
 				<li class="active"><a href="class-Wirecard.PaymentSdk.Transaction.SepaBtwobTransaction.html">SepaBtwobTransaction</a></li>
-				<li><a href="class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html">SepaTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.SepaCreditTransferTransaction.html">SepaCreditTransferTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.SepaDirectDebitTransaction.html">SepaDirectDebitTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.SofortTransaction.html">SofortTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Transaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.UpiTransaction.html">UpiTransaction</a></li>
@@ -156,7 +157,7 @@
 		</dd>
 		<dd style="padding-left:60px">
 			<img src="resources/inherit.png" alt="Extended by">
-			<a href="class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html"><span>Wirecard\PaymentSdk\Transaction\SepaTransaction</span></a>
+			<a href="class-Wirecard.PaymentSdk.Transaction.SepaDirectDebitTransaction.html"><span>Wirecard\PaymentSdk\Transaction\SepaDirectDebitTransaction</span></a>
 			
 			 implements 
 				<a href="class-Wirecard.PaymentSdk.Transaction.Reservable.html"><span>Wirecard\PaymentSdk\Transaction\Reservable</span></a>
@@ -263,7 +264,7 @@
 
 
 					<h4>Overrides</h4>
-					<div class="list"><code><a href="class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html#_mappedSpecificProperties">Wirecard\PaymentSdk\Transaction\SepaTransaction::mappedSpecificProperties</a></code></div>
+					<div class="list"><code><a href="class-Wirecard.PaymentSdk.Transaction.SepaDirectDebitTransaction.html#_mappedSpecificProperties">Wirecard\PaymentSdk\Transaction\SepaDirectDebitTransaction::mappedSpecificProperties</a></code></div>
 
 			</div>
 			</div></td>
@@ -272,42 +273,44 @@
 		</div>
 
 		<div class="panel panel-default">
-	        <div class="panel-heading"><h3>Methods inherited from <a href="class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html#methods">Wirecard\PaymentSdk\Transaction\SepaTransaction</a></h3></div>
+	        <div class="panel-heading"><h3>Methods inherited from <a href="class-Wirecard.PaymentSdk.Transaction.SepaDirectDebitTransaction.html#methods">Wirecard\PaymentSdk\Transaction\SepaDirectDebitTransaction</a></h3></div>
 			<p class="elementList">
-				<code><a href="class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html#_getConfigKey">getConfigKey()</a></code>, 
-				<code><a href="class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html#_retrieveTransactionTypeForCancel">retrieveTransactionTypeForCancel()</a></code>, 
-				<code><a href="class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html#_retrieveTransactionTypeForCredit">retrieveTransactionTypeForCredit()</a></code>, 
-				<code><a href="class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html#_retrieveTransactionTypeForPay">retrieveTransactionTypeForPay()</a></code>, 
-				<code><a href="class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html#_retrieveTransactionTypeForReserve">retrieveTransactionTypeForReserve()</a></code>, 
-				<code><a href="class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html#_setBic">setBic()</a></code>, 
-				<code><a href="class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html#_setIban">setIban()</a></code>, 
-				<code><a href="class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html#_setMandate">setMandate()</a></code>
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.SepaDirectDebitTransaction.html#_retrieveTransactionTypeForCancel">retrieveTransactionTypeForCancel()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.SepaDirectDebitTransaction.html#_retrieveTransactionTypeForPay">retrieveTransactionTypeForPay()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.SepaDirectDebitTransaction.html#_retrieveTransactionTypeForReserve">retrieveTransactionTypeForReserve()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.SepaDirectDebitTransaction.html#_setBic">setBic()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.SepaDirectDebitTransaction.html#_setIban">setIban()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.SepaDirectDebitTransaction.html#_setMandate">setMandate()</a></code>
 			</p>
 		</div>
 		<div class="panel panel-default">
 	        <div class="panel-heading"><h3>Methods inherited from <a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#methods">Wirecard\PaymentSdk\Transaction\Transaction</a></h3></div>
 			<p class="elementList">
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_getAmount">getAmount()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_getArticleNumbers">getArticleNumbers()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_getBackendOperationForCancel">getBackendOperationForCancel()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_getBackendOperationForCredit">getBackendOperationForCredit()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_getBackendOperationForPay">getBackendOperationForPay()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_getBackendOperationForRefund">getBackendOperationForRefund()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_getBrowser">getBrowser()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_getConfigKey">getConfigKey()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_getCustomFields">getCustomFields()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_getEndpoint">getEndpoint()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_getNotificationUrl">getNotificationUrl()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_getParentTransactionId">getParentTransactionId()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_getParentTransactionType">getParentTransactionType()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_getPeriodic">getPeriodic()</a></code>, 
-				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_getSepaCredit">getSepaCredit()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_getSuccessUrl">getSuccessUrl()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_mappedProperties">mappedProperties()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_paymentMethodNameForRequest">paymentMethodNameForRequest()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_retrieveTransactionType">retrieveTransactionType()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_retrieveTransactionTypeForCredit">retrieveTransactionTypeForCredit()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_retrieveTransactionTypeForRefund">retrieveTransactionTypeForRefund()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_setAmount">setAmount()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_setArticleNumbers">setArticleNumbers()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_setBrowser">setBrowser()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_setCustomFields">setCustomFields()</a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_setEmailNotification">setEmailNotification()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_setEntryMode">setEntryMode()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_setLocale">setLocale()</a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#_setNotificationUrl">setNotificationUrl()</a></code>, 
@@ -353,13 +356,6 @@
 		</div>
 
 		<div class="panel panel-default">
-            <div class="panel-heading"><h3>Constants inherited from <a href="class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html#constants">Wirecard\PaymentSdk\Transaction\SepaTransaction</a></h3></div>
-			<p class="elementList">
-				<code><a href="class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html#CREDIT_TRANSFER"><b>CREDIT_TRANSFER</b></a></code>, 
-				<code><a href="class-Wirecard.PaymentSdk.Transaction.SepaTransaction.html#DIRECT_DEBIT"><b>DIRECT_DEBIT</b></a></code>
-			</p>
-		</div>
-		<div class="panel panel-default">
             <div class="panel-heading"><h3>Constants inherited from <a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#constants">Wirecard\PaymentSdk\Transaction\Transaction</a></h3></div>
 			<p class="elementList">
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#ENDPOINT_PAYMENTS"><b>ENDPOINT_PAYMENTS</b></a></code>, 
@@ -401,8 +397,10 @@
             <div class="panel-heading"><h3>Properties inherited from <a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#properties">Wirecard\PaymentSdk\Transaction\Transaction</a></h3></div>
 			<p class="elementList">
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#$amount"><var>$amount</var></a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#$articleNumbers"><var>$articleNumbers</var></a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#$browser"><var>$browser</var></a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#$customFields"><var>$customFields</var></a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#$emailNotificationUrl"><var>$emailNotificationUrl</var></a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#$entryMode"><var>$entryMode</var></a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#$locale"><var>$locale</var></a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#$notificationUrl"><var>$notificationUrl</var></a></code>, 
