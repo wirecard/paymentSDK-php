@@ -35,10 +35,10 @@ use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Mandate;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Transaction\Operation;
-use Wirecard\PaymentSdk\Transaction\SepaTransaction;
+use Wirecard\PaymentSdk\Transaction\SepaCreditTransferTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
-class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
+class SepaCreditTransferTransactionUTest extends \PHPUnit_Framework_TestCase
 {
     const IBAN = 'DE42512308000000060004';
     const LAST_NAME = 'Doe';
@@ -46,7 +46,7 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
     const MANDATE_ID = '2345';
 
     /**
-     * @var SepaTransaction
+     * @var SepaCreditTransferTransaction
      */
     private $tx;
 
@@ -67,24 +67,27 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->accountHolder->setLastName(self::LAST_NAME);
         $this->accountHolder->setFirstName(self::FIRST_NAME);
 
-        $this->tx = new SepaTransaction();
+        $mandate = new Mandate(self::MANDATE_ID);
+
+        $this->tx = new SepaCreditTransferTransaction();
+        $this->tx->setMandate($mandate);
         $this->tx->setAmount($this->amount);
     }
 
-    public function testMappedPropertiesReserveIbanOnly()
+    public function testMappedPropertiesCreditIbanOnly()
     {
         $this->tx->setIban(self::IBAN);
         $this->tx->setAccountHolder($this->accountHolder);
         $this->tx->setNotificationUrl('notification url');
-        $expectedResult = $this->getExpectedResultReserveIbanOnly();
+        $expectedResult = $this->getExpectedResultCreditIbanOnly();
 
-        $this->tx->setOperation(Operation::RESERVE);
+        $this->tx->setOperation(Operation::CREDIT);
         $result = $this->tx->mappedProperties();
 
         $this->assertEquals($expectedResult, $result);
     }
 
-    public function testMappedPropertiesReserveIbanAndBic()
+    public function testMappedPropertiesCreditIbanAndBic()
     {
         $this->tx->setIban(self::IBAN);
         $this->tx->setAccountHolder($this->accountHolder);
@@ -92,10 +95,10 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx->setBic($bic);
         $this->tx->setNotificationUrl('notification url');
 
-        $expectedResult = $this->getExpectedResultReserveIbanOnly();
+        $expectedResult = $this->getExpectedResultCreditIbanOnly();
         $expectedResult['bank-account']['bic'] = $bic;
 
-        $this->tx->setOperation(Operation::RESERVE);
+        $this->tx->setOperation(Operation::CREDIT);
         $result = $this->tx->mappedProperties();
 
         $this->assertEquals($expectedResult, $result);
@@ -104,10 +107,10 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    private function getExpectedResultReserveIbanOnly()
+    private function getExpectedResultCreditIbanOnly()
     {
         return [
-            'transaction-type' => 'authorization',
+            'transaction-type' => Transaction::TYPE_CREDIT,
             'notifications' => ['notification' => [['url' => 'notification url']]],
             'requested-amount' => [
                 'currency' => 'EUR',
@@ -120,7 +123,7 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
             'payment-methods' => [
                 'payment-method' => [
                     0 => [
-                        'name' => 'sepadirectdebit'
+                        'name' => 'sepacredit'
                     ]
                 ]
             ],
@@ -132,62 +135,12 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testMappedPropertiesPayIbanOnly()
-    {
-        $this->tx->setIban(self::IBAN);
-        $this->tx->setAccountHolder($this->accountHolder);
 
-        $mandate = new Mandate(self::MANDATE_ID);
-        $this->tx->setMandate($mandate);
-
-        $expectedResult = $this->getExpectedResultPayIbanOnly();
-
-        $this->tx->setOperation(Operation::PAY);
-        $result = $this->tx->mappedProperties();
-
-        $this->assertEquals($expectedResult, $result);
-    }
-
-    /**
-     * @return array
-     */
-    private function getExpectedResultPayIbanOnly()
-    {
-        return [
-            'transaction-type' => Transaction::TYPE_DEBIT,
-            'requested-amount' => [
-                'currency' => 'EUR',
-                'value' => '55.5'
-            ],
-            'account-holder' => [
-                'last-name' => self::LAST_NAME,
-                'first-name' => self::FIRST_NAME
-            ],
-            'payment-methods' => [
-                'payment-method' => [
-                    0 => [
-                        'name' => 'sepadirectdebit'
-                    ]
-                ]
-            ],
-            'bank-account' => [
-                'iban' => self::IBAN
-            ],
-            'mandate' => [
-                'mandate-id' => self::MANDATE_ID,
-                'signed-date' => $this->today()
-            ],
-            'entry-mode' => 'ecommerce',
-            'locale' => 'de',
-        ];
-    }
-
-
-    public function testMappedPropertiesCancelPay()
+    public function testMappedPropertiesCancelCredit()
     {
         $parentTransactionId = 'B612';
         $this->tx->setParentTransactionId($parentTransactionId);
-        $this->tx->setParentTransactionType('pending-debit');
+        $this->tx->setParentTransactionType('pending-credit');
         $this->tx->setOperation(Operation::CANCEL);
 
         $result = $this->tx->mappedProperties();
@@ -225,27 +178,10 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx->mappedProperties();
     }
 
-    public function testRetrievePaymentMethodNamePay()
-    {
-        $this->tx->setOperation(Operation::PAY);
-        $this->assertEquals(SepaTransaction::DIRECT_DEBIT, $this->tx->getConfigKey());
-    }
-
-    public function testRetrievePaymentMethodNameCredit()
-    {
-        $this->tx->setOperation(Operation::CREDIT);
-        $this->assertEquals(SepaTransaction::CREDIT_TRANSFER, $this->tx->getConfigKey());
-    }
-
-    public function testGetSepaCredit()
-    {
-        $this->assertEquals(null, $this->tx->getSepaCredit());
-    }
-
     private function getExpectedResultCancelPay($parentTransactionId)
     {
         return [
-            'transaction-type' => 'void-pending-debit',
+            'transaction-type' => 'void-pending-credit',
             'requested-amount' => [
                 'currency' => 'EUR',
                 'value' => '55.5'
@@ -253,7 +189,7 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
             'payment-methods' => [
                 'payment-method' => [
                     0 => [
-                        'name' => 'sepadirectdebit'
+                        'name' => 'sepacredit'
                     ]
                 ]
             ],
@@ -261,14 +197,6 @@ class SepaTransactionUTest extends \PHPUnit_Framework_TestCase
             'locale' => 'de',
             'entry-mode' => 'ecommerce',
         ];
-    }
-
-    /**
-     * @return false|string
-     */
-    private function today()
-    {
-        return gmdate('Y-m-d');
     }
 
     public function testRetrieveTransactionTypeForCredit()

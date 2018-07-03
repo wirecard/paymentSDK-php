@@ -86,6 +86,11 @@ abstract class Transaction extends Risk
     /**
      * @var string
      */
+    protected $emailNotificationUrl;
+
+    /**
+     * @var string
+     */
     protected $operation;
 
     /**
@@ -142,6 +147,11 @@ abstract class Transaction extends Risk
      * @var Browser
      */
     protected $browser;
+
+    /**
+     * @var array
+     */
+    protected $articleNumbers = [];
 
     /**
      * @param string $entryMode
@@ -277,6 +287,18 @@ abstract class Transaction extends Risk
     }
 
     /**
+     * Setter for optional parameter. If it is set it will forward notifications to email as well.
+     *
+     * @param $email
+     * @return $this
+     */
+    public function setEmailNotification($email)
+    {
+        $this->emailNotificationUrl = $email;
+        return $this;
+    }
+
+    /**
      * @param string $operation
      * @return Transaction
      */
@@ -304,6 +326,28 @@ abstract class Transaction extends Risk
             $this->periodic = $periodic;
         }
         return $this;
+    }
+
+    /**
+     * This method can be used to set article numbers in the transaction. These article numbers can and will be used
+     * in the TransactionService class.
+     * @since 3.0.0
+     * @param array $articleNumber
+     * @return Transaction
+     */
+    public function setArticleNumbers($articleNumber)
+    {
+        $this->articleNumbers = array_merge($articleNumber, $this->articleNumbers);
+        return $this;
+    }
+
+    /**
+     * @since 3.0.0
+     * @return array
+     */
+    public function getArticleNumbers()
+    {
+        return $this->articleNumbers;
     }
 
     /**
@@ -336,10 +380,12 @@ abstract class Transaction extends Risk
         }
 
         if (null !== $this->notificationUrl) {
-            $onlyNotificationUrl = [
-                'notification' => [['url' => $this->notificationUrl]]
-            ];
+            $onlyNotificationUrl = ['notification' => [['url' => $this->notificationUrl]]];
             $result['notifications'] = $onlyNotificationUrl;
+        }
+
+        if (null !== $this->emailNotificationUrl) {
+            $result['notifications']['notification'][] = ['url' => "mailto:{$this->emailNotificationUrl}"];
         }
 
         if ($this->redirect instanceof Redirect) {
@@ -585,10 +631,5 @@ abstract class Transaction extends Risk
         } catch (UnsupportedOperationException $e) {
             return false;
         }
-    }
-
-    public function getSepaCredit()
-    {
-        return $this->sepaCredit;
     }
 }

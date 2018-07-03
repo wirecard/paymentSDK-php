@@ -9,7 +9,7 @@
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
-require __DIR__ . '/../inc/config.php';
+require __DIR__ . '/../inc/sepaconfig.php';
 //Header design
 require __DIR__ . '/../inc/header.php';
 
@@ -17,7 +17,7 @@ use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Mandate;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\SepaTransaction;
+use Wirecard\PaymentSdk\Transaction\SepaCreditTransferTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 // ### Transaction related objects
@@ -29,8 +29,8 @@ $mandate = new Mandate('12345678');
 
 // ## Transaction
 
-// Create a `SepaTransaction` object, which contains all relevant data for the credit process.
-$transaction = new SepaTransaction();
+// Create a `SepaCreditTransferTransaction` object, which contains all relevant data for the credit process.
+$transaction = new SepaCreditTransferTransaction();
 $transaction->setAmount(new Amount(intval($_POST['amount']), 'EUR'));
 
 $transaction->setParentTransactionId($_POST['parentTransactionId']);
@@ -50,10 +50,10 @@ $response = $transactionService->credit($transaction);
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo 'Credit successfully completed.<br>';
-    echo getTransactionLink($baseUrl, $response);
+    echo getTransactionLink($baseUrl, $response, $config);
     ?>
     <br>
-    <form action="cancel.php" method="post">
+    <form action="../SepaDirectDebit/cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <button type="submit" class="btn btn-primary">Cancel the credit</button>
     </form>

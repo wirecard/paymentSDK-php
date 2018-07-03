@@ -35,12 +35,9 @@ use Wirecard\PaymentSdk\Entity\Mandate;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
-class SepaTransaction extends Transaction implements Reservable
+class SepaCreditTransferTransaction extends Transaction implements Reservable
 {
-    const NAME = 'sepa';
-
-    const DIRECT_DEBIT = 'sepadirectdebit';
-    const CREDIT_TRANSFER = 'sepacredit';
+    const NAME = 'sepacredit';
 
     /**
      * @var string
@@ -58,14 +55,7 @@ class SepaTransaction extends Transaction implements Reservable
     private $mandate;
 
     /**
-     * @param string $iban
-     */
-    public function setIban($iban)
-    {
-        $this->iban = str_replace(' ', '', $iban);
-    }
-
-    /**
+     * @since 3.0.0
      * @param string $bic
      */
     public function setBic($bic)
@@ -82,6 +72,16 @@ class SepaTransaction extends Transaction implements Reservable
     }
 
     /**
+     * @since 3.0.0
+     * @param string $iban
+     */
+    public function setIban($iban)
+    {
+        $this->iban = str_replace(' ', '', $iban);
+    }
+
+    /**
+     * @since 3.0.0
      * @throws UnsupportedOperationException
      * @return array
      */
@@ -96,45 +96,11 @@ class SepaTransaction extends Transaction implements Reservable
             }
         }
 
-        if (null !== $this->mandate) {
-            $result['mandate'] = $this->mandate->mappedProperties();
-        }
-
         return $result;
     }
 
     /**
-     * @return string
-     */
-    public function getConfigKey()
-    {
-        if (Operation::CREDIT === $this->operation
-            || self::TYPE_CREDIT === $this->parentTransactionType
-            || self::TYPE_PENDING_CREDIT === $this->parentTransactionType
-        ) {
-            return self::CREDIT_TRANSFER;
-        }
-
-        return self::DIRECT_DEBIT;
-    }
-
-    /**
-     * @return string
-     */
-    protected function retrieveTransactionTypeForReserve()
-    {
-        return self::TYPE_AUTHORIZATION;
-    }
-
-    /**
-     * @return string
-     */
-    protected function retrieveTransactionTypeForPay()
-    {
-        return self::TYPE_DEBIT;
-    }
-
-    /**
+     * @since 3.0.0
      * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return string
      */
@@ -143,13 +109,14 @@ class SepaTransaction extends Transaction implements Reservable
         if (!$this->parentTransactionId) {
             throw new MandatoryFieldMissingException('No transaction for cancellation set.');
         }
-        if (!in_array($this->parentTransactionType, [self::TYPE_PENDING_DEBIT, self::TYPE_PENDING_CREDIT], false)) {
+        if ($this->parentTransactionType != self::TYPE_PENDING_CREDIT) {
             throw new UnsupportedOperationException('The transaction cannot be canceled.');
         }
         return 'void-' . $this->parentTransactionType;
     }
 
     /**
+     * @since 3.0.0
      * @return string
      */
     protected function retrieveTransactionTypeForCredit()

@@ -121,4 +121,27 @@ class BasketUTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNotEmpty($this->itemCollection->getAsHtml('myid'));
     }
+
+    public function testGetTotalAmount()
+    {
+        $basket = new Basket();
+        $item = new Item('test item name', new Amount(1, 'EUR'), 1);
+        $item2 = new Item('test item name 2', new Amount(2, 'EUR'), 2);
+        $basket->add($item)->add($item2);
+
+        $this->assertEquals(new Amount(5, 'EUR'), $basket->getTotalAmount());
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testGetTotalAmountError()
+    {
+        $basket = new Basket();
+        $item = new Item('test item name', new Amount(1, 'EUR'), 1);
+        $item2 = new Item('test item name 2', new Amount(2, 'USD'), 2);
+        $basket->add($item)->add($item2);
+
+        $basket->getTotalAmount();
+    }
 }

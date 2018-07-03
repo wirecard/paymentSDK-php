@@ -8,7 +8,7 @@
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
-require __DIR__ . '/../inc/config.php';
+require __DIR__ . '/../inc/sepaconfig.php';
 //Header design
 require __DIR__ . '/../inc/header.php';
 
@@ -30,7 +30,7 @@ $response = $service->handleResponse($_POST);
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
     echo 'Payment successfully completed.<br>';
-    echo getTransactionLink($baseUrl, $response);
+    echo getTransactionLink($baseUrl, $response, $config);
     ?>
     <br>
     <form action="cancel.php" method="post">
@@ -38,7 +38,7 @@ if ($response instanceof SuccessResponse) {
         <button type="submit" class="btn btn-primary">Cancel the payment</button>
     </form>
 
-    <form action="pay.php" method="post">
+    <form action="../SepaDirectDebit/pay.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <button type="submit" class="btn btn-primary">Request a new payment based on this payment</button>
     </form>

@@ -8,7 +8,7 @@
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
-require __DIR__ . '/../inc/config.php';
+require __DIR__ . '/../inc/sofortconfig.php';
 //Header design
 require __DIR__ . '/../inc/header.php';
 
@@ -44,7 +44,7 @@ if ($_POST) {
         echo getTransactionLink($baseUrl, $response);
         ?>
         <br>
-        <form action="../Sepa/pay.php" method="post">
+        <form action="../SepaDirectDebit/pay.php" method="post">
             <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
             <button type="submit" class="btn btn-primary">Request a new payment based on this payment</button>
         </form>

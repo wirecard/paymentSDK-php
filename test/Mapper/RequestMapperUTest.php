@@ -61,6 +61,25 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $this->mapper = $this->createRequestMapper();
     }
 
+    public function testSetEmailNotification()
+    {
+        /** @var CreditCardConfig $config */
+        $config = $this->createMock(CreditCardConfig::class);
+        $config->method('getMerchantAccountId')->willReturn('B612');
+
+        $transaction = new CreditCardTransaction();
+        $transaction->setParentTransactionId('642');
+        $transaction->setParentTransactionType(Transaction::TYPE_CREDIT);
+        $transaction->setOperation(Operation::CREDIT);
+        $transaction->setConfig($config);
+
+        $transaction->setEmailNotification('email@address.com');
+        $transaction->setNotificationUrl('http://www.url.com');
+
+        $mappedProperties = $transaction->mappedProperties();
+        print_r($mappedProperties);
+    }
+
     public function testMappingWithPaymentMethodSpecificProperties()
     {
         $mapper = $this->createRequestMapper();

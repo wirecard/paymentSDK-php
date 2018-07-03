@@ -157,4 +157,11 @@ class ItemUTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $this->item->mappedSeamlessProperties(1));
     }
+
+    public function testGetArticleNumber()
+    {
+        $this->item->setArticleNumber('A1');
+
+        $this->assertEquals('A1', $this->item->getArticleNumber());
+    }
 }

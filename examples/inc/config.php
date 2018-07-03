@@ -11,17 +11,14 @@ require __DIR__ . '/../../vendor/autoload.php';
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
-use Wirecard\PaymentSdk\Config\SepaConfig;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Transaction\BancontactTransaction;
 use Wirecard\PaymentSdk\Transaction\EpsTransaction;
-use Wirecard\PaymentSdk\Transaction\IdealTransaction;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Transaction\PaysafecardTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayDirectDebitTransaction;
-use Wirecard\PaymentSdk\Transaction\SofortTransaction;
 use Wirecard\PaymentSdk\Transaction\MasterpassTransaction;
 use Wirecard\PaymentSdk\Transaction\AlipayCrossborderTransaction;
 use Wirecard\PaymentSdk\Transaction\PoiPiaTransaction;
@@ -87,13 +84,6 @@ $ccardMotoConfig = new PaymentMethodConfig(CreditCardMotoTransaction::NAME, $cca
 
 $config->add($ccardMotoConfig);
 
-// ### iDEAL
-
-$IdealMAID = 'b4ca14c0-bb9a-434d-8ce3-65fbff2c2267';
-$IdealSecretKey = 'dbc5a498-9a66-43b9-bf1d-a618dd399684';
-$IdealConfig = new PaymentMethodConfig(IdealTransaction::NAME, $IdealMAID, $IdealSecretKey);
-$config->add($IdealConfig);
-
 // ### PayPal
 
 $paypalMAID = '2a0e9351-24ed-4110-9a1b-fd0fee6bec26';
@@ -127,22 +117,6 @@ $config->add($ratepayInvoiceConfig);
 
 $ratepayDirectDebit = new PaymentMethodConfig(RatepayDirectDebitTransaction::NAME, $ratepayMAID, $ratepayKey);
 $config->add($ratepayDirectDebit);
-
-// ### SEPA
-
-$sepaMAID = '4c901196-eff7-411e-82a3-5ef6b6860d64';
-$sepaKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
-// SEPA requires the creditor ID, therefore a different config object is used.
-$sepaConfig = new SepaConfig($sepaMAID, $sepaKey);
-$sepaConfig->setCreditorId('DE98ZZZ09999999999');
-$config->add($sepaConfig);
-
-// ### Sofortbanking
-
-$sofortMAID = 'c021a23a-49a5-4987-aa39-e8e858d29bad';
-$sofortSecretKey = 'dbc5a498-9a66-43b9-bf1d-a618dd399684';
-$sofortConfig = new PaymentMethodConfig(SofortTransaction::NAME, $sofortMAID, $sofortSecretKey);
-$config->add($sofortConfig);
 
 // ### Bancontact
 
