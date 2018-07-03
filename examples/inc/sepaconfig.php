@@ -1,5 +1,5 @@
 <?php
-// # Maestro Configuration
+// # SEPA Configuration
 
 // The payment SDK needs some basic configuration regarding connectivity and merchant account IDs.
 
@@ -44,7 +44,7 @@ $config->add($sepaDirectDebitConfig);
 
 // ### SEPA Credit Transfer
 
-$sepaCreditTransferMAID = '	59a01668-693b-49f0-8a1f-f3c1ba025d45';
+$sepaCreditTransferMAID = '59a01668-693b-49f0-8a1f-f3c1ba025d45';
 $sepaCreditTransferKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
 // SEPA requires the creditor ID, therefore a different config object is used.
 $sepaCreditTransferConfig = new SepaConfig(SepaCreditTransferTransaction::NAME, $sepaCreditTransferMAID, $sepaCreditTransferKey);
