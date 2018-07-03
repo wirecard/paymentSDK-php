@@ -14,13 +14,11 @@ use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Transaction\BancontactTransaction;
 use Wirecard\PaymentSdk\Transaction\EpsTransaction;
-use Wirecard\PaymentSdk\Transaction\IdealTransaction;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Transaction\PaysafecardTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayDirectDebitTransaction;
-use Wirecard\PaymentSdk\Transaction\SofortTransaction;
 use Wirecard\PaymentSdk\Transaction\MasterpassTransaction;
 use Wirecard\PaymentSdk\Transaction\AlipayCrossborderTransaction;
 use Wirecard\PaymentSdk\Transaction\PoiPiaTransaction;
@@ -85,13 +83,6 @@ $ccardMotoSecretKey = 'dbc5a498-9a66-43b9-bf1d-a618dd399684';
 $ccardMotoConfig = new PaymentMethodConfig(CreditCardMotoTransaction::NAME, $ccardMotoMAID, $ccardMotoSecretKey);
 
 $config->add($ccardMotoConfig);
-
-// ### iDEAL
-
-$IdealMAID = 'b4ca14c0-bb9a-434d-8ce3-65fbff2c2267';
-$IdealSecretKey = 'dbc5a498-9a66-43b9-bf1d-a618dd399684';
-$IdealConfig = new PaymentMethodConfig(IdealTransaction::NAME, $IdealMAID, $IdealSecretKey);
-$config->add($IdealConfig);
 
 // ### PayPal
 
