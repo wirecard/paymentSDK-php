@@ -336,7 +336,7 @@ abstract class Response
     /**
      * Parse simplexml and create basket object
      *
-     * @since 2.4.0
+     * @since 3.0.0
      */
     private function setBasket()
     {
@@ -391,7 +391,7 @@ abstract class Response
     /**
      * Parse simplexml and create requestedAmount object
      *
-     * @since 2.4.0
+     * @since 3.0.0
      */
     private function setRequestedAmount()
     {
@@ -406,7 +406,7 @@ abstract class Response
     }
 
     /**
-     * @since 2.4.0
+     * @since 3.0.0
      */
     private function setAccountHolder()
     {
@@ -422,7 +422,7 @@ abstract class Response
      * parse account holder informations from response
      *
      * @return AccountHolder
-     * @since 2.4.0
+     * @since 3.0.0
      */
     private function parseAccountHolder($simpleXmlElement)
     {
@@ -475,7 +475,7 @@ abstract class Response
     }
 
     /**
-     * @since 2.4.0
+     * @since 3.0.0
      */
     private function setShipping()
     {
@@ -489,7 +489,7 @@ abstract class Response
     /**
      * parse simplexml to load all custom fields
      *
-     * @since 2.4.0
+     * @since 3.0.0
      */
     private function setCustomFields()
     {
@@ -510,7 +510,7 @@ abstract class Response
 
     /**
      * @return Basket
-     * @since 2.4.0
+     * @since 3.0.0
      */
     public function getBasket()
     {
@@ -519,7 +519,7 @@ abstract class Response
 
     /**
      * @return AccountHolder
-     * @since 2.4.0
+     * @since 3.0.0
      */
     public function getShipping()
     {
@@ -528,7 +528,7 @@ abstract class Response
 
     /**
      * @return AccountHolder
-     * @since 2.4.0
+     * @since 3.0.0
      */
     public function getAccountHolder()
     {
@@ -537,7 +537,7 @@ abstract class Response
 
     /**
      * @return Amount
-     * @since 2.4.0
+     * @since 3.0.0
      */
     public function getRequestedAmount()
     {
