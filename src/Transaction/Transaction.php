@@ -632,4 +632,12 @@ abstract class Transaction extends Risk
             return false;
         }
     }
+
+    /**
+     * @return bool|null
+     */
+    public function getSepaCredit()
+    {
+        return $this->sepaCredit;
+    }
 }
