@@ -94,7 +94,7 @@ class AddressUTest extends \PHPUnit_Framework_TestCase
      */
     public function testMappingWithStateException()
     {
-        $this->addr->setState( str_repeat('O', 33));
+        $this->addr->setState(str_repeat('O', 33));
     }
 
     public function testMappingWithStreet2()
