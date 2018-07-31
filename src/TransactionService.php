@@ -616,7 +616,9 @@ class TransactionService
         $transaction->setOperation($operation);
 
         if ($transaction instanceof CreditCardTransaction) {
-            $transaction->setConfig($this->config->get(CreditCardTransaction::NAME));
+            /** @var CreditCardConfig $creditCardConfig */
+            $creditCardConfig = $this->config->get(CreditCardTransaction::NAME);
+            $transaction->setConfig($creditCardConfig);
         }
         if (null !== $transaction->getParentTransactionId()) {
             $parentTransaction = $this->getTransactionByTransactionId(
@@ -689,6 +691,7 @@ class TransactionService
     /**
      * We expect status code 404 for a successful authentication, otherwise the endpoint will return 401 unauthorized
      * @return boolean
+     * @throws \Http\Client\Exception
      */
     public function checkCredentials()
     {
@@ -721,9 +724,9 @@ class TransactionService
      * @param $paymentMethod
      * @throws UnconfiguredPaymentMethodException
      * @throws \RuntimeException
-     * @return null|array
+     * @return null|array|string
      */
-    protected function getTransactionByTransactionId($transactionId, $paymentMethod)
+    public function getTransactionByTransactionId($transactionId, $paymentMethod, $acceptJson = true)
     {
         $logNotFound = ($paymentMethod == CreditCardTransaction::NAME) ? false : true;
         $endpoint =
@@ -732,14 +735,15 @@ class TransactionService
             $this->config->get($paymentMethod)->getMerchantAccountId() .
             '/payments/' . $transactionId;
 
-        $request = $this->sendGetRequest($endpoint, true, $logNotFound);
+        $request = $this->sendGetRequest($endpoint, $acceptJson, $logNotFound);
+
         if ($request == null && $paymentMethod == CreditCardTransaction::NAME) {
             $endpoint =
                 $this->config->getBaseUrl() .
                 '/engine/rest/merchants/' .
                 $this->config->get($paymentMethod)->getThreeDMerchantAccountId() .
                 '/payments/' . $transactionId;
-            $request = $this->sendGetRequest($endpoint, true);
+            $request = $this->sendGetRequest($endpoint, $acceptJson);
             $request !== null ? $this->isThreeD = true : $this->isThreeD = false;
         }
 
