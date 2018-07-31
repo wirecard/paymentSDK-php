@@ -800,4 +800,44 @@ class TransactionService
     {
         return $this->responseMapper->mapSeamlessResponse($payload, $url);
     }
+
+    /**
+     * Recursively search for a parent transaction until it finds no parent-transaction-id anymore. Aggregate all of the
+     * results received in the group transaction and return them in ascending order by date.
+     * @since 3.1.0
+     * @param $transactionId
+     * @param $paymentMethod
+     * @return array
+     */
+    public function getGroupOfTransactions($transactionId, $paymentMethod)
+    {
+        $transaction = $this->getTransactionByTransactionId($transactionId, $paymentMethod);
+        if (isset($transaction['payment'])) {
+            $transaction = $transaction['payment'];
+        }
+        if (isset($transaction['parent-transaction-id'])) {
+            return $this->getGroupOfTransactions($transaction['parent-transaction-id'], $paymentMethod);
+        } else {
+            $endpoint =
+                $this->config->getBaseUrl() .
+                '/engine/rest/merchants/' .
+                $transaction['merchant-account-id']['value'] .
+                '/payments/?group_transaction_id=' . $transactionId;
+            $xml = (array)simplexml_load_string($this->sendGetRequest($endpoint));
+            $ret = [];
+            if (isset($xml['payment'])) {
+                foreach ($xml['payment'] as $response) {
+                    $ret[] = $response;
+                }
+
+                usort($ret, function ($item1, $item2) {
+                    $date1 = new \DateTime($item1->{'completion-time-stamp'});
+                    $date2 = new \DateTime($item2->{'completion-time-stamp'});
+                    return $date1 == $date2 ? 0 : ($date1 < $date2 ? -1 : 1);
+                });
+            }
+
+            return $ret;
+        }
+    }
 }
