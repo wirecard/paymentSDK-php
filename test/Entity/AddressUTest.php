@@ -74,6 +74,29 @@ class AddressUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $this->addr->mappedProperties());
     }
 
+    public function testMappingWithState()
+    {
+        $this->addr->setState('OH');
+        $this->assertEquals('OH', $this->addr->getState());
+
+        $expectedResult = [
+            'street1' => self::DUMMY_ADDRESS,
+            'city' => self::GRAZ,
+            'country' => self::AT_COUNTRY_CODE,
+            'state' => 'OH'
+        ];
+
+        $this->assertEquals($expectedResult, $this->addr->mappedProperties());
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testMappingWithStateException()
+    {
+        $this->addr->setState( str_repeat('O', 33));
+    }
+
     public function testMappingWithStreet2()
     {
         $this->addr->setStreet2('1st floor');
