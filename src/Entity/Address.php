@@ -64,6 +64,11 @@ class Address implements MappableEntity
     /**
      * @var string
      */
+    private $state;
+
+    /**
+     * @var string
+     */
     private $postalCode;
 
     /**
@@ -94,6 +99,28 @@ class Address implements MappableEntity
     }
 
     /**
+     * @param string $state
+     * @since 3.0.1
+     * Set the state variable
+     */
+    public function setState($state)
+    {
+        if (strlen($state) > 32) {
+            throw new \InvalidArgumentException('.address.state maximum length of 32 was exceeded');
+        }
+        $this->state = trim($state);
+    }
+
+    /**
+     * @return string
+     * @since 3.0.1
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
      * @param string $postalCode
      */
     public function setPostalCode($postalCode)
@@ -119,6 +146,10 @@ class Address implements MappableEntity
             'city' => $this->city,
             'country' => $this->countryCode
         ];
+
+        if (null !== $this->state) {
+            $result['state'] = $this->state;
+        }
 
         if (null !== $this->postalCode) {
             $result['postal-code'] = $this->postalCode;

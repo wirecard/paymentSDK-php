@@ -616,7 +616,9 @@ class TransactionService
         $transaction->setOperation($operation);
 
         if ($transaction instanceof CreditCardTransaction) {
-            $transaction->setConfig($this->config->get(CreditCardTransaction::NAME));
+            /** @var CreditCardConfig $creditCardConfig */
+            $creditCardConfig = $this->config->get(CreditCardTransaction::NAME);
+            $transaction->setConfig($creditCardConfig);
         }
         if (null !== $transaction->getParentTransactionId()) {
             $parentTransaction = $this->getTransactionByTransactionId(
@@ -689,6 +691,7 @@ class TransactionService
     /**
      * We expect status code 404 for a successful authentication, otherwise the endpoint will return 401 unauthorized
      * @return boolean
+     * @throws \Http\Client\Exception
      */
     public function checkCredentials()
     {
@@ -721,9 +724,9 @@ class TransactionService
      * @param $paymentMethod
      * @throws UnconfiguredPaymentMethodException
      * @throws \RuntimeException
-     * @return null|array
+     * @return null|array|string
      */
-    protected function getTransactionByTransactionId($transactionId, $paymentMethod)
+    public function getTransactionByTransactionId($transactionId, $paymentMethod, $acceptJson = true)
     {
         $logNotFound = ($paymentMethod == CreditCardTransaction::NAME) ? false : true;
         $endpoint =
@@ -732,14 +735,15 @@ class TransactionService
             $this->config->get($paymentMethod)->getMerchantAccountId() .
             '/payments/' . $transactionId;
 
-        $request = $this->sendGetRequest($endpoint, true, $logNotFound);
+        $request = $this->sendGetRequest($endpoint, $acceptJson, $logNotFound);
+
         if ($request == null && $paymentMethod == CreditCardTransaction::NAME) {
             $endpoint =
                 $this->config->getBaseUrl() .
                 '/engine/rest/merchants/' .
                 $this->config->get($paymentMethod)->getThreeDMerchantAccountId() .
                 '/payments/' . $transactionId;
-            $request = $this->sendGetRequest($endpoint, true);
+            $request = $this->sendGetRequest($endpoint, $acceptJson);
             $request !== null ? $this->isThreeD = true : $this->isThreeD = false;
         }
 
@@ -795,5 +799,45 @@ class TransactionService
     public function processJsResponse($payload, $url)
     {
         return $this->responseMapper->mapSeamlessResponse($payload, $url);
+    }
+
+    /**
+     * Recursively search for a parent transaction until it finds no parent-transaction-id anymore. Aggregate all of the
+     * results received in the group transaction and return them in ascending order by date.
+     * @since 3.1.0
+     * @param $transactionId
+     * @param $paymentMethod
+     * @return array
+     */
+    public function getGroupOfTransactions($transactionId, $paymentMethod)
+    {
+        $transaction = $this->getTransactionByTransactionId($transactionId, $paymentMethod);
+        if (isset($transaction['payment'])) {
+            $transaction = $transaction['payment'];
+        }
+        if (isset($transaction['parent-transaction-id'])) {
+            return $this->getGroupOfTransactions($transaction['parent-transaction-id'], $paymentMethod);
+        } else {
+            $endpoint =
+                $this->config->getBaseUrl() .
+                '/engine/rest/merchants/' .
+                $transaction['merchant-account-id']['value'] .
+                '/payments/?group_transaction_id=' . $transactionId;
+            $xml = (array)simplexml_load_string($this->sendGetRequest($endpoint));
+            $ret = [];
+            if (isset($xml['payment'])) {
+                foreach ($xml['payment'] as $response) {
+                    $ret[] = $response;
+                }
+
+                usort($ret, function ($item1, $item2) {
+                    $date1 = new \DateTime($item1->{'completion-time-stamp'});
+                    $date2 = new \DateTime($item2->{'completion-time-stamp'});
+                    return $date1 == $date2 ? 0 : ($date1 < $date2 ? -1 : 1);
+                });
+            }
+
+            return $ret;
+        }
     }
 }

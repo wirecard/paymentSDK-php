@@ -76,8 +76,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $transaction->setEmailNotification('email@address.com');
         $transaction->setNotificationUrl('http://www.url.com');
 
-        $mappedProperties = $transaction->mappedProperties();
-        print_r($mappedProperties);
+        $this->assertNotEmpty($transaction->mappedProperties());
     }
 
     public function testMappingWithPaymentMethodSpecificProperties()
