@@ -136,7 +136,7 @@
 		<b>Namespace:</b> <a href="namespace-Wirecard.html">Wirecard</a>\<a href="namespace-Wirecard.PaymentSdk.html">PaymentSdk</a><br>
 		<b>Package:</b> Wirecard\PaymentSdk<br>
 
-			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.TransactionService.html#67-799" title="Go to source code">TransactionService.php</a>
+			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.TransactionService.html#67-843" title="Go to source code">TransactionService.php</a>
 		<br>
 	</div>
 
@@ -792,7 +792,7 @@ we try a refund process call.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_process">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#604-660" title="Go to source code">process</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></code> <var>$transaction</var></span>, <span>string <var>$operation</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#604-662" title="Go to source code">process</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></code> <var>$transaction</var></span>, <span>string <var>$operation</var></span> )</code>
 
 			<div class="description short">
 				
@@ -840,7 +840,7 @@ we try a refund process call.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_checkCredentials">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#689-717" title="Go to source code">checkCredentials</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#691-720" title="Go to source code">checkCredentials</a>( )</code>
 
 			<div class="description short">
 				<p>We expect status code 404 for a successful authentication, otherwise the endpoint will return 401 unauthorized</p>
@@ -856,6 +856,10 @@ we try a refund process call.</p>
 						boolean
 					</div>
 
+					<h4>Throws</h4>
+					<div class="list">
+						Http\Client\Exception
+					</div>
 
 
 
@@ -865,15 +869,15 @@ we try a refund process call.</p>
 		<tr data-order="getTransactionByTransactionId" id="_getTransactionByTransactionId">
 
 			<td class="attributes"><code>
-				 protected 
-				null|array
+				 public 
+				null|array|string
 				
 				</code>
 			</td>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getTransactionByTransactionId">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#719-747" title="Go to source code">getTransactionByTransactionId</a>( <span> <var>$transactionId</var></span>, <span> <var>$paymentMethod</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#722-751" title="Go to source code">getTransactionByTransactionId</a>( <span> <var>$transactionId</var></span>, <span> <var>$paymentMethod</var></span>, <span> <var>$acceptJson</var> = <span class="php-keyword1">true</span></span> )</code>
 
 			<div class="description short">
 				
@@ -889,11 +893,13 @@ we try a refund process call.</p>
 						<dd></dd>
 						<dt><var>$paymentMethod</var></dt>
 						<dd></dd>
+						<dt><var>$acceptJson</var></dt>
+						<dd></dd>
 					</dl></div>
 
 					<h4>Returns</h4>
 					<div class="list">
-						null|array
+						null|array|string
 					</div>
 
 					<h4>Throws</h4>
@@ -918,7 +924,7 @@ we try a refund process call.</p>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_processJsResponse">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#789-798" title="Go to source code">processJsResponse</a>( <span> <var>$payload</var></span>, <span> <var>$url</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#793-802" title="Go to source code">processJsResponse</a>( <span> <var>$payload</var></span>, <span> <var>$url</var></span> )</code>
 
 			<div class="description short">
 				
@@ -945,6 +951,52 @@ we try a refund process call.</p>
 					<h4>Since</h4>
 					<div class="list">
 							2.1.0<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getGroupOfTransactions" id="_getGroupOfTransactions">
+
+			<td class="attributes"><code>
+				 public 
+				array
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getGroupOfTransactions">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.TransactionService.html#804-842" title="Go to source code">getGroupOfTransactions</a>( <span> <var>$transactionId</var></span>, <span> <var>$paymentMethod</var></span> )</code>
+
+			<div class="description short">
+				<p>Recursively search for a parent transaction until it finds no parent-transaction-id anymore. Aggregate all of the
+results received in the group transaction and return them in ascending order by date.</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Recursively search for a parent transaction until it finds no parent-transaction-id anymore. Aggregate all of the
+results received in the group transaction and return them in ascending order by date.</p>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$transactionId</var></dt>
+						<dd></dd>
+						<dt><var>$paymentMethod</var></dt>
+						<dd></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						array
+					</div>
+
+
+					<h4>Since</h4>
+					<div class="list">
+							3.1.0<br>
 					</div>
 
 
