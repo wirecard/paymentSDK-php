@@ -543,4 +543,42 @@ abstract class Response
     {
         return $this->requestedAmount;
     }
+
+    /**
+     * Generate QrCode from authorization code. Available only for payment methods returning authorization-code (e.g. WeChat).
+     *
+     * Note: This method uses gd2 library. If you can't use gd2, you must set $type to QRCode::OUTPUT_MARKUP_SVG
+     * or QRCode::OUTPUT_STRING_TEXT.
+     *
+     * @param string $type
+     * @param int $scale
+     *
+     * @since 3.1.1
+     * @return string
+     */
+    public function getQrCode($type = QRCode::OUTPUT_IMAGE_PNG, $scale = 5)
+    {
+        try {
+            if (in_array($type, array('html', 'svg'))) {
+                $outputOptions = new \chillerlan\QRCode\Output\QRMarkupOptions();
+                $outputOptions->type = $type;
+                $outputOptions->pixelSize = $scale;
+                $image = new \chillerlan\QRCode\Output\QRMarkup($outputOptions);
+            } elseif ($type == 'txt') {
+                $outputOptions = new \chillerlan\QRCode\Output\QRStringOptions();
+                $outputOptions->type = $type;
+                $image = new \chillerlan\QRCode\Output\QRString($outputOptions);
+            } else {
+                $outputOptions = new \chillerlan\QRCode\Output\QRImageOptions();
+                $outputOptions->type = $type;
+                $outputOptions->pixelSize = $scale;
+                $image = new \chillerlan\QRCode\Output\QRImage($outputOptions);
+            }
+
+            $qrCode = new \chillerlan\QRCode\QRCode($this->findElement('authorization-code'), $image);
+            return $qrCode->output();
+        } catch (\Exception $ignored) {
+            throw new MalformedResponseException('Authorization-code not found in response.');
+        }
+    }
 }
