@@ -31,6 +31,7 @@
 
 namespace Wirecard\PaymentSdk\Response;
 
+use chillerlan\QRCode\QRCode;
 use SimpleXMLElement;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Address;
@@ -576,7 +577,7 @@ abstract class Response
                 $image = new \chillerlan\QRCode\Output\QRImage($outputOptions);
             }
 
-            $qrCode = new \chillerlan\QRCode\QRCode($this->findElement('authorization-code'), $image);
+            $qrCode = new QRCode($this->findElement('authorization-code'), $image);
             return $qrCode->output();
         } catch (\Exception $ignored) {
             throw new MalformedResponseException('Authorization-code not found in response.');
