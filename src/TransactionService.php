@@ -57,6 +57,7 @@ use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\CreditCardMotoTransaction;
 use Wirecard\PaymentSdk\Transaction\IdealTransaction;
+use Wirecard\PaymentSdk\Transaction\MaestroTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
@@ -615,11 +616,16 @@ class TransactionService
     {
         $transaction->setOperation($operation);
 
-        if ($transaction instanceof CreditCardTransaction) {
-            /** @var CreditCardConfig $creditCardConfig */
-            $creditCardConfig = $this->config->get(CreditCardTransaction::NAME);
-            $transaction->setConfig($creditCardConfig);
+	    if ($transaction instanceof MaestroTransaction) {
+		    /** @var CreditCardConfig $creditCardConfig */
+		    $creditCardConfig = $this->config->get(MaestroTransaction::NAME);
+		    $transaction->setConfig($creditCardConfig);
+	    } elseif ($transaction instanceof CreditCardTransaction) {
+	        /** @var CreditCardConfig $creditCardConfig */
+	        $creditCardConfig = $this->config->get(CreditCardTransaction::NAME);
+	        $transaction->setConfig($creditCardConfig);
         }
+
         if (null !== $transaction->getParentTransactionId()) {
             $parentTransaction = $this->getTransactionByTransactionId(
                 $transaction->getParentTransactionId(),
