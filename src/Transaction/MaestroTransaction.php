@@ -52,9 +52,4 @@ class MaestroTransaction extends CreditCardTransaction
 	protected function isThreeD() {
 		return true;
 	}
-
-	protected function retrieveTransactionTypeForReserve()
-	{
-		return self::TYPE_AUTHORIZATION;
-	}
 }

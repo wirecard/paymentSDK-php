@@ -743,7 +743,7 @@ class TransactionService
 
         $request = $this->sendGetRequest($endpoint, $acceptJson, $logNotFound);
 
-        if ($request == null && $paymentMethod == CreditCardTransaction::NAME) {
+        if ($request == null && ($paymentMethod == CreditCardTransaction::NAME || $paymentMethod == MaestroTransaction::NAME)) {
             $endpoint =
                 $this->config->getBaseUrl() .
                 '/engine/rest/merchants/' .

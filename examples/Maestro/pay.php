@@ -1,8 +1,7 @@
 <?php
-// # Maestro reservation
+// # Purchase for Maestro
 
-// The method `reserve` of the _transactionService_ provides the means
-// to reserve an amount (also known as authorization).
+// To reserve and capture an amount for a Maestro
 
 // ## Required objects
 
@@ -23,7 +22,7 @@ use Wirecard\PaymentSdk\TransactionService;
 // ### Transaction related objects
 
 // Create a amount object as amount which has to be paid by the consumer.
-$amount = new Amount(70.00, 'EUR');
+$amount = new Amount(12.59, 'EUR');
 
 // If there was a previous transaction, use the ID of this parent transaction as reference.
 $parentTransactionId = array_key_exists('parentTransactionId', $_POST) ? $_POST['parentTransactionId'] : null;
@@ -40,28 +39,23 @@ if ($parentTransactionId === null && $tokenId === null) {
 // after an approval/cancellation on the issuer's ACS page.
 $redirectUrl = getUrl('return.php?status=success');
 
-$response = null;
+
+// ## Transaction
+
+// The Maestro transaction contains all relevant data for the payment process.
+$transaction = new MaestroTransaction();
+$transaction->setAmount($amount);
+$transaction->setTokenId($tokenId);
+$transaction->setTermUrl($redirectUrl);
+$transaction->setParentTransactionId($parentTransactionId);
 
 // ### Transaction Service
 
-// The service is used to execute the reservation (authorization) operation itself. A response object is returned.
+// The service is used to execute the payment (authorization + capture) operation itself.
+// A response object is returned.
 $transactionService = new TransactionService($config);
+$response = $transactionService->pay($transaction);
 
-if (array_key_exists('jsresponse', $_POST) && $_POST['jsresponse']) {
-    $response = $transactionService->processJsResponse($_POST, $redirectUrl);
-
-} else {
-    // ## Transaction
-
-    // The Maestro transaction contains all relevant data for the payment process.
-    $transaction = new MaestroTransaction();
-    $transaction->setAmount($amount);
-    $transaction->setTokenId($tokenId);
-    $transaction->setTermUrl($redirectUrl);
-    $transaction->setParentTransactionId($parentTransactionId);
-
-    $response = $transactionService->reserve($transaction);
-}
 
 // ## Response handling
 
@@ -74,25 +68,24 @@ if ($response instanceof FormInteractionResponse):
         <?php foreach ($response->getFormFields() as $key => $value): ?>
             <input type="hidden" name="<?= $key ?>" value="<?= $value ?>">
         <?php endforeach;
-        // For a better demonstration and for the ease of use the automatic submit was replaced with a submit button.
+        // Usually an automated transmission of the form would be made.
+        // For a better demonstration and for the ease of use this automated submit
+        // is replaced with a submit button.
         ?>
         <button type="submit" class="btn btn-primary">Redirect to 3-D Secure page</button>
+    </form>
     <?php
-// The response from the service can be used for disambiguation.
-// In case of a successful transaction, a `SuccessResponse` object is returned.
 elseif ($response instanceof SuccessResponse):
-    echo 'Reservation successfully completed.<br>';
+    echo 'Payment successfully completed.<br>';
     echo getTransactionLink($baseUrl, $response);
+    echo '<br>Maestro Token-Id: ' . $response->getCardTokenId();
     ?>
     <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <button type="submit" class="btn btn-primary">Cancel the payment</button>
     </form>
-    <form action="pay-based-on-reserve.php" method="post">
-        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <button type="submit" class="btn btn-primary">Capture the payment</button>
-    </form>
+
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
 elseif ($response instanceof FailureResponse):
