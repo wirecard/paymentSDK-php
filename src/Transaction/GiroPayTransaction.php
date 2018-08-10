@@ -31,10 +31,7 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\BankAccount;
-use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
-use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
 class GiroPayTransaction extends Transaction implements Reservable
 {
