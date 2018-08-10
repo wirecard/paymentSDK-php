@@ -68,7 +68,7 @@ class GiroPayTransaction extends Transaction implements Reservable
             $data['order-detail'] = $this->orderDetail;
         }
 
-        if (null !== $this->bankData) {
+        if (null !== $this->bankData){
             foreach ($this->bankData as $key => $val) {
                 $data['bank-account'][$key] = $val;
             }
