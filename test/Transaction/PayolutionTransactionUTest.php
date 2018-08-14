@@ -31,7 +31,6 @@
  */
 
 namespace WirecardTest\PaymentSdk\Transaction;
-
 use Wirecard\PaymentSdk\Transaction\PayolutionTransaction;
 use Wirecard\PaymentSdk\Transaction\PayolutionInstallmentTransaction;
 use Wirecard\PaymentSdk\Transaction\PayolutionInvoiceB2BTransaction;
@@ -63,8 +62,6 @@ class PayolutionTransactionUTest extends \PHPUnit_Framework_TestCase {
         $accountHolder = new AccountHolder();
         $accountHolder->setFirstName("Firstname");
         $accountHolder->setLastName("Lastname");
-        $accountHolder-("Lastname");
-      
         $this->tx->setAmount(new Amount(45, 'EUR'));
         $this->tx->setAccountHolder($accountHolder);
         $redirect = new Redirect(self::SUCCESS_URL, self::CANCEL_URL, self::FAILURE_URL);

@@ -1,7 +1,7 @@
 <?php
-// # Paysafecard reserve transaction
+// # PayolutionInvoiceB2B reserve transaction
 
-// This example displays the usage of reserve method for payment method paysafecard.
+// This example displays the usage of reserve method for payment method PayolutionInvoiceB2B.
 
 // ## Required objects
 
@@ -28,7 +28,7 @@ $amount = new Amount(12.59, 'EUR');
 // If there was a previous transaction, use the ID of this parent transaction as reference.
 $parentTransactionId = array_key_exists('parentTransactionId', $_POST) ? $_POST['parentTransactionId'] : null;
 
-// The redirect URLs determine where the consumer should be redirected by PAysafecard after the reserve.
+// The redirect URLs determine where the consumer should be redirected by PayolutionInvoiceB2B after the reserve.
 $redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
 
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.

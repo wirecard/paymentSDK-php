@@ -1,7 +1,7 @@
 <?php
-// # Paysafecard reserve transaction
+// # Payolution reserve transaction
 
-// This example displays the usage of reserve method for payment method paysafecard.
+// This example displays the usage of reserve method for payment method Payolution.
 
 // ## Required objects
 
@@ -16,8 +16,7 @@ use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
-use Wirecard\PaymentSdk\Response\InteractionResponse;
-use Wirecard\PaymentSdk\Transaction\PaysafecardTransaction;
+use Wirecard\PaymentSdk\Response\InteractionResponse;;
 use Wirecard\PaymentSdk\TransactionService;
 
 // ### Transaction related objects
@@ -28,7 +27,7 @@ $amount = new Amount(12.59, 'EUR');
 // If there was a previous transaction, use the ID of this parent transaction as reference.
 $parentTransactionId = array_key_exists('parentTransactionId', $_POST) ? $_POST['parentTransactionId'] : null;
 
-// The redirect URLs determine where the consumer should be redirected by PAysafecard after the reserve.
+// The redirect URLs determine where the consumer should be redirected by Payolution after the reserve.
 $redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
 
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.

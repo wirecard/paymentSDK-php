@@ -1,7 +1,7 @@
 <?php
-// # Paysafecard return after transaction
+// # Payolution return after transaction
 
-// The consumer gets redirected to this page after a paysafecard transaction.
+// The consumer gets redirected to this page after a Payolution transaction.
 
 // ## Required objects
 

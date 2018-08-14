@@ -1,7 +1,7 @@
 <?php
-// # Paysafecard return after transaction
+// # PayolutionInvoiceB2C return after transaction
 
-// The consumer gets redirected to this page after a paysafecard transaction.
+// The consumer gets redirected to this page after a PayolutionInvoiceB2C transaction.
 
 // ## Required objects
 

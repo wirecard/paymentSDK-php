@@ -1,7 +1,7 @@
 <?php
-// # Paysafecard payment transaction
+// # PayolutionInvoiceB2B payment transaction
 
-// This example displays the usage payments for payment method paysafecard.
+// This example displays the usage payments for payment method PayolutionInvoiceB2B.
 
 // ## Required objects
 
@@ -25,7 +25,7 @@ use Wirecard\PaymentSdk\TransactionService;
 // Use the amount object as amount which has to be paid by the consumer.
 $amount = new Amount(20, 'EUR');
 
-// The redirect URLs determine where the consumer should be redirected by Paysafecard after approval/cancellation.
+// The redirect URLs determine where the consumer should be redirected by PayolutionInvoiceB2B after approval/cancellation.
 $redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
 
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.

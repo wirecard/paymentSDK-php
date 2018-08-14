@@ -7,13 +7,13 @@
  */
 
 namespace Wirecard\PaymentSdk\Transaction;
-
+use Wirecard\PaymentSdk\Transaction\PayolutionTransaction;
 /**
  * Description of PayolutionInvoiceB2CTransaction
  *
  * @author Omar Issa
  */
-class PayolutionInvoiceB2CTransaction extends PayPalTransaction implements Reservable {
+class PayolutionInvoiceB2CTransaction extends PayolutionTransaction implements Reservable {
     const NAME = 'payoloution-inv';
     const PAYMENT_METHOD = 'payoloution-inv';
 
