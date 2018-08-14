@@ -31,6 +31,7 @@
  */
 
 namespace WirecardTest\PaymentSdk\Transaction;
+
 use Wirecard\PaymentSdk\Transaction\PayolutionTransaction;
 use Wirecard\PaymentSdk\Transaction\PayolutionInstallmentTransaction;
 use Wirecard\PaymentSdk\Transaction\PayolutionInvoiceB2BTransaction;
@@ -40,6 +41,8 @@ use Wirecard\PaymentSdk\Transaction\Transaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Entity\Basket;
+
 /*
  * Description of PayolutionTransactionUTest
  *
@@ -67,7 +70,6 @@ class PayolutionTransactionUTest extends \PHPUnit_Framework_TestCase {
         $redirect = new Redirect(self::SUCCESS_URL, self::CANCEL_URL, self::FAILURE_URL);
         $this->tx->setRedirect($redirect);
     }
-
 
     public function testSetBasket() {
         $collection = new Basket();
@@ -108,14 +110,12 @@ class PayolutionTransactionUTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($expectedResult, $result);
     }
 
-   
     /**
      * @param float $amount
      * @param string $expected
      * @dataProvider reserveDataProvider
      */
-    public function testGetRetrieveTransactionTypeReserve($value, $expected)
-    {
+    public function testGetRetrieveTransactionTypeReserve($value, $expected) {
         $redirect = $this->createMock(Redirect::class);
         $redirect->method('getCancelUrl')->willReturn('cancel-url');
         $redirect->method('getSuccessUrl')->willReturn('success-url');
@@ -134,9 +134,8 @@ class PayolutionTransactionUTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertEquals($expected, $data['transaction-type']);
     }
-    
-        public function testMappedPropertiesSetsOrderItems()
-    {
+
+    public function testMappedPropertiesSetsOrderItems() {
         $redirect = $this->createMock(Redirect::class);
         $redirect->method('getCancelUrl')->willReturn('cancel-url');
         $redirect->method('getSuccessUrl')->willReturn('success-url');
@@ -151,14 +150,13 @@ class PayolutionTransactionUTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertArrayHasKey('order-items', $data);
     }
-    
-     /**
+
+    /**
      * @dataProvider testRefundProvider
      * @param $transactionType
      * @param $refundType
      */
-    public function testRefund()
-    {
+    public function testRefund() {
         $this->tx->setConfig($this->config);
         $this->tx->setParentTransactionId('642');
         $this->tx->setParentTransactionType(Transaction::TYPE_REFUND_CAPTURE);

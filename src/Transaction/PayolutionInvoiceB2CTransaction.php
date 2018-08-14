@@ -14,8 +14,8 @@ use Wirecard\PaymentSdk\Transaction\PayolutionTransaction;
  * @author Omar Issa
  */
 class PayolutionInvoiceB2CTransaction extends PayolutionTransaction implements Reservable {
-    const NAME = 'payoloution-inv';
-    const PAYMENT_METHOD = 'payoloution-inv';
+    const NAME = 'payolution-b2c';
+    const PAYMENT_METHOD = 'payolution-b2c';
 
     /**
      * @return string
