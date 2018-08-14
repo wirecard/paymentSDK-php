@@ -89,7 +89,7 @@ class PayolutionTransactionUTest extends \PHPUnit_Framework_TestCase {
 
     public function testMappedProperties() {
         $expectedResult = [
-            'transaction-type' => Transaction::authorization,
+            'transaction-type' => Transaction::TYPE_AUTHORIZATION,
             'requested-amount' => [
                 'currency' => 'EUR',
                 'value' => '45'
@@ -104,7 +104,7 @@ class PayolutionTransactionUTest extends \PHPUnit_Framework_TestCase {
             ],
         ];
 
-        $this->tx->setParentTransactionType(Transaction::authorization);
+        $this->tx->setParentTransactionType(Transaction::TYPE_AUTHORIZATION);
         $result = $this->tx->mappedProperties();
 
         $this->assertEquals($expectedResult, $result);
@@ -156,7 +156,7 @@ class PayolutionTransactionUTest extends \PHPUnit_Framework_TestCase {
      * @param $transactionType
      * @param $refundType
      */
-    public function testRefund() {
+    public function testRefund($value, $expected) {
         $this->tx->setConfig($this->config);
         $this->tx->setParentTransactionId('642');
         $this->tx->setParentTransactionType(Transaction::TYPE_REFUND_CAPTURE);
@@ -188,6 +188,30 @@ class PayolutionTransactionUTest extends \PHPUnit_Framework_TestCase {
     public function testInstallment() {
         $invoice = new PayolutionInstallmentTransaction();
         $this->assertEquals('payolution-inst', $invoice->getConfigKey());
+    }
+
+    public function reserveDataProvider() {
+        return [
+            [1.0, Transaction::TYPE_AUTHORIZATION],
+            [0.0, 'authorization-only']
+        ];
+    }
+
+    public function testRefundProvider() {
+        return [
+            [
+                CreditCardTransaction::TYPE_PURCHASE,
+                'refund-purchase'
+            ],
+            [
+                CreditCardTransaction::TYPE_REFERENCED_PURCHASE,
+                'refund-purchase'
+            ],
+            [
+                Transaction::TYPE_CAPTURE_AUTHORIZATION,
+                'refund-capture'
+            ]
+        ];
     }
 
 }
