@@ -79,10 +79,9 @@ class GiroPayTransactionUTest extends \PHPUnit_Framework_TestCase
         $return = $this->tx->setBankAccount($bankAccountMock);
 
         $this->assertInstanceOf(GiroPayTransaction::class, $return);
-
     }
 
-    public static function callMethod($obj, $name, $args=[])
+    public static function callMethod($obj, $name, $args = [])
     {
         $class = new \ReflectionClass($obj);
         $method = $class->getMethod($name);
@@ -108,15 +107,14 @@ class GiroPayTransactionUTest extends \PHPUnit_Framework_TestCase
 
 
         $this->assertEquals(true, count($data) > 1);
-
     }
 
     public function testShouldReturnTransactionTypeForPay()
     {
 
-        $returnType = $this->callMethod($this->tx,'retrieveTransactionTypeForPay');
+        $returnType = $this->callMethod($this->tx, 'retrieveTransactionTypeForPay');
 
-        $this->assertEquals('get-url',$returnType);
+        $this->assertEquals('get-url', $returnType);
     }
 
     public function testShouldReturnEndPointParent()
@@ -126,22 +124,21 @@ class GiroPayTransactionUTest extends \PHPUnit_Framework_TestCase
 
         $property = $reflectionClass->getProperty('parentTransactionId');
         $property->setAccessible(true);
-        $property->setValue($this->tx,'test-with-parent-id');
+        $property->setValue($this->tx, 'test-with-parent-id');
 
         $method = $reflectionClass->getMethod('getEndpoint');
         $method->setAccessible(true);
 
-        $newMethod = $method->invokeArgs($this->tx,[]);
+        $newMethod = $method->invokeArgs($this->tx, []);
 
-        $this->assertEquals($newMethod,'/engine/rest/payments/');
-
+        $this->assertEquals($newMethod, '/engine/rest/payments/');
     }
 
     public function testShouldReturnEndPointNotParent()
     {
-        $returnType = $this->callMethod($this->tx,'getEndpoint');
+        $returnType = $this->callMethod($this->tx, 'getEndpoint');
 
-        $this->assertEquals($returnType,'/engine/rest/paymentmethods/');
+        $this->assertEquals($returnType, '/engine/rest/paymentmethods/');
     }
 
 
