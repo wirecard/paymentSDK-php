@@ -616,14 +616,14 @@ class TransactionService
     {
         $transaction->setOperation($operation);
 
-	    if ($transaction instanceof MaestroTransaction) {
-		    /** @var CreditCardConfig $creditCardConfig */
-		    $creditCardConfig = $this->config->get(MaestroTransaction::NAME);
-		    $transaction->setConfig($creditCardConfig);
-	    } elseif ($transaction instanceof CreditCardTransaction) {
-	        /** @var CreditCardConfig $creditCardConfig */
-	        $creditCardConfig = $this->config->get(CreditCardTransaction::NAME);
-	        $transaction->setConfig($creditCardConfig);
+        if ($transaction instanceof MaestroTransaction) {
+            /** @var CreditCardConfig $creditCardConfig */
+            $creditCardConfig = $this->config->get(MaestroTransaction::NAME);
+            $transaction->setConfig($creditCardConfig);
+        } elseif ($transaction instanceof CreditCardTransaction) {
+            /** @var CreditCardConfig $creditCardConfig */
+            $creditCardConfig = $this->config->get(CreditCardTransaction::NAME);
+            $transaction->setConfig($creditCardConfig);
         }
 
         if (null !== $transaction->getParentTransactionId()) {
@@ -743,7 +743,8 @@ class TransactionService
 
         $request = $this->sendGetRequest($endpoint, $acceptJson, $logNotFound);
 
-        if ($request == null && ($paymentMethod == CreditCardTransaction::NAME || $paymentMethod == MaestroTransaction::NAME)) {
+        if ($request == null &&
+            ($paymentMethod == CreditCardTransaction::NAME || $paymentMethod == MaestroTransaction::NAME)) {
             $endpoint =
                 $this->config->getBaseUrl() .
                 '/engine/rest/merchants/' .

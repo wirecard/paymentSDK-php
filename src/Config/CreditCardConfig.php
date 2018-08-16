@@ -62,8 +62,11 @@ class CreditCardConfig extends PaymentMethodConfig
      * @param string|null $secret
      * @param string $paymentMethodName
      */
-    public function __construct($merchantAccountId = null, $secret = null, $paymentMethodName = CreditCardTransaction::NAME)
-    {
+    public function __construct(
+        $merchantAccountId = null,
+        $secret = null,
+        $paymentMethodName = CreditCardTransaction::NAME
+    ) {
         parent::__construct($paymentMethodName, null, null);
 
         if ($merchantAccountId !== null && $secret !== null) {

@@ -37,19 +37,20 @@ namespace Wirecard\PaymentSdk\Transaction;
  */
 class MaestroTransaction extends CreditCardTransaction
 {
-	const NAME = 'maestro';
+    const NAME = 'maestro';
 
-	protected function mappedSpecificProperties()
-	{
-		$result = parent::mappedSpecificProperties();
-		$result['payment-methods'] = ['payment-method' => [[
-			'name' => CreditCardTransaction::NAME
-		]]];
+    protected function mappedSpecificProperties()
+    {
+        $result = parent::mappedSpecificProperties();
+        $result['payment-methods'] = ['payment-method' => [[
+            'name' => CreditCardTransaction::NAME
+        ]]];
 
-		return $result;
-	}
+        return $result;
+    }
 
-	protected function isThreeD() {
-		return true;
-	}
+    protected function isThreeD()
+    {
+        return true;
+    }
 }
