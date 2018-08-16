@@ -72,7 +72,6 @@ abstract class Transaction extends Risk
     const TYPE_VOID_PURCHASE = 'void-purchase';
     const TYPE_VOID_DEBIT= 'void-debit';
     const TYPE_DEPOSIT = 'deposit';
-    const TYPE_GET_URL = 'get-url';
 
 
     /**
@@ -482,9 +481,6 @@ abstract class Transaction extends Risk
                 $transactionType = $this->retrieveTransactionTypeForRefund();
                 break;
             case Operation::CREDIT:
-                $transactionType = $this->retrieveTransactionTypeForCredit();
-                break;
-            case Operation::GETURL:
                 $transactionType = $this->retrieveTransactionTypeForCredit();
                 break;
             default:

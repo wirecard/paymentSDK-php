@@ -79,7 +79,7 @@ class GiroPayTransaction extends Transaction implements Reservable
      */
     protected function retrieveTransactionTypeForPay()
     {
-        return self::TYPE_GET_URL;
+        return self::TYPE_DEBIT;
     }
 
     /**

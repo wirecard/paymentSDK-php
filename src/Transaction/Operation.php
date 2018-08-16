@@ -38,5 +38,4 @@ class Operation
     const CANCEL = 'cancel';
     const REFUND = 'refund';
     const CREDIT = 'credit';
-    const GETURL = 'get-url';
 }
