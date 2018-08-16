@@ -34,11 +34,17 @@ namespace Wirecard\PaymentSdk\Transaction;
 /**
  * Class MaestroTransaction
  * @package Wirecard\PaymentSdk\Transaction
+ * @since 3.2.0
  */
 class MaestroTransaction extends CreditCardTransaction
 {
     const NAME = 'maestro';
 
+    /**
+     * @throws MandatoryFieldMissingException|UnsupportedOperationException
+     * @return array
+     * @since 3.2.0
+     */
     protected function mappedSpecificProperties()
     {
         $result = parent::mappedSpecificProperties();
@@ -49,6 +55,11 @@ class MaestroTransaction extends CreditCardTransaction
         return $result;
     }
 
+    /**
+     * Maestro transactions are 3d
+     * @return bool
+     * @since 3.2.0
+     */
     protected function isThreeD()
     {
         return true;
