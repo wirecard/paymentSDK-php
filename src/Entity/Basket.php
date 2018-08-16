@@ -147,17 +147,39 @@ class Basket implements \IteratorAggregate, MappableEntity
         return $basket;
     }
 
-    public function getAsHtml($customId = null)
+    /**
+     * @param $options
+     *      table_id,
+     *      table_class,
+     *      translation
+     *          basket,
+     *          item
+     * @return string
+     * @since 3.2.0
+     */
+    public function getAsHtml($options = [])
     {
-        $html = "<table id='$customId'>";
-        $html .= "<tr id='{$customId}_firstrow'><td colspan='99' align='center'><b>Basket</b></td></tr>";
+        $defaults = [
+            'table_id' => null,
+            'table_class' => null,
+            'translation' => [
+                'basket' => 'Basket',
+                'item' => 'Item'
+            ]
+        ];
+
+        $options = array_merge($defaults, $options);
+        $translation = $options['translation'];
+
+        $html = "<table id='{$options['table_id']}' class='{$options['table_class']}'>";
+        $html .= "<tr id='{$options['table_id']}_firstrow'><td colspan='99' align='center'><b>{$translation['basket']}</b></td></tr>";
 
         /** @var Item $item */
         $itemNumber = 1;
         foreach ($this->getIterator() as $item) {
             $itemProperties = $item->mappedProperties();
-            $html .= "<tr id='{$customId}_otherrows'>";
-            $html .= "<td valign='top' rowspan='" . count($itemProperties) . "'>Item #$itemNumber</td>";
+            $html .= "<tr id='{$options['table_id']}_otherrows'>";
+            $html .= "<td valign='top' rowspan='" . count($itemProperties) . "'>{$translation['item']} #$itemNumber</td>";
             $attrIter = 0;
             foreach ($itemProperties as $key => $value) {
                 // this is for the amount object
