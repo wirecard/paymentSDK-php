@@ -172,14 +172,16 @@ class Basket implements \IteratorAggregate, MappableEntity
         $translation = $options['translation'];
 
         $html = "<table id='{$options['table_id']}' class='{$options['table_class']}'>";
-        $html .= "<tr id='{$options['table_id']}_firstrow'><td colspan='99' align='center'><b>{$translation['basket']}</b></td></tr>";
+        $html .= "<tr id='{$options['table_id']}_firstrow'>";
+        $html .= "<td colspan='99' align='center'><b>{$translation['basket']}</b></td></tr>";
 
         /** @var Item $item */
         $itemNumber = 1;
         foreach ($this->getIterator() as $item) {
             $itemProperties = $item->mappedProperties();
             $html .= "<tr id='{$options['table_id']}_otherrows'>";
-            $html .= "<td valign='top' rowspan='" . count($itemProperties) . "'>{$translation['item']} #$itemNumber</td>";
+            $html .= "<td valign='top' rowspan='" . count($itemProperties) . "'>";
+            $html .= "{$translation['item']} #$itemNumber</td>";
             $attrIter = 0;
             foreach ($itemProperties as $key => $value) {
                 // this is for the amount object
