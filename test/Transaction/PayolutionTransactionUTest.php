@@ -44,8 +44,6 @@ use Wirecard\PaymentSdk\Transaction\PayolutionInvoiceB2CTransaction;
 use Wirecard\PaymentSdk\Transaction\PayolutionTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
-require __DIR__ . '/../../vendor/autoload.php';
-
 /*
  * Description of PayolutionTransactionUTest
  *
@@ -64,7 +62,7 @@ class PayolutionTransactionUTest extends \PHPUnit_Framework_TestCase
      */
     private $tx;
 
-    private $payoultionType;
+    private $PayolutionType;
 
     private $accountHolder;
 
@@ -74,8 +72,8 @@ class PayolutionTransactionUTest extends \PHPUnit_Framework_TestCase
     {
         $this->tx = new PayolutionTransaction();
         $this->accountHolder = new AccountHolder();
-        $this->payoultionType = new PayolutionInvoiceB2CTransaction();
-        $this->config = new PaymentMethodConfig($this->payoultionType->getConfigKey(), 'maid', 'secret');
+        $this->PayolutionType = new PayolutionInvoiceB2CTransaction();
+        $this->config = new PaymentMethodConfig($this->PayolutionType->getConfigKey(), 'maid', 'secret');
         $this->accountHolder->setFirstName("Jon");
         $this->accountHolder->setLastName("Doe");
         $this->accountHolder->setDateOfBirth(new \DateTime(1970 - 01 - 01));
@@ -122,7 +120,7 @@ class PayolutionTransactionUTest extends \PHPUnit_Framework_TestCase
             'entry-mode' => 'ecommerce',
 
         ];
-        $this->tx->setPayoultionType($this->payoultionType->getConfigKey());
+        $this->tx->setPayoultionType($this->PayolutionType->getConfigKey());
         $redirect = new Redirect(self::SUCCESS_URL, self::CANCEL_URL, self::FAILURE_URL);
         $this->tx->setRedirect($redirect);
         $this->tx->setParentTransactionType(Transaction::PARAM_TRANSACTION_TYPE);
