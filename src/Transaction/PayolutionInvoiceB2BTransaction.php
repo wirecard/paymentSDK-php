@@ -9,12 +9,14 @@
 namespace Wirecard\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Transaction\PayolutionTransaction;
+
 /**
  * Description of PayolutionInvoiceB2BTransaction
  *
  * @author Omar Issa
  */
-class PayolutionInvoiceB2BTransaction extends PayolutionTransaction implements Reservable {
+class PayolutionInvoiceB2BTransaction extends PayolutionTransaction implements Reservable
+{
     const NAME = 'payoultion-b2b';
     const PAYMENT_METHOD = 'payolution-b2b';
 

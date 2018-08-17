@@ -30,6 +30,7 @@
  */
 
 namespace Wirecard\PaymentSdk\Transaction;
+
 use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;

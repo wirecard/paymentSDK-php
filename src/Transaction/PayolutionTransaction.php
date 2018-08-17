@@ -152,6 +152,4 @@ class PayolutionTransaction extends Transaction implements Reservable
         $this->config = $config;
         return $this;
     }
-
 }
-    

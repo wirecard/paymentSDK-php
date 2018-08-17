@@ -81,7 +81,6 @@ class PayolutionTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->accountHolder->setDateOfBirth(new \DateTime(1970 - 01 - 01));
         $this->tx->setAmount(new Amount(150, 'EUR'));
         $this->tx->setAccountHolder($this->accountHolder);
-
     }
 
 
@@ -249,8 +248,6 @@ class PayolutionTransactionUTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        $this->tx = NULL;
+        $this->tx = null;
     }
-
-
 }
