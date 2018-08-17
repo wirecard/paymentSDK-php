@@ -8,15 +8,15 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Transaction\PayolutionTransaction;
 /**
  * Description of PayolutionInstallmentTransaction
  *
  * @author Omar Issa
  */
-class PayolutionInstallmentTransaction extends PayolutionTransaction implements Reservable {
-    
-   const NAME = 'payolution-inst';
+class PayolutionInstallmentTransaction extends PayolutionTransaction implements Reservable
+{
+
+    const NAME = 'payolution-inst';
     const PAYMENT_METHOD = 'payolution-inst';
 
     /**
