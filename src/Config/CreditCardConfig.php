@@ -57,13 +57,17 @@ class CreditCardConfig extends PaymentMethodConfig
     private $threeDSecret;
 
     /**
-     * SepaConfig constructor.
+     * CreditCardConfig constructor.
      * @param string|null $merchantAccountId
      * @param string|null $secret
+     * @param string $paymentMethodName
      */
-    public function __construct($merchantAccountId = null, $secret = null)
-    {
-        parent::__construct(CreditCardTransaction::NAME, null, null);
+    public function __construct(
+        $merchantAccountId = null,
+        $secret = null,
+        $paymentMethodName = CreditCardTransaction::NAME
+    ) {
+        parent::__construct($paymentMethodName, null, null);
 
         if ($merchantAccountId !== null && $secret !== null) {
             $this->setSSLCredentials($merchantAccountId, $secret);

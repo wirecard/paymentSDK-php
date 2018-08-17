@@ -45,6 +45,7 @@ use Wirecard\PaymentSdk\Transaction\RatepayDirectDebitTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayTransaction;
 use Wirecard\PaymentSdk\TransactionService;
+use Mockery as m;
 
 /**
  * Class TransactionServiceUTest
@@ -186,5 +187,18 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $this->expectException(MalformedResponseException::class);
 
         $this->service->handleResponse(['MD' => 'md', 'PaRes' => 'pares']);
+    }
+
+    public function testGetGroupOfTransactions()
+    {
+        $transaction = array(
+            'payment' => array(
+                'payment-method' => 'creditcard'
+            )
+        );
+        $transactionService = m::mock('overload:TransactionService');
+        $transactionService->shouldReceive('getTransactionByTransactionId')->andReturn($transaction);
+
+        $this->assertNotNull($this->service->getGroupOfTransactions('123', 'creditcard'));
     }
 }

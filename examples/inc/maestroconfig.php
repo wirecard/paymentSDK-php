@@ -9,15 +9,13 @@
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
-use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
-use Wirecard\PaymentSdk\Transaction\MaestroTransaction;
 
 // ## Connection
 
 // The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
 $baseUrl = 'https://api-wdcee-test.wirecard.com';
 $httpUser = 'wdcee-customer-test';
-$httpPass = '8f5y2h0s';
+$httpPass = '6n4p4t8p';
 
 // The configuration is stored in an object containing the connection settings set above.
 // A default currency can also be provided.
@@ -36,6 +34,6 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
 $maestroMAID = '4945f0ef-51e0-43af-972f-885405320842';
 $maestroSecret = '822e87ea-dcc3-4d01-861c-e39f14a0ab6c';
-$maestroConfig = new Config\CreditCardConfig($maestroMAID, $maestroSecret);
+$maestroConfig = new Config\MaestroConfig(null, null);
 $maestroConfig->setThreeDCredentials($maestroMAID, $maestroSecret);
 $config->add($maestroConfig);
