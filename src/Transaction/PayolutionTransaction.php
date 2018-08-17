@@ -31,33 +31,46 @@
  */
 
 namespace Wirecard\PaymentSdk\Transaction;
+
 use Wirecard\PaymentSdk\Entity\AccountHolder;
-use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
+
 /**
  * Description of PayolutionTransaction
  *
  * @author Omar Issa
  */
-class PayolutionTransaction extends Transaction implements Reservable {
+class PayolutionTransaction extends Transaction implements Reservable
+{
 
     const NAME = 'payolution';
 
+    private $payoultionType;
 
-    protected function mappedSpecificProperties() {
+    private $config;
+
+    protected function mappedSpecificProperties()
+    {
         $transactionType = $this->retrieveTransactionType();
         $data = array();
 
-        if ($this->parentTransactionId) {
+        if ($this->parentTransactionId && $this->payoultionType instanceof PayolutionInvoiceB2CTransaction) {
             $data['payment-methods'] = ['payment-method' => [['name' => 'payolution-inv']]];
+        }
+        if ($this->parentTransactionId && $this->payoultionType instanceof PayolutionInstallmentTransaction) {
+            $data['payment-methods'] = ['payment-method' => [['name' => 'payolution-inst']]];
+        }
+        if ($this->parentTransactionId && $this->payoultionType instanceof PayolutionInvoiceB2BTransaction) {
+            $data['payment-methods'] = ['payment-method' => [['name' => 'payolution-b2b']]];
         }
         if ($this->accountHolder instanceof AccountHolder) {
             $data['account-holder'] = $this->accountHolder->mappedProperties();
         } else {
             throw new MandatoryFieldMissingException('Birth Date should be set.');
         }
-        if ($this->amount instanceof Amount) {
+
+        if (!$this->amount instanceof Amount) {
             $data['requested-amount'] = $this->amount->mappedProperties();
         } else {
             throw new MandatoryFieldMissingException('amount value should not be less than value');
@@ -67,31 +80,14 @@ class PayolutionTransaction extends Transaction implements Reservable {
             $data['order-number'] = $this->orderNumber;
         }
 
-
-        if ($this->basket instanceof Basket) {
-            $this->basket->setVersion(self::class);
-            $data['order-items'] = $this->basket->mappedProperties();
-        }
-
         return $data;
     }
 
     /**
      * @return string
      */
-    protected function retrieveTransactionTypeForReserve() {
-        if ($this->parentTransactionId) {
-            if ($this->parentTransactionType === self::TYPE_CAPTURE_AUTHORIZATION) {
-                return self::TYPE_CAPTURE_AUTHORIZATION;
-            }
-        }
-        return self::TYPE_AUTHORIZATION;
-    }
-
-    /**
-     * @return string
-     */
-    protected function retrieveTransactionTypeForPay() {
+    protected function retrieveTransactionTypeForPay()
+    {
 
         if ($this->parentTransactionType === self::TYPE_AUTHORIZATION) {
             return self::TYPE_CAPTURE_AUTHORIZATION;
@@ -104,14 +100,58 @@ class PayolutionTransaction extends Transaction implements Reservable {
      * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return string
      */
-    protected function retrieveTransactionTypeForCancel() {
+    protected function retrieveTransactionTypeForCancel()
+    {
         if (!$this->parentTransactionId) {
-            if ($this->parentTransactionType === self::TYPE_CAPTURE_AUTHORIZATION) {
-                return self::TYPE_REFUND_CAPTURE;
-            } else {
-                throw new UnsupportedOperationException('The transaction can not be refund.');
-            }
+            throw new MandatoryFieldMissingException('No transaction for cancellation set.');
+        }
+
+        if ($this->parentTransactionType === self::TYPE_AUTHORIZATION) {
+            return self::TYPE_VOID_AUTHORIZATION;
+        } elseif ($this->parentTransactionType === self::TYPE_CAPTURE_AUTHORIZATION) {
+            return self::TYPE_REFUND_CAPTURE;
+        }
+
+        throw new UnsupportedOperationException('The transaction can not be canceled.');
+    }
+
+    protected function retrieveTransactionTypeForRefund()
+    {
+        if (!$this->parentTransactionId) {
+            throw new MandatoryFieldMissingException('No transaction for cancellation set.');
+        }
+
+        switch ($this->parentTransactionType) {
+            case $this::TYPE_CAPTURE_AUTHORIZATION:
+                return 'refund-capture';
+            default:
+                throw new UnsupportedOperationException('The transaction can not be refunded.');
         }
     }
+
+    /**
+     * @return mixed
+     */
+    public function getPayoultionType()
+    {
+        return $this->payoultionType;
+    }
+
+    /**
+     * @param mixed $payoultionType
+     * @return $this
+     */
+    public function setPayoultionType($payoultionType)
+    {
+        $this->payoultionType = $payoultionType;
+        return $this;
+    }
+
+    public function setConfig($config)
+    {
+        $this->config = $config;
+        return $this;
+    }
+
 }
     
