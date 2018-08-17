@@ -201,5 +201,4 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNotNull($this->service->getGroupOfTransactions('123', 'creditcard'));
     }
-
 }
