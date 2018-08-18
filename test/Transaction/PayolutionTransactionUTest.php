@@ -70,25 +70,15 @@ class PayolutionTransactionUTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->tx = new PayolutionTransaction();
+        $this->tx = new PayolutionInvoiceB2CTransaction();
         $this->accountHolder = new AccountHolder();
         $this->PayolutionType = new PayolutionInvoiceB2CTransaction();
         $this->config = new PaymentMethodConfig($this->PayolutionType->getConfigKey(), 'maid', 'secret');
         $this->accountHolder->setFirstName("Jon");
         $this->accountHolder->setLastName("Doe");
-        $this->accountHolder->setDateOfBirth(new \DateTime(1970 - 01 - 01));
+        $this->accountHolder->setDateOfBirth(new \DateTime('1970-01-01'));
         $this->tx->setAmount(new Amount(150, 'EUR'));
         $this->tx->setAccountHolder($this->accountHolder);
-    }
-
-
-    public function testSetShipping()
-    {
-        $accountHolder = new AccountHolder();
-
-        $this->tx->setShipping($accountHolder);
-
-        $this->assertAttributeEquals($accountHolder, 'shipping', $this->tx);
     }
 
     public function testMappedProperties()
@@ -103,13 +93,13 @@ class PayolutionTransactionUTest extends \PHPUnit_Framework_TestCase
             'account-holder' => array(
                 'last-name' => 'Doe',
                 'first-name' => 'Jon',
-                'date-of-birth' => '17-08-1968'
+                'date-of-birth' => '01-01-1970'
             ),
 
             'payment-methods' => [
                 'payment-method' => [
                     0 => [
-                        'name' => 'payolution'
+                        'name' => 'payolution-inv'
                     ]
                 ]
             ],
@@ -120,7 +110,7 @@ class PayolutionTransactionUTest extends \PHPUnit_Framework_TestCase
             'entry-mode' => 'ecommerce',
 
         ];
-        $this->tx->setPayoultionType($this->PayolutionType->getConfigKey());
+        $this->tx->setConfig($this->config->getPaymentMethodName());
         $redirect = new Redirect(self::SUCCESS_URL, self::CANCEL_URL, self::FAILURE_URL);
         $this->tx->setRedirect($redirect);
         $this->tx->setParentTransactionType(Transaction::PARAM_TRANSACTION_TYPE);
@@ -129,24 +119,6 @@ class PayolutionTransactionUTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expectedResult, $result);
     }
-
-    public function testMappedPropertiesSetsOrderItems()
-    {
-        $redirect = $this->createMock(Redirect::class);
-        $redirect->method('getCancelUrl')->willReturn('cancel-url');
-        $redirect->method('getSuccessUrl')->willReturn('success-url');
-
-        /**
-         * @var Redirect $redirect
-         */
-        $this->tx->setBasket(new Basket());
-        $this->tx->setOperation('pay');
-        $this->tx->setRedirect($redirect);
-        $data = $this->tx->mappedProperties();
-
-        $this->assertArrayHasKey('order-items', $data);
-    }
-
 
     public function testRefundProvider()
     {
@@ -185,13 +157,13 @@ class PayolutionTransactionUTest extends \PHPUnit_Framework_TestCase
             'account-holder' => array(
                 'last-name' => 'Doe',
                 'first-name' => 'Jon',
-                'date-of-birth' => '17-08-1968'
+                'date-of-birth' => '01-01-1970'
             ),
 
             'payment-methods' => [
                 'payment-method' => [
                     0 => [
-                        'name' => 'payolution'
+                        'name' => 'payolution-inv'
                     ]
                 ]
             ],
@@ -243,6 +215,102 @@ class PayolutionTransactionUTest extends \PHPUnit_Framework_TestCase
         $data = $this->tx->mappedProperties();
         $this->assertEquals($expected, $data['transaction-type']);
     }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
+     */
+
+    public function testCancelNoParentId()
+    {
+        $transaction = new PayolutionInvoiceB2CTransaction();
+        $transaction->setOperation(Operation::CANCEL);
+         $transaction->mappedProperties();
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
+     */
+    public function testRefundNoParentId()
+    {
+        $transaction = new PayolutionInvoiceB2CTransaction();
+        $transaction->setConfig($this->config);
+        $transaction->setOperation(Operation::REFUND);
+        $transaction->mappedProperties();
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
+     */
+    public function testRefundInvalidParentTransaction()
+    {
+        $transaction = new PayolutionInvoiceB2CTransaction();
+        $transaction->setConfig($this->config);
+        $transaction->setParentTransactionId('642');
+        $transaction->setParentTransactionType('test');
+        $transaction->setOperation(Operation::REFUND);
+        $_SERVER['REMOTE_ADDR'] = 'test';
+
+        $transaction->mappedProperties();
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
+     */
+    public function testCancelInvalidParentTransaction()
+    {
+        $transaction = new PayolutionInvoiceB2CTransaction();
+        $transaction->setParentTransactionId('642');
+        $transaction->setParentTransactionType('test');
+        $transaction->setOperation(Operation::CANCEL);
+        $_SERVER['REMOTE_ADDR'] = 'test';
+
+        $transaction->mappedProperties();
+    }
+
+    public function testPayProvider()
+    {
+        return [
+            [
+                Transaction::TYPE_AUTHORIZATION,
+                Transaction::TYPE_CAPTURE_AUTHORIZATION
+            ],
+
+        ];
+    }
+
+    /**
+     * @dataProvider testPayProvider
+     * @param $transactionType
+     * @param $payType
+     */
+    public function testPay($transactionType, $payType)
+    {
+        $transaction = new PayolutionInvoiceB2CTransaction();
+        $transaction->setConfig($this->config);
+        $transaction->setParentTransactionId('642');
+        $transaction->setAmount(new Amount('500', 'EUR'));
+        $transaction->setParentTransactionType($transactionType);
+        $transaction->setOperation(Operation::PAY);
+        $_SERVER['REMOTE_ADDR'] = 'test';
+
+        $result = $transaction->mappedProperties();
+
+        $expectedResult = [
+            'payment-methods' => ['payment-method' => [['name' => 'payolution-inv']]],
+            'parent-transaction-id' => '642',
+            'ip-address' => 'test',
+            'transaction-type' => $payType,
+            'requested-amount' => [
+                'currency' => 'EUR',
+                'value' => '500'
+            ],
+
+            'entry-mode' => 'ecommerce',
+            'locale' => 'de',
+        ];
+        $this->assertEquals($expectedResult, $result);
+    }
+
 
     protected function tearDown()
     {
