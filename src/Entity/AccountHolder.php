@@ -309,34 +309,13 @@ class AccountHolder implements MappableEntity
      */
     public function getAllSetData()
     {
-        $data = [];
-        foreach (get_object_vars($this) as $key => $value) {
-            $data = $this->getDataAsArray($key, $value, $data);
-        }
+        $data = $this->mappedProperties();
+        $address = $data['address'];
+        unset(
+            $data['address']
+        );
 
-        return $data;
-    }
-
-    /**
-     * Build array from set data
-     * @param $key
-     * @param $value
-     * @param $data
-     * @return array
-     * @since 3.2.0
-     */
-    private function getDataAsArray($key, $value, $data)
-    {
-        if (is_string($value)) {
-            $data[$key] = $value;
-        } elseif ($value instanceof Address) {
-            /** @var Address $value **/
-            $data = array_merge($data, $value->getAllSetData());
-        } elseif ($value instanceof \DateTime) {
-            $data[$key] = date_format($value, 'd/m/Y H:i:s');
-        }
-
-        return $data;
+        return array_merge($data, $address);
     }
 
     /**
