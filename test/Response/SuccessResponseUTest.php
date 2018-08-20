@@ -68,6 +68,34 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
                         <statuses>
                             <status code="1" description="a" severity="0" />
                         </statuses>
+                        <account-holder>
+                            <first-name>Hr</first-name>
+                            <last-name>E G H Küppers en/of MW M.J. Küpp</last-name>
+                            <email>email@email.com</email>
+                            <phone>123123123</phone>
+                            <address>
+                                <street1>address 12</street1>
+                                <city>City</city>
+                                <country>AT</country>
+                                <postal-code>4962</postal-code>
+                            </address>
+                        </account-holder>
+                        <shipping>
+                            <first-name>Max</first-name>
+                            <last-name>Musterman</last-name>
+                            <phone>123123123</phone>
+                            <address>
+                                <street1>address 12</street1>
+                                <city>City</city>
+                                <country>AT</country>
+                                <postal-code>4962</postal-code>
+                            </address>
+                            <email>email@email.com</email>
+                        </shipping>
+                        <custom-fields>
+                            <custom-field field-name="orderId" field-value="451"/>
+                            <custom-field field-name="shopName" field-value="shop"/>
+                        </custom-fields>
                         <card-token>
                             <token-id>4748178566351002</token-id>
                             <masked-account-number>541333******1006</masked-account-number>
