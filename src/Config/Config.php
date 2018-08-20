@@ -33,6 +33,8 @@ namespace Wirecard\PaymentSdk\Config;
 
 use Monolog\Logger;
 use Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException;
+use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
+use Wirecard\PaymentSdk\Transaction\MaestroTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
 
@@ -268,7 +270,8 @@ class Config
 
         $fallbacks = [
             RatepayInvoiceTransaction::PAYMENT_NAME => RatepayInvoiceTransaction::NAME,
-            RatepayInstallmentTransaction::PAYMENT_NAME => RatepayInstallmentTransaction::NAME
+            RatepayInstallmentTransaction::PAYMENT_NAME => RatepayInstallmentTransaction::NAME,
+            CreditCardTransaction::NAME => MaestroTransaction::NAME,
         ];
 
         if (array_key_exists($paymentMethodName, $fallbacks)) {

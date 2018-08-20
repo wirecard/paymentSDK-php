@@ -32,7 +32,9 @@
 namespace Wirecard\PaymentSdk;
 
 use Wirecard\PaymentSdk\Response\FailureResponse;
+use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\IdealTransaction;
+use Wirecard\PaymentSdk\Transaction\MaestroTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\SepaTransaction;
 use Wirecard\PaymentSdk\Transaction\SofortTransaction;
@@ -69,7 +71,7 @@ class BackendService extends TransactionService
     {
         $parentTransaction = $this->getTransactionByTransactionId(
             $transaction->getParentTransactionId(),
-            $transaction::NAME
+            $transaction::NAME != MaestroTransaction::NAME ? $transaction::NAME : CreditCardTransaction::NAME
         );
         if (!is_null($parentTransaction) && (
             !$limit ||
