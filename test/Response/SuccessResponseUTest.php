@@ -304,4 +304,11 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNotNull($response->getShipping()->getAsHtml());
     }
+
+    public function testCustomFieldsHtml()
+    {
+        $response = new SuccessResponse($this->simpleXml);
+
+        $this->assertNotNull($response->getCustomFields()->getAsHtml());
+    }
 }
