@@ -258,4 +258,18 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
             $response->getBasket()->mappedProperties()['order-item'][0]
         );
     }
+
+    public function testGetPaymentDetails()
+    {
+        $response = new SuccessResponse($this->simpleXml);
+
+        $this->assertNotNull($response->getPaymentDetails()->getAsHtml());
+    }
+
+    public function testGetTransactionDetails()
+    {
+        $response = new SuccessResponse($this->simpleXml);
+
+        $this->assertNotNull($response->getTransactionDetails()->getAsHtml());
+    }
 }
