@@ -275,7 +275,7 @@ class AccountHolder implements MappableEntity
      * Get html table with the set data
      * @param array $options
      * @return string
-     * @from 3.2.0
+     * @since 3.2.0
      */
     public function getAsHtml($options = [])
     {
@@ -305,7 +305,7 @@ class AccountHolder implements MappableEntity
     /**
      * Get all set data
      * @return array
-     * @from 3.2.0
+     * @since 3.2.0
      */
     public function getAllSetData()
     {
@@ -323,7 +323,7 @@ class AccountHolder implements MappableEntity
      * @param $value
      * @param $data
      * @return array
-     * @from 3.2.0
+     * @since 3.2.0
      */
     private function getDataAsArray($key, $value, $data) {
         if (is_string($value)) {
@@ -343,7 +343,7 @@ class AccountHolder implements MappableEntity
      * @param $key
      * @param $translations
      * @return mixed
-     * @from 3.2.0
+     * @since 3.2.0
      */
     private function translate($key, $translations)
     {

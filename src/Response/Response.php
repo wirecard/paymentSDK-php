@@ -40,8 +40,10 @@ use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Entity\CustomField;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Entity\Item;
+use Wirecard\PaymentSdk\Entity\PaymentDetails;
 use Wirecard\PaymentSdk\Entity\Status;
 use Wirecard\PaymentSdk\Entity\StatusCollection;
+use Wirecard\PaymentSdk\Entity\TransactionDetails;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
@@ -582,5 +584,15 @@ abstract class Response
         } catch (\Exception $ignored) {
             throw new MalformedResponseException('Authorization-code not found in response.');
         }
+    }
+
+    public function getPaymentDetails()
+    {
+        return new PaymentDetails($this->simpleXml);
+    }
+
+    public function getTransactionDetails()
+    {
+        return new TransactionDetails($this->simpleXml);
     }
 }

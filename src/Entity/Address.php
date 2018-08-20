@@ -202,7 +202,7 @@ class Address implements MappableEntity
     /**
      * Return all set data
      * @return array
-     * @from 3.2.0
+     * @since 3.2.0
      */
     public function getAllSetData()
     {
