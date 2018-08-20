@@ -116,7 +116,8 @@ class PaymentDetails
         $html .= "<td colspan='99' align='center'><b>{$translations['title']}</b></td></tr>";
         foreach ($this->getAllSetData() as $key => $value) {
             if ($key == 'paymentMethod' && $defaults['paymentMethod']) {
-                $html .= "<tr><td>" . $this->translate($key, $translations) . '</td><td><img src="' . $defaults['paymentMethod'] . $value . '.png" /></td></tr>';
+                $html .= "<tr><td>" . $this->translate($key, $translations) . '</td><td><img src="' .
+                    $defaults['paymentMethod'] . $value . '.png" /></td></tr>';
             } else {
                 $html .= "<tr><td>" . $this->translate($key, $translations) . "</td><td>" . $value . "</td></tr>";
             }
@@ -158,5 +159,4 @@ class PaymentDetails
 
         return $key;
     }
-
 }

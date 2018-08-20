@@ -325,7 +325,8 @@ class AccountHolder implements MappableEntity
      * @return array
      * @since 3.2.0
      */
-    private function getDataAsArray($key, $value, $data) {
+    private function getDataAsArray($key, $value, $data)
+    {
         if (is_string($value)) {
             $data[$key] = $value;
         } elseif ($value instanceof Address) {

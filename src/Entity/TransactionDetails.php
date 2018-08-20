@@ -177,5 +177,4 @@ class TransactionDetails
 
         return $key;
     }
-
 }
