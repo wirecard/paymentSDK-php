@@ -226,7 +226,16 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
             "card-token.0.masked-account-number" => "541333******1006",
             "three-d.0.cardholder-authentication-status" => "Y",
             "payment-methods.0.payment-method" => '',
-            "statuses.0.status" => ''
+            "statuses.0.status" => '',
+            'completion-time-stamp' => '1234',
+            'consumer-id' => '1',
+            'ip-address' => '127.0.0.1',
+            'order-number' => '123',
+            'merchant-account-id' => 'maid123123123',
+            'transaction-state' => 'success',
+            'currency' => 'EUR',
+            'requested-amount' => '17.86',
+            'descriptor' => 'descriptor'
         ];
 
         $this->assertEquals($expected, $this->response->getData());
@@ -280,5 +289,19 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
         $response = new SuccessResponse($this->simpleXml);
 
         $this->assertNotNull($response->getTransactionDetails()->getAsHtml());
+    }
+
+    public function testAccountHolderHtml()
+    {
+        $response = new SuccessResponse($this->simpleXml);
+
+        $this->assertNotNull($response->getAccountHolder()->getAsHtml());
+    }
+
+    public function testShippingHtml()
+    {
+        $response = new SuccessResponse($this->simpleXml);
+
+        $this->assertNotNull($response->getShipping()->getAsHtml());
     }
 }
