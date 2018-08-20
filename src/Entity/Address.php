@@ -198,4 +198,21 @@ class Address implements MappableEntity
 
         return $result;
     }
+
+    /**
+     * Return all set data
+     * @return array
+     * @from 3.2.0
+     */
+    public function getAllSetData()
+    {
+        $data = [];
+        foreach (get_object_vars($this) as $key => $value) {
+            if ($value) {
+                $data[$key] = $value;
+            }
+        }
+
+        return $data;
+    }
 }

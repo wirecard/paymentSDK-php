@@ -270,4 +270,88 @@ class AccountHolder implements MappableEntity
 
         return $result;
     }
+
+    /**
+     * Get html table with the set data
+     * @param array $options
+     * @return string
+     * @from 3.2.0
+     */
+    public function getAsHtml($options = [])
+    {
+        $defaults = [
+            'table_id' => null,
+            'table_class' => null,
+            'translations' => [
+                'title' => 'Account Holder'
+
+            ]
+        ];
+        $this->getAllSetData();
+
+        $options = array_merge($defaults, $options);
+        $translations = $options['translations'];
+
+        $html = "<table id='{$options['table_id']}' class='{$options['table_class']}'>";
+        $html .= "<tr id='{$options['table_id']}_firstrow'>";
+        $html .= "<td colspan='99' align='center'><b>{$translations['title']}</b></td></tr>";
+        foreach ($this->getAllSetData() as $key => $value) {
+            $html .= "<tr><td>" . $this->translate($key, $translations) . "</td><td>" . $value . "</td></tr>";
+        }
+
+        $html .= "</table>";
+        return $html;
+    }
+
+    /**
+     * Get all set data
+     * @return array
+     * @from 3.2.0
+     */
+    public function getAllSetData()
+    {
+        $data = [];
+        foreach (get_object_vars($this) as $key => $value) {
+            $data = $this->getDataAsArray($key, $value, $data);
+        }
+
+        return $data;
+    }
+
+    /**
+     * Build array from set data
+     * @param $key
+     * @param $value
+     * @param $data
+     * @return array
+     * @from 3.2.0
+     */
+    private function getDataAsArray($key, $value, $data) {
+        if (is_string($value)) {
+            $data[$key] = $value;
+        } elseif ($value instanceof Address) {
+            /** @var Address $value **/
+            $data = array_merge($data, $value->getAllSetData());
+        } elseif ($value instanceof \DateTime) {
+            $data[$key] = date_format($value, 'd/m/Y H:i:s');
+        }
+
+        return $data;
+    }
+
+    /**
+     * Translate the table keys
+     * @param $key
+     * @param $translations
+     * @return mixed
+     * @from 3.2.0
+     */
+    private function translate($key, $translations)
+    {
+        if ($translations != null && isset($translations[$key])) {
+            return $translations[$key];
+        }
+
+        return $key;
+    }
 }
