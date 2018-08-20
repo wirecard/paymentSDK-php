@@ -263,7 +263,26 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
             'transaction-state' => 'success',
             'currency' => 'EUR',
             'requested-amount' => '17.86',
-            'descriptor' => 'descriptor'
+            'descriptor' => 'descriptor',
+            'account-holder.0.first-name' => 'Hr',
+            'account-holder.0.last-name' => 'E G H Küppers en/of MW M.J. Küpp',
+            'account-holder.0.email' => 'email@email.com',
+            'account-holder.0.phone' => '123123123',
+            'account-holder.0.address.0.street1' => 'address 12',
+            'account-holder.0.address.0.city' => 'City',
+            'account-holder.0.address.0.country' => 'AT',
+            'account-holder.0.address.0.postal-code' => '4962',
+            'shipping.0.first-name' => 'Max',
+            'shipping.0.last-name' => 'Musterman',
+            'shipping.0.phone' => '123123123',
+            'shipping.0.address.0.street1' => 'address 12',
+            'shipping.0.address.0.city' => 'City',
+            'shipping.0.address.0.country' => 'AT',
+            'shipping.0.address.0.postal-code' => '4962',
+            'shipping.0.email' => 'email@email.com',
+            'custom-fields.0.field-name' => 'shopName',
+            'custom-fields.0.field-value' => 'shop',
+            'custom-fields.0.custom-field' => '',
         ];
 
         $this->assertEquals($expected, $this->response->getData());
