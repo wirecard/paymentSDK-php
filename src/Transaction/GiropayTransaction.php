@@ -33,7 +33,7 @@ namespace Wirecard\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\BankAccount;
 
-class GiroPayTransaction extends Transaction implements Reservable
+class GiropayTransaction extends Transaction implements Reservable
 {
     const NAME = 'giropay';
 

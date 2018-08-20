@@ -1,7 +1,7 @@
 <?php
-// # GiroPay return after transaction
+// # giropay return after transaction
 
-// The consumer gets redirected to this page after a GiroPay transaction.
+// The consumer gets redirected to this page after a giropay transaction.
 
 // ## Required objects
 
@@ -50,24 +50,11 @@ if ($_POST) {
         echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');
         echo getTransactionLink($baseUrl, $response);
         ?>
-        <br>
+        <form action="credit-based-on-pay.php" method="post">
+            <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+            <button type="submit" class="btn btn-primary">Request a credit based on this payment</button>
+        </form>
         <?php
-        if ($response->getTransactionType() !== 'authorization-only') {
-            ?>
-            <form action="cancel.php" method="post">
-                <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-                <button type="submit" class="btn btn-primary">Cancel</button>
-            </form>
-            <?php
-        }
-        if ($transactionType === 'authorization') { ?>
-            <form action="pay-based-on-reserve.php" method="post">
-                <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-                <input type="hidden" name="transaction-type" value="<?= $transactionType ?>"/>
-                <button type="submit" class="btn btn-primary">Capture the payment</button>
-            </form>
-            <?php
-        }
 // In case of a failed transaction, a `FailureResponse` object is returned.
     } elseif ($response instanceof FailureResponse) {
         echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');

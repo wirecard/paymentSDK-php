@@ -33,15 +33,15 @@ namespace WirecardTest\PaymentSdk\Transaction;
 
 use ReflectionClass;
 use Wirecard\PaymentSdk\Entity\BankAccount;
-use Wirecard\PaymentSdk\Transaction\GiroPayTransaction;
+use Wirecard\PaymentSdk\Transaction\GiropayTransaction;
 
-class GiroPayTransactionUTest extends \PHPUnit_Framework_TestCase
+class GiropayTransactionUTest extends \PHPUnit_Framework_TestCase
 {
     private $tx;
 
     public function setUp()
     {
-        $this->tx = new GiroPayTransaction();
+        $this->tx = new GiropayTransaction();
     }
 
     /**
@@ -57,7 +57,7 @@ class GiroPayTransactionUTest extends \PHPUnit_Framework_TestCase
     {
         $orderDetail = $this->tx->setOrderDetail('order-detail');
 
-        $this->assertInstanceOf(GiroPayTransaction::class, $orderDetail);
+        $this->assertInstanceOf(GiropayTransaction::class, $orderDetail);
     }
 
     public function testsetBankData()
@@ -69,7 +69,7 @@ class GiroPayTransactionUTest extends \PHPUnit_Framework_TestCase
 
         $return = $this->tx->setBankAccount($bankAccountMock);
 
-        $this->assertInstanceOf(GiroPayTransaction::class, $return);
+        $this->assertInstanceOf(GiropayTransaction::class, $return);
     }
 
     public static function callMethod($obj, $name, $args = [])

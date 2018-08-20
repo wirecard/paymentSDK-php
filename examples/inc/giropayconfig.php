@@ -10,7 +10,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
-use Wirecard\PaymentSdk\Transaction\GiroPayTransaction;
+use Wirecard\PaymentSdk\Transaction\GiropayTransaction;
 
 // ## Connection
 
@@ -32,8 +32,8 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 // maid and secret in the default CreditCardConfig. However if you want to use ssl transactions you have two
 // ways of setting the credentials. First via setting the parameters maid and secret -
 
-// ### GiroPay
+// ### giropay
 $giropayMAID = '9b4b0e5f-1bc8-422e-be42-d0bad2eadabc';
 $giropaySecret = '0c8c6f3a-1534-4fa1-99d9-d1c644d43709';
-$giropayConfig = new PaymentMethodConfig(GiroPayTransaction::NAME, $giropayMAID, $giropaySecret);
+$giropayConfig = new PaymentMethodConfig(GiropayTransaction::NAME, $giropayMAID, $giropaySecret);
 $config->add($giropayConfig);

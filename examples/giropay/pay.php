@@ -19,7 +19,7 @@ use Wirecard\PaymentSdk\Entity\BankAccount;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
-use Wirecard\PaymentSdk\Transaction\GiroPayTransaction;
+use Wirecard\PaymentSdk\Transaction\GiropayTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 // ### Transaction related objects
@@ -37,7 +37,7 @@ $bankAccount = new BankAccount();
 $bankAccount->setBic("GENODETT488");
 
 
-// The redirect URLs determine where the consumer should be redirected by GiroPay after approval/cancellation.
+// The redirect URLs determine where the consumer should be redirected by giropay after approval/cancellation.
 $redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
 
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
@@ -45,8 +45,8 @@ $notificationUrl = getUrl('notify.php');
 
 
 // ## Transaction
-// The GiroPay transaction holds all transaction relevant data for the payment process.
-$transaction = new GiroPayTransaction();
+// The giropay transaction holds all transaction relevant data for the payment process.
+$transaction = new GiropayTransaction();
 
 $transaction->setNotificationUrl($notificationUrl);
 $transaction->setRedirect($redirectUrls);
