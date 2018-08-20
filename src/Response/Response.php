@@ -37,6 +37,7 @@ use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Address;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Basket;
+use Wirecard\PaymentSdk\Entity\Card;
 use Wirecard\PaymentSdk\Entity\CustomField;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Entity\Item;
@@ -113,6 +114,11 @@ abstract class Response
     protected $customFields;
 
     /**
+     * @var Card
+     */
+    protected $card;
+
+    /**
      * Response constructor.
      * @param SimpleXMLElement $simpleXml
      * @throws MalformedResponseException
@@ -127,6 +133,7 @@ abstract class Response
         $this->setAccountHolder();
         $this->setShipping();
         $this->setCustomFields();
+        $this->setCard();
     }
 
     /**
@@ -594,5 +601,16 @@ abstract class Response
     public function getTransactionDetails()
     {
         return new TransactionDetails($this->simpleXml);
+    }
+
+    public function getCard()
+    {
+        return $this->card;
+    }
+
+    public function setCard()
+    {
+        $this->card = new Card();
+        $this->card->parseFromXml($this->simpleXml);
     }
 }

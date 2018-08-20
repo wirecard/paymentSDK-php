@@ -358,4 +358,11 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNotNull($response->getCustomFields()->getAsHtml());
     }
+
+    public function testGetCardHtml()
+    {
+        $response = new SuccessResponse($this->simpleXml);
+
+        $this->assertNotNull($response->getCard()->getAsHtml());
+    }
 }
