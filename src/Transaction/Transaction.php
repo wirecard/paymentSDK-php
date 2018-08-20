@@ -73,6 +73,7 @@ abstract class Transaction extends Risk
     const TYPE_VOID_DEBIT= 'void-debit';
     const TYPE_DEPOSIT = 'deposit';
 
+
     /**
      * @var Amount
      */
