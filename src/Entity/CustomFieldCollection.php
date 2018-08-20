@@ -131,4 +131,65 @@ class CustomFieldCollection implements \IteratorAggregate, MappableEntity
 
         return $data;
     }
+
+    /**
+     * Get html table with the set data
+     * @param array $options
+     * @return string
+     * @from 3.2.0
+     */
+    public function getAsHtml($options = [])
+    {
+        $defaults = [
+            'table_id' => null,
+            'table_class' => null,
+            'translations' => [
+                'title' => 'Custom Fields'
+            ]
+        ];
+
+        $options = array_merge($defaults, $options);
+        $translations = $options['translations'];
+
+        $html = "<table id='{$options['table_id']}' class='{$options['table_class']}'>";
+        $html .= "<tr id='{$options['table_id']}_firstrow'>";
+        $html .= "<td colspan='99' align='center'><b>{$translations['title']}</b></td></tr>";
+        foreach ($this->getAllSetData() as $key => $value) {
+            $html .= "<tr><td>" . $this->translate($key, $translations) . "</td><td>" . $value . "</td></tr>";
+        }
+
+        $html .= "</table>";
+        return $html;
+    }
+
+    /**
+     * Return all set data
+     * @return array
+     * @from 3.2.0
+     */
+    public function getAllSetData()
+    {
+        $data = [];
+        foreach ($this->customFields as $customField) {
+            $data[$customField->getName()] = $customField->getValue();
+        }
+
+        return $data;
+    }
+
+    /**
+     * Translate the table keys
+     * @param $key
+     * @param $translations
+     * @return mixed
+     * @from 3.2.0
+     */
+    private function translate($key, $translations)
+    {
+        if ($translations != null && isset($translations[$key])) {
+            return $translations[$key];
+        }
+
+        return $key;
+    }
 }

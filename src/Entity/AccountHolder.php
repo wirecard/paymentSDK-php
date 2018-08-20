@@ -287,7 +287,6 @@ class AccountHolder implements MappableEntity
 
             ]
         ];
-        $this->getAllSetData();
 
         $options = array_merge($defaults, $options);
         $translations = $options['translations'];
