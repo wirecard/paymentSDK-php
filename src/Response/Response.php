@@ -40,16 +40,11 @@ use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Entity\Card;
 use Wirecard\PaymentSdk\Entity\CustomField;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
-use Wirecard\PaymentSdk\Entity\Item;
 use Wirecard\PaymentSdk\Entity\PaymentDetails;
 use Wirecard\PaymentSdk\Entity\Status;
 use Wirecard\PaymentSdk\Entity\StatusCollection;
 use Wirecard\PaymentSdk\Entity\TransactionDetails;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
-use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
-use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
-use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
-use Wirecard\PaymentSdk\Transaction\RatepayTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 /**
@@ -350,52 +345,9 @@ abstract class Response
      */
     private function setBasket()
     {
-        if (!isset($this->simpleXml->{'order-items'})) {
-            return;
-        }
-
-        if ($this->simpleXml->{'order-items'}->children()->count() < 1) {
-            return;
-        }
-
-        $basketVersion = '';
-        switch ((string)$this->simpleXml->{'payment-methods'}->{'payment-method'}['name']) {
-            case PayPalTransaction::NAME:
-                $basketVersion = PayPalTransaction::class;
-                break;
-            case RatepayInvoiceTransaction::NAME:
-            case RatepayInstallmentTransaction::NAME:
-                $basketVersion = RatepayTransaction::class;
-                break;
-        }
-
         $basket = new Basket();
 
-        foreach ($this->simpleXml->{'order-items'}->children() as $orderItem) {
-            $amountAttrs = $orderItem->amount->attributes();
-            $amount = new Amount(
-                (float)$orderItem->amount,
-                (string)$amountAttrs->currency
-            );
-
-            $basketItem = new Item((string)$orderItem->name, $amount, (int)$orderItem->quantity);
-
-            if (isset($orderItem->{'tax-amount'})) {
-                $taxAmountAttrs = $orderItem->{'tax-amount'}->attributes();
-                $taxAmount = new Amount(
-                    (float)$orderItem->{'tax-amount'},
-                    (string)$taxAmountAttrs->currency
-                );
-                $basketItem->setTaxAmount($taxAmount);
-            }
-            $basketItem->setVersion($basketVersion)
-                ->setDescription((string)$orderItem->description)
-                ->setArticleNumber((string)$orderItem->{'article-number'});
-
-            $basket->add($basketItem);
-        }
-
-        $this->basket = $basket;
+        $this->basket = $basket->parseFromXml($this->simpleXml);
     }
 
     /**
