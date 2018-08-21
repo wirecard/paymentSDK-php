@@ -150,7 +150,7 @@ class TransactionDetails
      * @return array
      * @since 3.2.0
      */
-    public function getAllSetData()
+    private function getAllSetData()
     {
         $data = [];
         foreach (get_object_vars($this) as $key => $value) {

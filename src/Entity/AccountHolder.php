@@ -307,7 +307,7 @@ class AccountHolder implements MappableEntity
      * @return array
      * @since 3.2.0
      */
-    public function getAllSetData()
+    private function getAllSetData()
     {
         $data = $this->mappedProperties();
         $address = $data['address'];

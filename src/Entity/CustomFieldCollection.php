@@ -167,7 +167,7 @@ class CustomFieldCollection implements \IteratorAggregate, MappableEntity
      * @return array
      * @from 3.2.0
      */
-    public function getAllSetData()
+    Private function getAllSetData()
     {
         $data = [];
         foreach ($this->customFields as $customField) {
