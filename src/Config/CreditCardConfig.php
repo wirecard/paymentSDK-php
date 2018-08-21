@@ -87,7 +87,7 @@ class CreditCardConfig extends PaymentMethodConfig
     /**
      * @param Amount $nonThreeDMaxLimit
      * @return CreditCardConfig
-	 * @since 3.2.0
+     * @since 3.2.0
      */
     public function addNonThreeDMaxLimit(Amount $nonThreeDMaxLimit)
     {
@@ -132,7 +132,7 @@ class CreditCardConfig extends PaymentMethodConfig
      * @param $merchantAccountId
      * @param $secret
      * @return CreditCardConfig
-	 * @since 3.2.0
+     * @since 3.2.0
      */
     public function setNonThreeDCredentials($merchantAccountId, $secret)
     {
@@ -151,7 +151,7 @@ class CreditCardConfig extends PaymentMethodConfig
     /**
      * @param $currency
      * @return float|null
-	 * @since 3.2.0
+     * @since 3.2.0
      */
     public function getNonThreeDMaxLimit($currency)
     {
