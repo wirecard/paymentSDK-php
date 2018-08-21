@@ -146,10 +146,8 @@ class Card implements MappableEntity
         $translations = $options['translations'];
 
         $html = "<table id='{$options['table_id']}' class='{$options['table_class']}'>";
-        $html .= "<tr id='{$options['table_id']}_firstrow'>";
-        $html .= "<td colspan='99' align='center'><b>{$translations['title']}</b></td></tr>";
-        $html .= "<tr><td>" . $translations['maskedPan'] . "</td><td>" . $this->maskedPan . "</td></tr>";
-        $html .= "<tr><td>" . $translations['token'] . "</td><td>" . $this->token . "</td></tr>";
+        $html .= "<tbody><tr><td>" . $translations['maskedPan'] . "</td><td>" . $this->maskedPan . "</td></tr>";
+        $html .= "<tr><td>" . $translations['token'] . "</td><td>" . $this->token . "</td></tr></tbody>";
         $html .= "</table>";
 
         return $html;

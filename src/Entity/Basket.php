@@ -230,9 +230,7 @@ class Basket implements \IteratorAggregate, MappableEntity
         $options = array_merge($defaults, $options);
         $translation = $options['translation'];
 
-        $html = "<table id='{$options['table_id']}' class='{$options['table_class']}'>";
-        $html .= "<tr id='{$options['table_id']}_firstrow'>";
-        $html .= "<td colspan='99' align='center'><b>{$translation['basket']}</b></td></tr>";
+        $html = "<table id='{$options['table_id']}' class='{$options['table_class']}'><tbody>";
 
         /** @var Item $item */
         $itemNumber = 1;
@@ -257,7 +255,7 @@ class Basket implements \IteratorAggregate, MappableEntity
             $html .= "</tr>";
         }
 
-        $html .= "</table>";
+        $html .= "</tbody></table>";
         return $html;
     }
 

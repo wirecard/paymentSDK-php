@@ -111,9 +111,7 @@ class PaymentDetails
         $options = array_merge($defaults, $options);
         $translations = $options['translations'];
 
-        $html = "<table id='{$options['table_id']}' class='{$options['table_class']}'>";
-        $html .= "<tr id='{$options['table_id']}_firstrow'>";
-        $html .= "<td colspan='99' align='center'><b>{$translations['title']}</b></td></tr>";
+        $html = "<table id='{$options['table_id']}' class='{$options['table_class']}'><tbody>";
         foreach ($this->getAllSetData() as $key => $value) {
             if ($key == 'paymentMethod' && $defaults['paymentMethod']) {
                 $html .= "<tr><td>" . $this->translate($key, $translations) . '</td><td><img src="' .
@@ -123,7 +121,7 @@ class PaymentDetails
             }
         }
 
-        $html .= "</table>";
+        $html .= "</tbody></table>";
         return $html;
     }
 

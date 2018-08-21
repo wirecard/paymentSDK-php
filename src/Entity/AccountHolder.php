@@ -299,14 +299,12 @@ class AccountHolder implements MappableEntity
         $options = array_merge($defaults, $options);
         $translations = $options['translations'];
 
-        $html = "<table id='{$options['table_id']}' class='{$options['table_class']}'>";
-        $html .= "<tr id='{$options['table_id']}_firstrow'>";
-        $html .= "<td colspan='99' align='center'><b>{$translations['title']}</b></td></tr>";
+        $html = "<table id='{$options['table_id']}' class='{$options['table_class']}'><tbody>";
         foreach ($this->getAllSetData() as $key => $value) {
             $html .= "<tr><td>" . $this->translate($key, $translations) . "</td><td>" . $value . "</td></tr>";
         }
 
-        $html .= "</table>";
+        $html .= "</tbody></table>";
         return $html;
     }
 
