@@ -113,9 +113,9 @@ class PaymentDetails
 
         $html = "<table id='{$options['table_id']}' class='{$options['table_class']}'><tbody>";
         foreach ($this->getAllSetData() as $key => $value) {
-            if ($key == 'paymentMethod' && $defaults['paymentMethod']) {
+            if ($key == 'paymentMethod' && $options['paymentMethod'] !== null) {
                 $html .= "<tr><td>" . $this->translate($key, $translations) . '</td><td><img src="' .
-                    $defaults['paymentMethod'] . $value . '.png" /></td></tr>';
+                    $options['paymentMethod'] . $value . '.png" /></td></tr>';
             } else {
                 $html .= "<tr><td>" . $this->translate($key, $translations) . "</td><td>" . $value . "</td></tr>";
             }

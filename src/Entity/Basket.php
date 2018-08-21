@@ -221,14 +221,14 @@ class Basket implements \IteratorAggregate, MappableEntity
         $defaults = [
             'table_id' => null,
             'table_class' => null,
-            'translation' => [
+            'translations' => [
                 'basket' => 'Basket',
                 'item' => 'Item'
             ]
         ];
 
         $options = array_merge($defaults, $options);
-        $translation = $options['translation'];
+        $translation = $options['translations'];
 
         $html = "<table id='{$options['table_id']}' class='{$options['table_class']}'><tbody>";
 
@@ -238,7 +238,7 @@ class Basket implements \IteratorAggregate, MappableEntity
             $itemProperties = $item->mappedProperties();
             $html .= "<tr id='{$options['table_id']}_otherrows'>";
             $html .= "<td valign='top' rowspan='" . count($itemProperties) . "'>";
-            $html .= "{$translation['item']} #$itemNumber</td>";
+            $html .= "{$this->translate('item', $translation)} #$itemNumber</td>";
             $attrIter = 0;
             foreach ($itemProperties as $key => $value) {
                 // this is for the amount object
@@ -248,7 +248,7 @@ class Basket implements \IteratorAggregate, MappableEntity
                 if ($attrIter++ != 0) {
                     $html .= "</tr><tr>";
                 }
-                $html .= "<td>$key</td><td>$value</td>";
+                $html .= "<td>" . $this->translate($key, $translation) . "</td><td>$value</td>";
             }
 
             $itemNumber++;
@@ -278,5 +278,21 @@ class Basket implements \IteratorAggregate, MappableEntity
         }
 
         return new Amount($amount, $currency);
+    }
+
+    /**
+     * Translate the table keys
+     * @param $key
+     * @param $translations
+     * @return mixed
+     * @since 3.2.0
+     */
+    private function translate($key, $translations)
+    {
+        if ($translations != null && isset($translations[$key])) {
+            return $translations[$key];
+        }
+
+        return $key;
     }
 }
