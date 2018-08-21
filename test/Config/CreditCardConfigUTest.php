@@ -82,16 +82,16 @@ class CreditCardConfigUTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-	public function testAddNonThreeDMaxLimit()
-	{
-		$this->config->addNonThreeDMaxLimit($this->amount);
+    public function testAddNonThreeDMaxLimit()
+    {
+        $this->config->addNonThreeDMaxLimit($this->amount);
 
-		$this->assertAttributeEquals(
-			[$this->amount->getCurrency() => $this->amount->getValue()],
-			'sslMaxLimits',
-			$this->config
-		);
-	}
+        $this->assertAttributeEquals(
+            [$this->amount->getCurrency() => $this->amount->getValue()],
+            'sslMaxLimits',
+            $this->config
+        );
+    }
 
     public function testGetSslMaxLimits()
     {
@@ -102,14 +102,14 @@ class CreditCardConfigUTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-	public function testGetNonThreeDMaxLimits()
-	{
-		$this->config->addNonThreeDMaxLimit($this->amount);
-		$this->assertEquals(
-			$this->amount->getValue(),
-			$this->config->getNonThreeDMaxLimit($this->amount->getCurrency())
-		);
-	}
+    public function testGetNonThreeDMaxLimits()
+    {
+        $this->config->addNonThreeDMaxLimit($this->amount);
+        $this->assertEquals(
+            $this->amount->getValue(),
+            $this->config->getNonThreeDMaxLimit($this->amount->getCurrency())
+        );
+    }
 
     public function testAddThreeDMinLimit()
     {
@@ -165,9 +165,9 @@ class CreditCardConfigUTest extends \PHPUnit_Framework_TestCase
     }
 
     public function testSetNonThreeDCredentials()
-	{
-		$this->config->setNonThreeDCredentials('maid', 'secret');
+    {
+        $this->config->setNonThreeDCredentials('maid', 'secret');
 
-		$this->assertEquals(['maid', 'secret'], [$this->config->getMerchantAccountId(), $this->config->getSecret()]);
-	}
+        $this->assertEquals(['maid', 'secret'], [$this->config->getMerchantAccountId(), $this->config->getSecret()]);
+    }
 }
