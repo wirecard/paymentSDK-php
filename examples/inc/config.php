@@ -42,30 +42,30 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 
 // Each payment method can be configured with an individual merchant account ID and the corresponding key.
 // The configuration object for Credit Card is a little different than other payment methods and can be
-// instantiated without any parameters. If you wish to omit ssl transactions you can just leave out the
-// maid and secret in the default CreditCardConfig. However if you want to use ssl transactions you have two
+// instantiated without any parameters. If you wish to omit non-3-D transactions you can just leave out the
+// maid and secret in the default CreditCardConfig. However if you want to use non-3-D transactions you have two
 // ways of setting the credentials. First via setting the parameters maid and secret -
 
-// ### Credit Card SSL
+// ### Credit Card Non-3-D
 
 $creditcardConfig = new CreditCardConfig();
 
 // - second via using this specific setter.
-$creditcardConfig->setSSLCredentials(
+$creditcardConfig->setNonThreeDCredentials(
     '53f2895a-e4de-4e82-a813-0d87a10e55e6',
     'dbc5a498-9a66-43b9-bf1d-a618dd399684'
 );
 
-// Define the limit to allow the maximum amount for a ssl transaction, all amounts above this value will be done as
+// Define the limit to allow the maximum amount for a non-3-D transaction, all amounts above this value will be done as
 // 3d secure transaction
-$creditcardConfig->addSslMaxLimit(new Amount(100.0, 'EUR'));
+$creditcardConfig->addNonThreeDMaxLimit(new Amount(100.0, 'EUR'));
 
-// Define the limit to allow the minimum amount for a 3d transaction, all amounts below or equal the limit will be done
-// as ssl transaction
+// Define the limit to allow the minimum amount for a 3-D transaction, all amounts below or equal the limit will be done
+// as non-3-D transaction
 $creditcardConfig->addThreeDMinLimit(new Amount(50.0, 'EUR'));
 
-// Amounts larger than threeDMinLimit and smaller or equal sslMaxLimit will first be tried as 3d secure transaction and
-// will fallback on error as ssl transaction
+// Amounts larger than threeDMinLimit and smaller or equal nonThreeDLimit will first be tried as 3-D-Secure transaction and
+// will fallback on error as non-3D transaction
 
 // ### Credit Card 3-D
 
