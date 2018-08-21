@@ -34,7 +34,6 @@ namespace Wirecard\PaymentSdk\Response;
 use chillerlan\QRCode\QRCode;
 use SimpleXMLElement;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
-use Wirecard\PaymentSdk\Entity\Address;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Entity\Card;
