@@ -316,12 +316,16 @@ class AccountHolder implements MappableEntity
     private function getAllSetData()
     {
         $data = $this->mappedProperties();
-        $address = $data['address'];
-        unset(
-            $data['address']
-        );
+        if (isset($data['address'])) {
+	        $address = $data['address'];
+	        unset(
+		        $data['address']
+	        );
 
-        return array_merge($data, $address);
+	        return array_merge($data, $address);
+        }
+
+	    return $data;
     }
 
     /**
