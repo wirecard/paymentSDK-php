@@ -34,19 +34,16 @@ namespace Wirecard\PaymentSdk\Response;
 use chillerlan\QRCode\QRCode;
 use SimpleXMLElement;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
-use Wirecard\PaymentSdk\Entity\Address;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Basket;
+use Wirecard\PaymentSdk\Entity\Card;
 use Wirecard\PaymentSdk\Entity\CustomField;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
-use Wirecard\PaymentSdk\Entity\Item;
+use Wirecard\PaymentSdk\Entity\PaymentDetails;
 use Wirecard\PaymentSdk\Entity\Status;
 use Wirecard\PaymentSdk\Entity\StatusCollection;
+use Wirecard\PaymentSdk\Entity\TransactionDetails;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
-use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
-use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
-use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
-use Wirecard\PaymentSdk\Transaction\RatepayTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 /**
@@ -111,6 +108,11 @@ abstract class Response
     protected $customFields;
 
     /**
+     * @var Card
+     */
+    protected $card;
+
+    /**
      * Response constructor.
      * @param SimpleXMLElement $simpleXml
      * @throws MalformedResponseException
@@ -125,6 +127,7 @@ abstract class Response
         $this->setAccountHolder();
         $this->setShipping();
         $this->setCustomFields();
+        $this->setCard();
     }
 
     /**
@@ -341,52 +344,9 @@ abstract class Response
      */
     private function setBasket()
     {
-        if (!isset($this->simpleXml->{'order-items'})) {
-            return;
-        }
-
-        if ($this->simpleXml->{'order-items'}->children()->count() < 1) {
-            return;
-        }
-
-        $basketVersion = '';
-        switch ((string)$this->simpleXml->{'payment-methods'}->{'payment-method'}['name']) {
-            case PayPalTransaction::NAME:
-                $basketVersion = PayPalTransaction::class;
-                break;
-            case RatepayInvoiceTransaction::NAME:
-            case RatepayInstallmentTransaction::NAME:
-                $basketVersion = RatepayTransaction::class;
-                break;
-        }
-
         $basket = new Basket();
 
-        foreach ($this->simpleXml->{'order-items'}->children() as $orderItem) {
-            $amountAttrs = $orderItem->amount->attributes();
-            $amount = new Amount(
-                (float)$orderItem->amount,
-                (string)$amountAttrs->currency
-            );
-
-            $basketItem = new Item((string)$orderItem->name, $amount, (int)$orderItem->quantity);
-
-            if (isset($orderItem->{'tax-amount'})) {
-                $taxAmountAttrs = $orderItem->{'tax-amount'}->attributes();
-                $taxAmount = new Amount(
-                    (float)$orderItem->{'tax-amount'},
-                    (string)$taxAmountAttrs->currency
-                );
-                $basketItem->setTaxAmount($taxAmount);
-            }
-            $basketItem->setVersion($basketVersion)
-                ->setDescription((string)$orderItem->description)
-                ->setArticleNumber((string)$orderItem->{'article-number'});
-
-            $basket->add($basketItem);
-        }
-
-        $this->basket = $basket;
+        $this->basket = $basket->parseFromXml($this->simpleXml);
     }
 
     /**
@@ -416,63 +376,7 @@ abstract class Response
             return;
         }
 
-        $this->accountHolder = $this->parseAccountHolder($accountHolderXml);
-    }
-
-    /**
-     * parse account holder informations from response
-     *
-     * @return AccountHolder
-     * @since 3.0.0
-     */
-    private function parseAccountHolder($simpleXmlElement)
-    {
-        $accountHolder = new AccountHolder();
-
-        $fields = [
-            'first-name' => 'setFirstName',
-            'last-name' => 'setLastName',
-            'email' => 'setEmail',
-            'phone' => 'setPhone'
-        ];
-
-        if (isset($simpleXmlElement->{'date-of-birth'})) {
-            $dob = \DateTime::createFromFormat('d-m-Y', (string)$simpleXmlElement->{'date-of-birth'});
-            if (!$dob) {
-                $dob = \DateTime::createFromFormat('Y-m-d', (string)$simpleXmlElement->{'date-of-birth'});
-            }
-            $accountHolder->setDateOfBirth($dob);
-        }
-
-        foreach ($fields as $field => $function) {
-            if (isset($simpleXmlElement->{$field})) {
-                $accountHolder->{$function}((string)$simpleXmlElement->{$field});
-            }
-        }
-
-        if (isset($simpleXmlElement->address)) {
-            $address = new Address(
-                (string)$simpleXmlElement->address->country,
-                (string)$simpleXmlElement->address->city,
-                (string)$simpleXmlElement->address->street1
-            );
-
-            if (isset($simpleXmlElement->address->{'postal-code'})) {
-                $address->setPostalCode((string)$simpleXmlElement->address->{'postal-code'});
-            }
-
-            if (isset($simpleXmlElement->address->street2)) {
-                $address->setStreet2((string)$simpleXmlElement->address->street2);
-            }
-
-            if (isset($simpleXmlElement->address->{'house-extension'})) {
-                $address->setHouseExtension((string)$simpleXmlElement->address->{'house-extension'});
-            }
-
-            $accountHolder->setAddress($address);
-        }
-
-        return $accountHolder;
+        $this->accountHolder = new AccountHolder($accountHolderXml);
     }
 
     /**
@@ -484,7 +388,7 @@ abstract class Response
         if (!isset($shipping)) {
             return;
         }
-        $this->shipping = $this->parseAccountHolder($this->simpleXml->shipping);
+        $this->shipping = new AccountHolder($shipping);
     }
 
     /**
@@ -582,5 +486,25 @@ abstract class Response
         } catch (\Exception $ignored) {
             throw new MalformedResponseException('Authorization-code not found in response.');
         }
+    }
+
+    public function getPaymentDetails()
+    {
+        return new PaymentDetails($this->simpleXml);
+    }
+
+    public function getTransactionDetails()
+    {
+        return new TransactionDetails($this->simpleXml);
+    }
+
+    public function getCard()
+    {
+        return $this->card;
+    }
+
+    public function setCard()
+    {
+        $this->card = new Card($this->simpleXml);
     }
 }

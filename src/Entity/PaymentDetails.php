@@ -24,119 +24,78 @@
  *
  * Customers are responsible for testing the SDK's functionality before starting productive
  * operation.
+ *
  * By installing the SDK into the shop system the customer agrees to these terms of use.
  * Please do not use the SDK if you do not agree to these terms of use!
  */
 
 namespace Wirecard\PaymentSdk\Entity;
 
-use Traversable;
-use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
+use SimpleXMLElement;
 
 /**
- * Class CustomFieldCollection
+ * Class PaymentDetails
  * @package Wirecard\PaymentSdk\Entity
+ *
+ * An entity representing payment details
+ * @since 3.2.0
  */
-class CustomFieldCollection implements \IteratorAggregate, MappableEntity
+class PaymentDetails
 {
     /**
-     * @var array
+     * @var string
      */
-    private $customFields = [];
+    private $paymentMethod;
 
     /**
-     * Retrieve an external iterator
-     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return Traversable An instance of an object implementing <b>Iterator</b> or
-     * <b>Traversable</b>
-     * @since 5.0.0
+     * @var string
      */
-    public function getIterator()
-    {
-        return new \ArrayIterator($this->customFields);
-    }
+    private $timeStamp;
 
     /**
-     * @param CustomField $customField
-     * @return $this
+     * @var string
      */
-    public function add(CustomField $customField)
-    {
-        $this->customFields[] = $customField;
-
-        return $this;
-    }
+    private $customerId;
 
     /**
-     * @param string $fieldName
-     * @return CustomField|null
+     * @var string
      */
-    protected function getFieldByName($fieldName)
+    private $ip;
+
+    /**
+     * @var string
+     */
+    private $orderNumber;
+
+    /**
+     * TransactionDetails constructor.
+     * @param SimpleXMLElement $simpleXml
+     * @since 3.2.0
+     */
+    public function __construct($simpleXml)
     {
-        /** @var CustomField $customField */
-        foreach ($this->getIterator() as $customField) {
-            if ($customField->getName() === $fieldName) {
-                return $customField;
-            }
+        if (isset($simpleXml->{'payment-methods'}[0]->{'payment-method'}['name'])) {
+            $this->paymentMethod = $simpleXml->{'payment-methods'}[0]->{'payment-method'}['name'];
         }
-        return null;
-    }
-
-    /**
-     * @param string $fieldName
-     * @return string|null
-     */
-    public function get($fieldName)
-    {
-        $field = $this->getFieldByName($fieldName);
-        if ($field !== null) {
-            return $field->getValue();
+        if (isset($simpleXml->{'completion-time-stamp'})) {
+            $this->timeStamp = $simpleXml->{'completion-time-stamp'};
         }
-        return null;
-    }
-
-    /**
-     * @return array
-     */
-    public function mappedProperties()
-    {
-        $data = ['custom-field' => []];
-
-        /**
-         * @var CustomField $customField
-         */
-        foreach ($this->getIterator() as $customField) {
-            $data['custom-field'][] = $customField->mappedProperties();
+        if (isset($simpleXml->{'consumer-id'})) {
+            $this->customerId = $simpleXml->{'consumer-id'};
         }
-
-        return $data;
-    }
-
-    public function mappedSeamlessProperties()
-    {
-        $data = array();
-        $count = 1;
-
-        /**
-         * @var CustomField $customField
-         */
-        foreach ($this->getIterator() as $customField) {
-            if ($count > 10) {
-                throw new UnsupportedOperationException('Maximum allowed number of additional fields is 10.');
-            }
-            $data["field_name_$count"] = CustomField::PREFIX . $customField->getName();
-            $data["field_value_$count"] = $customField->getValue();
-            $count++;
+        if (isset($simpleXml->{'ip-address'})) {
+            $this->ip = $simpleXml->{'ip-address'};
         }
-
-        return $data;
+        if (isset($simpleXml->{'order-number'})) {
+            $this->orderNumber = $simpleXml->{'order-number'};
+        }
     }
 
     /**
      * Get html table with the set data
      * @param array $options
      * @return string
-     * @from 3.2.0
+     * @since 3.2.0
      */
     public function getAsHtml($options = [])
     {
@@ -144,8 +103,9 @@ class CustomFieldCollection implements \IteratorAggregate, MappableEntity
             'table_id' => null,
             'table_class' => null,
             'translations' => [
-                'title' => 'Custom Fields'
-            ]
+                'title' => 'Transaction Details'
+            ],
+            'paymentMethod' => null
         ];
 
         $options = array_merge($defaults, $options);
@@ -153,7 +113,12 @@ class CustomFieldCollection implements \IteratorAggregate, MappableEntity
 
         $html = "<table id='{$options['table_id']}' class='{$options['table_class']}'><tbody>";
         foreach ($this->getAllSetData() as $key => $value) {
-            $html .= "<tr><td>" . $this->translate($key, $translations) . "</td><td>" . $value . "</td></tr>";
+            if ($key == 'paymentMethod' && $defaults['paymentMethod']) {
+                $html .= "<tr><td>" . $this->translate($key, $translations) . '</td><td><img src="' .
+                    $defaults['paymentMethod'] . $value . '.png" /></td></tr>';
+            } else {
+                $html .= "<tr><td>" . $this->translate($key, $translations) . "</td><td>" . $value . "</td></tr>";
+            }
         }
 
         $html .= "</tbody></table>";
@@ -163,13 +128,15 @@ class CustomFieldCollection implements \IteratorAggregate, MappableEntity
     /**
      * Return all set data
      * @return array
-     * @from 3.2.0
+     * @since 3.2.0
      */
     private function getAllSetData()
     {
         $data = [];
-        foreach ($this->customFields as $customField) {
-            $data[$customField->getName()] = $customField->getValue();
+        foreach (get_object_vars($this) as $key => $value) {
+            if ($value) {
+                $data[$key] = $value;
+            }
         }
 
         return $data;
@@ -180,7 +147,7 @@ class CustomFieldCollection implements \IteratorAggregate, MappableEntity
      * @param $key
      * @param $translations
      * @return mixed
-     * @from 3.2.0
+     * @since 3.2.0
      */
     private function translate($key, $translations)
     {

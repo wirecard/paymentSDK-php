@@ -24,119 +24,102 @@
  *
  * Customers are responsible for testing the SDK's functionality before starting productive
  * operation.
+ *
  * By installing the SDK into the shop system the customer agrees to these terms of use.
  * Please do not use the SDK if you do not agree to these terms of use!
  */
 
 namespace Wirecard\PaymentSdk\Entity;
 
-use Traversable;
-use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
+use SimpleXMLElement;
 
 /**
- * Class CustomFieldCollection
+ * Class TransactionDetails
  * @package Wirecard\PaymentSdk\Entity
+ *
+ * An entity representing transaction details
+ * @since 3.2.0
  */
-class CustomFieldCollection implements \IteratorAggregate, MappableEntity
+class TransactionDetails
 {
     /**
-     * @var array
+     * @var string
      */
-    private $customFields = [];
+    private $maid;
 
     /**
-     * Retrieve an external iterator
-     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return Traversable An instance of an object implementing <b>Iterator</b> or
-     * <b>Traversable</b>
-     * @since 5.0.0
+     * @var string
      */
-    public function getIterator()
-    {
-        return new \ArrayIterator($this->customFields);
-    }
+    private $transactionID;
 
     /**
-     * @param CustomField $customField
-     * @return $this
+     * @var string
      */
-    public function add(CustomField $customField)
-    {
-        $this->customFields[] = $customField;
-
-        return $this;
-    }
+    private $requestId;
 
     /**
-     * @param string $fieldName
-     * @return CustomField|null
+     * @var string
      */
-    protected function getFieldByName($fieldName)
+    private $transactionType;
+
+    /**
+     * @var string
+     */
+    private $transactionState;
+
+    /**
+     * @var string
+     */
+    private $currency;
+
+    /**
+     * @var string
+     */
+    private $requestedAmount;
+
+    /**
+     * @var string
+     */
+    private $descriptor;
+
+    /**
+     * TransactionDetails constructor.
+     * @param SimpleXMLElement $simpleXml
+     * @since 3.2.0
+     */
+    public function __construct($simpleXml)
     {
-        /** @var CustomField $customField */
-        foreach ($this->getIterator() as $customField) {
-            if ($customField->getName() === $fieldName) {
-                return $customField;
-            }
+        if (isset($simpleXml->{'merchant-account-id'})) {
+            $this->maid = $simpleXml->{'merchant-account-id'};
         }
-        return null;
-    }
-
-    /**
-     * @param string $fieldName
-     * @return string|null
-     */
-    public function get($fieldName)
-    {
-        $field = $this->getFieldByName($fieldName);
-        if ($field !== null) {
-            return $field->getValue();
+        if (isset($simpleXml->{'transaction-id'})) {
+            $this->transactionID = $simpleXml->{'transaction-id'};
         }
-        return null;
-    }
-
-    /**
-     * @return array
-     */
-    public function mappedProperties()
-    {
-        $data = ['custom-field' => []];
-
-        /**
-         * @var CustomField $customField
-         */
-        foreach ($this->getIterator() as $customField) {
-            $data['custom-field'][] = $customField->mappedProperties();
+        if (isset($simpleXml->{'request-id'})) {
+            $this->requestId = $simpleXml->{'request-id'};
         }
-
-        return $data;
-    }
-
-    public function mappedSeamlessProperties()
-    {
-        $data = array();
-        $count = 1;
-
-        /**
-         * @var CustomField $customField
-         */
-        foreach ($this->getIterator() as $customField) {
-            if ($count > 10) {
-                throw new UnsupportedOperationException('Maximum allowed number of additional fields is 10.');
-            }
-            $data["field_name_$count"] = CustomField::PREFIX . $customField->getName();
-            $data["field_value_$count"] = $customField->getValue();
-            $count++;
+        if (isset($simpleXml->{'transaction-type'})) {
+            $this->transactionType = $simpleXml->{'transaction-type'};
         }
-
-        return $data;
+        if (isset($simpleXml->{'transaction-state'})) {
+            $this->transactionState = $simpleXml->{'transaction-state'};
+        }
+        if (isset($simpleXml->{'currency'})) {
+            $this->currency = $simpleXml->{'currency'};
+        }
+        if (isset($simpleXml->{'requested-amount'})) {
+            $this->requestedAmount = $simpleXml->{'requested-amount'};
+        }
+        if (isset($simpleXml->{'descriptor'})) {
+            $this->descriptor = $simpleXml->{'descriptor'};
+        }
     }
 
     /**
      * Get html table with the set data
      * @param array $options
      * @return string
-     * @from 3.2.0
+     * @since 3.2.0
      */
     public function getAsHtml($options = [])
     {
@@ -144,8 +127,8 @@ class CustomFieldCollection implements \IteratorAggregate, MappableEntity
             'table_id' => null,
             'table_class' => null,
             'translations' => [
-                'title' => 'Custom Fields'
-            ]
+                'title' => 'Transaction Details'
+            ],
         ];
 
         $options = array_merge($defaults, $options);
@@ -163,13 +146,15 @@ class CustomFieldCollection implements \IteratorAggregate, MappableEntity
     /**
      * Return all set data
      * @return array
-     * @from 3.2.0
+     * @since 3.2.0
      */
     private function getAllSetData()
     {
         $data = [];
-        foreach ($this->customFields as $customField) {
-            $data[$customField->getName()] = $customField->getValue();
+        foreach (get_object_vars($this) as $key => $value) {
+            if ($value) {
+                $data[$key] = $value;
+            }
         }
 
         return $data;
@@ -180,7 +165,7 @@ class CustomFieldCollection implements \IteratorAggregate, MappableEntity
      * @param $key
      * @param $translations
      * @return mixed
-     * @from 3.2.0
+     * @since 3.2.0
      */
     private function translate($key, $translations)
     {

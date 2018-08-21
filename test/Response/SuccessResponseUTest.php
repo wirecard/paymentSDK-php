@@ -53,12 +53,49 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
                         <request-id>123</request-id>
                         <parent-transaction-id>ca-6ed-b69</parent-transaction-id>
                         <transaction-type>transaction</transaction-type>
+                        <completion-time-stamp>1234</completion-time-stamp>
+                        <consumer-id>1</consumer-id>
+                        <ip-address>127.0.0.1</ip-address>
+                        <order-number>123</order-number>
+                        <merchant-account-id>maid123123123</merchant-account-id>
+                        <transaction-state>success</transaction-state>
+                        <currency>EUR</currency>
+                        <requested-amount>17.86</requested-amount>
+                        <descriptor>descriptor</descriptor>
                         <payment-methods>
                             <payment-method name="paypal"/>
                         </payment-methods>
                         <statuses>
                             <status code="1" description="a" severity="0" />
                         </statuses>
+                        <account-holder>
+                            <first-name>Hr</first-name>
+                            <last-name>E G H Küppers en/of MW M.J. Küpp</last-name>
+                            <email>email@email.com</email>
+                            <phone>123123123</phone>
+                            <address>
+                                <street1>address 12</street1>
+                                <city>City</city>
+                                <country>AT</country>
+                                <postal-code>4962</postal-code>
+                            </address>
+                        </account-holder>
+                        <shipping>
+                            <first-name>Max</first-name>
+                            <last-name>Musterman</last-name>
+                            <phone>123123123</phone>
+                            <address>
+                                <street1>address 12</street1>
+                                <city>City</city>
+                                <country>AT</country>
+                                <postal-code>4962</postal-code>
+                            </address>
+                            <email>email@email.com</email>
+                        </shipping>
+                        <custom-fields>
+                            <custom-field field-name="orderId" field-value="451"/>
+                            <custom-field field-name="shopName" field-value="shop"/>
+                        </custom-fields>
                         <card-token>
                             <token-id>4748178566351002</token-id>
                             <masked-account-number>541333******1006</masked-account-number>
@@ -217,7 +254,35 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
             "card-token.0.masked-account-number" => "541333******1006",
             "three-d.0.cardholder-authentication-status" => "Y",
             "payment-methods.0.payment-method" => '',
-            "statuses.0.status" => ''
+            "statuses.0.status" => '',
+            'completion-time-stamp' => '1234',
+            'consumer-id' => '1',
+            'ip-address' => '127.0.0.1',
+            'order-number' => '123',
+            'merchant-account-id' => 'maid123123123',
+            'transaction-state' => 'success',
+            'currency' => 'EUR',
+            'requested-amount' => '17.86',
+            'descriptor' => 'descriptor',
+            'account-holder.0.first-name' => 'Hr',
+            'account-holder.0.last-name' => 'E G H Küppers en/of MW M.J. Küpp',
+            'account-holder.0.email' => 'email@email.com',
+            'account-holder.0.phone' => '123123123',
+            'account-holder.0.address.0.street1' => 'address 12',
+            'account-holder.0.address.0.city' => 'City',
+            'account-holder.0.address.0.country' => 'AT',
+            'account-holder.0.address.0.postal-code' => '4962',
+            'shipping.0.first-name' => 'Max',
+            'shipping.0.last-name' => 'Musterman',
+            'shipping.0.phone' => '123123123',
+            'shipping.0.address.0.street1' => 'address 12',
+            'shipping.0.address.0.city' => 'City',
+            'shipping.0.address.0.country' => 'AT',
+            'shipping.0.address.0.postal-code' => '4962',
+            'shipping.0.email' => 'email@email.com',
+            'custom-fields.0.field-name' => 'shopName',
+            'custom-fields.0.field-value' => 'shop',
+            'custom-fields.0.custom-field' => '',
         ];
 
         $this->assertEquals($expected, $this->response->getData());
@@ -257,5 +322,47 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
             ],
             $response->getBasket()->mappedProperties()['order-item'][0]
         );
+    }
+
+    public function testGetPaymentDetails()
+    {
+        $response = new SuccessResponse($this->simpleXml);
+
+        $this->assertNotNull($response->getPaymentDetails()->getAsHtml());
+    }
+
+    public function testGetTransactionDetails()
+    {
+        $response = new SuccessResponse($this->simpleXml);
+
+        $this->assertNotNull($response->getTransactionDetails()->getAsHtml());
+    }
+
+    public function testAccountHolderHtml()
+    {
+        $response = new SuccessResponse($this->simpleXml);
+
+        $this->assertNotNull($response->getAccountHolder()->getAsHtml());
+    }
+
+    public function testShippingHtml()
+    {
+        $response = new SuccessResponse($this->simpleXml);
+
+        $this->assertNotNull($response->getShipping()->getAsHtml());
+    }
+
+    public function testCustomFieldsHtml()
+    {
+        $response = new SuccessResponse($this->simpleXml);
+
+        $this->assertNotNull($response->getCustomFields()->getAsHtml());
+    }
+
+    public function testGetCardHtml()
+    {
+        $response = new SuccessResponse($this->simpleXml);
+
+        $this->assertNotNull($response->getCard()->getAsHtml());
     }
 }

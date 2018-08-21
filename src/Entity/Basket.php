@@ -33,6 +33,11 @@ namespace Wirecard\PaymentSdk\Entity;
 
 use Traversable;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
+use SimpleXMLElement;
+use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
+use Wirecard\PaymentSdk\Transaction\RatepayTransaction;
 
 /**
  * Class Basket
@@ -148,6 +153,60 @@ class Basket implements \IteratorAggregate, MappableEntity
     }
 
     /**
+     * Parse simplexml and create basket object
+     * @param SimpleXMLElement $simpleXml
+     * @return Basket
+     * @since 3.2.0
+     */
+    public function parseFromXml($simpleXml)
+    {
+        if (!isset($simpleXml->{'order-items'})) {
+            return;
+        }
+
+        if ($simpleXml->{'order-items'}->children()->count() < 1) {
+            return;
+        }
+
+        $basketVersion = '';
+        switch ((string)$simpleXml->{'payment-methods'}->{'payment-method'}['name']) {
+            case PayPalTransaction::NAME:
+                $basketVersion = PayPalTransaction::class;
+                break;
+            case RatepayInvoiceTransaction::NAME:
+            case RatepayInstallmentTransaction::NAME:
+                $basketVersion = RatepayTransaction::class;
+                break;
+        }
+
+        foreach ($simpleXml->{'order-items'}->children() as $orderItem) {
+            $amountAttrs = $orderItem->amount->attributes();
+            $amount = new Amount(
+                (float)$orderItem->amount,
+                (string)$amountAttrs->currency
+            );
+
+            $basketItem = new Item((string)$orderItem->name, $amount, (int)$orderItem->quantity);
+
+            if (isset($orderItem->{'tax-amount'})) {
+                $taxAmountAttrs = $orderItem->{'tax-amount'}->attributes();
+                $taxAmount = new Amount(
+                    (float)$orderItem->{'tax-amount'},
+                    (string)$taxAmountAttrs->currency
+                );
+                $basketItem->setTaxAmount($taxAmount);
+            }
+            $basketItem->setVersion($basketVersion)
+                ->setDescription((string)$orderItem->description)
+                ->setArticleNumber((string)$orderItem->{'article-number'});
+
+            $this->add($basketItem);
+        }
+
+        return $this;
+    }
+
+    /**
      * @param $options
      *      table_id,
      *      table_class,
@@ -171,9 +230,7 @@ class Basket implements \IteratorAggregate, MappableEntity
         $options = array_merge($defaults, $options);
         $translation = $options['translation'];
 
-        $html = "<table id='{$options['table_id']}' class='{$options['table_class']}'>";
-        $html .= "<tr id='{$options['table_id']}_firstrow'>";
-        $html .= "<td colspan='99' align='center'><b>{$translation['basket']}</b></td></tr>";
+        $html = "<table id='{$options['table_id']}' class='{$options['table_class']}'><tbody>";
 
         /** @var Item $item */
         $itemNumber = 1;
@@ -198,7 +255,7 @@ class Basket implements \IteratorAggregate, MappableEntity
             $html .= "</tr>";
         }
 
-        $html .= "</table>";
+        $html .= "</tbody></table>";
         return $html;
     }
 

@@ -91,6 +91,14 @@ class AccountHolder implements MappableEntity
      */
     private $socialSecurityNumber;
 
+
+    public function __construct($simpleXmlElement = null)
+    {
+        if ($simpleXmlElement) {
+            $this->parseAccountHolder($simpleXmlElement);
+        }
+    }
+
     /**
      * @param string $firstName
      */
@@ -269,5 +277,114 @@ class AccountHolder implements MappableEntity
         }
 
         return $result;
+    }
+
+    /**
+     * Get html table with the set data
+     * @param array $options
+     * @return string
+     * @since 3.2.0
+     */
+    public function getAsHtml($options = [])
+    {
+        $defaults = [
+            'table_id' => null,
+            'table_class' => null,
+            'translations' => [
+                'title' => 'Account Holder'
+
+            ]
+        ];
+
+        $options = array_merge($defaults, $options);
+        $translations = $options['translations'];
+
+        $html = "<table id='{$options['table_id']}' class='{$options['table_class']}'><tbody>";
+        foreach ($this->getAllSetData() as $key => $value) {
+            $html .= "<tr><td>" . $this->translate($key, $translations) . "</td><td>" . $value . "</td></tr>";
+        }
+
+        $html .= "</tbody></table>";
+        return $html;
+    }
+
+    /**
+     * Get all set data
+     * @return array
+     * @since 3.2.0
+     */
+    private function getAllSetData()
+    {
+        $data = $this->mappedProperties();
+        $address = $data['address'];
+        unset(
+            $data['address']
+        );
+
+        return array_merge($data, $address);
+    }
+
+    /**
+     * Translate the table keys
+     * @param $key
+     * @param $translations
+     * @return mixed
+     * @since 3.2.0
+     */
+    private function translate($key, $translations)
+    {
+        if ($translations != null && isset($translations[$key])) {
+            return $translations[$key];
+        }
+
+        return $key;
+    }
+
+    private function parseAccountHolder($simpleXmlElement)
+    {
+        $fields = [
+            'first-name' => 'setFirstName',
+            'last-name' => 'setLastName',
+            'email' => 'setEmail',
+            'phone' => 'setPhone'
+        ];
+
+        if (isset($simpleXmlElement->{'date-of-birth'})) {
+            $dob = \DateTime::createFromFormat('d-m-Y', (string)$simpleXmlElement->{'date-of-birth'});
+            if (!$dob) {
+                $dob = \DateTime::createFromFormat('Y-m-d', (string)$simpleXmlElement->{'date-of-birth'});
+            }
+            $this->setDateOfBirth($dob);
+        }
+
+        foreach ($fields as $field => $function) {
+            if (isset($simpleXmlElement->{$field})) {
+                $this->{$function}((string)$simpleXmlElement->{$field});
+            }
+        }
+
+        if (isset($simpleXmlElement->address)) {
+            $address = new Address(
+                (string)$simpleXmlElement->address->country,
+                (string)$simpleXmlElement->address->city,
+                (string)$simpleXmlElement->address->street1
+            );
+
+            if (isset($simpleXmlElement->address->{'postal-code'})) {
+                $address->setPostalCode((string)$simpleXmlElement->address->{'postal-code'});
+            }
+
+            if (isset($simpleXmlElement->address->street2)) {
+                $address->setStreet2((string)$simpleXmlElement->address->street2);
+            }
+
+            if (isset($simpleXmlElement->address->{'house-extension'})) {
+                $address->setHouseExtension((string)$simpleXmlElement->address->{'house-extension'});
+            }
+
+            $this->setAddress($address);
+        }
+
+        return $this;
     }
 }
