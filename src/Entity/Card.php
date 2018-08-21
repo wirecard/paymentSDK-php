@@ -43,6 +43,18 @@ class Card implements MappableEntity
     private $token;
 
     /**
+     * if simpleXml is set parse the data form xml
+     * @param SimpleXMLElement $simpleXml
+     * @since 3.2.0
+     */
+    public function __construct($simpleXml = null)
+    {
+        if ($simpleXml) {
+            $this->parseFromXml($simpleXml);
+        }
+    }
+
+	/**
      * @param mixed $expirationMonth
      */
     public function setExpirationMonth($expirationMonth)
@@ -102,7 +114,7 @@ class Card implements MappableEntity
      * @param SimpleXMLElement $simpleXml
      * @since 3.2.0
      */
-    public function parseFromXml($simpleXml)
+    private function parseFromXml($simpleXml)
     {
         if (isset($simpleXml->{'card-token'}->{'masked-account-number'})) {
             $this->maskedPan = $simpleXml->{'card-token'}->{'masked-account-number'};
@@ -124,7 +136,9 @@ class Card implements MappableEntity
             'table_id' => null,
             'table_class' => null,
             'translations' => [
-                'title' => 'Card'
+                'title' => 'Card',
+                'maskedPan' => 'Masked Pan',
+                'token' => 'Token'
             ],
         ];
 
@@ -134,44 +148,10 @@ class Card implements MappableEntity
         $html = "<table id='{$options['table_id']}' class='{$options['table_class']}'>";
         $html .= "<tr id='{$options['table_id']}_firstrow'>";
         $html .= "<td colspan='99' align='center'><b>{$translations['title']}</b></td></tr>";
-        foreach ($this->getAllSetData() as $key => $value) {
-            $html .= "<tr><td>" . $this->translate($key, $translations) . "</td><td>" . $value . "</td></tr>";
-        }
-
+        $html .= "<tr><td>" . $translations['maskedPan'] . "</td><td>" . $this->maskedPan . "</td></tr>";
+        $html .= "<tr><td>" . $translations['token'] . "</td><td>" . $this->token . "</td></tr>";
         $html .= "</table>";
+
         return $html;
-    }
-
-    /**
-     * Return all set data
-     * @return array
-     * @since 3.2.0
-     */
-    private function getAllSetData()
-    {
-        $data = [];
-        foreach (get_object_vars($this) as $key => $value) {
-            if ($value) {
-                $data[$key] = $value;
-            }
-        }
-
-        return $data;
-    }
-
-    /**
-     * Translate the table keys
-     * @param $key
-     * @param $translations
-     * @return mixed
-     * @since 3.2.0
-     */
-    private function translate($key, $translations)
-    {
-        if ($translations != null && isset($translations[$key])) {
-            return $translations[$key];
-        }
-
-        return $key;
     }
 }

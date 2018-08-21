@@ -377,63 +377,7 @@ abstract class Response
             return;
         }
 
-        $this->accountHolder = $this->parseAccountHolder($accountHolderXml);
-    }
-
-    /**
-     * parse account holder informations from response
-     *
-     * @return AccountHolder
-     * @since 3.0.0
-     */
-    private function parseAccountHolder($simpleXmlElement)
-    {
-        $accountHolder = new AccountHolder();
-
-        $fields = [
-            'first-name' => 'setFirstName',
-            'last-name' => 'setLastName',
-            'email' => 'setEmail',
-            'phone' => 'setPhone'
-        ];
-
-        if (isset($simpleXmlElement->{'date-of-birth'})) {
-            $dob = \DateTime::createFromFormat('d-m-Y', (string)$simpleXmlElement->{'date-of-birth'});
-            if (!$dob) {
-                $dob = \DateTime::createFromFormat('Y-m-d', (string)$simpleXmlElement->{'date-of-birth'});
-            }
-            $accountHolder->setDateOfBirth($dob);
-        }
-
-        foreach ($fields as $field => $function) {
-            if (isset($simpleXmlElement->{$field})) {
-                $accountHolder->{$function}((string)$simpleXmlElement->{$field});
-            }
-        }
-
-        if (isset($simpleXmlElement->address)) {
-            $address = new Address(
-                (string)$simpleXmlElement->address->country,
-                (string)$simpleXmlElement->address->city,
-                (string)$simpleXmlElement->address->street1
-            );
-
-            if (isset($simpleXmlElement->address->{'postal-code'})) {
-                $address->setPostalCode((string)$simpleXmlElement->address->{'postal-code'});
-            }
-
-            if (isset($simpleXmlElement->address->street2)) {
-                $address->setStreet2((string)$simpleXmlElement->address->street2);
-            }
-
-            if (isset($simpleXmlElement->address->{'house-extension'})) {
-                $address->setHouseExtension((string)$simpleXmlElement->address->{'house-extension'});
-            }
-
-            $accountHolder->setAddress($address);
-        }
-
-        return $accountHolder;
+        $this->accountHolder = new AccountHolder($accountHolderXml);
     }
 
     /**
@@ -445,7 +389,7 @@ abstract class Response
         if (!isset($shipping)) {
             return;
         }
-        $this->shipping = $this->parseAccountHolder($this->simpleXml->shipping);
+        $this->shipping = new AccountHolder($shipping);
     }
 
     /**
@@ -562,7 +506,6 @@ abstract class Response
 
     public function setCard()
     {
-        $this->card = new Card();
-        $this->card->parseFromXml($this->simpleXml);
+        $this->card = new Card($this->simpleXml);
     }
 }
