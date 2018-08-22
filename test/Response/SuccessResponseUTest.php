@@ -345,6 +345,41 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($response->getAccountHolder()->getAsHtml());
     }
 
+    public function testAccountHolderWithoutAddress()
+    {
+        $simpleXml = simplexml_load_string('<?xml version="1.0"?>
+                    <payment>
+                        <transaction-id>1</transaction-id>
+                        <request-id>123</request-id>
+                        <parent-transaction-id>ca-6ed-b69</parent-transaction-id>
+                        <transaction-type>transaction</transaction-type>
+                        <completion-time-stamp>1234</completion-time-stamp>
+                        <consumer-id>1</consumer-id>
+                        <ip-address>127.0.0.1</ip-address>
+                        <order-number>123</order-number>
+                        <merchant-account-id>maid123123123</merchant-account-id>
+                        <transaction-state>success</transaction-state>
+                        <currency>EUR</currency>
+                        <requested-amount>17.86</requested-amount>
+                        <descriptor>descriptor</descriptor>
+                        <payment-methods>
+                            <payment-method name="paypal"/>
+                        </payment-methods>
+                        <statuses>
+                            <status code="1" description="a" severity="0" />
+                        </statuses>
+                        <account-holder>
+                            <first-name>Hr</first-name>
+                            <last-name>E G H Küppers en/of MW M.J. Küpp</last-name>
+                            <email>email@email.com</email>
+                            <phone>123123123</phone>
+                        </account-holder>
+                    </payment>');
+        $response = new SuccessResponse($simpleXml);
+
+        $this->assertNotNull($response->getAccountHolder()->getAsHtml());
+    }
+
     public function testShippingHtml()
     {
         $response = new SuccessResponse($this->simpleXml);
