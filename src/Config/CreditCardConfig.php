@@ -85,6 +85,16 @@ class CreditCardConfig extends PaymentMethodConfig
     }
 
     /**
+     * @param Amount $nonThreeDMaxLimit
+     * @return CreditCardConfig
+     * @since 3.2.0
+     */
+    public function addNonThreeDMaxLimit(Amount $nonThreeDMaxLimit)
+    {
+        return $this->addSslMaxLimit($nonThreeDMaxLimit);
+    }
+
+    /**
      * @param Amount $threeDMinLimit
      * @return CreditCardConfig
      */
@@ -119,12 +129,33 @@ class CreditCardConfig extends PaymentMethodConfig
     }
 
     /**
+     * @param $merchantAccountId
+     * @param $secret
+     * @return CreditCardConfig
+     * @since 3.2.0
+     */
+    public function setNonThreeDCredentials($merchantAccountId, $secret)
+    {
+        return $this->setSSLCredentials($merchantAccountId, $secret);
+    }
+
+    /**
      * @param string $currency
      * @return float|null
      */
     public function getSslMaxLimit($currency)
     {
         return array_key_exists($currency, $this->sslMaxLimits) ? $this->sslMaxLimits[$currency] : null;
+    }
+
+    /**
+     * @param $currency
+     * @return float|null
+     * @since 3.2.0
+     */
+    public function getNonThreeDMaxLimit($currency)
+    {
+        return $this->getSslMaxLimit($currency);
     }
 
     /**
