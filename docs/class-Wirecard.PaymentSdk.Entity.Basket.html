@@ -104,11 +104,13 @@
 				<li><a href="class-Wirecard.PaymentSdk.Entity.IdealBic.html">IdealBic</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Item.html">Item</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Mandate.html">Mandate</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.PaymentDetails.html">PaymentDetails</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Periodic.html">Periodic</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Redirect.html">Redirect</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Status.html">Status</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.StatusCollection.html">StatusCollection</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.SubMerchantInfo.html">SubMerchantInfo</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.TransactionDetails.html">TransactionDetails</a></li>
 			</ul>
 
 			<h3>Interfaces</h3>
@@ -160,7 +162,7 @@
 		<b>Namespace:</b> <a href="namespace-Wirecard.html">Wirecard</a>\<a href="namespace-Wirecard.PaymentSdk.html">PaymentSdk</a>\<a href="namespace-Wirecard.PaymentSdk.Entity.html">Entity</a><br>
 		<b>Package:</b> Wirecard\PaymentSdk\Entity<br>
 
-			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.Entity.Basket.html#37-201" title="Go to source code">Entity/Basket.php</a>
+			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.Entity.Basket.html#42-298" title="Go to source code">Entity/Basket.php</a>
 		<br>
 	</div>
 
@@ -180,7 +182,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setVersion">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Basket.html#53-61" title="Go to source code">setVersion</a>( <span>string <var>$version</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Basket.html#58-66" title="Go to source code">setVersion</a>( <span>string <var>$version</var></span> )</code>
 
 			<div class="description short">
 				
@@ -218,7 +220,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getIterator">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Basket.html#63-73" title="Go to source code">getIterator</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Basket.html#68-78" title="Go to source code">getIterator</a>( )</code>
 
 			<div class="description short">
 				<p>Retrieve an external iterator</p>
@@ -262,7 +264,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_add">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Basket.html#75-110" title="Go to source code">add</a>( <span><code><a href="class-Wirecard.PaymentSdk.Entity.Item.html">Wirecard\PaymentSdk\Entity\Item</a></code> <var>$item</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Basket.html#80-115" title="Go to source code">add</a>( <span><code><a href="class-Wirecard.PaymentSdk.Entity.Item.html">Wirecard\PaymentSdk\Entity\Item</a></code> <var>$item</var></span> )</code>
 
 			<div class="description short">
 				
@@ -300,7 +302,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_mappedProperties">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Basket.html#112-129" title="Go to source code">mappedProperties</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Basket.html#117-134" title="Go to source code">mappedProperties</a>( )</code>
 
 			<div class="description short">
 				
@@ -339,7 +341,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_mappedSeamlessProperties">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Basket.html#131-148" title="Go to source code">mappedSeamlessProperties</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Basket.html#136-153" title="Go to source code">mappedSeamlessProperties</a>( )</code>
 
 			<div class="description short">
 				
@@ -361,18 +363,60 @@
 			</div>
 			</div></td>
 		</tr>
+		<tr data-order="parseFromXml" id="_parseFromXml">
+
+			<td class="attributes"><code>
+				 public 
+				<code><a href="class-Wirecard.PaymentSdk.Entity.Basket.html">Wirecard\PaymentSdk\Entity\Basket</a></code>
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_parseFromXml">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Basket.html#155-207" title="Go to source code">parseFromXml</a>( <span>SimpleXMLElement <var>$simpleXml</var></span> )</code>
+
+			<div class="description short">
+				<p>Parse simplexml and create basket object</p>
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Parse simplexml and create basket object</p>
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$simpleXml</var></dt>
+						<dd></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code><a href="class-Wirecard.PaymentSdk.Entity.Basket.html">Wirecard\PaymentSdk\Entity\Basket</a></code>
+					</div>
+
+
+					<h4>Since</h4>
+					<div class="list">
+							3.2.0<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
 		<tr data-order="getAsHtml" id="_getAsHtml">
 
 			<td class="attributes"><code>
 				 public 
-				
+				string
 				
 				</code>
 			</td>
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getAsHtml">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Basket.html#150-179" title="Go to source code">getAsHtml</a>( <span> <var>$customId</var> = <span class="php-keyword1">null</span></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Basket.html#209-260" title="Go to source code">getAsHtml</a>( <span> <var>$options</var> = []</span> )</code>
 
 			<div class="description short">
 				
@@ -382,9 +426,25 @@
 				
 
 
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$options</var></dt>
+						<dd><p>table_class,
+     translation
+         basket,
+         item</p></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						string
+					</div>
 
 
-
+					<h4>Since</h4>
+					<div class="list">
+							3.2.0<br>
+					</div>
 
 
 			</div>
@@ -401,7 +461,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getTotalAmount">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Basket.html#181-200" title="Go to source code">getTotalAmount</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.Basket.html#262-281" title="Go to source code">getTotalAmount</a>( )</code>
 
 			<div class="description short">
 				

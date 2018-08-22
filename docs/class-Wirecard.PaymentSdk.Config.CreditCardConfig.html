@@ -92,6 +92,7 @@
 			<ul>
 				<li><a href="class-Wirecard.PaymentSdk.Config.Config.html">Config</a></li>
 				<li class="active"><a href="class-Wirecard.PaymentSdk.Config.CreditCardConfig.html">CreditCardConfig</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Config.MaestroConfig.html">MaestroConfig</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Config.PaymentMethodConfig.html">PaymentMethodConfig</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Config.SepaConfig.html">SepaConfig</a></li>
 			</ul>
@@ -134,6 +135,12 @@
 	</dl>
 
 
+	<div>
+		<h3>Direct known subclasses</h3>
+		<p class="elementList">
+			<code><a href="class-Wirecard.PaymentSdk.Config.MaestroConfig.html">Wirecard\PaymentSdk\Config\MaestroConfig</a></code>
+		</p>
+	</div>
 
 
 
@@ -146,7 +153,7 @@
 		<b>Namespace:</b> <a href="namespace-Wirecard.html">Wirecard</a>\<a href="namespace-Wirecard.PaymentSdk.html">PaymentSdk</a>\<a href="namespace-Wirecard.PaymentSdk.Config.html">Config</a><br>
 		<b>Package:</b> Wirecard\PaymentSdk\Entity<br>
 
-			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.Config.CreditCardConfig.html#37-150" title="Go to source code">Config/CreditCardConfig.php</a>
+			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.Config.CreditCardConfig.html#37-185" title="Go to source code">Config/CreditCardConfig.php</a>
 		<br>
 	</div>
 
@@ -166,14 +173,14 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#___construct">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Config.CreditCardConfig.html#59-71" title="Go to source code">__construct</a>( <span>string|null <var>$merchantAccountId</var> = <span class="php-keyword1">null</span></span>, <span>string|null <var>$secret</var> = <span class="php-keyword1">null</span></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Config.CreditCardConfig.html#59-75" title="Go to source code">__construct</a>( <span>string|null <var>$merchantAccountId</var> = <span class="php-keyword1">null</span></span>, <span>string|null <var>$secret</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$paymentMethodName</var> = Wirecard\PaymentSdk\Config\CreditCardTransaction::NAME </span> )</code>
 
 			<div class="description short">
-				<p>SepaConfig constructor.</p>
+				<p>CreditCardConfig constructor.</p>
 			</div>
 
 			<div class="description detailed hidden">
-				<p>SepaConfig constructor.</p>
+				<p>CreditCardConfig constructor.</p>
 
 
 					<h4>Parameters</h4>
@@ -181,6 +188,8 @@
 						<dt><var>$merchantAccountId</var></dt>
 						<dd></dd>
 						<dt><var>$secret</var></dt>
+						<dd></dd>
+						<dt><var>$paymentMethodName</var></dt>
 						<dd></dd>
 					</dl></div>
 
@@ -204,7 +213,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addSslMaxLimit">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Config.CreditCardConfig.html#73-81" title="Go to source code">addSslMaxLimit</a>( <span><code><a href="class-Wirecard.PaymentSdk.Entity.Amount.html">Wirecard\PaymentSdk\Entity\Amount</a></code> <var>$sslMaxLimit</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Config.CreditCardConfig.html#77-85" title="Go to source code">addSslMaxLimit</a>( <span><code><a href="class-Wirecard.PaymentSdk.Entity.Amount.html">Wirecard\PaymentSdk\Entity\Amount</a></code> <var>$sslMaxLimit</var></span> )</code>
 
 			<div class="description short">
 				
@@ -231,6 +240,48 @@
 			</div>
 			</div></td>
 		</tr>
+		<tr data-order="addNonThreeDMaxLimit" id="_addNonThreeDMaxLimit">
+
+			<td class="attributes"><code>
+				 public 
+				<code><a href="class-Wirecard.PaymentSdk.Config.CreditCardConfig.html">Wirecard\PaymentSdk\Config\CreditCardConfig</a></code>
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_addNonThreeDMaxLimit">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Config.CreditCardConfig.html#87-95" title="Go to source code">addNonThreeDMaxLimit</a>( <span><code><a href="class-Wirecard.PaymentSdk.Entity.Amount.html">Wirecard\PaymentSdk\Entity\Amount</a></code> <var>$nonThreeDMaxLimit</var></span> )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$nonThreeDMaxLimit</var></dt>
+						<dd></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code><a href="class-Wirecard.PaymentSdk.Config.CreditCardConfig.html">Wirecard\PaymentSdk\Config\CreditCardConfig</a></code>
+					</div>
+
+
+					<h4>Since</h4>
+					<div class="list">
+							3.2.0<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
 		<tr data-order="addThreeDMinLimit" id="_addThreeDMinLimit">
 
 			<td class="attributes"><code>
@@ -242,7 +293,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_addThreeDMinLimit">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Config.CreditCardConfig.html#83-91" title="Go to source code">addThreeDMinLimit</a>( <span><code><a href="class-Wirecard.PaymentSdk.Entity.Amount.html">Wirecard\PaymentSdk\Entity\Amount</a></code> <var>$threeDMinLimit</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Config.CreditCardConfig.html#97-105" title="Go to source code">addThreeDMinLimit</a>( <span><code><a href="class-Wirecard.PaymentSdk.Entity.Amount.html">Wirecard\PaymentSdk\Entity\Amount</a></code> <var>$threeDMinLimit</var></span> )</code>
 
 			<div class="description short">
 				
@@ -280,7 +331,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setThreeDCredentials">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Config.CreditCardConfig.html#93-103" title="Go to source code">setThreeDCredentials</a>( <span>string <var>$threeDMerchantAccountId</var></span>, <span>string <var>$threeDSecret</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Config.CreditCardConfig.html#107-117" title="Go to source code">setThreeDCredentials</a>( <span>string <var>$threeDMerchantAccountId</var></span>, <span>string <var>$threeDSecret</var></span> )</code>
 
 			<div class="description short">
 				
@@ -320,7 +371,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_setSSLCredentials">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Config.CreditCardConfig.html#105-115" title="Go to source code">setSSLCredentials</a>( <span>string <var>$merchantAccountId</var></span>, <span>string <var>$secret</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Config.CreditCardConfig.html#119-129" title="Go to source code">setSSLCredentials</a>( <span>string <var>$merchantAccountId</var></span>, <span>string <var>$secret</var></span> )</code>
 
 			<div class="description short">
 				
@@ -349,6 +400,50 @@
 			</div>
 			</div></td>
 		</tr>
+		<tr data-order="setNonThreeDCredentials" id="_setNonThreeDCredentials">
+
+			<td class="attributes"><code>
+				 public 
+				<code><a href="class-Wirecard.PaymentSdk.Config.CreditCardConfig.html">Wirecard\PaymentSdk\Config\CreditCardConfig</a></code>
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setNonThreeDCredentials">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Config.CreditCardConfig.html#131-140" title="Go to source code">setNonThreeDCredentials</a>( <span> <var>$merchantAccountId</var></span>, <span> <var>$secret</var></span> )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$merchantAccountId</var></dt>
+						<dd></dd>
+						<dt><var>$secret</var></dt>
+						<dd></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<code><a href="class-Wirecard.PaymentSdk.Config.CreditCardConfig.html">Wirecard\PaymentSdk\Config\CreditCardConfig</a></code>
+					</div>
+
+
+					<h4>Since</h4>
+					<div class="list">
+							3.2.0<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
 		<tr data-order="getSslMaxLimit" id="_getSslMaxLimit">
 
 			<td class="attributes"><code>
@@ -360,7 +455,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getSslMaxLimit">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Config.CreditCardConfig.html#117-124" title="Go to source code">getSslMaxLimit</a>( <span>string <var>$currency</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Config.CreditCardConfig.html#142-149" title="Go to source code">getSslMaxLimit</a>( <span>string <var>$currency</var></span> )</code>
 
 			<div class="description short">
 				
@@ -387,6 +482,48 @@
 			</div>
 			</div></td>
 		</tr>
+		<tr data-order="getNonThreeDMaxLimit" id="_getNonThreeDMaxLimit">
+
+			<td class="attributes"><code>
+				 public 
+				float|null
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getNonThreeDMaxLimit">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Config.CreditCardConfig.html#151-159" title="Go to source code">getNonThreeDMaxLimit</a>( <span> <var>$currency</var></span> )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$currency</var></dt>
+						<dd></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						float|null
+					</div>
+
+
+					<h4>Since</h4>
+					<div class="list">
+							3.2.0<br>
+					</div>
+
+
+			</div>
+			</div></td>
+		</tr>
 		<tr data-order="getThreeDMinLimit" id="_getThreeDMinLimit">
 
 			<td class="attributes"><code>
@@ -398,7 +535,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getThreeDMinLimit">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Config.CreditCardConfig.html#126-133" title="Go to source code">getThreeDMinLimit</a>( <span>string <var>$currency</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Config.CreditCardConfig.html#161-168" title="Go to source code">getThreeDMinLimit</a>( <span>string <var>$currency</var></span> )</code>
 
 			<div class="description short">
 				
@@ -436,7 +573,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getThreeDMerchantAccountId">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Config.CreditCardConfig.html#135-141" title="Go to source code">getThreeDMerchantAccountId</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Config.CreditCardConfig.html#170-176" title="Go to source code">getThreeDMerchantAccountId</a>( )</code>
 
 			<div class="description short">
 				
@@ -471,7 +608,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getThreeDSecret">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Config.CreditCardConfig.html#143-149" title="Go to source code">getThreeDSecret</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Config.CreditCardConfig.html#178-184" title="Go to source code">getThreeDSecret</a>( )</code>
 
 			<div class="description short">
 				
