@@ -764,6 +764,7 @@ class TransactionService
      * @param $acceptJson
      * @throws UnconfiguredPaymentMethodException
      * @throws \RuntimeException
+     * @since 3.3.0
      * @return null|array|string
      */
     public function getTransactionByRequestId($requestId, $paymentMethod, $acceptJson = true)
