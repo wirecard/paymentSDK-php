@@ -201,6 +201,6 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
     public function testGetTransactionByRequestId()
     {
-        $this->assertNotNull($this->service->getTransactionByRequestId('123', 'creditcard'));
+        $this->assertNull($this->service->getTransactionByRequestId('123', 'creditcard'));
     }
 }
