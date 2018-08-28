@@ -31,6 +31,7 @@
 
 namespace WirecardTest\PaymentSdk;
 
+use Mockery as m;
 use Psr\Log\LoggerInterface;
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Config\CreditCardConfig;
@@ -41,11 +42,7 @@ use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
-use Wirecard\PaymentSdk\Transaction\RatepayDirectDebitTransaction;
-use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
-use Wirecard\PaymentSdk\Transaction\RatepayTransaction;
 use Wirecard\PaymentSdk\TransactionService;
-use Mockery as m;
 
 /**
  * Class TransactionServiceUTest
@@ -200,5 +197,10 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $transactionService->shouldReceive('getTransactionByTransactionId')->andReturn($transaction);
 
         $this->assertNotNull($this->service->getGroupOfTransactions('123', 'creditcard'));
+    }
+
+    public function testGetTransactionByRequestId()
+    {
+        $this->assertNotNull($this->service->getTransactionByRequestId('123', 'creditcard'));
     }
 }

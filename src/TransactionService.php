@@ -728,6 +728,7 @@ class TransactionService
     /**
      * @param $transactionId
      * @param $paymentMethod
+     * @param $acceptJson
      * @throws UnconfiguredPaymentMethodException
      * @throws \RuntimeException
      * @return null|array|string
@@ -755,6 +756,27 @@ class TransactionService
         }
 
         return $request;
+    }
+
+    /**
+     * @param $requestId
+     * @param $paymentMethod
+     * @param $acceptJson
+     * @throws UnconfiguredPaymentMethodException
+     * @throws \RuntimeException
+     * @return null|array|string
+     */
+    public function getTransactionByRequestId($requestId, $paymentMethod, $acceptJson = true)
+    {
+        $logNotFound = ($paymentMethod == CreditCardTransaction::NAME) ? false : true;
+        $endpoint =
+            $this->config->getBaseUrl() .
+            '/engine/rest/merchants/' .
+            $this->config->get($paymentMethod)->getMerchantAccountId() .
+            '/payments/?request_id=' . $requestId;
+
+        $response = $this->sendGetRequest($endpoint, $acceptJson, $logNotFound);
+        return $response;
     }
 
     /**
