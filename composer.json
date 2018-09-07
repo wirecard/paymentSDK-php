@@ -11,7 +11,7 @@
     "php-http/client-common":"^1",
     "php-http/discovery":"^1",
     "myclabs/php-enum": "^1.5.0",
-    "robrichards/xmlseclibs": "^2.0",
+    "robrichards/xmlseclibs": "^3.0",
     "chillerlan/php-qrcode": "1.0.8"
   },
   "require-dev": {
