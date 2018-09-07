@@ -32,6 +32,7 @@
 namespace Wirecard\PaymentSdk\Response;
 
 use chillerlan\QRCode\QRCode;
+use chillerlan\QRCode\QROptions;
 use SimpleXMLElement;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -465,24 +466,14 @@ abstract class Response
     public function getQrCode($type = QRCode::OUTPUT_IMAGE_PNG, $scale = 5)
     {
         try {
-            if (in_array($type, array('html', 'svg'))) {
-                $outputOptions = new \chillerlan\QRCode\Output\QRMarkupOptions();
-                $outputOptions->type = $type;
-                $outputOptions->pixelSize = $scale;
-                $image = new \chillerlan\QRCode\Output\QRMarkup($outputOptions);
-            } elseif ($type == 'txt') {
-                $outputOptions = new \chillerlan\QRCode\Output\QRStringOptions();
-                $outputOptions->type = $type;
-                $image = new \chillerlan\QRCode\Output\QRString($outputOptions);
-            } else {
-                $outputOptions = new \chillerlan\QRCode\Output\QRImageOptions();
-                $outputOptions->type = $type;
-                $outputOptions->pixelSize = $scale;
-                $image = new \chillerlan\QRCode\Output\QRImage($outputOptions);
-            }
+            $outputOptions = new QROptions([
+                'outputType' => $type,
+                'scale' => $scale,
+                'version' => 5
+            ]);
 
-            $qrCode = new QRCode($this->findElement('authorization-code'), $image);
-            return $qrCode->output();
+            $image = new QRCode($outputOptions);
+            return $image->render($this->findElement('authorization-code'));
         } catch (\Exception $ignored) {
             throw new MalformedResponseException('Authorization-code not found in response.');
         }
