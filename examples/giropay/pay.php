@@ -13,7 +13,6 @@ require __DIR__ . '/../inc/giropayconfig.php';
 //Header design
 require __DIR__ . '/../inc/header.php';
 
-use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\BankAccount;
 use Wirecard\PaymentSdk\Entity\Redirect;
@@ -28,11 +27,6 @@ use Wirecard\PaymentSdk\TransactionService;
 $amount = new Amount(12.59, 'EUR');
 
 // Prepare referenced pay relevant data
-$accountHolder = new AccountHolder();
-$accountHolder->setFirstName('Max');
-$accountHolder->setLastName('Cavalera');
-$accountHolder->setEmail('maxcavalera@email.com');
-
 $bankAccount = new BankAccount();
 $bankAccount->setBic("GENODETT488");
 
@@ -51,7 +45,6 @@ $transaction = new GiropayTransaction();
 $transaction->setNotificationUrl($notificationUrl);
 $transaction->setRedirect($redirectUrls);
 $transaction->setAmount($amount);
-$transaction->setAccountHolder($accountHolder);
 $transaction->setOrderNumber('1020304050');
 $transaction->setOrderDetail('Teste teste teste');
 $transaction->setBankAccount($bankAccount);
