@@ -125,13 +125,6 @@ $bancontactKey = 'dbc5a498-9a66-43b9-bf1d-a618dd399684';
 $bancontactConfig = new PaymentMethodConfig(BancontactTransaction::NAME, $bancontactMAID, $bancontactKey);
 $config->add($bancontactConfig);
 
-// ### eps
-
-$epsMAID = '20f28c45-e672-470d-bd60-a7bc39720fd2';
-$epsSecret = 'dbc5a498-9a66-43b9-bf1d-a618dd399684';
-$epsConfig = new PaymentMethodConfig(EpsTransaction::NAME, $epsMAID, $epsSecret);
-$config->add($epsConfig);
-
 // ### Payment on invoice / Payment in advance
 
 $poipiaMAID = '105ab3e8-d16b-4fa0-9f1f-18dd9b390c94';

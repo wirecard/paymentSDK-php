@@ -11,6 +11,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Transaction\GiropayTransaction;
+use Wirecard\PaymentSdk\Transaction\EpsTransaction;
 
 // ## Connection
 
@@ -37,3 +38,9 @@ $giropayMAID = '9b4b0e5f-1bc8-422e-be42-d0bad2eadabc';
 $giropaySecret = '0c8c6f3a-1534-4fa1-99d9-d1c644d43709';
 $giropayConfig = new PaymentMethodConfig(GiropayTransaction::NAME, $giropayMAID, $giropaySecret);
 $config->add($giropayConfig);
+
+// ### eps
+$epsMAID = '1f629760-1a66-4f83-a6b4-6a35620b4a6d';
+$epsSecret = '20c6a95c-e39b-4e6a-971f-52cfb347d359';
+$epsConfig = new PaymentMethodConfig(EpsTransaction::NAME, $epsMAID, $epsSecret);
+$config->add($epsConfig);
