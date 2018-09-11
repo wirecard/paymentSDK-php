@@ -99,16 +99,18 @@ class Address implements MappableEntity
     }
 
     /**
-     * @param string $state
+     * @param State $state
      * @since 3.0.1
      * Set the state variable
      */
     public function setState($state)
     {
-        if (strlen($state) > 32) {
-            throw new \InvalidArgumentException('.address.state maximum length of 32 was exceeded');
+        if (!$state instanceof State) {
+            throw new \InvalidArgumentException('.address.state must be a State entity.');
         }
-        $this->state = trim($state);
+
+        $stateCode = $state->getCode();
+        $this->state = trim($stateCode);
     }
 
     /**

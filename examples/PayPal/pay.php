@@ -14,6 +14,7 @@ require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Entity\State;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
@@ -31,6 +32,18 @@ $redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return
 $notificationUrl = getUrl('notify.php');
 
 
+// ### Account hold r
+
+$state = new State();
+$state->setCountry(State::UNITED_STATES);
+$state->setName('Oregon');
+
+$address = new \Wirecard\PaymentSdk\Entity\Address('US', 'Portland', 'Mariahilferstraße');
+$address->setState($state);
+
+$accountHolder = new \Wirecard\PaymentSdk\Entity\AccountHolder();
+$accountHolder->setAddress($address);
+
 // ## Transaction
 
 // The PayPal transaction holds all transaction relevant data for the payment process.
@@ -38,6 +51,7 @@ $transaction = new PayPalTransaction();
 $transaction->setNotificationUrl($notificationUrl);
 $transaction->setRedirect($redirectUrls);
 $transaction->setAmount($amount);
+$transaction->setAccountHolder($accountHolder);
 
 // ### Transaction Service
 

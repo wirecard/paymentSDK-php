@@ -32,6 +32,7 @@
 namespace WirecardTest\PaymentSdk\Entity;
 
 use Wirecard\PaymentSdk\Entity\Address;
+use Wirecard\PaymentSdk\Entity\State;
 
 class AddressUTest extends \PHPUnit_Framework_TestCase
 {
@@ -76,7 +77,11 @@ class AddressUTest extends \PHPUnit_Framework_TestCase
 
     public function testMappingWithState()
     {
-        $this->addr->setState('OH');
+        $state = new State();
+        $state->setCountry(State::UNITED_STATES);
+        $state->setName("Ohio");
+
+        $this->addr->setState($state);
         $this->assertEquals('OH', $this->addr->getState());
 
         $expectedResult = [
@@ -94,7 +99,9 @@ class AddressUTest extends \PHPUnit_Framework_TestCase
      */
     public function testMappingWithStateException()
     {
-        $this->addr->setState(str_repeat('O', 33));
+        $state = "OH";
+
+        $this->addr->setState($state);
     }
 
     public function testMappingWithStreet2()

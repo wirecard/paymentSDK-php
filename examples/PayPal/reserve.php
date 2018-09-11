@@ -14,6 +14,7 @@ require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Entity\State;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
@@ -33,9 +34,16 @@ $redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
 $notificationUrl = getUrl('notify.php');
 
-$accountHolder = new \Wirecard\PaymentSdk\Entity\AccountHolder();
+// ### Account holder
+
+$state = new State();
+$state->setCountry(State::UNITED_STATES);
+$state->setName('Oregon');
+
 $address = new \Wirecard\PaymentSdk\Entity\Address('US', 'Portland', 'Mariahilferstraße');
-$address->setState('OR');
+$address->setState($state);
+
+$accountHolder = new \Wirecard\PaymentSdk\Entity\AccountHolder();
 $accountHolder->setAddress($address);
 
 // ## Transaction
