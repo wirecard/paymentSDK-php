@@ -179,14 +179,14 @@ class AccountHolder implements MappableEntity
         $this->socialSecurityNumber = $securityNumber;
     }
 
-	/**
-	 * @param string $format
-	 * @return string
-	 * @since 3.4.0
-	 */
-	public function getDateOfBirth($format = self::DEF_FORMAT) {
-		return $this->dateOfBirth->format($format);
-	}
+    /**
+     * @param string $format
+     * @return string
+     * @since 3.4.0
+     */
+    public function getDateOfBirth($format = self::DEF_FORMAT) {
+        return $this->dateOfBirth->format($format);
+    }
 
     /**
      * @return array
