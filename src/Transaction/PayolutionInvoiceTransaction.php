@@ -37,6 +37,7 @@ use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 /**
  * Class PayolutionInvoiceTransaction
  * @package Wirecard\PaymentSdk\Transaction
+ * @since 3.4.0
  */
 class PayolutionInvoiceTransaction extends Transaction implements Reservable
 {
@@ -52,8 +53,9 @@ class PayolutionInvoiceTransaction extends Transaction implements Reservable
 			'order-number' => $this->orderNumber,
 		];
 
-		if (null !== $this->device) {
-			$result['device'] = $this->device->mappedProperties();
+		if (null !== $this->accountHolder) {
+			$result['account-holder'] = $this->accountHolder->mappedProperties();
+			$result['account-holder']['date-of-birth'] = $this->getAccountHolder()->getDateOfBirth('Y-m-d');
 		}
 
 		return $result;

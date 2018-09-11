@@ -40,6 +40,7 @@ namespace Wirecard\PaymentSdk\Entity;
 class AccountHolder implements MappableEntity
 {
     const SHIPPING = 'shipping_';
+    const DEF_FORMAT = 'd-m-Y';
 
     /**
      * @var string
@@ -177,6 +178,15 @@ class AccountHolder implements MappableEntity
     {
         $this->socialSecurityNumber = $securityNumber;
     }
+
+	/**
+	 * @param string $format
+	 * @return string
+	 * @since 3.4.0
+	 */
+	public function getDateOfBirth($format = self::DEF_FORMAT) {
+		return $this->dateOfBirth->format($format);
+	}
 
     /**
      * @return array
