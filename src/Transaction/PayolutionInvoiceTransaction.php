@@ -41,7 +41,7 @@ use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 */
 class PayolutionInvoiceTransaction extends Transaction implements Reservable
 {
-const NAME = 'payolution-inv';
+    const NAME = 'payolution-inv';
 
     /**
      * @throws MandatoryFieldMissingException|UnsupportedOperationException

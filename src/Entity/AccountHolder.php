@@ -184,7 +184,8 @@ class AccountHolder implements MappableEntity
      * @return string
      * @since 3.4.0
      */
-    public function getDateOfBirth($format = self::DEF_FORMAT) {
+    public function getDateOfBirth($format = self::DEF_FORMAT)
+    {
         return $this->dateOfBirth->format($format);
     }
 

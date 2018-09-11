@@ -1,7 +1,7 @@
 <?php
-// # Payolution invoice reserve transaction
+// # Payment after a reservation
 
-// This example displays the usage of reserve method for payment method Payolution invoice.
+// Enter the ID of the successful reserve transaction and start a pay transaction with it.
 
 // ## Required objects
 
@@ -20,7 +20,7 @@ use Wirecard\PaymentSdk\TransactionService;
 
 // ### Transaction related objects
 
-// Use the amount object as amount which has to be paid by the consumer.
+//Use the amount object as amount which has to be paid by the consumer.
 $amount = new Amount(500, 'EUR');
 
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
@@ -41,43 +41,52 @@ $accountHolder->setPhone('0301842516512');
 $accountHolder->setDateOfBirth(new \DateTime('1970-01-01'));
 $accountHolder->setAddress($address);
 
-
 // ## Transaction
 
 // The Payolution invoice transaction holds all transaction relevant data for the reserve process.
 $transaction = new PayolutionInvoiceTransaction();
 $transaction->setNotificationUrl($notificationUrl);
-$transaction->setAmount($amount);
 $transaction->setOrderNumber($orderNumber);
 $transaction->setAccountHolder($accountHolder);
+$transaction->setAmount($amount);
 
-// ### Transaction Service
+if (array_key_exists('parentTransactionId', $_POST)) {
+    $parentTransactionId = $_POST['parentTransactionId'];
+    $transaction->setParentTransactionId($_POST['parentTransactionId']);
+} else {
+    $parentTransactionId = '';
+};
 
-// The service is used to execute the reserve operation itself. A response object is returned.
+// ### Transaction service
+
+// The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
-$response = $transactionService->reserve($transaction);
+$response = $transactionService->pay($transaction);
 
 // ## Response handling
 
-// The response of the service must be handled depending on it's class.
+// The response from the service can be used for disambiguation.
+// In case of a successful transaction, a `SuccessResponse` object is returned.
 if ($response instanceof SuccessResponse) {
-    echo 'Reservation successfully completed.<br>';
+    echo 'Payment successfully completed.<br>';
     echo getTransactionLink($baseUrl, $response);
     ?>
-    <form action="pay-based-on-reserve.php" method="post">
-        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <button type="submit" class="btn btn-primary">Capture the reservation</button>
-    </form>
+    <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <button type="submit" class="btn btn-primary">Cancel the reservation</button>
+        <input type="hidden" name="transaction-type" value="<?= $response->getTransactionType() ?>"/>
+        <?php
+        if (array_key_exists('item_to_capture', $_POST)) {
+            echo sprintf('<input type="hidden" name="amount" value="%0.2f"/>', $amount->getValue());
+        }
+        ?>
+        <button type="submit" class="btn btn-primary">Cancel the capture</button>
     </form>
     <?php
-// The failure state is represented by a FailureResponse object.
-// In this case the returned errors should be stored in your system.
+// In case of a failed transaction, a `FailureResponse` object is returned.
 } elseif ($response instanceof FailureResponse) {
-// In our example we iterate over all errors and echo them out. You should display them as
-// error, warning or information based on the given severity.
+    // In our example we iterate over all errors and echo them out.
+    // You should display them as error, warning or information based on the given severity.
     foreach ($response->getStatusCollection() as $status) {
         /**
          * @var $status \Wirecard\PaymentSdk\Entity\Status
