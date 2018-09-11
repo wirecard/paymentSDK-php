@@ -1,7 +1,7 @@
 <?php
 // # Credit based on pay
 
-// This example shows how SEPA Credit Transfer can be used to refund a giropay payment
+// This example shows how SEPA Credit Transfer can be used to refund an eps payment
 
 // The method `credit` of the _transactionService_ provides the means
 // to transfer credits to a specific bank account.
