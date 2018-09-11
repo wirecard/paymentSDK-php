@@ -33,6 +33,7 @@ We also provide some examples for using the PaymentSDK, which can be found [here
 - Credit Card
 - Credit Card Moto
 - eps
+- giropay
 - iDEAL
 - Masterpass
 - Pay now. (Sofort.)
