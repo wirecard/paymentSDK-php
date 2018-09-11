@@ -33,20 +33,43 @@ namespace Wirecard\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\BankAccount;
 
+/**
+ * Class GiropayTransaction
+ * @package Wirecard\PaymentSdk\Transaction
+ */
 class GiropayTransaction extends Transaction implements Reservable
 {
     const NAME = 'giropay';
 
+    /**
+     * @var string
+     */
     private $orderDetail;
 
+    /**
+     * @var string
+     */
     private $bankData;
 
+    /**
+     * @var bool
+     */
+    protected $sepaCredit = true;
+
+    /**
+     * @param $orderDetail
+     * @return $this
+     */
     public function setOrderDetail($orderDetail)
     {
         $this->orderDetail = $orderDetail;
         return $this;
     }
 
+    /**
+     * @param BankAccount $bankAccount
+     * @return $this
+     */
     public function setBankAccount(BankAccount $bankAccount)
     {
 
