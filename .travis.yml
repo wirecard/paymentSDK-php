@@ -26,19 +26,16 @@ matrix:
     - CHECK_CS=true
     - CREATE_DOCS=true
   - php: 7.1
-    env:
-    - SONAR_SCAN=true
   - php: hhvm
 before_install:
   - travis_retry composer self-update
 install:
-  - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer require --dev $COMPOSER_ARGS satooshi/php-coveralls:^1.0 ; fi
+  - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer require --dev $COMPOSER_ARGS codacy/coverage:1.4.2 ; fi
   - travis_retry composer install $COMPOSER_ARGS
   - composer show
 script:
-  - if [[ $TEST_COVERAGE == 'true' || ($SONAR_SCAN == 'true' && $TRAVIS_BRANCH == 'master')]]; then composer test-coverage ; else composer test ; fi
+  - if [[ $TEST_COVERAGE == 'true' ]]; then composer test-coverage ; else composer test ; fi
   - if [[ $CHECK_CS == 'true' ]]; then composer cs-check ; fi
-  - if [[ $SONAR_SCAN == 'true' ]]; then sonar-scanner ; fi
 
 after_script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer upload-coverage ; fi
