@@ -7,7 +7,7 @@
 
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
-require __DIR__ . '/../inc/config.php';
+require __DIR__ . '/../inc/globalconfig.php';
 //Header design included
 require __DIR__ . '/../inc/header.php';
 

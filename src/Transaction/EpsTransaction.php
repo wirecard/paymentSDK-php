@@ -31,6 +31,8 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Entity\BankAccount;
+
 /**
  * Class EpsTransaction
  * @package Wirecard\PaymentSdk\Transaction
@@ -40,17 +42,40 @@ class EpsTransaction extends Transaction
     const NAME='eps';
 
     /**
+     * @var string
+     */
+    private $bankData;
+
+    /**
      * @var bool
      */
     protected $sepaCredit = true;
+
+    /**
+     * @param BankAccount $bankAccount
+     * @return $this
+     */
+    public function setBankAccount(BankAccount $bankAccount)
+    {
+
+        $this->bankData = $bankAccount->mappedProperties();
+        return $this;
+    }
 
     /**
      * @return array
      */
     protected function mappedSpecificProperties()
     {
-        // No specific properties.
-        return [];
+        $data = [];
+
+        if (null !== $this->bankData) {
+            foreach ($this->bankData as $key => $val) {
+                $data['bank-account'][$key] = $val;
+            }
+        }
+
+        return $data;
     }
 
     protected function retrieveTransactionTypeForPay()

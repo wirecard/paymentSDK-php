@@ -8,20 +8,13 @@
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
-require __DIR__ . '/../inc/config.php';
+require __DIR__ . '/../inc/globalconfig.php';
 //Header design
 require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\TransactionService;
-
-// ### Validation
-
-// Set a public key for certificate pinning used for response signature validation, this certificate needs to be always
-// up to date
-$config->setPublicKey(file_get_contents(__DIR__ . '/../inc/api-test.wirecard.com.crt'));
-
 
 // ## Transaction
 
@@ -39,15 +32,7 @@ if ($_POST) {
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
     if ($response instanceof SuccessResponse) {
-        $xmlResponse = new SimpleXMLElement($response->getRawData());
-        $transactionType = $response->getTransactionType();
-        if ($transactionType === 'authorization') {
-            echo 'Reservation';
-        } else {
-            echo 'Payment';
-        }
-        echo ' successfully completed.<br>';
-        echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');
+        echo 'Payment successfully completed.<br>';
         echo getTransactionLink($baseUrl, $response);
         ?>
         <form action="credit-based-on-pay.php" method="post">
@@ -57,8 +42,6 @@ if ($_POST) {
         <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
     } elseif ($response instanceof FailureResponse) {
-        echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');
-
         // In our example we iterate over all errors and echo them out.
         // You should display them as error, warning or information based on the given severity.
         foreach ($response->getStatusCollection() as $status) {

@@ -4,11 +4,12 @@
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
-require __DIR__ . '/../inc/config.php';
+require __DIR__ . '/../inc/globalconfig.php';
 //Header design
 require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Entity\BankAccount;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
@@ -26,6 +27,9 @@ $redirect = new Redirect(
     getUrl('return.php?status=failure')
 );
 $tx->setRedirect($redirect);
+$bankAccount = new BankAccount();
+$bankAccount->setBic("BWFBATW1XXX");
+$tx->setBankAccount($bankAccount);
 
 $transactionService = new TransactionService($config);
 $response = $transactionService->pay($tx);
