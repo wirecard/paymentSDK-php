@@ -8,7 +8,7 @@
 
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
-require __DIR__ . '/../inc/giropayconfig.php';
+require __DIR__ . '/../inc/globalconfig.php';
 
 //Header design
 require __DIR__ . '/../inc/header.php';

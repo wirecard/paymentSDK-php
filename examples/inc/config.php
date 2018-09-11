@@ -98,26 +98,6 @@ $paysafecardKey = 'dbc5a498-9a66-43b9-bf1d-a618dd399684';
 $paysafecardConfig = new PaymentMethodConfig(PaysafecardTransaction::NAME, $paysafecardMAID, $paysafecardKey);
 $config->add($paysafecardConfig);
 
-// ### RatePAY
-
-$ratepayMAID = 'fa02d1d4-f518-4e22-b42b-2abab5867a84';
-$ratepayKey = 'dbc5a498-9a66-43b9-bf1d-a618dd399684';
-
-// #### RatePAY Installment
-
-$ratepayInstallmentConfig = new PaymentMethodConfig(RatepayInstallmentTransaction::NAME, $ratepayMAID, $ratepayKey);
-$config->add($ratepayInstallmentConfig);
-
-// #### RatePAY Invoice
-
-$ratepayInvoiceConfig = new PaymentMethodConfig(RatepayInvoiceTransaction::NAME, $ratepayMAID, $ratepayKey);
-$config->add($ratepayInvoiceConfig);
-
-// ### RatePay Direct Debit
-
-$ratepayDirectDebit = new PaymentMethodConfig(RatepayDirectDebitTransaction::NAME, $ratepayMAID, $ratepayKey);
-$config->add($ratepayDirectDebit);
-
 // ### Bancontact
 
 $bancontactMAID = 'c41a62ad-aecb-45b3-b367-e0d2cf946ce3';
@@ -125,33 +105,12 @@ $bancontactKey = 'dbc5a498-9a66-43b9-bf1d-a618dd399684';
 $bancontactConfig = new PaymentMethodConfig(BancontactTransaction::NAME, $bancontactMAID, $bancontactKey);
 $config->add($bancontactConfig);
 
-// ### Payment on invoice / Payment in advance
-
-$poipiaMAID = '105ab3e8-d16b-4fa0-9f1f-18dd9b390c94';
-$poipiaSecret = '2d96596b-9d10-4c98-ac47-4d56e22fd878';
-$poipiaConfig = new PaymentMethodConfig(PoiPiaTransaction::NAME, $poipiaMAID, $poipiaSecret);
-$config->add($poipiaConfig);
-
 // ### Masterpass
 
 $masterpassMAID = '8bc8ed6d-81a8-43be-bd7b-75b008f89fa6';
 $masterpassSecret = '2d96596b-9d10-4c98-ac47-4d56e22fd878';
 $masterpassConfig = new PaymentMethodConfig(MasterpassTransaction::NAME, $masterpassMAID, $masterpassSecret);
 $config->add($masterpassConfig);
-
-// ### Alipay Crossborder
-
-$alipaycrossborderMAID = '7ca48aa0-ab12-4560-ab4a-af1c477cce43';
-$alipaycrossborderSecretKey = 'dbc5a498-9a66-43b9-bf1d-a618dd399684';
-$alipaycrossborderConfig = new PaymentMethodConfig(AlipayCrossborderTransaction::NAME, $alipaycrossborderMAID, $alipaycrossborderSecretKey);
-$config->add($alipaycrossborderConfig);
-
-// ### Przelewy24
-
-$p24Maid = 'afb0aa46-3b0b-4cbf-a91c-5c91ede23701';
-$p24Secret = '82fd2e9e-f8e9-42fb-be25-b60a6907c996';
-$p24Config = new PaymentMethodConfig(PtwentyfourTransaction::NAME, $p24Maid, $p24Secret);
-$config->add($p24Config);
 
 // ### UnionPay Online Payments (UPOP)
 

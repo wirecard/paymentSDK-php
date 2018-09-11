@@ -34,17 +34,6 @@ if (!isset($_POST['parentTransactionId'])) {
     </form>
     <?php
 } else {
-// ### Transaction related objects
-
-// The account holder (first name, last name) is required.
-    $accountHolder = new AccountHolder();
-    $accountHolder->setLastName('Doe');
-    $accountHolder->setFirstName('Jane');
-
-// A mandate with ID and signed date is required.
-    $mandate = new Mandate('12345678');
-
-
 // ## Transaction
 
 // Create a `SepaCreditTransferTransaction` object, which contains all relevant data for the credit process.
@@ -55,9 +44,6 @@ if (!isset($_POST['parentTransactionId'])) {
     if (array_key_exists('parentTransactionId', $_POST)) {
         $transaction->setParentTransactionId($_POST['parentTransactionId']);
     }
-
-    $transaction->setAccountHolder($accountHolder);
-    $transaction->setMandate($mandate);
 
 // ### Transaction Service
 
