@@ -170,11 +170,7 @@ class CreditCardTransaction extends Transaction implements Reservable
      */
     public function setDescriptor($descriptor)
     {
-        if (!preg_match('/^[a-zA-Z0-9]{1,64}$/', $descriptor)) {
-            throw new InvalidArgumentException('The descriptor is not in a valid format.');
-        }
-
-        $this->descriptor = $descriptor;
+        $this->descriptor = preg_replace('/[^a-zA-Z0-9]/', '', $descriptor);
     }
 
     /**

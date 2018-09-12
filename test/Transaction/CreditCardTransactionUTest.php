@@ -351,16 +351,6 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Psr\Log\InvalidArgumentException
-     */
-    public function testWrongDescriptor()
-    {
-        $transaction = new CreditCardTransaction();
-        $transaction->setDescriptor('asdasd.asdasdasd');
-    }
-
-
-    /**
      * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
      */
     public function testCancelInvalidParentTransaction()
