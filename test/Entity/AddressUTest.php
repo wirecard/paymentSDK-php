@@ -32,7 +32,6 @@
 namespace WirecardTest\PaymentSdk\Entity;
 
 use Wirecard\PaymentSdk\Entity\Address;
-use Wirecard\PaymentSdk\Entity\State;
 
 class AddressUTest extends \PHPUnit_Framework_TestCase
 {
@@ -75,35 +74,6 @@ class AddressUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $this->addr->mappedProperties());
     }
 
-    public function testMappingWithState()
-    {
-        $state = new State();
-        $state->setCountry(State::UNITED_STATES);
-        $state->setName("Ohio");
-
-        $this->addr->setState($state);
-        $this->assertEquals('OH', $this->addr->getState());
-
-        $expectedResult = [
-            'street1' => self::DUMMY_ADDRESS,
-            'city' => self::GRAZ,
-            'country' => self::AT_COUNTRY_CODE,
-            'state' => 'OH'
-        ];
-
-        $this->assertEquals($expectedResult, $this->addr->mappedProperties());
-    }
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testMappingWithStateException()
-    {
-        $state = "OH";
-
-        $this->addr->setState($state);
-    }
-
     public function testMappingWithStreet2()
     {
         $this->addr->setStreet2('1st floor');
@@ -116,6 +86,24 @@ class AddressUTest extends \PHPUnit_Framework_TestCase
         ];
 
         $this->assertEquals($expectedResult, $this->addr->mappedProperties());
+    }
+
+    public function testMappingWithState()
+    {
+
+        $address = new Address('US', 'Portland', '1 Main Street');
+        $address->setState('OR');
+
+        $this->assertEquals('OR', $address->getState());
+
+        $expectedResult = [
+            'street1' => '1 Main Street',
+            'city' => 'Portland',
+            'country' => 'US',
+            'state' => 'OR'
+        ];
+
+        $this->assertEquals($expectedResult, $address->mappedProperties());
     }
 
     public function testMappingWithVeryLongStreet1()

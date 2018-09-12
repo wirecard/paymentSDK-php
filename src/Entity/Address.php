@@ -31,6 +31,8 @@
 
 namespace Wirecard\PaymentSdk\Entity;
 
+use Wirecard\IsoToPayPal\Converter;
+
 /**
  * Class Address
  * @package Wirecard\PaymentSdk\Entity
@@ -39,6 +41,13 @@ namespace Wirecard\PaymentSdk\Entity;
  */
 class Address implements MappableEntity
 {
+    /**
+     * @var Converter
+     *
+     * The ISO 3166-2 to PayPal converter.
+     */
+    private $converter;
+
     /**
      * @var string
      *
@@ -87,6 +96,7 @@ class Address implements MappableEntity
         $this->countryCode = $countryCode;
         $this->city = $city;
         $this->street1 = $street1;
+        $this->converter = new Converter();
     }
 
     /**
@@ -99,18 +109,14 @@ class Address implements MappableEntity
     }
 
     /**
-     * @param State $state
+     * @param string $state
      * @since 3.0.1
      * Set the state variable
      */
     public function setState($state)
     {
-        if (!$state instanceof State) {
-            throw new \InvalidArgumentException('.address.state must be a State entity.');
-        }
-
-        $stateCode = $state->getCode();
-        $this->state = trim($stateCode);
+        $stateCode = $this->converter->convert($this->countryCode, trim($state));
+        $this->state = $stateCode;
     }
 
     /**
@@ -146,7 +152,7 @@ class Address implements MappableEntity
         $result = [
             'street1' => $this->street1,
             'city' => $this->city,
-            'country' => $this->countryCode
+            'country' => $this->countryCode,
         ];
 
         if (null !== $this->state) {

@@ -14,7 +14,6 @@ require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
-use Wirecard\PaymentSdk\Entity\State;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
@@ -34,12 +33,8 @@ $notificationUrl = getUrl('notify.php');
 
 // ### Account hold r
 
-$state = new State();
-$state->setCountry(State::UNITED_STATES);
-$state->setName('Oregon');
-
 $address = new \Wirecard\PaymentSdk\Entity\Address('US', 'Portland', 'Mariahilferstraße');
-$address->setState($state);
+$address->setState('OR');
 
 $accountHolder = new \Wirecard\PaymentSdk\Entity\AccountHolder();
 $accountHolder->setAddress($address);
