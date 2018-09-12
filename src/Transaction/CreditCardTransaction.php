@@ -32,6 +32,7 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
+use Psr\Log\InvalidArgumentException;
 use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Entity\Browser;
 use Wirecard\PaymentSdk\Entity\Card;
@@ -162,6 +163,18 @@ class CreditCardTransaction extends Transaction implements Reservable
     public function getThreeD()
     {
         return $this->isThreeD();
+    }
+
+    /**
+     * @param string $descriptor
+     */
+    public function setDescriptor($descriptor)
+    {
+        if (!preg_match('/^[a-zA-Z0-9]{1,64}$/', $descriptor)) {
+            throw new InvalidArgumentException('The descriptor is not in a valid format.');
+        }
+
+        $this->descriptor = $descriptor;
     }
 
     /**

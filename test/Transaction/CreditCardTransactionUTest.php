@@ -350,6 +350,15 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
         $transaction->mappedProperties();
     }
 
+    /**
+     * @expectedException \Psr\Log\InvalidArgumentException
+     */
+    public function testWrongDescriptor()
+    {
+        $transaction = new CreditCardTransaction();
+        $transaction->setDescriptor('asdasd.asdasdasd');
+    }
+
 
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
