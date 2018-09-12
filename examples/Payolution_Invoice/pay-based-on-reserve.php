@@ -26,28 +26,11 @@ $amount = new Amount(500, 'EUR');
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
 $notificationUrl = getUrl('notify.php');
 
-// The order number
-$orderNumber = '180629103914689';
-
-// #### Account holder with address
-$address = new \Wirecard\PaymentSdk\Entity\Address('DE', 'Traumstadt', 'Nicht versenden Strasse 42');
-$address->setPostalCode('12345');
-
-$accountHolder = new \Wirecard\PaymentSdk\Entity\AccountHolder();
-$accountHolder->setFirstName('John');
-$accountHolder->setLastName('Doe');
-$accountHolder->setEmail('support4558@wirecard.at');
-$accountHolder->setPhone('0301842516512');
-$accountHolder->setDateOfBirth(new \DateTime('1970-01-01'));
-$accountHolder->setAddress($address);
-
 // ## Transaction
 
 // The Payolution invoice transaction holds all transaction relevant data for the reserve process.
 $transaction = new PayolutionInvoiceTransaction();
 $transaction->setNotificationUrl($notificationUrl);
-$transaction->setOrderNumber($orderNumber);
-$transaction->setAccountHolder($accountHolder);
 $transaction->setAmount($amount);
 
 if (array_key_exists('parentTransactionId', $_POST)) {
