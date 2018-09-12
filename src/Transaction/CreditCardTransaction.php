@@ -32,7 +32,6 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
-use Psr\Log\InvalidArgumentException;
 use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Entity\Browser;
 use Wirecard\PaymentSdk\Entity\Card;
@@ -167,6 +166,7 @@ class CreditCardTransaction extends Transaction implements Reservable
 
     /**
      * @param string $descriptor
+     * @since 3.4.0
      */
     public function setDescriptor($descriptor)
     {
