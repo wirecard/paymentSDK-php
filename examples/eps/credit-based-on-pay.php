@@ -1,7 +1,7 @@
 <?php
 // # Credit based on pay
 
-// This example shows how SEPA Credit Transfer can be used to refund an iDEAL payment
+// This example shows how SEPA Credit Transfer can be used to refund an eps payment
 
 // The method `credit` of the _transactionService_ provides the means
 // to transfer credits to a specific bank account.
@@ -16,7 +16,6 @@ require __DIR__ . '/../inc/sepaconfig.php';
 require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\AccountHolder;
-use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Mandate;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
