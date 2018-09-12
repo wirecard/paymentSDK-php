@@ -43,13 +43,9 @@ if (!isset($_POST['parentTransactionId'])) {
     $transaction = new PayolutionInvoiceTransaction();
     $transaction->setNotificationUrl($notificationUrl);
     $transaction->setAmount($amount);
+    $parentTransactionId = $_POST['parentTransactionId'];
+    $transaction->setParentTransactionId($_POST['parentTransactionId']);
 
-    if (array_key_exists('parentTransactionId', $_POST)) {
-        $parentTransactionId = $_POST['parentTransactionId'];
-        $transaction->setParentTransactionId($_POST['parentTransactionId']);
-    } else {
-        $parentTransactionId = '';
-    };
 
 // ### Transaction service
 
