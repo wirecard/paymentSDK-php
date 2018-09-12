@@ -20,14 +20,15 @@
     "squizlabs/php_codesniffer": "^2.7",
     "mikey179/vfsStream": "^1.6",
     "php-http/guzzle6-adapter": ">=1.1.1",
-    "mockery/mockery": "^1.1"
+    "mockery/mockery": "^1.1",
+    "codacy/coverage": "1.4.2"
   },
   "scripts": {
-    "upload-coverage": "coveralls -v",
+    "upload-coverage": "codacycoverage clover build/coverage/xml",
     "cs-check": "phpcs",
     "cs-fix": "phpcbf",
     "test": "phpunit --colors=always",
-    "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
+    "test-coverage": "phpunit --coverage-clover build/coverage/xml"
   },
   "autoload": {
     "psr-4": {
