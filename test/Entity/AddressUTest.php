@@ -106,6 +106,42 @@ class AddressUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $address->mappedProperties());
     }
 
+    public function testMappingWithStateNotFoundException()
+    {
+
+        $address = new Address('US', 'Portland', '1 Main Street');
+        $address->setState('ZZZ');
+
+        $this->assertEquals('ZZZ', $address->getState());
+
+        $expectedResult = [
+            'street1' => '1 Main Street',
+            'city' => 'Portland',
+            'country' => 'US',
+            'state' => 'ZZZ'
+        ];
+
+        $this->assertEquals($expectedResult, $address->mappedProperties());
+    }
+
+    public function testMappingWithCountryNotFoundException()
+    {
+
+        $address = new Address('AT', 'Portland', '1 Main Street');
+        $address->setState('ZZZ');
+
+        $this->assertEquals('ZZZ', $address->getState());
+
+        $expectedResult = [
+            'street1' => '1 Main Street',
+            'city' => 'Portland',
+            'country' => 'AT',
+            'state' => 'ZZZ'
+        ];
+
+        $this->assertEquals($expectedResult, $address->mappedProperties());
+    }
+
     public function testMappingWithVeryLongStreet1()
     {
         // @codingStandardsIgnoreStart

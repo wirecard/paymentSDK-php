@@ -113,14 +113,19 @@ class Address implements MappableEntity
     /**
      * @param string $state
      * @since 3.0.1
-     * @throws CountryNotFoundException
-     * @throws StateNotFoundException
      * Set the state variable
      */
     public function setState($state)
     {
-        $stateCode = $this->converter->convert($this->countryCode, trim($state));
-        $this->state = $stateCode;
+        // If we fail, we just set an unfiltered state, because it can be assumed it is not relevant for our use case.
+        try {
+            $stateCode = $this->converter->convert($this->countryCode, trim($state));
+            $this->state = $stateCode;
+        } catch (StateNotFoundException $e) {
+            $this->state = $state;
+        } catch (CountryNotFoundException $e) {
+            $this->state = $state;
+        }
     }
 
     /**
