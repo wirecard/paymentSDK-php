@@ -3,7 +3,7 @@
 
 // The payment SDK needs some basic configuration regarding connectivity and merchant account IDs.
 // Included payment methods: Guaranteed Invoice, Installment, Direct Debit, Payment on Invoice / Payment in Advance,
-// Alipay Cross-border, Przelewy24, giropay, eps, iDEAL, Sofort.
+// Alipay Cross-border, Przelewy24, giropay, eps, iDEAL, Sofort., Payolution
 
 // ## Required objects
 
@@ -22,6 +22,7 @@ use Wirecard\PaymentSdk\Transaction\SofortTransaction;
 use Wirecard\PaymentSdk\Transaction\AlipayCrossborderTransaction;
 use Wirecard\PaymentSdk\Transaction\PoiPiaTransaction;
 use Wirecard\PaymentSdk\Transaction\PtwentyfourTransaction;
+use Wirecard\PaymentSdk\Transaction\PayolutionInvoiceTransaction;
 
 // ## Connection
 
@@ -108,3 +109,10 @@ $sofortMAID = '6c0e7efd-ee58-40f7-9bbd-5e7337a052cd';
 $sofortSecretKey = 'dbc5a498-9a66-43b9-bf1d-a618dd399684';
 $sofortConfig = new PaymentMethodConfig(SofortTransaction::NAME, $sofortMAID, $sofortSecretKey);
 $config->add($sofortConfig);
+
+// ### Payolution
+
+$payolutionMAID = '2048677d-57f4-44b0-8d67-9014c6631d5f';
+$payolutionSecretKey = '74bd2f0c-6d1b-4e9a-b278-abc34b83ab9f';
+$payolutionConfig = new PaymentMethodConfig(PayolutionInvoiceTransaction::NAME, $payolutionMAID, $payolutionSecretKey);
+$config->add($payolutionConfig);

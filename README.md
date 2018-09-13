@@ -36,6 +36,7 @@ We also provide some examples for using the PaymentSDK, which can be found [here
 - giropay
 - iDEAL
 - Masterpass
+- Payolution Invoice
 - Pay now. (Sofort.)
 - Payment on Invoice/ Payment in Advance
 - PayPal
