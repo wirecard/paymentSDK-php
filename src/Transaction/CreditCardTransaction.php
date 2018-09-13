@@ -165,6 +165,15 @@ class CreditCardTransaction extends Transaction implements Reservable
     }
 
     /**
+     * @param string $descriptor
+     * @since 3.4.0
+     */
+    public function setDescriptor($descriptor)
+    {
+        $this->descriptor = preg_replace('/[^a-zA-Z0-9]/', '', $descriptor);
+    }
+
+    /**
      * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return array
      */

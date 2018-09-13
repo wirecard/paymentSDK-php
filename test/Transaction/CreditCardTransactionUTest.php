@@ -350,7 +350,6 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
         $transaction->mappedProperties();
     }
 
-
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedOperationException
      */
