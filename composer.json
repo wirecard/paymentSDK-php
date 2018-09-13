@@ -8,10 +8,6 @@
     "ext-intl": ">=1.0.0",
     "monolog/monolog": ">=1.16",
     "symfony/options-resolver": "^3",
-    "symfony/debug": "^3",
-    "symfony/console": "^3",
-    "symfony/process": "^3",
-    "symfony/yaml": "^3",
     "php-http/client-implementation": "^1.0",
     "php-http/client-common":"^1",
     "php-http/discovery":"^1",
@@ -26,7 +22,11 @@
     "mikey179/vfsStream": "^1.6",
     "php-http/guzzle6-adapter": ">=1.1.1",
     "mockery/mockery": "^1.1",
-    "codacy/coverage": "1.4.2"
+    "codacy/coverage": "1.4.2",
+    "symfony/debug": "^3",
+    "symfony/console": "^3",
+    "symfony/process": "^3",
+    "symfony/yaml": "^3"
   },
   "scripts": {
     "upload-coverage": "codacycoverage clover build/coverage/xml",
