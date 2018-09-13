@@ -32,6 +32,8 @@
 namespace Wirecard\PaymentSdk\Entity;
 
 use Wirecard\IsoToPayPal\Converter;
+use Wirecard\IsoToPayPal\Exception\CountryNotFoundException;
+use Wirecard\IsoToPayPal\Exception\StateNotFoundException;
 
 /**
  * Class Address
@@ -111,6 +113,8 @@ class Address implements MappableEntity
     /**
      * @param string $state
      * @since 3.0.1
+     * @throws CountryNotFoundException
+     * @throws StateNotFoundException
      * Set the state variable
      */
     public function setState($state)

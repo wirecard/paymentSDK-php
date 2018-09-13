@@ -26,7 +26,8 @@
     "symfony/debug": "^3",
     "symfony/console": "^3",
     "symfony/process": "^3",
-    "symfony/yaml": "^3"
+    "symfony/yaml": "^3",
+    "myclabs/deep-copy": "1.7.0"
   },
   "scripts": {
     "upload-coverage": "codacycoverage clover build/coverage/xml",
