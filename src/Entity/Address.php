@@ -31,6 +31,10 @@
 
 namespace Wirecard\PaymentSdk\Entity;
 
+use Wirecard\IsoToPayPal\Converter;
+use Wirecard\IsoToPayPal\Exception\CountryNotFoundException;
+use Wirecard\IsoToPayPal\Exception\StateNotFoundException;
+
 /**
  * Class Address
  * @package Wirecard\PaymentSdk\Entity
@@ -39,6 +43,13 @@ namespace Wirecard\PaymentSdk\Entity;
  */
 class Address implements MappableEntity
 {
+    /**
+     * @var Converter
+     *
+     * The ISO 3166-2 to PayPal converter.
+     */
+    private $converter;
+
     /**
      * @var string
      *
@@ -87,6 +98,7 @@ class Address implements MappableEntity
         $this->countryCode = $countryCode;
         $this->city = $city;
         $this->street1 = $street1;
+        $this->converter = new Converter();
     }
 
     /**
@@ -105,10 +117,15 @@ class Address implements MappableEntity
      */
     public function setState($state)
     {
-        if (strlen($state) > 32) {
-            throw new \InvalidArgumentException('.address.state maximum length of 32 was exceeded');
+        // If we fail, we just set an unfiltered state, because it can be assumed it is not relevant for our use case.
+        try {
+            $stateCode = $this->converter->convert($this->countryCode, trim($state));
+            $this->state = $stateCode;
+        } catch (StateNotFoundException $e) {
+            $this->state = $state;
+        } catch (CountryNotFoundException $e) {
+            $this->state = $state;
         }
-        $this->state = trim($state);
     }
 
     /**
@@ -144,7 +161,7 @@ class Address implements MappableEntity
         $result = [
             'street1' => $this->street1,
             'city' => $this->city,
-            'country' => $this->countryCode
+            'country' => $this->countryCode,
         ];
 
         if (null !== $this->state) {

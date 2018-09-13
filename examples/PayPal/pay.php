@@ -31,6 +31,14 @@ $redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return
 $notificationUrl = getUrl('notify.php');
 
 
+// ### Account hold r
+
+$address = new \Wirecard\PaymentSdk\Entity\Address('US', 'Portland', 'Mariahilferstraße');
+$address->setState('OR');
+
+$accountHolder = new \Wirecard\PaymentSdk\Entity\AccountHolder();
+$accountHolder->setAddress($address);
+
 // ## Transaction
 
 // The PayPal transaction holds all transaction relevant data for the payment process.
@@ -38,6 +46,7 @@ $transaction = new PayPalTransaction();
 $transaction->setNotificationUrl($notificationUrl);
 $transaction->setRedirect($redirectUrls);
 $transaction->setAmount($amount);
+$transaction->setAccountHolder($accountHolder);
 
 // ### Transaction Service
 

@@ -74,29 +74,6 @@ class AddressUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $this->addr->mappedProperties());
     }
 
-    public function testMappingWithState()
-    {
-        $this->addr->setState('OH');
-        $this->assertEquals('OH', $this->addr->getState());
-
-        $expectedResult = [
-            'street1' => self::DUMMY_ADDRESS,
-            'city' => self::GRAZ,
-            'country' => self::AT_COUNTRY_CODE,
-            'state' => 'OH'
-        ];
-
-        $this->assertEquals($expectedResult, $this->addr->mappedProperties());
-    }
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testMappingWithStateException()
-    {
-        $this->addr->setState(str_repeat('O', 33));
-    }
-
     public function testMappingWithStreet2()
     {
         $this->addr->setStreet2('1st floor');
@@ -109,6 +86,60 @@ class AddressUTest extends \PHPUnit_Framework_TestCase
         ];
 
         $this->assertEquals($expectedResult, $this->addr->mappedProperties());
+    }
+
+    public function testMappingWithState()
+    {
+
+        $address = new Address('US', 'Portland', '1 Main Street');
+        $address->setState('OR');
+
+        $this->assertEquals('OR', $address->getState());
+
+        $expectedResult = [
+            'street1' => '1 Main Street',
+            'city' => 'Portland',
+            'country' => 'US',
+            'state' => 'OR'
+        ];
+
+        $this->assertEquals($expectedResult, $address->mappedProperties());
+    }
+
+    public function testMappingWithStateNotFoundException()
+    {
+
+        $address = new Address('US', 'Portland', '1 Main Street');
+        $address->setState('ZZZ');
+
+        $this->assertEquals('ZZZ', $address->getState());
+
+        $expectedResult = [
+            'street1' => '1 Main Street',
+            'city' => 'Portland',
+            'country' => 'US',
+            'state' => 'ZZZ'
+        ];
+
+        $this->assertEquals($expectedResult, $address->mappedProperties());
+    }
+
+    public function testMappingWithCountryNotFoundException()
+    {
+
+        $address = new Address('AT', 'Portland', '1 Main Street');
+        $address->setState('ZZZ');
+
+        $this->assertEquals('ZZZ', $address->getState());
+
+        $expectedResult = [
+            'street1' => '1 Main Street',
+            'city' => 'Portland',
+            'country' => 'AT',
+            'state' => 'ZZZ'
+        ];
+
+        $this->assertEquals($expectedResult, $address->mappedProperties());
     }
 
     public function testMappingWithVeryLongStreet1()
