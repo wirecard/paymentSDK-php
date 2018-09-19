@@ -3420,6 +3420,14 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                             "slug": "transaction-related-objects"
                           },
                           "depth": 3
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Account hold r",
+                            "slug": "account-hold-r"
+                          },
+                          "depth": 3
                         }
                       ]
                     }, {
@@ -3576,6 +3584,14 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                             "slug": "transaction-related-objects"
                           },
                           "depth": 3
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Account holder",
+                            "slug": "account-holder"
+                          },
+                          "depth": 3
                         }
                       ]
                     }, {
@@ -3681,6 +3697,261 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                         "level": 2,
                         "title": "Payment results",
                         "slug": "payment-results"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }, {
+          "type": "folder",
+          "data": {
+            "path": "examples/Payolution_Invoice",
+            "title": "Payolution_Invoice"
+          },
+          "depth": 2,
+          "children": [
+            {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Payolution_Invoice/cancel.php",
+                "projectPath": "examples/Payolution_Invoice/cancel.php",
+                "targetPath": "examples/Payolution_Invoice/cancel",
+                "pageTitle": "examples/Payolution_Invoice/cancel",
+                "title": "cancel"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Cancelling a transaction",
+                    "slug": "cancelling-a-transaction"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Payolution_Invoice/pay-based-on-reserve.php",
+                "projectPath": "examples/Payolution_Invoice/pay-based-on-reserve.php",
+                "targetPath": "examples/Payolution_Invoice/pay-based-on-reserve",
+                "pageTitle": "examples/Payolution_Invoice/pay-based-on-reserve",
+                "title": "pay-based-on-reserve"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Payment after a reservation",
+                    "slug": "payment-after-a-reservation"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Payolution_Invoice/reserve.php",
+                "projectPath": "examples/Payolution_Invoice/reserve.php",
+                "targetPath": "examples/Payolution_Invoice/reserve",
+                "pageTitle": "examples/Payolution_Invoice/reserve",
+                "title": "reserve"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Payolution invoice reserve transaction",
+                    "slug": "payolution-invoice-reserve-transaction"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Account holder with address",
+                                "slug": "account-holder-with-address"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
                       },
                       "depth": 2
                     }
@@ -7620,6 +7891,151 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "foldPrefix": "^",
                   "name": "PHP"
                 },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/eps/credit-based-on-pay.php",
+                "projectPath": "examples/eps/credit-based-on-pay.php",
+                "targetPath": "examples/eps/credit-based-on-pay",
+                "pageTitle": "examples/eps/credit-based-on-pay",
+                "title": "credit-based-on-pay"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Credit based on pay",
+                    "slug": "credit-based-on-pay"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Response handling",
+                        "slug": "response-handling"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/eps/notify.php",
+                "projectPath": "examples/eps/notify.php",
+                "targetPath": "examples/eps/notify",
+                "pageTitle": "examples/eps/notify",
+                "title": "notify"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Eps notification",
+                    "slug": "eps-notification"
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Validation",
+                            "slug": "validation"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Notification status",
+                        "slug": "notification-status"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [{}, ".fbp"],
+                  "pygmentsLexer": "php",
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "PHP"
+                },
                 "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/eps/pay.php",
                 "projectPath": "examples/eps/pay.php",
                 "targetPath": "examples/eps/pay",
@@ -7708,8 +8124,8 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                       "type": "heading",
                       "data": {
                         "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
+                        "title": "Payment results",
+                        "slug": "payment-results"
                       },
                       "depth": 2
                     }
@@ -7761,18 +8177,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                         "title": "Required objects",
                         "slug": "required-objects"
                       },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
+                      "depth": 2
                     }, {
                       "type": "heading",
                       "data": {
@@ -7995,18 +8400,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                         "title": "Required objects",
                         "slug": "required-objects"
                       },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Validation",
-                            "slug": "validation"
-                          },
-                          "depth": 3
-                        }
-                      ]
+                      "depth": 2
                     }, {
                       "type": "heading",
                       "data": {
@@ -8083,18 +8477,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                         "title": "Required objects",
                         "slug": "required-objects"
                       },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
+                      "depth": 2
                     }, {
                       "type": "heading",
                       "data": {
@@ -8474,41 +8857,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                           "type": "heading",
                           "data": {
                             "level": 3,
-                            "title": "RatePAY",
-                            "slug": "ratepay"
-                          },
-                          "depth": 3,
-                          "children": [
-                            {
-                              "type": "heading",
-                              "data": {
-                                "level": 4,
-                                "title": "RatePAY Installment",
-                                "slug": "ratepay-installment"
-                              },
-                              "depth": 4
-                            }, {
-                              "type": "heading",
-                              "data": {
-                                "level": 4,
-                                "title": "RatePAY Invoice",
-                                "slug": "ratepay-invoice"
-                              },
-                              "depth": 4
-                            }
-                          ]
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "RatePay Direct Debit",
-                            "slug": "ratepay-direct-debit"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
                             "title": "Bancontact",
                             "slug": "bancontact"
                           },
@@ -8517,40 +8865,8 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                           "type": "heading",
                           "data": {
                             "level": 3,
-                            "title": "eps",
-                            "slug": "eps"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Payment on invoice / Payment in advance",
-                            "slug": "payment-on-invoice--payment-in-advance"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
                             "title": "Masterpass",
                             "slug": "masterpass"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Alipay Crossborder",
-                            "slug": "alipay-crossborder"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Przelewy24",
-                            "slug": "przelewy24"
                           },
                           "depth": 3
                         }, {
@@ -8597,11 +8913,11 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "foldPrefix": "^",
                   "name": "PHP"
                 },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/giropayconfig.php",
-                "projectPath": "examples/inc/giropayconfig.php",
-                "targetPath": "examples/inc/giropayconfig",
-                "pageTitle": "examples/inc/giropayconfig",
-                "title": "giropayconfig"
+                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/globalconfig.php",
+                "projectPath": "examples/inc/globalconfig.php",
+                "targetPath": "examples/inc/globalconfig",
+                "pageTitle": "examples/inc/globalconfig",
+                "title": "globalconfig"
               },
               "depth": 3,
               "outline": [
@@ -8609,8 +8925,8 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "type": "heading",
                   "data": {
                     "level": 1,
-                    "title": "Configuration",
-                    "slug": "configuration"
+                    "title": "Configuration with httpUser 16390-testing",
+                    "slug": "configuration-with-httpuser-16390-testing"
                   },
                   "depth": 1,
                   "children": [
@@ -8643,8 +8959,91 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                           "type": "heading",
                           "data": {
                             "level": 3,
+                            "title": "Guaranteed Invoice by Wirecard / Ratepay",
+                            "slug": "guaranteed-invoice-by-wirecard--ratepay"
+                          },
+                          "depth": 3,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 4,
+                                "title": "Guaranteed Installment by Wirecard / Ratepay",
+                                "slug": "guaranteed-installment-by-wirecard--ratepay"
+                              },
+                              "depth": 4
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Guaranteed Direct Debit by Ratepay",
+                            "slug": "guaranteed-direct-debit-by-ratepay"
+                          },
+                          "depth": 3
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Payment on Invoice / Payment in Advance",
+                            "slug": "payment-on-invoice--payment-in-advance"
+                          },
+                          "depth": 3
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Alipay Cross-border",
+                            "slug": "alipay-cross-border"
+                          },
+                          "depth": 3
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Przelewy24",
+                            "slug": "przelewy24"
+                          },
+                          "depth": 3
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
                             "title": "giropay",
                             "slug": "giropay"
+                          },
+                          "depth": 3
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "eps",
+                            "slug": "eps"
+                          },
+                          "depth": 3
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "iDEAL",
+                            "slug": "ideal"
+                          },
+                          "depth": 3
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Sofortbanking",
+                            "slug": "sofortbanking"
+                          },
+                          "depth": 3
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Payolution",
+                            "slug": "payolution"
                           },
                           "depth": 3
                         }
@@ -8672,73 +9071,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               },
               "depth": 3,
               "outline": []
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/idealconfig.php",
-                "projectPath": "examples/inc/idealconfig.php",
-                "targetPath": "examples/inc/idealconfig",
-                "pageTitle": "examples/inc/idealconfig",
-                "title": "idealconfig"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "iDEAL. Configuration",
-                    "slug": "ideal-configuration"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Connection",
-                        "slug": "connection"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Payment methods",
-                        "slug": "payment-methods"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "iDEAL",
-                            "slug": "ideal"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
             }, {
               "type": "file",
               "data": {
@@ -8873,73 +9205,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                             "level": 3,
                             "title": "SEPA Credit Transfer",
                             "slug": "sepa-credit-transfer"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/sofortconfig.php",
-                "projectPath": "examples/inc/sofortconfig.php",
-                "targetPath": "examples/inc/sofortconfig",
-                "pageTitle": "examples/inc/sofortconfig",
-                "title": "sofortconfig"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Sofort. Configuration",
-                    "slug": "sofort-configuration"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Connection",
-                        "slug": "connection"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Payment methods",
-                        "slug": "payment-methods"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Sofortbanking",
-                            "slug": "sofortbanking"
                           },
                           "depth": 3
                         }

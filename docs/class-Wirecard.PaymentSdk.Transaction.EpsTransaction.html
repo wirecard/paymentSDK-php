@@ -100,6 +100,7 @@
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.MaestroTransaction.html">MaestroTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.MasterpassTransaction.html">MasterpassTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.Operation.html">Operation</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.PayolutionInvoiceTransaction.html">PayolutionInvoiceTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.PayPalTransaction.html">PayPalTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.PaysafecardTransaction.html">PaysafecardTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.PoiPiaTransaction.html">PoiPiaTransaction</a></li>
@@ -178,7 +179,7 @@
 		<b>Namespace:</b> <a href="namespace-Wirecard.html">Wirecard</a>\<a href="namespace-Wirecard.PaymentSdk.html">PaymentSdk</a>\<a href="namespace-Wirecard.PaymentSdk.Transaction.html">Transaction</a><br>
 		<b>Package:</b> Wirecard\PaymentSdk\Transaction<br>
 
-			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.Transaction.EpsTransaction.html#34-60" title="Go to source code">Transaction/EpsTransaction.php</a>
+			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.Transaction.EpsTransaction.html#36-80" title="Go to source code">Transaction/EpsTransaction.php</a>
 		<br>
 	</div>
 
@@ -187,6 +188,44 @@
 		<div class="panel panel-default">
 			<div class="panel-heading"><h2>Methods summary</h2></div>
 			<table class="summary table table-bordered table-striped methods" id="methods">
+		<tr data-order="setBankAccount" id="_setBankAccount">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setBankAccount">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.EpsTransaction.html#49-58" title="Go to source code">setBankAccount</a>( <span><code><a href="class-Wirecard.PaymentSdk.Entity.BankAccount.html">Wirecard\PaymentSdk\Entity\BankAccount</a></code> <var>$bankAccount</var></span> )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$bankAccount</var></dt>
+						<dd></dd>
+					</dl></div>
+
+					<h4>Returns</h4>
+					<div class="list">
+						<br>$this
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
 		<tr data-order="mappedSpecificProperties" id="_mappedSpecificProperties">
 
 			<td class="attributes"><code>
@@ -198,7 +237,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_mappedSpecificProperties">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.EpsTransaction.html#47-54" title="Go to source code">mappedSpecificProperties</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.EpsTransaction.html#60-74" title="Go to source code">mappedSpecificProperties</a>( )</code>
 
 			<div class="description short">
 				
@@ -231,7 +270,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_retrieveTransactionTypeForPay">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.EpsTransaction.html#56-59" title="Go to source code">retrieveTransactionTypeForPay</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Transaction.EpsTransaction.html#76-79" title="Go to source code">retrieveTransactionTypeForPay</a>( )</code>
 
 			<div class="description short">
 				
@@ -373,33 +412,6 @@
 
 		<div class="panel panel-default">
             <div class="panel-heading"><h2>Properties summary</h2></div>
-			<table class="summary table table-bordered table-striped properties" id="properties">
-		<tr data-order="sepaCredit" id="$sepaCredit">
-			<td class="attributes"><code>
-				protected  
-				boolean
-			</code></td>
-
-			<td class="name">
-					<a href="source-class-Wirecard.PaymentSdk.Transaction.EpsTransaction.html#42-45" title="Go to source code"><var>$sepaCredit</var></a>
-
-				<div class="description short">
-					
-				</div>
-
-				<div class="description detailed hidden">
-					
-
-				</div>
-			</td>
-			<td class="value">
-				<div>
-					<a href="#$sepaCredit" class="anchor">#</a>
-					<code><span class="php-keyword1">true</span></code>
-				</div>
-			</td>
-		</tr>
-			</table>
 		</div>
 
 		<div class="panel panel-default">
@@ -419,7 +431,8 @@
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#$parentTransactionType"><var>$parentTransactionType</var></a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#$periodic"><var>$periodic</var></a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#$redirect"><var>$redirect</var></a></code>, 
-				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#$requestId"><var>$requestId</var></a></code>
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#$requestId"><var>$requestId</var></a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html#$sepaCredit"><var>$sepaCredit</var></a></code>
 			</p>
 		</div>
 		<div class="panel panel-default">
