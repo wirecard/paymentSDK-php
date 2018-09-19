@@ -52,11 +52,6 @@ class GiropayTransaction extends Transaction implements Reservable
     private $bankData;
 
     /**
-     * @var bool
-     */
-    protected $sepaCredit = true;
-
-    /**
      * @param $orderDetail
      * @return $this
      */
