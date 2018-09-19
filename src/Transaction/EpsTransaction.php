@@ -47,11 +47,6 @@ class EpsTransaction extends Transaction
     private $bankData;
 
     /**
-     * @var bool
-     */
-    protected $sepaCredit = true;
-
-    /**
      * @param BankAccount $bankAccount
      * @return $this
      */

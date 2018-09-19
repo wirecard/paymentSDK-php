@@ -34,12 +34,6 @@ if ($_POST) {
     if ($response instanceof SuccessResponse) {
         echo 'Payment successfully completed.<br>';
         echo getTransactionLink($baseUrl, $response);
-        ?>
-        <form action="credit-based-on-pay.php" method="post">
-            <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-            <button type="submit" class="btn btn-primary">Request a credit based on this payment</button>
-        </form>
-        <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
     } elseif ($response instanceof FailureResponse) {
         // In our example we iterate over all errors and echo them out.
