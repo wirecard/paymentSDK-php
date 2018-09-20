@@ -296,10 +296,16 @@ class TransactionService
             $secret = $isThreeD ? $config->getThreeDSecret() : $config->getSecret();
         }
 
+        $transactionType = 'tokenize';
+
+        if (!is_null($amount) && $amount->getValue() > 0) {
+            $transactionType = $paymentAction;
+        }
+
         $requestData = array(
             'request_time_stamp' => gmdate('YmdHis'),
             self::REQUEST_ID => call_user_func($this->requestIdGenerator, 64),
-            'transaction_type' => is_null($amount) ? 'tokenize' : $paymentAction,
+            'transaction_type' => $transactionType,
             'merchant_account_id' => $merchantAccountId,
             'requested_amount' => is_null($amount) ? 0 : $amount->getValue(),
             'requested_amount_currency' => is_null($amount) ? 'EUR' : $amount->getCurrency(),

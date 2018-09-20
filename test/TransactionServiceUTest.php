@@ -203,4 +203,18 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertNull($this->service->getTransactionByRequestId('123', 'creditcard'));
     }
+
+    public function testNullAmount()
+    {
+        $data = json_decode($this->service->getDataForCreditCardUi("en", null), true);
+        $this->assertEquals('tokenize', $data['transaction_type']);
+        $this->assertEquals('EUR', $data['requested_amount_currency']);
+
+        $data = json_decode($this->service->getDataForCreditCardUi("en", new Amount(0, "USD")), true);
+        $this->assertEquals('tokenize', $data['transaction_type']);
+        $this->assertEquals('USD', $data['requested_amount_currency']);
+
+        $data = json_decode($this->service->getDataForCreditCardUi("en", new Amount(10, "EUR")), true);
+        $this->assertEquals('authorization', $data['transaction_type']);
+    }
 }
