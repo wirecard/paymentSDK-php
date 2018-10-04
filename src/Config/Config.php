@@ -47,7 +47,7 @@ use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
  */
 class Config
 {
-    const VERSION_FILE = '../../VERSION';
+    const VERSION_FILE = __DIR__ . '/../../VERSION';
 
     /**
      * @var string

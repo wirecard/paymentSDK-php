@@ -166,9 +166,15 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
 
     public function testGetShopHeaderSetPlugin()
     {
+        $versionFile = __DIR__ . '/../../VERSION';
+        $version = '';
+        if (file_exists($versionFile)) {
+            $version = file_get_contents($versionFile, null, null, 0, 10);
+        }
+
         $expected = array(
             'shop-system-name' => 'paymentSDK-php',
-            'shop-system-version' => '',
+            'shop-system-version' => trim($version, " \t\n\r\0\x0B"),
             'plugin-name' => 'plugin',
             'plugin-version' => '1.0'
         );
