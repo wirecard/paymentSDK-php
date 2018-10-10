@@ -1,32 +1,38 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a8b7fc63a9b0c8a6712143bf816d93dc",
+    "content-hash": "d28ea166a0f93c0dc2b0bb458276ad2f",
     "packages": [
         {
             "name": "chillerlan/php-qrcode",
-            "version": "1.0.8",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/chillerlan/php-qrcode.git",
-                "reference": "37daf05058f6f5569c304e8491257f0da90d957e"
+                "reference": "cdde12f89c46594dc1972db87d93450ac397cb29"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/chillerlan/php-qrcode/zipball/37daf05058f6f5569c304e8491257f0da90d957e",
-                "reference": "37daf05058f6f5569c304e8491257f0da90d957e",
+                "url": "https://api.github.com/repos/chillerlan/php-qrcode/zipball/cdde12f89c46594dc1972db87d93450ac397cb29",
+                "reference": "cdde12f89c46594dc1972db87d93450ac397cb29",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.6.0"
+                "chillerlan/php-settings-container": "^1.0",
+                "php": "^7.2"
             },
             "require-dev": {
-                "phpunit/phpunit": "^5.7"
+                "phpunit/phpunit": "^7.3"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-v2.0.x-php5": "1.0.8-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "chillerlan\\QRCode\\": "src/"
@@ -38,20 +44,70 @@
             ],
             "authors": [
                 {
-                    "name": "Smiley",
-                    "email": "smiley@chillerlan.net"
-                },
-                {
                     "name": "Kazuhiko Arase",
                     "homepage": "https://github.com/kazuhikoarase"
+                },
+                {
+                    "name": "Smiley",
+                    "email": "smiley@chillerlan.net",
+                    "homepage": "https://github.com/codemasher"
                 }
             ],
-            "description": "A QR code generator. PHP 7+",
-            "homepage": "https://github.com/codemasher/php-qrcode",
+            "description": "A QR code generator. PHP 7.2+",
+            "homepage": "https://github.com/chillerlan/php-qrcode",
             "keywords": [
                 "qr code"
             ],
-            "time": "2018-01-19T05:06:49+00:00"
+            "time": "2018-10-01T11:36:56+00:00"
+        },
+        {
+            "name": "chillerlan/php-settings-container",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/chillerlan/php-settings-container.git",
+                "reference": "69d171253001d2d06058a36730a39545cdffd639"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/chillerlan/php-settings-container/zipball/69d171253001d2d06058a36730a39545cdffd639",
+                "reference": "69d171253001d2d06058a36730a39545cdffd639",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "chillerlan\\Settings\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Smiley",
+                    "email": "smiley@chillerlan.net",
+                    "homepage": "https://github.com/codemasher"
+                }
+            ],
+            "description": "A container class for immutable settings objects. Not a DI container. PHP 7.2+",
+            "homepage": "https://github.com/chillerlan/php-settings-container",
+            "keywords": [
+                "PHP7",
+                "PSR-11",
+                "Settings",
+                "container",
+                "helper"
+            ],
+            "time": "2018-10-01T11:12:11+00:00"
         },
         {
             "name": "clue/stream-filter",
