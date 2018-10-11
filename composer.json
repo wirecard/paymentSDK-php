@@ -22,7 +22,7 @@
     "php-http/guzzle6-adapter": ">=1.1.1",
     "mockery/mockery": "^1.1",
     "codacy/coverage": "1.4.2",
-    "symfony/debug": "^3",
+    "symfony/debug": "^4",
     "symfony/console": "^3",
     "symfony/process": "^3",
     "symfony/yaml": "^3"
