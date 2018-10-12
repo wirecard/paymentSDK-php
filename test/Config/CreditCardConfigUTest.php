@@ -146,13 +146,13 @@ class CreditCardConfigUTest extends \PHPUnit_Framework_TestCase
     public function testSetOnlyMaid()
     {
         $config = new CreditCardConfig(self::MAID, null);
-        $this->assertTrue(is_null($config->getSecret()));
+        $this->assertTrue(is_null($config->getMerchantAccountId()));
     }
 
     public function testSetOnlySecret()
     {
         $config = new CreditCardConfig(null, self::SECRET);
-        $this->assertTrue(is_null($config->getMerchantAccountId()));
+        $this->assertTrue(is_null($config->getSecret()));
     }
 
     public function testGetThreeDMerchantAccountId()
