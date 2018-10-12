@@ -143,6 +143,18 @@ class CreditCardConfigUTest extends \PHPUnit_Framework_TestCase
         $this->assertAttributeEquals(self::THREE_D_SECRET, 'threeDSecret', $this->config);
     }
 
+    public function testSetOnlyMaid()
+    {
+        $config = new CreditCardConfig(self::MAID, null);
+        $this->assertTrue(is_null($config->getSecret()));
+    }
+
+    public function testSetOnlySecret()
+    {
+        $config = new CreditCardConfig(null, self::SECRET);
+        $this->assertTrue(is_null($config->getMerchantAccountId()));
+    }
+
     public function testGetThreeDMerchantAccountId()
     {
         $this->config->setThreeDCredentials(self::THREE_D_MAID, self::THREE_D_SECRET);
