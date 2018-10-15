@@ -39,7 +39,7 @@ install:
 script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then composer test-coverage ; else composer test ; fi
   - if [[ $CHECK_CS == 'true' ]]; then composer cs-check ; fi
-  - if [[ $MUTATION_TESTS == 'true ]]; then composer infection ; fi
+  - if [[ $MUTATION_TESTS == 'true' ]]; then composer infection ; fi
 
 after_script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer upload-coverage ; fi
