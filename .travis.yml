@@ -27,7 +27,7 @@ matrix:
     - CREATE_DOCS=true
   - php: 7.1
     env:
-    - MUTATION_TEST=true
+    - MUTATION_TESTS=true
   - php: hhvm
 before_install:
   - travis_retry composer self-update
