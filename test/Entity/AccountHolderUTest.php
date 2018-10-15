@@ -46,6 +46,19 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
         $this->accountHolder = new AccountHolder();
     }
 
+    public function testConstructor()
+    {
+        $xml = '<?xml version="1.0" encoding="utf-8" standalone="yes"?><payment>
+          <first-name>first-name</first-name>
+          <last-name>last-name</last-name>
+          <email>test@test.com</email>
+          <date-of-birth>12-12-2012</date-of-birth>
+        </payment>';
+
+        $accountHolder = new AccountHolder(simplexml_load_string($xml));
+        $this->assertEquals('12-12-2012', $accountHolder->getDateOfBirth());
+    }
+
     public function testGetMappedPropertiesLastAndFirstName()
     {
         $firstName = 'Jane';

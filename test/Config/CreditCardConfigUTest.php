@@ -73,12 +73,12 @@ class CreditCardConfigUTest extends \PHPUnit_Framework_TestCase
 
     public function testAddSslMaxLimit()
     {
-        $this->config->addSslMaxLimit($this->amount);
+        $returned_config = $this->config->addSslMaxLimit($this->amount);
 
         $this->assertAttributeEquals(
             [$this->amount->getCurrency() => $this->amount->getValue()],
             'sslMaxLimits',
-            $this->config
+            $returned_config
         );
     }
 
@@ -113,12 +113,12 @@ class CreditCardConfigUTest extends \PHPUnit_Framework_TestCase
 
     public function testAddThreeDMinLimit()
     {
-        $this->config->addThreeDMinLimit($this->amount);
+        $returned_config = $this->config->addThreeDMinLimit($this->amount);
 
         $this->assertAttributeEquals(
             [$this->amount->getCurrency() => $this->amount->getValue()],
             'threeDMinLimits',
-            $this->config
+            $returned_config
         );
     }
 
@@ -133,14 +133,14 @@ class CreditCardConfigUTest extends \PHPUnit_Framework_TestCase
 
     public function testSetThreeDCredentials()
     {
-        $this->config->setThreeDCredentials(self::THREE_D_MAID, self::THREE_D_SECRET);
+        $returned_config = $this->config->setThreeDCredentials(self::THREE_D_MAID, self::THREE_D_SECRET);
 
         $this->assertAttributeEquals(
             self::THREE_D_MAID,
             'threeDMerchantAccountId',
             $this->config
         );
-        $this->assertAttributeEquals(self::THREE_D_SECRET, 'threeDSecret', $this->config);
+        $this->assertAttributeEquals(self::THREE_D_SECRET, 'threeDSecret', $returned_config);
     }
 
     public function testSetOnlyMaid()
@@ -171,15 +171,15 @@ class CreditCardConfigUTest extends \PHPUnit_Framework_TestCase
 
     public function testSetSSLCredentials()
     {
-        $this->config->setSSLCredentials('maid', 'secret');
+        $returned_config = $this->config->setSSLCredentials('maid', 'secret');
 
-        $this->assertEquals(['maid', 'secret'], [$this->config->getMerchantAccountId(), $this->config->getSecret()]);
+        $this->assertEquals(['maid', 'secret'], [$returned_config->getMerchantAccountId(), $returned_config->getSecret()]);
     }
 
     public function testSetNonThreeDCredentials()
     {
-        $this->config->setNonThreeDCredentials('maid', 'secret');
+        $returned_config = $this->config->setNonThreeDCredentials('maid', 'secret');
 
-        $this->assertEquals(['maid', 'secret'], [$this->config->getMerchantAccountId(), $this->config->getSecret()]);
+        $this->assertEquals(['maid', 'secret'], [$returned_config->getMerchantAccountId(), $returned_config->getSecret()]);
     }
 }

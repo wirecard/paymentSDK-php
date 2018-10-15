@@ -26,6 +26,8 @@ matrix:
     - CHECK_CS=true
     - CREATE_DOCS=true
   - php: 7.1
+    env:
+    - MUTATION_TEST=true
   - php: hhvm
 before_install:
   - travis_retry composer self-update
@@ -36,6 +38,7 @@ install:
 script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then composer test-coverage ; else composer test ; fi
   - if [[ $CHECK_CS == 'true' ]]; then composer cs-check ; fi
+  - if [[ $MUTATION_TESTS == 'true ]]; then composer infection ; fi
 
 after_script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer upload-coverage ; fi
