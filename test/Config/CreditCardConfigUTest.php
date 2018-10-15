@@ -173,13 +173,19 @@ class CreditCardConfigUTest extends \PHPUnit_Framework_TestCase
     {
         $returned_config = $this->config->setSSLCredentials('maid', 'secret');
 
-        $this->assertEquals(['maid', 'secret'], [$returned_config->getMerchantAccountId(), $returned_config->getSecret()]);
+        $this->assertEquals(
+            ['maid', 'secret'],
+            [$returned_config->getMerchantAccountId(), $returned_config->getSecret()]
+        );
     }
 
     public function testSetNonThreeDCredentials()
     {
         $returned_config = $this->config->setNonThreeDCredentials('maid', 'secret');
 
-        $this->assertEquals(['maid', 'secret'], [$returned_config->getMerchantAccountId(), $returned_config->getSecret()]);
+        $this->assertEquals(
+            ['maid', 'secret'],
+            [$returned_config->getMerchantAccountId(), $returned_config->getSecret()]
+        );
     }
 }
