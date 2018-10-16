@@ -387,9 +387,9 @@ class AccountHolder implements MappableEntity
         ];
 
         if (isset($simpleXmlElement->{'date-of-birth'})) {
-            $dob = \DateTime::createFromFormat('d-m-Y', (string)$simpleXmlElement->{'date-of-birth'});
+            $dob = \DateTime::createFromFormat('d-m-Y', strval($simpleXmlElement->{'date-of-birth'}));
             if (!$dob) {
-                $dob = \DateTime::createFromFormat('Y-m-d', (string)$simpleXmlElement->{'date-of-birth'});
+                $dob = \DateTime::createFromFormat('Y-m-d', strval($simpleXmlElement->{'date-of-birth'}));
             }
             $this->setDateOfBirth($dob);
         }
@@ -402,21 +402,21 @@ class AccountHolder implements MappableEntity
 
         if (isset($simpleXmlElement->address)) {
             $address = new Address(
-                (string)$simpleXmlElement->address->country,
-                (string)$simpleXmlElement->address->city,
-                (string)$simpleXmlElement->address->street1
+                $simpleXmlElement->address->country,
+                $simpleXmlElement->address->city,
+                strval($simpleXmlElement->address->street1)
             );
 
             if (isset($simpleXmlElement->address->{'postal-code'})) {
-                $address->setPostalCode((string)$simpleXmlElement->address->{'postal-code'});
+                $address->setPostalCode(strval($simpleXmlElement->address->{'postal-code'}));
             }
 
             if (isset($simpleXmlElement->address->street2)) {
-                $address->setStreet2((string)$simpleXmlElement->address->street2);
+                $address->setStreet2(strval($simpleXmlElement->address->street2));
             }
 
             if (isset($simpleXmlElement->address->{'house-extension'})) {
-                $address->setHouseExtension((string)$simpleXmlElement->address->{'house-extension'});
+                $address->setHouseExtension(strval($simpleXmlElement->address->{'house-extension'}));
             }
 
             $this->setAddress($address);
