@@ -89,7 +89,7 @@ class CustomFieldCollection implements \IteratorAggregate, MappableEntity
     public function get($fieldName)
     {
         $field = $this->getFieldByName($fieldName);
-        if ($field !== null) {
+        if (!is_null($field)) {
             return $field->getValue();
         }
         return null;

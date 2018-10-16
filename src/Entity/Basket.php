@@ -289,7 +289,7 @@ class Basket implements \IteratorAggregate, MappableEntity
      */
     private function translate($key, $translations)
     {
-        if ($translations != null && isset($translations[$key])) {
+        if (!is_null($translations) && isset($translations[$key])) {
             return $translations[$key];
         }
 

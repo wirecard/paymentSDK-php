@@ -67,7 +67,7 @@ class Device implements MappableEntity
     {
         $result = array();
 
-        if (null !== $this->fingerprint) {
+        if (!is_null($this->fingerprint)) {
             $result['fingerprint'] = $this->fingerprint;
         }
 
