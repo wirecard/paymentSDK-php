@@ -330,9 +330,11 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
         $this->accountHolder->setFirstName('firstName');
         $this->accountHolder->setLastName('lastName');
         $this->accountHolder->setPhone('123123');
+        //@codingStandardsIgnoreStart
         $expected = <<<HTML
 <table id='table_id' class='table_class'><tbody><tr><td>last-name</td><td>lastName</td></tr><tr><td>First Name</td><td>firstName</td></tr><tr><td>phone</td><td>123123</td></tr></tbody></table>
 HTML;
+        //@codingStandardsIgnoreEnd
 
         $this->assertEquals(
             $expected,
