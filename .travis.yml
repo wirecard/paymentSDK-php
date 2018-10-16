@@ -42,6 +42,7 @@ script:
   - if [[ $MUTATION_TESTS == 'true' ]]; then composer infection ; fi
 
 after_script:
+  - if [[ $MUTATION_TESTS == 'true' ]]; then cat infection-log.txt ; fi
   - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer upload-coverage ; fi
   - if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then bash .bin/generate-tag.sh ; fi
 
