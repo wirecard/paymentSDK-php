@@ -53,6 +53,14 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
           <last-name>last-name</last-name>
           <email>test@test.com</email>
           <date-of-birth>12-12-2012</date-of-birth>
+            <address>
+                <city>city</city>
+                <country>country</country>
+                <street>street</street>
+                <postal-code>1234</postal-code>
+                <street2>street2</street2>
+                <house-extension>12</house-extension>
+            </address>
         </payment>';
 
         $accountHolder = new AccountHolder(simplexml_load_string($xml));
@@ -317,19 +325,20 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
             'table_id' => 'table_id',
             'table_class' => 'table_class',
             'translations' => [
-                'title' => 'Account Holder'
-
+                'title' => 'Account Holder',
+                'first-name' => 'First Name'
             ]
         ];
         $this->accountHolder->setFirstName('firstName');
         $this->accountHolder->setLastName('lastName');
         $this->accountHolder->setPhone('123123');
         $expected = <<<HTML
-<table id='table_id' class='table_class'><tbody><tr><td>last-name</td><td>lastName</td></tr><tr><td>first-name</td><td>firstName</td></tr><tr><td>phone</td><td>123123</td></tr></tbody></table>
+<table id='table_id' class='table_class'><tbody><tr><td>last-name</td><td>lastName</td></tr><tr><td>First Name</td><td>firstName</td></tr><tr><td>phone</td><td>123123</td></tr></tbody></table>
 HTML;
 
         $this->assertEquals(
             $expected,
-            $this->accountHolder->getAsHtml($defaults));
+            $this->accountHolder->getAsHtml($defaults)
+        );
     }
 }

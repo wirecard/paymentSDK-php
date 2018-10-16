@@ -333,7 +333,7 @@ class AccountHolder implements MappableEntity
                 $data['address']
             );
 
-            return array_merge($data, $address);
+            $data = array_merge($data, $address);
         }
 
         return $data;
@@ -348,7 +348,7 @@ class AccountHolder implements MappableEntity
      */
     private function translate($key, $translations)
     {
-        if ($translations != null && isset($translations[$key])) {
+        if ($translations !== null && isset($translations[$key])) {
             return $translations[$key];
         }
 
