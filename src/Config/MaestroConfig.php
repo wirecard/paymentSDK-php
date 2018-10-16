@@ -42,6 +42,6 @@ class MaestroConfig extends CreditCardConfig
      */
     public function __construct($merchantAccountId = null, $secret = null)
     {
-        parent::__construct(null, null, MaestroTransaction::NAME);
+        parent::__construct($merchantAccountId, $secret, MaestroTransaction::NAME);
     }
 }
