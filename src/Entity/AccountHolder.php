@@ -106,6 +106,7 @@ class AccountHolder implements MappableEntity
     public function setFirstName($firstName)
     {
         $this->firstName = $firstName;
+        return $this;
     }
 
     /**
@@ -114,6 +115,7 @@ class AccountHolder implements MappableEntity
     public function setEmail($email)
     {
         $this->email = $email;
+        return $this;
     }
 
     /**
@@ -122,6 +124,7 @@ class AccountHolder implements MappableEntity
     public function setLastName($lastName)
     {
         $this->lastName = $lastName;
+        return $this;
     }
 
     /**
@@ -130,6 +133,7 @@ class AccountHolder implements MappableEntity
     public function setPhone($phone)
     {
         $this->phone = $phone;
+        return $this;
     }
 
     /**
@@ -138,6 +142,7 @@ class AccountHolder implements MappableEntity
     public function setAddress($address)
     {
         $this->address = $address;
+        return $this;
     }
 
     /**
@@ -146,6 +151,7 @@ class AccountHolder implements MappableEntity
     public function setCrmId($crmId)
     {
         $this->crmId = $crmId;
+        return $this;
     }
 
     /**
@@ -164,11 +170,13 @@ class AccountHolder implements MappableEntity
     public function setGender($gender)
     {
         $this->gender = $gender;
+        return $this;
     }
 
     public function setShippingMethod($shippingMethod)
     {
         $this->shippingMethod = $shippingMethod;
+        return $this;
     }
 
     /**
@@ -177,6 +185,7 @@ class AccountHolder implements MappableEntity
     public function setSocialSecurityNumber($securityNumber)
     {
         $this->socialSecurityNumber = $securityNumber;
+        return $this;
     }
 
     /**
@@ -374,7 +383,7 @@ class AccountHolder implements MappableEntity
 
         foreach ($fields as $field => $function) {
             if (isset($simpleXmlElement->{$field})) {
-                $this->{$function}((string)$simpleXmlElement->{$field});
+                $this->{$function}(strval($simpleXmlElement->{$field}));
             }
         }
 

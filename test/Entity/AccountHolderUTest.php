@@ -71,8 +71,8 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
     {
         $firstName = 'Jane';
         $lastName = 'Doe';
-        $this->accountHolder->setLastName($lastName);
-        $this->accountHolder->setFirstName($firstName);
+        $this->assertNotNull($this->accountHolder->setLastName($lastName));
+        $this->assertNotNull($this->accountHolder->setFirstName($firstName));
 
         $this->assertEquals(
             [
@@ -86,7 +86,7 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
     public function testGetMappedPropertiesLastNameAndEmail()
     {
         $email = 'Jane@doe.com';
-        $this->accountHolder->setEmail($email);
+        $this->assertNotNull($this->accountHolder->setEmail($email));
 
         $this->assertEquals(
             [
@@ -99,7 +99,7 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
     public function testGetMappedPropertiesLastNameAndPhone()
     {
         $phone = '+123 456 789';
-        $this->accountHolder->setPhone($phone);
+        $this->assertNotNull($this->accountHolder->setPhone($phone));
 
         $this->assertEquals(
             [
@@ -114,7 +114,7 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
         $addr = new Address('AT', 'Graz', 'Reininghausstraße 13a');
         $addr->setPostalCode('8020');
 
-        $this->accountHolder->setAddress($addr);
+        $this->assertNotNull($this->accountHolder->setAddress($addr));
 
         $expectedResult = [
             'address' => [
@@ -131,7 +131,7 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
     public function testGetMappedPropertiesCrmId()
     {
         $crmId = '1243df';
-        $this->accountHolder->setCrmId($crmId);
+        $this->assertNotNull($this->accountHolder->setCrmId($crmId));
 
         $this->assertEquals(
             [
@@ -144,7 +144,7 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
     public function testGetMappedPropertiesDateOfBirth()
     {
         $dateOfBirth = new \DateTime('2016-01-01');
-        $tempAccountHolder = $this->accountHolder->setDateOfBirth($dateOfBirth);
+        $this->assertNotNull($this->accountHolder->setDateOfBirth($dateOfBirth));
 
         $this->assertEquals(
             [
@@ -152,13 +152,12 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
             ],
             $this->accountHolder->mappedProperties()
         );
-        $this->assertNotNull($tempAccountHolder);
     }
 
     public function testGetMappedPropertiesGender()
     {
         $gender = 'f';
-        $this->accountHolder->setGender($gender);
+        $this->assertNotNull($this->accountHolder->setGender($gender));
 
         $this->assertEquals(
             [
@@ -171,7 +170,7 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
     public function testGetMappedPropertiesSecurityNumber()
     {
         $securityNumber = '1234567';
-        $this->accountHolder->setSocialSecurityNumber($securityNumber);
+        $this->assertNotNull($this->accountHolder->setSocialSecurityNumber($securityNumber));
 
         $this->assertEquals(
             [
@@ -184,7 +183,7 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
     public function testGetMappedPropertiesShippingMethod()
     {
         $shippingMethod = 'Express';
-        $this->accountHolder->setShippingMethod($shippingMethod);
+        $this->assertNotNull($this->accountHolder->setShippingMethod($shippingMethod));
 
         $this->assertEquals(
             [
