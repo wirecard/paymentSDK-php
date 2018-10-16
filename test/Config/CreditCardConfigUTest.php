@@ -31,6 +31,7 @@
 namespace WirecardTest\PaymentSdk\Config;
 
 use Wirecard\PaymentSdk\Config\CreditCardConfig;
+use Wirecard\PaymentSdk\Config\MaestroConfig;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 
@@ -191,7 +192,7 @@ class CreditCardConfigUTest extends \PHPUnit_Framework_TestCase
 
     public function testNewCreditCardConfig()
     {
-        $creditCardConfig = new CreditCardConfig('maid', 'secret');
+        $creditCardConfig = new MaestroConfig('maid', 'secret');
 
         $this->assertEquals('maid', $creditCardConfig->getMerchantAccountId());
     }

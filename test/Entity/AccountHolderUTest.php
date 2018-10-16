@@ -136,7 +136,7 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
     public function testGetMappedPropertiesDateOfBirth()
     {
         $dateOfBirth = new \DateTime('2016-01-01');
-        $this->accountHolder->setDateOfBirth($dateOfBirth);
+        $tempAccountHolder = $this->accountHolder->setDateOfBirth($dateOfBirth);
 
         $this->assertEquals(
             [
@@ -144,6 +144,7 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
             ],
             $this->accountHolder->mappedProperties()
         );
+        $this->assertNotNull($tempAccountHolder);
     }
 
     public function testGetMappedPropertiesGender()
@@ -308,5 +309,27 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
         ];
 
         $this->assertEquals($expectedResult, $this->accountHolder->mappedSeamlessProperties('shipping_'));
+    }
+
+    public function testGetAsHtml()
+    {
+        $defaults = [
+            'table_id' => 'table_id',
+            'table_class' => 'table_class',
+            'translations' => [
+                'title' => 'Account Holder'
+
+            ]
+        ];
+        $this->accountHolder->setFirstName('firstName');
+        $this->accountHolder->setLastName('lastName');
+        $this->accountHolder->setPhone('123123');
+        $expected = <<<HTML
+<table id='table_id' class='table_class'><tbody><tr><td>last-name</td><td>lastName</td></tr><tr><td>first-name</td><td>firstName</td></tr><tr><td>phone</td><td>123123</td></tr></tbody></table>
+HTML;
+
+        $this->assertEquals(
+            $expected,
+            $this->accountHolder->getAsHtml($defaults));
     }
 }
