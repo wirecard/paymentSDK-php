@@ -188,4 +188,11 @@ class CreditCardConfigUTest extends \PHPUnit_Framework_TestCase
             [$returned_config->getMerchantAccountId(), $returned_config->getSecret()]
         );
     }
+
+    public function testNewCreditCardConfig()
+    {
+        $creditCardConfig = new CreditCardConfig('maid', 'secret');
+
+        $this->assertEquals('maid', $creditCardConfig->getMerchantAccountId());
+    }
 }
