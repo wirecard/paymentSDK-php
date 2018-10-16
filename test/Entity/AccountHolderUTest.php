@@ -71,8 +71,7 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
     {
         $firstName = 'Jane';
         $lastName = 'Doe';
-        $this->assertNotNull($this->accountHolder->setLastName($lastName));
-        $this->assertNotNull($this->accountHolder->setFirstName($firstName));
+        $this->assertNotNull($this->accountHolder->setLastName($lastName)->setFirstName($firstName));
 
         $this->assertEquals(
             [

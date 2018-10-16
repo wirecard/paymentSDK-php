@@ -222,7 +222,7 @@ class AccountHolder implements MappableEntity
             $result['last-name'] = $this->lastName;
         }
 
-        if (is_null($this->firstName)) {
+        if (!is_null($this->firstName)) {
             $result['first-name'] = $this->firstName;
         }
 
