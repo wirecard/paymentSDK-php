@@ -102,6 +102,7 @@ class AccountHolder implements MappableEntity
 
     /**
      * @param string $firstName
+     * @return $this
      */
     public function setFirstName($firstName)
     {
@@ -111,6 +112,7 @@ class AccountHolder implements MappableEntity
 
     /**
      * @param string $email
+     * @return $this
      */
     public function setEmail($email)
     {
@@ -120,6 +122,7 @@ class AccountHolder implements MappableEntity
 
     /**
      * @param string $lastName
+     * @return $this
      */
     public function setLastName($lastName)
     {
@@ -129,6 +132,7 @@ class AccountHolder implements MappableEntity
 
     /**
      * @param mixed $phone
+     * @return $this
      */
     public function setPhone($phone)
     {
@@ -138,6 +142,7 @@ class AccountHolder implements MappableEntity
 
     /**
      * @param Address $address
+     * @return $this
      */
     public function setAddress($address)
     {
@@ -147,6 +152,7 @@ class AccountHolder implements MappableEntity
 
     /**
      * @param string $crmId
+     * @return $this
      */
     public function setCrmId($crmId)
     {
@@ -157,6 +163,7 @@ class AccountHolder implements MappableEntity
     /**
      * @param \DateTime $dateOfBirth
      * @return AccountHolder
+     * @return $this
      */
     public function setDateOfBirth(\DateTime $dateOfBirth)
     {
@@ -166,6 +173,7 @@ class AccountHolder implements MappableEntity
 
     /**
      * @param string $gender
+     * @return $this
      */
     public function setGender($gender)
     {
@@ -173,6 +181,10 @@ class AccountHolder implements MappableEntity
         return $this;
     }
 
+    /**
+     * @param $shippingMethod
+     * @return $this
+     */
     public function setShippingMethod($shippingMethod)
     {
         $this->shippingMethod = $shippingMethod;
@@ -181,6 +193,7 @@ class AccountHolder implements MappableEntity
 
     /**
      * @param string $securityNumber
+     * @return $this
      */
     public function setSocialSecurityNumber($securityNumber)
     {
@@ -205,43 +218,43 @@ class AccountHolder implements MappableEntity
     {
         $result = array();
 
-        if (null !== $this->lastName) {
+        if (!is_null($this->lastName)) {
             $result['last-name'] = $this->lastName;
         }
 
-        if (null !== $this->firstName) {
+        if (is_null($this->firstName)) {
             $result['first-name'] = $this->firstName;
         }
 
-        if (null !== $this->email) {
+        if (!is_null($this->email)) {
             $result['email'] = $this->email;
         }
 
-        if (null !== $this->dateOfBirth) {
+        if (!is_null($this->dateOfBirth)) {
             $result['date-of-birth'] = $this->dateOfBirth->format('d-m-Y');
         }
 
-        if (null !== $this->phone) {
+        if (!is_null($this->phone)) {
             $result['phone'] = $this->phone;
         }
 
-        if (null !== $this->address) {
+        if (!is_null($this->address)) {
             $result['address'] = $this->address->mappedProperties();
         }
 
-        if (null !== $this->crmId) {
+        if (!is_null($this->crmId)) {
             $result['merchant-crm-id'] = $this->crmId;
         }
 
-        if (null !== $this->gender) {
+        if (!is_null($this->gender)) {
             $result['gender'] = $this->gender;
         }
 
-        if (null !== $this->socialSecurityNumber) {
+        if (!is_null($this->socialSecurityNumber)) {
             $result['social-security-number'] = $this->socialSecurityNumber;
         }
 
-        if (null !== $this->shippingMethod) {
+        if (!is_null($this->shippingMethod)) {
             $result['shipping-method'] = $this->shippingMethod;
         }
 
@@ -257,42 +270,42 @@ class AccountHolder implements MappableEntity
         $result = array();
 
         if (self::SHIPPING == $type) {
-            if (null !== $this->phone) {
+            if (!is_null($this->phone)) {
                 $result[$type . 'phone'] = $this->phone;
             }
 
-            if (null !== $this->address) {
+            if (!is_null($this->address)) {
                 $result = array_merge($result, $this->address->mappedSeamlessProperties($type));
             }
 
             return $result;
         }
 
-        if (null !== $this->email) {
+        if (!is_null($this->email)) {
             $result['email'] = $this->email;
         }
 
-        if (null !== $this->dateOfBirth) {
+        if (!is_null($this->dateOfBirth)) {
             $result['date_of_birth'] = $this->dateOfBirth->format('d-m-Y');
         }
 
-        if (null !== $this->phone) {
+        if (!is_null($this->phone)) {
             $result['phone'] = $this->phone;
         }
 
-        if (null !== $this->address) {
+        if (!is_null($this->address)) {
             $result = array_merge($result, $this->address->mappedSeamlessProperties());
         }
 
-        if (null !== $this->crmId) {
+        if (!is_null($this->crmId)) {
             $result['merchant_crm_id'] = $this->crmId;
         }
 
-        if (null !== $this->gender) {
+        if (!is_null($this->gender)) {
             $result['gender'] = $this->gender;
         }
 
-        if (null !== $this->socialSecurityNumber) {
+        if (!is_null($this->socialSecurityNumber)) {
             $result['consumer_social_security_number'] = $this->socialSecurityNumber;
         }
 
@@ -357,7 +370,7 @@ class AccountHolder implements MappableEntity
      */
     private function translate($key, $translations)
     {
-        if ($translations !== null && isset($translations[$key])) {
+        if (!is_null($translations) && isset($translations[$key])) {
             return $translations[$key];
         }
 
