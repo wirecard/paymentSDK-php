@@ -192,11 +192,11 @@ class Item implements MappableEntity
         $data['quantity'] = $this->quantity;
         $data['amount'] = $this->price->mappedProperties();
 
-        if (null !== $this->description) {
+        if (!is_null($this->description)) {
             $data['description'] = $this->description;
         }
 
-        if (null !== $this->articleNumber) {
+        if (!is_null($this->articleNumber)) {
             $data['article-number'] = $this->articleNumber;
         }
 
@@ -226,11 +226,11 @@ class Item implements MappableEntity
         $item['orderItems' . $iterator . '.amount.value'] = $this->price->getValue();
         $item['orderItems' . $iterator . '.amount.currency'] = $this->price->getCurrency();
 
-        if (null !== $this->articleNumber) {
+        if (!is_null($this->articleNumber)) {
             $item['orderItems' . $iterator . '.articleNumber'] = $this->articleNumber;
         }
 
-        if (null !== $this->taxRate) {
+        if (!is_null($this->taxRate)) {
             $item['orderItems' . $iterator . '.taxRate'] = $this->taxRate;
         }
 
@@ -244,9 +244,9 @@ class Item implements MappableEntity
      */
     private function payPalMappedProperties($data)
     {
-        if (null !== $this->taxAmount) {
+        if (!is_null($this->taxAmount)) {
             $data['tax-amount'] = $this->taxAmount->mappedProperties();
-        } elseif (null !== $this->taxRate) {
+        } elseif (!is_null($this->taxRate)) {
             $taxAmountValue = number_format($this->price->getValue() * $this->quantity * ($this->taxRate / 100.0), 2);
             $taxAmount = new Amount($taxAmountValue, $this->price->getCurrency());
 
@@ -262,7 +262,7 @@ class Item implements MappableEntity
      */
     private function ratepayMappedProperties($data)
     {
-        if (null !== $this->taxRate) {
+        if (!is_null($this->taxRate)) {
             $data['tax-rate'] = $this->taxRate;
         }
 

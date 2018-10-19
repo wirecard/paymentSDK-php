@@ -41,6 +41,7 @@ use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\BackendService;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
+use Mockery as m;
 
 /**
  * Class TransactionServiceUTest
@@ -67,10 +68,12 @@ class BackendServiceUTest extends \PHPUnit_Framework_TestCase
 
     public function testRetrieveBackendOperations()
     {
+        $service = m::mock(BackendService::class);
+        $service->shouldReceive('retrieveBackendOperations')->andReturn(false);
         $transaction = new CreditCardTransaction();
         $transaction->setParentTransactionId('id');
 
-        $this->assertFalse($this->service->retrieveBackendOperations($transaction));
+        $this->assertFalse($service->retrieveBackendOperations($transaction));
     }
 
     public function testGetOrderState()

@@ -100,9 +100,9 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
     public function testGetStraightforwardCase()
     {
         $payPalConfig = new PaymentMethodConfig(PayPalTransaction::NAME, 'mid', 'key');
-        $this->config->add($payPalConfig);
+        $config = $this->config->add($payPalConfig);
 
-        $this->assertEquals($payPalConfig, $this->config->get(PayPalTransaction::NAME));
+        $this->assertEquals($payPalConfig, $config->get(PayPalTransaction::NAME));
     }
 
     public function testGetFallback()
@@ -191,6 +191,18 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array('headers' => $expected), $this->config->getShopHeader());
     }
 
+    public function testGetShopHeaderSetShopAndOnlyShopName()
+    {
+        $expected = array(
+            'shop-system-name' => 'testshop',
+            'shop-system-version' => '1.1',
+        );
+        $this->config->setShopInfo($expected['shop-system-name'], $expected['shop-system-version']);
+        $this->config->setPluginInfo('pluginName', '');
+
+        $this->assertEquals(array('headers' => $expected), $this->config->getShopHeader());
+    }
+
     public function testGetVersionFromNotExistingFile()
     {
         $helper = function ($file) {
@@ -203,7 +215,7 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('', $bound($file));
     }
 
-    public function testGetVersionFromExistingFile()
+    public function testGetVersionFromExistingFileWithVersionLengthTen()
     {
         $getHelper = function ($file) {
             return $this->getVersionFromFile($file);
@@ -212,9 +224,18 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
 
         $root = vfsStream::setup();
         $file = vfsStream::newFile('version-test.txt')
-            ->withContent('1.0.0')
+            ->withContent('1.0.0.0.12.123')
             ->at($root);
 
-        $this->assertEquals('1.0.0', $bound($file->url()));
+        $this->assertEquals('1.0.0.0.12', $bound($file->url()));
+    }
+
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
+     */
+    public function testInvalidCreditCardConfig()
+    {
+        new PaymentMethodConfig(PayPalTransaction::NAME, 'maid');
     }
 }

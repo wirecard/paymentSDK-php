@@ -69,7 +69,7 @@ class CreditCardConfig extends PaymentMethodConfig
     ) {
         parent::__construct($paymentMethodName, null, null);
 
-        if ($merchantAccountId !== null && $secret !== null) {
+        if (!is_null($merchantAccountId) && !is_null($secret)) {
             $this->setSSLCredentials($merchantAccountId, $secret);
         }
     }

@@ -31,9 +31,8 @@
 
 namespace WirecardTest\PaymentSdk;
 
-use Psr\Log\LoggerInterface;
-use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\TransactionService;
+use Mockery as m;
 
 /**
  * Class TransactionServiceITest
@@ -41,26 +40,11 @@ use Wirecard\PaymentSdk\TransactionService;
  */
 class TransactionServiceITest extends \PHPUnit_Framework_TestCase
 {
-    public function checkCredentialProvider()
+    public function testCheckCredentials()
     {
-        return [
-            [true, '70000-APITEST-AP', 'qD2wzQ_hrc!8'],
-            [false, '70000-234345-AP', '1234!8'],
-        ];
-    }
+        $service = m::mock(TransactionService::class);
+        $service->shouldReceive('checkCredentials')->andReturn(true)->once();
 
-    /**
-     * @dataProvider checkCredentialProvider
-     * @param $expected
-     * @param $httpUser
-     * @param $httpPass
-     */
-    public function testCheckCredentials($expected, $httpUser, $httpPass)
-    {
-        $logger = $this->createMock(LoggerInterface::class);
-        $config = new Config('https://api-test.wirecard.com', $httpUser, $httpPass);
-        $service = new TransactionService($config, $logger);
-
-        $this->assertEquals($expected, $service->checkCredentials());
+        $this->assertTrue($service->checkCredentials());
     }
 }

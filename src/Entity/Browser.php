@@ -55,10 +55,10 @@ class Browser implements MappableEntity
      */
     public function __construct($accept = null, $userAgent = null)
     {
-        if (null !== $accept) {
+        if (!is_null($accept)) {
             $this->setAccept($accept);
         }
-        if (null !== $userAgent) {
+        if (!is_null($userAgent)) {
             $this->setUserAgent($userAgent);
         }
     }

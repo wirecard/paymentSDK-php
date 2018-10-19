@@ -46,12 +46,32 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
         $this->accountHolder = new AccountHolder();
     }
 
+    public function testConstructor()
+    {
+        $xml = '<?xml version="1.0" encoding="utf-8" standalone="yes"?><payment>
+          <first-name>first-name</first-name>
+          <last-name>last-name</last-name>
+          <email>test@test.com</email>
+          <date-of-birth>12-12-2012</date-of-birth>
+            <address>
+                <city>city</city>
+                <country>country</country>
+                <street>street</street>
+                <postal-code>1234</postal-code>
+                <street2>street2</street2>
+                <house-extension>12</house-extension>
+            </address>
+        </payment>';
+
+        $accountHolder = new AccountHolder(simplexml_load_string($xml));
+        $this->assertEquals('12-12-2012', $accountHolder->getDateOfBirth());
+    }
+
     public function testGetMappedPropertiesLastAndFirstName()
     {
         $firstName = 'Jane';
         $lastName = 'Doe';
-        $this->accountHolder->setLastName($lastName);
-        $this->accountHolder->setFirstName($firstName);
+        $this->assertNotNull($this->accountHolder->setLastName($lastName)->setFirstName($firstName));
 
         $this->assertEquals(
             [
@@ -65,7 +85,7 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
     public function testGetMappedPropertiesLastNameAndEmail()
     {
         $email = 'Jane@doe.com';
-        $this->accountHolder->setEmail($email);
+        $this->assertNotNull($this->accountHolder->setEmail($email));
 
         $this->assertEquals(
             [
@@ -78,7 +98,7 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
     public function testGetMappedPropertiesLastNameAndPhone()
     {
         $phone = '+123 456 789';
-        $this->accountHolder->setPhone($phone);
+        $this->assertNotNull($this->accountHolder->setPhone($phone));
 
         $this->assertEquals(
             [
@@ -93,7 +113,7 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
         $addr = new Address('AT', 'Graz', 'Reininghausstraße 13a');
         $addr->setPostalCode('8020');
 
-        $this->accountHolder->setAddress($addr);
+        $this->assertNotNull($this->accountHolder->setAddress($addr));
 
         $expectedResult = [
             'address' => [
@@ -110,7 +130,7 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
     public function testGetMappedPropertiesCrmId()
     {
         $crmId = '1243df';
-        $this->accountHolder->setCrmId($crmId);
+        $this->assertNotNull($this->accountHolder->setCrmId($crmId));
 
         $this->assertEquals(
             [
@@ -123,7 +143,7 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
     public function testGetMappedPropertiesDateOfBirth()
     {
         $dateOfBirth = new \DateTime('2016-01-01');
-        $this->accountHolder->setDateOfBirth($dateOfBirth);
+        $this->assertNotNull($this->accountHolder->setDateOfBirth($dateOfBirth));
 
         $this->assertEquals(
             [
@@ -136,7 +156,7 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
     public function testGetMappedPropertiesGender()
     {
         $gender = 'f';
-        $this->accountHolder->setGender($gender);
+        $this->assertNotNull($this->accountHolder->setGender($gender));
 
         $this->assertEquals(
             [
@@ -149,7 +169,7 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
     public function testGetMappedPropertiesSecurityNumber()
     {
         $securityNumber = '1234567';
-        $this->accountHolder->setSocialSecurityNumber($securityNumber);
+        $this->assertNotNull($this->accountHolder->setSocialSecurityNumber($securityNumber));
 
         $this->assertEquals(
             [
@@ -162,7 +182,7 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
     public function testGetMappedPropertiesShippingMethod()
     {
         $shippingMethod = 'Express';
-        $this->accountHolder->setShippingMethod($shippingMethod);
+        $this->assertNotNull($this->accountHolder->setShippingMethod($shippingMethod));
 
         $this->assertEquals(
             [
@@ -295,5 +315,30 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
         ];
 
         $this->assertEquals($expectedResult, $this->accountHolder->mappedSeamlessProperties('shipping_'));
+    }
+
+    public function testGetAsHtml()
+    {
+        $defaults = [
+            'table_id' => 'table_id',
+            'table_class' => 'table_class',
+            'translations' => [
+                'title' => 'Account Holder',
+                'first-name' => 'First Name'
+            ]
+        ];
+        $this->accountHolder->setFirstName('firstName');
+        $this->accountHolder->setLastName('lastName');
+        $this->accountHolder->setPhone('123123');
+        // phpcs:disable
+        $expected = <<<HTML
+<table id='table_id' class='table_class'><tbody><tr><td>last-name</td><td>lastName</td></tr><tr><td>First Name</td><td>firstName</td></tr><tr><td>phone</td><td>123123</td></tr></tbody></table>
+HTML;
+        // phpcs:enable
+
+        $this->assertEquals(
+            $expected,
+            $this->accountHolder->getAsHtml($defaults)
+        );
     }
 }

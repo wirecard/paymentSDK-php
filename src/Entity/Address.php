@@ -164,15 +164,15 @@ class Address implements MappableEntity
             'country' => $this->countryCode,
         ];
 
-        if (null !== $this->state) {
+        if (!is_null($this->state)) {
             $result['state'] = $this->state;
         }
 
-        if (null !== $this->postalCode) {
+        if (!is_null($this->postalCode)) {
             $result['postal-code'] = $this->postalCode;
         }
 
-        if (null !== $this->street2) {
+        if (!is_null($this->street2)) {
             $result['street2'] = $this->street2;
         } else {
             if (strlen($this->street1) > 128) {
@@ -181,7 +181,7 @@ class Address implements MappableEntity
             }
         }
 
-        if (null !== $this->houseExtension) {
+        if (!is_null($this->houseExtension)) {
             $result['house-extension'] = $this->houseExtension;
         }
 
@@ -200,11 +200,11 @@ class Address implements MappableEntity
             $type . 'country' => $this->countryCode
         ];
 
-        if (null !== $this->postalCode) {
+        if (!is_null($this->postalCode)) {
             $result[$type . 'postal_code'] = $this->postalCode;
         }
 
-        if (null !== $this->street2) {
+        if (!is_null($this->street2)) {
             $result[$type . 'street2'] = $this->street2;
         } else {
             if (strlen($this->street1) > 128) {

@@ -102,55 +102,68 @@ class AccountHolder implements MappableEntity
 
     /**
      * @param string $firstName
+     * @return $this
      */
     public function setFirstName($firstName)
     {
         $this->firstName = $firstName;
+        return $this;
     }
 
     /**
      * @param string $email
+     * @return $this
      */
     public function setEmail($email)
     {
         $this->email = $email;
+        return $this;
     }
 
     /**
      * @param string $lastName
+     * @return $this
      */
     public function setLastName($lastName)
     {
         $this->lastName = $lastName;
+        return $this;
     }
 
     /**
      * @param mixed $phone
+     * @return $this
      */
     public function setPhone($phone)
     {
         $this->phone = $phone;
+        return $this;
     }
 
     /**
      * @param Address $address
+     * @return $this
      */
     public function setAddress($address)
     {
         $this->address = $address;
+        return $this;
     }
 
     /**
      * @param string $crmId
+     * @return $this
      */
     public function setCrmId($crmId)
     {
         $this->crmId = $crmId;
+        return $this;
     }
 
     /**
      * @param \DateTime $dateOfBirth
      * @return AccountHolder
+     * @return $this
      */
     public function setDateOfBirth(\DateTime $dateOfBirth)
     {
@@ -160,23 +173,32 @@ class AccountHolder implements MappableEntity
 
     /**
      * @param string $gender
+     * @return $this
      */
     public function setGender($gender)
     {
         $this->gender = $gender;
+        return $this;
     }
 
+    /**
+     * @param $shippingMethod
+     * @return $this
+     */
     public function setShippingMethod($shippingMethod)
     {
         $this->shippingMethod = $shippingMethod;
+        return $this;
     }
 
     /**
      * @param string $securityNumber
+     * @return $this
      */
     public function setSocialSecurityNumber($securityNumber)
     {
         $this->socialSecurityNumber = $securityNumber;
+        return $this;
     }
 
     /**
@@ -196,43 +218,43 @@ class AccountHolder implements MappableEntity
     {
         $result = array();
 
-        if (null !== $this->lastName) {
+        if (!is_null($this->lastName)) {
             $result['last-name'] = $this->lastName;
         }
 
-        if (null !== $this->firstName) {
+        if (!is_null($this->firstName)) {
             $result['first-name'] = $this->firstName;
         }
 
-        if (null !== $this->email) {
+        if (!is_null($this->email)) {
             $result['email'] = $this->email;
         }
 
-        if (null !== $this->dateOfBirth) {
+        if (!is_null($this->dateOfBirth)) {
             $result['date-of-birth'] = $this->dateOfBirth->format('d-m-Y');
         }
 
-        if (null !== $this->phone) {
+        if (!is_null($this->phone)) {
             $result['phone'] = $this->phone;
         }
 
-        if (null !== $this->address) {
+        if (!is_null($this->address)) {
             $result['address'] = $this->address->mappedProperties();
         }
 
-        if (null !== $this->crmId) {
+        if (!is_null($this->crmId)) {
             $result['merchant-crm-id'] = $this->crmId;
         }
 
-        if (null !== $this->gender) {
+        if (!is_null($this->gender)) {
             $result['gender'] = $this->gender;
         }
 
-        if (null !== $this->socialSecurityNumber) {
+        if (!is_null($this->socialSecurityNumber)) {
             $result['social-security-number'] = $this->socialSecurityNumber;
         }
 
-        if (null !== $this->shippingMethod) {
+        if (!is_null($this->shippingMethod)) {
             $result['shipping-method'] = $this->shippingMethod;
         }
 
@@ -248,42 +270,42 @@ class AccountHolder implements MappableEntity
         $result = array();
 
         if (self::SHIPPING == $type) {
-            if (null !== $this->phone) {
+            if (!is_null($this->phone)) {
                 $result[$type . 'phone'] = $this->phone;
             }
 
-            if (null !== $this->address) {
+            if (!is_null($this->address)) {
                 $result = array_merge($result, $this->address->mappedSeamlessProperties($type));
             }
 
             return $result;
         }
 
-        if (null !== $this->email) {
+        if (!is_null($this->email)) {
             $result['email'] = $this->email;
         }
 
-        if (null !== $this->dateOfBirth) {
+        if (!is_null($this->dateOfBirth)) {
             $result['date_of_birth'] = $this->dateOfBirth->format('d-m-Y');
         }
 
-        if (null !== $this->phone) {
+        if (!is_null($this->phone)) {
             $result['phone'] = $this->phone;
         }
 
-        if (null !== $this->address) {
+        if (!is_null($this->address)) {
             $result = array_merge($result, $this->address->mappedSeamlessProperties());
         }
 
-        if (null !== $this->crmId) {
+        if (!is_null($this->crmId)) {
             $result['merchant_crm_id'] = $this->crmId;
         }
 
-        if (null !== $this->gender) {
+        if (!is_null($this->gender)) {
             $result['gender'] = $this->gender;
         }
 
-        if (null !== $this->socialSecurityNumber) {
+        if (!is_null($this->socialSecurityNumber)) {
             $result['consumer_social_security_number'] = $this->socialSecurityNumber;
         }
 
@@ -333,7 +355,7 @@ class AccountHolder implements MappableEntity
                 $data['address']
             );
 
-            return array_merge($data, $address);
+            $data = array_merge($data, $address);
         }
 
         return $data;
@@ -348,7 +370,7 @@ class AccountHolder implements MappableEntity
      */
     private function translate($key, $translations)
     {
-        if ($translations != null && isset($translations[$key])) {
+        if (!is_null($translations) && isset($translations[$key])) {
             return $translations[$key];
         }
 
@@ -365,36 +387,36 @@ class AccountHolder implements MappableEntity
         ];
 
         if (isset($simpleXmlElement->{'date-of-birth'})) {
-            $dob = \DateTime::createFromFormat('d-m-Y', (string)$simpleXmlElement->{'date-of-birth'});
+            $dob = \DateTime::createFromFormat('d-m-Y', strval($simpleXmlElement->{'date-of-birth'}));
             if (!$dob) {
-                $dob = \DateTime::createFromFormat('Y-m-d', (string)$simpleXmlElement->{'date-of-birth'});
+                $dob = \DateTime::createFromFormat('Y-m-d', strval($simpleXmlElement->{'date-of-birth'}));
             }
             $this->setDateOfBirth($dob);
         }
 
         foreach ($fields as $field => $function) {
             if (isset($simpleXmlElement->{$field})) {
-                $this->{$function}((string)$simpleXmlElement->{$field});
+                $this->{$function}(strval($simpleXmlElement->{$field}));
             }
         }
 
         if (isset($simpleXmlElement->address)) {
             $address = new Address(
-                (string)$simpleXmlElement->address->country,
-                (string)$simpleXmlElement->address->city,
-                (string)$simpleXmlElement->address->street1
+                $simpleXmlElement->address->country,
+                $simpleXmlElement->address->city,
+                strval($simpleXmlElement->address->street1)
             );
 
             if (isset($simpleXmlElement->address->{'postal-code'})) {
-                $address->setPostalCode((string)$simpleXmlElement->address->{'postal-code'});
+                $address->setPostalCode(strval($simpleXmlElement->address->{'postal-code'}));
             }
 
             if (isset($simpleXmlElement->address->street2)) {
-                $address->setStreet2((string)$simpleXmlElement->address->street2);
+                $address->setStreet2(strval($simpleXmlElement->address->street2));
             }
 
             if (isset($simpleXmlElement->address->{'house-extension'})) {
-                $address->setHouseExtension((string)$simpleXmlElement->address->{'house-extension'});
+                $address->setHouseExtension(strval($simpleXmlElement->address->{'house-extension'}));
             }
 
             $this->setAddress($address);
