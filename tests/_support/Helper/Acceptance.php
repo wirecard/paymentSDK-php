@@ -15,4 +15,10 @@ class Acceptance extends \Codeception\Module
         $link_address_end = substr($link, stripos($link, "/") + 2);
         return $link_address = $link_address_start . $credentials . $link_address_end;
     }
+
+    public static function getTransactionIDFromLink($link)
+    {
+        $transaction_id = explode('/', $link);
+        return $transaction_id = end($transaction_id);
+    }
 }
