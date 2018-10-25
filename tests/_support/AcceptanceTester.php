@@ -25,14 +25,18 @@ class AcceptanceTester extends \Codeception\Actor
 
     private $pages = array(
         "Create Credit Card UI Page" => "\Page\CreditCardCreateUIPage",
-        "Reserve Page" => "\Page\CreditCardReservePage",
-        "Success Page" => "\Page\CreditCardSuccessPage",
+        "Credit Card Reserve Page" => "\Page\CreditCardReservePage",
+        "Credit Card Success Page" => "\Page\CreditCardSuccessPage",
         "Verified by Visa Page" => "\Page\VerifiedByVisaPage",
-        "Wirecard Transaction Details Page" => "\Page\WirecardTransactionDetailsPage"
+        "Wirecard Transaction Details Page" => "\Page\WirecardTransactionDetailsPage",
+        "Credit Card Cancel Page" => "\Page\CreditCardCancelPage"
     );
 
     private $currentPage;
 
+    private $valueToKeepBetweenSteps = '';
+
+    // TODO add PHPDOc to every function
     /**
      * @Given I am on :page page
      */
@@ -83,6 +87,9 @@ class AcceptanceTester extends \Codeception\Actor
     public function inFieldIEnter($fieldID, $fieldValue)
     {
         $this->waitForElementVisible($this->getPageElement($fieldID));
+        if (strpos($fieldValue, "Noted") !== false) {
+            $fieldValue = $this->valueToKeepBetweenSteps;
+        }
         $this->fillField($this->getPageElement($fieldID), $fieldValue);
     }
 
@@ -109,15 +116,6 @@ class AcceptanceTester extends \Codeception\Actor
     }
 
     /**
-     * @Then I should see :element
-     */
-    public function iShouldSee($element)
-    {
-        $this->waitForElementVisible($this->getPageElement($element));
-        $this->see($this->getPageElement($element));
-    }
-
-    /**
      * @Then I see text :text
      */
     public function iSeeText($text)
@@ -139,6 +137,10 @@ class AcceptanceTester extends \Codeception\Actor
      */
     public function iSeeInTableKeyValue($tableKey, $tableValue)
     {
+        //TODO: add searching for "Transaction state" in table and checking the value near it, instead of relying on location
+        //find the row containing text transaction state
+        //check content of the next column
+        //$rows = $driver->findElements(WebDriverBy::cssSelector('table tr'));
         $this->waitForElementVisible($this->getPageElement($tableKey));
         $this->waitForElementVisible($this->getPageElement($tableValue));
         $this->see($tableKey);
@@ -158,4 +160,12 @@ class AcceptanceTester extends \Codeception\Actor
         $this->amOnUrl($this->formAuthLink($link_address, $username, $password));
     }
 
+    /**
+     * @Given I note the :value
+     */
+    public function iNoteThe($value)
+    {
+        $link = $this->grabAttributeFrom($this->getPageElement($value), 'href');
+        $this->valueToKeepBetweenSteps = $this->getTransactionIDFromLink($link);
+    }
 }

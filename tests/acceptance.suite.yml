@@ -8,7 +8,7 @@ actor: AcceptanceTester
 modules:
     enabled:
           - WebDriver:
-             url: 'http://57478119.eu.ngrok.io/examples'
+             url: 'http://6f8d2471.eu.ngrok.io/examples'
              browser: chrome # 'chrome' or 'firefox'
              capabilities:
                      handlesAlerts: true
