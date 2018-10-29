@@ -1,12 +1,22 @@
 <?php
+/**
+ * Shop System Plugins:
+ * - License can be found under:
+ * https://github.com/wirecard/paymentSDK-php/blob/master/LICENSE
+ */
 
 namespace Helper;
 
-// here you can define custom actions
-// all public methods declared in helper class will be available in $I
-
 class Acceptance extends \Codeception\Module
 {
+    /**
+     * Method returns modified link
+     *
+     * @param string $link
+     * @param string $username
+     * @param string $password
+     * @return string
+     */
     public static function formAuthLink($link, $username, $password)
     {
         $link_parts = parse_url($link);
@@ -17,6 +27,12 @@ class Acceptance extends \Codeception\Module
         return $new_link;
     }
 
+    /**
+     * Method returns last part of the link
+     *
+     * @param string $link
+     * @return string
+     */
     public static function getTransactionIDFromLink($link)
     {
         $transaction_id = explode('/', $link);
