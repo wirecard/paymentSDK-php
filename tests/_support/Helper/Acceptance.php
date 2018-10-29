@@ -9,11 +9,12 @@ class Acceptance extends \Codeception\Module
 {
     public static function formAuthLink($link, $username, $password)
     {
-        $credentials = $username . ":" . $password . "@";
-        //insert username and password into link address
-        $link_address_start = substr($link, 0, stripos($link, "/") + 2);
-        $link_address_end = substr($link, stripos($link, "/") + 2);
-        return $link_address = $link_address_start . $credentials . $link_address_end;
+        $link_parts = parse_url($link);
+        $link_parts["user"] = $username;
+        $link_parts["pass"] = $password;
+
+        $new_link = $link_parts['scheme'] . '://' . $link_parts["user"] . ":" . $link_parts["pass"] . "@" . $link_parts['host'] . $link_parts['path'];
+        return $new_link;
     }
 
     public static function getTransactionIDFromLink($link)
