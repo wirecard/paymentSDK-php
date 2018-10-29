@@ -1,4 +1,9 @@
 <?php
+/**
+ * Shop System Plugins:
+ * - License can be found under:
+ * https://github.com/wirecard/paymentSDK-php/blob/master/LICENSE
+ */
 
 namespace Page;
 
@@ -17,8 +22,12 @@ class CreditCardCreateUIPage
         'Credit Card payment form' => "//*[@id='payment-form']"
     );
 
-
-    //TODO refactor this method to have it in parent class
+    /**
+     * Method page element
+     *
+     * @param string $name
+     * @return string
+     */
     public function getElement($name)
     {
         return self::$elements[$name];

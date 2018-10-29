@@ -1,13 +1,11 @@
 <?php
 /**
- * Created by IntelliJ IDEA.
- * User: tatjana.starcenko
- * Date: 10/25/2018
- * Time: 9:28 AM
+ * Shop System Plugins:
+ * - License can be found under:
+ * https://github.com/wirecard/paymentSDK-php/blob/master/LICENSE
  */
 
 namespace Page;
-
 
 class CreditCardCancelPage
 {
@@ -23,6 +21,12 @@ class CreditCardCancelPage
         'Noted Transaction Identification' => ''
     );
 
+    /**
+     * Method page element
+     *
+     * @param string $name
+     * @return string
+     */
     public function getElement($name)
     {
         return self::$elements[$name];

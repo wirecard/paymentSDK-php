@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Shop System Plugins:
+ * - License can be found under:
+ * https://github.com/wirecard/paymentSDK-php/blob/master/LICENSE
+ */
 
 /**
  * Inherited Methods
@@ -36,7 +40,6 @@ class AcceptanceTester extends \Codeception\Actor
 
     private $valueToKeepBetweenSteps = '';
 
-    // TODO add PHPDOc to every function
     /**
      * @Given I am on :page page
      */
@@ -47,7 +50,6 @@ class AcceptanceTester extends \Codeception\Actor
 
         $curPage = $this->currentPage;
         $this->amOnPage($curPage::$URL);
-        //$this->pauseExecution();
         if ($page == "Create Credit Card UI Page") {
             // Switch to Credit Card UI frame
             $wirecard_frame = "wirecard-seamless-frame";
@@ -107,7 +109,6 @@ class AcceptanceTester extends \Codeception\Actor
      */
     public function iClick($object)
     {
-        //$this->pauseExecution();
         if ($object == "Save") {
             $this->switchToIFrame();
         }
@@ -137,10 +138,6 @@ class AcceptanceTester extends \Codeception\Actor
      */
     public function iSeeInTableKeyValue($tableKey, $tableValue)
     {
-        //TODO: add searching for "Transaction state" in table and checking the value near it, instead of relying on location
-        //find the row containing text transaction state
-        //check content of the next column
-        //$rows = $driver->findElements(WebDriverBy::cssSelector('table tr'));
         $this->waitForElementVisible($this->getPageElement($tableKey));
         $this->waitForElementVisible($this->getPageElement($tableValue));
         $this->see($tableKey);
@@ -155,7 +152,6 @@ class AcceptanceTester extends \Codeception\Actor
     {
         $this->waitForElementVisible($this->getPageElement($link));
         //this will inject credentials directly to the URL to avoid dealing with popup
-        //get URL we need from tag
         $link_address = $this->grabAttributeFrom($this->getPageElement($link), "href");
         $this->amOnUrl($this->formAuthLink($link_address, $username, $password));
     }

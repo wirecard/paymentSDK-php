@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by IntelliJ IDEA.
- * User: tatjana.starcenko
- * Date: 10/23/2018
- * Time: 4:35 PM
+ * Shop System Plugins:
+ * - License can be found under:
+ * https://github.com/wirecard/paymentSDK-php/blob/master/LICENSE
  */
 
 namespace Page;
@@ -12,7 +11,6 @@ namespace Page;
 class WirecardTransactionDetailsPage
 {
     // include url of current page
-    //TODO change URL to regural expression
     public static $URL = 'https://api-test.wirecard.com/engine/rest/merchants/';
 
     public static $elements = array(
@@ -20,7 +18,12 @@ class WirecardTransactionDetailsPage
         'SUCCESS' => "//*[@id='mainTable']/tbody/tr[8]/td[2]",
     );
 
-    //TODO refactor this method to have it in parent class
+    /**
+     * Method page element
+     *
+     * @param string $name
+     * @return string
+     */
     public function getElement($name)
     {
         return self::$elements[$name];
