@@ -43,7 +43,7 @@ script:
   #- if [[ $TEST_COVERAGE == 'true' ]]; then composer test-coverage ; else composer test ; fi
   #- if [[ $CHECK_CS == 'true' ]]; then composer cs-check ; fi
   #- if [[ $MUTATION_TESTS == 'true' ]]; then composer infection ; fi
-  - codecept help
+  - if [[ $UI_TESTS == 'true' ]]; then codecept help ; fi
 
 
 after_script:
