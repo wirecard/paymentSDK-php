@@ -1,0 +1,22 @@
+# Codeception Test Suite Configuration
+#
+# Suite for acceptance tests.
+# Perform tests in browser using the WebDriver or PhpBrowser.
+# If you need both WebDriver and PHPBrowser tests - create a separate suite.
+
+actor: AcceptanceTester
+modules:
+  enabled:
+    - WebDriver:
+        host: 'hub-cloud.browserstack.com'
+        port: 80
+        url: '#{NGROK_LINK}'
+        browser: chrome # 'chrome' or 'firefox'
+        capabilities:
+          handlesAlerts: true
+          acceptInsecureCerts: true
+          unexpectedAlertBehaviour: 'accept'
+          build: '3.4.2'
+          project: 'payment-SDK'
+    - \Helper\Acceptance
+
