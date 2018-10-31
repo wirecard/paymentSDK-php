@@ -6,12 +6,15 @@
 
 actor: AcceptanceTester
 modules:
-    enabled:
-          - WebDriver:
-             url: 'http://6f8d2471.eu.ngrok.io/examples'
-             browser: chrome # 'chrome' or 'firefox'
-             capabilities:
-                     handlesAlerts: true
-                     acceptInsecureCerts: true
-                     unexpectedAlertBehaviour: 'accept'
-          - \Helper\Acceptance
+  enabled:
+    - WebDriver:
+        host: 'hub-cloud.browserstack.com'
+        port: 80
+        url: '%NGROK_URL%/examples'
+        browser: chrome # 'chrome' or 'firefox'
+        capabilities:
+          'build': '3.4.2'
+          'project': 'payment-SDK'
+          'browserstack.user': '%BROWSERSTACK_USER%'
+          'browserstack.key': '%BROWSERSTACK_ACCESS_KEY%'
+    - \Helper\Acceptance
