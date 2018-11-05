@@ -32,6 +32,7 @@ matrix:
     env:
     - MUTATION_TESTS=true
     - ACCEPTANCE_TESTS=true
+  - php: hhvm
   - stage: acceptance-test
     php: 7.1
     install:
@@ -42,7 +43,7 @@ matrix:
     after_failure:
     - ls -la tests/_output
     - cat tests/failed
-  - php: hhvm
+
 before_install:
   - travis_retry composer self-update
 install:
