@@ -23,4 +23,4 @@ sleep 100
 export NGROK_URL=$(curl -s localhost:4040/api/tunnels/command_line | jq --raw-output .public_url)
 
 #run tests
-vendor/bin/codecept run acceptance --steps
+vendor/bin/codecept run acceptance --steps -v
