@@ -17,7 +17,7 @@ $PWD/ngrok authtoken $NGROK_TOKEN
 $PWD/ngrok http 8080 > /dev/null &
 
 # sleep to allow ngrok to initialize
-sleep 100
+sleep 150
 
 # extract the ngrok url
 export NGROK_URL=$(curl -s localhost:4040/api/tunnels/command_line | jq --raw-output .public_url)
