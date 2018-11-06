@@ -171,6 +171,11 @@ $transaction->setCustomFields( $custom_fields );
         <button type="submit" class="btn btn-primary">Save</button>
     </form>
 </div>
+</body>
+</html>
+
+
+
 <script type="application/javascript">
 
     // This function will render the credit card UI in the specified div.
@@ -183,7 +188,7 @@ $transaction->setCustomFields( $custom_fields );
 
         // We fill the _requestData_ with the return value
         // from the `getCreditCardUiWithData` method of the `transactionService` which expects a transaction with all desired parameters.
-        requestData: <?= $transactionService->getCreditCardUiWithData($transaction, 'authorization', 'en'); ?>,
+        requestData: <?= $transactionService->getCreditCardUiWithData($transaction, 'tokenize', 'en'); ?>,
         wrappingDivId: "creditcard-form-div",
         onSuccess: logCallback,
         onError: logCallback
@@ -202,7 +207,7 @@ $transaction->setCustomFields( $custom_fields );
     function submit(event) {
 
         // We check if the response fields are already set.
-        if ($("input#jsresponse").length ) {
+        if ($("input[name=tokenId]").length) {
             console.log('Sending the following request to your server..');
             console.log($(event.target).serialize());
         } else {
@@ -210,7 +215,7 @@ $transaction->setCustomFields( $custom_fields );
             event.preventDefault();
 
             WirecardPaymentPage.seamlessSubmitForm({
-                onSuccess: setParentTransactionId,
+                onSuccess: setTokenId,
                 onError: logCallback
             })
         }
@@ -218,17 +223,10 @@ $transaction->setCustomFields( $custom_fields );
 
     // If the submit to Wirecard is successful, `seamlessSubmitForm` will set the form fields and submit your form to
     // to your server.
-    function setParentTransactionId(response) {
+    function setTokenId(response) {
         var form = $('#payment-form');
-        for(var key in response){
-            if(response.hasOwnProperty(key)) {
-                form.append("<input type='hidden' name='" + key + "' value='" + response[key] + "'>");
-            }
-        }
-        form.append("<input id='jsresponse' type='hidden' name='jsresponse' value='true'>");
+        form.append("<input type='hidden' name='tokenId' value='"+response.token_id+"'>");
         form.submit();
     }
 
 </script>
-</body>
-</html>

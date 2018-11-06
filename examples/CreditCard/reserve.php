@@ -58,9 +58,8 @@ if (array_key_exists('jsresponse', $_POST) && $_POST['jsresponse']) {
     $transaction->setAmount($amount);
     $transaction->setTokenId($tokenId);
     $transaction->setTermUrl($redirectUrl);
-    $transaction->setParentTransactionId($parentTransactionId);
 
-    $response = $transactionService->reserve($transaction);
+    $response = $transactionService->pay($transaction);
 }
 
 // ## Response handling
