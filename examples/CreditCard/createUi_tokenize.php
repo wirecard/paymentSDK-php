@@ -157,7 +157,7 @@ $transaction->setCustomFields( $custom_fields );
             </div>
         </div>
     </div>
-    <form id="payment-form" method="post" action="pay.php">
+    <form id="payment-form" method="post" action="pay_tokenize.php">
         <?php
         // The data, which is returned from the credit card UI, needs to be sent on submitting the form.
         // In this example this is facilitated via a hidden form field.
