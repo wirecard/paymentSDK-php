@@ -28,7 +28,7 @@ $amount = new Amount(70.00, 'EUR');
 $tokenId = array_key_exists('tokenId', $_POST) ? $_POST['tokenId'] : null;
 
 // To make this example usable, even is no transaction or token ID is provided, a predefined existing token ID is set.
-if ($parentTransactionId === null && $tokenId === null) {
+if ($tokenId === null) {
     $tokenId = '5168216323601006';
 }
 
