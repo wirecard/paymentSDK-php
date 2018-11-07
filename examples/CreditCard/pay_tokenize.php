@@ -1,8 +1,7 @@
 <?php
-// # Credit card reservation
+// # Purchase for credit card
 
-// The method `reserve` of the _transactionService_ provides the means
-// to reserve an amount (also known as authorization).
+// To reserve and capture an amount for a credit card
 
 // ## Required objects
 
@@ -41,7 +40,7 @@ $response = null;
 
 // ### Transaction Service
 
-// The service is used to execute the reservation (authorization) operation itself. A response object is returned.
+// The service is used to execute the payment (authorization + capture) operation itself.
 $transactionService = new TransactionService($config);
 
 // ## Transaction
