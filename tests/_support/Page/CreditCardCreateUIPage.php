@@ -10,7 +10,7 @@ namespace Page;
 class CreditCardCreateUIPage
 {
     // include url of current page
-    public static $URL = '/CreditCard/createUi.php';
+    public static $URL = '/CreditCard/createUi_tokenize.php';
 
     public static $elements = array(
         'Last name' => "//*[@id='last_name']",
