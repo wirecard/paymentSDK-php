@@ -31,36 +31,37 @@ use Wirecard\PaymentSdk\Transaction\UpopTransaction;
 // Get the gateway from environment variables, we use this switching in our CI
 $gateway = getenv('GATEWAY');
 
-$gatewayConfig = function($key) use ($gateway) {
-	// if no gateway was defined in the environment, use the api-test.wirecard.com
-	if (!$gateway) {
-		$gateway = 'API-TEST';
-	}
-	$dataArray = [
-		'NOVA' => [
-			'base_url' => 'https://payments-test.wirecard.com',
-			'http_user'  => 'NovaTeam',
-            'http_pass'  => 'kCopTTMkpw',
+$gatewayConfig = function ($key) use ($gateway) {
+    // if no gateway was defined in the environment, use the api-test.wirecard.com
+    if ( ! $gateway)
+    {
+        $gateway = 'API-TEST';
+    }
+    $dataArray = [
+        'NOVA' => [
+            'base_url' => 'https://payments-test.wirecard.com',
+            'http_user' => 'NovaTeam',
+            'http_pass' => 'kCopTTMkpw',
             'threed_maid' => 'fd83dbfa-8790-4492-8391-3f3938908b28',
             'threed_secret' => '38424ae8-2dc5-45be-af4c-6e0fee0fea3e',
         ],
-        'CEE_EE' => [
-			'base_url' => 'https://api-test.wirecard.com',
-            'http_user'  => '70000-APITEST-AP',
-            'http_pass'  => 'qD2wzQ_hrc!8',
-            'threed_maid' => '508b8896-b37d-4614-845c-26bf8bf2c948',
-            'threed_secret' => 'dbc5a498-9a66-43b9-bf1d-a618dd399684',
+        'API-WDCEE-TEST' => [
+            'base_url' => 'https://api-wdcee-test.wirecard.com',
+            'http_user' => 'wdcee-customer-test',
+            'http_pass' => '8f5y2h0s',
+            'threed_maid' => '49ee1355-cdd3-4205-920f-85391bb3865d',
+            'threed_secret' => '518c3be1-4aa2-4294-a081-eb7edf20f9d7',
         ],
-		'API-TEST' => [
-			'base_url' => 'https://api-test.wirecard.com',
-			'http_user' => '70000-APITEST-AP',
-			'http_pass' => 'qD2wzQ_hrc!8',
-			'threed_maid' => '508b8896-b37d-4614-845c-26bf8bf2c948',
-			'threed_secret' => 'dbc5a498-9a66-43b9-bf1d-a618dd399684'
-		]
+        'API-TEST' => [
+            'base_url' => 'https://api-test.wirecard.com',
+            'http_user' => '70000-APITEST-AP',
+            'http_pass' => 'qD2wzQ_hrc!8',
+            'threed_maid' => '508b8896-b37d-4614-845c-26bf8bf2c948',
+            'threed_secret' => 'dbc5a498-9a66-43b9-bf1d-a618dd399684'
+        ]
     ];
 
-	return $dataArray[$gateway][$key];
+    return $dataArray[$gateway][$key];
 };
 
 // The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
@@ -106,8 +107,8 @@ $creditcardConfig->addThreeDMinLimit(new Amount(50.0, 'EUR'));
 // ### Credit Card 3-D
 
 $creditcardConfig->setThreeDCredentials(
-	$gatewayConfig('threed_maid'),
-	$gatewayConfig('threed_secret')
+    $gatewayConfig('threed_maid'),
+    $gatewayConfig('threed_secret')
 );
 
 $config->add($creditcardConfig);
