@@ -16,7 +16,7 @@
  * @method void am($role)
  * @method void lookForwardTo($achieveValue)
  * @method void comment($description)
- * @method \Codeception\Lib\Friend haveFriend($name, $actorClass = NULL)
+ * @method \Codeception\Lib\Friend haveFriend($name, $actorClass = null)
  *
  * @SuppressWarnings(PHPMD)
  */
@@ -124,36 +124,12 @@ class AcceptanceTester extends \Codeception\Actor
         $this->see($text);
     }
 
-
     /**
      * @When I wait for :seconds seconds
      */
     public function iWaitForSeconds($seconds)
     {
         $this->wait($seconds);
-    }
-
-    /**
-     * @Then I see in table key :tableKey value :tableValue
-     */
-    public function iSeeInTableKeyValue($tableKey, $tableValue)
-    {
-        $this->waitForElementVisible($this->getPageElement($tableKey));
-        $this->waitForElementVisible($this->getPageElement($tableValue));
-        $this->see($tableKey);
-        $this->see($tableValue);
-    }
-
-
-    /**
-     * @Given I click :link link with auth credentials user :username password :password
-     */
-    public function iClickLinkWithAuthCredentialsUserPassword($link, $username, $password)
-    {
-        $this->waitForElementVisible($this->getPageElement($link));
-        //this will inject credentials directly to the URL to avoid dealing with popup
-        $link_address = $this->grabAttributeFrom($this->getPageElement($link), "href");
-        $this->amOnUrl($this->formAuthLink($link_address, $username, $password));
     }
 
     /**
