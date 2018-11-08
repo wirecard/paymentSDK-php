@@ -59,6 +59,13 @@ $gatewayConfig = function ($key) use ($gateway) {
             'threed_maid' => '508b8896-b37d-4614-845c-26bf8bf2c948',
             'threed_secret' => 'dbc5a498-9a66-43b9-bf1d-a618dd399684'
         ],
+        'SECURE-TEST-SG' => [
+            'base_url' => 'https://secure-test.wirecard.com.sg/engine/rest/payments/',
+            'http_user' => 'uatwd_ecom',
+            'http_pass' => 'Tomcat123',
+            'threed_maid' => 'd7855010-64c1-4e66-9ab3-d98b309a3d8c',
+            'threed_secret' => '543d957b-dcc9-46cd-8258-0f49ed97fa8e'
+        ],
         'TEST-SG' => [
             'base_url' => 'https://test.wirecard.com.sg/engine/rest/payments',
             'http_user' => 'wirecarduser3d',
@@ -66,6 +73,7 @@ $gatewayConfig = function ($key) use ($gateway) {
             'threed_maid' => '961c567b-d9da-41f6-9801-ba21cb228a00',
             'threed_secret' => '03365d5f-1a12-4f16-9351-7ee59ddc9d3f'
         ]
+
     ];
 
     return $dataArray[$gateway][$key];
