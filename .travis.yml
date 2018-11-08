@@ -22,22 +22,22 @@ env:
 matrix:
   include:
   - php: 5.6
-    if: type != cron
+    if: type = cron
     env:
     - TEST_COVERAGE=true
   - php: 7
-    if: type != cron
+    if: type = cron
     env:
     - CHECK_CS=true
     - CREATE_DOCS=true
   - php: 7.1
-    if: type != cron
+    if: type = cron
     env:
     - MUTATION_TESTS=true
   - php: hhvm
-    if: type != cron
-  - stage: acceptance-test
     if: type = cron
+  - stage: acceptance-test
+    if: type != cron
     php: 7.1
     install:
     - travis_retry composer require --dev $COMPOSER_ARGS codeception/codeception
