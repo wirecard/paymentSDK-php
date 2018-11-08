@@ -58,6 +58,13 @@ $gatewayConfig = function ($key) use ($gateway) {
             'http_pass' => 'qD2wzQ_hrc!8',
             'threed_maid' => '508b8896-b37d-4614-845c-26bf8bf2c948',
             'threed_secret' => 'dbc5a498-9a66-43b9-bf1d-a618dd399684'
+        ],
+        'SG_TEST' => [
+            'base_url' => 'https://test.wirecard.com.sg/engine/rest/payments',
+            'http_user' => 'wirecarduser3d',
+            'http_pass' => 'Tomcat123',
+            'threed_maid' => '961c567b-d9da-41f6-9801-ba21cb228a00',
+            'threed_secret' => '03365d5f-1a12-4f16-9351-7ee59ddc9d3f'
         ]
     ];
 
