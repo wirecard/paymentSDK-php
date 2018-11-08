@@ -73,7 +73,6 @@ $gatewayConfig = function ($key) use ($gateway) {
             'threed_maid' => '961c567b-d9da-41f6-9801-ba21cb228a00',
             'threed_secret' => '03365d5f-1a12-4f16-9351-7ee59ddc9d3f'
         ]
-
     ];
 
     return $dataArray[$gateway][$key];
