@@ -47,7 +47,7 @@ $gatewayConfig = function ($key) use ($gateway) {
         ],
         'API-WDCEE-TEST' => [
             'base_url' => 'https://api-wdcee-test.wirecard.com',
-            'http_user' => 'wdcee-customer-test',
+            'http_user' => 'pink-test',
             'http_pass' => '8f5y2h0s',
             'threed_maid' => '49ee1355-cdd3-4205-920f-85391bb3865d',
             'threed_secret' => '518c3be1-4aa2-4294-a081-eb7edf20f9d7',
