@@ -20,6 +20,10 @@ env:
   global:
   - COMPOSER_ARGS="--no-interaction"
 matrix:
+  allow_failures:
+   - stage: acceptance-test-api-test
+   - stage: acceptance-test-wdcee-test
+   - stage: acceptance-test-nova
   include:
   - php: 5.6
     if: type != cron
@@ -36,17 +40,25 @@ matrix:
     - MUTATION_TESTS=true
   - php: hhvm
     if: type != cron
-  - stage: acceptance-test
+# running acceptance tests sequentially because in parallel is not possible due to ngrok account
+  - &acceptance-test
+    stage: acceptance-test-api-test
     if: type = cron
     php: 7.1
+    env: GATEWAY=API-TEST
     install:
     - travis_retry composer require --dev $COMPOSER_ARGS codeception/codeception
     - travis_retry composer install $COMPOSER_ARGS
     - composer show
     script: bash .bin/run-ui-tests.sh
     after_failure:
-    - ls -la tests/_output
-    - cat tests/failed
+    - bash .bin/output-failed-logs.sh
+  - <<: *acceptance-test
+    stage: acceptance-test-wdcee-test
+    env: GATEWAY=API-WDCEE-TEST
+  - <<: *acceptance-test
+    stage: acceptance-test-nova
+    env: GATEWAY=NOVA
 
 before_install:
   - travis_retry composer self-update
@@ -59,7 +71,7 @@ script:
   - if [[ $TEST_COVERAGE == 'true' ]]; then composer test-coverage ; else composer test ; fi
   - if [[ $CHECK_CS == 'true' ]]; then composer cs-check ; fi
   - if [[ $MUTATION_TESTS == 'true' ]]; then composer infection ; fi
-  
+
 after_script:
   - if [[ $MUTATION_TESTS == 'true' ]]; then cat infection-log.txt ; fi
   - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer upload-coverage ; fi

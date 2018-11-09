@@ -8,7 +8,7 @@ Feature: check_credit_card_functionality
     Given I am on "Create Credit Card UI Page" page
     When In field "Last name" I enter "test"
     And In field "Card number" I enter "4012000300001003"
-    And In field "CVV" I enter "001"
+    And In field "CVV" I enter "003"
     And In field "Valid until month" I choose "01"
     And In field "Valid until year" I choose "2019"
     And I click "Save"
