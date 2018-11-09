@@ -47,7 +47,7 @@ $gatewayConfig = function ($key) use ($gateway) {
         ],
         'API-WDCEE-TEST' => [
             'base_url' => 'https://api-wdcee-test.wirecard.com',
-            'http_user' => 'wdcee-customer-test',
+            'http_user' => 'pink-test',
             'http_pass' => '8f5y2h0s',
             'threed_maid' => '49ee1355-cdd3-4205-920f-85391bb3865d',
             'threed_secret' => '518c3be1-4aa2-4294-a081-eb7edf20f9d7',
@@ -58,6 +58,20 @@ $gatewayConfig = function ($key) use ($gateway) {
             'http_pass' => 'qD2wzQ_hrc!8',
             'threed_maid' => '508b8896-b37d-4614-845c-26bf8bf2c948',
             'threed_secret' => 'dbc5a498-9a66-43b9-bf1d-a618dd399684'
+        ],
+        'SECURE-TEST-SG' => [
+            'base_url' => 'https://secure-test.wirecard.com.sg',
+            'http_user' => 'uatwd_ecom',
+            'http_pass' => 'Tomcat123',
+            'threed_maid' => 'd7855010-64c1-4e66-9ab3-d98b309a3d8c',
+            'threed_secret' => '543d957b-dcc9-46cd-8258-0f49ed97fa8e'
+        ],
+        'TEST-SG' => [
+            'base_url' => 'https://test.wirecard.com.sg',
+            'http_user' => 'wirecarduser3d',
+            'http_pass' => 'Tomcat123',
+            'threed_maid' => '961c567b-d9da-41f6-9801-ba21cb228a00',
+            'threed_secret' => '03365d5f-1a12-4f16-9351-7ee59ddc9d3f'
         ]
     ];
 
