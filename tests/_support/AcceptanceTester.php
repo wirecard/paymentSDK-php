@@ -84,9 +84,9 @@ class AcceptanceTester extends \Codeception\Actor
     }
 
     /**
-     * @When In field :fieldID I enter :fieldValue
+     *  * @When I enter :fieldValue in field :fieldID
      */
-    public function inFieldIEnter($fieldID, $fieldValue)
+    public function iEnterInField($fieldValue, $fieldID)
     {
         $this->waitForElementVisible($this->getPageElement($fieldID));
         if (strpos($fieldValue, "Noted") !== false) {
@@ -96,9 +96,9 @@ class AcceptanceTester extends \Codeception\Actor
     }
 
     /**
-     * @When In field :fieldID I choose :fieldValue
+     * @When I choose :fieldValue in field :fieldID
      */
-    public function inFieldIChoose($fieldID, $fieldValue)
+    public function iChooseInField($fieldValue, $fieldID)
     {
         $this->waitForElementVisible($this->getPageElement($fieldID));
         $this->selectOption($this->getPageElement($fieldID), $fieldValue);
