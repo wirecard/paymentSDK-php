@@ -22,7 +22,7 @@ env:
   - TRAVIS_BUILD_DIR
   - TRAVIS_BUILD_NUMBER
   - TRAVIS_BRANCH
-  - TRAVIS_BUILD_WEB_URL
+  - TRAVIS_JOB_WEB_URL
 
 matrix:
   allow_failures:
