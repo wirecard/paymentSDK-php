@@ -44,6 +44,8 @@ $gatewayConfig = function ($key) use ($gateway) {
             'http_pass' => 'kCopTTMkpw',
             'threed_maid' => 'fd83dbfa-8790-4492-8391-3f3938908b28',
             'threed_secret' => '38424ae8-2dc5-45be-af4c-6e0fee0fea3e',
+            'non_threed_maid' => 'fd83dbfa-8790-4492-8391-3f3938908b28',
+            'non_threed_secret' => '38424ae8-2dc5-45be-af4c-6e0fee0fea3e',
         ],
         'API-WDCEE-TEST' => [
             'base_url' => 'https://api-wdcee-test.wirecard.com',
@@ -51,13 +53,17 @@ $gatewayConfig = function ($key) use ($gateway) {
             'http_pass' => '8f5y2h0s',
             'threed_maid' => '49ee1355-cdd3-4205-920f-85391bb3865d',
             'threed_secret' => '518c3be1-4aa2-4294-a081-eb7edf20f9d7',
+            'non_threed_maid' => '589651ab-bffe-4f45-9a41-c5466aa8cbc8',
+            'non_threed_secret'=> 'cf8be86b-a671-4da4-b870-80af5c3eedb1'
         ],
         'API-TEST' => [
             'base_url' => 'https://api-test.wirecard.com',
             'http_user' => '70000-APITEST-AP',
             'http_pass' => 'qD2wzQ_hrc!8',
             'threed_maid' => '508b8896-b37d-4614-845c-26bf8bf2c948',
-            'threed_secret' => 'dbc5a498-9a66-43b9-bf1d-a618dd399684'
+            'threed_secret' => 'dbc5a498-9a66-43b9-bf1d-a618dd399684',
+            'non_threed_maid' => '53f2895a-e4de-4e82-a813-0d87a10e55e6',
+            'non_threed_secret'=> 'dbc5a498-9a66-43b9-bf1d-a618dd399684'
         ],
         'SECURE-TEST-SG' => [
             'base_url' => 'https://secure-test.wirecard.com.sg',
@@ -103,8 +109,8 @@ $creditcardConfig = new CreditCardConfig();
 
 // - second via using this specific setter.
 $creditcardConfig->setNonThreeDCredentials(
-    '53f2895a-e4de-4e82-a813-0d87a10e55e6',
-    'dbc5a498-9a66-43b9-bf1d-a618dd399684'
+    $gatewayConfig('non_threed_maid'),
+    $gatewayConfig('non_threed_secret')
 );
 
 // Define the limit to allow the maximum amount for a non-3-D transaction, all amounts above this value will be done as
