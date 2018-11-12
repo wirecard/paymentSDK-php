@@ -70,14 +70,18 @@ $gatewayConfig = function ($key) use ($gateway) {
             'http_user' => 'uatwd_ecom',
             'http_pass' => 'Tomcat123',
             'threed_maid' => 'd7855010-64c1-4e66-9ab3-d98b309a3d8c',
-            'threed_secret' => '543d957b-dcc9-46cd-8258-0f49ed97fa8e'
+            'threed_secret' => '543d957b-dcc9-46cd-8258-0f49ed97fa8e',
+            'non_threed_maid' => 'd7855010-64c1-4e66-9ab3-d98b309a3d8c',
+            'non_threed_secret' => '543d957b-dcc9-46cd-8258-0f49ed97fa8e'
         ],
         'TEST-SG' => [
             'base_url' => 'https://test.wirecard.com.sg',
             'http_user' => 'wirecarduser3d',
             'http_pass' => 'Tomcat123',
             'threed_maid' => '961c567b-d9da-41f6-9801-ba21cb228a00',
-            'threed_secret' => '03365d5f-1a12-4f16-9351-7ee59ddc9d3f'
+            'threed_secret' => '03365d5f-1a12-4f16-9351-7ee59ddc9d3f',
+            'non_threed_maid' => '961c567b-d9da-41f6-9801-ba21cb228a00',
+            'non_threed_secret' => '03365d5f-1a12-4f16-9351-7ee59ddc9d3f'
         ]
     ];
 
