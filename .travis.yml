@@ -19,6 +19,11 @@ cache:
 env:
   global:
   - COMPOSER_ARGS="--no-interaction"
+  - TRAVIS_BUILD_DIR
+  - TRAVIS_BUILD_NUMBER
+  - TRAVIS_BRANCH
+  - TRAVIS_BUILD_WEB_URL
+
 matrix:
   allow_failures:
    - stage: acceptance-test-api-test
@@ -53,6 +58,7 @@ matrix:
     script: bash .bin/run-ui-tests.sh
     after_failure:
     - bash .bin/output-failed-logs.sh
+    - bash .bin/send-notify.sh
   - <<: *acceptance-test
     stage: acceptance-test-wdcee-test
     env: GATEWAY=API-WDCEE-TEST
