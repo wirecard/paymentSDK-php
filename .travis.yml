@@ -19,10 +19,6 @@ cache:
 env:
   global:
   - COMPOSER_ARGS="--no-interaction"
-  - TRAVIS_BUILD_DIR
-  - TRAVIS_BUILD_NUMBER
-  - TRAVIS_BRANCH
-  - TRAVIS_JOB_WEB_URL
 
 matrix:
   allow_failures:
