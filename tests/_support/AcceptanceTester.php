@@ -22,23 +22,49 @@
  */
 
 use Helper\Acceptance;
+use Page\Base;
+use Page\CreditCardCreateUI as CreditCardCreateUIPage;
+use Page\CreditCardReserve as CreditCardReservePage;
+use Page\CreditCardSuccess as CreditCardSuccessPage;
+use Page\VerifiedByVisa as VerifiedByVisaPage;
+use Page\CreditCardCancel as CreditCardCancelPage;
 
 class AcceptanceTester extends \Codeception\Actor
 {
     use _generated\AcceptanceTesterActions;
 
-    private $pages = array(
-        "Create Credit Card UI Page" => "\Page\CreditCardCreateUIPage",
-        "Credit Card Reserve Page" => "\Page\CreditCardReservePage",
-        "Credit Card Success Page" => "\Page\CreditCardSuccessPage",
-        "Verified by Visa Page" => "\Page\VerifiedByVisaPage",
-        "Wirecard Transaction Details Page" => "\Page\WirecardTransactionDetailsPage",
-        "Credit Card Cancel Page" => "\Page\CreditCardCancelPage"
-    );
-
     private $currentPage;
 
     private $valueToKeepBetweenSteps = '';
+
+    /**
+     * Method selectPage
+     *
+     * @param string $name
+     * @return Base
+     */
+    public function selectPage($name)
+    {
+        $page = null;
+        switch ($name) {
+            case "Create Credit Card UI Page":
+                $page = new CreditCardCreateUIPage($this);
+                break;
+            case "Credit Card Reserve Page":
+                $page = new CreditCardReservePage($this);
+                break;
+            case "Credit Card Success Page":
+                $page = new CreditCardSuccessPage($this);
+                break;
+            case "Verified by Visa Page":
+                $page = new VerifiedByVisaPage($this);
+                break;
+            case "Credit Card Cancel Page":
+                $page = new CreditCardCancelPage($this);
+                break;
+        }
+        return $page;
+    }
 
     /**
      * @Given I am on :page page
@@ -46,16 +72,9 @@ class AcceptanceTester extends \Codeception\Actor
     public function iAmOnPage($page)
     {
         // Open the page and initialize required pageObject
-        $this->currentPage = $this->pages[$page];
-
-        $curPage = $this->currentPage;
-        $this->amOnPage($curPage::$URL);
-        if ($page == "Create Credit Card UI Page") {
-            // Switch to Credit Card UI frame
-            $wirecard_frame = "wirecard-seamless-frame";
-            $this->executeJS('jQuery(".' . $wirecard_frame . '").attr("name", "' . $wirecard_frame . '")');
-            $this->switchToIFrame("$wirecard_frame");
-        }
+        $this->currentPage = $this->selectPage($page);
+        $this->amOnPage($this->currentPage->getURL());
+        $this->currentPage->switchFrame();
     }
 
     /**
@@ -64,7 +83,7 @@ class AcceptanceTester extends \Codeception\Actor
     public function iAmRedirectedToPage($page)
     {
         // Initialize required pageObject WITHOUT checking URL
-        $this->currentPage = $this->pages[$page];
+        $this->currentPage = $this->selectPage($page);
     }
 
     /**
@@ -79,8 +98,7 @@ class AcceptanceTester extends \Codeception\Actor
     private function getPageElement($elementName)
     {
         //Takes the required element by it's name from required page
-        $curPage = $this->currentPage;
-        return $curPage::getElement($elementName);
+        return $this->currentPage->getElement($elementName);
     }
 
     /**
@@ -89,10 +107,8 @@ class AcceptanceTester extends \Codeception\Actor
     public function iEnterInField($fieldValue, $fieldID)
     {
         $this->waitForElementVisible($this->getPageElement($fieldID));
-        if (strpos($fieldValue, "Noted") !== false) {
-            $fieldValue = $this->valueToKeepBetweenSteps;
-        }
-        $this->fillField($this->getPageElement($fieldID), $fieldValue);
+        $fieldValueDefined = $this->currentPage->prepareDataForField($fieldValue, $this->valueToKeepBetweenSteps);
+        $this->fillField($this->getPageElement($fieldID), $fieldValueDefined);
     }
 
     /**
@@ -109,9 +125,7 @@ class AcceptanceTester extends \Codeception\Actor
      */
     public function iClick($object)
     {
-        if ($object == "Save") {
-            $this->switchToIFrame();
-        }
+        $this->currentPage->prepareClick();
         $this->waitForElementVisible($this->getPageElement($object));
         $this->click($this->getPageElement($object));
     }

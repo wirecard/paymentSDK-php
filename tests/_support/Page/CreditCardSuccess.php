@@ -7,26 +7,15 @@
 
 namespace Page;
 
-class CreditCardSuccessPage
+class CreditCardSuccess extends Base
 {
     // include url of current page
-    public static $URL = '/CreditCard/return.php?status=success';
+    public $URL = '/CreditCard/return.php?status=success';
 
-    public static $elements = array(
+    public $elements = array(
         'Payment successfully completed.' => "Payment successfully completed.",
         'Transaction ID' => "Transaction ID",
         'Transaction Identification' => "//*[@id='overrides']/div/a"
 
     );
-
-    /**
-     * Method page element
-     *
-     * @param string $name
-     * @return string
-     */
-    public function getElement($name)
-    {
-        return self::$elements[$name];
-    }
 }

@@ -7,12 +7,12 @@
 
 namespace Page;
 
-class CreditCardCreateUIPage
+class CreditCardCreateUI extends Base
 {
     // include url of current page
-    public static $URL = '/CreditCard/createUi_tokenize.php';
+    public $URL = '/CreditCard/createUi_tokenize.php';
 
-    public static $elements = array(
+    public $elements = array(
         'Last name' => "//*[@id='last_name']",
         'Card number' => "//*[@id='account_number']",
         'CVV' => "//*[@id='card_security_code']",
@@ -23,13 +23,24 @@ class CreditCardCreateUIPage
     );
 
     /**
-     * Method page element
-     *
-     * @param string $name
-     * @return string
+     * Method switchFrame
      */
-    public function getElement($name)
+    public function switchFrame()
     {
-        return self::$elements[$name];
+        $I = $this->tester;
+        // Switch to Credit Card UI frame
+        $wirecard_frame = "wirecard-seamless-frame";
+        $I->executeJS('jQuery(".' . $wirecard_frame . '").attr("name", "' . $wirecard_frame . '")');
+        $I->switchToIFrame("$wirecard_frame");
     }
+
+    /**
+     * Method prepareClick
+     */
+    public function prepareClick()
+    {
+        $I = $this->tester;
+        $I->switchToIFrame();
+    }
+
 }

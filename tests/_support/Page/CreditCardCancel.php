@@ -7,12 +7,12 @@
 
 namespace Page;
 
-class CreditCardCancelPage
+class CreditCardCancel extends Base
 {
     // include url of current page
-    public static $URL = '/CreditCard/cancel.php';
+    public $URL = '/CreditCard/cancel.php';
 
-    public static $elements = array(
+    public $elements = array(
         'Transaction ID to be refunded' => "//*[@id='parentTransactionId']",
         'Refund' => "//*[@class='btn btn-primary']",
         '"Payment successfully cancelled.' => "Payment successfully cancelled.",
@@ -22,13 +22,18 @@ class CreditCardCancelPage
     );
 
     /**
-     * Method page element
+     * Method Method prepareDataForField
      *
-     * @param string $name
+     * @param string $fieldValue
+     * @param string $valueToKeepBetweenSteps
      * @return string
      */
-    public function getElement($name)
+    public function prepareDataForField($fieldValue, $valueToKeepBetweenSteps)
     {
-        return self::$elements[$name];
+        if (strpos($fieldValue, "Noted") !== false) {
+            return $valueToKeepBetweenSteps;
+        } else {
+            return $fieldValue;
+        }
     }
 }

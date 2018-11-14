@@ -21,10 +21,10 @@ Feature: check_credit_card_functionality
     And I click "Continue"
     And I wait for 5 seconds
 
-  Scenario: try purchase_check
-    Given I am redirected to "Credit Card Success Page" page
-    Then I see text "Payment successfully completed."
-    And I see text "Transaction ID"
+#  Scenario: try purchase_check
+#    Given I am redirected to "Credit Card Success Page" page
+#    Then I see text "Payment successfully completed."
+#    And I see text "Transaction ID"
 
   Scenario: try refund_check
     Given I am redirected to "Credit Card Success Page" page
