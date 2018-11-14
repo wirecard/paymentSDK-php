@@ -22,7 +22,7 @@ class CreditCardCancel extends Base
     );
 
     /**
-     * Method Method prepareDataForField
+     * Method prepareDataForField
      *
      * @param string $fieldValue
      * @param string $valueToKeepBetweenSteps
