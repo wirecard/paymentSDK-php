@@ -4,7 +4,7 @@ if [[ "$GATEWAY" = "NOVA" ]]; then
   CHANNEL='shs-ui-nova'
 elif [[ "$GATEWAY" = "API-WDCEE-TEST" ]]; then
   CHANNEL='shs-ui-api-wdcee-test'
-elif [[ "$GATEWAY" = "API-WDCEE-TEST" ]]; then
+elif [[ "$GATEWAY" = "API-TEST" ]]; then
    CHANNEL='shs-ui-api-test'
 fi
 
