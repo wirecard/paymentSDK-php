@@ -1,6 +1,6 @@
-Feature: check_credit_card_functionality
+Feature: check_credit_card_3DS_functionality
   As a user
-  I want to make a purchase with a Credit Card
+  I want to make a purchase with a Credit Card 3DS
   And to see that transaction was successful
   And to be able to cancel the transaction
 
