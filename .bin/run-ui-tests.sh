@@ -1,5 +1,7 @@
 #!/bin/bash
 set -e # Exit with nonzero exit code if anything fails
+#get version
+export VERSION=`cat VERSION`
 
 #start payment-sdk
 php -S localhost:8080 > /dev/null &

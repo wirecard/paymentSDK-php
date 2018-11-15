@@ -13,7 +13,7 @@ modules:
         url: '%NGROK_URL%/examples'
         browser: chrome # 'chrome' or 'firefox'
         capabilities:
-          'build': '3.4.2'
+          'build': '%VERSION%'
           'project': 'payment-SDK'
           'browserstack.user': '%BROWSERSTACK_USER%'
           'browserstack.key': '%BROWSERSTACK_ACCESS_KEY%'
