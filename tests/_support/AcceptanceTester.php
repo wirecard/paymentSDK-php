@@ -43,7 +43,7 @@ class AcceptanceTester extends \Codeception\Actor
      * @param string $name
      * @return Base
      */
-    public function selectPage($name)
+    private function selectPage($name)
     {
         $page = null;
         switch ($name) {
