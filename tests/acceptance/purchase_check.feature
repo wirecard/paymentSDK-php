@@ -24,7 +24,7 @@ Feature: check_credit_card_3DS_functionality
   Scenario: try purchase_check
     Given I am redirected to "Credit Card Success Page" page
     Then I see text "Payment successfully completed."
-    And I see text "No Transaction ID"
+    And I see text "Transaction ID"
 
   Scenario: try refund_check
     Given I am redirected to "Credit Card Success Page" page
@@ -34,4 +34,4 @@ Feature: check_credit_card_3DS_functionality
     And I enter "Noted Transaction Identification" in field "Transaction ID to be refunded"
     And I click "Refund"
     Then I see text "Payment successfully cancelled."
-    And I see text "No Transaction ID"
+    And I see text "Transaction ID"

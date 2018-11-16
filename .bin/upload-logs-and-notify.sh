@@ -2,31 +2,40 @@
 set -e # Exit with nonzero exit code if anything fails
 
 export REPO_NAME='reports'
-export REPO_ADDRESS="https://github.com/wirecard/$REPO_NAME.git"
+export REPO_LINK="https://github.com/wirecard/${REPO_NAME}"
+export REPO_ADDRESS="${REPO_LINK}.git"
 
 #clone the repository where the screenshot should be uploaded
 git clone ${REPO_ADDRESS}
 
 #create folder with current date
 export TODAY=$(date +%Y-%m-%d)
-mkdir ${REPO_NAME}/${TODAY}
+
+export PROJECT_FOLDER="paymentSDK-php"
+GATEWAY_FOLDER=${REPO_NAME}/${PROJECT_FOLDER}/${GATEWAY}
+DATE_FOLDER=${GATEWAY_FOLDER}/${TODAY}
+
+if [ ! -d "${GATEWAY_FOLDER}" ]; then
+mkdir ${GATEWAY_FOLDER}
+fi
+
+if [ ! -d "${DATE_FOLDER}" ]; then
+mkdir ${DATE_FOLDER}
+fi
 
 #copy report files
-cp tests/_output/*.html ${REPO_NAME}/${TODAY}
-cp tests/_output/*.fail.png ${REPO_NAME}/${TODAY}
-cp tests/_output/*.xml ${REPO_NAME}/${TODAY}
+cp tests/_output/*.html ${DATE_FOLDER}
+cp tests/_output/*.fail.png ${DATE_FOLDER}
 
 cd ${REPO_NAME}
-
 #push report files to the repository
-git add ${TODAY}
+git add ${PROJECT_FOLDER}/${GATEWAY}/${TODAY}/*
 git commit -m "Add failed test screenshots from ${TRAVIS_BUILD_WEB_URL}"
-git push -q https://${GITHUB_TOKEN}@github.com/tatsta/${REPO_NAME}.git master
+git push -q https://${GITHUB_TOKEN}@github.com/wirecard/${REPO_NAME}.git master
 
 #save commit hash
 export SCREENSHOT_COMMIT_HASH=$(git rev-parse --verify HEAD)
 
-echo ${SCREENSHOT_COMMIT_HASH}
-cd ..
 #send slack notification
-sh ./.bin/send-notify.sh
+cd ..
+bash .bin/send-notify.sh
