@@ -47,6 +47,7 @@ $tx->setNotificationUrl($notificationUrl);
 $tx->setRedirect($redirectUrls);
 $tx->setAmount($amount);
 $tx->setParentTransactionId($parentTransactionId);
+$tx->setAccountHolder($accountHolder);
 
 // ### Transaction Service
 
