@@ -13,13 +13,10 @@ Feature: check_credit_card_3DS_functionality
     And I choose "2019" in field "Valid until year"
     And I click "Save"
     Then I am redirected to "Credit Card Reserve Page" page
-    And I wait for 3 seconds
     And I click "Redirect to 3-D Secure page"
     Then I am redirected to "Verified by Visa Page" page
-    And I wait for 5 seconds
-    And I enter "wirecard" in field "Password" 
+    And I enter "wirecard" in field "Password"
     And I click "Continue"
-    And I wait for 5 seconds
 
   Scenario: try purchase_check
     Given I am redirected to "Credit Card Success Page" page
