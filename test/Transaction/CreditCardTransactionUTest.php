@@ -35,6 +35,7 @@ use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Card;
 use Wirecard\PaymentSdk\Entity\Periodic;
+use Wirecard\PaymentSdk\Entity\SubMerchantInfo;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\Transaction;
@@ -118,6 +119,63 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
 
         $result = $transaction->mappedProperties();
 
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    public function testSslCreditCardTransactionWithTokenIdAndSubMerchantInfo()
+    {
+        $_SERVER['REMOTE_ADDR'] = 'test IP';
+
+        $id = '12345';
+        $name = 'my name';
+        $street = '123 test street';
+        $city = 'testing town';
+        $postalCode = '99999';
+        $state = 'BAV';
+        $country = 'DE';
+
+        $subMerchantInfo = new SubMerchantInfo(SubMerchantInfo::TYPE_EXTENDED);
+        $subMerchantInfo->setMerchantId($id);
+        $subMerchantInfo->setMerchantName($name);
+        $subMerchantInfo->setMerchantStreet($street);
+        $subMerchantInfo->setMerchantCity($city);
+        $subMerchantInfo->setMerchantPostalCode($postalCode);
+        $subMerchantInfo->setMerchantState($state);
+        $subMerchantInfo->setMerchantCountry($country);
+
+        $transaction = new CreditCardTransaction();
+        $transaction->setConfig($this->config);
+        $transaction->setTokenId('45');
+        $transaction->setAmount(new Amount(12.34, 'EUR'));
+        $transaction->setOperation(Operation::RESERVE);
+        $transaction->setSubMerchantInfo($subMerchantInfo);
+
+        $result = $transaction->mappedProperties();
+
+        $expectedResult = [
+            'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
+            'requested-amount' => ['currency' => 'EUR', 'value' => 12.34],
+            'transaction-type' => 'authorization',
+            'card-token' => [
+                'token-id' => '45'
+            ],
+            'ip-address' => 'test IP',
+            'merchant-account-id' => [
+                'value' => 'maid'
+            ],
+            'entry-mode' => 'ecommerce',
+            'locale' => 'de',
+            'periodic' => ['periodic-type' => 'recurring'],
+            'sub-merchant-info' => [
+                'id' => $id,
+                'name' => $name,
+                'street' => $street,
+                'city' => $city,
+                'postal-code' => $postalCode,
+                'state' => $state,
+                'country' => $country
+            ],
+        ];
         $this->assertEquals($expectedResult, $result);
     }
 

@@ -41,6 +41,14 @@ namespace Wirecard\PaymentSdk\Entity;
  */
 class SubMerchantInfo implements MappableEntity
 {
+    const TYPE_COMMON = 1;
+    const TYPE_EXTENDED = 2;
+
+    /**
+     * @var int
+     */
+    private $type;
+
     /**
      * @var string
      */
@@ -50,6 +58,36 @@ class SubMerchantInfo implements MappableEntity
      * @var string
      */
     private $merchantName;
+
+    /**
+     * @var string
+     */
+    private $merchantStreet;
+
+    /**
+     * @var string
+     */
+    private $merchantCity;
+
+    /**
+     * @var string
+     */
+    private $merchantPostalCode;
+
+    /**
+     * @var string
+     */
+    private $merchantState;
+
+    /**
+     * @var string
+     */
+    private $merchantCountry;
+
+    public function __construct($type = self::TYPE_COMMON)
+    {
+        $this->type = $type;
+    }
 
     /**
      * @param $merchantId
@@ -68,6 +106,46 @@ class SubMerchantInfo implements MappableEntity
     }
 
     /**
+     * @param $merchantStreet
+     */
+    public function setMerchantStreet($merchantStreet)
+    {
+        $this->merchantStreet = $merchantStreet;
+    }
+
+    /**
+     * @param $merchantCity
+     */
+    public function setMerchantCity($merchantCity)
+    {
+        $this->merchantCity = $merchantCity;
+    }
+
+    /**
+     * @param $merchantPostalCode
+     */
+    public function setMerchantPostalCode($merchantPostalCode)
+    {
+        $this->merchantPostalCode = $merchantPostalCode;
+    }
+
+    /**
+     * @param $merchantState
+     */
+    public function setMerchantState($merchantState)
+    {
+        $this->merchantState = $merchantState;
+    }
+
+    /**
+     * @param $merchantCountry
+     */
+    public function setMerchantCountry($merchantCountry)
+    {
+        $this->merchantCountry = $merchantCountry;
+    }
+
+    /**
      * @return array
      */
     public function mappedProperties()
@@ -80,6 +158,30 @@ class SubMerchantInfo implements MappableEntity
 
         if (null !== $this->merchantName) {
             $result['name'] = $this->merchantName;
+        }
+
+        if ($this->type == self::TYPE_EXTENDED) {
+
+            if (null !== $this->merchantStreet) {
+                $result['street'] = $this->merchantStreet;
+            }
+
+            if (null !== $this->merchantCity) {
+                $result['city'] = $this->merchantCity;
+            }
+
+            if (null !== $this->merchantPostalCode) {
+                $result['postal-code'] = $this->merchantPostalCode;
+            }
+
+            if (null !== $this->merchantState) {
+                $result['state'] = $this->merchantState;
+            }
+
+            if (null !== $this->merchantCountry) {
+                $result['country'] = $this->merchantCountry;
+            }
+
         }
 
         return $result;

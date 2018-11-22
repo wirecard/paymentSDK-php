@@ -35,6 +35,7 @@ namespace Wirecard\PaymentSdk\Transaction;
 use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Entity\Browser;
 use Wirecard\PaymentSdk\Entity\Card;
+use Wirecard\PaymentSdk\Entity\SubMerchantInfo;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
@@ -77,6 +78,10 @@ class CreditCardTransaction extends Transaction implements Reservable
      */
     private $card;
 
+    /**
+     * @var SubMerchantInfo
+     */
+    protected $subMerchantInfo;
 
     /**
      * @param Card $card
@@ -149,6 +154,14 @@ class CreditCardTransaction extends Transaction implements Reservable
     }
 
     /**
+     * @param SubMerchantInfo $subMerchantInfo
+     */
+    public function setSubMerchantInfo($subMerchantInfo)
+    {
+        $this->subMerchantInfo = $subMerchantInfo;
+    }
+
+    /**
      * @return string
      */
     public function getEndpoint()
@@ -202,6 +215,10 @@ class CreditCardTransaction extends Transaction implements Reservable
 
         if (null !== $this->card) {
             $result['card'] = $this->card->mappedProperties();
+        }
+
+        if (null !== $this->subMerchantInfo) {
+            $result['sub-merchant-info'] = $this->subMerchantInfo->mappedProperties();
         }
 
         if ($this->retrieveTransactionType() === Transaction::TYPE_CHECK_ENROLLMENT
