@@ -4,13 +4,10 @@ Feature: check_credit_card_3DS_functionality
   And to see that transaction was successful
   And to be able to cancel the transaction
 
-  Background:
+  @default_gateway
+  Scenario:
     Given I am on "Create Credit Card UI Page" page
-    When I enter "test" in field "Last name"
-    And I enter "4012000300001003" in field "Card number"
-    And I enter "003" in field "CVV"
-    And I choose "01" in field "Valid until month"
-    And I choose "2019" in field "Valid until year"
+    When I fill fields with "Valid Credit Card Data"
     And I click "Save"
     Then I am redirected to "Credit Card Reserve Page" page
     And I click "Redirect to 3-D Secure page"
@@ -18,11 +15,23 @@ Feature: check_credit_card_3DS_functionality
     And I enter "wirecard" in field "Password"
     And I click "Continue"
 
+  @sg_secure_gateway @sg_gateway
+  Scenario:
+    Given I am on "Create Credit Card UI Page" page
+    When I fill fields with "Valid Credit Card Data"
+    And I click "Save"
+    Then I am redirected to "Credit Card Reserve Page" page
+    And I click "Redirect to 3-D Secure page"
+    Then I am redirected to "SimulatorPage" page
+    And I click "Submit"
+
+  @default_gateway @sg_secure_gateway @sg_gateway
   Scenario: try purchase_check
     Given I am redirected to "Credit Card Success Page" page
     Then I see text "Payment successfully completed."
     And I see text "Transaction ID"
 
+  @default_gateway @sg_secure_gateway @sg_gateway
   Scenario: try refund_check
     Given I am redirected to "Credit Card Success Page" page
     And I see text "Transaction ID"

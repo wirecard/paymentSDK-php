@@ -70,4 +70,12 @@ class Base
     {
         return $fieldValue;
     }
+
+    /**
+     * Method Method prepareDataForField
+     * @param string $carddata
+     */
+    public function fillCreditCardFields($carddata){
+        ;
+    }
 }

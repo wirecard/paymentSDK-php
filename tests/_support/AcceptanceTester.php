@@ -28,6 +28,7 @@ use Page\CreditCardReserve as CreditCardReservePage;
 use Page\CreditCardSuccess as CreditCardSuccessPage;
 use Page\VerifiedByVisa as VerifiedByVisaPage;
 use Page\CreditCardCancel as CreditCardCancelPage;
+use Page\SimulatorPage as SimulatorPage;
 
 class AcceptanceTester extends \Codeception\Actor
 {
@@ -64,6 +65,10 @@ class AcceptanceTester extends \Codeception\Actor
                 break;
             case "Credit Card Cancel Page":
                 $page = new CreditCardCancelPage($this);
+                break;
+            case "SimulatorPage":
+                $page = new SimulatorPage($this);
+                $this->wait(2);
                 break;
         }
         return $page;
@@ -156,5 +161,12 @@ class AcceptanceTester extends \Codeception\Actor
     {
         $link = $this->grabAttributeFrom($this->getPageElement($value), 'href');
         $this->valueToKeepBetweenSteps = $this->getTransactionIDFromLink($link);
+    }
+    /**
+     * @When I fill fields with :carddata
+     */
+    public function iFillFieldsWith($carddata)
+    {
+        $this->currentPage->fillCreditCardFields($carddata);
     }
 }
