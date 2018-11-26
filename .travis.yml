@@ -21,10 +21,6 @@ env:
   - COMPOSER_ARGS="--no-interaction"
 
 matrix:
-  allow_failures:
-   - stage: acceptance-test-api-test
-   - stage: acceptance-test-wdcee-test
-   - stage: acceptance-test-nova
   include:
   - php: 5.6
     if: type != cron
