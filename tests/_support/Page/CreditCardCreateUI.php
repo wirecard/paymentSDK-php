@@ -13,6 +13,7 @@ class CreditCardCreateUI extends Base
     public $URL = '/CreditCard/createUi_tokenize.php';
 
     public $elements = array(
+        'First name' => "//*[@id='first_name']",
         'Last name' => "//*[@id='last_name']",
         'Card number' => "//*[@id='account_number']",
         'CVV' => "//*[@id='card_security_code']",
