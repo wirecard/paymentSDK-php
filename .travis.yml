@@ -43,7 +43,7 @@ matrix:
     if: type != cron
 # running acceptance tests sequentially because in parallel is not possible due to ngrok account
   - &acceptance-test
-    stage: acceptance-test-api-test
+    stage: acceptance-test
     if: type = cron
     php: 7.1
     env: GATEWAY=API-TEST
@@ -56,10 +56,8 @@ matrix:
     - bash .bin/output-failed-logs.sh
     - bash .bin/upload-logs-and-notify.sh
   - <<: *acceptance-test
-    stage: acceptance-test-wdcee-test
     env: GATEWAY=API-WDCEE-TEST
   - <<: *acceptance-test
-    stage: acceptance-test-nova
     env: GATEWAY=NOVA
 
 before_install:
