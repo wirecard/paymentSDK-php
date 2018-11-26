@@ -15,7 +15,7 @@ Feature: check_credit_card_3DS_functionality
     And I enter "wirecard" in field "Password"
     And I click "Continue"
 
-  @sg_secure_gateway @sg_gateway
+  @sg_gateway
   Scenario:
     Given I am on "Create Credit Card UI Page" page
     When I fill fields with "Valid Credit Card Data"
@@ -25,13 +25,13 @@ Feature: check_credit_card_3DS_functionality
     Then I am redirected to "SimulatorPage" page
     And I click "Submit"
 
-  @default_gateway @sg_secure_gateway @sg_gateway
+  @default_gateway @sg_gateway
   Scenario: try purchase_check
     Given I am redirected to "Credit Card Success Page" page
     Then I see text "Payment successfully completed."
     And I see text "Transaction ID"
 
-  @default_gateway @sg_secure_gateway @sg_gateway
+  @default_gateway @sg_gateway
   Scenario: try refund_check
     Given I am redirected to "Credit Card Success Page" page
     And I see text "Transaction ID"
