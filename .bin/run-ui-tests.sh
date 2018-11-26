@@ -27,7 +27,7 @@ export NGROK_URL=$(curl -s localhost:4040/api/tunnels/command_line | jq --raw-ou
 
 GROUP='default_gateway'
 
-if [[ ${GATEWAY} = "TEST-SG" ]] || [[ {GATEWAY} = "SECURE-TEST-SG" ]]; then
+if [[ ${GATEWAY} = "TEST-SG" ]] || [[ ${GATEWAY} = "SECURE-TEST-SG" ]]; then
   GROUP='sg_gateway'
 fi
 

@@ -23,7 +23,17 @@ use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 $transactionService = new TransactionService($config);
 
 $redirectUrl = getUrl('return.php?status=success');
-$amount = new Amount(70.00, 'EUR');
+
+$gateway_env_for_amount = getenv('GATEWAY');
+var_dump($gateway_env_for_amount);
+
+if ($gateway_env_for_amount === 'TEST-SG' || $gateway_env_for_amount === 'SECURE-TEST-SG') {
+    $amount = new Amount(4.43, 'EUR');
+    var_dump($amount);
+} else {
+    $amount = new Amount(70.00, 'EUR');
+    var_dump($amount);
+}
 $orderNumber = 'A2';
 
 // ### Basket items
