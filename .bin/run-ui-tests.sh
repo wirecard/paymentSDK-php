@@ -16,7 +16,8 @@ chmod +x $PWD/jq
 
 # Open ngrok tunnel
 $PWD/ngrok authtoken $NGROK_TOKEN
-$PWD/ngrok http 8080 > /dev/null &
+TIMESTAMP=$(date +%s)
+$PWD/ngrok http 8080 -subdomain=${TIMESTAMP}${GATEWAY}> /dev/null &
 
 # sleep to allow ngrok to initialize
 sleep 150
