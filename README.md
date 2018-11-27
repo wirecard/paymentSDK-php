@@ -34,6 +34,9 @@ We also provide some examples for using the PaymentSDK, which can be found [here
 - Credit Card MOTO
 - eps
 - giropay
+- Guaranteed Direct Debit
+- Guaranteed Installment
+- Guaranteed Invoice
 - iDEAL
 - Masterpass
 - Payment in Advance
@@ -42,9 +45,6 @@ We also provide some examples for using the PaymentSDK, which can be found [here
 - PayPal
 - paysafecard
 - Przelewy24
-- Guaranteed Direct Debit
-- Guaranteed Installment
-- Guaranteed Invoice
 - SEPA Direct Debit
 - Sofort.
 - UnionPay International
