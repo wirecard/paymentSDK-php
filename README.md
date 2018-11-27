@@ -28,9 +28,9 @@ We also provide some examples for using the PaymentSDK, which can be found [here
 
 ## Supported payment methods:
 
+- Credit Card
 - Alipay Cross-border
 - Bancontact
-- Credit Card
 - Credit Card MOTO
 - eps
 - giropay
