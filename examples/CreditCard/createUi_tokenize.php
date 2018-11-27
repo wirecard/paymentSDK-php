@@ -25,15 +25,21 @@ $transactionService = new TransactionService($config);
 $redirectUrl = getUrl('return.php?status=success');
 
 $gateway_env_for_amount = getenv('GATEWAY');
-var_dump($gateway_env_for_amount);
+
+$amount = new Amount(70.00, 'EUR');
 
 if ($gateway_env_for_amount === 'TEST-SG' || $gateway_env_for_amount === 'SECURE-TEST-SG') {
-    $amount = new Amount(4.43, 'EUR');
-    var_dump($amount);
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $inserted_amount = $_POST['amount'];
+        $amount = new Amount($inserted_amount, 'EUR');
+    }
 } else {
-    $amount = new Amount(70.00, 'EUR');
-    var_dump($amount);
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $inserted_amount = $_POST['amount'];
+        $amount = new Amount($inserted_amount, 'EUR');
+    }
 }
+
 $orderNumber = 'A2';
 
 // ### Basket items
@@ -178,6 +184,13 @@ $transaction->setCustomFields( $custom_fields );
         // The javascript library needs a div which it can fill with all credit card related fields.
         ?>
         <div id="creditcard-form-div"></div>
+        <div class="col-sm-12 sm-20" style="margin: 0; padding: 0;">
+            <label data-i18n="card_number">Amount</label>
+            <small data-i18n="optional" class="pull-right">Mandatory</small>
+            <div class="form-group has-feedback">
+                <input type="number" class="form-control ee-request-nvp" id="amount" name="amount" placeholder="Amount"><i class="form-control-feedback fv-icon-no-label" data-fv-icon-for="amount" style="display: none;"></i>
+            </div>
+        </div>
         <button type="submit" class="btn btn-primary">Save</button>
     </form>
 </div>
