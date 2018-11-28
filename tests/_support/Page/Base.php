@@ -73,9 +73,9 @@ class Base
 
     /**
      * Method Method prepareDataForField
-     * @param string $carddata
+     * @param string $cardData
      */
-    public function fillCreditCardFields($carddata){
+    public function fillCreditCardFields($cardData){
         ;
     }
 }

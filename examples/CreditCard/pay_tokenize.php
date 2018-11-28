@@ -22,7 +22,6 @@ use Wirecard\PaymentSdk\TransactionService;
 // ### Transaction related objects
 
 // Create a amount object as amount which has to be paid by the consumer.
-
 $amount = new Amount(70.00, 'EUR');
 
 // Otherwise if a token was defined when submitting the credit card data to Wirecard via the UI, this token is used.

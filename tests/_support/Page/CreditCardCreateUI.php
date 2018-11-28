@@ -45,29 +45,27 @@ class CreditCardCreateUI extends Base
     }
     /**
      * Method Method prepareDataForField
-     * @param string $carddata
+     * @param string $cardData
      */
-    public function fillCreditCardFields($carddata){
+    public function fillCreditCardFields($cardData){
         $I = $this->tester;
-        $data_field_values = $I->getCardDataFromDataFile($carddata);
+        $data_field_values = $I->getCardDataFromDataFile($cardData);
         $env = getenv('GATEWAY');
-
-        if ($env === 'NOVA' || $env === 'API-WDCEE-TEST' || $env === 'API-TEST') {
+        if (! $env) {
+//        if ('NOVA' == $env || 'API-WDCEE-TEST' == $env || 'API-TEST' == $env) {
             $I->fillField($this->getElement("Last name"), $data_field_values->last_name);
             $I->fillField($this->getElement("Card number"), $data_field_values->card_number);
             $I->fillField($this->getElement("CVV"), $data_field_values->cvv);
             $I->selectOption($this->getElement("Valid until month"), $data_field_values->valid_until_month);
             $I->selectOption($this->getElement("Valid until year"), $data_field_values->valid_until_year);
-
-        } else if ($env === 'TEST-SG') {
+        } else if ('TEST-SG' == $env) {
             $I->fillField($this->getElement("First name"), $data_field_values->first_name);
             $I->fillField($this->getElement("Last name"), $data_field_values->last_name);
             $I->fillField($this->getElement("Card number"), $data_field_values->card_number);
             $I->fillField($this->getElement("CVV"), $data_field_values->cvv);
             $I->selectOption($this->getElement("Valid until month"), $data_field_values->valid_until_month);
             $I->selectOption($this->getElement("Valid until year"), $data_field_values->valid_until_year);
-
-        } else if ($env === 'SECURE-TEST-SG') {
+        } else if ('SECURE-TEST-SG' == $env) {
             $I->fillField($this->getElement("Card number"), $data_field_values->card_number);
             $I->fillField($this->getElement("CVV"), $data_field_values->cvv);
             $I->selectOption($this->getElement("Valid until month"), $data_field_values->valid_until_month);

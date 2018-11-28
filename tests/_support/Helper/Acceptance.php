@@ -40,20 +40,18 @@ class Acceptance extends \Codeception\Module
     }
 
     public static function getCardDataFromDataFile($cardDataType) {
-        $gateway_env = getenv('GATEWAY');
-
-        if ($gateway_env === 'NOVA' || $gateway_env === 'API-TEST' || $gateway_env === 'API-WDCEE-TEST' ) {
+        $gatewayEnv = getenv('GATEWAY');
+        if (! $gatewayEnv) {
+//        if ('NOVA' == $gatewayEnv || 'API-TEST' == $gatewayEnv || 'API-WDCEE-TEST' == $gatewayEnv) {
             $gateway = 'default_gateway';
-
-        } else if ($gateway_env === 'SECURE-TEST-SG') {
+        } else if ('SECURE-TEST-SG' == $gatewayEnv) {
             $gateway = 'sg_secure_gateway';
-
-        } else if ($gateway_env === 'TEST-SG') {
+        } else if ('TEST-SG' == $gatewayEnv) {
             $gateway = 'sg_gateway';
         }
 
-        $filedata = file_get_contents('tests/_support/data.json');
-        $data = json_decode($filedata); // decode the JSON feed
+        $fileData = file_get_contents('tests/_support/data.json');
+        $data = json_decode($fileData); // decode the JSON feed
         return $data->$gateway->$cardDataType;
     }
 }

@@ -163,10 +163,10 @@ class AcceptanceTester extends \Codeception\Actor
         $this->valueToKeepBetweenSteps = $this->getTransactionIDFromLink($link);
     }
     /**
-     * @When I fill fields with :carddata
+     * @When I fill fields with :cardData
      */
-    public function iFillFieldsWith($carddata)
+    public function iFillFieldsWith($cardData)
     {
-        $this->currentPage->fillCreditCardFields($carddata);
+        $this->currentPage->fillCreditCardFields($cardData);
     }
 }
