@@ -21,7 +21,7 @@ curl -X POST -H 'Content-type: application/json' \
 
 FAILED_TESTS=$(ls -1q tests/_output/*.fail.png | wc -l)
 
-if [[ ${FAILED_TESTS} > 3 ]]; then
+if [ ${FAILED_TESTS} > 3 ]; then
   # do not send more than 3 screenshots to the chat room
     curl -X POST -H 'Content-type: application/json' --data "{
         'attachments': [
