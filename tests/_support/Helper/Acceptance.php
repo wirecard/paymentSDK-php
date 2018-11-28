@@ -41,8 +41,7 @@ class Acceptance extends \Codeception\Module
 
     public static function getCardDataFromDataFile($cardDataType) {
         $gatewayEnv = getenv('GATEWAY');
-        if (! $gatewayEnv) {
-//        if ('NOVA' == $gatewayEnv || 'API-TEST' == $gatewayEnv || 'API-WDCEE-TEST' == $gatewayEnv) {
+        if ('NOVA' == $gatewayEnv || 'API-TEST' == $gatewayEnv || 'API-WDCEE-TEST' == $gatewayEnv) {
             $gateway = 'default_gateway';
         } else if ('SECURE-TEST-SG' == $gatewayEnv) {
             $gateway = 'sg_secure_gateway';

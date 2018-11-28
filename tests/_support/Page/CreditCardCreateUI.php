@@ -51,8 +51,7 @@ class CreditCardCreateUI extends Base
         $I = $this->tester;
         $data_field_values = $I->getCardDataFromDataFile($cardData);
         $env = getenv('GATEWAY');
-        if (! $env) {
-//        if ('NOVA' == $env || 'API-WDCEE-TEST' == $env || 'API-TEST' == $env) {
+        if ('NOVA' == $env || 'API-WDCEE-TEST' == $env || 'API-TEST' == $env) {
             $I->fillField($this->getElement("Last name"), $data_field_values->last_name);
             $I->fillField($this->getElement("Card number"), $data_field_values->card_number);
             $I->fillField($this->getElement("CVV"), $data_field_values->cvv);
