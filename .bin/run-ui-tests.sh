@@ -25,5 +25,12 @@ sleep 150
 # extract the ngrok url
 export NGROK_URL=$(curl -s localhost:4040/api/tunnels/command_line | jq --raw-output .public_url)
 
+GROUP='default_gateway'
+
+if [[ ${GATEWAY} = "TEST-SG" ]] || [[ ${GATEWAY} = "SECURE-TEST-SG" ]]; then
+  GROUP='sg_gateway'
+fi
+
 #run tests
-vendor/bin/codecept run acceptance --steps -v --html
+
+vendor/bin/codecept run acceptance -g ${GROUP} --steps -v --html

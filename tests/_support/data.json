@@ -1,0 +1,29 @@
+{
+  "default_gateway": {
+    "Valid Credit Card Data": {
+      "last_name": "test",
+      "card_number": "4012000300001003",
+      "cvv": "003",
+      "valid_until_month" : "01",
+      "valid_until_year" : "2019"
+    }
+  },
+  "sg_secure_gateway": {
+    "Valid Credit Card Data": {
+      "card_number": "4005550000000001",
+      "cvv": "602",
+      "valid_until_month" : "12",
+      "valid_until_year" : "2021"
+    }
+  },
+  "sg_gateway": {
+    "Valid Credit Card Data": {
+      "first_name": "test",
+      "last_name": "test",
+      "card_number": "4005550000000001",
+      "cvv": "602",
+      "valid_until_month": "12",
+      "valid_until_year": "2018"
+    }
+  }
+}

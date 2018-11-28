@@ -21,7 +21,6 @@ use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 // ### Transaction Service
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
-
 $redirectUrl = getUrl('return.php?status=success');
 $amount = new Amount(70.00, 'EUR');
 $orderNumber = 'A2';
