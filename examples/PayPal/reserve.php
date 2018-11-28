@@ -33,6 +33,13 @@ $redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
 $notificationUrl = getUrl('notify.php');
 
+// ### Account holder
+
+$address = new \Wirecard\PaymentSdk\Entity\Address('US', 'Portland', 'Mariahilferstraße');
+$address->setState('OR');
+
+$accountHolder = new \Wirecard\PaymentSdk\Entity\AccountHolder();
+$accountHolder->setAddress($address);
 
 // ## Transaction
 
@@ -42,6 +49,7 @@ $transaction->setNotificationUrl($notificationUrl);
 $transaction->setRedirect($redirectUrls);
 $transaction->setAmount($amount);
 $transaction->setParentTransactionId($parentTransactionId);
+$transaction->setAccountHolder($accountHolder);
 
 // ### Transaction Service
 

@@ -1,8 +1,8 @@
 <?php
 /**
- * Shop System Payment SDK - Terms of Use
+ * Shop System SDK - Terms of Use
  *
- * The plugins offered are provided free of charge by Wirecard AG and are explicitly not part
+ * The SDK offered are provided free of charge by Wirecard AG and are explicitly not part
  * of the Wirecard AG range of products and services.
  *
  * They have been tested and approved for full functionality in the standard configuration
@@ -16,25 +16,26 @@
  * Operation in an enhanced, customized configuration is at your own risk and requires a
  * comprehensive test phase by the user of the plugin.
  *
- * Customers use the plugins at their own risk. Wirecard AG does not guarantee their full
+ * Customers use the SDK at their own risk. Wirecard AG does not guarantee their full
  * functionality neither does Wirecard AG assume liability for any disadvantages related to
- * the use of the plugins. Additionally, Wirecard AG does not guarantee the full functionality
- * for customized shop systems or installed plugins of other vendors of plugins within the same
+ * the use of the SDK. Additionally, Wirecard AG does not guarantee the full functionality
+ * for customized shop systems or installed SDK of other vendors of plugins within the same
  * shop system.
  *
- * Customers are responsible for testing the plugin's functionality before starting productive
+ * Customers are responsible for testing the SDK's functionality before starting productive
  * operation.
  *
- * By installing the plugin into the shop system the customer agrees to these terms of use.
- * Please do not use the plugin if you do not agree to these terms of use!
+ * By installing the SDK into the shop system the customer agrees to these terms of use.
+ * Please do not use the SDK if you do not agree to these terms of use!
  */
 
 namespace Wirecard\PaymentSdk\Transaction;
 
 use Locale;
-use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Entity\Browser;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
+use Wirecard\PaymentSdk\Entity\Periodic;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
@@ -43,7 +44,7 @@ use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
  * Interface Transaction
  * @package Wirecard\PaymentSdk\Transaction
  */
-abstract class Transaction
+abstract class Transaction extends Risk
 {
     const PARAM_PAYMENT = 'payment';
     const PARAM_TRANSACTION_TYPE = 'transaction-type';
@@ -55,6 +56,7 @@ abstract class Transaction
     const TYPE_AUTHORIZATION_ONLY = 'authorization-only';
     const TYPE_REFERENCED_AUTHORIZATION = 'referenced-authorization';
     const TYPE_CAPTURE_AUTHORIZATION = 'capture-authorization';
+    const TYPE_CHECK_ENROLLMENT = 'check-enrollment';
     const TYPE_VOID_AUTHORIZATION = 'void-authorization';
     const TYPE_PENDING_CREDIT = 'pending-credit';
     const TYPE_CREDIT = 'credit';
@@ -68,11 +70,9 @@ abstract class Transaction
     const TYPE_REFUND_PURCHASE = 'refund-purchase';
     const TYPE_REFERENCED_PURCHASE = 'referenced-purchase';
     const TYPE_VOID_PURCHASE = 'void-purchase';
+    const TYPE_VOID_DEBIT= 'void-debit';
+    const TYPE_DEPOSIT = 'deposit';
 
-    /**
-     * @var AccountHolder
-     */
-    protected $accountHolder;
 
     /**
      * @var Amount
@@ -82,12 +82,12 @@ abstract class Transaction
     /**
      * @var string
      */
-    protected $consumerId;
+    protected $notificationUrl;
 
     /**
      * @var string
      */
-    protected $notificationUrl;
+    protected $emailNotificationUrl;
 
     /**
      * @var string
@@ -130,6 +130,31 @@ abstract class Transaction
     protected $entryMode;
 
     /**
+     * @var string
+     */
+    protected $orderId;
+
+    /**
+     * @var Periodic
+     */
+    protected $periodic;
+
+    /**
+     * @var  bool|null
+     */
+    protected $sepaCredit = false;
+
+    /**
+     * @var Browser
+     */
+    protected $browser;
+
+    /**
+     * @var array
+     */
+    protected $articleNumbers = [];
+
+    /**
      * @param string $entryMode
      * @return Transaction
      */
@@ -150,13 +175,11 @@ abstract class Transaction
     }
 
     /**
-     * @param AccountHolder $accountHolder
-     * @return Transaction
+     * @return CustomFieldCollection
      */
-    public function setAccountHolder($accountHolder)
+    public function getCustomFields()
     {
-        $this->accountHolder = $accountHolder;
-        return $this;
+        return $this->customFields;
     }
 
     /**
@@ -171,10 +194,41 @@ abstract class Transaction
 
     /**
      * @param Amount $amount
+     * @return Transaction
      */
     public function setAmount($amount)
     {
         $this->amount = $amount;
+        return $this;
+    }
+
+    /**
+     * @param string $orderId
+     * @return Transaction
+     */
+    public function setOrderId($orderId)
+    {
+        $this->orderId = $orderId;
+        return $this;
+    }
+
+    /**
+     * @param Browser $browser
+     * @return Transaction
+     * @since
+     */
+    public function setBrowser($browser)
+    {
+        $this->browser = $browser;
+        return $this;
+    }
+
+    /**
+     * @return Browser
+     */
+    public function getBrowser()
+    {
+        return $this->browser;
     }
 
     /**
@@ -186,51 +240,115 @@ abstract class Transaction
     }
 
     /**
+     * @return string
+     */
+    public function getParentTransactionType()
+    {
+        return $this->parentTransactionType;
+    }
+
+    /**
      * @param string $parentTransactionId
+     * @return Transaction
      */
     public function setParentTransactionId($parentTransactionId)
     {
         $this->parentTransactionId = $parentTransactionId;
+        return $this;
     }
 
     /**
      * @param string $parentTransactionType
+     * @return Transaction
      */
     public function setParentTransactionType($parentTransactionType)
     {
         $this->parentTransactionType = $parentTransactionType;
+        return $this;
     }
 
     /**
      * @param mixed $requestId
+     * @return Transaction
      */
     public function setRequestId($requestId)
     {
         $this->requestId = $requestId;
+        return $this;
     }
 
     /**
      * @param string $notificationUrl
+     * @return Transaction
      */
     public function setNotificationUrl($notificationUrl)
     {
         $this->notificationUrl = $notificationUrl;
+        return $this;
     }
 
     /**
-     * @param string $consumerId
+     * Setter for optional parameter. If it is set it will forward notifications to email as well.
+     *
+     * @param $email
+     * @return $this
      */
-    public function setConsumerId($consumerId)
+    public function setEmailNotification($email)
     {
-        $this->consumerId = $consumerId;
+        $this->emailNotificationUrl = $email;
+        return $this;
     }
 
     /**
      * @param string $operation
+     * @return Transaction
      */
     public function setOperation($operation)
     {
         $this->operation = $operation;
+        return $this;
+    }
+
+    /**
+     * @return Periodic
+     */
+    public function getPeriodic()
+    {
+        return $this->periodic;
+    }
+
+    /**
+     * @param Periodic $periodic
+     * @return Transaction
+     */
+    public function setPeriodic($periodic)
+    {
+        if ($periodic instanceof Periodic) {
+            $this->periodic = $periodic;
+        }
+        return $this;
+    }
+
+    /**
+     * This method can be used to set article numbers in the transaction. These article numbers can and will be used
+     * in the TransactionService class.
+     * @since 3.0.0
+     * @param array $articleNumber
+     * @return Transaction
+     */
+    public function setArticleNumbers($articleNumber)
+    {
+        $this->articleNumbers = array_merge($articleNumber, $this->articleNumbers);
+        return $this;
+    }
+
+    /**
+     * @since 3.0.0
+     * @return array
+     */
+    public function getArticleNumbers()
+    {
+        return $this->articleNumbers;
     }
 
     /**
@@ -248,27 +366,27 @@ abstract class Transaction
             'name' => $this->paymentMethodNameForRequest()
         ]]]];
 
+        $result = array_merge($result, parent::mappedProperties());
+
         if ($this->amount instanceof Amount) {
             $result['requested-amount'] = $this->amount->mappedProperties();
-        }
-
-        if ($this->accountHolder instanceof AccountHolder) {
-            $result['account-holder'] = $this->accountHolder->mappedProperties();
         }
 
         if (null !== $this->parentTransactionId) {
             $result[self::PARAM_PARENT_TRANSACTION_ID] = $this->parentTransactionId;
         }
 
-        if (array_key_exists('REMOTE_ADDR', $_SERVER)) {
+        if (array_key_exists('REMOTE_ADDR', $_SERVER) && !isset($result['ip-address'])) {
             $result['ip-address'] = $_SERVER['REMOTE_ADDR'];
         }
 
         if (null !== $this->notificationUrl) {
-            $onlyNotificationUrl = [
-                'notification' => [['url' => $this->notificationUrl]]
-            ];
+            $onlyNotificationUrl = ['notification' => [['url' => $this->notificationUrl]]];
             $result['notifications'] = $onlyNotificationUrl;
+        }
+
+        if (null !== $this->emailNotificationUrl) {
+            $result['notifications']['notification'][] = ['url' => "mailto:{$this->emailNotificationUrl}"];
         }
 
         if ($this->redirect instanceof Redirect) {
@@ -279,10 +397,6 @@ abstract class Transaction
             if ($this->redirect->getFailureUrl()) {
                 $result['fail-redirect-url'] = $this->redirect->getFailureUrl();
             }
-        }
-
-        if (null !== $this->consumerId) {
-            $result['consumer-id'] = $this->consumerId;
         }
 
         if (null !== $this->customFields) {
@@ -301,9 +415,33 @@ abstract class Transaction
             $result['entry-mode'] = 'ecommerce';
         }
 
+        if (null !== $this->orderId) {
+            $result['order-id'] = $this->orderId;
+        }
+
         $result[self::PARAM_TRANSACTION_TYPE] = $this->retrieveTransactionType();
 
-        return array_merge($result, $this->mappedSpecificProperties());
+        $specificProperties = $this->mappedSpecificProperties();
+
+        if (in_array(
+            $this->retrieveTransactionType(),
+            [Transaction::TYPE_CHECK_ENROLLMENT, Transaction::TYPE_AUTHORIZATION, Transaction::TYPE_PURCHASE]
+        ) && array_key_exists('card-token', $specificProperties) && is_null($this->periodic)) {
+            $this->periodic = new Periodic('recurring');
+        }
+
+        if (null !== $this->periodic) {
+            $result['periodic'] = $this->periodic->mappedProperties();
+        }
+
+        if ($this->browser instanceof Browser) {
+            $browser = $this->browser->mappedProperties();
+            if (count($browser) > 0) {
+                $result['browser'] = $this->browser->mappedProperties();
+            }
+        }
+
+        return array_merge($result, $specificProperties);
     }
 
     /**
@@ -420,6 +558,9 @@ abstract class Transaction
         return $this;
     }
 
+    /**
+     * @return null|string
+     */
     public function getSuccessUrl()
     {
         if (null === $this->redirect) {
@@ -427,5 +568,77 @@ abstract class Transaction
         }
 
         return $this->redirect->getSuccessUrl();
+    }
+
+    /**
+     * @return Amount
+     */
+    public function getAmount()
+    {
+        return $this->amount;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNotificationUrl()
+    {
+        return $this->notificationUrl;
+    }
+
+    /**
+     * @return string|bool
+     */
+    public function getBackendOperationForPay()
+    {
+        try {
+            return $this->retrieveTransactionTypeForPay();
+        } catch (UnsupportedOperationException $e) {
+            return false;
+        }
+    }
+
+    /**
+     * @return string|bool
+     */
+    public function getBackendOperationForCancel()
+    {
+        try {
+            return $this->retrieveTransactionTypeForCancel();
+        } catch (UnsupportedOperationException $e) {
+            return false;
+        }
+    }
+
+    /**
+     * @return string|bool
+     */
+    public function getBackendOperationForRefund()
+    {
+        try {
+            return $this->retrieveTransactionTypeForRefund();
+        } catch (UnsupportedOperationException $e) {
+            return false;
+        }
+    }
+
+    /**
+     * @return string|bool
+     */
+    public function getBackendOperationForCredit()
+    {
+        try {
+            return $this->retrieveTransactionTypeForCredit();
+        } catch (UnsupportedOperationException $e) {
+            return false;
+        }
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getSepaCredit()
+    {
+        return $this->sepaCredit;
     }
 }

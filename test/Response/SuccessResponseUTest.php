@@ -1,13 +1,13 @@
 <?php
 /**
- * Shop System Payment SDK - Terms of Use
+ * Shop System SDK - Terms of Use
  *
- * The plugins offered are provided free of charge by Wirecard AG and are explicitly not part
+ * The SDK offered are provided free of charge by Wirecard AG and are explicitly not part
  * of the Wirecard AG range of products and services.
  *
  * They have been tested and approved for full functionality in the standard configuration
  * (status on delivery) of the corresponding shop system. They are under General Public
- * License Version 2 (GPLv2) and can be used, developed and passed on to third parties under
+ * License Version 3 (GPLv3) and can be used, developed and passed on to third parties under
  * the same terms.
  *
  * However, Wirecard AG does not provide any guarantee or accept any liability for any errors
@@ -16,17 +16,17 @@
  * Operation in an enhanced, customized configuration is at your own risk and requires a
  * comprehensive test phase by the user of the plugin.
  *
- * Customers use the plugins at their own risk. Wirecard AG does not guarantee their full
+ * Customers use the SDK at their own risk. Wirecard AG does not guarantee their full
  * functionality neither does Wirecard AG assume liability for any disadvantages related to
- * the use of the plugins. Additionally, Wirecard AG does not guarantee the full functionality
- * for customized shop systems or installed plugins of other vendors of plugins within the same
+ * the use of the SDK. Additionally, Wirecard AG does not guarantee the full functionality
+ * for customized shop systems or installed SDK of other vendors of plugins within the same
  * shop system.
  *
- * Customers are responsible for testing the plugin's functionality before starting productive
+ * Customers are responsible for testing the SDK's functionality before starting productive
  * operation.
  *
- * By installing the plugin into the shop system the customer agrees to these terms of use.
- * Please do not use the plugin if you do not agree to these terms of use!
+ * By installing the SDK into the shop system the customer agrees to these terms of use.
+ * Please do not use the SDK if you do not agree to these terms of use!
  */
 
 namespace WirecardTest\PaymentSdk\Response;
@@ -53,12 +53,49 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
                         <request-id>123</request-id>
                         <parent-transaction-id>ca-6ed-b69</parent-transaction-id>
                         <transaction-type>transaction</transaction-type>
+                        <completion-time-stamp>1234</completion-time-stamp>
+                        <consumer-id>1</consumer-id>
+                        <ip-address>127.0.0.1</ip-address>
+                        <order-number>123</order-number>
+                        <merchant-account-id>maid123123123</merchant-account-id>
+                        <transaction-state>success</transaction-state>
+                        <currency>EUR</currency>
+                        <requested-amount>17.86</requested-amount>
+                        <descriptor>descriptor</descriptor>
                         <payment-methods>
                             <payment-method name="paypal"/>
                         </payment-methods>
                         <statuses>
                             <status code="1" description="a" severity="0" />
                         </statuses>
+                        <account-holder>
+                            <first-name>Hr</first-name>
+                            <last-name>E G H Küppers en/of MW M.J. Küpp</last-name>
+                            <email>email@email.com</email>
+                            <phone>123123123</phone>
+                            <address>
+                                <street1>address 12</street1>
+                                <city>City</city>
+                                <country>AT</country>
+                                <postal-code>4962</postal-code>
+                            </address>
+                        </account-holder>
+                        <shipping>
+                            <first-name>Max</first-name>
+                            <last-name>Musterman</last-name>
+                            <phone>123123123</phone>
+                            <address>
+                                <street1>address 12</street1>
+                                <city>City</city>
+                                <country>AT</country>
+                                <postal-code>4962</postal-code>
+                            </address>
+                            <email>email@email.com</email>
+                        </shipping>
+                        <custom-fields>
+                            <custom-field field-name="orderId" field-value="451"/>
+                            <custom-field field-name="shopName" field-value="shop"/>
+                        </custom-fields>
                         <card-token>
                             <token-id>4748178566351002</token-id>
                             <masked-account-number>541333******1006</masked-account-number>
@@ -212,12 +249,155 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
             "payment-methods.0.name" => "paypal",
             "statuses.0.code" => '1',
             "statuses.0.description" => "a",
-            "statuses.0.severity" => 0,
-            "card-token.0.token-id" => 4748178566351002,
+            "statuses.0.severity" => '0',
+            "card-token.0.token-id" => '4748178566351002',
             "card-token.0.masked-account-number" => "541333******1006",
-            "three-d.0.cardholder-authentication-status" => "Y"
+            "three-d.0.cardholder-authentication-status" => "Y",
+            "payment-methods.0.payment-method" => '',
+            "statuses.0.status" => '',
+            'completion-time-stamp' => '1234',
+            'consumer-id' => '1',
+            'ip-address' => '127.0.0.1',
+            'order-number' => '123',
+            'merchant-account-id' => 'maid123123123',
+            'transaction-state' => 'success',
+            'currency' => 'EUR',
+            'requested-amount' => '17.86',
+            'descriptor' => 'descriptor',
+            'account-holder.0.first-name' => 'Hr',
+            'account-holder.0.last-name' => 'E G H Küppers en/of MW M.J. Küpp',
+            'account-holder.0.email' => 'email@email.com',
+            'account-holder.0.phone' => '123123123',
+            'account-holder.0.address.0.street1' => 'address 12',
+            'account-holder.0.address.0.city' => 'City',
+            'account-holder.0.address.0.country' => 'AT',
+            'account-holder.0.address.0.postal-code' => '4962',
+            'shipping.0.first-name' => 'Max',
+            'shipping.0.last-name' => 'Musterman',
+            'shipping.0.phone' => '123123123',
+            'shipping.0.address.0.street1' => 'address 12',
+            'shipping.0.address.0.city' => 'City',
+            'shipping.0.address.0.country' => 'AT',
+            'shipping.0.address.0.postal-code' => '4962',
+            'shipping.0.email' => 'email@email.com',
+            'custom-fields.0.field-name' => 'shopName',
+            'custom-fields.0.field-value' => 'shop',
+            'custom-fields.0.custom-field' => '',
         ];
 
         $this->assertEquals($expected, $this->response->getData());
+    }
+
+    public function testWithoutOrderItemsContent()
+    {
+        $xml = $this->simpleXml;
+        $xml->addChild('order-items');
+
+        $response = new SuccessResponse($xml);
+        $this->assertNull($response->getBasket());
+    }
+
+    public function testWithoutOrderItemsTaxAmount()
+    {
+        $xml = $this->simpleXml;
+
+        $orderItems = $xml->addChild('order-items');
+        $orderItem = $orderItems->addChild('order-item');
+        $orderItem->addChild('name', 'Beanie with Logo');
+        $orderItem->addChild('tax-amount', 3.42)->addAttribute('currency', 'EUR');
+        $orderItem->addChild('amount', 21.42)->addAttribute('currency', 'EUR');
+
+        $response = new SuccessResponse($xml);
+
+        $this->assertEquals(
+            [
+                'name' => 'Beanie with Logo',
+                'quantity' => 0,
+                'amount' => [
+                    'currency' => 'EUR',
+                    'value' => 21.42
+                ],
+                'description' => '',
+                'article-number' => ''
+            ],
+            $response->getBasket()->mappedProperties()['order-item'][0]
+        );
+    }
+
+    public function testGetPaymentDetails()
+    {
+        $response = new SuccessResponse($this->simpleXml);
+
+        $this->assertNotNull($response->getPaymentDetails()->getAsHtml());
+    }
+
+    public function testGetTransactionDetails()
+    {
+        $response = new SuccessResponse($this->simpleXml);
+
+        $this->assertNotNull($response->getTransactionDetails()->getAsHtml());
+    }
+
+    public function testAccountHolderHtml()
+    {
+        $response = new SuccessResponse($this->simpleXml);
+
+        $this->assertNotNull($response->getAccountHolder()->getAsHtml());
+    }
+
+    public function testAccountHolderWithoutAddress()
+    {
+        $simpleXml = simplexml_load_string('<?xml version="1.0"?>
+                    <payment>
+                        <transaction-id>1</transaction-id>
+                        <request-id>123</request-id>
+                        <parent-transaction-id>ca-6ed-b69</parent-transaction-id>
+                        <transaction-type>transaction</transaction-type>
+                        <completion-time-stamp>1234</completion-time-stamp>
+                        <consumer-id>1</consumer-id>
+                        <ip-address>127.0.0.1</ip-address>
+                        <order-number>123</order-number>
+                        <merchant-account-id>maid123123123</merchant-account-id>
+                        <transaction-state>success</transaction-state>
+                        <currency>EUR</currency>
+                        <requested-amount>17.86</requested-amount>
+                        <descriptor>descriptor</descriptor>
+                        <payment-methods>
+                            <payment-method name="paypal"/>
+                        </payment-methods>
+                        <statuses>
+                            <status code="1" description="a" severity="0" />
+                        </statuses>
+                        <account-holder>
+                            <first-name>Hr</first-name>
+                            <last-name>E G H Küppers en/of MW M.J. Küpp</last-name>
+                            <email>email@email.com</email>
+                            <phone>123123123</phone>
+                        </account-holder>
+                    </payment>');
+        $response = new SuccessResponse($simpleXml);
+
+        $this->assertNotNull($response->getAccountHolder()->getAsHtml());
+    }
+
+    public function testShippingHtml()
+    {
+        $response = new SuccessResponse($this->simpleXml);
+
+        $this->assertNotNull($response->getShipping()->getAsHtml());
+    }
+
+    public function testCustomFieldsHtml()
+    {
+        $response = new SuccessResponse($this->simpleXml);
+
+        $this->assertNotNull($response->getCustomFields()->getAsHtml());
+    }
+
+    public function testGetCardHtml()
+    {
+        $response = new SuccessResponse($this->simpleXml);
+
+        $this->assertNotNull($response->getCard()->getAsHtml());
     }
 }

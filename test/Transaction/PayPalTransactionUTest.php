@@ -1,8 +1,8 @@
 <?php
 /**
- * Shop System Payment SDK - Terms of Use
+ * Shop System SDK - Terms of Use
  *
- * The plugins offered are provided free of charge by Wirecard AG and are explicitly not part
+ * The SDK offered are provided free of charge by Wirecard AG and are explicitly not part
  * of the Wirecard AG range of products and services.
  *
  * They have been tested and approved for full functionality in the standard configuration
@@ -16,17 +16,17 @@
  * Operation in an enhanced, customized configuration is at your own risk and requires a
  * comprehensive test phase by the user of the plugin.
  *
- * Customers use the plugins at their own risk. Wirecard AG does not guarantee their full
+ * Customers use the SDK at their own risk. Wirecard AG does not guarantee their full
  * functionality neither does Wirecard AG assume liability for any disadvantages related to
- * the use of the plugins. Additionally, Wirecard AG does not guarantee the full functionality
- * for customized shop systems or installed plugins of other vendors of plugins within the same
+ * the use of the SDK. Additionally, Wirecard AG does not guarantee the full functionality
+ * for customized shop systems or installed SDK of other vendors of plugins within the same
  * shop system.
  *
- * Customers are responsible for testing the plugin's functionality before starting productive
+ * Customers are responsible for testing the SDK's functionality before starting productive
  * operation.
  *
- * By installing the plugin into the shop system the customer agrees to these terms of use.
- * Please do not use the plugin if you do not agree to these terms of use!
+ * By installing the SDK into the shop system the customer agrees to these terms of use.
+ * Please do not use the SDK if you do not agree to these terms of use!
  */
 
 namespace WirecardTest\PaymentSdk\Transaction;
@@ -34,7 +34,9 @@ namespace WirecardTest\PaymentSdk\Transaction;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Entity\Browser;
 use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
@@ -102,6 +104,7 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx->setDescriptor('descriptor');
         $this->tx->setOperation('pay');
         $this->tx->setRedirect($redirect);
+        $this->tx->setBrowser(new Browser('application/xml'));
         $data = $this->tx->mappedProperties();
 
         $expected = [
@@ -121,6 +124,7 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
             'order-number' => 'order number 13',
             'order-detail' => 'order-detail my',
             'descriptor' => 'descriptor',
+            'browser' => ['accept' => 'application/xml']
         ];
 
         $this->assertEquals($expected, $data);
@@ -173,7 +177,15 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [null, Transaction::TYPE_DEBIT],
-            [Transaction::TYPE_AUTHORIZATION, Transaction::TYPE_CAPTURE_AUTHORIZATION]
+            [Transaction::TYPE_AUTHORIZATION, Transaction::TYPE_CAPTURE_AUTHORIZATION],
+            [Transaction::TYPE_DEBIT, Transaction::TYPE_DEBIT]
+        ];
+    }
+
+    public function payDataProviderException()
+    {
+        return [
+            [Transaction::TYPE_CHECK_ENROLLMENT, Transaction::TYPE_DEBIT]
         ];
     }
 
@@ -184,6 +196,35 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRetrieveTransactionTypePay($parentTransactionType, $expected)
     {
+        $redirect = $this->createMock(Redirect::class);
+        $redirect->method('getCancelUrl')->willReturn('cancel-url');
+        $redirect->method('getSuccessUrl')->willReturn('success-url');
+
+        $amount = $this->createMock(Amount::class);
+        $amount->method('getValue')->willReturn(1.00);
+
+        /**
+         * @var Redirect $redirect
+         * @var Amount $amount
+         */
+        $this->tx->setRedirect($redirect);
+        $this->tx->setAmount($amount);
+        $this->tx->setParentTransactionType($parentTransactionType);
+        $this->tx->setOperation('pay');
+        $data = $this->tx->mappedProperties();
+
+        $this->assertEquals($expected, $data['transaction-type']);
+    }
+
+    /**
+     * @param string $parentTransactionType
+     * @param string $expected
+     * @dataProvider payDataProviderException
+     */
+    public function testGetRetrieveTransactionTypePayException($parentTransactionType, $expected)
+    {
+        $this->expectException(UnsupportedOperationException::class);
+
         $redirect = $this->createMock(Redirect::class);
         $redirect->method('getCancelUrl')->willReturn('cancel-url');
         $redirect->method('getSuccessUrl')->willReturn('success-url');

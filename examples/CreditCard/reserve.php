@@ -40,22 +40,28 @@ if ($parentTransactionId === null && $tokenId === null) {
 // after an approval/cancellation on the issuer's ACS page.
 $redirectUrl = getUrl('return.php?status=success');
 
-
-// ## Transaction
-
-// The credit card transaction contains all relevant data for the payment process.
-$transaction = new CreditCardTransaction();
-$transaction->setAmount($amount);
-$transaction->setTokenId($tokenId);
-$transaction->setTermUrl($redirectUrl);
-$transaction->setParentTransactionId($parentTransactionId);
+$response = null;
 
 // ### Transaction Service
 
 // The service is used to execute the reservation (authorization) operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
-$response = $transactionService->reserve($transaction);
 
+if (array_key_exists('jsresponse', $_POST) && $_POST['jsresponse']) {
+    $response = $transactionService->processJsResponse($_POST, $redirectUrl);
+
+} else {
+    // ## Transaction
+
+    // The credit card transaction contains all relevant data for the payment process.
+    $transaction = new CreditCardTransaction();
+    $transaction->setAmount($amount);
+    $transaction->setTokenId($tokenId);
+    $transaction->setTermUrl($redirectUrl);
+    $transaction->setParentTransactionId($parentTransactionId);
+
+    $response = $transactionService->reserve($transaction);
+}
 
 // ## Response handling
 

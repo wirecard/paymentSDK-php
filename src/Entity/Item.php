@@ -1,8 +1,8 @@
 <?php
 /**
- * Shop System Payment SDK - Terms of Use
+ * Shop System SDK - Terms of Use
  *
- * The plugins offered are provided free of charge by Wirecard AG and are explicitly not part
+ * The SDK offered are provided free of charge by Wirecard AG and are explicitly not part
  * of the Wirecard AG range of products and services.
  *
  * They have been tested and approved for full functionality in the standard configuration
@@ -16,16 +16,17 @@
  * Operation in an enhanced, customized configuration is at your own risk and requires a
  * comprehensive test phase by the user of the plugin.
  *
- * Customers use the plugins at their own risk. Wirecard AG does not guarantee their full
+ * Customers use the SDK at their own risk. Wirecard AG does not guarantee their full
  * functionality neither does Wirecard AG assume liability for any disadvantages related to
- * the use of the plugins. Additionally, Wirecard AG does not guarantee the full functionality
- * for customized shop systems or installed plugins of other vendors of plugins within the same
+ * the use of the SDK. Additionally, Wirecard AG does not guarantee the full functionality
+ * for customized shop systems or installed SDK of other vendors of plugins within the same
  * shop system.
  *
- * Customers are responsible for testing the plugin's functionality before starting productive
+ * Customers are responsible for testing the SDK's functionality before starting productive
  * operation.
- * By installing the plugin into the shop system the customer agrees to these terms of use.
- * Please do not use the plugin if you do not agree to these terms of use!
+ *
+ * By installing the SDK into the shop system the customer agrees to these terms of use.
+ * Please do not use the SDK if you do not agree to these terms of use!
  */
 
 namespace Wirecard\PaymentSdk\Entity;
@@ -68,6 +69,11 @@ class Item implements MappableEntity
     private $taxRate;
 
     /**
+     * @var Amount
+     */
+    private $taxAmount;
+
+    /**
      * @var int
      */
     private $quantity;
@@ -91,6 +97,32 @@ class Item implements MappableEntity
     }
 
     /**
+     * @return int
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * @since 3.0.0
+     * @return Amount
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * @since 3.0.0
+     * @return string
+     */
+    public function getArticleNumber()
+    {
+        return $this->articleNumber;
+    }
+
+    /**
      * @param string $description
      * @return Item
      */
@@ -111,12 +143,32 @@ class Item implements MappableEntity
     }
 
     /**
+     * @param int $quantity
+     * @return Item
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+        return $this;
+    }
+
+    /**
      * @param float $taxRate
      * @return Item
      */
     public function setTaxRate($taxRate)
     {
         $this->taxRate = $taxRate;
+        return $this;
+    }
+
+    /**
+     * @param Amount $taxAmount
+     * @return $this
+     */
+    public function setTaxAmount($taxAmount)
+    {
+        $this->taxAmount = $taxAmount;
         return $this;
     }
 
@@ -140,11 +192,11 @@ class Item implements MappableEntity
         $data['quantity'] = $this->quantity;
         $data['amount'] = $this->price->mappedProperties();
 
-        if (null !== $this->description) {
+        if (!is_null($this->description)) {
             $data['description'] = $this->description;
         }
 
-        if (null !== $this->articleNumber) {
+        if (!is_null($this->articleNumber)) {
             $data['article-number'] = $this->articleNumber;
         }
 
@@ -163,13 +215,38 @@ class Item implements MappableEntity
     }
 
     /**
+     * @param integer $iterator
+     * @return array
+     */
+    public function mappedSeamlessProperties($iterator)
+    {
+        $item = array();
+        $item['orderItems' . $iterator . '.name'] = $this->name;
+        $item['orderItems' . $iterator . '.quantity'] = $this->quantity;
+        $item['orderItems' . $iterator . '.amount.value'] = $this->price->getValue();
+        $item['orderItems' . $iterator . '.amount.currency'] = $this->price->getCurrency();
+
+        if (!is_null($this->articleNumber)) {
+            $item['orderItems' . $iterator . '.articleNumber'] = $this->articleNumber;
+        }
+
+        if (!is_null($this->taxRate)) {
+            $item['orderItems' . $iterator . '.taxRate'] = $this->taxRate;
+        }
+
+        return $item;
+    }
+
+    /**
      * @param array $data
      * @throws MandatoryFieldMissingException
      * @return array
      */
     private function payPalMappedProperties($data)
     {
-        if (null !== $this->taxRate) {
+        if (!is_null($this->taxAmount)) {
+            $data['tax-amount'] = $this->taxAmount->mappedProperties();
+        } elseif (!is_null($this->taxRate)) {
             $taxAmountValue = number_format($this->price->getValue() * $this->quantity * ($this->taxRate / 100.0), 2);
             $taxAmount = new Amount($taxAmountValue, $this->price->getCurrency());
 
@@ -185,7 +262,7 @@ class Item implements MappableEntity
      */
     private function ratepayMappedProperties($data)
     {
-        if (null !== $this->taxRate) {
+        if (!is_null($this->taxRate)) {
             $data['tax-rate'] = $this->taxRate;
         }
 

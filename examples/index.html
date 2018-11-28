@@ -60,6 +60,12 @@
         #overrides .btn-primary:hover {
             background-color: #414B56;
         }
+
+        .info {
+            font-size: x-small;
+            padding: 5px;
+            color: #cccccc;
+        }
     </style>
 </head>
 <body id="overrides">
@@ -67,7 +73,9 @@
     <div class="page-header">
         <div class="row align-baseline">
             <div class="col-sm-3">
-                <a href=""><img src="https://raw.githubusercontent.com/wirecard/paymentSDK-php/master/examples/src/img/wirecard_logo.png" alt="wirecard" /></a>
+                <a href=""><img
+                        src="https://raw.githubusercontent.com/wirecard/paymentSDK-php/master/examples/src/img/wirecard_logo.png"
+                        alt="wirecard"/></a>
             </div>
             <div class="col-sm-9 bottom-align-text">
                 <h1>Payment SDK for PHP Examples</h1>
@@ -79,7 +87,13 @@
         <div class="col-sm-4">
             <h3>Configuration</h3>
             <div class="list-group">
-                <a href="inc/config.html" class="list-group-item">Basic configuration for all payment methods</a>
+                <a href="inc/globalconfig.html" class="list-group-item">Configuration for various payment methods</a>
+                <div class="info">Guaranteed Invoice, Installment, Direct Debit, Payment on Invoice / Payment in Advance, Alipay Cross-border, Przelewy24, giropay, eps, iDEAL, Sofort., Payolution</div>
+                <a href="inc/maestroconfig.html" class="list-group-item">Configuration for Maestro</a>
+                <a href="inc/sepaconfig.html" class="list-group-item">Configuration for SEPA</a>
+                <a href="inc/upiconfig.html" class="list-group-item">Configuration for Unionpay International</a>
+                <a href="inc/wechatconfig.html" class="list-group-item">Configuration for WeChat</a>
+                <a href="inc/config.html" class="list-group-item">Basic configuration for other payment methods</a>
             </div>
         </div>
         <div class="col-sm-4">
@@ -97,6 +111,14 @@
             </div>
         </div>
 
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <h3>Backend service</h3>
+            <div class="list-group">
+                <a href="Features/backend.html" class="list-group-item">Get backend operations</a>
+            </div>
+        </div>
     </div>
 
     <div class="row ">
@@ -125,6 +147,7 @@
             <h3>Bancontact</h3>
             <div class="list-group">
                 <a href="Bancontact/pay.html" class="list-group-item">Request a payment</a>
+                <a href="Bancontact/credit-based-on-pay.html" class="list-group-item">Refund a payment</a>
                 <a href="Bancontact/return.html" class="list-group-item">Handling the response of a transaction</a>
             </div>
         </div>
@@ -149,7 +172,8 @@
             <h3>Credit Card Moto</h3>
             <div class="list-group">
                 <a href="CreditCardMoto/createUi.html" class="list-group-item">Create the credit card UI</a>
-                <a href="CreditCardMoto/reserve.html" class="list-group-item">Authorization with an existing card token</a>
+                <a href="CreditCardMoto/reserve.html" class="list-group-item">Authorization with an existing card
+                    token</a>
                 <a href="CreditCardMoto/cancel.html" class="list-group-item">Cancelling a transaction</a>
             </div>
         </div>
@@ -158,20 +182,48 @@
             <h3>eps</h3>
             <div class="list-group">
                 <a href="eps/pay.html" class="list-group-item">Request a payment</a>
+                <a href="eps/return.html" class="list-group-item">Receive the response</a>
+                <a href="eps/notify.html" class="list-group-item">Receive the notification</a>
             </div>
         </div>
     </div>
 
     <div class="row">
         <div class="col-sm-4">
+            <h3>giropay</h3>
+            <div class="list-group">
+                <a href="giropay/pay.html" class="list-group-item">Request a payment</a>
+                <a href="giropay/return.html" class="list-group-item">Receive the response</a>
+                <a href="giropay/notify.html" class="list-group-item">Receive the notification</a>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
             <h3>iDEAL</h3>
             <div class="list-group">
                 <a href="iDEAL/pay.html" class="list-group-item">Request a payment</a>
+                <a href="iDEAL/credit-based-on-pay.html" class="list-group-item">Refund a payment</a>
                 <a href="iDEAL/return.html" class="list-group-item">Receive the response</a>
                 <a href="iDEAL/notify.html" class="list-group-item">Receive the notification</a>
             </div>
         </div>
 
+        <div class="col-sm-4">
+            <h3>Maestro</h3>
+            <div class="list-group">
+                <a href="Maestro/createUi.html" class="list-group-item">Create the Maestro UI</a>
+                <a href="Maestro/reserve.html" class="list-group-item">Authorization with an existing card token</a>
+                <a href="Maestro/pay.html" class="list-group-item">Purchase for Maestro</a>
+                <a href="Maestro/return.html" class="list-group-item">Handling the response of a transaction</a>
+                <a href="Maestro/cancel.html" class="list-group-item">Cancelling a transaction</a>
+                <a href="Maestro/credit.html" class="list-group-item">Credit to a Maestro credit card</a>
+                <a href="Maestro/pay-based-on-reserve.html" class="list-group-item">Payment after a reservation</a>
+                <a href="Maestro/pay-based-on-token.html" class="list-group-item">Recurring payment via token-id</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
         <div class="col-sm-4">
             <h3>Masterpass</h3>
             <div class="list-group">
@@ -182,15 +234,14 @@
         </div>
 
         <div class="col-sm-4">
-            <h3>Pay now.</h3>
+            <h3>Sofort.</h3>
             <div class="list-group">
                 <a href="Sofort/pay.html" class="list-group-item">Request a payment</a>
+                <a href="Sofort/credit-based-on-pay.html" class="list-group-item">Refund a payment</a>
                 <a href="Sofort/return.html" class="list-group-item">Handling the response of a transaction</a>
             </div>
         </div>
-    </div>
 
-    <div class="row">
         <div class="col-sm-4">
             <h3>Payment on Invoice / Payment in Advance</h3>
             <div class="list-group">
@@ -211,7 +262,17 @@
                 <a href="PayPal/pay-based-on-reserve.html" class="list-group-item">Payment after a reservation</a>
             </div>
         </div>
+    </div>
 
+    <div class="row">
+        <div class="col-sm-4">
+            <h3>Payolution Invoice</h3>
+            <div class="list-group">
+                <a href="Payolution_Invoice/reserve.html" class="list-group-item">Reserve an amount</a>
+                <a href="Payolution_Invoice/pay-based-on-reserve.html" class="list-group-item">Request a payment</a>
+                <a href="Payolution_Invoice/cancel.html" class="list-group-item">Cancelling a transaction</a>
+            </div>
+        </div>
         <div class="col-sm-4">
             <h3>paysafecard</h3>
             <div class="list-group">
@@ -265,12 +326,32 @@
         </div>
 
         <div class="col-sm-4">
-            <h3>SEPA</h3>
+            <h3>SEPA Direct Debit</h3>
             <div class="list-group">
-                <a href="Sepa/reserve.html" class="list-group-item">Reserve an amount</a>
-                <a href="Sepa/pay.html" class="list-group-item">Request a payment</a>
-                <a href="Sepa/credit.html" class="list-group-item">Credit</a>
-                <a href="Sepa/cancel.html" class="list-group-item">Cancelling a transaction</a>
+                <a href="SepaDirectDebit/reserve.html" class="list-group-item">Reserve an amount</a>
+                <a href="SepaDirectDebit/pay.html" class="list-group-item">Request a payment</a>
+                <a href="SepaCredit/credit.html" class="list-group-item">Credit</a>
+                <a href="SepaDirectDebit/cancel.html" class="list-group-item">Cancelling a transaction</a>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <h3>SEPA Credit Transfer</h3>
+            <div class="list-group">
+                <a href="SepaCredit/credit.html" class="list-group-item">Credit</a>
+                <a href="SepaCredit/cancel.html" class="list-group-item">Cancelling a transaction</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-4">
+            <h3>SEPA B2B</h3>
+            <div class="list-group">
+                <a href="SepaBtwoB/pay.html" class="list-group-item">Request a payment</a>
+                <a href="SepaBtwoB/cancel.html" class="list-group-item">Cancelling a transaction</a>
+                <a href="SepaBtwoB/credit.html" class="list-group-item">Credit</a>
+                <a href="SepaBtwoB/return.html" class="list-group-item">Handling the response of a transaction</a>
             </div>
         </div>
 
@@ -279,6 +360,33 @@
             <div class="list-group">
                 <a href="UPOP/pay.html" class="list-group-item">Request a payment</a>
                 <a href="UPOP/cancel.html" class="list-group-item">Refund a payment</a>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <h3>Unionpay International</h3>
+            <div class="list-group">
+                <a href="UnionpayInternational/createUi.html" class="list-group-item">Create the Unionpay International
+                    UI</a>
+                <a href="UnionpayInternational/reserve.html" class="list-group-item">Authorization with an existing card
+                    token</a>
+                <a href="UnionpayInternational/cancel.html" class="list-group-item">Cancelling a transaction</a>
+                <a href="UnionpayInternational/pay.html" class="list-group-item">Purchase for Unionpay International</a>
+                <a href="UnionpayInternational/return.html" class="list-group-item">Handling the response of a
+                    transaction</a>
+                <a href="UnionpayInternational/pay-based-on-reserve.html" class="list-group-item">Payment after a
+                    reservation</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-4">
+            <h3>WeChat QRPay</h3>
+            <div class="list-group">
+                <a href="WeChat/pay.html" class="list-group-item">Purchase for WeChat QRPay</a>
+                <a href="WeChat/cancel.html" class="list-group-item">Cancelling a transaction</a>
+                <a href="WeChat/refund.html" class="list-group-item">Refund a transaction</a>
             </div>
         </div>
     </div>

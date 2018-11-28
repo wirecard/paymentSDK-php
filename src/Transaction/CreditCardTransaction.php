@@ -1,8 +1,8 @@
 <?php
 /**
- * Shop System Payment SDK - Terms of Use
+ * Shop System SDK - Terms of Use
  *
- * The plugins offered are provided free of charge by Wirecard AG and are explicitly not part
+ * The SDK offered are provided free of charge by Wirecard AG and are explicitly not part
  * of the Wirecard AG range of products and services.
  *
  * They have been tested and approved for full functionality in the standard configuration
@@ -16,22 +16,25 @@
  * Operation in an enhanced, customized configuration is at your own risk and requires a
  * comprehensive test phase by the user of the plugin.
  *
- * Customers use the plugins at their own risk. Wirecard AG does not guarantee their full
+ * Customers use the SDK at their own risk. Wirecard AG does not guarantee their full
  * functionality neither does Wirecard AG assume liability for any disadvantages related to
- * the use of the plugins. Additionally, Wirecard AG does not guarantee the full functionality
- * for customized shop systems or installed plugins of other vendors of plugins within the same
+ * the use of the SDK. Additionally, Wirecard AG does not guarantee the full functionality
+ * for customized shop systems or installed SDK of other vendors of plugins within the same
  * shop system.
  *
- * Customers are responsible for testing the plugin's functionality before starting productive
+ * Customers are responsible for testing the SDK's functionality before starting productive
  * operation.
  *
- * By installing the plugin into the shop system the customer agrees to these terms of use.
- * Please do not use the plugin if you do not agree to these terms of use!
+ * By installing the SDK into the shop system the customer agrees to these terms of use.
+ * Please do not use the SDK if you do not agree to these terms of use!
  */
+
 
 namespace Wirecard\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Config\CreditCardConfig;
+use Wirecard\PaymentSdk\Entity\Browser;
+use Wirecard\PaymentSdk\Entity\Card;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
@@ -68,6 +71,24 @@ class CreditCardTransaction extends Transaction implements Reservable
      * @var boolean
      */
     private $threeD;
+
+    /**
+     * @var Card $card
+     */
+    private $card;
+
+
+    /**
+     * @param Card $card
+     * @return $this
+     *
+     * @since 2.1.1
+     */
+    public function setCard(Card $card)
+    {
+        $this->card = $card;
+        return $this;
+    }
 
     /**
      * @param CreditCardConfig $config
@@ -144,6 +165,15 @@ class CreditCardTransaction extends Transaction implements Reservable
     }
 
     /**
+     * @param string $descriptor
+     * @since 3.4.0
+     */
+    public function setDescriptor($descriptor)
+    {
+        $this->descriptor = preg_replace('/[^a-zA-Z0-9]/', '', $descriptor);
+    }
+
+    /**
      * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return array
      */
@@ -168,6 +198,16 @@ class CreditCardTransaction extends Transaction implements Reservable
             $result['three-d'] = [
                 'pares' => $this->paRes,
             ];
+        }
+
+        if (null !== $this->card) {
+            $result['card'] = $this->card->mappedProperties();
+        }
+
+        if ($this->retrieveTransactionType() === Transaction::TYPE_CHECK_ENROLLMENT
+            && !$this->browser instanceof Browser
+        ) {
+            $this->setBrowser(new Browser());
         }
 
         return $result;
@@ -348,7 +388,7 @@ class CreditCardTransaction extends Transaction implements Reservable
     /**
      * @return boolean
      */
-    private function isThreeD()
+    protected function isThreeD()
     {
         if (null !== $this->threeD) {
             return $this->threeD;

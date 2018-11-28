@@ -1,8 +1,8 @@
 <?php
 /**
- * Shop System Payment SDK - Terms of Use
+ * Shop System SDK - Terms of Use
  *
- * The plugins offered are provided free of charge by Wirecard AG and are explicitly not part
+ * The SDK offered are provided free of charge by Wirecard AG and are explicitly not part
  * of the Wirecard AG range of products and services.
  *
  * They have been tested and approved for full functionality in the standard configuration
@@ -16,21 +16,22 @@
  * Operation in an enhanced, customized configuration is at your own risk and requires a
  * comprehensive test phase by the user of the plugin.
  *
- * Customers use the plugins at their own risk. Wirecard AG does not guarantee their full
+ * Customers use the SDK at their own risk. Wirecard AG does not guarantee their full
  * functionality neither does Wirecard AG assume liability for any disadvantages related to
- * the use of the plugins. Additionally, Wirecard AG does not guarantee the full functionality
- * for customized shop systems or installed plugins of other vendors of plugins within the same
+ * the use of the SDK. Additionally, Wirecard AG does not guarantee the full functionality
+ * for customized shop systems or installed SDK of other vendors of plugins within the same
  * shop system.
  *
- * Customers are responsible for testing the plugin's functionality before starting productive
+ * Customers are responsible for testing the SDK's functionality before starting productive
  * operation.
- * By installing the plugin into the shop system the customer agrees to these terms of use.
- * Please do not use the plugin if you do not agree to these terms of use!
+ * By installing the SDK into the shop system the customer agrees to these terms of use.
+ * Please do not use the SDK if you do not agree to these terms of use!
  */
 
 namespace WirecardTest\PaymentSdk\Config;
 
 use Wirecard\PaymentSdk\Config\CreditCardConfig;
+use Wirecard\PaymentSdk\Config\MaestroConfig;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 
@@ -73,7 +74,18 @@ class CreditCardConfigUTest extends \PHPUnit_Framework_TestCase
 
     public function testAddSslMaxLimit()
     {
-        $this->config->addSslMaxLimit($this->amount);
+        $returned_config = $this->config->addSslMaxLimit($this->amount);
+
+        $this->assertAttributeEquals(
+            [$this->amount->getCurrency() => $this->amount->getValue()],
+            'sslMaxLimits',
+            $returned_config
+        );
+    }
+
+    public function testAddNonThreeDMaxLimit()
+    {
+        $this->config->addNonThreeDMaxLimit($this->amount);
 
         $this->assertAttributeEquals(
             [$this->amount->getCurrency() => $this->amount->getValue()],
@@ -91,14 +103,23 @@ class CreditCardConfigUTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetNonThreeDMaxLimits()
+    {
+        $this->config->addNonThreeDMaxLimit($this->amount);
+        $this->assertEquals(
+            $this->amount->getValue(),
+            $this->config->getNonThreeDMaxLimit($this->amount->getCurrency())
+        );
+    }
+
     public function testAddThreeDMinLimit()
     {
-        $this->config->addThreeDMinLimit($this->amount);
+        $returned_config = $this->config->addThreeDMinLimit($this->amount);
 
         $this->assertAttributeEquals(
             [$this->amount->getCurrency() => $this->amount->getValue()],
             'threeDMinLimits',
-            $this->config
+            $returned_config
         );
     }
 
@@ -113,14 +134,26 @@ class CreditCardConfigUTest extends \PHPUnit_Framework_TestCase
 
     public function testSetThreeDCredentials()
     {
-        $this->config->setThreeDCredentials(self::THREE_D_MAID, self::THREE_D_SECRET);
+        $returned_config = $this->config->setThreeDCredentials(self::THREE_D_MAID, self::THREE_D_SECRET);
 
         $this->assertAttributeEquals(
             self::THREE_D_MAID,
             'threeDMerchantAccountId',
             $this->config
         );
-        $this->assertAttributeEquals(self::THREE_D_SECRET, 'threeDSecret', $this->config);
+        $this->assertAttributeEquals(self::THREE_D_SECRET, 'threeDSecret', $returned_config);
+    }
+
+    public function testSetOnlyMaid()
+    {
+        $config = new CreditCardConfig(self::MAID, null);
+        $this->assertTrue(is_null($config->getMerchantAccountId()));
+    }
+
+    public function testSetOnlySecret()
+    {
+        $config = new CreditCardConfig(null, self::SECRET);
+        $this->assertTrue(is_null($config->getSecret()));
     }
 
     public function testGetThreeDMerchantAccountId()
@@ -135,5 +168,32 @@ class CreditCardConfigUTest extends \PHPUnit_Framework_TestCase
         $this->config->setThreeDCredentials(self::THREE_D_MAID, self::THREE_D_SECRET);
 
         $this->assertEquals(self::THREE_D_SECRET, $this->config->getThreeDSecret());
+    }
+
+    public function testSetSSLCredentials()
+    {
+        $returned_config = $this->config->setSSLCredentials('maid', 'secret');
+
+        $this->assertEquals(
+            ['maid', 'secret'],
+            [$returned_config->getMerchantAccountId(), $returned_config->getSecret()]
+        );
+    }
+
+    public function testSetNonThreeDCredentials()
+    {
+        $returned_config = $this->config->setNonThreeDCredentials('maid', 'secret');
+
+        $this->assertEquals(
+            ['maid', 'secret'],
+            [$returned_config->getMerchantAccountId(), $returned_config->getSecret()]
+        );
+    }
+
+    public function testNewCreditCardConfig()
+    {
+        $creditCardConfig = new MaestroConfig('maid', 'secret');
+
+        $this->assertEquals('maid', $creditCardConfig->getMerchantAccountId());
     }
 }

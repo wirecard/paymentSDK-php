@@ -1,8 +1,8 @@
 <?php
 /**
- * Shop System Payment SDK - Terms of Use
+  * Shop System SDK - Terms of Use
  *
- * The plugins offered are provided free of charge by Wirecard AG and are explicitly not part
+ * The SDK offered are provided free of charge by Wirecard AG and are explicitly not part
  * of the Wirecard AG range of products and services.
  *
  * They have been tested and approved for full functionality in the standard configuration
@@ -16,27 +16,36 @@
  * Operation in an enhanced, customized configuration is at your own risk and requires a
  * comprehensive test phase by the user of the plugin.
  *
- * Customers use the plugins at their own risk. Wirecard AG does not guarantee their full
+ * Customers use the SDK at their own risk. Wirecard AG does not guarantee their full
  * functionality neither does Wirecard AG assume liability for any disadvantages related to
- * the use of the plugins. Additionally, Wirecard AG does not guarantee the full functionality
- * for customized shop systems or installed plugins of other vendors of plugins within the same
+ * the use of the SDK. Additionally, Wirecard AG does not guarantee the full functionality
+ * for customized shop systems or installed SDK of other vendors of plugins within the same
  * shop system.
  *
- * Customers are responsible for testing the plugin's functionality before starting productive
+ * Customers are responsible for testing the SDK's functionality before starting productive
  * operation.
  *
- * By installing the plugin into the shop system the customer agrees to these terms of use.
- * Please do not use the plugin if you do not agree to these terms of use!
+ * By installing the SDK into the shop system the customer agrees to these terms of use.
+ * Please do not use the SDK if you do not agree to these terms of use!
  */
 
 namespace Wirecard\PaymentSdk\Response;
 
+use chillerlan\QRCode\QRCode;
+use chillerlan\QRCode\QROptions;
 use SimpleXMLElement;
+use Wirecard\PaymentSdk\Entity\AccountHolder;
+use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Entity\Basket;
+use Wirecard\PaymentSdk\Entity\Card;
 use Wirecard\PaymentSdk\Entity\CustomField;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
+use Wirecard\PaymentSdk\Entity\PaymentDetails;
 use Wirecard\PaymentSdk\Entity\Status;
 use Wirecard\PaymentSdk\Entity\StatusCollection;
+use Wirecard\PaymentSdk\Entity\TransactionDetails;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
+use Wirecard\PaymentSdk\TransactionService;
 
 /**
  * Class Response
@@ -75,6 +84,36 @@ abstract class Response
     protected $operation = null;
 
     /**
+     * @var Basket $basket
+     */
+    protected $basket;
+
+    /**
+     * @var Amount $amount
+     */
+    protected $requestedAmount;
+
+    /**
+     * @var AccountHolder
+     */
+    protected $accountHolder;
+
+    /**
+     * @var AccountHolder
+     */
+    protected $shipping;
+
+    /**
+     * @var CustomFieldCollection
+     */
+    protected $customFields;
+
+    /**
+     * @var Card
+     */
+    protected $card;
+
+    /**
      * Response constructor.
      * @param SimpleXMLElement $simpleXml
      * @throws MalformedResponseException
@@ -84,6 +123,12 @@ abstract class Response
         $this->simpleXml = $simpleXml;
         $this->statusCollection = $this->generateStatusCollection();
         $this->setValueForRequestId();
+        $this->setBasket();
+        $this->setRequestedAmount();
+        $this->setAccountHolder();
+        $this->setShipping();
+        $this->setCustomFields();
+        $this->setCard();
     }
 
     /**
@@ -154,7 +199,7 @@ abstract class Response
     }
 
     /**
-     * get the collection of status returned by Payment Gateway
+     * get the collection of status returned by Wirecard's Payment Processing Gateway
      * @return StatusCollection
      * @throws MalformedResponseException
      */
@@ -219,6 +264,7 @@ abstract class Response
                         /** @var SimpleXMLElement $attrs */
                         $arr[$attrs->getName()] = strval($attrs);
                     }
+                    $arr[$child->getName()] = strval($child);
                 } else {
                     $arr[$child->getName()][] = self::xmlToArray($child);
                 }
@@ -267,19 +313,7 @@ abstract class Response
      */
     public function getCustomFields()
     {
-        $customFieldCollection = new CustomFieldCollection();
-
-        if (isset($this->simpleXml->{'custom-fields'})) {
-            /** @var SimpleXMLElement $field */
-            foreach ($this->simpleXml->{'custom-fields'}->children() as $field) {
-                if (isset($field->attributes()->{'field-name'}) && isset($field->attributes()->{'field-value'})) {
-                    $name = substr((string)$field->attributes()->{'field-name'}, 7);
-                    $value = (string)$field->attributes()->{'field-value'};
-                    $customFieldCollection->add(new CustomField($name, $value));
-                }
-            }
-        }
-        return $customFieldCollection;
+        return $this->customFields;
     }
 
     /**
@@ -302,5 +336,166 @@ abstract class Response
     public function getOperation()
     {
         return $this->operation;
+    }
+
+    /**
+     * Parse simplexml and create basket object
+     *
+     * @since 3.0.0
+     */
+    private function setBasket()
+    {
+        $basket = new Basket();
+
+        $this->basket = $basket->parseFromXml($this->simpleXml);
+    }
+
+    /**
+     * Parse simplexml and create requestedAmount object
+     *
+     * @since 3.0.0
+     */
+    private function setRequestedAmount()
+    {
+        if ($this->simpleXml->{'requested-amount'}->count() < 1) {
+            return;
+        }
+
+        $this->requestedAmount = new Amount(
+            (float)$this->simpleXml->{'requested-amount'},
+            (string)$this->simpleXml->{'requested-amount'}->attributes()->currency
+        );
+    }
+
+    /**
+     * @since 3.0.0
+     */
+    private function setAccountHolder()
+    {
+        $accountHolderXml = $this->simpleXml->{'account-holder'};
+        if (!isset($accountHolderXml)) {
+            return;
+        }
+
+        $this->accountHolder = new AccountHolder($accountHolderXml);
+    }
+
+    /**
+     * @since 3.0.0
+     */
+    private function setShipping()
+    {
+        $shipping = $this->simpleXml->shipping;
+        if (!isset($shipping)) {
+            return;
+        }
+        $this->shipping = new AccountHolder($shipping);
+    }
+
+    /**
+     * parse simplexml to load all custom fields
+     *
+     * @since 3.0.0
+     */
+    private function setCustomFields()
+    {
+        $customFieldCollection = new CustomFieldCollection();
+
+        if (isset($this->simpleXml->{'custom-fields'})) {
+            /** @var SimpleXMLElement $field */
+            foreach ($this->simpleXml->{'custom-fields'}->children() as $field) {
+                if (isset($field->attributes()->{'field-name'}) && isset($field->attributes()->{'field-value'})) {
+                    $name = substr((string)$field->attributes()->{'field-name'}, strlen(CustomField::PREFIX));
+                    $value = (string)$field->attributes()->{'field-value'};
+                    $customFieldCollection->add(new CustomField($name, $value));
+                }
+            }
+        }
+        $this->customFields = $customFieldCollection;
+    }
+
+    /**
+     * @return Basket
+     * @since 3.0.0
+     */
+    public function getBasket()
+    {
+        return $this->basket;
+    }
+
+    /**
+     * @return AccountHolder
+     * @since 3.0.0
+     */
+    public function getShipping()
+    {
+        return $this->shipping;
+    }
+
+    /**
+     * @return AccountHolder
+     * @since 3.0.0
+     */
+    public function getAccountHolder()
+    {
+        return $this->accountHolder;
+    }
+
+    /**
+     * @return Amount
+     * @since 3.0.0
+     */
+    public function getRequestedAmount()
+    {
+        return $this->requestedAmount;
+    }
+
+    /**
+     * Generate QrCode from authorization code. Available only for payment methods returning
+     * authorization-code (e.g. WeChat).
+     *
+     * Note: This method uses gd2 library. If you can't use gd2, you must set $type to QRCode::OUTPUT_MARKUP_SVG
+     * or QRCode::OUTPUT_STRING_TEXT.
+     *
+     * @param string $type
+     * @param int $scale
+     *
+     * @since 3.1.1
+     * @return string
+     */
+    public function getQrCode($type = QRCode::OUTPUT_IMAGE_PNG, $scale = 5)
+    {
+        try {
+            $outputOptions = new QROptions([
+                'outputType' => $type,
+                'scale' => $scale,
+                'version' => 5
+            ]);
+
+            $image = new QRCode($outputOptions);
+            return $image->render($this->findElement('authorization-code'));
+        } catch (\Exception $ignored) {
+            throw new MalformedResponseException('Authorization-code not found in response.');
+        }
+    }
+
+    public function getPaymentDetails()
+    {
+        return new PaymentDetails($this->simpleXml);
+    }
+
+    public function getTransactionDetails()
+    {
+        return new TransactionDetails($this->simpleXml);
+    }
+
+    public function getCard()
+    {
+        return $this->card;
+    }
+
+    public function setCard()
+    {
+        $this->card = new Card($this->simpleXml);
     }
 }

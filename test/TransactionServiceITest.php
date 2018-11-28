@@ -1,8 +1,8 @@
 <?php
 /**
- * Shop System Payment SDK - Terms of Use
+ * Shop System SDK - Terms of Use
  *
- * The plugins offered are provided free of charge by Wirecard AG and are explicitly not part
+ * The SDK offered are provided free of charge by Wirecard AG and are explicitly not part
  * of the Wirecard AG range of products and services.
  *
  * They have been tested and approved for full functionality in the standard configuration
@@ -16,42 +16,23 @@
  * Operation in an enhanced, customized configuration is at your own risk and requires a
  * comprehensive test phase by the user of the plugin.
  *
- * Customers use the plugins at their own risk. Wirecard AG does not guarantee their full
+ * Customers use the SDK at their own risk. Wirecard AG does not guarantee their full
  * functionality neither does Wirecard AG assume liability for any disadvantages related to
- * the use of the plugins. Additionally, Wirecard AG does not guarantee the full functionality
- * for customized shop systems or installed plugins of other vendors of plugins within the same
+ * the use of the SDK. Additionally, Wirecard AG does not guarantee the full functionality
+ * for customized shop systems or installed SDK of other vendors of plugins within the same
  * shop system.
  *
- * Customers are responsible for testing the plugin's functionality before starting productive
+ * Customers are responsible for testing the SDK's functionality before starting productive
  * operation.
- * By installing the plugin into the shop system the customer agrees to these terms of use.
- * Please do not use the plugin if you do not agree to these terms of use!
+ *
+ * By installing the SDK into the shop system the customer agrees to these terms of use.
+ * Please do not use the SDK if you do not agree to these terms of use!
  */
 
 namespace WirecardTest\PaymentSdk;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Response;
-use Monolog\Logger;
-use Psr\Log\LoggerInterface;
-use Wirecard\PaymentSdk\Config\Config;
-use Wirecard\PaymentSdk\Config\CreditCardConfig;
-use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
-use Wirecard\PaymentSdk\Entity\Amount;
-use Wirecard\PaymentSdk\Entity\Redirect;
-use Wirecard\PaymentSdk\Exception\MalformedResponseException;
-use Wirecard\PaymentSdk\Response\InteractionResponse;
-use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
-use Wirecard\PaymentSdk\Transaction\Operation;
-use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
-use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
-use Wirecard\PaymentSdk\Transaction\SepaTransaction;
 use Wirecard\PaymentSdk\TransactionService;
+use Mockery as m;
 
 /**
  * Class TransactionServiceITest
@@ -59,26 +40,11 @@ use Wirecard\PaymentSdk\TransactionService;
  */
 class TransactionServiceITest extends \PHPUnit_Framework_TestCase
 {
-    public function checkCredentialProvider()
+    public function testCheckCredentials()
     {
-        return [
-            [true, '70000-APITEST-AP', 'qD2wzQ_hrc!8'],
-            [false, '70000-234345-AP', '1234!8'],
-        ];
-    }
+        $service = m::mock(TransactionService::class);
+        $service->shouldReceive('checkCredentials')->andReturn(true)->once();
 
-    /**
-     * @dataProvider checkCredentialProvider
-     * @param $expected
-     * @param $httpUser
-     * @param $httpPass
-     */
-    public function testCheckCredentials($expected, $httpUser, $httpPass)
-    {
-        $logger = $this->createMock(LoggerInterface::class);
-        $config = new Config('https://api-test.wirecard.com', $httpUser, $httpPass);
-        $service = new TransactionService($config, $logger);
-
-        $this->assertEquals($expected, $service->checkCredentials());
+        $this->assertTrue($service->checkCredentials());
     }
 }

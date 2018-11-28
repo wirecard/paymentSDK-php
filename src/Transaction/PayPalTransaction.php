@@ -1,8 +1,8 @@
 <?php
 /**
- * Shop System Payment SDK - Terms of Use
+ * Shop System SDK - Terms of Use
  *
- * The plugins offered are provided free of charge by Wirecard AG and are explicitly not part
+ * The SDK offered are provided free of charge by Wirecard AG and are explicitly not part
  * of the Wirecard AG range of products and services.
  *
  * They have been tested and approved for full functionality in the standard configuration
@@ -16,17 +16,17 @@
  * Operation in an enhanced, customized configuration is at your own risk and requires a
  * comprehensive test phase by the user of the plugin.
  *
- * Customers use the plugins at their own risk. Wirecard AG does not guarantee their full
+ * Customers use the SDK at their own risk. Wirecard AG does not guarantee their full
  * functionality neither does Wirecard AG assume liability for any disadvantages related to
- * the use of the plugins. Additionally, Wirecard AG does not guarantee the full functionality
- * for customized shop systems or installed plugins of other vendors of plugins within the same
+ * the use of the SDK. Additionally, Wirecard AG does not guarantee the full functionality
+ * for customized shop systems or installed SDK of other vendors of plugins within the same
  * shop system.
  *
- * Customers are responsible for testing the plugin's functionality before starting productive
+ * Customers are responsible for testing the SDK's functionality before starting productive
  * operation.
  *
- * By installing the plugin into the shop system the customer agrees to these terms of use.
- * Please do not use the plugin if you do not agree to these terms of use!
+ * By installing the SDK into the shop system the customer agrees to these terms of use.
+ * Please do not use the SDK if you do not agree to these terms of use!
  */
 
 namespace Wirecard\PaymentSdk\Transaction;
@@ -47,57 +47,7 @@ class PayPalTransaction extends Transaction implements Reservable
     /**
      * @var string
      */
-    private $orderNumber;
-
-    /**
-     * @var string
-     */
     private $orderDetail;
-
-    /**
-     * @var string
-     */
-    private $descriptor;
-
-    /**
-     * @var AccountHolder
-     */
-    private $shipping;
-
-    /**
-     * @var Basket
-     */
-    protected $basket;
-
-    /**
-     * @param AccountHolder $shipping
-     * @return PayPalTransaction
-     */
-    public function setShipping($shipping)
-    {
-        $this->shipping = $shipping;
-        return $this;
-    }
-
-    /**
-     * @param string $descriptor
-     * @return PayPalTransaction
-     */
-    public function setDescriptor($descriptor)
-    {
-        $this->descriptor = $descriptor;
-        return $this;
-    }
-
-    /**
-     * @param string $orderNumber
-     * @return PayPalTransaction
-     */
-    public function setOrderNumber($orderNumber)
-    {
-        $this->orderNumber = $orderNumber;
-        return $this;
-    }
 
     /**
      * @param string $orderDetail
@@ -106,16 +56,6 @@ class PayPalTransaction extends Transaction implements Reservable
     public function setOrderDetail($orderDetail)
     {
         $this->orderDetail = $orderDetail;
-        return $this;
-    }
-
-    /**
-     * @param Basket $basket
-     * @return Transaction
-     */
-    public function setBasket(Basket $basket)
-    {
-        $this->basket = $basket;
         return $this;
     }
 
@@ -187,7 +127,14 @@ class PayPalTransaction extends Transaction implements Reservable
     protected function retrieveTransactionTypeForPay()
     {
         if ($this->parentTransactionType) {
-            return self::TYPE_CAPTURE_AUTHORIZATION;
+            switch ($this->parentTransactionType) {
+                case self::TYPE_AUTHORIZATION:
+                    return self::TYPE_CAPTURE_AUTHORIZATION;
+                case self::TYPE_DEBIT:
+                    return self::TYPE_DEBIT;
+                default:
+                    throw new UnsupportedOperationException('The transaction cannot be captured');
+            }
         }
 
         return self::TYPE_DEBIT;

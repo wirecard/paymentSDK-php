@@ -1,8 +1,8 @@
 <?php
 /**
- * Shop System Payment SDK - Terms of Use
+ * Shop System SDK - Terms of Use
  *
- * The plugins offered are provided free of charge by Wirecard AG and are explicitly not part
+ * The SDK offered are provided free of charge by Wirecard AG and are explicitly not part
  * of the Wirecard AG range of products and services.
  *
  * They have been tested and approved for full functionality in the standard configuration
@@ -16,17 +16,17 @@
  * Operation in an enhanced, customized configuration is at your own risk and requires a
  * comprehensive test phase by the user of the plugin.
  *
- * Customers use the plugins at their own risk. Wirecard AG does not guarantee their full
+ * Customers use the SDK at their own risk. Wirecard AG does not guarantee their full
  * functionality neither does Wirecard AG assume liability for any disadvantages related to
- * the use of the plugins. Additionally, Wirecard AG does not guarantee the full functionality
- * for customized shop systems or installed plugins of other vendors of plugins within the same
+ * the use of the SDK. Additionally, Wirecard AG does not guarantee the full functionality
+ * for customized shop systems or installed SDK of other vendors of plugins within the same
  * shop system.
  *
- * Customers are responsible for testing the plugin's functionality before starting productive
+ * Customers are responsible for testing the SDK's functionality before starting productive
  * operation.
  *
- * By installing the plugin into the shop system the customer agrees to these terms of use.
- * Please do not use the plugin if you do not agree to these terms of use!
+ * By installing the SDK into the shop system the customer agrees to these terms of use.
+ * Please do not use the SDK if you do not agree to these terms of use!
  */
 
 namespace WirecardTest\PaymentSdk\Config;
@@ -38,7 +38,7 @@ use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
-use Wirecard\PaymentSdk\Transaction\SepaTransaction;
+use Wirecard\PaymentSdk\Transaction\SepaDirectDebitTransaction;
 
 /**
  * Class ConfigUTest
@@ -100,35 +100,20 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
     public function testGetStraightforwardCase()
     {
         $payPalConfig = new PaymentMethodConfig(PayPalTransaction::NAME, 'mid', 'key');
-        $this->config->add($payPalConfig);
+        $config = $this->config->add($payPalConfig);
 
-        $this->assertEquals($payPalConfig, $this->config->get(PayPalTransaction::NAME));
+        $this->assertEquals($payPalConfig, $config->get(PayPalTransaction::NAME));
     }
 
     public function testGetFallback()
     {
-        $sepaConfig = new PaymentMethodConfig(SepaTransaction::NAME, 'mid', 'key');
-        $this->config->add($sepaConfig);
         $ratepayInvoiceConfig = new PaymentMethodConfig(RatepayInvoiceTransaction::NAME, 'mid', 'key');
         $this->config->add($ratepayInvoiceConfig);
         $ratepayInstallConfig = new PaymentMethodConfig(RatepayInstallmentTransaction::NAME, 'mid', 'key');
         $this->config->add($ratepayInstallConfig);
 
-        $this->assertEquals($sepaConfig, $this->config->get(SepaTransaction::DIRECT_DEBIT));
-        $this->assertEquals($sepaConfig, $this->config->get(SepaTransaction::CREDIT_TRANSFER));
         $this->assertEquals($ratepayInvoiceConfig, $this->config->get(RatepayInvoiceTransaction::PAYMENT_NAME));
         $this->assertEquals($ratepayInstallConfig, $this->config->get(RatepayInstallmentTransaction::PAYMENT_NAME));
-    }
-
-    public function testGetUseSpecificIfExistsAndNotFallback()
-    {
-        $sepaConfig = new PaymentMethodConfig(SepaTransaction::NAME, 'mid', 'key');
-        $ddConfig = new PaymentMethodConfig(SepaTransaction::DIRECT_DEBIT, 'dd_mid', 'other_key');
-        $this->config->add($sepaConfig);
-        $this->config->add($ddConfig);
-
-        $this->assertEquals($ddConfig, $this->config->get(SepaTransaction::DIRECT_DEBIT));
-        $this->assertEquals($sepaConfig, $this->config->get(SepaTransaction::CREDIT_TRANSFER));
     }
 
     /**
@@ -150,7 +135,7 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
         $payPalConfig = new PaymentMethodConfig(PayPalTransaction::NAME, 'mid', 'key');
         $this->config->add($payPalConfig);
 
-        $this->config->get(SepaTransaction::DIRECT_DEBIT);
+        $this->config->get(SepaDirectDebitTransaction::NAME);
     }
 
     public function testSetDefaultCurrency()
@@ -181,9 +166,15 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
 
     public function testGetShopHeaderSetPlugin()
     {
+        $versionFile = __DIR__ . '/../../VERSION';
+        $version = '';
+        if (file_exists($versionFile)) {
+            $version = file_get_contents($versionFile, null, null, 0, 10);
+        }
+
         $expected = array(
             'shop-system-name' => 'paymentSDK-php',
-            'shop-system-version' => '',
+            'shop-system-version' => trim($version, " \t\n\r\0\x0B"),
             'plugin-name' => 'plugin',
             'plugin-version' => '1.0'
         );
@@ -200,6 +191,18 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array('headers' => $expected), $this->config->getShopHeader());
     }
 
+    public function testGetShopHeaderSetShopAndOnlyShopName()
+    {
+        $expected = array(
+            'shop-system-name' => 'testshop',
+            'shop-system-version' => '1.1',
+        );
+        $this->config->setShopInfo($expected['shop-system-name'], $expected['shop-system-version']);
+        $this->config->setPluginInfo('pluginName', '');
+
+        $this->assertEquals(array('headers' => $expected), $this->config->getShopHeader());
+    }
+
     public function testGetVersionFromNotExistingFile()
     {
         $helper = function ($file) {
@@ -212,7 +215,7 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('', $bound($file));
     }
 
-    public function testGetVersionFromExistingFile()
+    public function testGetVersionFromExistingFileWithVersionLengthTen()
     {
         $getHelper = function ($file) {
             return $this->getVersionFromFile($file);
@@ -221,9 +224,18 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
 
         $root = vfsStream::setup();
         $file = vfsStream::newFile('version-test.txt')
-            ->withContent('1.0.0')
+            ->withContent('1.0.0.0.12.123')
             ->at($root);
 
-        $this->assertEquals('1.0.0', $bound($file->url()));
+        $this->assertEquals('1.0.0.0.12', $bound($file->url()));
+    }
+
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
+     */
+    public function testInvalidCreditCardConfig()
+    {
+        new PaymentMethodConfig(PayPalTransaction::NAME, 'maid');
     }
 }

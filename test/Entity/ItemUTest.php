@@ -1,8 +1,8 @@
 <?php
 /**
- * Shop System Payment SDK - Terms of Use
+ * Shop System SDK - Terms of Use
  *
- * The plugins offered are provided free of charge by Wirecard AG and are explicitly not part
+ * The SDK offered are provided free of charge by Wirecard AG and are explicitly not part
  * of the Wirecard AG range of products and services.
  *
  * They have been tested and approved for full functionality in the standard configuration
@@ -16,16 +16,17 @@
  * Operation in an enhanced, customized configuration is at your own risk and requires a
  * comprehensive test phase by the user of the plugin.
  *
- * Customers use the plugins at their own risk. Wirecard AG does not guarantee their full
+ * Customers use the SDK at their own risk. Wirecard AG does not guarantee their full
  * functionality neither does Wirecard AG assume liability for any disadvantages related to
- * the use of the plugins. Additionally, Wirecard AG does not guarantee the full functionality
- * for customized shop systems or installed plugins of other vendors of plugins within the same
+ * the use of the SDK. Additionally, Wirecard AG does not guarantee the full functionality
+ * for customized shop systems or installed SDK of other vendors of plugins within the same
  * shop system.
  *
- * Customers are responsible for testing the plugin's functionality before starting productive
+ * Customers are responsible for testing the SDK's functionality before starting productive
  * operation.
- * By installing the plugin into the shop system the customer agrees to these terms of use.
- * Please do not use the plugin if you do not agree to these terms of use!
+ *
+ * By installing the SDK into the shop system the customer agrees to these terms of use.
+ * Please do not use the SDK if you do not agree to these terms of use!
  */
 
 namespace WirecardTest\PaymentSdk\Entity;
@@ -90,12 +91,12 @@ class ItemUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $this->item->mappedProperties());
     }
 
-    public function testMappedPropertiesWithAllPropertiesForPayPal()
+    public function testMappedPropertiesWithAllPropertiesForPayPalWithRate()
     {
         $this->item->setVersion(PayPalTransaction::class);
         $this->item->setArticleNumber('1232f5445');
         $this->item->setDescription('dthfbvdfg');
-        $this->item->setTaxRate(10.0);
+        $this->item->setTaxRate(10);
 
         $expected = [
             'name' => self::NAME,
@@ -113,5 +114,54 @@ class ItemUTest extends \PHPUnit_Framework_TestCase
         ];
 
         $this->assertEquals($expected, $this->item->mappedProperties());
+    }
+
+    public function testMappedPropertiesWithAllPropertiesForPayPal()
+    {
+        $this->item->setVersion(PayPalTransaction::class);
+        $this->item->setArticleNumber('1232f5445');
+        $this->item->setDescription('dthfbvdfg');
+        $this->item->setTaxAmount(new Amount(5, 'EUR'));
+
+        $expected = [
+            'name' => self::NAME,
+            'description' => 'dthfbvdfg',
+            'article-number' => '1232f5445',
+            'amount' => [
+                'value' => '1',
+                'currency' => 'EUR'
+            ],
+            'quantity' => self::QUANTITY,
+            'tax-amount' => [
+                'value' => '5.00',
+                'currency' => 'EUR'
+            ],
+        ];
+
+        $this->assertEquals($expected, $this->item->mappedProperties());
+    }
+
+    public function testMappedSeamlessPropertiesWithAllProperties()
+    {
+        $this->item->setArticleNumber('1232f5445');
+        $this->item->setTaxRate(10.0);
+
+        $expected = [
+            'orderItems1.name' => self::NAME,
+            'orderItems1.articleNumber' => '1232f5445',
+            'orderItems1.amount.value' => '1',
+            'orderItems1.amount.currency' => 'EUR',
+            'orderItems1.quantity' => self::QUANTITY,
+            'orderItems1.taxRate' => 10.0,
+        ];
+
+        $this->assertEquals($expected, $this->item->mappedSeamlessProperties(1));
+    }
+
+    public function testGetArticleNumber()
+    {
+        $this->item->setArticleNumber('A1');
+
+        $this->assertEquals('A1', $this->item->getArticleNumber());
     }
 }

@@ -1,8 +1,8 @@
 <?php
 /**
- * Shop System Payment SDK - Terms of Use
+ * Shop System SDK - Terms of Use
  *
- * The plugins offered are provided free of charge by Wirecard AG and are explicitly not part
+ * The SDK offered are provided free of charge by Wirecard AG and are explicitly not part
  * of the Wirecard AG range of products and services.
  *
  * They have been tested and approved for full functionality in the standard configuration
@@ -16,27 +16,33 @@
  * Operation in an enhanced, customized configuration is at your own risk and requires a
  * comprehensive test phase by the user of the plugin.
  *
- * Customers use the plugins at their own risk. Wirecard AG does not guarantee their full
+ * Customers use the SDK at their own risk. Wirecard AG does not guarantee their full
  * functionality neither does Wirecard AG assume liability for any disadvantages related to
- * the use of the plugins. Additionally, Wirecard AG does not guarantee the full functionality
- * for customized shop systems or installed plugins of other vendors of plugins within the same
+ * the use of the SDK. Additionally, Wirecard AG does not guarantee the full functionality
+ * for customized shop systems or installed SDK of other vendors of plugins within the same
  * shop system.
  *
- * Customers are responsible for testing the plugin's functionality before starting productive
+ * Customers are responsible for testing the SDK's functionality before starting productive
  * operation.
  *
- * By installing the plugin into the shop system the customer agrees to these terms of use.
- * Please do not use the plugin if you do not agree to these terms of use!
+ * By installing the SDK into the shop system the customer agrees to these terms of use.
+ * Please do not use the SDK if you do not agree to these terms of use!
  */
 
 namespace Wirecard\PaymentSdk;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\TransferException;
+use Http\Discovery\HttpClientDiscovery;
+use Http\Discovery\MessageFactoryDiscovery;
+use Http\Client\Common\HttpMethodsClient as Client;
+use Http\Message\Authentication\BasicAuth;
 use Monolog\Handler\ErrorLogHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use Wirecard\PaymentSdk\Config\Config;
+use Wirecard\PaymentSdk\Config\CreditCardConfig;
+use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Entity\CustomField;
+use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException;
@@ -44,17 +50,20 @@ use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 use Wirecard\PaymentSdk\Mapper\RequestMapper;
 use Wirecard\PaymentSdk\Mapper\ResponseMapper;
 use Wirecard\PaymentSdk\Response\FailureResponse;
+use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Response\Response;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\CreditCardMotoTransaction;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\IdealTransaction;
+use Wirecard\PaymentSdk\Transaction\MaestroTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
 use Wirecard\PaymentSdk\Transaction\Reservable;
 use Wirecard\PaymentSdk\Transaction\Transaction;
+use Wirecard\PaymentSdk\Transaction\UpiTransaction;
 
 /**
  * Class TransactionService
@@ -78,7 +87,7 @@ class TransactionService
     private $logger;
 
     /**
-     * @var Client
+     * @var Client The HTTP clients to perform requests with
      */
     private $httpClient;
 
@@ -107,12 +116,21 @@ class TransactionService
      */
     private $isThreeD;
 
+    /**
+     * @var BasicAuth
+     */
+    private $basicAuth;
+
+    /**
+     * @var \Http\Message\MessageFactory
+     */
+    private $messageFactory;
+
 
     /**
      * TransactionService constructor.
      * @param Config $config
      * @param LoggerInterface|null $logger
-     * @param Client|null $httpClient
      * @param RequestMapper|null $requestMapper
      * @param ResponseMapper|null $responseMapper
      * @param \Closure|null $requestIdGenerator
@@ -120,14 +138,19 @@ class TransactionService
     public function __construct(
         Config $config,
         LoggerInterface $logger = null,
-        Client $httpClient = null,
         RequestMapper $requestMapper = null,
         ResponseMapper $responseMapper = null,
         \Closure $requestIdGenerator = null
     ) {
         $this->config = $config;
         $this->logger = $logger;
-        $this->httpClient = $httpClient !== null ? $httpClient : new Client(['http_errors' => false]);
+
+        $this->messageFactory = MessageFactoryDiscovery::find();
+        $this->basicAuth = new BasicAuth($this->config->getHttpUser(), $this->config->getHttpPassword());
+        $this->httpClient = new Client(
+            HttpClientDiscovery::find(),
+            $this->messageFactory
+        );
 
         if ($requestIdGenerator !== null) {
             $this->requestIdGenerator = $requestIdGenerator;
@@ -142,14 +165,8 @@ class TransactionService
         $this->responseMapper = $responseMapper !== null ? $responseMapper : new ResponseMapper($this->config);
 
         $this->httpHeader = array(
-            'auth' => [
-                $this->config->getHttpUser(),
-                $this->config->getHttpPassword()
-            ],
-            'headers' => [
-                'Content-Type' => self::APPLICATION_JSON,
-                'Accept' => 'application/xml'
-            ]
+            'Content-Type' => self::APPLICATION_JSON,
+            'Accept' => 'application/xml'
         );
     }
 
@@ -216,41 +233,142 @@ class TransactionService
     }
 
     /**
+     * @param string $language
+     * @param Amount|null $amount
+     * @param string|null $notificationUrl
+     * @param string $paymentAction
+     * @param array $additionalFields
      * @throws UnconfiguredPaymentMethodException
      * @return string
+     *
+     * @deprecated This method is deprecated since 2.2.0 if you still are using it please update your front-end so that
+     * it uses getCreditCardUiWithData.
      */
-    public function getDataForCreditCardUi($language = 'en')
-    {
+    public function getDataForCreditCardUi(
+        $language = 'en',
+        Amount $amount = null,
+        $notificationUrl = null,
+        $paymentAction = 'authorization',
+        array $additionalFields = []
+    ) {
+        /** @var CreditCardConfig $creditCardConfig */
+        $creditCardConfig = $this->config->get(CreditCardTransaction::NAME);
+        $creditCard = new CreditCardTransaction();
+        $creditCard->setConfig($creditCardConfig);
+        $creditCard->setAmount($amount);
+        $creditCard->setNotificationUrl($notificationUrl);
+
+        if ($additionalFields) {
+            $customFields = new CustomFieldCollection();
+            foreach ($additionalFields as $key => $value) {
+                $customFields->add(new CustomField($key, $value));
+            }
+            $creditCard->setCustomFields($customFields);
+        }
+
+        return $this->getCreditCardUiWithData($creditCard, $paymentAction, $language);
+    }
+
+    /**
+     * Get CreditCard Ui for Transaction
+     *
+     * @param Transaction $transaction
+     * @param string $paymentAction
+     * @param string $language
+     *
+     * @return string
+     */
+    public function getCreditCardUiWithData(
+        $transaction,
+        $paymentAction,
+        $language = 'en'
+    ) {
+        $config = $this->config->get($transaction::NAME);
+        $merchantAccountId = $config->getMerchantAccountId();
+        $secret = $config->getSecret();
+        $isThreeD = false;
+        $amount = $transaction->getAmount();
+
+        if ($transaction instanceof CreditCardTransaction) {
+            $isThreeD = is_null($config->getMerchantAccountId()) || ($config->getThreeDMerchantAccountId() &&
+                ($transaction->isFallback() || $transaction->getThreeD())) ? true : false;
+            $merchantAccountId = $isThreeD ? $config->getThreeDMerchantAccountId() : $config->getMerchantAccountId();
+            $secret = $isThreeD ? $config->getThreeDSecret() : $config->getSecret();
+        }
+
+        $transactionType = 'tokenize';
+
+        if (!is_null($amount) && $amount->getValue() > 0) {
+            $transactionType = $paymentAction;
+        }
+
         $requestData = array(
             'request_time_stamp' => gmdate('YmdHis'),
             self::REQUEST_ID => call_user_func($this->requestIdGenerator, 64),
-            'transaction_type' => 'authorization-only',
-            'merchant_account_id' => $this->config->get(CreditCardTransaction::NAME)->getMerchantAccountId(),
-            'requested_amount' => 0,
-            'requested_amount_currency' => $this->config->getDefaultCurrency(),
+            'transaction_type' => $transactionType,
+            'merchant_account_id' => $merchantAccountId,
+            'requested_amount' => is_null($amount) ? 0 : $amount->getValue(),
+            'requested_amount_currency' => is_null($amount) ? 'EUR' : $amount->getCurrency(),
             'locale' => $language,
             'payment_method' => 'creditcard',
+            'attempt_three_d' => $isThreeD ? true : false,
         );
 
-        $requestData['request_signature'] = hash(
-            'sha256',
-            trim(
-                $requestData['request_time_stamp'] .
-                $requestData[self::REQUEST_ID] .
-                $requestData['merchant_account_id'] .
-                $requestData['transaction_type'] .
-                $requestData['requested_amount'] .
-                $requestData['requested_amount_currency'] .
-                $this->config->get(CreditCardTransaction::NAME)->getSecret()
-            )
-        );
+        $requestData = $this->requestMapper->mapSeamlessRequest($transaction, $requestData);
+
+        $requestData['request_signature'] = $this->toSha256($requestData, $secret);
 
         return json_encode($requestData);
     }
 
     /**
+     * Get calculated signature
+     *
+     * @param array $fields
+     * @param string $secret
+     * @return string
+     * @since 2.3.1
+     */
+    private function toSha256($fields, $secret)
+    {
+        $hasData = '';
+
+        foreach ($this->getHashKeys() as $key) {
+            if (isset($fields[$key])) {
+                $hasData .= $fields[$key];
+            }
+        }
+        $hasData .= $secret;
+        return hash('sha256', trim($hasData));
+    }
+
+    /**
+     * return order of fields for calculating the signature
+     *
+     * @return array
+     * @since 2.3.1
+     */
+    private function getHashKeys()
+    {
+        return array(
+            'request_time_stamp',
+            self::REQUEST_ID,
+            'merchant_account_id',
+            'transaction_type',
+            'requested_amount',
+            'requested_amount_currency',
+            'redirect_url',
+            'custom_css_url',
+            'ip_address'
+        );
+    }
+
+    /**
      * @throws UnconfiguredPaymentMethodException
      * @return string
+     *
+     * @deprecated This method is deprecated since 2.2.0 if you still are using it please update your front-end so that
+     * it uses getCreditCardUiWithData.
      */
     public function getDataForCreditCardMotoUi($language = 'en')
     {
@@ -279,6 +397,38 @@ class TransactionService
         );
 
         return json_encode($requestData);
+    }
+
+    /**
+     * @throws UnconfiguredPaymentMethodException
+     * @return string
+     *
+     * @deprecated This method is deprecated since 2.2.0 if you still are using it please update your front-end so that
+     * it uses getCreditCardUiWithData.
+     */
+    public function getDataForUpiUi(
+        $language = 'en',
+        Amount $amount = null,
+        $notificationUrl = null,
+        $paymentAction = 'authorization',
+        array $additionalFields = []
+    ) {
+        /** @var CreditCardConfig $creditCardConfig */
+        $creditCardConfig = $this->config->get(UpiTransaction::NAME);
+        $creditCard = new UpiTransaction();
+        $creditCard->setConfig($creditCardConfig);
+        $creditCard->setAmount($amount);
+        $creditCard->setNotificationUrl($notificationUrl);
+
+        if ($additionalFields) {
+            $customFields = new CustomFieldCollection();
+            foreach ($additionalFields as $key => $value) {
+                $customFields->add(new CustomField($key, $value));
+            }
+            $creditCard->setCustomFields($customFields);
+        }
+
+        return $this->getCreditCardUiWithData($creditCard, $paymentAction, $language);
     }
 
     /**
@@ -312,7 +462,7 @@ class TransactionService
     public function getRatePayScript($deviceIdentToken)
     {
         $script =
-          "<script language='JavaScript'>
+            "<script language='JavaScript'>
           var di = {t:'$deviceIdentToken',v:'WDWL',l:'Checkout'};
           </script>
           <script type='text/javascript' src='//d.ratepay.com/WDWL/di.js'>
@@ -421,12 +571,10 @@ class TransactionService
         $this->getLogger()->debug('Request body: ' . $requestBody);
 
         $requestHeader = array_merge_recursive($this->httpHeader, $this->config->getShopHeader());
-        $requestHeader['body'] = $requestBody;
 
-        $response = $this->httpClient
-            ->request('POST', $endpoint, $requestHeader)
-            ->getBody()->getContents();
-
+        $request = $this->messageFactory->createRequest('POST', $endpoint, $requestHeader, $requestBody);
+        $request = $this->basicAuth->authenticate($request);
+        $response = $this->httpClient->sendRequest($request)->getBody()->getContents();
         $this->getLogger()->debug($response);
 
         return $response;
@@ -435,19 +583,24 @@ class TransactionService
     /**
      * @param $endpoint
      * @param bool $acceptJson
+     * @param bool $logNotFound
      * @throws \RuntimeException
      * @return string|array
      */
-    private function sendGetRequest($endpoint, $acceptJson = false)
+    private function sendGetRequest($endpoint, $acceptJson = false, $logNotFound = true)
     {
         $requestHeader = array_merge_recursive($this->httpHeader, $this->config->getShopHeader());
-        $requestHeader['headers']['Accept'] = $acceptJson ? self::APPLICATION_JSON : 'application/xml';
+        $requestHeader['Accept'] = $acceptJson ? self::APPLICATION_JSON : 'application/xml';
 
-        $response = $this->httpClient
-            ->request('GET', $endpoint, $requestHeader)
-            ->getBody()->getContents();
+        $request = $this->messageFactory->createRequest('GET', $endpoint, $requestHeader);
+        $request = $this->basicAuth->authenticate($request);
+        $response = $this->httpClient->sendRequest($request);
+        $logResponse = ($response->getStatusCode() == 404) && !$logNotFound ? false : true;
+        $response = $response->getBody()->getContents();
 
-        $this->getLogger()->debug('GET response: ' . $response);
+        if ($logResponse) {
+            $this->getLogger()->debug('GET response: ' . $response);
+        }
 
         if ($acceptJson) {
             return json_decode($response, true);
@@ -469,9 +622,16 @@ class TransactionService
     {
         $transaction->setOperation($operation);
 
-        if ($transaction instanceof CreditCardTransaction) {
-            $transaction->setConfig($this->config->get(CreditCardTransaction::NAME));
+        if ($transaction instanceof MaestroTransaction) {
+            /** @var CreditCardConfig $creditCardConfig */
+            $creditCardConfig = $this->config->get(MaestroTransaction::NAME);
+            $transaction->setConfig($creditCardConfig);
+        } elseif ($transaction instanceof CreditCardTransaction) {
+            /** @var CreditCardConfig $creditCardConfig */
+            $creditCardConfig = $this->config->get(CreditCardTransaction::NAME);
+            $transaction->setConfig($creditCardConfig);
         }
+
         if (null !== $transaction->getParentTransactionId()) {
             $parentTransaction = $this->getTransactionByTransactionId(
                 $transaction->getParentTransactionId(),
@@ -480,11 +640,20 @@ class TransactionService
             if ($transaction instanceof CreditCardTransaction) {
                 $transaction->getThreeD() ? $transaction->setThreeD(true) : $transaction->setThreeD($this->isThreeD);
             }
-            if (null !== $parentTransaction && array_key_exists(Transaction::PARAM_PAYMENT, $parentTransaction)
-                && array_key_exists('transaction-type', $parentTransaction[Transaction::PARAM_PAYMENT])
-            ) {
-                $transaction->setParentTransactionType($parentTransaction[Transaction::PARAM_PAYMENT]
+
+            if (null !== $parentTransaction) {
+                if (array_key_exists(Transaction::PARAM_PAYMENT, $parentTransaction)
+                    && array_key_exists('order-id', $parentTransaction[Transaction::PARAM_PAYMENT])
+                ) {
+                    $transaction->setOrderId($parentTransaction[Transaction::PARAM_PAYMENT]['order-id']);
+                }
+
+                if (array_key_exists(Transaction::PARAM_PAYMENT, $parentTransaction)
+                    && array_key_exists('transaction-type', $parentTransaction[Transaction::PARAM_PAYMENT])
+                ) {
+                    $transaction->setParentTransactionType($parentTransaction[Transaction::PARAM_PAYMENT]
                     [Transaction::PARAM_TRANSACTION_TYPE]);
+                }
             }
         }
 
@@ -534,15 +703,20 @@ class TransactionService
     /**
      * We expect status code 404 for a successful authentication, otherwise the endpoint will return 401 unauthorized
      * @return boolean
+     * @throws \Http\Client\Exception
      */
     public function checkCredentials()
     {
         try {
             $requestHeader = array_merge_recursive($this->httpHeader, $this->config->getShopHeader());
 
-            $responseCode = $this->httpClient
-                ->request('GET', $this->config->getBaseUrl() . '/engine/rest/merchants/', $requestHeader)
-                ->getStatusCode();
+            $request = $this->messageFactory->createRequest(
+                'GET',
+                $this->config->getBaseUrl() . '/engine/rest/merchants/',
+                $requestHeader
+            );
+            $request = $this->basicAuth->authenticate($request);
+            $responseCode = $this->httpClient->sendRequest($request)->getStatusCode();
         } catch (TransferException $e) {
             $this->getLogger()->debug('Check credentials: Error - ' . $e->getMessage());
             return false;
@@ -560,30 +734,56 @@ class TransactionService
     /**
      * @param $transactionId
      * @param $paymentMethod
+     * @param $acceptJson
      * @throws UnconfiguredPaymentMethodException
      * @throws \RuntimeException
-     * @return null|array
+     * @return null|array|string
      */
-    private function getTransactionByTransactionId($transactionId, $paymentMethod)
+    public function getTransactionByTransactionId($transactionId, $paymentMethod, $acceptJson = true)
     {
+        $logNotFound = ($paymentMethod == CreditCardTransaction::NAME) ? false : true;
         $endpoint =
             $this->config->getBaseUrl() .
             '/engine/rest/merchants/' .
             $this->config->get($paymentMethod)->getMerchantAccountId() .
             '/payments/' . $transactionId;
 
-        $request = $this->sendGetRequest($endpoint, true);
-        if ($request == null && $paymentMethod == CreditCardTransaction::NAME) {
+        $request = $this->sendGetRequest($endpoint, $acceptJson, $logNotFound);
+
+        if ($request == null &&
+            ($paymentMethod == CreditCardTransaction::NAME || $paymentMethod == MaestroTransaction::NAME)) {
             $endpoint =
                 $this->config->getBaseUrl() .
                 '/engine/rest/merchants/' .
                 $this->config->get($paymentMethod)->getThreeDMerchantAccountId() .
                 '/payments/' . $transactionId;
-            $request = $this->sendGetRequest($endpoint, true);
+            $request = $this->sendGetRequest($endpoint, $acceptJson);
             $request !== null ? $this->isThreeD = true : $this->isThreeD = false;
         }
 
         return $request;
+    }
+
+    /**
+     * @param $requestId
+     * @param $paymentMethod
+     * @param $acceptJson
+     * @throws UnconfiguredPaymentMethodException
+     * @throws \RuntimeException
+     * @since 3.3.0
+     * @return null|array|string
+     */
+    public function getTransactionByRequestId($requestId, $paymentMethod, $acceptJson = true)
+    {
+        $logNotFound = ($paymentMethod == CreditCardTransaction::NAME) ? false : true;
+        $endpoint =
+            $this->config->getBaseUrl() .
+            '/engine/rest/merchants/' .
+            $this->config->get($paymentMethod)->getMerchantAccountId() .
+            '/payments/?request_id=' . $requestId;
+
+        $response = $this->sendGetRequest($endpoint, $acceptJson, $logNotFound);
+        return $response;
     }
 
     /**
@@ -639,7 +839,8 @@ class TransactionService
 
         if ("https" == parse_url($validationUrl, PHP_URL_SCHEME)
             && substr(parse_url($validationUrl, PHP_URL_HOST), -10) == ".apple.com"
-        ) {
+        )
+        {
             $options = [
                 'body' => json_encode([
                     'merchantIdentifier' => $applePayConfig->getMerchantIdentifier(),
@@ -652,14 +853,67 @@ class TransactionService
 
             $response = $this->httpClient->request('post', $validationUrl, $options);
 
-            if (200 === $response->getStatusCode()) {
+            if (200 === $response->getStatusCode())
+            {
                 return $response->getBody()->getContents();
-            } else {
+            } else
+            {
                 $this->getLogger()->error($response->getBody()->getContents());
                 throw new MalformedResponseException($response->getBody()->getContents());
             }
         }
 
         throw new UnsupportedOperationException('Can\'t validate merchant from a non https environment');
+    }
+
+    /**
+     * @since 2.1.0
+     * @param $payload
+     * @param $url
+     * @return FailureResponse|FormInteractionResponse|SuccessResponse
+     */
+    public function processJsResponse($payload, $url)
+    {
+        return $this->responseMapper->mapSeamlessResponse($payload, $url);
+    }
+
+    /**
+     * Recursively search for a parent transaction until it finds no parent-transaction-id anymore. Aggregate all of the
+     * results received in the group transaction and return them in ascending order by date.
+     * @since 3.1.0
+     * @param $transactionId
+     * @param $paymentMethod
+     * @return array
+     */
+    public function getGroupOfTransactions($transactionId, $paymentMethod)
+    {
+        $transaction = $this->getTransactionByTransactionId($transactionId, $paymentMethod);
+        if (isset($transaction['payment'])) {
+            $transaction = $transaction['payment'];
+        }
+        if (isset($transaction['parent-transaction-id'])) {
+            return $this->getGroupOfTransactions($transaction['parent-transaction-id'], $paymentMethod);
+        } else {
+            $endpoint =
+                $this->config->getBaseUrl() .
+                '/engine/rest/merchants/' .
+                $transaction['merchant-account-id']['value'] .
+                '/payments/?group_transaction_id=' . $transactionId;
+            $xml = (array)simplexml_load_string($this->sendGetRequest($endpoint));
+            $ret = [];
+            if (isset($xml['payment'])) {
+                foreach ($xml['payment'] as $response) {
+                    $ret[] = $response;
+                }
+
+                usort($ret, function ($item1, $item2) {
+                    $date1 = new \DateTime($item1->{'completion-time-stamp'});
+                    $date2 = new \DateTime($item2->{'completion-time-stamp'});
+                    return $date1 == $date2 ? 0 : ($date1 < $date2 ? -1 : 1);
+                });
+            }
+
+            return $ret;
+        }
     }
 }

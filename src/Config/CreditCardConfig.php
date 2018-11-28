@@ -1,8 +1,8 @@
 <?php
 /**
- * Shop System Payment SDK - Terms of Use
+  * Shop System SDK - Terms of Use
  *
- * The plugins offered are provided free of charge by Wirecard AG and are explicitly not part
+ * The SDK offered are provided free of charge by Wirecard AG and are explicitly not part
  * of the Wirecard AG range of products and services.
  *
  * They have been tested and approved for full functionality in the standard configuration
@@ -16,16 +16,17 @@
  * Operation in an enhanced, customized configuration is at your own risk and requires a
  * comprehensive test phase by the user of the plugin.
  *
- * Customers use the plugins at their own risk. Wirecard AG does not guarantee their full
+ * Customers use the SDK at their own risk. Wirecard AG does not guarantee their full
  * functionality neither does Wirecard AG assume liability for any disadvantages related to
- * the use of the plugins. Additionally, Wirecard AG does not guarantee the full functionality
- * for customized shop systems or installed plugins of other vendors of plugins within the same
+ * the use of the SDK. Additionally, Wirecard AG does not guarantee the full functionality
+ * for customized shop systems or installed SDK of other vendors of plugins within the same
  * shop system.
  *
- * Customers are responsible for testing the plugin's functionality before starting productive
+ * Customers are responsible for testing the SDK's functionality before starting productive
  * operation.
- * By installing the plugin into the shop system the customer agrees to these terms of use.
- * Please do not use the plugin if you do not agree to these terms of use!
+ *
+ * By installing the SDK into the shop system the customer agrees to these terms of use.
+ * Please do not use the SDK if you do not agree to these terms of use!
  */
 
 namespace Wirecard\PaymentSdk\Config;
@@ -56,13 +57,21 @@ class CreditCardConfig extends PaymentMethodConfig
     private $threeDSecret;
 
     /**
-     * SepaConfig constructor.
-     * @param string $merchantAccountId
-     * @param string $secret
+     * CreditCardConfig constructor.
+     * @param string|null $merchantAccountId
+     * @param string|null $secret
+     * @param string $paymentMethodName
      */
-    public function __construct($merchantAccountId, $secret)
-    {
-        parent::__construct(CreditCardTransaction::NAME, $merchantAccountId, $secret);
+    public function __construct(
+        $merchantAccountId = null,
+        $secret = null,
+        $paymentMethodName = CreditCardTransaction::NAME
+    ) {
+        parent::__construct($paymentMethodName, null, null);
+
+        if (!is_null($merchantAccountId) && !is_null($secret)) {
+            $this->setSSLCredentials($merchantAccountId, $secret);
+        }
     }
 
     /**
@@ -73,6 +82,16 @@ class CreditCardConfig extends PaymentMethodConfig
     {
         $this->sslMaxLimits[$sslMaxLimit->getCurrency()] = $sslMaxLimit->getValue();
         return $this;
+    }
+
+    /**
+     * @param Amount $nonThreeDMaxLimit
+     * @return CreditCardConfig
+     * @since 3.2.0
+     */
+    public function addNonThreeDMaxLimit(Amount $nonThreeDMaxLimit)
+    {
+        return $this->addSslMaxLimit($nonThreeDMaxLimit);
     }
 
     /**
@@ -98,12 +117,45 @@ class CreditCardConfig extends PaymentMethodConfig
     }
 
     /**
+     * @param string $merchantAccountId
+     * @param string $secret
+     * @return CreditCardConfig
+     */
+    public function setSSLCredentials($merchantAccountId, $secret)
+    {
+        $this->merchantAccountId = $merchantAccountId;
+        $this->secret = $secret;
+        return $this;
+    }
+
+    /**
+     * @param $merchantAccountId
+     * @param $secret
+     * @return CreditCardConfig
+     * @since 3.2.0
+     */
+    public function setNonThreeDCredentials($merchantAccountId, $secret)
+    {
+        return $this->setSSLCredentials($merchantAccountId, $secret);
+    }
+
+    /**
      * @param string $currency
      * @return float|null
      */
     public function getSslMaxLimit($currency)
     {
         return array_key_exists($currency, $this->sslMaxLimits) ? $this->sslMaxLimits[$currency] : null;
+    }
+
+    /**
+     * @param $currency
+     * @return float|null
+     * @since 3.2.0
+     */
+    public function getNonThreeDMaxLimit($currency)
+    {
+        return $this->getSslMaxLimit($currency);
     }
 
     /**
