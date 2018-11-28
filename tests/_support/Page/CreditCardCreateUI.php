@@ -12,6 +12,8 @@ class CreditCardCreateUI extends Base
     // include url of current page
     public $URL = '/CreditCard/createUi_tokenize.php';
 
+    public $page_specific = 'createUi';
+
     public $elements = array(
         'First name' => "//*[@id='first_name']",
         'Last name' => "//*[@id='last_name']",

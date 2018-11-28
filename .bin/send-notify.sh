@@ -19,23 +19,41 @@ curl -X POST -H 'Content-type: application/json' \
     Build Number: ${TRAVIS_BUILD_NUMBER}\n
     Branch: ${TRAVIS_BRANCH}', 'channel': '${CHANNEL}'}" ${SLACK_ROOMS}
 
-#send links to all screenshots obtained
-for f in tests/_output/*.fail.png; do
-    FILENAME=$(basename -- "${f}")
-    TESTNAME="${FILENAME%%.fail.*}"
+FAILED_TESTS=$(ls -1q tests/_output/*.fail.png | wc -l)
 
-    #send screenshot links
+if [[ ${FAILED_TESTS} > 3 ]]; then
+  # do not send more than 3 screenshots to the chat room
     curl -X POST -H 'Content-type: application/json' --data "{
         'attachments': [
             {
-                'fallback': 'Failed test screenshot',
-                'text': 'See screenshot of ${TESTNAME} test here: \
-                ${REPO_LINK}/tree/${SCREENSHOT_COMMIT_HASH}/${PROJECT_FOLDER}/${GATEWAY}/${TODAY}/${FILENAME}',
+                'fallback': 'Failed test data',
+                'text': 'There are ${FAILED_TESTS} failed tests. \
+                All screenshots can be found  ${REPO_LINK}/tree/${SCREENSHOT_COMMIT_HASH}/${PROJECT_FOLDER}/${GATEWAY}/${TODAY} \
+                Please clone ${REPO_LINK} and open ${PROJECT_FOLDER}/${GATEWAY}/${TODAY}/report.html \
+                in the browser for detailed info.',
                 'color': '#764FA5'
             }
         ], 'channel': '${CHANNEL}'
     }"  ${SLACK_ROOMS};
-done
+else
+  #send links to all screenshots obtained
+    for f in tests/_output/*.fail.png; do
+        FILENAME=$(basename -- "${f}")
+        TESTNAME="${FILENAME%%.fail.*}"
+
+        #send screenshot links
+        curl -X POST -H 'Content-type: application/json' --data "{
+            'attachments': [
+                {
+                    'fallback': 'Failed test screenshot',
+                    'text': 'See screenshot of ${TESTNAME} test here: \
+                    ${REPO_LINK}/tree/${SCREENSHOT_COMMIT_HASH}/${PROJECT_FOLDER}/${GATEWAY}/${TODAY}/${FILENAME}',
+                    'color': '#764FA5'
+                }
+            ], 'channel': '${CHANNEL}'
+        }"  ${SLACK_ROOMS};
+    done
+fi
 
 
 

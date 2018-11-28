@@ -1,4 +1,4 @@
-Feature: check_credit_card_3DS_functionality
+Feature: check_credit_card_3DS_functionality_happy_path
   As a user
   I want to make a purchase with a Credit Card 3DS
   And to see that transaction was successful
@@ -13,7 +13,7 @@ Feature: check_credit_card_3DS_functionality
   Scenario: try purchase_check
     Given I am redirected to "Credit Card Reserve Page" page
     And I click "Redirect to 3-D Secure page"
-    When I am redirected to "Verified by Visa Page" page
+    When I am redirected to "Verified Page" page
     And I enter "wirecard" in field "Password"
     And I click "Continue"
     And I am redirected to "Credit Card Success Page" page
@@ -24,7 +24,7 @@ Feature: check_credit_card_3DS_functionality
   Scenario: try refund_check
     Given I am redirected to "Credit Card Reserve Page" page
     And I click "Redirect to 3-D Secure page"
-    And I am redirected to "Verified by Visa Page" page
+    And I am redirected to "Verified Page" page
     And I enter "wirecard" in field "Password"
     And I click "Continue"
     And I am redirected to "Credit Card Success Page" page

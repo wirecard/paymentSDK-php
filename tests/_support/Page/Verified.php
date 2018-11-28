@@ -7,10 +7,12 @@
 
 namespace Page;
 
-class VerifiedByVisa extends Base
+class Verified extends Base
 {
     // include url of current page
     public $URL = 'https://c3-test.wirecard.com/acssim/app/bank';
+
+    public $page_specific = 'bank';
 
     public $elements = array(
         'Password' => "//*[@id='password']",
