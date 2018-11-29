@@ -46,7 +46,7 @@ else
             'attachments': [
                 {
                     'fallback': 'Failed test screenshot',
-                    'text': 'See screenshot of ${TESTNAME} test here: \
+                    'text': 'See screenshot of  failed ${TESTNAME} test here: \
                     ${REPO_LINK}/tree/${SCREENSHOT_COMMIT_HASH}/${PROJECT_FOLDER}/${GATEWAY}/${TODAY}/${FILENAME} \
                     More info in report ${PREVIEW_LINK}/blob/${SCREENSHOT_COMMIT_HASH}/${PROJECT_FOLDER}/${GATEWAY}/${TODAY}/${REPORT_FILE}',
                     'color': '#764FA5'
