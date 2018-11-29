@@ -1,4 +1,5 @@
 #!/bin/bash
+PREVIEW_LINK='http://htmlpreview.github.io/?https://raw.githubusercontent.com/wirecard/reports'
 
 #choose slack channel depending on the gateway
 if [[ ${GATEWAY} = "NOVA" ]]; then
@@ -29,7 +30,7 @@ if ((${FAILED_TESTS} > 3 )); then
                 'fallback': 'Failed test data',
                 'text': 'There are ${FAILED_TESTS} failed tests.
                  All screenshots can be found  ${REPO_LINK}/tree/${SCREENSHOT_COMMIT_HASH}/${PROJECT_FOLDER}/${GATEWAY}/${TODAY} .
-                 Please clone ${REPO_LINK}.git and open ${PROJECT_FOLDER}/${GATEWAY}/${TODAY}/report.html in the browser for detailed info.',
+                 Please see ${PREVIEW_LINK}/tree/${SCREENSHOT_COMMIT_HASH}/${PROJECT_FOLDER}/${GATEWAY}/${TODAY}/report.html for detailed info.',
                 'color': '#764FA5'
             }
         ], 'channel': '${CHANNEL}'
