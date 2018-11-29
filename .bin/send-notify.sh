@@ -30,7 +30,7 @@ if ((${FAILED_TESTS} > 3 )); then
                 'fallback': 'Failed test data',
                 'text': 'There are ${FAILED_TESTS} failed tests.
                  All screenshots can be found  ${REPO_LINK}/tree/${SCREENSHOT_COMMIT_HASH}/${PROJECT_FOLDER}/${GATEWAY}/${TODAY} .
-                 Please see ${PREVIEW_LINK}/tree/${SCREENSHOT_COMMIT_HASH}/${PROJECT_FOLDER}/${GATEWAY}/${TODAY}/${REPORT_FILE} for detailed info.',
+                 Please see ${PREVIEW_LINK}/blob/${SCREENSHOT_COMMIT_HASH}/${PROJECT_FOLDER}/${GATEWAY}/${TODAY}/${REPORT_FILE} for detailed info.',
                 'color': '#764FA5'
             }
         ], 'channel': '${CHANNEL}'
@@ -48,7 +48,7 @@ else
                     'fallback': 'Failed test screenshot',
                     'text': 'See screenshot of ${TESTNAME} test here: \
                     ${REPO_LINK}/tree/${SCREENSHOT_COMMIT_HASH}/${PROJECT_FOLDER}/${GATEWAY}/${TODAY}/${FILENAME}' \
-                    More info in report ${PREVIEW_LINK}/tree/${SCREENSHOT_COMMIT_HASH}/${PROJECT_FOLDER}/${GATEWAY}/${TODAY}/${REPORT_FILE},
+                    More info in report ${PREVIEW_LINK}/blob/${SCREENSHOT_COMMIT_HASH}/${PROJECT_FOLDER}/${GATEWAY}/${TODAY}/${REPORT_FILE}',
                     'color': '#764FA5'
                 }
             ], 'channel': '${CHANNEL}'
