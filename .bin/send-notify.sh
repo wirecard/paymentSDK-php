@@ -22,39 +22,20 @@ curl -X POST -H 'Content-type: application/json' \
 
 FAILED_TESTS=$(ls -1q tests/_output/*.fail.png | wc -l)
 
-if ((${FAILED_TESTS} > 3 )); then
-  # do not send more than 3 screenshots to the chat room
-    curl -X POST -H 'Content-type: application/json' --data "{
-        'attachments': [
-            {
-                'fallback': 'Failed test data',
-                'text': 'There are ${FAILED_TESTS} failed tests.
-                 All screenshots can be found  ${REPO_LINK}/tree/${SCREENSHOT_COMMIT_HASH}/${PROJECT_FOLDER}/${GATEWAY}/${TODAY} .
-                 Please see ${PREVIEW_LINK}/blob/${SCREENSHOT_COMMIT_HASH}/${PROJECT_FOLDER}/${GATEWAY}/${TODAY}/${REPORT_FILE} for detailed info.',
-                'color': '#764FA5'
-            }
-        ], 'channel': '${CHANNEL}'
-    }"  ${SLACK_ROOMS};
-else
-  #send links to all screenshots obtained
-    for f in tests/_output/*.fail.png; do
-        FILENAME=$(basename -- "${f}")
-        TESTNAME="${FILENAME%%.fail.*}"
 
-        #send screenshot links
-        curl -X POST -H 'Content-type: application/json' --data "{
-            'attachments': [
-                {
-                    'fallback': 'Failed test screenshot',
-                    'text': 'See screenshot of  failed ${TESTNAME} test here: \
-                    ${REPO_LINK}/tree/${SCREENSHOT_COMMIT_HASH}/${PROJECT_FOLDER}/${GATEWAY}/${TODAY}/${FILENAME} \
-                    More info in report ${PREVIEW_LINK}/blob/${SCREENSHOT_COMMIT_HASH}/${PROJECT_FOLDER}/${GATEWAY}/${TODAY}/${REPORT_FILE}',
-                    'color': '#764FA5'
-                }
-            ], 'channel': '${CHANNEL}'
-        }"  ${SLACK_ROOMS};
-    done
-fi
+# send link to the report into slack chat room
+curl -X POST -H 'Content-type: application/json' --data "{
+    'attachments': [
+        {
+            'fallback': 'Failed test data',
+            'text': '${FAILED_TESTS} tests failed.
+             Test report: ${PREVIEW_LINK}/blob/${SCREENSHOT_COMMIT_HASH}/${PROJECT_FOLDER}/${GATEWAY}/${TODAY}/${REPORT_FILE} .
+             All screenshots can be found  ${REPO_LINK}/tree/${SCREENSHOT_COMMIT_HASH}/${PROJECT_FOLDER}/${GATEWAY}/${TODAY} .',
+            'color': '#764FA5'
+        }
+    ], 'channel': '${CHANNEL}'
+}"  ${SLACK_ROOMS};
+
 
 
 
