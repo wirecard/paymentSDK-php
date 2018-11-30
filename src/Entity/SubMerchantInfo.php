@@ -41,14 +41,6 @@ namespace Wirecard\PaymentSdk\Entity;
  */
 class SubMerchantInfo implements MappableEntity
 {
-    const TYPE_COMMON = 1;
-    const TYPE_EXTENDED = 2;
-
-    /**
-     * @var int
-     */
-    private $type;
-
     /**
      * @var string
      */
@@ -83,11 +75,6 @@ class SubMerchantInfo implements MappableEntity
      * @var string
      */
     private $merchantCountry;
-
-    public function __construct($type = self::TYPE_COMMON)
-    {
-        $this->type = $type;
-    }
 
     /**
      * @param $merchantId
@@ -160,26 +147,24 @@ class SubMerchantInfo implements MappableEntity
             $result['name'] = $this->merchantName;
         }
 
-        if ($this->type == self::TYPE_EXTENDED) {
-            if (null !== $this->merchantStreet) {
-                $result['street'] = $this->merchantStreet;
-            }
+        if (null !== $this->merchantStreet) {
+            $result['street'] = $this->merchantStreet;
+        }
 
-            if (null !== $this->merchantCity) {
-                $result['city'] = $this->merchantCity;
-            }
+        if (null !== $this->merchantCity) {
+            $result['city'] = $this->merchantCity;
+        }
 
-            if (null !== $this->merchantPostalCode) {
-                $result['postal-code'] = $this->merchantPostalCode;
-            }
+        if (null !== $this->merchantPostalCode) {
+            $result['postal-code'] = $this->merchantPostalCode;
+        }
 
-            if (null !== $this->merchantState) {
-                $result['state'] = $this->merchantState;
-            }
+        if (null !== $this->merchantState) {
+            $result['state'] = $this->merchantState;
+        }
 
-            if (null !== $this->merchantCountry) {
-                $result['country'] = $this->merchantCountry;
-            }
+        if (null !== $this->merchantCountry) {
+            $result['country'] = $this->merchantCountry;
         }
 
         return $result;

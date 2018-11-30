@@ -134,7 +134,7 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
         $state = 'BAV';
         $country = 'DE';
 
-        $subMerchantInfo = new SubMerchantInfo(SubMerchantInfo::TYPE_EXTENDED);
+        $subMerchantInfo = new SubMerchantInfo();
         $subMerchantInfo->setMerchantId($id);
         $subMerchantInfo->setMerchantName($name);
         $subMerchantInfo->setMerchantStreet($street);

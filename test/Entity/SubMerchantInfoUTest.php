@@ -48,7 +48,7 @@ class SubMerchantInfoUTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->subMerchantInfo = new SubMerchantInfo();
-        $this->subMerchantInfoExtended = new SubMerchantInfo(SubMerchantInfo::TYPE_EXTENDED);
+        $this->subMerchantInfoExtended = new SubMerchantInfo();
     }
 
     public function testGetMappedPropertiesSubMerchantInfo()
