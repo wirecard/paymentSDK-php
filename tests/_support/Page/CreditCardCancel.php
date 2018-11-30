@@ -12,6 +12,8 @@ class CreditCardCancel extends Base
     // include url of current page
     public $URL = '/CreditCard/cancel.php';
 
+    public $page_specific = 'cancel';
+
     public $elements = array(
         'Transaction ID to be refunded' => "//*[@id='parentTransactionId']",
         'Refund' => "//*[@class='btn btn-primary']",

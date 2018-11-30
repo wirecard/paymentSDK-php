@@ -15,6 +15,8 @@ class Base
 
     protected $tester;
 
+    public $page_specific = '';
+
     /**
      * @var AcceptanceTester
      */
@@ -77,5 +79,15 @@ class Base
      */
     public function fillCreditCardFields($cardData){
         ;
+    }
+
+    /**
+     * Method getPageSpecific
+     *
+     * @return string
+     */
+    public function getPageSpecific()
+    {
+        return $this->page_specific;
     }
 }
