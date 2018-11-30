@@ -568,14 +568,14 @@ class TransactionService
      */
     private function sendPostRequest($endpoint, $requestBody)
     {
-        $this->getLogger()->debug('Request body: ' . $requestBody);
+        $this->getLogger()->debug('JSON request: ' . $requestBody);
 
         $requestHeader = array_merge_recursive($this->httpHeader, $this->config->getShopHeader());
 
         $request = $this->messageFactory->createRequest('POST', $endpoint, $requestHeader, $requestBody);
         $request = $this->basicAuth->authenticate($request);
         $response = $this->httpClient->sendRequest($request)->getBody()->getContents();
-        $this->getLogger()->debug($response);
+        $this->getLogger()->debug('XML response: ' . $response);
 
         return $response;
     }

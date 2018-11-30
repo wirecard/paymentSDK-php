@@ -24,6 +24,7 @@
  *
  * Customers are responsible for testing the SDK's functionality before starting productive
  * operation.
+ *
  * By installing the SDK into the shop system the customer agrees to these terms of use.
  * Please do not use the SDK if you do not agree to these terms of use!
  */
@@ -31,74 +32,89 @@
 namespace Wirecard\PaymentSdk\Entity;
 
 /**
- * Class CustomField
+ * Class CompanyInfo
  * @package Wirecard\PaymentSdk\Entity
- *
- * An immutable entity representing a custom field: value and currency.
  */
-class CustomField implements MappableEntity
+class CompanyInfo
 {
-    const PREFIX = 'paysdk_';
+    /**
+     * @var string
+     */
+    private $companyName;
 
     /**
      * @var string
      */
-    private $name;
+    private $companyUid;
 
     /**
      * @var string
      */
-    private $value;
+    private $companyTradeRegisterNumber;
 
     /**
      * @var string
      */
-    private $prefix;
+    private $companyRegisterKey;
 
-    /**
-     * CustomField constructor.
-     * @param string $name
-     * @param string $value
-     */
-    public function __construct($name, $value, $prefix = self::PREFIX)
+    public function __construct($companyName)
     {
-        $this->name = $name;
-        $this->value = $value;
-        $this->prefix = $prefix;
+        $this->companyName = $companyName;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getName()
+    public function getCompanyName()
     {
-        return $this->name;
+        return $this->companyName;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getValue()
+    public function getCompanyUid()
     {
-        return $this->value;
+        return $this->companyUid;
     }
 
     /**
-     * @return string
+     * @param mixed $companyUid
      */
-    public function getMappedName()
+    public function setCompanyUid($companyUid)
     {
-        return (is_null($this->prefix) ? '' : $this->prefix) . $this->name;
+        $this->companyUid = $companyUid;
     }
 
     /**
-     * @return array
+     * @return mixed
      */
-    public function mappedProperties()
+    public function getCompanyTradeRegisterNumber()
     {
-        return [
-            'field-name'  => $this->getMappedName(),
-            'field-value' => $this->getValue()
-        ];
+        return $this->companyTradeRegisterNumber;
+    }
+
+    /**
+     * @param mixed $companyTradeRegisterNumber
+     */
+    public function setCompanyTradeRegisterNumber($companyTradeRegisterNumber)
+    {
+        $this->companyTradeRegisterNumber = $companyTradeRegisterNumber;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCompanyRegisterKey()
+    {
+        return $this->companyRegisterKey;
+    }
+
+    /**
+     * @param mixed $companyRegisterKey
+     */
+    public function setCompanyRegisterKey($companyRegisterKey)
+    {
+        $this->companyRegisterKey = $companyRegisterKey;
     }
 }

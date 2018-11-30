@@ -39,8 +39,22 @@ class CustomFieldUTest extends \PHPUnit_Framework_TestCase
     {
         $customField = new CustomField('special1', 'hihihi');
         $expected = [
-            'field-name' => 'paysdk_special1',
+            'field-name' => CustomField::PREFIX. 'special1',
             'field-value' => 'hihihi'
+        ];
+
+        $this->assertEquals($expected, $customField->mappedProperties());
+    }
+
+    public function testRawMappedProperties()
+    {
+        $key   = 'uTestKey';
+        $value = 'uTestValue';
+        $rawPrefix = '';
+        $customField = new CustomField($key, $value, $rawPrefix);
+        $expected = [
+            'field-name'  => $key,
+            'field-value' => $value
         ];
 
         $this->assertEquals($expected, $customField->mappedProperties());

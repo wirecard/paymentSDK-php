@@ -32,23 +32,24 @@
 namespace WirecardTest\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\AccountHolder;
-use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Entity\Basket;
+use Wirecard\PaymentSdk\Entity\CompanyInfo;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\Operation;
-use Wirecard\PaymentSdk\Transaction\PayolutionInvoiceTransaction;
+use Wirecard\PaymentSdk\Transaction\PayolutionB2BTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
-class PayolutionTransactionUTest extends \PHPUnit_Framework_TestCase
+class PayolutionB2BTransactionUTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PayolutionInvoiceTransaction
+     * @var PayolutionB2BTransaction
      */
     private $tx;
 
     public function setUp()
     {
-        $this->tx = new PayolutionInvoiceTransaction();
+        $this->tx = new PayolutionB2BTransaction();
     }
 
     /**
@@ -110,7 +111,6 @@ class PayolutionTransactionUTest extends \PHPUnit_Framework_TestCase
         $accountHolder = new AccountHolder();
         $accountHolder->setFirstName('first');
         $accountHolder->setLastName('last');
-        $accountHolder->setDateOfBirth(new \DateTime('12-12-1970'));
 
         /**
          * @var Redirect $redirect
@@ -122,7 +122,8 @@ class PayolutionTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx->setOperation(Operation::RESERVE);
         $data = $this->tx->mappedProperties();
 
-        $this->assertEquals('1970-12-12', $data['account-holder']['date-of-birth']);
+        $this->assertEquals('first', $data['account-holder']['first-name']);
+        $this->assertEquals('last', $data['account-holder']['last-name']);
     }
 
     /**
@@ -189,9 +190,9 @@ class PayolutionTransactionUTest extends \PHPUnit_Framework_TestCase
     public function endpointDataProvider()
     {
         return [
-            [Operation::RESERVE, PayolutionInvoiceTransaction::ENDPOINT_PAYMENT_METHODS],
-            [Operation::PAY, PayolutionInvoiceTransaction::ENDPOINT_PAYMENTS],
-            [Operation::CANCEL, PayolutionInvoiceTransaction::ENDPOINT_PAYMENTS],
+            [Operation::RESERVE, PayolutionB2BTransaction::ENDPOINT_PAYMENT_METHODS],
+            [Operation::PAY, PayolutionB2BTransaction::ENDPOINT_PAYMENTS],
+            [Operation::CANCEL, PayolutionB2BTransaction::ENDPOINT_PAYMENTS],
         ];
     }
 
@@ -222,5 +223,22 @@ class PayolutionTransactionUTest extends \PHPUnit_Framework_TestCase
         $data = $this->tx->mappedProperties();
 
         $this->assertEquals($orderNr, $data['order-number']);
+    }
+
+    public function testSetCompanyInfoAsCustomFields()
+    {
+        $companyInfo = new CompanyInfo('utestCompany');
+        $companyInfo->setCompanyUid('utestUid');
+        $companyInfo->setCompanyTradeRegisterNumber('utestTRN');
+        $companyInfo->setCompanyRegisterKey('utestRegisterKey');
+
+        $this->tx->setCompanyInfo($companyInfo);
+
+        $customFields = $this->tx->getCustomFields();
+        $this->assertEquals(4, $customFields->getIterator()->count());
+        $this->assertEquals('utestCompany', $customFields->get('company-name'));
+        $this->assertEquals('utestUid', $customFields->get('company-uid'));
+        $this->assertEquals('utestTRN', $customFields->get('company-trade-register-number'));
+        $this->assertEquals('utestRegisterKey', $customFields->get('company-register-key'));
     }
 }

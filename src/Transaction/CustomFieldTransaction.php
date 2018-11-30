@@ -24,81 +24,46 @@
  *
  * Customers are responsible for testing the SDK's functionality before starting productive
  * operation.
+ *
  * By installing the SDK into the shop system the customer agrees to these terms of use.
  * Please do not use the SDK if you do not agree to these terms of use!
  */
+namespace Wirecard\PaymentSdk\Transaction;
 
-namespace Wirecard\PaymentSdk\Entity;
+use Wirecard\PaymentSdk\Entity\CustomField;
+use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 
 /**
- * Class CustomField
- * @package Wirecard\PaymentSdk\Entity
- *
- * An immutable entity representing a custom field: value and currency.
+ * Class CustomFieldTransaction
+ * @package Wirecard\PaymentSdk\Transaction
  */
-class CustomField implements MappableEntity
+abstract class CustomFieldTransaction extends Transaction
 {
-    const PREFIX = 'paysdk_';
+    const RAW_PREFIX = '';
 
     /**
-     * @var string
+     * Add a custom field without default prefix to the customfields
+     *
+     * If a custom field with $customFieldKey exists, it will be overridden.
+     *
+     * @param string $customFieldKey
+     * @param string|null $customFieldValue
      */
-    private $name;
-
-    /**
-     * @var string
-     */
-    private $value;
-
-    /**
-     * @var string
-     */
-    private $prefix;
-
-    /**
-     * CustomField constructor.
-     * @param string $name
-     * @param string $value
-     */
-    public function __construct($name, $value, $prefix = self::PREFIX)
+    public function setRawCustomField($customFieldKey, $customFieldValue = null)
     {
-        $this->name = $name;
-        $this->value = $value;
-        $this->prefix = $prefix;
-    }
+        $customFields = $this->getCustomFields();
+        if (empty($customFields)) {
+            $customFields = new CustomFieldCollection();
+        }
 
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
+        $it = $customFields->getIterator();
+        foreach ($it as $index => $existingField) {
+            if ($existingField->getName() === $customFieldKey) {
+                $it->offsetUnset($index);
+            }
+        }
 
-    /**
-     * @return string
-     */
-    public function getValue()
-    {
-        return $this->value;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMappedName()
-    {
-        return (is_null($this->prefix) ? '' : $this->prefix) . $this->name;
-    }
-
-    /**
-     * @return array
-     */
-    public function mappedProperties()
-    {
-        return [
-            'field-name'  => $this->getMappedName(),
-            'field-value' => $this->getValue()
-        ];
+        $customFields->add(new CustomField($customFieldKey, $customFieldValue, self::RAW_PREFIX));
+        $this->setCustomFields($customFields);
     }
 }
