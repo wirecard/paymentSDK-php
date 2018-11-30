@@ -21,6 +21,8 @@ env:
   - COMPOSER_ARGS="--no-interaction"
 
 matrix:
+  allow_failures:
+   - stage: acceptance-test
   include:
   - php: 5.6
     if: type != cron
