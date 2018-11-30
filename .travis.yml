@@ -22,7 +22,7 @@ env:
 
 matrix:
   allow_failures:
-   - stage: acceptance-test
+    - stage: acceptance-test
   include:
   - php: 5.6
     if: type != cron
