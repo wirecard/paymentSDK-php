@@ -161,7 +161,6 @@ class SubMerchantInfo implements MappableEntity
         }
 
         if ($this->type == self::TYPE_EXTENDED) {
-
             if (null !== $this->merchantStreet) {
                 $result['street'] = $this->merchantStreet;
             }
@@ -181,7 +180,6 @@ class SubMerchantInfo implements MappableEntity
             if (null !== $this->merchantCountry) {
                 $result['country'] = $this->merchantCountry;
             }
-
         }
 
         return $result;
