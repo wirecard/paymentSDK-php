@@ -7,6 +7,10 @@ elif [[ ${GATEWAY} = "API-WDCEE-TEST" ]]; then
   CHANNEL='shs-ui-api-wdcee-test'
 elif [[  ${GATEWAY} = "API-TEST" ]]; then
    CHANNEL='shs-ui-api-test'
+elif [[  ${GATEWAY} = "TEST-SG" ]]; then
+   CHANNEL='shs-ui-test-sg'
+elif [[  ${GATEWAY} = "SECURE-TEST-SG" ]]; then
+   CHANNEL='shs-ui-secure-test-sg'
 fi
 
 #send information about the build

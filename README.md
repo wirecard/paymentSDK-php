@@ -28,24 +28,25 @@ We also provide some examples for using the PaymentSDK, which can be found [here
 
 ## Supported payment methods:
 
-- Alipay Crossborder
-- Bancontact
 - Credit Card
-- Credit Card Moto
+- Alipay Cross-border
+- Bancontact
+- Credit Card MOTO
 - eps
 - giropay
+- Guaranteed Direct Debit
+- Guaranteed Installment
+- Guaranteed Invoice
 - iDEAL
 - Masterpass
-- Payolution Invoice
-- Pay now. (Sofort.)
-- Payment on Invoice/ Payment in Advance
+- Payment in Advance
+- Payment on Invoice
+- payolution Invoice
 - PayPal
 - paysafecard
 - Przelewy24
-- RatePay Direct Debit
-- RatePay Installment
-- RatePay Invoice
-- SEPA
+- SEPA Direct Debit
+- Sofort.
 - UnionPay International
 - UnionPay Online Payments
 
