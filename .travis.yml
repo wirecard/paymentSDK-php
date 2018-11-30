@@ -50,9 +50,11 @@ matrix:
     - travis_retry composer install $COMPOSER_ARGS
     - composer show
     script: bash .bin/run-ui-tests.sh
+    after_success:
+    - bash .bin/upload-logs-and-notify.sh
     after_failure:
     - bash .bin/output-failed-logs.sh
-    - bash .bin/upload-logs-and-notify.sh
+    - bash .bin/upload-logs-and-notify.sh fail
   - <<: *acceptance-test
     env: GATEWAY=API-WDCEE-TEST
   - <<: *acceptance-test
