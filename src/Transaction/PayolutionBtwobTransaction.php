@@ -36,10 +36,10 @@ use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
 /**
-* Class PayolutionB2BTransaction
+* Class PayolutionBtwobTransaction
 * @package Wirecard\PaymentSdk\Transaction
 */
-class PayolutionB2BTransaction extends CustomFieldTransaction implements Reservable
+class PayolutionBtwobTransaction extends CustomFieldTransaction implements Reservable
 {
     const NAME = 'payolution-b2b';
 
@@ -96,7 +96,7 @@ class PayolutionB2BTransaction extends CustomFieldTransaction implements Reserva
     }
 
     /**
-     * return string
+     * @return string
      */
     public function getEndpoint()
     {
@@ -108,7 +108,9 @@ class PayolutionB2BTransaction extends CustomFieldTransaction implements Reserva
     }
 
     /**
-     * @param CompanyInfo
+     * Update all customfields for company information at once
+     *
+     * @param CompanyInfo $companyInfo
      */
     public function setCompanyInfo($companyInfo)
     {

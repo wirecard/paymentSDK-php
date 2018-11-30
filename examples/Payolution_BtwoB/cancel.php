@@ -15,7 +15,7 @@ require __DIR__ . '/../inc/header.php';
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\PayolutionB2BTransaction;
+use Wirecard\PaymentSdk\Transaction\PayolutionBtwobTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 if (!isset($_POST['parentTransactionId'])) {
@@ -37,7 +37,7 @@ if (!isset($_POST['parentTransactionId'])) {
     $amount = new Amount(700, 'EUR');
 
 // ## Transaction
-    $transaction = new PayolutionB2BTransaction();
+    $transaction = new PayolutionBtwobTransaction();
     $transaction->setParentTransactionId($_POST['parentTransactionId']);
     $transaction->setAmount($amount);
 

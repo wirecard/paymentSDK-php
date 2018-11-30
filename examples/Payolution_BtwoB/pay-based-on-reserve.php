@@ -15,7 +15,7 @@ require __DIR__ . '/../inc/header.php';
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\PayolutionB2BTransaction;
+use Wirecard\PaymentSdk\Transaction\PayolutionBtwobTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 if (!isset($_POST['parentTransactionId'])) {
@@ -40,7 +40,7 @@ if (!isset($_POST['parentTransactionId'])) {
 // ## Transaction
 
 // The Payolution invoice transaction holds all transaction relevant data for the reserve process.
-    $transaction = new PayolutionB2BTransaction();
+    $transaction = new PayolutionBtwobTransaction();
     $transaction->setNotificationUrl($notificationUrl);
     $transaction->setAmount($amount);
     $parentTransactionId = $_POST['parentTransactionId'];

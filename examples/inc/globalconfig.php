@@ -23,7 +23,7 @@ use Wirecard\PaymentSdk\Transaction\AlipayCrossborderTransaction;
 use Wirecard\PaymentSdk\Transaction\PoiPiaTransaction;
 use Wirecard\PaymentSdk\Transaction\PtwentyfourTransaction;
 use Wirecard\PaymentSdk\Transaction\PayolutionInvoiceTransaction;
-use Wirecard\PaymentSdk\Transaction\PayolutionB2BTransaction;
+use Wirecard\PaymentSdk\Transaction\PayolutionBtwobTransaction;
 
 // ## Connection
 
@@ -121,5 +121,5 @@ $config->add($payolutionInvoiceConfig);
 // ### Payolution B2B
 $payolutionB2BMAID = '2048677d-57f4-44b0-8d67-9014c6631d5f';
 $payolutionB2BSecretKey = '74bd2f0c-6d1b-4e9a-b278-abc34b83ab9f';
-$payolutionB2BConfig = new PaymentMethodConfig(PayolutionB2BTransaction::NAME, $payolutionB2BMAID, $payolutionB2BSecretKey);
+$payolutionB2BConfig = new PaymentMethodConfig(PayolutionBtwobTransaction::NAME, $payolutionB2BMAID, $payolutionB2BSecretKey);
 $config->add($payolutionB2BConfig);

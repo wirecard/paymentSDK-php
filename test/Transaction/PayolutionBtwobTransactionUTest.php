@@ -37,19 +37,19 @@ use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Entity\CompanyInfo;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\Operation;
-use Wirecard\PaymentSdk\Transaction\PayolutionB2BTransaction;
+use Wirecard\PaymentSdk\Transaction\PayolutionBtwobTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
-class PayolutionB2BTransactionUTest extends \PHPUnit_Framework_TestCase
+class PayolutionBtwobTransactionUTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var PayolutionB2BTransaction
+     * @var PayolutionBtwobTransaction
      */
     private $tx;
 
     public function setUp()
     {
-        $this->tx = new PayolutionB2BTransaction();
+        $this->tx = new PayolutionBtwobTransaction();
     }
 
     /**
@@ -190,9 +190,9 @@ class PayolutionB2BTransactionUTest extends \PHPUnit_Framework_TestCase
     public function endpointDataProvider()
     {
         return [
-            [Operation::RESERVE, PayolutionB2BTransaction::ENDPOINT_PAYMENT_METHODS],
-            [Operation::PAY, PayolutionB2BTransaction::ENDPOINT_PAYMENTS],
-            [Operation::CANCEL, PayolutionB2BTransaction::ENDPOINT_PAYMENTS],
+            [Operation::RESERVE, PayolutionBtwobTransaction::ENDPOINT_PAYMENT_METHODS],
+            [Operation::PAY, PayolutionBtwobTransaction::ENDPOINT_PAYMENTS],
+            [Operation::CANCEL, PayolutionBtwobTransaction::ENDPOINT_PAYMENTS],
         ];
     }
 

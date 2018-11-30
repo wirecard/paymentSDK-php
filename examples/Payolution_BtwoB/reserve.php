@@ -14,7 +14,7 @@ require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\PayolutionB2BTransaction;
+use Wirecard\PaymentSdk\Transaction\PayolutionBtwobTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 use Wirecard\PaymentSdk\Entity\AccountHolder;
@@ -31,29 +31,29 @@ $amount = new Amount(700, 'EUR');
 $notificationUrl = getUrl('notify.php');
 
 // The order number
-$orderNumber = '123456';
+$orderNumber = '180703111134838';
 
 // Account holder with address
 $accountHolder = new AccountHolder();
-$accountHolder->setFirstName('Pavariotti');
-$accountHolder->setLastName('Agnes');
-$accountHolder->setEmail('agnes@example.com');
-$accountHolder->setPhone('+4311234567');
+$accountHolder->setFirstName('John');
+$accountHolder->setLastName('Doe');
+$accountHolder->setEmail('support5258@wirecard.at');
+$accountHolder->setPhone('+49891234567');
 
-$address = new Address('AT', 'Wien', 'Platz der himmlischen Ruhe 12');
-$address->setPostalCode('1110');
+$address = new Address('DE', 'Traumstadt', 'Nicht versenden Strasse 42');
+$address->setPostalCode('12345');
 $accountHolder->setAddress($address);
 
 // companyInfo with at least the company name, other info are optionally
-$companyInfo = new CompanyInfo('Modern art technology Inc.');
-$companyInfo->setCompanyUid('ATU123456');
-$companyInfo->setCompanyTradeRegisterNumber('FN 1234567');
-$companyInfo->setCompanyRegisterKey('Additional registration information about consumer');
+$companyInfo = new CompanyInfo('Company Name Inc.');
+$companyInfo->setCompanyUid('ATU000000');
+$companyInfo->setCompanyTradeRegisterNumber('FN 00000 n');
+$companyInfo->setCompanyRegisterKey('2112322');
 
 // ### Transaction
 
 // The Payolution B2B transaction holds all transaction relevant data for the reserve process.
-$transaction = new PayolutionB2BTransaction();
+$transaction = new PayolutionBtwobTransaction();
 $transaction->setNotificationUrl($notificationUrl);
 $transaction->setAmount($amount);
 $transaction->setOrderNumber($orderNumber);
