@@ -1,5 +1,5 @@
 <?php
-// # iDEAL notification
+// # Pay By Bank App notification
 
 // Wirecard sends a server-to-server request regarding any changes in the transaction status.
 

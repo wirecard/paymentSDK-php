@@ -39,7 +39,7 @@ $response = $transactionService->pay($transaction);
 
 // ## Response handling
 // The response from the service can be used for disambiguation.
-// Since a redirect for successful transactions is defined, a FormInteractionResponse is returned
+// Since a redirect for successful transactions is defined, a InteractionResponse is returned
 // if the transaction was successful.
 if ($response instanceof InteractionResponse) {
         die("<meta http-equiv='refresh' content='0;url={$response->getRedirectUrl()}'>");
