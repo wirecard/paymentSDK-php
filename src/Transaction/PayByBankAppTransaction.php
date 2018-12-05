@@ -244,7 +244,8 @@ class PayByBankAppTransaction extends Transaction
         }
 
         if (null !== $this->merchantReturnString) {
-            $result['custom-fields']['custom-field'][] = $this->mapField('MerchantRtnStrng', $this->merchantReturnString);
+            $result['custom-fields']['custom-field'][] =
+                $this->mapField('MerchantRtnStrng', $this->merchantReturnString);
         }
         if (null !== $this->transactionType) {
             $result['custom-fields']['custom-field'][] = $this->mapField('TxType', $this->transactionType);
