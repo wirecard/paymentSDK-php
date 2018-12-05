@@ -239,7 +239,7 @@ class PayByBankAppTransaction extends Transaction
         if (null !== $this->deviceOperatingSystem) {
             $device['operating-system'] = $this->deviceOperatingSystem;
         }
-        if(count($device) > 0) {
+        if (count($device) > 0) {
             $result['device'] = $device;
         }
 
@@ -302,5 +302,4 @@ class PayByBankAppTransaction extends Transaction
 
         return Transaction::TYPE_REFUND_REQUEST;
     }
-
 }
