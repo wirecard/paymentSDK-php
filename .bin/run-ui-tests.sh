@@ -33,4 +33,4 @@ fi
 
 #run tests
 
-vendor/bin/codecept run acceptance -g ${GROUP} --steps -v --html
+vendor/bin/codecept run acceptance -g ${GROUP} --html

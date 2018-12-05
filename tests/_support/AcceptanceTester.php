@@ -26,7 +26,7 @@ use Page\Base;
 use Page\CreditCardCreateUI as CreditCardCreateUIPage;
 use Page\CreditCardReserve as CreditCardReservePage;
 use Page\CreditCardSuccess as CreditCardSuccessPage;
-use Page\VerifiedByVisa as VerifiedByVisaPage;
+use Page\Verified as VerifiedPage;
 use Page\CreditCardCancel as CreditCardCancelPage;
 use Page\SimulatorPage as SimulatorPage;
 
@@ -59,8 +59,8 @@ class AcceptanceTester extends \Codeception\Actor
                 $page = new CreditCardSuccessPage($this);
                 $this->wait(5);
                 break;
-            case "Verified by Visa Page":
-                $page = new VerifiedByVisaPage($this);
+            case "Verified Page":
+                $page = new VerifiedPage($this);
                 $this->wait(5);
                 break;
             case "Credit Card Cancel Page":
@@ -72,6 +72,29 @@ class AcceptanceTester extends \Codeception\Actor
                 break;
         }
         return $page;
+    }
+
+    /**
+     * Method getPageElement
+     *
+     * @param string $elementName
+     * @return string
+     */
+    private function getPageElement($elementName)
+    {
+        //Takes the required element by it's name from required page
+        return $this->currentPage->getElement($elementName);
+    }
+
+    /**
+     * Method getPageSpecific
+     *
+     * @return string
+     */
+    private function getPageSpecific()
+    {
+        //Returns pageSpecific property of the page
+        return $this->currentPage->getPageSpecific();
     }
 
     /**
@@ -92,6 +115,8 @@ class AcceptanceTester extends \Codeception\Actor
     {
         // Initialize required pageObject WITHOUT checking URL
         $this->currentPage = $this->selectPage($page);
+        // Check only specific keyword that page URL should contain
+        $this->seeInCurrentUrl($this->getPageSpecific());
     }
 
     /**
@@ -101,12 +126,6 @@ class AcceptanceTester extends \Codeception\Actor
     {
         $this->waitForElementVisible($this->getPageElement($element));
         $this->seeElement($this->getPageElement($element));
-    }
-
-    private function getPageElement($elementName)
-    {
-        //Takes the required element by it's name from required page
-        return $this->currentPage->getElement($elementName);
     }
 
     /**
