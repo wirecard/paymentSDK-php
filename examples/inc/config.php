@@ -25,6 +25,7 @@ use Wirecard\PaymentSdk\Transaction\PoiPiaTransaction;
 use Wirecard\PaymentSdk\Transaction\PtwentyfourTransaction;
 use Wirecard\PaymentSdk\Transaction\CreditCardMotoTransaction;
 use Wirecard\PaymentSdk\Transaction\UpopTransaction;
+use Wirecard\PaymentSdk\Transaction\PayByBankAppTransaction;
 
 // ## Connection
 
@@ -179,3 +180,10 @@ $upopMAID = 'a908b093-382c-4de9-b26a-624802850216';
 $upopSecret = 'b2f8ffd2-7866-44ed-a858-f27f13f0bd77';
 $upopConfig = new PaymentMethodConfig(UpopTransaction::NAME, $upopMAID, $upopSecret);
 $config->add($upopConfig);
+
+// ### Pay By Bank App
+
+$pbbaMAID = '70055b24-38f1-4500-a3a8-afac4b1e3249';
+$pbbaSecret = '	4a4396df-f78c-44b9-b8a0-b72b108ac465';
+$pbbaConfig = new PaymentMethodConfig(PayByBankAppTransaction::NAME, $pbbaMAID, $pbbaSecret);
+$config->add($pbbaConfig);
