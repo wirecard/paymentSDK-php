@@ -22,7 +22,15 @@ use Wirecard\PaymentSdk\TransactionService;
 // ### Transaction related objects
 
 // Create a amount object as amount which has to be paid by the consumer.
-$amount = new Amount(70.00, 'EUR');
+//$amount = new Amount(25.00, 'EUR');
+
+$gatewayEnvForAmount = getenv('GATEWAY');
+
+if ('TEST-SG' == $gatewayEnvForAmount || 'SECURE-TEST-SG' == $gatewayEnvForAmount) {
+    $amount = new Amount($_POST['amount'], 'EUR');
+} else {
+    $amount = new Amount($_POST['amount'], 'EUR');
+}
 
 // Otherwise if a token was defined when submitting the credit card data to Wirecard via the UI, this token is used.
 $tokenId = array_key_exists('tokenId', $_POST) ? $_POST['tokenId'] : null;

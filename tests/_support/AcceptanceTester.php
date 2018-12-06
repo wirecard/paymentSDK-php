@@ -29,6 +29,7 @@ use Page\CreditCardSuccess as CreditCardSuccessPage;
 use Page\Verified as VerifiedPage;
 use Page\CreditCardCancel as CreditCardCancelPage;
 use Page\SimulatorPage as SimulatorPage;
+use Page\CreditCardSuccessNon3D as CreditCardSuccessNon3DPage;
 
 class AcceptanceTester extends \Codeception\Actor
 {
@@ -69,6 +70,10 @@ class AcceptanceTester extends \Codeception\Actor
             case "SimulatorPage":
                 $page = new SimulatorPage($this);
                 $this->wait(2);
+                break;
+            case "Credit Card Success Page Non 3D Page":
+                $page = new CreditCardSuccessNon3DPage($this);
+                $this->wait(5);
                 break;
         }
         return $page;
