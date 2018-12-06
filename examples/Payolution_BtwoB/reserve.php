@@ -1,5 +1,5 @@
 <?php
-// # Payolution invoice reserve transaction
+// # Payolution B2B reserve transaction
 
 // This example displays the usage of reserve method for payment method Payolution invoice.
 
@@ -22,6 +22,8 @@ use Wirecard\PaymentSdk\Entity\Address;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\CompanyInfo;
 
+// ## Collect data
+
 // ### Transaction related objects
 
 // Use the amount object as amount which has to be paid by the consumer.
@@ -33,24 +35,26 @@ $notificationUrl = getUrl('notify.php');
 // The order number
 $orderNumber = '180703111134838';
 
-// Account holder with address
+// ### Account holder with address
+
+// Note: birthdate is not required for B2B
 $accountHolder = new AccountHolder();
 $accountHolder->setFirstName('John');
 $accountHolder->setLastName('Doe');
-$accountHolder->setEmail('support5258@wirecard.at');
-$accountHolder->setPhone('+49891234567');
+$accountHolder->setEmail('support4558@wirecard.at');
+$accountHolder->setPhone('+180629103914690');
 
 $address = new Address('DE', 'Traumstadt', 'Nicht versenden Strasse 42');
 $address->setPostalCode('12345');
 $accountHolder->setAddress($address);
 
-// companyInfo with at least the company name, other info are optionally
+// ### companyInfo with at least the company name, other info are optionally
 $companyInfo = new CompanyInfo('Company Name Inc.');
 $companyInfo->setCompanyUid('ATU000000');
 $companyInfo->setCompanyTradeRegisterNumber('FN 00000 n');
 $companyInfo->setCompanyRegisterKey('2112322');
 
-// ### Transaction
+// ## Transaction
 
 // The Payolution B2B transaction holds all transaction relevant data for the reserve process.
 $transaction = new PayolutionBtwobTransaction();
@@ -60,7 +64,7 @@ $transaction->setOrderNumber($orderNumber);
 $transaction->setAccountHolder($accountHolder);
 $transaction->setCompanyInfo($companyInfo);
 
-// ### Transaction Service
+// ## Perform the call using _Transaction Service_
 
 // The service is used to execute the reserve operation itself. A response object is returned.
 $transactionService = new TransactionService($config);

@@ -39,9 +39,12 @@ use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 * Class PayolutionBtwobTransaction
 * @package Wirecard\PaymentSdk\Transaction
 */
-class PayolutionBtwobTransaction extends CustomFieldTransaction implements Reservable
+class  	PayolutionBtwobTransaction extends CustomFieldTransaction implements Reservable
 {
     const NAME = 'payolution-b2b';
+
+    /** @var CompanyInfo */
+    protected $companyInfo;
 
     /**
      * @throws MandatoryFieldMissingException|UnsupportedOperationException
@@ -50,8 +53,20 @@ class PayolutionBtwobTransaction extends CustomFieldTransaction implements Reser
     protected function mappedSpecificProperties()
     {
         $result = [
-            'order-number' => $this->orderNumber,
+            'order-number'  => $this->orderNumber
         ];
+
+        if (null !== $this->companyInfo) {
+            $map = [
+                'company-name' => $this->companyInfo->getCompanyName(),
+                'company-uid' => $this->companyInfo->getCompanyUid(),
+                'company-trade-register-number' => $this->companyInfo->getCompanyTradeRegisterNumber(),
+                'company-register-key' => $this->companyInfo->getCompanyRegisterKey(),
+            ];
+            foreach ($map as $fieldName => $fieldValue) {
+                $this->setRawCustomField($fieldName, $fieldValue);
+            }
+        };
 
         return $result;
     }
@@ -114,9 +129,6 @@ class PayolutionBtwobTransaction extends CustomFieldTransaction implements Reser
      */
     public function setCompanyInfo($companyInfo)
     {
-        $this->setRawCustomField('company-name', $companyInfo->getCompanyName());
-        $this->setRawCustomField('company-uid', $companyInfo->getCompanyUid());
-        $this->setRawCustomField('company-trade-register-number', $companyInfo->getCompanyTradeRegisterNumber());
-        $this->setRawCustomField('company-register-key', $companyInfo->getCompanyRegisterKey());
+        $this->companyInfo = $companyInfo;
     }
 }

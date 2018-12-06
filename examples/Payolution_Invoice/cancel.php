@@ -27,7 +27,7 @@ if (!isset($_POST['parentTransactionId'])) {
         </div>
         <button type="submit" class="btn btn-primary">Cancel</button>
     </form>
-<?php
+    <?php
 } else {
 // ### Transaction related objects
 
@@ -36,7 +36,7 @@ if (!isset($_POST['parentTransactionId'])) {
     $amount = new Amount(500, 'EUR');
 
 // The order number
-    $orderNumber = '180629103914689';
+    $orderNumber = '1806291039146';
 
 // ## Transaction
     $transaction = new PayolutionInvoiceTransaction();
@@ -50,18 +50,19 @@ if (!isset($_POST['parentTransactionId'])) {
     $transactionService = new TransactionService($config);
     $response = $transactionService->cancel($transaction);
 
-
 // ## Response handling
 
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
+
     if ($response instanceof SuccessResponse) {
         echo 'Payment successfully cancelled.<br>';
         echo getTransactionLink($baseUrl, $response);
 // In case of a failed transaction, a `FailureResponse` object is returned.
     } elseif ($response instanceof FailureResponse) {
-        // In our example we iterate over all errors and echo them out.
-        // You should display them as error, warning or information based on the given severity.
+// In our example we iterate over all errors and echo them out.
+// You should display them as error, warning or information based on the given severity.
+
         foreach ($response->getStatusCollection() as $status) {
             /**
              * @var $status \Wirecard\PaymentSdk\Entity\Status

@@ -231,8 +231,11 @@ class PayolutionBtwobTransactionUTest extends \PHPUnit_Framework_TestCase
         $companyInfo->setCompanyUid('utestUid');
         $companyInfo->setCompanyTradeRegisterNumber('utestTRN');
         $companyInfo->setCompanyRegisterKey('utestRegisterKey');
-
         $this->tx->setCompanyInfo($companyInfo);
+
+        // force takeover companyInfo into customfields on mappedProperties
+        $this->tx->setOperation(Operation::RESERVE);
+        $this->tx->mappedProperties();
 
         $customFields = $this->tx->getCustomFields();
         $this->assertEquals(4, $customFields->getIterator()->count());
