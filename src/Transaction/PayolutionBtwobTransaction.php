@@ -39,7 +39,7 @@ use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 * Class PayolutionBtwobTransaction
 * @package Wirecard\PaymentSdk\Transaction
 */
-class  	PayolutionBtwobTransaction extends CustomFieldTransaction implements Reservable
+class PayolutionBtwobTransaction extends CustomFieldTransaction implements Reservable
 {
     const NAME = 'payolution-b2b';
 
