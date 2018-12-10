@@ -7,6 +7,7 @@ Feature: check_credit_card_Non_3DS_functionality_happy_path
   Background:
     Given I am on "Create Credit Card UI Page" page
     When I fill fields with "Valid Credit Card Data"
+    And I enter "25" in field "Amount"
     And I click "Save"
 
   Scenario: try purchase_check
@@ -14,7 +15,7 @@ Feature: check_credit_card_Non_3DS_functionality_happy_path
     Then I see text "Reservation successfully completed."
     And I see text "Transaction ID"
 
-  Scenario: try refund_check
+  Scenario: try void_purchase_check
     Given I am redirected to "Credit Card Success Page Non 3D Page" page
     And I see text "Transaction ID"
     And I note the "Transaction Identification"

@@ -182,7 +182,7 @@ $transaction->setCustomFields( $custom_fields );
         ?>
         <div id="creditcard-form-div"></div>
         <div class="col-sm-12 sm-20" style="margin: 0; padding: 0;">
-            <label data-i18n="card_number">Amount</label>
+            <label data-i18n="amount">Amount</label>
             <small data-i18n="optional" class="pull-right">Mandatory</small>
             <div class="form-group has-feedback">
                 <input type="number" class="form-control ee-request-nvp" id="amount" name="amount" placeholder="Amount"><i class="form-control-feedback fv-icon-no-label" data-fv-icon-for="amount" style="display: none;"></i>
