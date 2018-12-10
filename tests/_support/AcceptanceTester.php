@@ -144,16 +144,6 @@ class AcceptanceTester extends \Codeception\Actor
     }
 
     /**
-     * @When I enter :fieldValue in field :fieldID
-     */
-    public function andIEnterInField($fieldValue, $fieldID)
-    {
-        $this->waitForElementVisible($this->getPageElement($fieldID));
-        $fieldValueDefined = $this->currentPage->prepareDataForField($fieldValue, $this->valueToKeepBetweenSteps);
-        $this->fillField($this->getPageElement($fieldID), $fieldValueDefined);
-    }
-
-    /**
      * @When I choose :fieldValue in field :fieldID
      */
     public function iChooseInField($fieldValue, $fieldID)
