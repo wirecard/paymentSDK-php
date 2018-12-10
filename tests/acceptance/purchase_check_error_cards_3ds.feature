@@ -6,6 +6,7 @@ Feature: check_credit_card_3DS_functionality_error_cards
   Scenario Outline: purchase_error_case
     Given I am on "Create Credit Card UI Page" page
     When I fill fields with <credit_card_data>
+    And I enter "70" in field "Amount"
     And I click "Save"
     Then I am redirected to "Credit Card Reserve Page" page
     And I click "Redirect to 3-D Secure page"

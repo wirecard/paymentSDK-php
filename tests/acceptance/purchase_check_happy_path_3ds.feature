@@ -7,6 +7,7 @@ Feature: check_credit_card_3DS_functionality_happy_path
   Background:
     Given I am on "Create Credit Card UI Page" page
     When I fill fields with "Valid Credit Card Data"
+    And I enter "70" in field "Amount"
     And I click "Save"
 
   @default_gateway
