@@ -8,6 +8,7 @@ require __DIR__ . '/../inc/config.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Entity\Device;
 use Wirecard\PaymentSdk\Entity\CustomField;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -19,8 +20,11 @@ $amount = new Amount(1.23, 'GBP');
 
 $transaction = new PayByBankAppTransaction();
 $transaction->setAmount($amount);
-$transaction->setDeviceType("pc");
-$transaction->setDeviceOperatingSystem("windows");
+
+$device = new Device();
+$device->setType("pc");
+$device->setOperatingSystem("windows");
+$transaction->setDevice($device);
 
 $customFields = new CustomFieldCollection();
 $transaction->setCustomFields($customFields);
@@ -41,6 +45,7 @@ $transaction->setRedirect($redirectUrls);
 
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
 $notificationUrl = getUrl('notify.php');
+//$notificationUrl = getUrl('http://pbba-test.manesit.eu/PayByBankApp/notify.php');
 
 $transaction->setNotificationUrl($notificationUrl);
 

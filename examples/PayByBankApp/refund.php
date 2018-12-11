@@ -15,6 +15,7 @@ require __DIR__ . '/../inc/header.php';
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\CustomField;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
+use Wirecard\PaymentSdk\Entity\Device;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\PayByBankAppTransaction;
@@ -34,11 +35,11 @@ if (!isset($_POST['parentTransactionId'])) {
 // ## Transaction
     $transaction = new PayByBankAppTransaction();
     $transaction->setParentTransactionId($_POST['parentTransactionId']);
-    $transaction->setDeviceType("pc");
-    $transaction->setDeviceOperatingSystem("windows");
-    $transaction->setBrowserUserAgent($_SERVER['HTTP_USER_AGENT'].'');
-    $transaction->setBrowserTimezone('+01:00');
-    $transaction->setBrowserScreenResolution('1280x1024');
+
+    $device = new Device();
+    $device->setType("pc");
+    $device->setOperatingSystem("windows");
+    $transaction->setDevice($device);
 
     $accountHolder = new AccountHolder();
     $accountHolder->setLastName('Doe');
