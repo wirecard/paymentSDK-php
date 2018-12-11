@@ -36,13 +36,12 @@ $customFields->add(addCustomField('zapp.in.TxType', 'PAYMT'));
 $customFields->add(addCustomField('zapp.in.DeliveryType', 'DELTAD'));
 
 // The redirect URLs determine where the consumer should be redirected by iDEAL after approval/cancellation.
-//$redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
-$redirectUrls = new Redirect('http://pbba-test.manesit.eu/PayByBankApp/return.php?status=success', 'http://pbba-test.manesit.eu/return.php?status=cancel');
+$redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
+//$redirectUrls = new Redirect('http://pbba-test.manesit.eu/PayByBankApp/return.php?status=success', 'http://pbba-test.manesit.eu/return.php?status=cancel');
 $transaction->setRedirect($redirectUrls);
 
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
-//$notificationUrl = getUrl('notify.php');
-$notificationUrl = getUrl('http://pbba-test.manesit.eu/PayByBankApp/notify.php');
+$notificationUrl = getUrl('notify.php');
 
 $transaction->setNotificationUrl($notificationUrl);
 
