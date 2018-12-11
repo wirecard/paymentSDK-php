@@ -41,8 +41,8 @@ We also provide some examples for using the PaymentSDK, which can be found [here
 - Masterpass
 - Payment in Advance
 - Payment on Invoice
-- payolution Invoice B2C
-- payolution Invoice B2B
+- Payment on Invoice (Payolution B2C)
+- Payment on Invoice (Payolution B2B)
 - PayPal
 - paysafecard
 - Przelewy24
