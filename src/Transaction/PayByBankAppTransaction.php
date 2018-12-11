@@ -122,73 +122,6 @@ class PayByBankAppTransaction extends Transaction
     }
 
     /**
-     * @param string $merchantReturnString
-     * @return PayByBankAppTransaction
-     */
-    public function setMerchantReturnString($merchantReturnString)
-    {
-        $this->merchantReturnString = $merchantReturnString;
-        return $this;
-    }
-
-    /**
-     * @param string $transactionType
-     * @return PayByBankAppTransaction
-     */
-    public function setTransactionType($transactionType)
-    {
-        $this->transactionType = $transactionType;
-        return $this;
-    }
-
-    /**
-     * @param string $deliveryType
-     * @return PayByBankAppTransaction
-     */
-    public function setDeliveryType($deliveryType)
-    {
-        $this->deliveryType = $deliveryType;
-        return $this;
-    }
-
-    /**
-     * @param string $refundReasonType
-     * @return PayByBankAppTransaction
-     */
-    public function setRefundReasonType($refundReasonType)
-    {
-        $this->refundReasonType = $refundReasonType;
-        return $this;
-    }
-     /**
-     * @param string $refundMethod
-     * @return PayByBankAppTransaction
-     */
-    public function setRefundMethod($refundMethod)
-    {
-        $this->refundMethod = $refundMethod;
-        return $this;
-    }
-     /**
-     * @param string $merchantRefundRef
-     * @return PayByBankAppTransaction
-     */
-    public function setMerchantRefundRef($merchantRefundRef)
-    {
-        $this->merchantRefundRef = $merchantRefundRef;
-        return $this;
-    }
-     /**
-     * @param string $caseRefId
-     * @return PayByBankAppTransaction
-     */
-    public function setCaseRefId($caseRefId)
-    {
-        $this->caseRefId = $caseRefId;
-        return $this;
-    }
-
-    /**
      * @param string $pcid
      * @return PayByBankAppTransaction
      */
@@ -197,6 +130,7 @@ class PayByBankAppTransaction extends Transaction
         $this->pcid = $pcid;
         return $this;
     }
+
     /**
      * @param string $browserUserAgent
      * @return PayByBankAppTransaction
@@ -206,6 +140,7 @@ class PayByBankAppTransaction extends Transaction
         $this->browserUserAgent = $browserUserAgent;
         return $this;
     }
+
     /**
      * @param string $browserTimezone
      * @return PayByBankAppTransaction
@@ -215,6 +150,7 @@ class PayByBankAppTransaction extends Transaction
         $this->browserTimezone = $browserTimezone;
         return $this;
     }
+
     /**
      * @param string $caseRefId
      * @return PayByBankAppTransaction
@@ -230,7 +166,7 @@ class PayByBankAppTransaction extends Transaction
      */
     protected function mappedSpecificProperties()
     {
-        $result = ['custom-fields' => ['custom-field' => []]];
+        $result = array();
 
         $device = array();
         if (null !== $this->deviceType) {
@@ -241,30 +177,6 @@ class PayByBankAppTransaction extends Transaction
         }
         if (count($device) > 0) {
             $result['device'] = $device;
-        }
-
-        if (null !== $this->merchantReturnString) {
-            $result['custom-fields']['custom-field'][] =
-                $this->mapField('MerchantRtnStrng', $this->merchantReturnString);
-        }
-        if (null !== $this->transactionType) {
-            $result['custom-fields']['custom-field'][] = $this->mapField('TxType', $this->transactionType);
-        }
-        if (null !== $this->deliveryType) {
-            $result['custom-fields']['custom-field'][] = $this->mapField('DeliveryType', $this->deliveryType);
-        }
-
-        if (null !== $this->refundReasonType) {
-            $result['custom-fields']['custom-field'][] = $this->mapField('RefundReasonType', $this->refundReasonType);
-        }
-        if (null !== $this->refundMethod) {
-            $result['custom-fields']['custom-field'][] = $this->mapField('RefundMethod', $this->refundMethod);
-        }
-        if (null !== $this->merchantRefundRef) {
-            $result['custom-fields']['custom-field'][] = $this->mapField('MerchantRefundRef', $this->merchantRefundRef);
-        }
-        if (null !== $this->caseRefId) {
-            $result['custom-fields']['custom-field'][] = $this->mapField('CaseRefId', $this->caseRefId);
         }
 
         if (null !== $this->browserUserAgent) {
@@ -280,14 +192,6 @@ class PayByBankAppTransaction extends Transaction
         }
 
         return $result;
-    }
-
-    private function mapField($name, $value)
-    {
-        return  [
-                'field-name' => 'zapp.in.' . $name,
-                'field-value' => $value
-            ];
     }
 
     protected function retrieveTransactionTypeForPay()

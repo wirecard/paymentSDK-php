@@ -13,7 +13,8 @@ require __DIR__ . '/../inc/config.php';
 require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\AccountHolder;
-use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Entity\CustomField;
+use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\PayByBankAppTransaction;
@@ -42,8 +43,18 @@ if (!isset($_POST['parentTransactionId'])) {
     $accountHolder = new AccountHolder();
     $accountHolder->setLastName('Doe');
     $transaction->setAccountHolder($accountHolder);
-    $transaction->setRefundReasonType("LATECONFIRMATION");
-    $transaction->setRefundMethod("BACS");
+
+    $customFields = new CustomFieldCollection();
+    $transaction->setCustomFields($customFields);
+
+    function addCustomField($key, $value) {
+        $customField = new CustomField($key, $value);
+        $customField->setPrefix("");
+        return $customField;
+    }
+
+    $customFields->add(addCustomField('zapp.in.RefundReasonType', 'LATECONFIRMATION'));
+    $customFields->add(addCustomField('zapp.in.RefundMethod', 'BACS'));
 
 // ### Transaction Service
 
