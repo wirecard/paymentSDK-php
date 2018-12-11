@@ -87,7 +87,7 @@ class CustomField implements MappableEntity
      */
     public function getPrefix()
     {
-        return $this->name;
+        return $this->prefix;
     }
 
     /**
