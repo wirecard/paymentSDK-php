@@ -63,7 +63,7 @@ class CompanyInfo
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getCompanyName()
     {

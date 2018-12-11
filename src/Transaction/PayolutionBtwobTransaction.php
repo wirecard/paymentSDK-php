@@ -56,7 +56,7 @@ class PayolutionBtwobTransaction extends CustomFieldTransaction implements Reser
             'order-number'  => $this->orderNumber
         ];
 
-        if (null !== $this->companyInfo) {
+        if ($this->companyInfo instanceof CompanyInfo) {
             $map = [
                 'company-name' => $this->companyInfo->getCompanyName(),
                 'company-uid' => $this->companyInfo->getCompanyUid(),
@@ -65,6 +65,9 @@ class PayolutionBtwobTransaction extends CustomFieldTransaction implements Reser
             ];
             foreach ($map as $fieldName => $fieldValue) {
                 $this->setRawCustomField($fieldName, $fieldValue);
+            }
+            if (null !== $this->customFields) {
+                $result['custom-fields'] = $this->customFields->mappedProperties();
             }
         };
 
