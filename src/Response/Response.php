@@ -405,7 +405,10 @@ abstract class Response
             /** @var SimpleXMLElement $field */
             foreach ($this->simpleXml->{'custom-fields'}->children() as $field) {
                 if (isset($field->attributes()->{'field-name'}) && isset($field->attributes()->{'field-value'})) {
-                    $name = substr((string)$field->attributes()->{'field-name'}, strlen(CustomField::PREFIX));
+                    $name = (string)$field->attributes()->{'field-name'};
+                    if (strpos($name, CustomField::DEFAULT_PREFIX) === 0) {
+                        $name = substr($name, strlen(CustomField::DEFAULT_PREFIX));
+                    }
                     $value = (string)$field->attributes()->{'field-value'};
                     $customFieldCollection->add(new CustomField($name, $value));
                 }

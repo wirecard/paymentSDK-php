@@ -44,6 +44,17 @@ class Device implements MappableEntity
      */
     private $fingerprint;
 
+
+    /**
+     * @var string
+     */
+    private $type;
+
+    /**
+     * @var string
+     */
+    private $operatingSystem;
+
     /**
      * @return string
      */
@@ -61,6 +72,38 @@ class Device implements MappableEntity
     }
 
     /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOperatingSystem()
+    {
+        return $this->operatingSystem;
+    }
+
+    /**
+     * @param string $operatingSystem
+     */
+    public function setOperatingSystem($operatingSystem)
+    {
+        $this->operatingSystem = $operatingSystem;
+    }
+
+    /**
      * @return array
      */
     public function mappedProperties()
@@ -71,6 +114,13 @@ class Device implements MappableEntity
             $result['fingerprint'] = $this->fingerprint;
         }
 
+        if (!is_null($this->type)) {
+            $result['type'] = $this->type;
+        }
+
+        if (!is_null($this->operatingSystem)) {
+            $result['operating-system'] = $this->operatingSystem;
+        }
         return $result;
     }
 }
