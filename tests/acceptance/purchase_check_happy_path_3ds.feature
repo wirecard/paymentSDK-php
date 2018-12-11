@@ -8,6 +8,7 @@ Feature: check_credit_card_3DS_functionality_happy_path
     Given I am on "Create Credit Card UI Page" page
     When I fill fields with "Valid Credit Card Data"
     And I enter "70" in field "Amount"
+    And I choose "EUR" in field "Currency"
     And I click "Save"
 
   @default_gateway

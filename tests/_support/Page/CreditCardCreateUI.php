@@ -22,6 +22,7 @@ class CreditCardCreateUI extends Base
         'Valid until month' => "//*[@id='expiration_month_list']",
         'Valid until year' => "//*[@id='expiration_year_list']",
         'Amount' => "//*[@id='amount']",
+        'Currency' => "//*[@id='currency']",
         'Save' => "//*[@class='btn btn-primary']",
         'Credit Card payment form' => "//*[@id='payment-form']"
     );
