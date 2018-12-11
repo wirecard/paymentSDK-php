@@ -39,7 +39,7 @@ class CustomFieldUTest extends \PHPUnit_Framework_TestCase
     {
         $customField = new CustomField('special1', 'hihihi');
         $expected = [
-            'field-name' => CustomField::PREFIX. 'special1',
+            'field-name' => CustomField::DEFAULT_PREFIX. 'special1',
             'field-value' => 'hihihi'
         ];
 

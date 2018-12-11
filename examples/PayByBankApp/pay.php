@@ -8,6 +8,9 @@ require __DIR__ . '/../inc/config.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Entity\Device;
+use Wirecard\PaymentSdk\Entity\CustomField;
+use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Transaction\PayByBankAppTransaction;
@@ -17,15 +20,26 @@ $amount = new Amount(1.23, 'GBP');
 
 $transaction = new PayByBankAppTransaction();
 $transaction->setAmount($amount);
-$transaction->setDeviceType("pc");
-$transaction->setDeviceOperatingSystem("windows");
 
-$transaction->setMerchantReturnString('123');
-$transaction->setTransactionType('PAYMT');
-$transaction->setDeliveryType('DELTAD');
+$device = new Device();
+$device->setType("pc");
+$device->setOperatingSystem("windows");
+$transaction->setDevice($device);
 
+$customFields = new CustomFieldCollection();
+$transaction->setCustomFields($customFields);
 
-// The redirect URLs determine where the consumer should be redirected by iDEAL after approval/cancellation.
+function addCustomField($key, $value) {
+    $customField = new CustomField($key, $value);
+    $customField->setPrefix("");
+    return $customField;
+}
+
+$customFields->add(addCustomField('zapp.in.MerchantRtnStrng', '123'));
+$customFields->add(addCustomField('zapp.in.TxType', 'PAYMT'));
+$customFields->add(addCustomField('zapp.in.DeliveryType', 'DELTAD'));
+
+// The redirect URLs determine where the consumer should be redirected after approval/cancellation.
 $redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
 $transaction->setRedirect($redirectUrls);
 

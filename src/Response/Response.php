@@ -448,9 +448,9 @@ abstract class Response
         $prefix = '';
 
         if (!empty($rawName)) {
-            if (substr($rawName, 0, strlen(CustomField::PREFIX)) === CustomField::PREFIX) {
-                $normalizedName = substr($rawName, strlen(CustomField::PREFIX));
-                $prefix = CustomField::PREFIX;
+            if (strpos($rawName, CustomField::DEFAULT_PREFIX) === 0) {
+                $normalizedName = substr($rawName, strlen(CustomField::DEFAULT_PREFIX));
+                $prefix = CustomField::DEFAULT_PREFIX;
             } else {
                 $normalizedName = $rawName;
             }

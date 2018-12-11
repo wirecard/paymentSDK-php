@@ -21,7 +21,7 @@ Feature: check_credit_card_3DS_functionality_happy_path
     And I see text "Transaction ID"
 
   @default_gateway
-  Scenario: try refund_check
+  Scenario: try void_purchase_check
     Given I am redirected to "Credit Card Reserve Page" page
     And I click "Redirect to 3-D Secure page"
     And I am redirected to "Verified Page" page
@@ -47,7 +47,7 @@ Feature: check_credit_card_3DS_functionality_happy_path
     And I see text "Transaction ID"
 
   @sg_gateway
-  Scenario: try refund_check
+  Scenario: try void_purchase_check
     Given I am redirected to "Credit Card Reserve Page" page
     And I click "Redirect to 3-D Secure page"
     And I am redirected to "SimulatorPage" page
