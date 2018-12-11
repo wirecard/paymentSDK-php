@@ -45,7 +45,6 @@ $transaction->setRedirect($redirectUrls);
 
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
 $notificationUrl = getUrl('notify.php');
-//$notificationUrl = getUrl('http://pbba-test.manesit.eu/PayByBankApp/notify.php');
 
 $transaction->setNotificationUrl($notificationUrl);
 
