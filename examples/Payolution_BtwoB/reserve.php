@@ -79,11 +79,11 @@ if ($response instanceof SuccessResponse) {
     ?>
     <form action="pay-based-on-reserve.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <button type="submit" class="btn btn-primary">Capture the reservation</button>
+        <button type="submit" class="btn btn-primary">Capture</button>
     </form>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <button type="submit" class="btn btn-primary">Cancel the reservation</button>
+        <button type="submit" class="btn btn-primary">Cancel</button>
     </form>
     <?php
 // The failure state is represented by a FailureResponse object.

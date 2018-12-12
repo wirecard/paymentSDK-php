@@ -65,7 +65,7 @@ if (!isset($_POST['parentTransactionId'])) {
         <form action="refund.php" method="post">
             <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
             <input type="hidden" name="transaction-type" value="<?= $response->getTransactionType() ?>"/>
-            <button type="submit" class="btn btn-primary">Refund the capture</button>
+            <button type="submit" class="btn btn-primary">Refund</button>
         </form>
         <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.

@@ -66,7 +66,7 @@ if (!isset($_POST['parentTransactionId'])) {
         <br>
         <form action="refund.php" method="post">
             <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-            <button type="submit" class="btn btn-primary">Refund the payment</button>
+            <button type="submit" class="btn btn-primary">Refund</button>
         </form>
         <?php
 
