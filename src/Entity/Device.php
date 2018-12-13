@@ -131,9 +131,9 @@ class Device implements MappableEntity
 
         if ($parser->isType('mobile')) {
             $this->setType('mobile');
-        } else if ($parser->isType('tablet')) {
+        } elseif ($parser->isType('tablet')) {
             $this->setType('tablet');
-        } else if ($parser->isType('desktop')) {
+        } elseif ($parser->isType('desktop')) {
             $this->setType('pc');
         } else {
             $this->setType('other');
@@ -141,11 +141,11 @@ class Device implements MappableEntity
 
         if ($parser->isOs('Android')) {
             $this->setOperatingSystem('android');
-        } else if ($parser->isOs('iOS')) {
+        } elseif ($parser->isOs('iOS')) {
             $this->setOperatingSystem('ios');
-        } else if ($parser->isOs('Windows')) {
+        } elseif ($parser->isOs('Windows')) {
             $this->setOperatingSystem('windows');
-        } else if ($parser->isOs('Windows Phone')) {
+        } elseif ($parser->isOs('Windows Phone')) {
             $this->setOperatingSystem('windows-mobile');
         } else {
             $this->setOperatingSystem('other');
