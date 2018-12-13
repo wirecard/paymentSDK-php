@@ -31,6 +31,8 @@
 
 namespace Wirecard\PaymentSdk\Entity;
 
+use WhichBrowser;
+
 /**
  * Class Device
  * @package Wirecard\PaymentSdk\Entity
@@ -101,6 +103,53 @@ class Device implements MappableEntity
     public function setOperatingSystem($operatingSystem)
     {
         $this->operatingSystem = $operatingSystem;
+    }
+
+    /**
+     * Device constructor.
+     * @param null $userAgentString usually $_SERVER['HTTP_USER_AGENT']
+     */
+    public function __construct($userAgentString = null)
+    {
+        if ($userAgentString) {
+            $this->parseUserAgent($userAgentString);
+        }
+    }
+
+    /**
+     * parse and map device type and os from user agent string
+     *
+     * @param $userAgentString
+     */
+    protected function parseUserAgent($userAgentString)
+    {
+        $parser = new WhichBrowser\Parser($userAgentString);
+
+        if (!$parser->isDetected()) {
+            return;
+        }
+
+        if ($parser->isType('mobile')) {
+            $this->setType('mobile');
+        } else if ($parser->isType('tablet')) {
+            $this->setType('tablet');
+        } else if ($parser->isType('desktop')) {
+            $this->setType('pc');
+        } else {
+            $this->setType('other');
+        }
+
+        if ($parser->isOs('Android')) {
+            $this->setOperatingSystem('android');
+        } else if ($parser->isOs('iOS')) {
+            $this->setOperatingSystem('ios');
+        } else if ($parser->isOs('Windows')) {
+            $this->setOperatingSystem('windows');
+        } else if ($parser->isOs('Windows Phone')) {
+            $this->setOperatingSystem('windows-mobile');
+        } else {
+            $this->setOperatingSystem('other');
+        }
     }
 
     /**
