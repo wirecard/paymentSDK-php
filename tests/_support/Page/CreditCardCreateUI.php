@@ -21,6 +21,8 @@ class CreditCardCreateUI extends Base
         'CVV' => "//*[@id='card_security_code']",
         'Valid until month' => "//*[@id='expiration_month_list']",
         'Valid until year' => "//*[@id='expiration_year_list']",
+        'Amount' => "//*[@id='amount']",
+        'Currency' => "//*[@id='currency']",
         'Save' => "//*[@class='btn btn-primary']",
         'Credit Card payment form' => "//*[@id='payment-form']"
     );
@@ -59,6 +61,7 @@ class CreditCardCreateUI extends Base
             $I->fillField($this->getElement("CVV"), $data_field_values->cvv);
             $I->selectOption($this->getElement("Valid until month"), $data_field_values->valid_until_month);
             $I->selectOption($this->getElement("Valid until year"), $data_field_values->valid_until_year);
+            $I->switchToIFrame();
         } else if ('TEST-SG' == $env) {
             $I->fillField($this->getElement("First name"), $data_field_values->first_name);
             $I->fillField($this->getElement("Last name"), $data_field_values->last_name);
@@ -66,12 +69,13 @@ class CreditCardCreateUI extends Base
             $I->fillField($this->getElement("CVV"), $data_field_values->cvv);
             $I->selectOption($this->getElement("Valid until month"), $data_field_values->valid_until_month);
             $I->selectOption($this->getElement("Valid until year"), $data_field_values->valid_until_year);
+            $I->switchToIFrame();
         } else if ('SECURE-TEST-SG' == $env) {
             $I->fillField($this->getElement("Card number"), $data_field_values->card_number);
             $I->fillField($this->getElement("CVV"), $data_field_values->cvv);
             $I->selectOption($this->getElement("Valid until month"), $data_field_values->valid_until_month);
             $I->selectOption($this->getElement("Valid until year"), $data_field_values->valid_until_year);
-
+            $I->switchToIFrame();
         }
     }
 }

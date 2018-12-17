@@ -22,7 +22,14 @@ use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
 $redirectUrl = getUrl('return.php?status=success');
-$amount = new Amount(70.00, 'EUR');
+
+$amount = new Amount(25, 'EUR');
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $postedAmount = $_POST['amount'];
+    $postedCurrency = $_POST['currency'];
+    $amount = new Amount($postedAmount, $postedCurrency);
+}
 $orderNumber = 'A2';
 
 // ### Basket items
@@ -167,6 +174,22 @@ $transaction->setCustomFields( $custom_fields );
         // The javascript library needs a div which it can fill with all credit card related fields.
         ?>
         <div id="creditcard-form-div"></div>
+        <div class="col-sm-6" style="margin: 0; padding: 0;">
+            <label data-i18n="amount">Amount</label>
+            <small data-i18n="optional" class="pull-right">Mandatory</small>
+            <div class="form-group has-feedback">
+                <input type="number" class="form-control ee-request-nvp" id="amount" name="amount" placeholder="Amount"><i class="form-control-feedback fv-icon-no-label" data-fv-icon-for="amount" style="display: none;"></i>
+            </div>
+        </div>
+        <div class="col-sm-6" style="margin-top: 25px;">
+            <div class="form-group has-select-feedback has-feedback">
+                <select id="currency" class="form-control ee-request-nvp" name="currency">
+                    <option value="" data-i18n="month" disabled="true" selected="true">Currency</option>
+                    <option value="SGD">SGD</option>
+                    <option value="EUR">EUR</option>
+                </select>
+            </div>
+        </div>
         <button type="submit" class="btn btn-primary">Save</button>
     </form>
 </div>
