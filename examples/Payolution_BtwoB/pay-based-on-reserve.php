@@ -1,7 +1,7 @@
 <?php
-// # Cancelling a transaction
+// # Payment after a reservation
 
-// To cancel a transaction, a cancel request with the parent transaction is sent.
+// Enter the ID of the successful reserve transaction and start a pay transaction with it.
 
 // ## Required objects
 
@@ -15,40 +15,44 @@ require __DIR__ . '/../inc/header.php';
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\PayolutionInvoiceTransaction;
+use Wirecard\PaymentSdk\Transaction\PayolutionBtwobTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 if (!isset($_POST['parentTransactionId'])) {
     ?>
-    <form action="cancel.php" method="post">
+    <form action="pay-based-on-reserve.php" method="post">
         <div class="form-group">
-            <label for="parentTransactionId">Transaction ID to cancel:</label><br>
+            <label for="parentTransactionId">Transaction ID to capture:</label><br>
             <input id="parentTransactionId" name="parentTransactionId" class="form-control"/><br>
         </div>
-        <button type="submit" class="btn btn-primary">Cancel</button>
+        <button type="submit" class="btn btn-primary">Capture the payment</button>
     </form>
     <?php
 } else {
+// ## Gathering data
+
 // ### Transaction related objects
 
-// Use the amount object as amount which has to be paid by the consumer.
-// For void-authorization only full amount of parent transaction is supported.
-    $amount = new Amount(500, 'EUR');
+//Use the amount object as amount which has to be paid by the consumer.
+    $amount = new Amount(700, 'EUR');
 
-// The order number
-    $orderNumber = '1806291039146';
+// As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
+    $notificationUrl = getUrl('notify.php');
 
 // ## Transaction
-    $transaction = new PayolutionInvoiceTransaction();
-    $transaction->setParentTransactionId($_POST['parentTransactionId']);
-    $transaction->setAmount($amount);
-    $transaction->setOrderNumber($orderNumber);
 
-// ### Transaction Service
+// The Payolution invoice transaction holds all transaction relevant data for the reserve process.
+    $transaction = new PayolutionBtwobTransaction();
+    $transaction->setNotificationUrl($notificationUrl);
+    $transaction->setAmount($amount);
+    $transaction->setParentTransactionId($_POST['parentTransactionId']);
+
+// ## Perform the call using _Transaction Service_
 
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
+
     $transactionService = new TransactionService($config);
-    $response = $transactionService->cancel($transaction);
+    $response = $transactionService->pay($transaction);
 
 // ## Response handling
 
@@ -56,8 +60,16 @@ if (!isset($_POST['parentTransactionId'])) {
 // In case of a successful transaction, a `SuccessResponse` object is returned.
 
     if ($response instanceof SuccessResponse) {
-        echo 'Payment successfully cancelled.<br>';
+        echo 'Payment successfully completed.<br>';
         echo getTransactionLink($baseUrl, $response);
+        ?>
+        <br>
+        <form action="refund.php" method="post">
+            <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+            <button type="submit" class="btn btn-primary">Refund</button>
+        </form>
+        <?php
+
 // In case of a failed transaction, a `FailureResponse` object is returned.
     } elseif ($response instanceof FailureResponse) {
 // In our example we iterate over all errors and echo them out.
@@ -74,5 +86,6 @@ if (!isset($_POST['parentTransactionId'])) {
         }
     }
 }
+
 //Footer design
 require __DIR__ . '/../inc/footer.php';

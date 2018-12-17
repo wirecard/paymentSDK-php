@@ -23,6 +23,7 @@ use Wirecard\PaymentSdk\Transaction\AlipayCrossborderTransaction;
 use Wirecard\PaymentSdk\Transaction\PoiPiaTransaction;
 use Wirecard\PaymentSdk\Transaction\PtwentyfourTransaction;
 use Wirecard\PaymentSdk\Transaction\PayolutionInvoiceTransaction;
+use Wirecard\PaymentSdk\Transaction\PayolutionBtwobTransaction;
 
 // ## Connection
 
@@ -110,9 +111,15 @@ $sofortSecretKey = 'dbc5a498-9a66-43b9-bf1d-a618dd399684';
 $sofortConfig = new PaymentMethodConfig(SofortTransaction::NAME, $sofortMAID, $sofortSecretKey);
 $config->add($sofortConfig);
 
-// ### Payolution
+// ### Payolution Invoice
 
-$payolutionMAID = '2048677d-57f4-44b0-8d67-9014c6631d5f';
-$payolutionSecretKey = '74bd2f0c-6d1b-4e9a-b278-abc34b83ab9f';
-$payolutionConfig = new PaymentMethodConfig(PayolutionInvoiceTransaction::NAME, $payolutionMAID, $payolutionSecretKey);
-$config->add($payolutionConfig);
+$payolutionInvoiceMAID = '2048677d-57f4-44b0-8d67-9014c6631d5f';
+$payolutionInvoiceSecretKey = '74bd2f0c-6d1b-4e9a-b278-abc34b83ab9f';
+$payolutionInvoiceConfig = new PaymentMethodConfig(PayolutionInvoiceTransaction::NAME, $payolutionInvoiceMAID, $payolutionInvoiceSecretKey);
+$config->add($payolutionInvoiceConfig);
+
+// ### Payolution B2B
+$payolutionB2BMAID = '2048677d-57f4-44b0-8d67-9014c6631d5f';
+$payolutionB2BSecretKey = '74bd2f0c-6d1b-4e9a-b278-abc34b83ab9f';
+$payolutionB2BConfig = new PaymentMethodConfig(PayolutionBtwobTransaction::NAME, $payolutionB2BMAID, $payolutionB2BSecretKey);
+$config->add($payolutionB2BConfig);

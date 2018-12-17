@@ -28,35 +28,42 @@
  * By installing the SDK into the shop system the customer agrees to these terms of use.
  * Please do not use the SDK if you do not agree to these terms of use!
  */
-
-namespace WirecardTest\PaymentSdk\Entity;
+namespace Wirecard\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\CustomField;
+use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 
-class CustomFieldUTest extends \PHPUnit_Framework_TestCase
+/**
+ * Class CustomFieldTransaction
+ * @package Wirecard\PaymentSdk\Transaction
+ */
+abstract class CustomFieldTransaction extends Transaction
 {
-    public function testMappedProperties()
+    const RAW_PREFIX = '';
+
+    /**
+     * Add a custom field without default prefix to the customfields
+     *
+     * If a custom field with $customFieldKey exists, it will be overridden.
+     *
+     * @param string $customFieldKey
+     * @param string|null $customFieldValue
+     */
+    public function setRawCustomField($customFieldKey, $customFieldValue = null)
     {
-        $customField = new CustomField('special1', 'hihihi');
-        $expected = [
-            'field-name' => CustomField::DEFAULT_PREFIX. 'special1',
-            'field-value' => 'hihihi'
-        ];
+        $customFields = $this->getCustomFields();
+        if (empty($customFields)) {
+            $customFields = new CustomFieldCollection();
+        }
 
-        $this->assertEquals($expected, $customField->mappedProperties());
-    }
+        $it = $customFields->getIterator();
+        foreach ($it as $index => $existingField) {
+            if ($existingField->getName() === $customFieldKey) {
+                $it->offsetUnset($index);
+            }
+        }
 
-    public function testRawMappedProperties()
-    {
-        $key   = 'uTestKey';
-        $value = 'uTestValue';
-        $rawPrefix = '';
-        $customField = new CustomField($key, $value, $rawPrefix);
-        $expected = [
-            'field-name'  => $key,
-            'field-value' => $value
-        ];
-
-        $this->assertEquals($expected, $customField->mappedProperties());
+        $customFields->add(new CustomField($customFieldKey, $customFieldValue, self::RAW_PREFIX));
+        $this->setCustomFields($customFields);
     }
 }

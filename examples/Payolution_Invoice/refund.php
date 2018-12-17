@@ -1,7 +1,7 @@
 <?php
-// # Cancelling a transaction
+// # Refund a transaction
 
-// To cancel a transaction, a cancel request with the parent transaction is sent.
+// To refund a transaction, a cancel request with the parent transaction is sent.
 
 // ## Required objects
 
@@ -18,14 +18,14 @@ use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\PayolutionInvoiceTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
-if (!isset($_POST['parentTransactionId'])) {
+if (!isset($_POST['parentTransactionId']) || empty($_POST['parentTransactionId'])) {
     ?>
-    <form action="cancel.php" method="post">
+    <form action="refund.php" method="post">
         <div class="form-group">
-            <label for="parentTransactionId">Transaction ID to cancel:</label><br>
+            <label for="parentTransactionId">Transaction ID to refund:</label><br>
             <input id="parentTransactionId" name="parentTransactionId" class="form-control"/><br>
         </div>
-        <button type="submit" class="btn btn-primary">Cancel</button>
+        <button type="submit" class="btn btn-primary">Refund</button>
     </form>
     <?php
 } else {
@@ -50,19 +50,18 @@ if (!isset($_POST['parentTransactionId'])) {
     $transactionService = new TransactionService($config);
     $response = $transactionService->cancel($transaction);
 
+
 // ## Response handling
 
 // The response from the service can be used for disambiguation.
 // In case of a successful transaction, a `SuccessResponse` object is returned.
-
     if ($response instanceof SuccessResponse) {
-        echo 'Payment successfully cancelled.<br>';
+        echo 'Payment successfully refunded.<br>';
         echo getTransactionLink($baseUrl, $response);
 // In case of a failed transaction, a `FailureResponse` object is returned.
     } elseif ($response instanceof FailureResponse) {
-// In our example we iterate over all errors and echo them out.
-// You should display them as error, warning or information based on the given severity.
-
+        // In our example we iterate over all errors and echo them out.
+        // You should display them as error, warning or information based on the given severity.
         foreach ($response->getStatusCollection() as $status) {
             /**
              * @var $status \Wirecard\PaymentSdk\Entity\Status

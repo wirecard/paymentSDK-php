@@ -1,7 +1,7 @@
 <?php
-// # Cancelling a transaction
+// # Cancelling a Payolution B2B transaction
 
-// To cancel a transaction, a cancel request with the parent transaction is sent.
+// To cancel a transaction, a cancel request with the parent transaction = a non-captured authorization is sent.
 
 // ## Required objects
 
@@ -15,7 +15,7 @@ require __DIR__ . '/../inc/header.php';
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
-use Wirecard\PaymentSdk\Transaction\PayolutionInvoiceTransaction;
+use Wirecard\PaymentSdk\Transaction\PayolutionBtwobTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 if (!isset($_POST['parentTransactionId'])) {
@@ -29,24 +29,21 @@ if (!isset($_POST['parentTransactionId'])) {
     </form>
     <?php
 } else {
+// ## Gathering data
+
 // ### Transaction related objects
 
 // Use the amount object as amount which has to be paid by the consumer.
-// For void-authorization only full amount of parent transaction is supported.
-    $amount = new Amount(500, 'EUR');
-
-// The order number
-    $orderNumber = '1806291039146';
+// For void-authorization (cancelling a non-captured authorization) only full amount of parent transaction is supported.
+    $amount = new Amount(700, 'EUR');
 
 // ## Transaction
-    $transaction = new PayolutionInvoiceTransaction();
+    $transaction = new PayolutionBtwobTransaction();
     $transaction->setParentTransactionId($_POST['parentTransactionId']);
     $transaction->setAmount($amount);
-    $transaction->setOrderNumber($orderNumber);
 
-// ### Transaction Service
+// ## Perform the call using _Transaction Service_
 
-// The _TransactionService_ is used to generate the request data needed for the generation of the UI.
     $transactionService = new TransactionService($config);
     $response = $transactionService->cancel($transaction);
 
@@ -58,11 +55,11 @@ if (!isset($_POST['parentTransactionId'])) {
     if ($response instanceof SuccessResponse) {
         echo 'Payment successfully cancelled.<br>';
         echo getTransactionLink($baseUrl, $response);
+
 // In case of a failed transaction, a `FailureResponse` object is returned.
     } elseif ($response instanceof FailureResponse) {
 // In our example we iterate over all errors and echo them out.
 // You should display them as error, warning or information based on the given severity.
-
         foreach ($response->getStatusCollection() as $status) {
             /**
              * @var $status \Wirecard\PaymentSdk\Entity\Status

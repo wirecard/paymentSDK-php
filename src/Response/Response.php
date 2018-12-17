@@ -41,11 +41,11 @@ use Wirecard\PaymentSdk\Entity\Card;
 use Wirecard\PaymentSdk\Entity\CustomField;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Entity\PaymentDetails;
+use Wirecard\PaymentSdk\Entity\RawCustomField;
 use Wirecard\PaymentSdk\Entity\Status;
 use Wirecard\PaymentSdk\Entity\StatusCollection;
 use Wirecard\PaymentSdk\Entity\TransactionDetails;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
-use Wirecard\PaymentSdk\TransactionService;
 
 /**
  * Class Response
@@ -404,17 +404,59 @@ abstract class Response
         if (isset($this->simpleXml->{'custom-fields'})) {
             /** @var SimpleXMLElement $field */
             foreach ($this->simpleXml->{'custom-fields'}->children() as $field) {
-                if (isset($field->attributes()->{'field-name'}) && isset($field->attributes()->{'field-value'})) {
-                    $name = (string)$field->attributes()->{'field-name'};
-                    if (strpos($name, CustomField::DEFAULT_PREFIX) === 0) {
-                        $name = substr($name, strlen(CustomField::DEFAULT_PREFIX));
-                    }
-                    $value = (string)$field->attributes()->{'field-value'};
-                    $customFieldCollection->add(new CustomField($name, $value));
+                $customField = $this->convertToCustomField($field);
+                if (!is_null($customField)) {
+                    $customFieldCollection->add($customField);
                 }
             }
         }
         $this->customFields = $customFieldCollection;
+    }
+
+    /**
+     * Convert the xml field into a CustomField object
+     *
+     * Return null if field name is empty or xml object does not provides field name/field value as attribute
+     *
+     * @param SimpleXMLElement $field
+     * @return null|CustomField
+     */
+    private function convertToCustomField($field)
+    {
+        if (!empty($field->attributes())) {
+            if (isset($field->attributes()->{'field-name'}) && isset($field->attributes()->{'field-value'})) {
+                $rawName = (string)$field->attributes()->{'field-name'};
+                list($normalizedName, $prefix) = $this->splitFieldNameAndPrefix($rawName);
+                $value = (string)$field->attributes()->{'field-value'};
+                if (!empty($normalizedName)) {
+                    return new CustomField($normalizedName, $value, $prefix);
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Auto detect the PHPSDK prefix for customfields
+     *
+     * @param string $rawName
+     * @return array
+     */
+    private function splitFieldNameAndPrefix($rawName)
+    {
+        $normalizedName = '';
+        $prefix = '';
+
+        if (!empty($rawName)) {
+            if (strpos($rawName, CustomField::DEFAULT_PREFIX) === 0) {
+                $normalizedName = substr($rawName, strlen(CustomField::DEFAULT_PREFIX));
+                $prefix = CustomField::DEFAULT_PREFIX;
+            } else {
+                $normalizedName = $rawName;
+            }
+        }
+
+        return [$normalizedName, $prefix];
     }
 
     /**

@@ -20,13 +20,13 @@ use Wirecard\PaymentSdk\TransactionService;
 
 if (!isset($_POST['parentTransactionId'])) {
     ?>
-	<form action="pay-based-on-reserve.php" method="post">
-		<div class="form-group">
-			<label for="parentTransactionId">Transaction ID to capture:</label><br>
-			<input id="parentTransactionId" name="parentTransactionId" class="form-control"/><br>
-		</div>
-		<button type="submit" class="btn btn-primary">Capture the payment</button>
-	</form>
+    <form action="pay-based-on-reserve.php" method="post">
+        <div class="form-group">
+            <label for="parentTransactionId">Transaction ID to capture:</label><br>
+            <input id="parentTransactionId" name="parentTransactionId" class="form-control"/><br>
+        </div>
+        <button type="submit" class="btn btn-primary">Capture the payment</button>
+    </form>
     <?php
 } else {
 // ### Transaction related objects
@@ -61,12 +61,12 @@ if (!isset($_POST['parentTransactionId'])) {
         echo 'Payment successfully completed.<br>';
         echo getTransactionLink($baseUrl, $response);
         ?>
-		<br>
-		<form action="cancel.php" method="post">
-			<input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-			<input type="hidden" name="transaction-type" value="<?= $response->getTransactionType() ?>"/>
-			<button type="submit" class="btn btn-primary">Cancel the capture</button>
-		</form>
+        <br>
+        <form action="refund.php" method="post">
+            <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+            <input type="hidden" name="transaction-type" value="<?= $response->getTransactionType() ?>"/>
+            <button type="submit" class="btn btn-primary">Refund</button>
+        </form>
         <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
     } elseif ($response instanceof FailureResponse) {

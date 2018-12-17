@@ -39,7 +39,7 @@ use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\PayolutionInvoiceTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
-class PayolutionTransactionUTest extends \PHPUnit_Framework_TestCase
+class PayolutionInvoiceTransactionUTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var PayolutionInvoiceTransaction
