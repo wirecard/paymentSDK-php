@@ -30,6 +30,7 @@
 
 namespace Wirecard\PaymentSdk\Config;
 
+use InvalidArgumentException;
 use Wirecard\PaymentSdk\Transaction\ApplePayTransaction;
 
 class ApplePayConfig extends PaymentMethodConfig
@@ -129,6 +130,9 @@ class ApplePayConfig extends PaymentMethodConfig
      */
     public function setSslCertificatePath($sslCertificatePath)
     {
+        if (!file_exists($sslCertificatePath)) {
+            throw new InvalidArgumentException("SSL Path not found under $sslCertificatePath");
+        }
         $this->sslCertificatePath = $sslCertificatePath;
         return $this;
     }
@@ -151,6 +155,9 @@ class ApplePayConfig extends PaymentMethodConfig
      */
     public function setSslCertificateKey($sslCertificateKey)
     {
+        if (!file_exists($sslCertificateKey)) {
+            throw new InvalidArgumentException("SSL Key not found under $sslCertificateKey");
+        }
         $this->sslCertificateKey = $sslCertificateKey;
         return $this;
     }
