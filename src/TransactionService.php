@@ -836,7 +836,8 @@ class TransactionService
     {
         /** @var \Wirecard\PaymentSdk\Config\ApplePayConfig $applePayConfig */
         $applePayConfig = $this->config->get('applepay');
-
+        $client = new \GuzzleHttp\Client();
+        
         if ("https" == parse_url($validationUrl, PHP_URL_SCHEME)
             && substr(parse_url($validationUrl, PHP_URL_HOST), -10) == ".apple.com"
         )
@@ -851,7 +852,7 @@ class TransactionService
                 'ssl_key' => [$applePayConfig->getSslCertificateKey(), $applePayConfig->getSslCertificatePassword()]
             ];
 
-            $response = $this->httpClient->request('post', $validationUrl, $options);
+            $response = $client->request('post', $validationUrl, $options);
 
             if (200 === $response->getStatusCode())
             {
