@@ -54,7 +54,7 @@ class AcceptanceTester extends \Codeception\Actor
                 break;
             case "Credit Card Reserve Page":
                 $page = new CreditCardReservePage($this);
-                $this->wait(3);
+                $this->wait(5);
                 break;
             case "Credit Card Success Page":
                 $page = new CreditCardSuccessPage($this);
