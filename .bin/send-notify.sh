@@ -1,5 +1,5 @@
 #!/bin/bash
-PREVIEW_LINK='http://htmlpreview.github.io/?https://raw.githubusercontent.com/wirecard/reports'
+PREVIEW_LINK='http://htmlpreview.github.io/?https://github.com/wirecard/reports'
 REPORT_FILE='report.html'
 #choose slack channel depending on the gateway
 if [[ ${GATEWAY} = "NOVA" ]]; then
