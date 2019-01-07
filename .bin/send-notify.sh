@@ -1,5 +1,5 @@
 #!/bin/bash
-PREVIEW_LINK='http://htmlpreview.github.io/?https://github.com/wirecard/reports'
+PREVIEW_LINK='https://raw.githack.com/wirecard/reports'
 REPORT_FILE='report.html'
 #choose slack channel depending on the gateway
 if [[ ${GATEWAY} = "NOVA" ]]; then
@@ -29,7 +29,7 @@ curl -X POST -H 'Content-type: application/json' --data "{
         {
             'fallback': 'Failed test data',
             'text': 'There are failed tests.
-             Test report: ${PREVIEW_LINK}/blob/${SCREENSHOT_COMMIT_HASH}/${PROJECT_FOLDER}/${GATEWAY}/${TODAY}/${REPORT_FILE} .
+             Test report: ${PREVIEW_LINK}/${SCREENSHOT_COMMIT_HASH}/${PROJECT_FOLDER}/${GATEWAY}/${TODAY}/${REPORT_FILE} .
              All screenshots can be found  ${REPO_LINK}/tree/${SCREENSHOT_COMMIT_HASH}/${PROJECT_FOLDER}/${GATEWAY}/${TODAY} .',
             'color': '#764FA5'
         }
