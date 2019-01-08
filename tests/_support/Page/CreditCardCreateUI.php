@@ -56,6 +56,7 @@ class CreditCardCreateUI extends Base
         $data_field_values = $I->getCardDataFromDataFile($cardData);
         $env = getenv('GATEWAY');
         if ('NOVA' == $env || 'API-WDCEE-TEST' == $env || 'API-TEST' == $env) {
+            $I->waitForElementVisible($this->getElement("Last name"));
             $I->fillField($this->getElement("Last name"), $data_field_values->last_name);
             $I->fillField($this->getElement("Card number"), $data_field_values->card_number);
             $I->fillField($this->getElement("CVV"), $data_field_values->cvv);
@@ -63,6 +64,7 @@ class CreditCardCreateUI extends Base
             $I->selectOption($this->getElement("Valid until year"), $data_field_values->valid_until_year);
             $I->switchToIFrame();
         } else if ('TEST-SG' == $env) {
+            $I->waitForElementVisible($this->getElement("First name"));
             $I->fillField($this->getElement("First name"), $data_field_values->first_name);
             $I->fillField($this->getElement("Last name"), $data_field_values->last_name);
             $I->fillField($this->getElement("Card number"), $data_field_values->card_number);
@@ -71,6 +73,7 @@ class CreditCardCreateUI extends Base
             $I->selectOption($this->getElement("Valid until year"), $data_field_values->valid_until_year);
             $I->switchToIFrame();
         } else if ('SECURE-TEST-SG' == $env) {
+            $I->waitForElementVisible($this->getElement("Card number"));
             $I->fillField($this->getElement("Card number"), $data_field_values->card_number);
             $I->fillField($this->getElement("CVV"), $data_field_values->cvv);
             $I->selectOption($this->getElement("Valid until month"), $data_field_values->valid_until_month);

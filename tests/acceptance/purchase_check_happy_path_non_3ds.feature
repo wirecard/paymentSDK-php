@@ -11,11 +11,13 @@ Feature: check_credit_card_Non_3DS_functionality_happy_path
     And I choose "EUR" in field "Currency"
     And I click "Save"
 
+  @default_gateway @sg_gateway
   Scenario: try purchase_check
     Given I am redirected to "Credit Card Success Page Non 3D Page" page
     Then I see text "Reservation successfully completed."
     And I see text "Transaction ID"
 
+  @default_gateway @sg_gateway
   Scenario: try void_purchase_check
     Given I am redirected to "Credit Card Success Page Non 3D Page" page
     And I see text "Transaction ID"
