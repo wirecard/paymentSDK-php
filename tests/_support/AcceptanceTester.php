@@ -58,7 +58,7 @@ class AcceptanceTester extends \Codeception\Actor
                 break;
             case "Credit Card Success Page":
                 $page = new CreditCardSuccessPage($this);
-                $this->wait(10);
+                $this->wait(15);
                 break;
             case "Verified Page":
                 $page = new VerifiedPage($this);
@@ -73,7 +73,7 @@ class AcceptanceTester extends \Codeception\Actor
                 break;
             case "Credit Card Success Page Non 3D Page":
                 $page = new CreditCardSuccessNon3DPage($this);
-                $this->wait(10);
+                $this->wait(15);
                 break;
         }
         return $page;
