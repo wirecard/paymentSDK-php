@@ -37,6 +37,10 @@ matrix:
     if: type != cron
     env:
     - MUTATION_TESTS=true
+  - php: 7.2
+    if: type != cron
+    env:
+    - MUTATION_TESTS=true
 # running acceptance tests sequentially because in parallel is not possible due to ngrok account
   - &acceptance-test
     stage: acceptance-test
