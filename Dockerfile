@@ -39,6 +39,7 @@ RUN php -r "unlink('composer-setup.php');"
 RUN chmod a+x composer.phar
 RUN mv composer.phar /usr/bin/composer
 
+ADD . /tmp
 
 
 
