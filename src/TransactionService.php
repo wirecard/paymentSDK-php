@@ -54,6 +54,7 @@ use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Response\Response;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
+use Wirecard\PaymentSdk\Transaction\ApplePayTransaction;
 use Wirecard\PaymentSdk\Transaction\CreditCardMotoTransaction;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\IdealTransaction;
@@ -630,6 +631,8 @@ class TransactionService
             /** @var CreditCardConfig $creditCardConfig */
             $creditCardConfig = $this->config->get(CreditCardTransaction::NAME);
             $transaction->setConfig($creditCardConfig);
+        } elseif ($transaction instanceof ApplePayTransaction) {
+            $transaction->setConfig($this->config->get(ApplePayTransaction::NAME));
         }
 
         if (null !== $transaction->getParentTransactionId()) {
