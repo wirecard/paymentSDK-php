@@ -100,7 +100,13 @@ class ApplePayTransaction extends Transaction implements Reservable
             throw new MandatoryFieldMissingException("Cryptogram is a mandatory field.");
         }
 
-        return $this->cryptogram;
+        $result = [
+            'merchant-account-id' => [
+                'value' => $this->config->getMerchantAccountId()
+            ]
+        ];
+
+        return array_merge($result, $this->cryptogram);
     }
 
     public function getEndpoint()
