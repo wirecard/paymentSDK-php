@@ -83,6 +83,14 @@ class ApplePayTransaction extends Transaction implements Reservable
     }
 
     /**
+     * @return string
+     */
+    public function retrieveTransactionTypeForPay()
+    {
+        return Transaction::TYPE_PURCHASE;
+    }
+
+    /**
      * @return array
      * @throws MandatoryFieldMissingException
      */
@@ -98,5 +106,11 @@ class ApplePayTransaction extends Transaction implements Reservable
     public function getEndpoint()
     {
         return parent::ENDPOINT_PAYMENTS;
+    }
+
+    public function setConfig($config)
+    {
+        $this->config = $config;
+        return $this;
     }
 }
