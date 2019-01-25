@@ -172,7 +172,7 @@ function validateMerchant($transactionService, $validation_url)
 function sendPaymentRequest($transactionService, $transaction)
 {
     //echo $transactionService->reserve($transaction)->getRedirectUrl();
-    $response = $transactionService->reserve($transaction);
+    $response = $transactionService->pay($transaction);
 
     print_r($response->getRawData());die;
 
