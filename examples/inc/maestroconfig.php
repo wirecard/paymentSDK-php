@@ -14,8 +14,8 @@ use Wirecard\PaymentSdk\Config;
 
 // The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
 $baseUrl = 'https://api-wdcee-test.wirecard.com';
-$httpUser = 'wdcee-customer-test';
-$httpPass = '6n4p4t8p';
+$httpUser = 'plugin-test';
+$httpPass = '4-41N4\lI0]783';
 
 // The configuration is stored in an object containing the connection settings set above.
 // A default currency can also be provided.
