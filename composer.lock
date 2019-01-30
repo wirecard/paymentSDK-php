@@ -1,58 +1,11 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "10f5f992e013cfc4179a8689b1ee4886",
+    "content-hash": "306eaa6355a79e706b425051767be85a",
     "packages": [
-        {
-            "name": "chillerlan/php-qrcode",
-            "version": "1.0.8",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/chillerlan/php-qrcode.git",
-                "reference": "37daf05058f6f5569c304e8491257f0da90d957e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/chillerlan/php-qrcode/zipball/37daf05058f6f5569c304e8491257f0da90d957e",
-                "reference": "37daf05058f6f5569c304e8491257f0da90d957e",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.6.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^5.7"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "chillerlan\\QRCode\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Smiley",
-                    "email": "smiley@chillerlan.net"
-                },
-                {
-                    "name": "Kazuhiko Arase",
-                    "homepage": "https://github.com/kazuhikoarase"
-                }
-            ],
-            "description": "A QR code generator. PHP 7+",
-            "homepage": "https://github.com/codemasher/php-qrcode",
-            "keywords": [
-                "qr code"
-            ],
-            "time": "2018-01-19T05:06:49+00:00"
-        },
         {
             "name": "clue/stream-filter",
             "version": "v1.4.0",
@@ -2844,7 +2797,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "BackEndTea@gmail.com"
+                    "email": "backendtea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",

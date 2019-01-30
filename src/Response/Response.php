@@ -31,8 +31,6 @@
 
 namespace Wirecard\PaymentSdk\Response;
 
-use chillerlan\QRCode\QRCode;
-use chillerlan\QRCode\QROptions;
 use SimpleXMLElement;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -493,35 +491,6 @@ abstract class Response
     public function getRequestedAmount()
     {
         return $this->requestedAmount;
-    }
-
-    /**
-     * Generate QrCode from authorization code. Available only for payment methods returning
-     * authorization-code (e.g. WeChat).
-     *
-     * Note: This method uses gd2 library. If you can't use gd2, you must set $type to QRCode::OUTPUT_MARKUP_SVG
-     * or QRCode::OUTPUT_STRING_TEXT.
-     *
-     * @param string $type
-     * @param int $scale
-     *
-     * @since 3.1.1
-     * @return string
-     */
-    public function getQrCode($type = QRCode::OUTPUT_IMAGE_PNG, $scale = 5)
-    {
-        try {
-            $outputOptions = new QROptions([
-                'outputType' => $type,
-                'scale' => $scale,
-                'version' => 5
-            ]);
-
-            $image = new QRCode($outputOptions);
-            return $image->render($this->findElement('authorization-code'));
-        } catch (\Exception $ignored) {
-            throw new MalformedResponseException('Authorization-code not found in response.');
-        }
     }
 
     public function getPaymentDetails()
