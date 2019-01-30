@@ -31,6 +31,8 @@ if (!isset($_POST['parentTransactionId'])) {
 // ## Transaction
     $transaction = new AlipayCrossborderTransaction();
     $transaction->setParentTransactionId($_POST['parentTransactionId']);
+    $amount = new \Wirecard\PaymentSdk\Entity\Amount(1.59, 'EUR');
+    $transaction->setAmount($amount);
 
 // ### Transaction Service
 
