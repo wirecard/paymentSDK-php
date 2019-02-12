@@ -39,6 +39,7 @@ We also provide some examples for using the PaymentSDK, which can be found [here
 - Guaranteed Invoice
 - iDEAL
 - Masterpass
+- Paylib
 - Payment in Advance
 - Payment on Invoice
 - Payment on Invoice (Payolution B2C)
