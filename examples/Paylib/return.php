@@ -27,7 +27,7 @@ $config->setPublicKey(file_get_contents(__DIR__ . '/../inc/api-test.wirecard.com
 // The `TransactionService` is used to determine the response from the service provider.
 $transactionService = new TransactionService($config);
 
-// The masterpass page redirects to the _returnUrl_, which points to this file. To continue the payment process
+// The paylib page redirects to the _returnUrl_, which points to this file. To continue the payment process
 // the sent data can be fed directly to the transaction service via the method `handleResponse()`.
 // If there is response data from the service provider handle response
 if ($_POST) {
@@ -42,38 +42,6 @@ if ($_POST) {
         echo 'Payment successfully completed.<br>';
         echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');
         echo getTransactionLink($baseUrl, $response);
-
-        if ($response->getTransactionType() == Transaction::TYPE_DEBIT) {
-            ?>
-            <br>
-            <form action="cancel.php" method="post">
-                <?php
-// Every follow-up operation of Masterpass needs to reference the parent transaction if the parent
-// transaction was a credit card transaction. In these examples it is always the parent transaction.
-                ?>
-                <input type="hidden" name="parentTransactionId" value="<?= $response->getParentTransactionId() ?>">
-                <button type="submit" class="btn btn-primary">Cancel payment</button>
-            </form>
-            <form action="pay-based-on-pay.php" method="post">
-                <div class="form-group">
-                    <input type="hidden" name="parentTransactionId" value="<?= $response->getParentTransactionId() ?>"/>
-                    <input type="text" name="amount" value="150" class="form-control" />
-                </div>
-                <button type="submit" class="btn btn-primary">Payment after a payment</button>
-            </form>
-            <?php
-        }
-        if ($response->getTransactionType() == Transaction::TYPE_AUTHORIZATION) {
-        ?>
-        <form action="pay-based-on-reserve.php" method="post">
-            <input type="hidden" name="parentTransactionId" value="<?= $response->getParentTransactionId() ?>"/>
-            <button type="submit" class="btn btn-primary">Capture the reservation</button>
-        </form>
-        <form action="cancel.php" method="post">
-            <input type="hidden" name="parentTransactionId" value="<?= $response->getParentTransactionId() ?>"/>
-            <button type="submit" class="btn btn-primary">Cancel payment</button>
-        </form>
-        <?php }
 // In case of a failed transaction, a `FailureResponse` object is returned.
     } elseif ($response instanceof FailureResponse) {
         echo sprintf('Response validation status: %s <br>', $response->isValidSignature() ? 'true' : 'false');
