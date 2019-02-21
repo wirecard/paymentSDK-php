@@ -47,8 +47,6 @@ use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
  */
 class Config
 {
-    const VERSION_FILE = __DIR__ . '/../../VERSION';
-
     /**
      * @var string
      */
@@ -127,7 +125,7 @@ class Config
 
         $this->shopSystem = 'paymentSDK-php';
 
-        $version = $this->getVersionFromFile(self::VERSION_FILE);
+        $version = $this->getVersionFromFile(__DIR__ . '/../../VERSION');
         $this->shopSystemVersion = $version;
     }
 
