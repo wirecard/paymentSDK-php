@@ -97,6 +97,7 @@
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Basket.html">Basket</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Browser.html">Browser</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Card.html">Card</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.CompanyInfo.html">CompanyInfo</a></li>
 				<li class="active"><a href="class-Wirecard.PaymentSdk.Entity.CustomField.html">CustomField</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.CustomFieldCollection.html">CustomFieldCollection</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Device.html">Device</a></li>
@@ -160,7 +161,7 @@
 		<b>Namespace:</b> <a href="namespace-Wirecard.html">Wirecard</a>\<a href="namespace-Wirecard.PaymentSdk.html">PaymentSdk</a>\<a href="namespace-Wirecard.PaymentSdk.Entity.html">Entity</a><br>
 		<b>Package:</b> Wirecard\PaymentSdk\Entity<br>
 
-			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.Entity.CustomField.html#33-90" title="Go to source code">Entity/CustomField.php</a>
+			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.Entity.CustomField.html#33-120" title="Go to source code">Entity/CustomField.php</a>
 		<br>
 	</div>
 
@@ -180,7 +181,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#___construct">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Entity.CustomField.html#53-62" title="Go to source code">__construct</a>( <span>string <var>$name</var></span>, <span>string <var>$value</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.CustomField.html#58-68" title="Go to source code">__construct</a>( <span>string <var>$name</var></span>, <span>string <var>$value</var></span>, <span> <var>$prefix</var> = <code><a href="class-Wirecard.PaymentSdk.Entity.CustomField.html#DEFAULT_PREFIX">Wirecard\PaymentSdk\Entity\CustomField::<b>DEFAULT_PREFIX</b></a></code></span> )</code>
 
 			<div class="description short">
 				<p>CustomField constructor.</p>
@@ -195,6 +196,8 @@
 						<dt><var>$name</var></dt>
 						<dd></dd>
 						<dt><var>$value</var></dt>
+						<dd></dd>
+						<dt><var>$prefix</var></dt>
 						<dd></dd>
 					</dl></div>
 
@@ -216,7 +219,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getName">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Entity.CustomField.html#64-70" title="Go to source code">getName</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.CustomField.html#70-76" title="Go to source code">getName</a>( )</code>
 
 			<div class="description short">
 				
@@ -249,7 +252,107 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getValue">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Entity.CustomField.html#72-78" title="Go to source code">getValue</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.CustomField.html#78-84" title="Go to source code">getValue</a>( )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+					<h4>Returns</h4>
+					<div class="list">
+						string
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getPrefix" id="_getPrefix">
+
+			<td class="attributes"><code>
+				 public 
+				string
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getPrefix">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.CustomField.html#86-92" title="Go to source code">getPrefix</a>( )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+
+					<h4>Returns</h4>
+					<div class="list">
+						string
+					</div>
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="setPrefix" id="_setPrefix">
+
+			<td class="attributes"><code>
+				 public 
+				
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_setPrefix">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.CustomField.html#94-100" title="Go to source code">setPrefix</a>( <span>string <var>$prefix</var></span> )</code>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+					<h4>Parameters</h4>
+					<div class="list"><dl>
+						<dt><var>$prefix</var></dt>
+						<dd></dd>
+					</dl></div>
+
+
+
+
+
+			</div>
+			</div></td>
+		</tr>
+		<tr data-order="getMappedName" id="_getMappedName">
+
+			<td class="attributes"><code>
+				 public 
+				string
+				
+				</code>
+			</td>
+
+			<td class="name"><div>
+			<a class="anchor" href="#_getMappedName">#</a>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.CustomField.html#102-108" title="Go to source code">getMappedName</a>( )</code>
 
 			<div class="description short">
 				
@@ -282,7 +385,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_mappedProperties">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.Entity.CustomField.html#80-89" title="Go to source code">mappedProperties</a>( )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.Entity.CustomField.html#110-119" title="Go to source code">mappedProperties</a>( )</code>
 
 			<div class="description short">
 				
@@ -319,12 +422,12 @@
 		<div class="panel panel-default">
             <div class="panel-heading"><h2>Constants summary</h2></div>
 			<table class="summary table table-bordered table-striped constants" id="constants">
-			<tr data-order="PREFIX" id="PREFIX">
+			<tr data-order="DEFAULT_PREFIX" id="DEFAULT_PREFIX">
 
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-Wirecard.PaymentSdk.Entity.CustomField.html#41" title="Go to source code"><b>PREFIX</b></a>
+						<a href="source-class-Wirecard.PaymentSdk.Entity.CustomField.html#41" title="Go to source code"><b>DEFAULT_PREFIX</b></a>
 					</code>
 
 					<div class="description short">
@@ -338,7 +441,7 @@
 				</td>
 				<td class="value">
 					<div>
-						<a href="#PREFIX" class="anchor">#</a>
+						<a href="#DEFAULT_PREFIX" class="anchor">#</a>
 						<code><span class="php-quote">'paysdk_'</span></code>
 					</div>
 				</td>

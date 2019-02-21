@@ -103,6 +103,7 @@
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Basket.html">Wirecard\PaymentSdk\Entity\Basket</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Browser.html">Wirecard\PaymentSdk\Entity\Browser</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Card.html">Wirecard\PaymentSdk\Entity\Card</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Entity.CompanyInfo.html">Wirecard\PaymentSdk\Entity\CompanyInfo</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.CustomField.html">Wirecard\PaymentSdk\Entity\CustomField</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.CustomFieldCollection.html">Wirecard\PaymentSdk\Entity\CustomFieldCollection</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Entity.Device.html">Wirecard\PaymentSdk\Entity\Device</a></li>
@@ -129,12 +130,15 @@
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.BancontactTransaction.html">Wirecard\PaymentSdk\Transaction\BancontactTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.CreditCardMotoTransaction.html">Wirecard\PaymentSdk\Transaction\CreditCardMotoTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.CreditCardTransaction.html">Wirecard\PaymentSdk\Transaction\CreditCardTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.CustomFieldTransaction.html">Wirecard\PaymentSdk\Transaction\CustomFieldTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.EpsTransaction.html">Wirecard\PaymentSdk\Transaction\EpsTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.GiropayTransaction.html">Wirecard\PaymentSdk\Transaction\GiropayTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.IdealTransaction.html">Wirecard\PaymentSdk\Transaction\IdealTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.MaestroTransaction.html">Wirecard\PaymentSdk\Transaction\MaestroTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.MasterpassTransaction.html">Wirecard\PaymentSdk\Transaction\MasterpassTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.Operation.html">Wirecard\PaymentSdk\Transaction\Operation</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.PayByBankAppTransaction.html">Wirecard\PaymentSdk\Transaction\PayByBankAppTransaction</a></li>
+				<li><a href="class-Wirecard.PaymentSdk.Transaction.PayolutionBtwobTransaction.html">Wirecard\PaymentSdk\Transaction\PayolutionBtwobTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.PayolutionInvoiceTransaction.html">Wirecard\PaymentSdk\Transaction\PayolutionInvoiceTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.PayPalTransaction.html">Wirecard\PaymentSdk\Transaction\PayPalTransaction</a></li>
 				<li><a href="class-Wirecard.PaymentSdk.Transaction.PaysafecardTransaction.html">Wirecard\PaymentSdk\Transaction\PaysafecardTransaction</a></li>
@@ -374,11 +378,11 @@
 </span><span id="192" class="l"><a href="#192">192 </a>        <span class="php-var">$data</span>[<span class="php-quote">'quantity'</span>] = <span class="php-var">$this</span>-&gt;quantity;
 </span><span id="193" class="l"><a href="#193">193 </a>        <span class="php-var">$data</span>[<span class="php-quote">'amount'</span>] = <span class="php-var">$this</span>-&gt;price-&gt;mappedProperties();
 </span><span id="194" class="l"><a href="#194">194 </a>
-</span><span id="195" class="l"><a href="#195">195 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">null</span> !== <span class="php-var">$this</span>-&gt;description) {
+</span><span id="195" class="l"><a href="#195">195 </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword2">is_null</span>(<span class="php-var">$this</span>-&gt;description)) {
 </span><span id="196" class="l"><a href="#196">196 </a>            <span class="php-var">$data</span>[<span class="php-quote">'description'</span>] = <span class="php-var">$this</span>-&gt;description;
 </span><span id="197" class="l"><a href="#197">197 </a>        }
 </span><span id="198" class="l"><a href="#198">198 </a>
-</span><span id="199" class="l"><a href="#199">199 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">null</span> !== <span class="php-var">$this</span>-&gt;articleNumber) {
+</span><span id="199" class="l"><a href="#199">199 </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword2">is_null</span>(<span class="php-var">$this</span>-&gt;articleNumber)) {
 </span><span id="200" class="l"><a href="#200">200 </a>            <span class="php-var">$data</span>[<span class="php-quote">'article-number'</span>] = <span class="php-var">$this</span>-&gt;articleNumber;
 </span><span id="201" class="l"><a href="#201">201 </a>        }
 </span><span id="202" class="l"><a href="#202">202 </a>
@@ -408,11 +412,11 @@
 </span><span id="226" class="l"><a href="#226">226 </a>        <span class="php-var">$item</span>[<span class="php-quote">'orderItems'</span> . <span class="php-var">$iterator</span> . <span class="php-quote">'.amount.value'</span>] = <span class="php-var">$this</span>-&gt;price-&gt;getValue();
 </span><span id="227" class="l"><a href="#227">227 </a>        <span class="php-var">$item</span>[<span class="php-quote">'orderItems'</span> . <span class="php-var">$iterator</span> . <span class="php-quote">'.amount.currency'</span>] = <span class="php-var">$this</span>-&gt;price-&gt;getCurrency();
 </span><span id="228" class="l"><a href="#228">228 </a>
-</span><span id="229" class="l"><a href="#229">229 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">null</span> !== <span class="php-var">$this</span>-&gt;articleNumber) {
+</span><span id="229" class="l"><a href="#229">229 </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword2">is_null</span>(<span class="php-var">$this</span>-&gt;articleNumber)) {
 </span><span id="230" class="l"><a href="#230">230 </a>            <span class="php-var">$item</span>[<span class="php-quote">'orderItems'</span> . <span class="php-var">$iterator</span> . <span class="php-quote">'.articleNumber'</span>] = <span class="php-var">$this</span>-&gt;articleNumber;
 </span><span id="231" class="l"><a href="#231">231 </a>        }
 </span><span id="232" class="l"><a href="#232">232 </a>
-</span><span id="233" class="l"><a href="#233">233 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">null</span> !== <span class="php-var">$this</span>-&gt;taxRate) {
+</span><span id="233" class="l"><a href="#233">233 </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword2">is_null</span>(<span class="php-var">$this</span>-&gt;taxRate)) {
 </span><span id="234" class="l"><a href="#234">234 </a>            <span class="php-var">$item</span>[<span class="php-quote">'orderItems'</span> . <span class="php-var">$iterator</span> . <span class="php-quote">'.taxRate'</span>] = <span class="php-var">$this</span>-&gt;taxRate;
 </span><span id="235" class="l"><a href="#235">235 </a>        }
 </span><span id="236" class="l"><a href="#236">236 </a>
@@ -426,9 +430,9 @@
 </span></span><span id="244" class="l"><a href="#244">244 </a><span class="php-comment">     */</span>
 </span><span id="245" class="l"><a href="#245">245 </a>    <span class="php-keyword1">private</span> <span class="php-keyword1">function</span> payPalMappedProperties(<span class="php-var">$data</span>)
 </span><span id="246" class="l"><a href="#246">246 </a>    {
-</span><span id="247" class="l"><a href="#247">247 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">null</span> !== <span class="php-var">$this</span>-&gt;taxAmount) {
+</span><span id="247" class="l"><a href="#247">247 </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword2">is_null</span>(<span class="php-var">$this</span>-&gt;taxAmount)) {
 </span><span id="248" class="l"><a href="#248">248 </a>            <span class="php-var">$data</span>[<span class="php-quote">'tax-amount'</span>] = <span class="php-var">$this</span>-&gt;taxAmount-&gt;mappedProperties();
-</span><span id="249" class="l"><a href="#249">249 </a>        } <span class="php-keyword1">elseif</span> (<span class="php-keyword1">null</span> !== <span class="php-var">$this</span>-&gt;taxRate) {
+</span><span id="249" class="l"><a href="#249">249 </a>        } <span class="php-keyword1">elseif</span> (!<span class="php-keyword2">is_null</span>(<span class="php-var">$this</span>-&gt;taxRate)) {
 </span><span id="250" class="l"><a href="#250">250 </a>            <span class="php-var">$taxAmountValue</span> = <span class="php-keyword2">number_format</span>(<span class="php-var">$this</span>-&gt;price-&gt;getValue() * <span class="php-var">$this</span>-&gt;quantity * (<span class="php-var">$this</span>-&gt;taxRate / <span class="php-num">100.0</span>), <span class="php-num">2</span>);
 </span><span id="251" class="l"><a href="#251">251 </a>            <span class="php-var">$taxAmount</span> = <span class="php-keyword1">new</span> Amount(<span class="php-var">$taxAmountValue</span>, <span class="php-var">$this</span>-&gt;price-&gt;getCurrency());
 </span><span id="252" class="l"><a href="#252">252 </a>
@@ -444,7 +448,7 @@
 </span></span><span id="262" class="l"><a href="#262">262 </a><span class="php-comment">     */</span>
 </span><span id="263" class="l"><a href="#263">263 </a>    <span class="php-keyword1">private</span> <span class="php-keyword1">function</span> ratepayMappedProperties(<span class="php-var">$data</span>)
 </span><span id="264" class="l"><a href="#264">264 </a>    {
-</span><span id="265" class="l"><a href="#265">265 </a>        <span class="php-keyword1">if</span> (<span class="php-keyword1">null</span> !== <span class="php-var">$this</span>-&gt;taxRate) {
+</span><span id="265" class="l"><a href="#265">265 </a>        <span class="php-keyword1">if</span> (!<span class="php-keyword2">is_null</span>(<span class="php-var">$this</span>-&gt;taxRate)) {
 </span><span id="266" class="l"><a href="#266">266 </a>            <span class="php-var">$data</span>[<span class="php-quote">'tax-rate'</span>] = <span class="php-var">$this</span>-&gt;taxRate;
 </span><span id="267" class="l"><a href="#267">267 </a>        }
 </span><span id="268" class="l"><a href="#268">268 </a>
@@ -459,6 +463,6 @@
 	</div>
 </div>
 <script src="resources/combined.js?cfd636dbffd7235c2f8960621ad1ba069499eba1"></script>
-<script src="elementlist.js?ffc1428034fd4694283fe457ac00b04665a58f63"></script>
+<script src="elementlist.js?a24ca8fb144f300b4c88c2aa4527753c45901151"></script>
 </body>
 </html>
