@@ -876,4 +876,14 @@ class TransactionService
             return $ret;
         }
     }
+    
+    /**
+     * Access to the configuration object which was set in constructor
+     *
+     * @return Config
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
 }

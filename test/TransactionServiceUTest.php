@@ -41,6 +41,7 @@ use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
+use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
@@ -51,6 +52,16 @@ use Wirecard\PaymentSdk\TransactionService;
 class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 {
 
+    const GW_BASE_URL          = 'https://api-test.wirecard.com';
+    const GW_HTTP_USER         = 'user';
+    const GW_HTTP_PASSWORD     = 'password';
+    const CC_MAID              = 'maid';
+    const CC_SECRET            = 'secret';
+    const CC_THREE_D_MAID      = '3dmaid';
+    const CC_THREE_D_SECRET    = '3dsecret';
+    const CC_SSL_MAX_LIMIT     = 100;
+    const CC_THREE_D_MIN_LIMIT = 50;
+    
     /**
      * @var TransactionService $service
      */
@@ -59,11 +70,11 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $logger = $this->createMock(LoggerInterface::class);
-        $config = new Config('https://api-test.wirecard.com', 'user', 'password');
-        $ccardConfig = new CreditCardConfig('maid', 'secret');
-        $ccardConfig->setThreeDCredentials('3dmaid', '3dsecret');
-        $ccardConfig->addSslMaxLimit(new Amount(100, 'EUR'));
-        $ccardConfig->addThreeDMinLimit(new Amount(50, 'EUR'));
+        $config = new Config(self::GW_BASE_URL, self::GW_HTTP_USER, self::GW_HTTP_PASSWORD);
+        $ccardConfig = new CreditCardConfig(self::CC_MAID, self::CC_SECRET);
+        $ccardConfig->setThreeDCredentials(self::CC_THREE_D_MAID, self::CC_THREE_D_SECRET);
+        $ccardConfig->addSslMaxLimit(new Amount(self::CC_SSL_MAX_LIMIT, 'EUR'));
+        $ccardConfig->addThreeDMinLimit(new Amount(self::CC_THREE_D_MIN_LIMIT, 'EUR'));
         $config->add($ccardConfig);
         $this->service = new TransactionService($config, $logger);
     }
@@ -74,7 +85,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         $expected = [
             'transaction_type' => 'authorization',
-            'merchant_account_id' => '3dmaid',
+            'merchant_account_id' => self::CC_THREE_D_MAID,
             'requested_amount' => 300,
             'requested_amount_currency' => 'EUR',
             'locale' => 'en',
@@ -216,5 +227,21 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         $data = json_decode($this->service->getDataForCreditCardUi("en", new Amount(10, "EUR")), true);
         $this->assertEquals('authorization', $data['transaction_type']);
+    }
+    
+    public function testGetConfig()
+    {
+        $config = $this->service->getConfig();
+        $this->assertEquals(self::GW_BASE_URL, $config->getBaseUrl());
+        $this->assertEquals(self::GW_HTTP_USER, $config->getHttpUser());
+        $this->assertEquals(self::GW_HTTP_PASSWORD, $config->getHttpPassword());
+        
+        $ccConfig = $config->get(CreditCardTransaction::NAME);
+        $this->assertEquals(self::CC_MAID, $ccConfig->getMerchantAccountId());
+        $this->assertEquals(self::CC_SECRET, $ccConfig->getSecret());
+        $this->assertEquals(self::CC_THREE_D_MAID, $ccConfig->getThreeDMerchantAccountId());
+        $this->assertEquals(self::CC_THREE_D_SECRET, $ccConfig->getThreeDSecret());
+        $this->assertEquals(self::CC_SSL_MAX_LIMIT, $ccConfig->getSslMaxLimit('EUR'));
+        $this->assertEquals(self::CC_THREE_D_MIN_LIMIT, $ccConfig->getThreeDMinLimit('EUR'));
     }
 }
