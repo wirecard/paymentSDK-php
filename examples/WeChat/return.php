@@ -43,9 +43,9 @@ if ($_POST) {
         echo getTransactionLink($baseUrl, $response);
         ?>
         <br>
-        <form action="cancel.php" method="post">
+        <form action="refund.php" method="post">
             <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-            <button type="submit" class="btn btn-primary">Cancel the payment</button>
+            <button type="submit" class="btn btn-primary">Refund the payment</button>
         </form>
         <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
