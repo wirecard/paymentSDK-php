@@ -248,7 +248,7 @@ class Item implements MappableEntity
             $data['tax-amount'] = $this->taxAmount->mappedProperties();
         } elseif (!is_null($this->taxRate)) {
             $taxAmountValue = number_format($this->price->getValue() * $this->quantity * ($this->taxRate / 100.0), 2);
-            $taxAmount = new Amount($taxAmountValue, $this->price->getCurrency());
+            $taxAmount = new Amount((float) $taxAmountValue, $this->price->getCurrency());
 
             $data['tax-amount'] = $taxAmount->mappedProperties();
         }

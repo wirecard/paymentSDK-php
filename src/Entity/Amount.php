@@ -53,26 +53,20 @@ class Amount implements MappableEntity
 
     /**
      * Amount constructor.
-     * @param float|int|string $value
+     * @param float|int $value
      * @param string $currency
-     * @throws MandatoryFieldMissingException
+     * @throws TypeError
      */
     public function __construct($value, $currency)
     {
-        $this->currency = $currency;
-
-        if (is_float($value) || is_int($value)) {
-            $this->value = (float) $value;
-        } else {
-            $value = str_replace(',', '.', $value);
-            $value = preg_replace('/[.](?!\d*$)/', '', $value);
-
-            if (is_numeric($value)) {
-                $this->value = (float)$value;
-            } else {
-                throw new MandatoryFieldMissingException('Value is not a valid numeric number');
-            }
+        if (!is_float($value) && !is_int($value)) {
+            throw new MandatoryFieldMissingException(
+                'Amount must be a numeric value (float or int).'
+            );
         }
+
+        $this->currency = $currency;
+        $this->value = (float) $value;
     }
 
     /**
