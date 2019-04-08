@@ -55,7 +55,7 @@ class Amount implements MappableEntity
      * Amount constructor.
      * @param float|int $value
      * @param string $currency
-     * @throws TypeError
+     * @throws MandatoryFieldMissingException
      */
     public function __construct($value, $currency)
     {
