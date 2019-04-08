@@ -81,7 +81,8 @@ class AmountUTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
      */
-    public function testNonNumericValue() {
+    public function testNonNumericValue()
+    {
         $amount = new Amount('10.00', 'EUR');
     }
 }
