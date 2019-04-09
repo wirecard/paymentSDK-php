@@ -59,7 +59,7 @@ class Amount implements MappableEntity
      */
     public function __construct($value, $currency)
     {
-        if (!is_float($value) && !is_int($value)) {
+        if (!$this->isNumeric($value)) {
             throw new MandatoryFieldMissingException(
                 'Amount must be a numeric value (float or int).'
             );
@@ -94,5 +94,19 @@ class Amount implements MappableEntity
             'currency' => $this->currency,
             'value' => $this->value
         ];
+    }
+
+    /**
+     * Performs a strict check if the given value is float or int.
+     *
+     * PHPs integrated is_numeric function also accepts strings which is
+     * undesirable for our use case.
+     *
+     * @param $value
+     * @return bool
+     */
+    private function isNumeric($value)
+    {
+        return is_float($value) || is_int($value);
     }
 }
