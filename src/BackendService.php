@@ -53,6 +53,7 @@ class BackendService extends TransactionService
     const TYPE_CANCELLED = 'cancelled';
     const TYPE_PROCESSING = 'processing';
     const TYPE_REFUNDED = 'refunded';
+    const TYPE_PENDING = 'pending';
 
     const CANCEL_BUTTON_TEXT = 'Cancel';
     const REFUND_BUTTON_TEXT = 'Refund';
@@ -138,6 +139,10 @@ class BackendService extends TransactionService
     public function getOrderState($transaction_type)
     {
         switch ($transaction_type) {
+            case Transaction::TYPE_PENDING_CREDIT:
+            case Transaction::TYPE_PENDING_DEBIT:
+                $state = self::TYPE_PENDING;
+                break;
             case Transaction::TYPE_CAPTURE_AUTHORIZATION:
             case Transaction::TYPE_DEBIT:
             case Transaction::TYPE_PURCHASE:
