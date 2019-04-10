@@ -16,6 +16,7 @@ use Monolog\Logger;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\TransactionService;
+// ### Validation
 
 // Set a public key for certificate pinning used for response signature validation, this certificate needs to be always
 // up to date

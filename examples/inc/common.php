@@ -40,3 +40,9 @@ function getTransactionLink($baseUrl, $response, $config = null)
     $output .= '</a>';
     return $output;
 }
+
+function prepareCustomField($key, $value, $prefix = '') {
+	$customField = new CustomField($key, $value);
+	$customField->setPrefix($prefix);
+	return $customField;
+}

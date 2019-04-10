@@ -32,30 +32,21 @@ if (!isset($_POST['parentTransactionId'])) {
     </form>
     <?php
 } else {
+// ### Transaction related objects
+
+// Create the mandatory fields needed for By Bank App(merchant string, transaction type, Delivery type).
+	$customFields = new CustomFieldCollection();
+	$customFields->add(prepareCustomField('zapp.in.RefundReasonType', 'LATECONFIRMATION'));
+	$customFields->add(prepareCustomField('zapp.in.RefundMethod', 'BACS'));
+
 // ## Transaction
+
+// The Pay By Bank App transaction holds all transaction relevant data for the payment process.
     $transaction = new PayByBankAppTransaction();
     $transaction->setParentTransactionId($_POST['parentTransactionId']);
-
-    $device = new Device();
-    $device->setType("pc");
-    $device->setOperatingSystem("windows");
     $transaction->setDevice($device);
-
-    $accountHolder = new AccountHolder();
-    $accountHolder->setLastName('Doe');
     $transaction->setAccountHolder($accountHolder);
-
-    $customFields = new CustomFieldCollection();
     $transaction->setCustomFields($customFields);
-
-    function addCustomField($key, $value) {
-        $customField = new CustomField($key, $value);
-        $customField->setPrefix("");
-        return $customField;
-    }
-
-    $customFields->add(addCustomField('zapp.in.RefundReasonType', 'LATECONFIRMATION'));
-    $customFields->add(addCustomField('zapp.in.RefundMethod', 'BACS'));
 
 // ### Transaction Service
 
