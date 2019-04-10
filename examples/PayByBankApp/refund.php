@@ -36,13 +36,8 @@ if (!isset($_POST['parentTransactionId'])) {
 
 // Create the mandatory fields needed for By Bank App(merchant string, transaction type, Delivery type).
 	$customFields = new CustomFieldCollection();
-	function addCustomField($key, $value) {
-		$customField = new CustomField($key, $value);
-		$customField->setPrefix("");
-		return $customField;
-	}
-	$customFields->add(addCustomField('zapp.in.RefundReasonType', 'LATECONFIRMATION'));
-	$customFields->add(addCustomField('zapp.in.RefundMethod', 'BACS'));
+	$customFields->add(prepareCustomField('zapp.in.RefundReasonType', 'LATECONFIRMATION'));
+	$customFields->add(prepareCustomField('zapp.in.RefundMethod', 'BACS'));
 
 // ## Transaction
 

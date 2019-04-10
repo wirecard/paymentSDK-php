@@ -34,14 +34,9 @@ $device->setOperatingSystem("windows");
 
 // Create the mandatory fields needed for By Bank App(merchant string, transaction type, Delivery type).
 $customFields = new CustomFieldCollection();
-function addCustomField($key, $value) {
-	$customField = new CustomField($key, $value);
-	$customField->setPrefix("");
-	return $customField;
-}
-$customFields->add(addCustomField('zapp.in.MerchantRtnStrng', '123'));
-$customFields->add(addCustomField('zapp.in.TxType', 'PAYMT'));
-$customFields->add(addCustomField('zapp.in.DeliveryType', 'DELTAD'));
+$customFields->add(prepareCustomField('zapp.in.MerchantRtnStrng', '123'));
+$customFields->add(prepareCustomField('zapp.in.TxType', 'PAYMT'));
+$customFields->add(prepareCustomField('zapp.in.DeliveryType', 'DELTAD'));
 
 // The redirect URLs determine where the consumer should be redirected after approval/cancellation.
 $redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
