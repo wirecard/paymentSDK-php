@@ -35,4 +35,10 @@
     <span class="hljs-variable">$output</span> .= <span class="hljs-variable">$transactionId</span>;
     <span class="hljs-variable">$output</span> .= <span class="hljs-string">'&lt;/a&gt;'</span>;
     <span class="hljs-keyword">return</span> <span class="hljs-variable">$output</span>;
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">prepareCustomField</span><span class="hljs-params">(<span class="hljs-variable">$key</span>, <span class="hljs-variable">$value</span>, <span class="hljs-variable">$prefix</span> = <span class="hljs-string">''</span>)</span> </span>{
+	<span class="hljs-variable">$customField</span> = <span class="hljs-keyword">new</span> CustomField(<span class="hljs-variable">$key</span>, <span class="hljs-variable">$value</span>);
+	<span class="hljs-variable">$customField</span>-&gt;setPrefix(<span class="hljs-variable">$prefix</span>);
+	<span class="hljs-keyword">return</span> <span class="hljs-variable">$customField</span>;
 }</div></div></div></div></body></html>

@@ -3356,7 +3356,18 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                         "title": "Required objects",
                         "slug": "required-objects"
                       },
-                      "depth": 2
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Validation",
+                            "slug": "validation"
+                          },
+                          "depth": 3
+                        }
+                      ]
                     }, {
                       "type": "heading",
                       "data": {
@@ -3411,12 +3422,50 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "type": "heading",
                   "data": {
                     "level": 1,
-                    "title": "PayByBankApp",
-                    "slug": "paybybankapp"
+                    "title": "Purchase for Pay By Bank App",
+                    "slug": "purchase-for-pay-by-bank-app"
                   },
                   "depth": 1,
                   "children": [
                     {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Required objects",
+                        "slug": "required-objects"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Transaction",
+                        "slug": "transaction"
+                      },
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }, {
                       "type": "heading",
                       "data": {
                         "level": 2,
@@ -3463,7 +3512,18 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                         "title": "Required objects",
                         "slug": "required-objects"
                       },
-                      "depth": 2
+                      "depth": 2,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction related objects",
+                            "slug": "transaction-related-objects"
+                          },
+                          "depth": 3
+                        }
+                      ]
                     }, {
                       "type": "heading",
                       "data": {
@@ -3518,8 +3578,8 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "type": "heading",
                   "data": {
                     "level": 1,
-                    "title": "iDEAL return after transaction",
-                    "slug": "ideal-return-after-transaction"
+                    "title": "Pay By Bank App return after transaction",
+                    "slug": "pay-by-bank-app-return-after-transaction"
                   },
                   "depth": 1,
                   "children": [

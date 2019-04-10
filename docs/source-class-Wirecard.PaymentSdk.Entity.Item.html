@@ -434,7 +434,7 @@
 </span><span id="248" class="l"><a href="#248">248 </a>            <span class="php-var">$data</span>[<span class="php-quote">'tax-amount'</span>] = <span class="php-var">$this</span>-&gt;taxAmount-&gt;mappedProperties();
 </span><span id="249" class="l"><a href="#249">249 </a>        } <span class="php-keyword1">elseif</span> (!<span class="php-keyword2">is_null</span>(<span class="php-var">$this</span>-&gt;taxRate)) {
 </span><span id="250" class="l"><a href="#250">250 </a>            <span class="php-var">$taxAmountValue</span> = <span class="php-keyword2">number_format</span>(<span class="php-var">$this</span>-&gt;price-&gt;getValue() * <span class="php-var">$this</span>-&gt;quantity * (<span class="php-var">$this</span>-&gt;taxRate / <span class="php-num">100.0</span>), <span class="php-num">2</span>);
-</span><span id="251" class="l"><a href="#251">251 </a>            <span class="php-var">$taxAmount</span> = <span class="php-keyword1">new</span> Amount(<span class="php-var">$taxAmountValue</span>, <span class="php-var">$this</span>-&gt;price-&gt;getCurrency());
+</span><span id="251" class="l"><a href="#251">251 </a>            <span class="php-var">$taxAmount</span> = <span class="php-keyword1">new</span> Amount((float) <span class="php-var">$taxAmountValue</span>, <span class="php-var">$this</span>-&gt;price-&gt;getCurrency());
 </span><span id="252" class="l"><a href="#252">252 </a>
 </span><span id="253" class="l"><a href="#253">253 </a>            <span class="php-var">$data</span>[<span class="php-quote">'tax-amount'</span>] = <span class="php-var">$taxAmount</span>-&gt;mappedProperties();
 </span><span id="254" class="l"><a href="#254">254 </a>        }

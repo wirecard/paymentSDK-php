@@ -146,7 +146,7 @@
 
 				<b>Extends:</b>
 				TransactionService<br>
-			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.BackendService.html#43-191" title="Go to source code">BackendService.php</a>
+			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.BackendService.html#43-196" title="Go to source code">BackendService.php</a>
 		<br>
 	</div>
 
@@ -166,7 +166,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_retrieveBackendOperations">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.BackendService.html#62-111" title="Go to source code">retrieveBackendOperations</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></code> <var>$transaction</var></span>, <span>boolean <var>$limit</var> = <span class="php-keyword1">false</span></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.BackendService.html#63-112" title="Go to source code">retrieveBackendOperations</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></code> <var>$transaction</var></span>, <span>boolean <var>$limit</var> = <span class="php-keyword1">false</span></span> )</code>
 
 			<div class="description short">
 				<p>Method returns possible follow up operations for transaction.
@@ -208,7 +208,7 @@ If limit is set to false (default), all possible operations will be returned.</p
 
 			<td class="name"><div>
 			<a class="anchor" href="#_process">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.BackendService.html#113-130" title="Go to source code">process</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></code> <var>$transaction</var></span>, <span>string <var>$operation</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.BackendService.html#114-131" title="Go to source code">process</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></code> <var>$transaction</var></span>, <span>string <var>$operation</var></span> )</code>
 
 			<div class="description short">
 				<p>Build in fallback for refund</p>
@@ -258,7 +258,7 @@ If limit is set to false (default), all possible operations will be returned.</p
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getOrderState">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.BackendService.html#132-165" title="Go to source code">getOrderState</a>( <span> <var>$transaction_type</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.BackendService.html#133-170" title="Go to source code">getOrderState</a>( <span> <var>$transaction_type</var></span> )</code>
 
 			<div class="description short">
 				<p>Return order state of the transaction</p>
@@ -296,7 +296,7 @@ If limit is set to false (default), all possible operations will be returned.</p
 
 			<td class="name"><div>
 			<a class="anchor" href="#_isFinal">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.BackendService.html#167-190" title="Go to source code">isFinal</a>( <span> <var>$transaction_type</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.BackendService.html#172-195" title="Go to source code">isFinal</a>( <span> <var>$transaction_type</var></span> )</code>
 
 			<div class="description short">
 				<p>Check if the transaction is final</p>
@@ -458,12 +458,36 @@ If limit is set to false (default), all possible operations will be returned.</p
 					</div>
 				</td>
 			</tr>
+			<tr data-order="TYPE_PENDING" id="TYPE_PENDING">
+
+				<td class="attributes"><code>string</code></td>
+				<td class="name">
+					<code>
+						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#56" title="Go to source code"><b>TYPE_PENDING</b></a>
+					</code>
+
+					<div class="description short">
+						
+					</div>
+
+					<div class="description detailed hidden">
+						
+
+					</div>
+				</td>
+				<td class="value">
+					<div>
+						<a href="#TYPE_PENDING" class="anchor">#</a>
+						<code><span class="php-quote">'pending'</span></code>
+					</div>
+				</td>
+			</tr>
 			<tr data-order="CANCEL_BUTTON_TEXT" id="CANCEL_BUTTON_TEXT">
 
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#57" title="Go to source code"><b>CANCEL_BUTTON_TEXT</b></a>
+						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#58" title="Go to source code"><b>CANCEL_BUTTON_TEXT</b></a>
 					</code>
 
 					<div class="description short">
@@ -487,7 +511,7 @@ If limit is set to false (default), all possible operations will be returned.</p
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#58" title="Go to source code"><b>REFUND_BUTTON_TEXT</b></a>
+						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#59" title="Go to source code"><b>REFUND_BUTTON_TEXT</b></a>
 					</code>
 
 					<div class="description short">
@@ -511,7 +535,7 @@ If limit is set to false (default), all possible operations will be returned.</p
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#59" title="Go to source code"><b>CAPTURE_BUTTON_TEXT</b></a>
+						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#60" title="Go to source code"><b>CAPTURE_BUTTON_TEXT</b></a>
 					</code>
 
 					<div class="description short">
@@ -535,7 +559,7 @@ If limit is set to false (default), all possible operations will be returned.</p
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#60" title="Go to source code"><b>CREDIT_BUTTON_TEXT</b></a>
+						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#61" title="Go to source code"><b>CREDIT_BUTTON_TEXT</b></a>
 					</code>
 
 					<div class="description short">
