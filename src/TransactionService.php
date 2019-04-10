@@ -836,7 +836,7 @@ class TransactionService
      */
     public function processJsResponse($payload, $url)
     {
-        $this->getLogger()->debug('GET seamless response: ' . $payload);
+        $this->getLogger()->debug('GET seamless response: ' . json_encode($payload));
         return $this->responseMapper->mapSeamlessResponse($payload, $url);
     }
 
