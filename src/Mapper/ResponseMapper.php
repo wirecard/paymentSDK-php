@@ -312,7 +312,9 @@ class ResponseMapper
         $this->simpleXml->addChild("request-id", $payload['request_id']);
 
         if (array_key_exists('requested_amount', $payload) && array_key_exists('requested_amount_currency', $payload)) {
-            $amountSimpleXml = new SimpleXMLElement('<requested-amount>'.$payload['requested_amount'].'</requested-amount>');
+            $amountSimpleXml = new SimpleXMLElement(
+                '<requested-amount>'.$payload['requested_amount'].'</requested-amount>'
+            );
             $amountSimpleXml->addAttribute('currency', $payload['requested_amount_currency']);
         }
 
