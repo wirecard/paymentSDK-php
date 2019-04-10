@@ -318,6 +318,8 @@ class TransactionService
 
         $requestData['request_signature'] = $this->toSha256($requestData, $secret);
 
+        $this->getLogger()->debug('Seamless request body: ' . json_encode($requestData));
+
         return json_encode($requestData);
     }
 
@@ -834,6 +836,7 @@ class TransactionService
      */
     public function processJsResponse($payload, $url)
     {
+        $this->getLogger()->debug('GET seamless response: ' . $payload);
         return $this->responseMapper->mapSeamlessResponse($payload, $url);
     }
 
