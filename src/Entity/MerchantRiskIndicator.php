@@ -31,55 +31,35 @@
 
 namespace Wirecard\PaymentSdk\Entity;
 
-use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
-
 /**
- * Class AuthenticationInfo
+ * Class MerchantRiskIndicator
  * @package Wirecard\PaymentSdk\Entity
  * @since 3.7.0
  */
-class AuthenticationInfo implements MappableEntity
+class MerchantRiskIndicator implements MappableEntity
 {
     /**
-     * @var string DATE_FORMAT
+     * @var DeliveryTimeFrame
      */
-    const DATE_FORMAT = 'YmdHi';
+    private $deliveryTimeFrame;
 
     /**
-     * @var AuthMethod
+     * @var ChallengeInd
      */
-    private $authMethod;
+    private $deliveryEmailAddress;
 
     /**
-     * @var \DateTime
-     */
-    private $authTimestamp;
-
-    /**
-     * @param $authMethod
+     * @param DeliveryTimeFrame $deliveryTimeFrame
      * @return $this
      */
-    public function setAuthMethod($authMethod)
+    public function setDeliveryTimeFrame($deliveryTimeFrame)
     {
-        $this->authMethod = AuthMethod::search($authMethod);
-        if (!$this->authMethod) {
-            throw new MandatoryFieldMissingException('Authentication method is not supported.');
+        if (!$deliveryTimeFrame instanceof DeliveryTimeFrame) {
+            throw new \InvalidArgumentException(
+                'Delivery Time Frame must be of type Delivery Time Frame.'
+            );
         }
-
-        return $this;
-    }
-
-    /**
-     * @param $authTimestamp
-     * @return $this
-     */
-    public function setAuthTimestamp($authTimestamp = null)
-    {
-        if (null == $authTimestamp) {
-            $authTimestamp = gmdate(self::DATE_FORMAT);
-        }
-
-        $this->authTimestamp = $authTimestamp;
+        $this->deliveryTimeFrame = $deliveryTimeFrame;
 
         return $this;
     }
@@ -89,16 +69,9 @@ class AuthenticationInfo implements MappableEntity
      */
     public function mappedProperties()
     {
-        $authenticationInfo = array();
-        if (null !== $this->authMethod) {
-            $authenticationInfo['authentication_method'] = $this->authMethod;
-        }
+        $merchantRiskIndicator = array();
 
-        if (null !== $this->authTimestamp) {
-            $authenticationInfo['authentication_timestamp'] = $this->authTimestamp;
-        }
-
-        return $authenticationInfo;
+        return $merchantRiskIndicator;
     }
 
     /**
@@ -106,6 +79,8 @@ class AuthenticationInfo implements MappableEntity
      */
     public function mappedSeamlessProperties()
     {
-        return $this->mappedProperties();
+        $merchantRiskIndicator = array();
+
+        return $merchantRiskIndicator;
     }
 }

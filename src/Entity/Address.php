@@ -75,6 +75,11 @@ class Address implements MappableEntity
     /**
      * @var string
      */
+    private $street3;
+
+    /**
+     * @var string
+     */
     private $state;
 
     /**
@@ -108,6 +113,15 @@ class Address implements MappableEntity
     public function setStreet2($street2)
     {
         $this->street2 = $street2;
+    }
+
+    /**
+     * @param $street3
+     * Enter the house number incl. suffixes here.
+     */
+    public function setStreet3($street3)
+    {
+        $this->street3 = $street3;
     }
 
     /**
@@ -172,12 +186,22 @@ class Address implements MappableEntity
             $result['postal-code'] = $this->postalCode;
         }
 
+        //@TODO Refactor street handling
         if (!is_null($this->street2)) {
             $result['street2'] = $this->street2;
         } else {
-            if (strlen($this->street1) > 128) {
-                $result['street1'] = substr($this->street1, 0, 128);
-                $result['street2'] = substr($this->street1, 128);
+            if (strlen($this->street1) > 50) {
+                $result['street1'] = substr($this->street1, 0, 50);
+                $result['street2'] = substr($this->street1, 50);
+            }
+        }
+
+        if (!is_null($this->street3)) {
+            $result['street3'] = $this->street3;
+        } else {
+            if (strlen($this->street2) > 50) {
+                $result['street2'] = substr($this->street2, 0, 50);
+                $result['street3'] = substr($this->street2, 50);
             }
         }
 
@@ -204,12 +228,22 @@ class Address implements MappableEntity
             $result[$type . 'postal_code'] = $this->postalCode;
         }
 
+        //@TODO Refactor street handling
         if (!is_null($this->street2)) {
             $result[$type . 'street2'] = $this->street2;
         } else {
-            if (strlen($this->street1) > 128) {
-                $result[$type . 'street1'] = substr($this->street1, 0, 128);
-                $result[$type . 'street2'] = substr($this->street1, 128);
+            if (strlen($this->street1) > 50) {
+                $result[$type . 'street1'] = substr($this->street1, 0, 50);
+                $result[$type . 'street2'] = substr($this->street1, 50);
+            }
+        }
+
+        if (!is_null($this->street3)) {
+            $result['street3'] = $this->street3;
+        } else {
+            if (strlen($this->street2) > 50) {
+                $result['street2'] = substr($this->street2, 0, 50);
+                $result['street3'] = substr($this->street2, 50);
             }
         }
 

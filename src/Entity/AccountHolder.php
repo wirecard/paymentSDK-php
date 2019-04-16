@@ -68,6 +68,21 @@ class AccountHolder implements MappableEntity
     private $phone;
 
     /**
+     * @var string
+     */
+    private $homePhone;
+
+    /**
+     * @var string
+     */
+    private $mobilePhone;
+
+    /**
+     * @var string
+     */
+    private $workPhone;
+
+    /**
      * @var \DateTime
      */
     private $dateOfBirth;
@@ -137,6 +152,24 @@ class AccountHolder implements MappableEntity
     public function setPhone($phone)
     {
         $this->phone = $phone;
+        return $this;
+    }
+
+    public function setHomePhone($phone)
+    {
+        $this->homePhone = $phone;
+        return $this;
+    }
+
+    public function setMobilePhone($phone)
+    {
+        $this->mobilePhone = $phone;
+        return $this;
+    }
+
+    public function setWorkPhone($phone)
+    {
+        $this->workPhone = $phone;
         return $this;
     }
 
@@ -238,6 +271,18 @@ class AccountHolder implements MappableEntity
             $result['phone'] = $this->phone;
         }
 
+        if (!is_null($this->homePhone)) {
+            $result['home_phone'] = $this->homePhone;
+        }
+
+        if (!is_null($this->mobilePhone)) {
+            $result['mobile_phone'] = $this->mobilePhone;
+        }
+
+        if (!is_null($this->workPhone)) {
+            $result['work_phone'] = $this->workPhone;
+        }
+
         if (!is_null($this->address)) {
             $result['address'] = $this->address->mappedProperties();
         }
@@ -291,6 +336,18 @@ class AccountHolder implements MappableEntity
 
         if (!is_null($this->phone)) {
             $result['phone'] = $this->phone;
+        }
+
+        if (!is_null($this->homePhone)) {
+            $result['home_phone'] = $this->homePhone;
+        }
+
+        if (!is_null($this->mobilePhone)) {
+            $result['mobile_phone'] = $this->mobilePhone;
+        }
+
+        if (!is_null($this->workPhone)) {
+            $result['work_phone'] = $this->workPhone;
         }
 
         if (!is_null($this->address)) {
@@ -413,6 +470,10 @@ class AccountHolder implements MappableEntity
 
             if (isset($simpleXmlElement->address->street2)) {
                 $address->setStreet2(strval($simpleXmlElement->address->street2));
+            }
+
+            if (isset($simpleXmlElement->address->street3)) {
+                $address->setStreet3(strval($simpleXmlElement->address->street3));
             }
 
             if (isset($simpleXmlElement->address->{'house-extension'})) {

@@ -39,6 +39,28 @@ namespace Wirecard\PaymentSdk\Entity;
 class CardHolderAccount implements MappableEntity
 {
     /**
+     * @const string
+     */
+    const DATE_FORMAT = 'Ymd';
+
+    /**
+     * @const array
+     */
+    const OPTIONAL_FIELDS = [
+        'account_creation_date'        => 'creationDate',
+        'account_update_date'          => 'updateDate',
+        'account_password_change_date' => 'passChangeDate',
+        'shipping_address_first_use'   => 'shippingAddressFirstUse',
+        'card_creation_date'           => 'cardCreationDate',
+        'transactions_last_day'        => 'amountTransactionsLastDay',
+        'transactions_last_year'       => 'amountTransactionsLastYear',
+        'card_transactions_last_day'   => 'amountCardTransactionsLastDay',
+        'purchases_last_six_months'    => 'amountPurchasesLastSixMonths',
+        'suspicious_activity'          => 'suspiciousActivity',
+        'merchant_crm_id'              => 'merchantCrmId',
+    ];
+
+    /**
      * @var \DateTime
      */
     private $creationDate;
@@ -56,7 +78,12 @@ class CardHolderAccount implements MappableEntity
     /**
      * @var \DateTime
      */
-    private $shippingAddressUsage;
+    private $shippingAddressFirstUse;
+
+    /**
+     * @var \DateTime
+     */
+    private $cardCreationDate;
 
     /**
      * @var int
@@ -68,17 +95,32 @@ class CardHolderAccount implements MappableEntity
      */
     private $amountTransactionsLastYear;
 
+    /**
+     * @var int
+     */
+    private $amountCardTransactionsLastDay;
+
+    /**
+     * @var int
+     */
+    private $amountPurchasesLastSixMonths;
+
+    /**
+     * @var bool
+     */
+    private $suspiciousActivity;
+
+    /**
+     * @var string
+     */
+    private $merchantCrmId;
 
     /**
      * @param $creationDate
      * @return $this
      */
-    public function setCreationDate($creationDate = null)
+    public function setCreationDate(\DateTime $creationDate)
     {
-        if (null == $creationDate) {
-            //TODO Create date with YYYYMMDDHHMM
-            $creationDate = gmdate('YmdHis');
-        }
         $this->creationDate = $creationDate;
 
         return $this;
@@ -88,12 +130,8 @@ class CardHolderAccount implements MappableEntity
      * @param $updateDate
      * @return $this
      */
-    public function setUpdateDate($updateDate = null)
+    public function setUpdateDate(\DateTime $updateDate)
     {
-        if (null == $updateDate) {
-            //TODO Create date with YYYYMMDDHHMM
-            $updateDate = gmdate('YmdHis');
-        }
         $this->updateDate = $updateDate;
 
         return $this;
@@ -103,28 +141,31 @@ class CardHolderAccount implements MappableEntity
      * @param $passChangeDate
      * @return $this
      */
-    public function setPassChangeDate($passChangeDate = null)
+    public function setPassChangeDate(\DateTime $passChangeDate)
     {
-        if (null == $passChangeDate) {
-            //TODO Create date with YYYYMMDDHHMM
-            $passChangeDate = gmdate('YmdHis');
-        }
         $this->passChangeDate = $passChangeDate;
 
         return $this;
     }
 
     /**
-     * @param $shippingAddressUsage
+     * @param $shippingAddressFirstUse
      * @return $this
      */
-    public function setShippingAddressUsage($shippingAddressUsage = null)
+    public function setShippingAddressFirstUse(\DateTime $shippingAddressFirstUse)
     {
-        if (null == $shippingAddressUsage) {
-            //TODO Create date with YYYYMMDDHHMM
-            $shippingAddressUsage = gmdate('YmdHis');
-        }
-        $this->shippingAddressUsage = $shippingAddressUsage;
+        $this->shippingAddressFirstUse = $shippingAddressFirstUse;
+
+        return $this;
+    }
+
+    /**
+     * @param \DateTime $cardCreationDate
+     * @return $this
+     */
+    public function setCardCreationDate(\DateTime $cardCreationDate)
+    {
+        $this->cardCreationDate = $cardCreationDate;
 
         return $this;
     }
@@ -135,7 +176,8 @@ class CardHolderAccount implements MappableEntity
      */
     public function setAmountTransactionsLastDay($transactionsAmount)
     {
-        $this->amountTransactionsLastDay = $transactionsAmount;
+        $this->amountTransactionsLastDay = (int)$transactionsAmount;
+
         return $this;
     }
 
@@ -145,7 +187,54 @@ class CardHolderAccount implements MappableEntity
      */
     public function setAmountTransactionsLastYear($transactionsAmount)
     {
-        $this->amountTransactionsLastYear = $transactionsAmount;
+        $this->amountTransactionsLastYear = (int)$transactionsAmount;
+
+        return $this;
+    }
+
+    /**
+     * @param $transactionsAmount
+     * @return $this
+     */
+    public function setAmountCardTransactionsLastDay($transactionsAmount)
+    {
+        $this->amountCardTransactionsLastDay = (int)$transactionsAmount;
+
+        return $this;
+
+    }
+
+    /**
+     * @param $purchasesAmount
+     * @return $this
+     */
+    public function setAmountPurchasesLastSixMonths($purchasesAmount)
+    {
+        $this->amountPurchasesLastSixMonths = (int)$purchasesAmount;
+
+        return $this;
+    }
+
+    /**
+     * @param $suspiciousActivity
+     * @return $this
+     */
+    public function setSuspiciousActivity($suspiciousActivity)
+    {
+        $this->suspiciousActivity = $suspiciousActivity;
+
+        return $this;
+
+    }
+
+    /**
+     * @param $merchantCrmId
+     * @return $this
+     */
+    public function setMerchantCrmId($merchantCrmId)
+    {
+        $this->merchantCrmId = $merchantCrmId;
+
         return $this;
     }
 
@@ -155,28 +244,11 @@ class CardHolderAccount implements MappableEntity
     public function mappedProperties()
     {
         $cardHolderAccount = array();
-        if (null !== $this->creationDate) {
-            $cardHolderAccount['account_creation_date'] = $this->creationDate;
-        }
 
-        if (null !== $this->updateDate) {
-            $cardHolderAccount['account_update_date'] = $this->updateDate;
-        }
-
-        if (null !== $this->passChangeDate) {
-            $cardHolderAccount['account_password_change_date'] = $this->passChangeDate;
-        }
-
-        if (null !== $this->shippingAddressUsage) {
-            $cardHolderAccount['shipping_address_first_usage'] = $this->shippingAddressUsage;
-        }
-
-        if (null !== $this->amountTransactionsLastDay) {
-            $cardHolderAccount['transactions_last_day'] = $this->amountTransactionsLastDay;
-        }
-
-        if (null !== $this->amountTransactionsLastYear) {
-            $cardHolderAccount['transactions_last_year'] = $this->amountTransactionsLastYear;
+        foreach (self::OPTIONAL_FIELDS as $mappedKey => $property) {
+            if (isset($this->{$property})) {
+                $cardHolderAccount[$mappedKey] = $this->getFormattedValue($this->{$property});
+            }
         }
 
         return $cardHolderAccount;
@@ -188,5 +260,18 @@ class CardHolderAccount implements MappableEntity
     public function mappedSeamlessProperties()
     {
         return $this->mappedProperties();
+    }
+
+    /**
+     * @param $value
+     * @return mixed
+     */
+    private function getFormattedValue($value)
+    {
+        if ($value instanceof \DateTime) {
+            return $value->format(self::DATE_FORMAT);
+        }
+
+        return $value;
     }
 }
