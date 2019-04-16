@@ -44,6 +44,21 @@ class MerchantRiskIndicator implements MappableEntity
     const DATE_FORMAT = 'Ymd';
 
     /**
+     * @const array
+     */
+    const OPTIONAL_FIELDS = [
+        'risk_info_delivery_timeframe'   => 'deliveryTimeFrame',
+        'risk_info_delivery_mail'        => 'deliveryEmailAddress',
+        'risk_info_reorder_items'        => 'reorderItems',
+        'risk_info_availability'         => 'availability',
+        'risk_info_preorder_date'        => 'preOrderDate',
+        'risk_info_gift_amount'          => 'giftAmount',
+        'risk_info_gift_amount_currency' => 'giftCurrency',
+        'risk_info_gift_card_count'      => 'giftCardCount',
+        'iso_transaction_type'           => 'isoTransactionType',
+    ];
+
+    /**
      * @var DeliveryTimeFrame
      */
     private $deliveryTimeFrame;
@@ -57,6 +72,11 @@ class MerchantRiskIndicator implements MappableEntity
      * @var string
      */
     private $reorderItems;
+
+    /**
+     * @var string
+     */
+    private $availability;
 
     /**
      * @var \DateTime
@@ -119,6 +139,21 @@ class MerchantRiskIndicator implements MappableEntity
         }
 
         $this->reorderItems = $reorderItems;
+
+        return $this;
+    }
+
+    /**
+     * @param string $availability
+     * @return $this
+     */
+    public function setAvailability($availability)
+    {
+        if ($availability !== '01' && $availability !== '02') {
+            throw new \InvalidArgumentException('Availability preference is invalid.');
+        }
+
+        $this->availability = $availability;
 
         return $this;
     }
@@ -190,6 +225,12 @@ class MerchantRiskIndicator implements MappableEntity
     {
         $merchantRiskIndicator = array();
 
+        foreach (self::OPTIONAL_FIELDS as $mappedKey => $property) {
+            if (isset($this->{$property})) {
+                $cardHolderAccount[$mappedKey] = $this->getFormattedValue($this->{$property});
+            }
+        }
+
         return $merchantRiskIndicator;
     }
 
@@ -198,9 +239,7 @@ class MerchantRiskIndicator implements MappableEntity
      */
     public function mappedSeamlessProperties()
     {
-        $merchantRiskIndicator = array();
-
-        return $merchantRiskIndicator;
+        return $this->mappedProperties();
     }
 
     /**
