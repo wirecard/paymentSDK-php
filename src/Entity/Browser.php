@@ -173,6 +173,10 @@ class Browser implements MappableEntity
             $data['screen-resolution'] = $this->screenResolution;
         }
 
+        if (isset($this->challengeWindowSize)) {
+            $data['browser_challenge_window_size'] = $this->challengeWindowSize;
+        }
+
         return $data;
     }
 }
