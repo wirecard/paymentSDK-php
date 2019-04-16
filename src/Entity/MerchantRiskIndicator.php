@@ -170,13 +170,12 @@ class MerchantRiskIndicator implements MappableEntity
     }
 
     /**
-     * @param $giftAmount
+     * @param float $giftAmount
      * @return $this
      */
     public function setGiftAmount($giftAmount)
     {
-        //@TODO clarify handling (round or cut off) for INT
-        $this->giftAmount = $giftAmount;
+        $this->giftAmount = round($giftAmount, 0, PHP_ROUND_HALF_DOWN);
 
         return $this;
     }
