@@ -39,52 +39,43 @@ namespace Wirecard\PaymentSdk\Entity;
 class ThreeDSRequestor implements MappableEntity
 {
     /**
-     * @var string | container
+     * @var AuthenticationInfo
      */
     private $authenticationInfo;
 
     /**
-     * @var string | enum
+     * @var ChallengeInd
      */
     private $challengeInd;
 
     /**
-     * @var string | container
-     */
-    private $priorAuthenticationInfo;
-
-    /**
+     * @param AuthenticationInfo $authenticationInfo
      * @return $this
      */
     public function setAuthenticationInfo($authenticationInfo)
     {
-        //TODO: check for instance
-        if (null !== $authenticationInfo) {
-            $this->authenticationInfo = $authenticationInfo;
+        if (!$authenticationInfo instanceof AuthenticationInfo) {
+            throw new \InvalidArgumentException(
+                '3DS Requestor Authentication Information must be of type AuthenticationInfo.'
+            );
         }
+        $this->authenticationInfo = $authenticationInfo;
 
         return $this;
     }
 
     /**
+     * @param string $challengeInd
      * @return $this
      */
     public function setChallengeInd($challengeInd)
     {
-        //TODO: check for instance? - should be enum
-        if (null !== $challengeInd) {
-            $this->challengeInd = $challengeInd;
+        $this->challengeInd = ChallengeInd::search($challengeInd);
+        if (!$this->challengeInd) {
+            throw new \InvalidArgumentException('Challenge indication preference is invalid.');
         }
 
         return $this;
-    }
-
-    public function setPriorAuthenticationInfo($priorAuthenticationInfo)
-    {
-        //TODO: check for instance
-        if (null !== $priorAuthenticationInfo) {
-            $this->priorAuthenticationInfo = $priorAuthenticationInfo;
-        }
     }
 
     /**
@@ -94,15 +85,12 @@ class ThreeDSRequestor implements MappableEntity
     {
         $threeDSRequestor = null;
         if (null !== $this->authenticationInfo) {
-            $threeDSRequestor['threeDSRequestorAuthenticationInfo'] = $this->authenticationInfo;
+            //remove entity array
+            $threeDSRequestor['threeDSRequestorAuthenticationInfo'] = $this->authenticationInfo->mappedProperties();
         }
 
         if (null !== $this->challengeInd) {
             $threeDSRequestor['threeDSRequestorChallengeInd'] = $this->challengeInd;
-        }
-
-        if (null !== $this->priorAuthenticationInfo) {
-            $threeDSRequestor['threeDSRequestorPriorAuthenticationInfo'] = $this->priorAuthenticationInfo;
         }
 
         return $threeDSRequestor;
@@ -113,6 +101,15 @@ class ThreeDSRequestor implements MappableEntity
      */
     public function mappedSeamlessProperties()
     {
-        return $this->mappedProperties();
+        $threeDSRequestor = array();
+        if (null !== $this->authenticationInfo) {
+            $threeDSRequestor = array_merge($threeDSRequestor, $this->authenticationInfo->mappedSeamlessProperties());
+        }
+
+        if (null !== $this->challengeInd) {
+            $threeDSRequestor['challenge_indicator'] = $this->challengeInd;
+        }
+
+        return $threeDSRequestor;
     }
 }

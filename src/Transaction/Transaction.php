@@ -37,6 +37,7 @@ use Wirecard\PaymentSdk\Entity\Browser;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Entity\Periodic;
 use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Entity\ThreeDSRequestor;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
@@ -153,6 +154,11 @@ abstract class Transaction extends Risk
      * @var array
      */
     protected $articleNumbers = [];
+
+    /**
+     * @var ThreeDSRequestor
+     */
+    private $threeDSRequestor;
 
     /**
      * @param string $entryMode
@@ -352,6 +358,31 @@ abstract class Transaction extends Risk
     }
 
     /**
+     * @param $threeDSRequestor
+     * @return $this
+     * @since 3.7.0
+     */
+    public function setThreeDSRequestor($threeDSRequestor)
+    {
+        if (!$threeDSRequestor instanceof ThreeDSRequestor) {
+            throw new \InvalidArgumentException(
+                '3DS Requestor Information must be of type ThreeDSRequestor.'
+            );
+        }
+        $this->threeDSRequestor = $threeDSRequestor;
+        return $this;
+    }
+
+    /**
+     * @return ThreeDSRequestor
+     * @since 3.7.0
+     */
+    public function getThreeDSRequestor()
+    {
+        return $this->threeDSRequestor;
+    }
+
+    /**
      * @throws MandatoryFieldMissingException
      * @throws UnsupportedOperationException
      * @return array
@@ -439,6 +470,10 @@ abstract class Transaction extends Risk
             if (count($browser) > 0) {
                 $result['browser'] = $this->browser->mappedProperties();
             }
+        }
+
+        if (null !== $this->threeDSRequestor) {
+            $result['threeDSRequestor'] = $this->threeDSRequestor->mappedProperties();
         }
 
         return array_merge($result, $specificProperties);

@@ -32,12 +32,10 @@ namespace Wirecard\PaymentSdk\Entity;
 
 use MyCLabs\Enum\Enum;
 
-class AuthMethod extends Enum
+class ChallengeInd extends Enum
 {
-    const GUEST_CHECKOUT = '01';
-    const USER_CHECKOUT  = '02';
-    const FEDERATED_ID   = '03';
-    const ISSUER_CRED    = '04';
-    const THIRD_PARTY    = '05';
-    const FIDO_AUTH      = '06';
+    const NO_PREFERENCE     = '01';
+    const NO_CHALLENGE      = '02';
+    const CHALLENGE_THREED  = '03';
+    const CHALLENGE_MANDATE = '04';
 }

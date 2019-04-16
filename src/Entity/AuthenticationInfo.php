@@ -31,6 +31,8 @@
 
 namespace Wirecard\PaymentSdk\Entity;
 
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
+
 /**
  * Class AuthenticationInfo
  * @package Wirecard\PaymentSdk\Entity
@@ -39,19 +41,14 @@ namespace Wirecard\PaymentSdk\Entity;
 class AuthenticationInfo implements MappableEntity
 {
     /**
-     * @var string | enum
+     * @var AuthMethod
      */
     private $authMethod;
 
     /**
-     * @var string | date
+     * @var string
      */
     private $authTimestamp;
-
-    /**
-     * @var string | enum
-     */
-    private $authData;
 
     /**
      * @param $authMethod
@@ -59,7 +56,10 @@ class AuthenticationInfo implements MappableEntity
      */
     public function setAuthMethod($authMethod)
     {
-        $this->authMethod = $authMethod;
+        $this->authMethod = AuthMethod::search($authMethod);
+        if (!$this->authMethod) {
+            throw new MandatoryFieldMissingException('Authentication method is not supported.');
+        }
 
         return $this;
     }
@@ -68,20 +68,13 @@ class AuthenticationInfo implements MappableEntity
      * @param $authTimestamp
      * @return $this
      */
-    public function setAuthTimestamp($authTimestamp)
+    public function setAuthTimestamp($authTimestamp = null)
     {
+        if (null == $authTimestamp) {
+            //TODO Create date with YYYYMMDDHHMM
+            $authTimestamp = gmdate('YmdHis');
+        }
         $this->authTimestamp = $authTimestamp;
-
-        return $this;
-    }
-
-    /**
-     * @param $authData
-     * @return $this
-     */
-    public function setAuthData($authData)
-    {
-        $this->authData = $authData;
 
         return $this;
     }
@@ -91,17 +84,13 @@ class AuthenticationInfo implements MappableEntity
      */
     public function mappedProperties()
     {
-        $authenticationInfo = null;
+        $authenticationInfo = array();
         if (null !== $this->authMethod) {
-            $authenticationInfo['threeDSReqAuthMethod'] = $this->authMethod;
+            $authenticationInfo['authentication_method'] = $this->authMethod;
         }
 
         if (null !== $this->authTimestamp) {
-            $authenticationInfo['threeDSReqAuthTimestamp'] = $this->authTimestamp;
-        }
-
-        if (null !== $this->authData) {
-            $authenticationInfo['threeDSReqAuthData'] = $this->authData;
+            $authenticationInfo['authentication_timestamp'] = $this->authTimestamp;
         }
 
         return $authenticationInfo;
