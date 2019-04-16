@@ -201,7 +201,6 @@ class CardHolderAccount implements MappableEntity
         $this->amountCardTransactionsLastDay = (int)$transactionsAmount;
 
         return $this;
-
     }
 
     /**
@@ -224,7 +223,6 @@ class CardHolderAccount implements MappableEntity
         $this->suspiciousActivity = $suspiciousActivity;
 
         return $this;
-
     }
 
     /**

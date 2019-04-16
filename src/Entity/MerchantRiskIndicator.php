@@ -214,7 +214,6 @@ class MerchantRiskIndicator implements MappableEntity
         }
 
         return $this;
-
     }
 
     /**
