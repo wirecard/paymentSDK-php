@@ -59,6 +59,11 @@ class Browser implements MappableEntity
     protected $screenResolution;
 
     /**
+     * @var string $challengeWindowSize
+     */
+    private $challengeWindowSize;
+
+    /**
      * Browser constructor.
      * @param null $accept
      * @param null $userAgent
@@ -110,6 +115,34 @@ class Browser implements MappableEntity
     public function setScreenResolution($screenResolution)
     {
         $this->screenResolution = $screenResolution;
+        return $this;
+    }
+
+    /**
+     * @param int $width
+     * @return $this
+     */
+    public function setChallengeWindowSize($width)
+    {
+        switch ($width) {
+            case 250:
+                $challengeWindowSize = '01';
+                break;
+            case 390:
+                $challengeWindowSize = '02';
+                break;
+            case 500:
+                $challengeWindowSize = '03';
+                break;
+            case 600:
+                $challengeWindowSize = '04';
+                break;
+            default:
+                $challengeWindowSize = '05';
+        }
+
+        $this->challengeWindowSize = $challengeWindowSize;
+
         return $this;
     }
 
