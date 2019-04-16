@@ -80,6 +80,16 @@ $requestor->setChallengeInd(\Wirecard\PaymentSdk\Entity\ChallengeInd::NO_PREFERE
 $requestor->setAuthenticationInfo($authenticationInfo);
 $transaction->setThreeDSRequestor($requestor);
 
+$cardHolderAccount = new \Wirecard\PaymentSdk\Entity\CardHolderAccount();
+$cardHolderAccount->setCreationDate();
+$cardHolderAccount->setUpdateDate();
+$cardHolderAccount->setPassChangeDate();
+$cardHolderAccount->setShippingAddressUsage();
+$cardHolderAccount->setAmountTransactionsLastDay(2);
+$cardHolderAccount->setAmountTransactionsLastYear(500);
+
+$transaction->setCardHolderAccount($cardHolderAccount);
+
 ?>
 
 <html>

@@ -31,9 +31,11 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
+use http\Exception\InvalidArgumentException;
 use Locale;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Browser;
+use Wirecard\PaymentSdk\Entity\CardHolderAccount;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Entity\Periodic;
 use Wirecard\PaymentSdk\Entity\Redirect;
@@ -159,6 +161,11 @@ abstract class Transaction extends Risk
      * @var ThreeDSRequestor
      */
     private $threeDSRequestor;
+
+    /**
+     * @var CardHolderAccount
+     */
+    private $cardHolderAccount;
 
     /**
      * @param string $entryMode
@@ -380,6 +387,31 @@ abstract class Transaction extends Risk
     public function getThreeDSRequestor()
     {
         return $this->threeDSRequestor;
+    }
+
+    /**
+     * @param $cardHolderAccount
+     * @return $this
+     * @since 3.7.0
+     */
+    public function setCardHolderAccount($cardHolderAccount)
+    {
+        if (!$cardHolderAccount instanceof CardHolderAccount) {
+            throw new InvalidArgumentException(
+                'Cardholder Account must be of type CardHolderAccount.'
+            );
+        }
+        $this->cardHolderAccount = $cardHolderAccount;
+        return $this;
+    }
+
+    /**
+     * @return CardHolderAccount
+     * @since 3.7.0
+     */
+    public function getCardHolderAccount()
+    {
+        return $this->cardHolderAccount;
     }
 
     /**

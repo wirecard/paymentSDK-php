@@ -34,6 +34,7 @@ namespace Wirecard\PaymentSdk\Mapper;
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Basket;
+use Wirecard\PaymentSdk\Entity\CardHolderAccount;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Entity\Device;
 use Wirecard\PaymentSdk\Entity\Periodic;
@@ -112,6 +113,7 @@ class RequestMapper
         $customFields = $transaction->getCustomFields();
         $periodic = $transaction->getPeriodic();
         $threeDSRequestor = $transaction->getThreeDSRequestor();
+        $cardHolderAccount = $transaction->getCardHolderAccount();
 
         if ($accountHolder instanceof AccountHolder) {
             $accountHolder = $accountHolder->mappedSeamlessProperties();
@@ -163,6 +165,10 @@ class RequestMapper
 
         if ($threeDSRequestor instanceof ThreeDSRequestor) {
             $requestData = array_merge($requestData, $threeDSRequestor->mappedSeamlessProperties());
+        }
+
+        if ($cardHolderAccount instanceof CardHolderAccount) {
+            $requestData = array_merge($requestData, $cardHolderAccount->mappedSeamlessProperties());
         }
 
         return $requestData;
