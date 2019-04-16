@@ -39,6 +39,11 @@ namespace Wirecard\PaymentSdk\Entity;
 class MerchantRiskIndicator implements MappableEntity
 {
     /**
+     * @const string
+     */
+    const DATE_FORMAT = 'Ymd';
+
+    /**
      * @var DeliveryTimeFrame
      */
     private $deliveryTimeFrame;
@@ -47,6 +52,36 @@ class MerchantRiskIndicator implements MappableEntity
      * @var string
      */
     private $deliveryEmailAddress;
+
+    /**
+     * @var string
+     */
+    private $reorderItems;
+
+    /**
+     * @var \DateTime
+     */
+    private $preOrderDate;
+
+    /**
+     * @var int
+     */
+    private $giftAmount;
+
+    /**
+     * @var string
+     */
+    private $giftCurrency;
+
+    /**
+     * @var int
+     */
+    private $giftCardCount;
+
+    /**
+     * @var IsoTransactionType
+     */
+    private $isoTransactionType;
 
     /**
      * @param DeliveryTimeFrame $deliveryTimeFrame
@@ -60,6 +95,92 @@ class MerchantRiskIndicator implements MappableEntity
         }
 
         return $this;
+    }
+
+    /**
+     * @param string $deliveryEmailAddress
+     * @return $this
+     */
+    public function setDeliveryEmailAddress($deliveryEmailAddress)
+    {
+        $this->deliveryEmailAddress = $deliveryEmailAddress;
+
+        return $this;
+    }
+
+    /**
+     * @param string $reorderItems
+     * @return $this
+     */
+    public function setReorderItems($reorderItems)
+    {
+        if ($reorderItems !== '01' && $reorderItems !== '02') {
+            throw new \InvalidArgumentException('Reorder Items preference is invalid.');
+        }
+
+        $this->reorderItems = $reorderItems;
+
+        return $this;
+    }
+
+    /**
+     * @param \DateTime $preOrderDate
+     * @return $this
+     */
+    public function setPreOrderDate(\DateTime $preOrderDate)
+    {
+        $this->preOrderDate = $preOrderDate;
+
+        return $this;
+    }
+
+    /**
+     * @param $giftAmount
+     * @return $this
+     */
+    public function setGiftAmount($giftAmount)
+    {
+        //@TODO clarify handling (round or cut off) for INT
+        $this->giftAmount = $giftAmount;
+
+        return $this;
+    }
+
+    /**
+     * @param string $giftCurrency
+     * @return $this
+     */
+    public function setGiftCurrency($giftCurrency)
+    {
+        $this->giftCurrency = $giftCurrency;
+
+        return $this;
+    }
+
+    /**
+     * @param int $giftCardCount
+     * @return $this
+     */
+    public function setGiftCardCount($giftCardCount)
+    {
+        if (strlen((string)$giftCardCount) > 2) {
+            throw new \InvalidArgumentException('Gift card count must not exceed 2 digits');
+        }
+
+        $this->giftCardCount = $giftCardCount;
+
+        return $this;
+    }
+
+    public function setIsoTransactionType(IsoTransactionType $isoTransactionType)
+    {
+        $this->isoTransactionType = DeliveryTimeFrame::search($isoTransactionType);
+        if (!$this->isoTransactionType) {
+            throw new \InvalidArgumentException('ISO transaction type preference is invalid.');
+        }
+
+        return $this;
+
     }
 
     /**
@@ -80,5 +201,18 @@ class MerchantRiskIndicator implements MappableEntity
         $merchantRiskIndicator = array();
 
         return $merchantRiskIndicator;
+    }
+
+    /**
+     * @param $value
+     * @return mixed
+     */
+    private function getFormattedValue($value)
+    {
+        if ($value instanceof \DateTime) {
+            return $value->format(self::DATE_FORMAT);
+        }
+
+        return $value;
     }
 }
