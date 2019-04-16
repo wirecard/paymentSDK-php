@@ -44,7 +44,7 @@ class MerchantRiskIndicator implements MappableEntity
     private $deliveryTimeFrame;
 
     /**
-     * @var ChallengeInd
+     * @var string
      */
     private $deliveryEmailAddress;
 
@@ -54,12 +54,10 @@ class MerchantRiskIndicator implements MappableEntity
      */
     public function setDeliveryTimeFrame($deliveryTimeFrame)
     {
-        if (!$deliveryTimeFrame instanceof DeliveryTimeFrame) {
-            throw new \InvalidArgumentException(
-                'Delivery Time Frame must be of type Delivery Time Frame.'
-            );
+        $this->deliveryTimeFrame = DeliveryTimeFrame::search($deliveryTimeFrame);
+        if (!$this->deliveryTimeFrame) {
+            throw new \InvalidArgumentException('Delivery time frame preference is invalid.');
         }
-        $this->deliveryTimeFrame = $deliveryTimeFrame;
 
         return $this;
     }
