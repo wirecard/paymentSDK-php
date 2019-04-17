@@ -230,7 +230,7 @@ class MerchantRiskIndicator implements MappableEntity
 
         foreach (self::OPTIONAL_FIELDS as $mappedKey => $property) {
             if (isset($this->{$property})) {
-                $cardHolderAccount[$mappedKey] = $this->getFormattedValue($this->{$property});
+                $merchantRiskIndicator[$mappedKey] = $this->getFormattedValue($this->{$property});
             }
         }
 
