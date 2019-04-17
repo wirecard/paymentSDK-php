@@ -78,17 +78,38 @@ $authenticationInfo->setAuthMethod(\Wirecard\PaymentSdk\Entity\AuthMethod::GUEST
 $authenticationInfo->setAuthTimestamp();
 $requestor->setChallengeInd(\Wirecard\PaymentSdk\Entity\ChallengeInd::NO_PREFERENCE);
 $requestor->setAuthenticationInfo($authenticationInfo);
+
 $transaction->setThreeDSRequestor($requestor);
 
 $cardHolderAccount = new \Wirecard\PaymentSdk\Entity\CardHolderAccount();
-$cardHolderAccount->setCreationDate();
-$cardHolderAccount->setUpdateDate();
-$cardHolderAccount->setPassChangeDate();
-$cardHolderAccount->setShippingAddressUsage();
+$cardHolderAccount->setCreationDate(new DateTime());
+$cardHolderAccount->setUpdateDate(new DateTime());
+$cardHolderAccount->setPassChangeDate(new DateTime());
+$cardHolderAccount->setShippingAddressFirstUse(new DateTime());
+$cardHolderAccount->setCardCreationDate(new DateTime());
 $cardHolderAccount->setAmountTransactionsLastDay(2);
 $cardHolderAccount->setAmountTransactionsLastYear(500);
+$cardHolderAccount->setAmountCardTransactionsLastDay(1);
+$cardHolderAccount->setAmountPurchasesLastSixMonths(30);
+$cardHolderAccount->setSuspiciousActivity(false);
+$cardHolderAccount->setMerchantCrmId('12daw2r');
 
 $transaction->setCardHolderAccount($cardHolderAccount);
+
+$merchantRiskIndicator = new \Wirecard\PaymentSdk\Entity\MerchantRiskIndicator();
+$merchantRiskIndicator->setAvailability('01');
+$merchantRiskIndicator->setDeliveryEmailAddress('max.muster@mail.com');
+$deliveryTimeFrame = new \Wirecard\PaymentSdk\Entity\DeliveryTimeFrame('03');
+$merchantRiskIndicator->setDeliveryTimeFrame($deliveryTimeFrame);
+$merchantRiskIndicator->setGiftAmount(143.789);
+$merchantRiskIndicator->setGiftCardCount(13);
+$merchantRiskIndicator->setGiftCurrency('EUR');
+$isoTransactionType = new \Wirecard\PaymentSdk\Entity\IsoTransactionType('01');
+$merchantRiskIndicator->setIsoTransactionType($isoTransactionType);
+$merchantRiskIndicator->setPreOrderDate(new DateTime());
+$merchantRiskIndicator->setReorderItems(new DateTime());
+
+$transaction->setMerchantRiskIndicator($merchantRiskIndicator);
 
 ?>
 

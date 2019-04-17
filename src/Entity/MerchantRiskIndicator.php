@@ -208,7 +208,7 @@ class MerchantRiskIndicator implements MappableEntity
 
     public function setIsoTransactionType(IsoTransactionType $isoTransactionType)
     {
-        $this->isoTransactionType = DeliveryTimeFrame::search($isoTransactionType);
+        $this->isoTransactionType = IsoTransactionType::search($isoTransactionType);
         if (!$this->isoTransactionType) {
             throw new \InvalidArgumentException('ISO transaction type preference is invalid.');
         }

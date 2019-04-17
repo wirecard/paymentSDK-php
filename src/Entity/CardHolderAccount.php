@@ -215,12 +215,17 @@ class CardHolderAccount implements MappableEntity
     }
 
     /**
-     * @param $suspiciousActivity
+     * @param bool $suspiciousActivity
      * @return $this
      */
     public function setSuspiciousActivity($suspiciousActivity)
     {
-        $this->suspiciousActivity = $suspiciousActivity;
+        if ($suspiciousActivity) {
+            $this->suspiciousActivity = '02';
+            return $this;
+        }
+
+        $this->suspiciousActivity = '01';
 
         return $this;
     }

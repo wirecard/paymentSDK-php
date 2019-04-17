@@ -37,6 +37,7 @@ use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Entity\CardHolderAccount;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Entity\Device;
+use Wirecard\PaymentSdk\Entity\MerchantRiskIndicator;
 use Wirecard\PaymentSdk\Entity\Periodic;
 use Wirecard\PaymentSdk\Entity\ThreeDSRequestor;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
@@ -114,6 +115,7 @@ class RequestMapper
         $periodic = $transaction->getPeriodic();
         $threeDSRequestor = $transaction->getThreeDSRequestor();
         $cardHolderAccount = $transaction->getCardHolderAccount();
+        $merchantRiskIndicator = $transaction->getMerchantRiskIndicator();
 
         if ($accountHolder instanceof AccountHolder) {
             $accountHolder = $accountHolder->mappedSeamlessProperties();
@@ -169,6 +171,10 @@ class RequestMapper
 
         if ($cardHolderAccount instanceof CardHolderAccount) {
             $requestData = array_merge($requestData, $cardHolderAccount->mappedSeamlessProperties());
+        }
+
+        if ($merchantRiskIndicator instanceof MerchantRiskIndicator) {
+            $requestData = array_merge($requestData, $merchantRiskIndicator->mappedSeamlessProperties());
         }
 
         return $requestData;

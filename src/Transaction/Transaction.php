@@ -37,6 +37,7 @@ use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Browser;
 use Wirecard\PaymentSdk\Entity\CardHolderAccount;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
+use Wirecard\PaymentSdk\Entity\MerchantRiskIndicator;
 use Wirecard\PaymentSdk\Entity\Periodic;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Entity\ThreeDSRequestor;
@@ -166,6 +167,11 @@ abstract class Transaction extends Risk
      * @var CardHolderAccount
      */
     private $cardHolderAccount;
+
+    /**
+     * @var MerchantRiskIndicator
+     */
+    private $merchantRiskIndicator;
 
     /**
      * @param string $entryMode
@@ -387,6 +393,26 @@ abstract class Transaction extends Risk
     public function getThreeDSRequestor()
     {
         return $this->threeDSRequestor;
+    }
+
+    /**
+     * @param $merchantRiskIndicator
+     * @return $this
+     */
+    public function setMerchantRiskIndicator($merchantRiskIndicator)
+    {
+        if (!$merchantRiskIndicator instanceof MerchantRiskIndicator) {
+            throw new \InvalidArgumentException(
+                'Merchant Risk Indicator must be of type MerchantRiskIndicator.'
+            );
+        }
+        $this->merchantRiskIndicator = $merchantRiskIndicator;
+        return $this;
+    }
+
+    public function getMerchantRiskIndicator()
+    {
+        return $this->merchantRiskIndicator;
     }
 
     /**
