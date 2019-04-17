@@ -238,7 +238,8 @@ class Address implements MappableEntity
      * @param int $length
      * @return array
      */
-    private function truncatePropertyIfSet($property, $start = 0, $length = 50) {
+    private function truncatePropertyIfSet($property, $start = 0, $length = 50)
+    {
         $data = array();
 
         if (isset($this->{$property})) {
@@ -253,11 +254,11 @@ class Address implements MappableEntity
      * @param int $length
      * @return array
      */
-    private function wordWrappedExplodeByLength($string, $length=50)
+    private function wordWrappedExplodeByLength($string, $length = 50)
     {
         $data = array();
 
-        if(preg_match_all("/.{1,{$length}}(?=\W+)/", $string, $lines) !== False) {
+        if (preg_match_all("/.{1,{$length}}(?=\W+)/", $string, $lines) !== false) {
             for ($i=0; $i < count($lines[0]); $i++) {
                 $data[$i] = trim($lines[0][$i]);
             }
