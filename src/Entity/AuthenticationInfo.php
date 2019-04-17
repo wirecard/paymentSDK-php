@@ -61,10 +61,11 @@ class AuthenticationInfo implements MappableEntity
      */
     public function setAuthMethod($authMethod)
     {
-        $this->authMethod = AuthMethod::search($authMethod);
-        if (!$this->authMethod) {
+        if (!AuthMethod::isValid($authMethod)) {
             throw new MandatoryFieldMissingException('Authentication method is not supported.');
         }
+
+        $this->authMethod = $authMethod;
 
         return $this;
     }

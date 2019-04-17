@@ -70,10 +70,11 @@ class ThreeDSRequestor implements MappableEntity
      */
     public function setChallengeInd($challengeInd)
     {
-        $this->challengeInd = ChallengeInd::search($challengeInd);
-        if (!$this->challengeInd) {
+        if (!ChallengeInd::search($challengeInd)) {
             throw new \InvalidArgumentException('Challenge indication preference is invalid.');
         }
+
+        $this->challengeInd = $challengeInd;
 
         return $this;
     }

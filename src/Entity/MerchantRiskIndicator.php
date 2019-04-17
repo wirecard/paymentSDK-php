@@ -104,15 +104,15 @@ class MerchantRiskIndicator implements MappableEntity
     private $isoTransactionType;
 
     /**
-     * @param DeliveryTimeFrame $deliveryTimeFrame
+     * @param $deliveryTimeFrame
      * @return $this
      */
     public function setDeliveryTimeFrame($deliveryTimeFrame)
     {
-        $this->deliveryTimeFrame = DeliveryTimeFrame::search($deliveryTimeFrame);
-        if (!$this->deliveryTimeFrame) {
+        if (!DeliveryTimeFrame::isValid($deliveryTimeFrame)) {
             throw new \InvalidArgumentException('Delivery time frame preference is invalid.');
         }
+        $this->deliveryTimeFrame = $deliveryTimeFrame;
 
         return $this;
     }
@@ -206,12 +206,17 @@ class MerchantRiskIndicator implements MappableEntity
         return $this;
     }
 
-    public function setIsoTransactionType(IsoTransactionType $isoTransactionType)
+    /**
+     * @param $isoTransactionType
+     * @return $this
+     */
+    public function setIsoTransactionType($isoTransactionType)
     {
-        $this->isoTransactionType = IsoTransactionType::search($isoTransactionType);
-        if (!$this->isoTransactionType) {
+        if (!IsoTransactionType::isValid($isoTransactionType)) {
             throw new \InvalidArgumentException('ISO transaction type preference is invalid.');
         }
+
+        $this->isoTransactionType = $isoTransactionType;
 
         return $this;
     }

@@ -32,6 +32,10 @@ namespace Wirecard\PaymentSdk\Entity;
 
 use MyCLabs\Enum\Enum;
 
+/**
+ * Class DeliveryTimeFrame
+ * @package Wirecard\PaymentSdk\Entity
+ */
 class DeliveryTimeFrame extends Enum
 {
     const ELECTRONIC_DELIVERY      = '01';

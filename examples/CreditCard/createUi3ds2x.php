@@ -99,15 +99,13 @@ $transaction->setCardHolderAccount($cardHolderAccount);
 $merchantRiskIndicator = new \Wirecard\PaymentSdk\Entity\MerchantRiskIndicator();
 $merchantRiskIndicator->setAvailability('01');
 $merchantRiskIndicator->setDeliveryEmailAddress('max.muster@mail.com');
-$deliveryTimeFrame = new \Wirecard\PaymentSdk\Entity\DeliveryTimeFrame('03');
-$merchantRiskIndicator->setDeliveryTimeFrame($deliveryTimeFrame);
+$merchantRiskIndicator->setDeliveryTimeFrame(\Wirecard\PaymentSdk\Entity\DeliveryTimeFrame::ELECTRONIC_DELIVERY);
 $merchantRiskIndicator->setGiftAmount(143.789);
 $merchantRiskIndicator->setGiftCardCount(13);
 $merchantRiskIndicator->setGiftCurrency('EUR');
-$isoTransactionType = new \Wirecard\PaymentSdk\Entity\IsoTransactionType('01');
-$merchantRiskIndicator->setIsoTransactionType($isoTransactionType);
+$merchantRiskIndicator->setIsoTransactionType(\Wirecard\PaymentSdk\Entity\IsoTransactionType::CHECK_ACCEPTANCE);
 $merchantRiskIndicator->setPreOrderDate(new DateTime());
-$merchantRiskIndicator->setReorderItems(new DateTime());
+$merchantRiskIndicator->setReorderItems('01');
 
 $transaction->setMerchantRiskIndicator($merchantRiskIndicator);
 
