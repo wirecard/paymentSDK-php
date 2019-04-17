@@ -186,24 +186,9 @@ class Address implements MappableEntity
             $result['postal-code'] = $this->postalCode;
         }
 
-        //@TODO Refactor street handling
-        if (!is_null($this->street2)) {
-            $result['street2'] = $this->street2;
-        } else {
-            if (strlen($this->street1) > 50) {
-                $result['street1'] = substr($this->street1, 0, 50);
-                $result['street2'] = substr($this->street1, 50);
-            }
-        }
-
-        if (!is_null($this->street3)) {
-            $result['street3'] = $this->street3;
-        } else {
-            if (strlen($this->street2) > 50) {
-                $result['street2'] = substr($this->street2, 0, 50);
-                $result['street3'] = substr($this->street2, 50);
-            }
-        }
+        //if (mb_strlen($this->street1) > 50) {
+            $result = $this->mapAdditionalStreets($result);
+        //}
 
         if (!is_null($this->houseExtension)) {
             $result['house-extension'] = $this->houseExtension;
@@ -211,6 +196,76 @@ class Address implements MappableEntity
 
         return $result;
     }
+
+    /**
+     * @param array $result
+     * @param string $type
+     * @return array
+     */
+    private function mapAdditionalStreets($result, $type = '')
+    {
+        if (isset($this->street2) || isset($this->street3)) {
+            $result[$type . 'street1'] = mb_substr($this->street1, 0, 50);
+            $result = array_merge(
+                $result,
+                $this->truncatePropertyIfSet('street2'),
+                $this->truncatePropertyIfSet('street3')
+            );
+
+            return $result;
+        }
+
+        if (mb_strlen($this->street1) <= 50) {
+            return $result;
+        }
+
+        $explodedStreet = $this->wordWrappedExplodeByLength($this->street1);
+        $prefix = $type . 'street';
+        for ($i=0; $i < count($explodedStreet) && $i < 3; $i++) {
+            if ($i > 0) {
+                $prefix = 'street';
+            }
+            $counter = $i + 1;
+            $result[$prefix . $counter] = $explodedStreet[$i];
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param $property
+     * @param int $start
+     * @param int $length
+     * @return array
+     */
+    private function truncatePropertyIfSet($property, $start = 0, $length = 50) {
+        $data = array();
+
+        if (isset($this->{$property})) {
+            $data[$property] = mb_substr($this->{$property}, $start, $length);
+        }
+
+        return $data;
+    }
+
+    /**
+     * @param $string
+     * @param int $length
+     * @return array
+     */
+    private function wordWrappedExplodeByLength($string, $length=50)
+    {
+        $data = array();
+
+        if(preg_match_all("/.{1,{$length}}(?=\W+)/", $string, $lines) !== False) {
+            for ($i=0; $i < count($lines[0]); $i++) {
+                $data[$i] = trim($lines[0][$i]);
+            }
+        }
+
+        return $data;
+    }
+
 
     /**
      * @param string $type
@@ -228,24 +283,9 @@ class Address implements MappableEntity
             $result[$type . 'postal_code'] = $this->postalCode;
         }
 
-        //@TODO Refactor street handling
-        if (!is_null($this->street2)) {
-            $result[$type . 'street2'] = $this->street2;
-        } else {
-            if (strlen($this->street1) > 50) {
-                $result[$type . 'street1'] = substr($this->street1, 0, 50);
-                $result[$type . 'street2'] = substr($this->street1, 50);
-            }
-        }
-
-        if (!is_null($this->street3)) {
-            $result['street3'] = $this->street3;
-        } else {
-            if (strlen($this->street2) > 50) {
-                $result['street2'] = substr($this->street2, 0, 50);
-                $result['street3'] = substr($this->street2, 50);
-            }
-        }
+        //if (mb_strlen($this->street1) > 50) {
+            $result = $this->mapAdditionalStreets($result, $type);
+        //}
 
         return $result;
     }
