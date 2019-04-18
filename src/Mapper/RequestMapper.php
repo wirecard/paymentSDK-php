@@ -40,6 +40,7 @@ use Wirecard\PaymentSdk\Entity\Device;
 use Wirecard\PaymentSdk\Entity\MerchantRiskIndicator;
 use Wirecard\PaymentSdk\Entity\Periodic;
 use Wirecard\PaymentSdk\Entity\ThreeDSRequestor;
+use Wirecard\PaymentSdk\Entity\Browser;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException;
 use Wirecard\PaymentSdk\Transaction\Transaction;
