@@ -23,7 +23,7 @@ use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 $transactionService = new TransactionService($config);
 
 $redirectUrl = getUrl('return.php?status=success');
-$amount = new Amount(70.00, 'EUR');
+$amount = new Amount(1400, 'EUR');
 $orderNumber = 'A2';
 
 // ### Basket items

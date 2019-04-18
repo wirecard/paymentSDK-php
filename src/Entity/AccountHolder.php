@@ -148,6 +148,9 @@ class AccountHolder implements MappableEntity
     /**
      * @param mixed $phone
      * @return $this
+     * @deprecated This method is deprecated since 3.7.0 if you still are using it
+     * please update your front-end so that
+     * it uses setHomePhone.
      */
     public function setPhone($phone)
     {
