@@ -316,6 +316,7 @@ class ResponseMapper
                 '<requested-amount>'.$payload['requested_amount'].'</requested-amount>'
             );
             $amountSimpleXml->addAttribute('currency', $payload['requested_amount_currency']);
+            $this->simpleXmlAppendNode($this->simpleXml, $amountSimpleXml);
         }
 
         if (array_key_exists('acs_url', $payload) && array_key_exists('pareq', $payload)) {
