@@ -437,10 +437,13 @@ class AccountHolder implements MappableEntity
     private function parseAccountHolder($simpleXmlElement)
     {
         $fields = [
-            'first-name' => 'setFirstName',
-            'last-name' => 'setLastName',
-            'email' => 'setEmail',
-            'phone' => 'setPhone'
+            'first-name'   => 'setFirstName',
+            'last-name'    => 'setLastName',
+            'email'        => 'setEmail',
+            'phone'        => 'setPhone',
+            'home-phone'   => 'setHomePhone',
+            'work-phone'   => 'setWorkPhone',
+            'mobile-phone' => 'setMobilePhone',
         ];
 
         if (isset($simpleXmlElement->{'date-of-birth'})) {

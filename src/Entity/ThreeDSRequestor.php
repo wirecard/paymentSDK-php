@@ -31,6 +31,8 @@
 
 namespace Wirecard\PaymentSdk\Entity;
 
+use Wirecard\PaymentSdk\Constant\ChallengeInd;
+
 /**
  * Class ThreeDSRequestor
  * @package Wirecard\PaymentSdk\Entity
