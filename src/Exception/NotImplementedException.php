@@ -19,27 +19,25 @@
  * Customers use the SDK at their own risk. Wirecard AG does not guarantee their full
  * functionality neither does Wirecard AG assume liability for any disadvantages related to
  * the use of the SDK. Additionally, Wirecard AG does not guarantee the full functionality
- * for customized shop systems or installed SDK of other vendors of SDK within the same
+ * for customized shop systems or installed SDK of other vendors of plugins within the same
  * shop system.
  *
- * Customers are responsible for testing the plugin's functionality before starting productive
+ * Customers are responsible for testing the SDK's functionality before starting productive
  * operation.
- * By installing the plugin into the shop system the customer agrees to these terms of use.
- * Please do not use the plugin if you do not agree to these terms of use!
+ *
+ * By installing the SDK into the shop system the customer agrees to these terms of use.
+ * Please do not use the SDK if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Entity;
+namespace Wirecard\PaymentSdk\Exception;
 
-use MyCLabs\Enum\Enum;
+use BadMethodCallException;
 
 /**
- * Class DeliveryTimeFrame
- * @package Wirecard\PaymentSdk\Entity
+ * Class NotImplementedException
+ * @package Wirecard\PaymentSdk\Exception
  */
-class DeliveryTimeFrame extends Enum
+class NotImplementedException extends BadMethodCallException
 {
-    const ELECTRONIC_DELIVERY      = '01';
-    const SAME_DAY_SHIPPING        = '02';
-    const OVERNIGHT_SHIPPING       = '03';
-    const TWO_DAY_OR_MORE_SHIPPING = '04';
+
 }

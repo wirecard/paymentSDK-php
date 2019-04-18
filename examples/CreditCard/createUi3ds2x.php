@@ -74,9 +74,9 @@ $transaction->setCustomFields( $custom_fields );
 
 $requestor = new \Wirecard\PaymentSdk\Entity\ThreeDSRequestor();
 $authenticationInfo = new \Wirecard\PaymentSdk\Entity\AuthenticationInfo();
-$authenticationInfo->setAuthMethod(\Wirecard\PaymentSdk\Entity\AuthMethod::GUEST_CHECKOUT);
+$authenticationInfo->setAuthMethod(\Wirecard\PaymentSdk\Constant\AuthMethod::GUEST_CHECKOUT);
 $authenticationInfo->setAuthTimestamp();
-$requestor->setChallengeInd(\Wirecard\PaymentSdk\Entity\ChallengeInd::NO_PREFERENCE);
+$requestor->setChallengeInd(\Wirecard\PaymentSdk\Constant\ChallengeInd::NO_PREFERENCE);
 $requestor->setAuthenticationInfo($authenticationInfo);
 
 $transaction->setThreeDSRequestor($requestor);
@@ -97,15 +97,15 @@ $cardHolderAccount->setMerchantCrmId('12daw2r');
 $transaction->setCardHolderAccount($cardHolderAccount);
 
 $merchantRiskIndicator = new \Wirecard\PaymentSdk\Entity\MerchantRiskIndicator();
-$merchantRiskIndicator->setAvailability('01');
+$giftAmount            = new Amount(143.789, 'EUR');
+$merchantRiskIndicator->setAvailability(\Wirecard\PaymentSdk\Constant\RiskInfoAvailability::MERCHANDISE_AVAILABLE);
 $merchantRiskIndicator->setDeliveryEmailAddress('max.muster@mail.com');
-$merchantRiskIndicator->setDeliveryTimeFrame(\Wirecard\PaymentSdk\Entity\DeliveryTimeFrame::ELECTRONIC_DELIVERY);
-$merchantRiskIndicator->setGiftAmount(143.789);
+$merchantRiskIndicator->setDeliveryTimeFrame(\Wirecard\PaymentSdk\Constant\RiskInfoDeliveryTimeFrame::ELECTRONIC_DELIVERY);
+$merchantRiskIndicator->setGiftAmount($giftAmount);
 $merchantRiskIndicator->setGiftCardCount(13);
-$merchantRiskIndicator->setGiftCurrency('EUR');
-$merchantRiskIndicator->setIsoTransactionType(\Wirecard\PaymentSdk\Entity\IsoTransactionType::CHECK_ACCEPTANCE);
+$merchantRiskIndicator->setIsoTransactionType(\Wirecard\PaymentSdk\Constant\IsoTransactionType::CHECK_ACCEPTANCE);
 $merchantRiskIndicator->setPreOrderDate(new DateTime());
-$merchantRiskIndicator->setReorderItems('01');
+$merchantRiskIndicator->setReorderItems(\Wirecard\PaymentSdk\Constant\RiskInfoReorder::FIRST_TIME_ORDERED);
 
 $transaction->setMerchantRiskIndicator($merchantRiskIndicator);
 

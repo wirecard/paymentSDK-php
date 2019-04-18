@@ -28,7 +28,7 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Entity;
+namespace Wirecard\PaymentSdk\Constant;
 
 use MyCLabs\Enum\Enum;
 

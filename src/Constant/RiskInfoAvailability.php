@@ -28,15 +28,16 @@
  * Please do not use the plugin if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Entity;
+namespace Wirecard\PaymentSdk\Constant;
 
 use MyCLabs\Enum\Enum;
 
-class IsoTransactionType extends Enum
+/**
+ * Class InfoAvailability
+ * @package Wirecard\PaymentSdk\Constant
+ */
+class RiskInfoAvailability extends Enum
 {
-    const GOODS_SERVICE_PURCHASE      = '01';
-    const CHECK_ACCEPTANCE            = '03';
-    const ACCOUNT_FUNDING             = '10';
-    const QUASI_CASH_TRANSACTION      = '11';
-    const PREPAID_ACTIVATION_AND_LOAN = '28';
+    const MERCHANDISE_AVAILABLE = '01';
+    const FUTURE_AVAILABILITY   = '02';
 }

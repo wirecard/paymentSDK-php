@@ -186,13 +186,32 @@ class Address implements MappableEntity
             $result['postal-code'] = $this->postalCode;
         }
 
-        //if (mb_strlen($this->street1) > 50) {
-            $result = $this->mapAdditionalStreets($result);
-        //}
+        $result = $this->mapAdditionalStreets($result);
 
         if (!is_null($this->houseExtension)) {
             $result['house-extension'] = $this->houseExtension;
         }
+
+        return $result;
+    }
+
+    /**
+     * @param string $type
+     * @return array
+     */
+    public function mappedSeamlessProperties($type = '')
+    {
+        $result = [
+            $type . 'street1' => $this->street1,
+            $type . 'city' => $this->city,
+            $type . 'country' => $this->countryCode
+        ];
+
+        if (!is_null($this->postalCode)) {
+            $result[$type . 'postal_code'] = $this->postalCode;
+        }
+
+        $result = $this->mapAdditionalStreets($result, $type);
 
         return $result;
     }
@@ -265,29 +284,5 @@ class Address implements MappableEntity
         }
 
         return $data;
-    }
-
-
-    /**
-     * @param string $type
-     * @return array
-     */
-    public function mappedSeamlessProperties($type = '')
-    {
-        $result = [
-            $type . 'street1' => $this->street1,
-            $type . 'city' => $this->city,
-            $type . 'country' => $this->countryCode
-        ];
-
-        if (!is_null($this->postalCode)) {
-            $result[$type . 'postal_code'] = $this->postalCode;
-        }
-
-        //if (mb_strlen($this->street1) > 50) {
-            $result = $this->mapAdditionalStreets($result, $type);
-        //}
-
-        return $result;
     }
 }

@@ -124,17 +124,17 @@ class Browser implements MappableEntity
      */
     public function setChallengeWindowSize($width)
     {
-        switch ($width) {
-            case 250:
+        switch (true) {
+            case $width <= 250:
                 $challengeWindowSize = '01';
                 break;
-            case 390:
+            case $width <= 390:
                 $challengeWindowSize = '02';
                 break;
-            case 500:
+            case $width <= 500:
                 $challengeWindowSize = '03';
                 break;
-            case 600:
+            case $width <= 600:
                 $challengeWindowSize = '04';
                 break;
             default:
@@ -171,6 +171,40 @@ class Browser implements MappableEntity
 
         if (isset($this->screenResolution)) {
             $data['screen-resolution'] = $this->screenResolution;
+        }
+
+        if (isset($this->challengeWindowSize)) {
+            $data['browser-challenge-window-size'] = $this->challengeWindowSize;
+        }
+
+        return $data;
+    }
+
+    /**
+     * @return array
+     */
+    public function mappedSeamlessProperties()
+    {
+        $data = [];
+
+        if (strlen($this->accept)) {
+            $data['accept'] = $this->accept;
+        } elseif (isset($_SERVER['HTTP_ACCEPT'])) {
+            $data['accept'] = $_SERVER['HTTP_ACCEPT'];
+        }
+
+        if (strlen($this->userAgent)) {
+            $data['user_agent'] = $this->userAgent;
+        } elseif (isset($_SERVER['HTTP_USER_AGENT'])) {
+            $data['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
+        }
+
+        if (isset($this->timezone)) {
+            $data['time_zone'] = $this->timezone;
+        }
+
+        if (isset($this->screenResolution)) {
+            $data['screen_resolution'] = $this->screenResolution;
         }
 
         if (isset($this->challengeWindowSize)) {

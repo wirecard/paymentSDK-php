@@ -32,6 +32,8 @@
 namespace Wirecard\PaymentSdk\Entity;
 
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
+use Wirecard\PaymentSdk\Constant\AuthMethod;
+use Wirecard\PaymentSdk\Exception\NotImplementedException;
 
 /**
  * Class AuthenticationInfo
@@ -86,9 +88,18 @@ class AuthenticationInfo implements MappableEntity
     }
 
     /**
-     * @return array
+     * @return array|void
+     * @throws NotImplementedException
      */
     public function mappedProperties()
+    {
+        throw new NotImplementedException('mappedProperties() not implemented.');
+    }
+
+    /**
+     * @return array
+     */
+    public function mappedSeamlessProperties()
     {
         $authenticationInfo = array();
         if (null !== $this->authMethod) {
@@ -100,13 +111,5 @@ class AuthenticationInfo implements MappableEntity
         }
 
         return $authenticationInfo;
-    }
-
-    /**
-     * @return array
-     */
-    public function mappedSeamlessProperties()
-    {
-        return $this->mappedProperties();
     }
 }

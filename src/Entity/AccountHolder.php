@@ -272,15 +272,15 @@ class AccountHolder implements MappableEntity
         }
 
         if (!is_null($this->homePhone)) {
-            $result['home_phone'] = $this->homePhone;
+            $result['home-phone'] = $this->homePhone;
         }
 
         if (!is_null($this->mobilePhone)) {
-            $result['mobile_phone'] = $this->mobilePhone;
+            $result['mobile-phone'] = $this->mobilePhone;
         }
 
         if (!is_null($this->workPhone)) {
-            $result['work_phone'] = $this->workPhone;
+            $result['work-phone'] = $this->workPhone;
         }
 
         if (!is_null($this->address)) {

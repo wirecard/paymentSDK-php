@@ -31,6 +31,12 @@
 
 namespace Wirecard\PaymentSdk\Entity;
 
+use Wirecard\PaymentSdk\Constant\RiskInfoDeliveryTimeFrame;
+use Wirecard\PaymentSdk\Constant\RiskInfoAvailability;
+use Wirecard\PaymentSdk\Constant\IsoTransactionType;
+use Wirecard\PaymentSdk\Constant\RiskInfoReorder;
+use Wirecard\PaymentSdk\Exception\NotImplementedException;
+
 /**
  * Class MerchantRiskIndicator
  * @package Wirecard\PaymentSdk\Entity
@@ -59,7 +65,7 @@ class MerchantRiskIndicator implements MappableEntity
     ];
 
     /**
-     * @var DeliveryTimeFrame
+     * @var RiskInfoDeliveryTimeFrame
      */
     private $deliveryTimeFrame;
 
@@ -69,12 +75,12 @@ class MerchantRiskIndicator implements MappableEntity
     private $deliveryEmailAddress;
 
     /**
-     * @var string
+     * @var RiskInfoReorder
      */
     private $reorderItems;
 
     /**
-     * @var string
+     * @var RiskInfoAvailability
      */
     private $availability;
 
@@ -109,7 +115,7 @@ class MerchantRiskIndicator implements MappableEntity
      */
     public function setDeliveryTimeFrame($deliveryTimeFrame)
     {
-        if (!DeliveryTimeFrame::isValid($deliveryTimeFrame)) {
+        if (!RiskInfoDeliveryTimeFrame::isValid($deliveryTimeFrame)) {
             throw new \InvalidArgumentException('Delivery time frame preference is invalid.');
         }
         $this->deliveryTimeFrame = $deliveryTimeFrame;
@@ -134,10 +140,9 @@ class MerchantRiskIndicator implements MappableEntity
      */
     public function setReorderItems($reorderItems)
     {
-        if ($reorderItems !== '01' && $reorderItems !== '02') {
+        if (!RiskInfoDeliveryTimeFrame::isValid($reorderItems)) {
             throw new \InvalidArgumentException('Reorder Items preference is invalid.');
         }
-
         $this->reorderItems = $reorderItems;
 
         return $this;
@@ -149,10 +154,9 @@ class MerchantRiskIndicator implements MappableEntity
      */
     public function setAvailability($availability)
     {
-        if ($availability !== '01' && $availability !== '02') {
+        if (!RiskInfoDeliveryTimeFrame::isValid($availability)) {
             throw new \InvalidArgumentException('Availability preference is invalid.');
         }
-
         $this->availability = $availability;
 
         return $this;
@@ -170,23 +174,13 @@ class MerchantRiskIndicator implements MappableEntity
     }
 
     /**
-     * @param float $giftAmount
+     * @param Amount $giftAmount
      * @return $this
      */
-    public function setGiftAmount($giftAmount)
+    public function setGiftAmount(Amount $giftAmount)
     {
-        $this->giftAmount = round($giftAmount, 0, PHP_ROUND_HALF_DOWN);
-
-        return $this;
-    }
-
-    /**
-     * @param string $giftCurrency
-     * @return $this
-     */
-    public function setGiftCurrency($giftCurrency)
-    {
-        $this->giftCurrency = $giftCurrency;
+        $this->giftAmount   = round($giftAmount->getValue(), 0, PHP_ROUND_HALF_DOWN);
+        $this->giftCurrency = $giftAmount->getCurrency();
 
         return $this;
     }
@@ -222,9 +216,18 @@ class MerchantRiskIndicator implements MappableEntity
     }
 
     /**
-     * @return array
+     * @return array|void
+     * @throws NotImplementedException
      */
     public function mappedProperties()
+    {
+        throw new NotImplementedException('mappedProperties() not implemented.');
+    }
+
+    /**
+     * @return array
+     */
+    public function mappedSeamlessProperties()
     {
         $merchantRiskIndicator = array();
 
@@ -235,14 +238,6 @@ class MerchantRiskIndicator implements MappableEntity
         }
 
         return $merchantRiskIndicator;
-    }
-
-    /**
-     * @return array
-     */
-    public function mappedSeamlessProperties()
-    {
-        return $this->mappedProperties();
     }
 
     /**

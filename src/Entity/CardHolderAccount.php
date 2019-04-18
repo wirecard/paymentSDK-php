@@ -31,6 +31,8 @@
 
 namespace Wirecard\PaymentSdk\Entity;
 
+use Wirecard\PaymentSdk\Exception\NotImplementedException;
+
 /**
  * Class CardHolderAccount
  * @package Wirecard\PaymentSdk\Entity
@@ -231,20 +233,33 @@ class CardHolderAccount implements MappableEntity
     }
 
     /**
-     * @param $merchantCrmId
+     * @param string $merchantCrmId
      * @return $this
      */
     public function setMerchantCrmId($merchantCrmId)
     {
+        if (mb_strlen((string)$merchantCrmId) > 64) {
+            throw new \InvalidArgumentException('Max length for the crm id is 64.');
+        }
         $this->merchantCrmId = $merchantCrmId;
 
         return $this;
     }
 
+
+    /**
+     * @return array|void
+     * @throws NotImplementedException
+     */
+    public function mappedProperties()
+    {
+        throw new NotImplementedException('mappedProperties() not implemented.');
+    }
+
     /**
      * @return array
      */
-    public function mappedProperties()
+    public function mappedSeamlessProperties()
     {
         $cardHolderAccount = array();
 
@@ -255,14 +270,6 @@ class CardHolderAccount implements MappableEntity
         }
 
         return $cardHolderAccount;
-    }
-
-    /**
-     * @return array
-     */
-    public function mappedSeamlessProperties()
-    {
-        return $this->mappedProperties();
     }
 
     /**
