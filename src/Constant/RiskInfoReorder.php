@@ -35,6 +35,7 @@ use MyCLabs\Enum\Enum;
 /**
  * Class InfoAvailability
  * @package Wirecard\PaymentSdk\Constant
+ * @since 3.7.0
  */
 class RiskInfoReorder extends Enum
 {

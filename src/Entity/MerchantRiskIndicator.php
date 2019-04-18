@@ -112,6 +112,7 @@ class MerchantRiskIndicator implements MappableEntity
     /**
      * @param $deliveryTimeFrame
      * @return $this
+     * @since 3.7.0
      */
     public function setDeliveryTimeFrame($deliveryTimeFrame)
     {
@@ -126,6 +127,7 @@ class MerchantRiskIndicator implements MappableEntity
     /**
      * @param string $deliveryEmailAddress
      * @return $this
+     * @since 3.7.0
      */
     public function setDeliveryEmailAddress($deliveryEmailAddress)
     {
@@ -137,6 +139,7 @@ class MerchantRiskIndicator implements MappableEntity
     /**
      * @param string $reorderItems
      * @return $this
+     * @since 3.7.0
      */
     public function setReorderItems($reorderItems)
     {
@@ -151,6 +154,7 @@ class MerchantRiskIndicator implements MappableEntity
     /**
      * @param string $availability
      * @return $this
+     * @since 3.7.0
      */
     public function setAvailability($availability)
     {
@@ -165,6 +169,7 @@ class MerchantRiskIndicator implements MappableEntity
     /**
      * @param \DateTime $preOrderDate
      * @return $this
+     * @since 3.7.0
      */
     public function setPreOrderDate(\DateTime $preOrderDate)
     {
@@ -176,6 +181,7 @@ class MerchantRiskIndicator implements MappableEntity
     /**
      * @param Amount $giftAmount
      * @return $this
+     * @since 3.7.0
      */
     public function setGiftAmount(Amount $giftAmount)
     {
@@ -188,6 +194,7 @@ class MerchantRiskIndicator implements MappableEntity
     /**
      * @param int $giftCardCount
      * @return $this
+     * @since 3.7.0
      */
     public function setGiftCardCount($giftCardCount)
     {
@@ -203,6 +210,7 @@ class MerchantRiskIndicator implements MappableEntity
     /**
      * @param $isoTransactionType
      * @return $this
+     * @since 3.7.0
      */
     public function setIsoTransactionType($isoTransactionType)
     {
@@ -218,6 +226,7 @@ class MerchantRiskIndicator implements MappableEntity
     /**
      * @return array|void
      * @throws NotImplementedException
+     * @since 3.7.0
      */
     public function mappedProperties()
     {
@@ -226,6 +235,7 @@ class MerchantRiskIndicator implements MappableEntity
 
     /**
      * @return array
+     * @since 3.7.0
      */
     public function mappedSeamlessProperties()
     {
@@ -243,6 +253,7 @@ class MerchantRiskIndicator implements MappableEntity
     /**
      * @param $value
      * @return mixed
+     * @since 3.7.0
      */
     private function getFormattedValue($value)
     {

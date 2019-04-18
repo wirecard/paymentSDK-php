@@ -72,6 +72,14 @@ $custom_fields = new \Wirecard\PaymentSdk\Entity\CustomFieldCollection();
 $custom_fields->add( new \Wirecard\PaymentSdk\Entity\CustomField( 'orderId', '123' ) );
 $transaction->setCustomFields( $custom_fields );
 
+/**
+ * @since 3.7.0
+ * https://doc.wirecard.com/CreditCard.html#CreditCard_3DS2
+ * New fields for the CreditCard 3DS 2.X workflow
+ * according to EU standards set by EMVCo
+ * https://www.emvco.com/document-search/?action=search_documents&publish_date=&emvco_document_version=&emvco_document_book=&px_search=&emvco_document_technology%5B%5D=3-d-secure
+ */
+
 $requestor = new \Wirecard\PaymentSdk\Entity\ThreeDSRequestor();
 $authenticationInfo = new \Wirecard\PaymentSdk\Entity\AuthenticationInfo();
 $authenticationInfo->setAuthMethod(\Wirecard\PaymentSdk\Constant\AuthMethod::GUEST_CHECKOUT);

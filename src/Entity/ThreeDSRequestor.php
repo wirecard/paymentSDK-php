@@ -53,6 +53,7 @@ class ThreeDSRequestor implements MappableEntity
     /**
      * @param AuthenticationInfo $authenticationInfo
      * @return $this
+     * @since 3.7.0
      */
     public function setAuthenticationInfo($authenticationInfo)
     {
@@ -69,6 +70,7 @@ class ThreeDSRequestor implements MappableEntity
     /**
      * @param string $challengeInd
      * @return $this
+     * @since 3.7.0
      */
     public function setChallengeInd($challengeInd)
     {
@@ -83,6 +85,7 @@ class ThreeDSRequestor implements MappableEntity
 
     /**
      * @return array
+     * @since 3.7.0
      */
     public function mappedProperties()
     {
@@ -101,6 +104,7 @@ class ThreeDSRequestor implements MappableEntity
 
     /**
      * @return array
+     * @since 3.7.0
      */
     public function mappedSeamlessProperties()
     {

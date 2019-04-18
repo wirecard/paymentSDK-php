@@ -121,6 +121,7 @@ class Browser implements MappableEntity
     /**
      * @param int $width
      * @return $this
+     * @since 3.7.0
      */
     public function setChallengeWindowSize($width)
     {

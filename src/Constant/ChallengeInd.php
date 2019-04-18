@@ -32,6 +32,11 @@ namespace Wirecard\PaymentSdk\Constant;
 
 use MyCLabs\Enum\Enum;
 
+/**
+ * Class ChallengeInd
+ * @package Wirecard\PaymentSdk\Constant
+ * @since 3.7.0
+ */
 class ChallengeInd extends Enum
 {
     const NO_PREFERENCE     = '01';

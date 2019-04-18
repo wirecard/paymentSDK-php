@@ -120,6 +120,7 @@ class CardHolderAccount implements MappableEntity
     /**
      * @param $creationDate
      * @return $this
+     * @since 3.7.0
      */
     public function setCreationDate(\DateTime $creationDate)
     {
@@ -131,6 +132,7 @@ class CardHolderAccount implements MappableEntity
     /**
      * @param $updateDate
      * @return $this
+     * @since 3.7.0
      */
     public function setUpdateDate(\DateTime $updateDate)
     {
@@ -142,6 +144,7 @@ class CardHolderAccount implements MappableEntity
     /**
      * @param $passChangeDate
      * @return $this
+     * @since 3.7.0
      */
     public function setPassChangeDate(\DateTime $passChangeDate)
     {
@@ -153,6 +156,7 @@ class CardHolderAccount implements MappableEntity
     /**
      * @param $shippingAddressFirstUse
      * @return $this
+     * @since 3.7.0
      */
     public function setShippingAddressFirstUse(\DateTime $shippingAddressFirstUse)
     {
@@ -164,6 +168,7 @@ class CardHolderAccount implements MappableEntity
     /**
      * @param \DateTime $cardCreationDate
      * @return $this
+     * @since 3.7.0
      */
     public function setCardCreationDate(\DateTime $cardCreationDate)
     {
@@ -175,6 +180,7 @@ class CardHolderAccount implements MappableEntity
     /**
      * @param $transactionsAmount
      * @return $this
+     * @since 3.7.0
      */
     public function setAmountTransactionsLastDay($transactionsAmount)
     {
@@ -186,6 +192,7 @@ class CardHolderAccount implements MappableEntity
     /**
      * @param $transactionsAmount
      * @return $this
+     * @since 3.7.0
      */
     public function setAmountTransactionsLastYear($transactionsAmount)
     {
@@ -197,6 +204,7 @@ class CardHolderAccount implements MappableEntity
     /**
      * @param $transactionsAmount
      * @return $this
+     * @since 3.7.0
      */
     public function setAmountCardTransactionsLastDay($transactionsAmount)
     {
@@ -208,6 +216,7 @@ class CardHolderAccount implements MappableEntity
     /**
      * @param $purchasesAmount
      * @return $this
+     * @since 3.7.0
      */
     public function setAmountPurchasesLastSixMonths($purchasesAmount)
     {
@@ -219,6 +228,7 @@ class CardHolderAccount implements MappableEntity
     /**
      * @param bool $suspiciousActivity
      * @return $this
+     * @since 3.7.0
      */
     public function setSuspiciousActivity($suspiciousActivity)
     {
@@ -235,6 +245,7 @@ class CardHolderAccount implements MappableEntity
     /**
      * @param string $merchantCrmId
      * @return $this
+     * @since 3.7.0
      */
     public function setMerchantCrmId($merchantCrmId)
     {
@@ -250,6 +261,7 @@ class CardHolderAccount implements MappableEntity
     /**
      * @return array|void
      * @throws NotImplementedException
+     * @since 3.7.0
      */
     public function mappedProperties()
     {
@@ -258,6 +270,7 @@ class CardHolderAccount implements MappableEntity
 
     /**
      * @return array
+     * @since 3.7.0
      */
     public function mappedSeamlessProperties()
     {
@@ -275,6 +288,7 @@ class CardHolderAccount implements MappableEntity
     /**
      * @param $value
      * @return mixed
+     * @since 3.7.0
      */
     private function getFormattedValue($value)
     {

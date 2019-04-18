@@ -60,6 +60,7 @@ class AuthenticationInfo implements MappableEntity
     /**
      * @param $authMethod
      * @return $this
+     * @since 3.7.0
      */
     public function setAuthMethod($authMethod)
     {
@@ -75,6 +76,7 @@ class AuthenticationInfo implements MappableEntity
     /**
      * @param $authTimestamp
      * @return $this
+     * @since 3.7.0
      */
     public function setAuthTimestamp($authTimestamp = null)
     {
@@ -90,6 +92,7 @@ class AuthenticationInfo implements MappableEntity
     /**
      * @return array|void
      * @throws NotImplementedException
+     * @since 3.7.0
      */
     public function mappedProperties()
     {
@@ -98,6 +101,7 @@ class AuthenticationInfo implements MappableEntity
 
     /**
      * @return array
+     * @since 3.7.0
      */
     public function mappedSeamlessProperties()
     {

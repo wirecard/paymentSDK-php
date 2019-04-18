@@ -155,18 +155,33 @@ class AccountHolder implements MappableEntity
         return $this;
     }
 
+    /**
+     * @param $phone
+     * @return $this
+     * @since 3.7.0
+     */
     public function setHomePhone($phone)
     {
         $this->homePhone = $phone;
         return $this;
     }
 
+    /**
+     * @param $phone
+     * @return $this
+     * @since 3.7.0
+     */
     public function setMobilePhone($phone)
     {
         $this->mobilePhone = $phone;
         return $this;
     }
 
+    /**
+     * @param $phone
+     * @return $this
+     * @since 3.7.0
+     */
     public function setWorkPhone($phone)
     {
         $this->workPhone = $phone;
@@ -434,6 +449,10 @@ class AccountHolder implements MappableEntity
         return $key;
     }
 
+    /**
+     * @param $simpleXmlElement
+     * @return $this
+     */
     private function parseAccountHolder($simpleXmlElement)
     {
         $fields = [

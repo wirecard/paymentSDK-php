@@ -35,6 +35,7 @@ use MyCLabs\Enum\Enum;
 /**
  * Class DeliveryTimeFrame
  * @package Wirecard\PaymentSdk\Entity
+ * @since 3.7.0
  */
 class RiskInfoDeliveryTimeFrame extends Enum
 {

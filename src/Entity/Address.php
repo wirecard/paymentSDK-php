@@ -118,6 +118,7 @@ class Address implements MappableEntity
     /**
      * @param $street3
      * Enter the house number incl. suffixes here.
+     * @since 3.7.0
      */
     public function setStreet3($street3)
     {
@@ -220,6 +221,7 @@ class Address implements MappableEntity
      * @param array $result
      * @param string $type
      * @return array
+     * @since 3.7.0
      */
     private function mapAdditionalStreets($result, $type = '')
     {
@@ -256,6 +258,7 @@ class Address implements MappableEntity
      * @param int $start
      * @param int $length
      * @return array
+     * @since 3.7.0
      */
     private function truncatePropertyIfSet($property, $start = 0, $length = 50)
     {
@@ -272,6 +275,7 @@ class Address implements MappableEntity
      * @param $string
      * @param int $length
      * @return array
+     * @since 3.7.0
      */
     private function wordWrappedExplodeByLength($string, $length = 50)
     {

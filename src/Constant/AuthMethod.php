@@ -32,6 +32,11 @@ namespace Wirecard\PaymentSdk\Constant;
 
 use MyCLabs\Enum\Enum;
 
+/**
+ * Class AuthMethod
+ * @package Wirecard\PaymentSdk\Constant
+ * @since 3.7.0
+ */
 class AuthMethod extends Enum
 {
     const GUEST_CHECKOUT = '01';

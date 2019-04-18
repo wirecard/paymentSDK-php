@@ -32,6 +32,11 @@ namespace Wirecard\PaymentSdk\Constant;
 
 use MyCLabs\Enum\Enum;
 
+/**
+ * Class IsoTransactionType
+ * @package Wirecard\PaymentSdk\Constant
+ * @since 3.7.0
+ */
 class IsoTransactionType extends Enum
 {
     const GOODS_SERVICE_PURCHASE      = '01';
