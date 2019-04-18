@@ -122,7 +122,7 @@ $transaction->setCardHolderAccount($cardHolderAccount);
 
 // ### Merchant's assessment of the level of fraud risk for the specific authentication for both the cardholder and the authentication being conducted
 $merchantRiskIndicator = new \Wirecard\PaymentSdk\Entity\MerchantRiskIndicator();
-$giftAmount            = new Amount(143.789, 'EUR');
+$giftAmount            = new Amount(143.78, 'EUR');
 // Indicates whether cardholder is placing an order for merchandise with a future availability or release date. Merchandise available '01', Future availability '02'
 $merchantRiskIndicator->setAvailability(\Wirecard\PaymentSdk\Constant\RiskInfoAvailability::MERCHANDISE_AVAILABLE);
 // For electronic delivery, the email address the merchandise was delivered
