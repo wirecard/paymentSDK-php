@@ -34,11 +34,15 @@ use MyCLabs\Enum\Enum;
 
 /**
  * Class InfoAvailability
+ * Contains possible item availability for credit card 3DS 2.X
+ * Used to identify if an item is currently available
  * @package Wirecard\PaymentSdk\Constant
  * @since 3.7.0
  */
 class RiskInfoAvailability extends Enum
 {
+    /** @var string Merchandise is currently available */
     const MERCHANDISE_AVAILABLE = '01';
+    /** @var string Merchandise will be available in the future */
     const FUTURE_AVAILABILITY   = '02';
 }

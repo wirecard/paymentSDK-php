@@ -34,11 +34,15 @@ use MyCLabs\Enum\Enum;
 
 /**
  * Class InfoAvailability
+ * Contains order occurrence for credit card 3DS 2.X
+ * Used to identify if an order is a first time or reorder
  * @package Wirecard\PaymentSdk\Constant
  * @since 3.7.0
  */
 class RiskInfoReorder extends Enum
 {
+    /** @var string First time ordered */
     const FIRST_TIME_ORDERED = '01';
+    /** @var string Reordered */
     const REORDERED          = '02';
 }
