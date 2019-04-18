@@ -116,6 +116,7 @@ class RequestMapper
         $threeDSRequestor = $transaction->getThreeDSRequestor();
         $cardHolderAccount = $transaction->getCardHolderAccount();
         $merchantRiskIndicator = $transaction->getMerchantRiskIndicator();
+        $browser = $transaction->getBrowser();
 
         if ($accountHolder instanceof AccountHolder) {
             $accountHolder = $accountHolder->mappedSeamlessProperties();
@@ -175,6 +176,10 @@ class RequestMapper
 
         if ($merchantRiskIndicator instanceof MerchantRiskIndicator) {
             $requestData = array_merge($requestData, $merchantRiskIndicator->mappedSeamlessProperties());
+        }
+
+        if ($browser instanceof Browser) {
+            $requestData = array_merge($requestData, $browser->mappedSeamlessProperties());
         }
 
         return $requestData;
