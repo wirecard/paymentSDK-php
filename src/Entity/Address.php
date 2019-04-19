@@ -315,13 +315,14 @@ class Address implements MappableEntity
         return $lines;
     }
 
-    private function mbStringToArray ($string, $maxLineLength = 50) {
+    private function mbStringToArray($string, $maxLineLength = 50)
+    {
         $stringLength = mb_strlen($string);
         $array = array();
 
         while ($stringLength) {
-            $array[] = mb_substr($string,0,$maxLineLength);
-            $string = mb_substr($string,$maxLineLength,$stringLength);
+            $array[] = mb_substr($string, 0, $maxLineLength);
+            $string = mb_substr($string, $maxLineLength, $stringLength);
             $stringLength = mb_strlen($string);
         }
 

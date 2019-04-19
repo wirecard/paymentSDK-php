@@ -316,5 +316,4 @@ class AddressUTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expectedResult, $this->addr->mappedSeamlessProperties());
     }
-
 }
