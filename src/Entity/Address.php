@@ -31,6 +31,7 @@
 
 namespace Wirecard\PaymentSdk\Entity;
 
+use phpDocumentor\Reflection\Types\Array_;
 use Wirecard\IsoToPayPal\Converter;
 use Wirecard\IsoToPayPal\Exception\CountryNotFoundException;
 use Wirecard\IsoToPayPal\Exception\StateNotFoundException;
@@ -273,20 +274,66 @@ class Address implements MappableEntity
 
     /**
      * @param $string
-     * @param int $length
+     * @param int $maxLineLength
      * @return array
      * @since 3.7.0
      */
-    private function wordWrappedExplodeByLength($string, $length = 50)
+    private function wordWrappedExplodeByLength($string, $maxLineLength = 50)
     {
-        $data = array();
+        $currentLine = 0;
+        $currentLineLength = 0;
+        // In case , should be removed change regex to '/[\s,]/'
+        $words = preg_split('/[\s]/', $string);
+        $prefix = ' ';
+        $lines = array();
 
-        if (preg_match_all("/.{1,{$length}}(?=\W+)/", $string, $lines) !== false) {
-            for ($i=0; $i < count($lines[0]); $i++) {
-                $data[$i] = trim($lines[0][$i]);
+        $index = 0;
+        foreach ($words as $word) {
+            $wordLength = mb_strlen($word);
+            if ($wordLength > $maxLineLength) {
+                $wordSplit = $this->mbStringToArray($word);
+                array_splice($words, $index, 1, $wordSplit);
             }
+            $index++;
         }
 
-        return $data;
+        foreach ($words as $word) {
+            $calculatedLineLength = $currentLineLength + mb_strlen($word) + mb_strlen($prefix);
+            if ($calculatedLineLength > $maxLineLength && isset($lines[$currentLine])) {
+                $currentLine++;
+            }
+
+            if (!isset($lines[$currentLine])) {
+                $lines[$currentLine] = '';
+            }
+
+            $lines[$currentLine] .= $this->getWordPrefix($lines[$currentLine], $prefix) . $word;
+
+            $currentLineLength = mb_strlen($lines[$currentLine]);
+        }
+
+        return $lines;
+    }
+
+    private function mbStringToArray ($string, $maxLineLength = 50) {
+        $stringLength = mb_strlen($string);
+        $array = array();
+
+        while ($stringLength) {
+            $array[] = mb_substr($string,0,$maxLineLength);
+            $string = mb_substr($string,$maxLineLength,$stringLength);
+            $stringLength = mb_strlen($string);
+        }
+
+        return $array;
+    }
+
+    private function getWordPrefix($var, $prefix)
+    {
+        if (empty($var)) {
+            return '';
+        }
+
+        return $prefix;
     }
 }

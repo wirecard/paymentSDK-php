@@ -249,8 +249,8 @@ class AddressUTest extends \PHPUnit_Framework_TestCase
             // @codingStandardsIgnoreEnd
             'city' => self::GRAZ,
             'country' => self::AT_COUNTRY_CODE,
-            'street2' => 'improbable but possible inputs. And to verify',
-            'street3' => 'that it is split into the two fieldsWith this',
+            'street2' => 'improbable but possible inputs. And to verify that',
+            'street3' => 'it is split into the two fieldsWith this sentence',
         ];
 
         $this->assertEquals($expectedResult, $this->addr->mappedSeamlessProperties());
@@ -276,4 +276,45 @@ class AddressUTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expectedResult, $this->addr->mappedSeamlessProperties());
     }
+
+    public function testMappingWithMultibyteStreet1()
+    {
+        // @codingStandardsIgnoreStart
+        $street1 = "Die deutsche Sprache enthält neben äöü und dessen Großbuchstaben ÄÖÜ auch das ß. русский язык, Θεσσαλονίκη and eastern europe chars like Dž, Đ, Ž or Š may be a problem to";
+        // @codingStandardsIgnoreEnd
+        $this->addr = new Address(self::AT_COUNTRY_CODE, self::GRAZ, $street1);
+
+        $expectedResult = [
+            // @codingStandardsIgnoreStart
+            'street1' => 'Die deutsche Sprache enthält neben äöü und dessen',
+            // @codingStandardsIgnoreEnd
+            'city' => self::GRAZ,
+            'country' => self::AT_COUNTRY_CODE,
+            'street2' => 'Großbuchstaben ÄÖÜ auch das ß. русский язык,',
+            'street3' => 'Θεσσαλονίκη and eastern europe chars like Dž, Đ, Ž',
+        ];
+
+        $this->assertEquals($expectedResult, $this->addr->mappedSeamlessProperties());
+    }
+
+    public function testMappingWithMultibyteOneWordStreet1()
+    {
+        // @codingStandardsIgnoreStart
+        $street1 = "DiedeutscheSpracheenthältnebenäöüunddessenGroßbuchstabenÄÖÜauchdasß.русскийязык,ΘεσσαλονίκηandeasterneuropecharslikeDž,Đ,ŽorŠmaybeaproblemto";
+        // @codingStandardsIgnoreEnd
+        $this->addr = new Address(self::AT_COUNTRY_CODE, self::GRAZ, $street1);
+
+        $expectedResult = [
+            // @codingStandardsIgnoreStart
+            'street1' => 'DiedeutscheSpracheenthältnebenäöüunddessenGroßbuch',
+            // @codingStandardsIgnoreEnd
+            'city' => self::GRAZ,
+            'country' => self::AT_COUNTRY_CODE,
+            'street2' => 'stabenÄÖÜauchdasß.русскийязык,Θεσσαλονίκηandeaster',
+            'street3' => 'neuropecharslikeDž,Đ,ŽorŠmaybeaproblemto',
+        ];
+
+        $this->assertEquals($expectedResult, $this->addr->mappedSeamlessProperties());
+    }
+
 }
