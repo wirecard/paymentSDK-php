@@ -315,6 +315,12 @@ class Address implements MappableEntity
         return $lines;
     }
 
+    /**
+     * @param $string
+     * @param int $maxLineLength
+     * @return array
+     * @since 3.7.0
+     */
     private function mbStringToArray($string, $maxLineLength = 50)
     {
         $stringLength = mb_strlen($string);
@@ -329,6 +335,12 @@ class Address implements MappableEntity
         return $array;
     }
 
+    /**
+     * @param $var
+     * @param $prefix
+     * @return string
+     * @since 3.7.0
+     */
     private function getWordPrefix($var, $prefix)
     {
         if (empty($var)) {
