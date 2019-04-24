@@ -151,12 +151,10 @@ class AddressUTest extends \PHPUnit_Framework_TestCase
 
         $expectedResult = [
             // @codingStandardsIgnoreStart
-            'street1' => 'This is a long street name in order to test an',
+            'street1' => 'This is a long street name in order to test an improbable but possible input. And to verify that it is split into the two fields',
             // @codingStandardsIgnoreEnd
             'city' => self::GRAZ,
             'country' => self::AT_COUNTRY_CODE,
-            'street2' => 'improbable but possible input. And to verify that',
-            'street3' => 'it is split into the two fieldsWith this sentence',
         ];
 
         $this->assertEquals($expectedResult, $this->addr->mappedProperties());
@@ -173,7 +171,7 @@ class AddressUTest extends \PHPUnit_Framework_TestCase
         $expectedResult = [
             'street1' =>
             // @codingStandardsIgnoreStart
-                'This is a long street name in order to test an imp',
+                'This is a long street name in order to test an improbable but possible input. And to verify that it is not split, if street2 is ',
             // @codingStandardsIgnoreEnd
             'city' => self::GRAZ,
             'country' => self::AT_COUNTRY_CODE,
@@ -242,15 +240,17 @@ class AddressUTest extends \PHPUnit_Framework_TestCase
         $street1 = 'This is a long street name in order to test an improbable but possible inputs. And to verify that it is split into the two fieldsWith this sentence the 2nd part starts.';
         // @codingStandardsIgnoreEnd
         $this->addr = new Address(self::AT_COUNTRY_CODE, self::GRAZ, $street1);
+        $this->addr->setStreet2('some suffix');
+        $this->addr->setStreet3('another suffix');
 
         $expectedResult = [
             // @codingStandardsIgnoreStart
-            'street1' => 'This is a long street name in order to test an',
+            'street1' => 'This is a long street name in order to test an improbable but possible inputs. And to verify that it is split into the two field',
             // @codingStandardsIgnoreEnd
             'city' => self::GRAZ,
             'country' => self::AT_COUNTRY_CODE,
-            'street2' => 'improbable but possible inputs. And to verify that',
-            'street3' => 'it is split into the two fieldsWith this sentence',
+            'street2' => 'some suffix',
+            'street3' => 'another suffix',
         ];
 
         $this->assertEquals($expectedResult, $this->addr->mappedSeamlessProperties());
@@ -267,7 +267,7 @@ class AddressUTest extends \PHPUnit_Framework_TestCase
         $expectedResult = [
             'street1' =>
             // @codingStandardsIgnoreStart
-                'This is a long street name in order to test an imp',
+                'This is a long street name in order to test an improbable but possible input. And to verify that it is not split, if street2 is ',
             // @codingStandardsIgnoreEnd
             'city' => self::GRAZ,
             'country' => self::AT_COUNTRY_CODE,
@@ -286,12 +286,10 @@ class AddressUTest extends \PHPUnit_Framework_TestCase
 
         $expectedResult = [
             // @codingStandardsIgnoreStart
-            'street1' => 'Die deutsche Sprache enthält neben äöü und dessen',
+            'street1' => 'Die deutsche Sprache enthält neben äöü und dessen Großbuchstaben ÄÖÜ auch das ß. русский язык, Θεσσαλονίκη and eastern europe ch',
             // @codingStandardsIgnoreEnd
             'city' => self::GRAZ,
             'country' => self::AT_COUNTRY_CODE,
-            'street2' => 'Großbuchstaben ÄÖÜ auch das ß. русский язык,',
-            'street3' => 'Θεσσαλονίκη and eastern europe chars like Dž, Đ, Ž',
         ];
 
         $this->assertEquals($expectedResult, $this->addr->mappedSeamlessProperties());
@@ -303,14 +301,16 @@ class AddressUTest extends \PHPUnit_Framework_TestCase
         $street1 = "DiedeutscheSpracheenthältnebenäöüunddessenGroßbuchstabenÄÖÜauchdasß.русскийязык,ΘεσσαλονίκηandeasterneuropecharslikeDž,Đ,ŽorŠmaybeaproblemto";
         // @codingStandardsIgnoreEnd
         $this->addr = new Address(self::AT_COUNTRY_CODE, self::GRAZ, $street1);
+        $this->addr->setStreet2('stabenÄÖÜauchdasß.русскийязык,Θεσσαλονίκηandeaste');
+        $this->addr->setStreet3('neuropecharslikeDž,Đ,ŽorŠmaybeaproblemto');
 
         $expectedResult = [
             // @codingStandardsIgnoreStart
-            'street1' => 'DiedeutscheSpracheenthältnebenäöüunddessenGroßbuch',
+            'street1' => 'DiedeutscheSpracheenthältnebenäöüunddessenGroßbuchstabenÄÖÜauchdasß.русскийязык,ΘεσσαλονίκηandeasterneuropecharslikeDž,Đ,ŽorŠmay',
             // @codingStandardsIgnoreEnd
             'city' => self::GRAZ,
             'country' => self::AT_COUNTRY_CODE,
-            'street2' => 'stabenÄÖÜauchdasß.русскийязык,Θεσσαλονίκηandeaster',
+            'street2' => 'stabenÄÖÜauchdasß.русскийязык,Θεσσαλονίκηandeaste',
             'street3' => 'neuropecharslikeDž,Đ,ŽorŠmaybeaproblemto',
         ];
 

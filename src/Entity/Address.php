@@ -175,7 +175,6 @@ class Address implements MappableEntity
     public function mappedProperties()
     {
         $result = [
-            'street1' => $this->street1,
             'city' => $this->city,
             'country' => $this->countryCode,
         ];
@@ -188,7 +187,12 @@ class Address implements MappableEntity
             $result['postal-code'] = $this->postalCode;
         }
 
-        $result = $this->mapAdditionalStreets($result);
+        $result = array_merge(
+            $result,
+            $this->truncatePropertyIfSet('street1'),
+            $this->truncatePropertyIfSet('street2'),
+            $this->truncatePropertyIfSet('street3')
+        );
 
         if (!is_null($this->houseExtension)) {
             $result['house-extension'] = $this->houseExtension;
@@ -204,7 +208,6 @@ class Address implements MappableEntity
     public function mappedSeamlessProperties($type = '')
     {
         $result = [
-            $type . 'street1' => $this->street1,
             $type . 'city' => $this->city,
             $type . 'country' => $this->countryCode
         ];
@@ -213,140 +216,32 @@ class Address implements MappableEntity
             $result[$type . 'postal_code'] = $this->postalCode;
         }
 
-        $result = $this->mapAdditionalStreets($result, $type);
-
-        return $result;
-    }
-
-    /**
-     * @param array $result
-     * @param string $type
-     * @return array
-     * @since 3.7.0
-     */
-    private function mapAdditionalStreets($result, $type = '')
-    {
-        if (isset($this->street2) || isset($this->street3)) {
-            $result[$type . 'street1'] = mb_substr($this->street1, 0, 50);
-            $result = array_merge(
-                $result,
-                $this->truncatePropertyIfSet('street2'),
-                $this->truncatePropertyIfSet('street3')
-            );
-
-            return $result;
-        }
-
-        if (mb_strlen($this->street1) <= 50) {
-            return $result;
-        }
-
-        $explodedStreet = $this->wordWrappedExplodeByLength($this->street1);
-        $prefix = $type . 'street';
-        for ($i=0; $i < count($explodedStreet) && $i < 3; $i++) {
-            if ($i > 0) {
-                $prefix = 'street';
-            }
-            $counter = $i + 1;
-            $result[$prefix . $counter] = $explodedStreet[$i];
-        }
+        $result = array_merge(
+            $result,
+            $this->truncatePropertyIfSet('street1', $type),
+            $this->truncatePropertyIfSet('street2', $type),
+            $this->truncatePropertyIfSet('street3', $type)
+        );
 
         return $result;
     }
 
     /**
      * @param $property
+     * @param string $prefix
      * @param int $start
      * @param int $length
      * @return array
      * @since 3.7.0
      */
-    private function truncatePropertyIfSet($property, $start = 0, $length = 50)
+    private function truncatePropertyIfSet($property, $prefix = '', $start = 0, $length = 128)
     {
         $data = array();
 
         if (isset($this->{$property})) {
-            $data[$property] = mb_substr($this->{$property}, $start, $length);
+            $data[$prefix . $property] = mb_substr($this->{$property}, $start, $length);
         }
 
         return $data;
-    }
-
-    /**
-     * @param $string
-     * @param int $maxLineLength
-     * @return array
-     * @since 3.7.0
-     */
-    private function wordWrappedExplodeByLength($string, $maxLineLength = 50)
-    {
-        $currentLine = 0;
-        $currentLineLength = 0;
-        // In case , should be removed change regex to '/[\s,]/'
-        $words = preg_split('/[\s]/', $string);
-        $prefix = ' ';
-        $lines = array();
-
-        $index = 0;
-        foreach ($words as $word) {
-            $wordLength = mb_strlen($word);
-            if ($wordLength > $maxLineLength) {
-                $wordSplit = $this->mbStringToArray($word);
-                array_splice($words, $index, 1, $wordSplit);
-            }
-            $index++;
-        }
-
-        foreach ($words as $word) {
-            $calculatedLineLength = $currentLineLength + mb_strlen($word) + mb_strlen($prefix);
-            if ($calculatedLineLength > $maxLineLength && isset($lines[$currentLine])) {
-                $currentLine++;
-            }
-
-            if (!isset($lines[$currentLine])) {
-                $lines[$currentLine] = '';
-            }
-
-            $lines[$currentLine] .= $this->getWordPrefix($lines[$currentLine], $prefix) . $word;
-
-            $currentLineLength = mb_strlen($lines[$currentLine]);
-        }
-
-        return $lines;
-    }
-
-    /**
-     * @param $string
-     * @param int $maxLineLength
-     * @return array
-     * @since 3.7.0
-     */
-    private function mbStringToArray($string, $maxLineLength = 50)
-    {
-        $stringLength = mb_strlen($string);
-        $array = array();
-
-        while ($stringLength) {
-            $array[] = mb_substr($string, 0, $maxLineLength);
-            $string = mb_substr($string, $maxLineLength, $stringLength);
-            $stringLength = mb_strlen($string);
-        }
-
-        return $array;
-    }
-
-    /**
-     * @param $var
-     * @param $prefix
-     * @return string
-     * @since 3.7.0
-     */
-    private function getWordPrefix($var, $prefix)
-    {
-        if (empty($var)) {
-            return '';
-        }
-
-        return $prefix;
     }
 }
