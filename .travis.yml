@@ -25,26 +25,26 @@ matrix:
     - stage: acceptance-test
   include:
   - php: 5.6
-    if: type != cron
+    if: type = cron
     env:
     - TEST_COVERAGE=true
   - php: 7
-    if: type != cron
+    if: type = cron
     env:
     - CHECK_CS=true
     - CREATE_DOCS=true
   - php: 7.1
-    if: type != cron
+    if: type = cron
     env:
     - MUTATION_TESTS=true
   - php: 7.2
-    if: type != cron
+    if: type = cron
     env:
     - MUTATION_TESTS=true
 # running acceptance tests sequentially because in parallel is not possible due to ngrok account
   - &acceptance-test
     stage: acceptance-test
-    if: type = cron
+    if: type != cron
     php: 7.1
     env: GATEWAY=API-TEST
     install:
