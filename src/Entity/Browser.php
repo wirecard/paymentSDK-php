@@ -59,6 +59,11 @@ class Browser implements MappableEntity
     protected $screenResolution;
 
     /**
+     * @var string $challengeWindowSize
+     */
+    private $challengeWindowSize;
+
+    /**
      * Browser constructor.
      * @param null $accept
      * @param null $userAgent
@@ -114,6 +119,35 @@ class Browser implements MappableEntity
     }
 
     /**
+     * @param int $width Width in pixel
+     * @return $this
+     * @since 3.7.0
+     */
+    public function setChallengeWindowSize($width)
+    {
+        switch (true) {
+            case $width <= 250:
+                $challengeWindowSize = '01'; // 250x400
+                break;
+            case $width <= 390:
+                $challengeWindowSize = '02'; // 390x400
+                break;
+            case $width <= 500:
+                $challengeWindowSize = '03'; // 500x600
+                break;
+            case $width <= 600:
+                $challengeWindowSize = '04'; // 600x400
+                break;
+            default:
+                $challengeWindowSize = '05'; // Fullscreen
+        }
+
+        $this->challengeWindowSize = $challengeWindowSize;
+
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function mappedProperties()
@@ -138,6 +172,44 @@ class Browser implements MappableEntity
 
         if (isset($this->screenResolution)) {
             $data['screen-resolution'] = $this->screenResolution;
+        }
+
+        if (isset($this->challengeWindowSize)) {
+            $data['browser-challenge-window-size'] = $this->challengeWindowSize;
+        }
+
+        return $data;
+    }
+
+    /**
+     * @return array
+     */
+    public function mappedSeamlessProperties()
+    {
+        $data = [];
+
+        if (strlen($this->accept)) {
+            $data['accept'] = $this->accept;
+        } elseif (isset($_SERVER['HTTP_ACCEPT'])) {
+            $data['accept'] = $_SERVER['HTTP_ACCEPT'];
+        }
+
+        if (strlen($this->userAgent)) {
+            $data['user_agent'] = $this->userAgent;
+        } elseif (isset($_SERVER['HTTP_USER_AGENT'])) {
+            $data['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
+        }
+
+        if (isset($this->timezone)) {
+            $data['time_zone'] = $this->timezone;
+        }
+
+        if (isset($this->screenResolution)) {
+            $data['screen_resolution'] = $this->screenResolution;
+        }
+
+        if (isset($this->challengeWindowSize)) {
+            $data['browser_challenge_window_size'] = $this->challengeWindowSize;
         }
 
         return $data;

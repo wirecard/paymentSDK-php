@@ -75,6 +75,11 @@ class Address implements MappableEntity
     /**
      * @var string
      */
+    private $street3;
+
+    /**
+     * @var string
+     */
     private $state;
 
     /**
@@ -108,6 +113,16 @@ class Address implements MappableEntity
     public function setStreet2($street2)
     {
         $this->street2 = $street2;
+    }
+
+    /**
+     * @param $street3
+     * Enter the house number incl. suffixes here.
+     * @since 3.7.0
+     */
+    public function setStreet3($street3)
+    {
+        $this->street3 = $street3;
     }
 
     /**
@@ -159,7 +174,6 @@ class Address implements MappableEntity
     public function mappedProperties()
     {
         $result = [
-            'street1' => $this->street1,
             'city' => $this->city,
             'country' => $this->countryCode,
         ];
@@ -172,14 +186,12 @@ class Address implements MappableEntity
             $result['postal-code'] = $this->postalCode;
         }
 
-        if (!is_null($this->street2)) {
-            $result['street2'] = $this->street2;
-        } else {
-            if (strlen($this->street1) > 128) {
-                $result['street1'] = substr($this->street1, 0, 128);
-                $result['street2'] = substr($this->street1, 128);
-            }
-        }
+        $result = array_merge(
+            $result,
+            $this->truncatePropertyIfSet('street1'),
+            $this->truncatePropertyIfSet('street2'),
+            $this->truncatePropertyIfSet('street3')
+        );
 
         if (!is_null($this->houseExtension)) {
             $result['house-extension'] = $this->houseExtension;
@@ -195,7 +207,6 @@ class Address implements MappableEntity
     public function mappedSeamlessProperties($type = '')
     {
         $result = [
-            $type . 'street1' => $this->street1,
             $type . 'city' => $this->city,
             $type . 'country' => $this->countryCode
         ];
@@ -204,15 +215,32 @@ class Address implements MappableEntity
             $result[$type . 'postal_code'] = $this->postalCode;
         }
 
-        if (!is_null($this->street2)) {
-            $result[$type . 'street2'] = $this->street2;
-        } else {
-            if (strlen($this->street1) > 128) {
-                $result[$type . 'street1'] = substr($this->street1, 0, 128);
-                $result[$type . 'street2'] = substr($this->street1, 128);
-            }
-        }
+        $result = array_merge(
+            $result,
+            $this->truncatePropertyIfSet('street1', $type),
+            $this->truncatePropertyIfSet('street2', $type),
+            $this->truncatePropertyIfSet('street3', $type)
+        );
 
         return $result;
+    }
+
+    /**
+     * @param $property
+     * @param string $prefix
+     * @param int $start
+     * @param int $length
+     * @return array
+     * @since 3.7.0
+     */
+    private function truncatePropertyIfSet($property, $prefix = '', $start = 0, $length = 128)
+    {
+        $data = array();
+
+        if (isset($this->{$property})) {
+            $data[$prefix . $property] = mb_substr($this->{$property}, $start, $length);
+        }
+
+        return $data;
     }
 }

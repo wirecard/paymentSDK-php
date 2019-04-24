@@ -34,9 +34,13 @@ namespace Wirecard\PaymentSdk\Mapper;
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Basket;
+use Wirecard\PaymentSdk\Entity\CardHolderAccount;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Entity\Device;
+use Wirecard\PaymentSdk\Entity\MerchantRiskIndicator;
 use Wirecard\PaymentSdk\Entity\Periodic;
+use Wirecard\PaymentSdk\Entity\ThreeDSRequestor;
+use Wirecard\PaymentSdk\Entity\Browser;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException;
 use Wirecard\PaymentSdk\Transaction\Transaction;
@@ -110,6 +114,10 @@ class RequestMapper
         $device = $transaction->getDevice();
         $customFields = $transaction->getCustomFields();
         $periodic = $transaction->getPeriodic();
+        $threeDSRequestor = $transaction->getThreeDSRequestor();
+        $cardHolderAccount = $transaction->getCardHolderAccount();
+        $merchantRiskIndicator = $transaction->getMerchantRiskIndicator();
+        $browser = $transaction->getBrowser();
 
         if ($accountHolder instanceof AccountHolder) {
             $accountHolder = $accountHolder->mappedSeamlessProperties();
@@ -157,6 +165,22 @@ class RequestMapper
 
         if ($periodic instanceof Periodic) {
             $requestData = array_merge($requestData, $periodic->mappedSeamlessProperties());
+        }
+
+        if ($threeDSRequestor instanceof ThreeDSRequestor) {
+            $requestData = array_merge($requestData, $threeDSRequestor->mappedSeamlessProperties());
+        }
+
+        if ($cardHolderAccount instanceof CardHolderAccount) {
+            $requestData = array_merge($requestData, $cardHolderAccount->mappedSeamlessProperties());
+        }
+
+        if ($merchantRiskIndicator instanceof MerchantRiskIndicator) {
+            $requestData = array_merge($requestData, $merchantRiskIndicator->mappedSeamlessProperties());
+        }
+
+        if ($browser instanceof Browser) {
+            $requestData = array_merge($requestData, $browser->mappedSeamlessProperties());
         }
 
         return $requestData;

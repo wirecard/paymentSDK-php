@@ -31,12 +31,16 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
+use http\Exception\InvalidArgumentException;
 use Locale;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Browser;
+use Wirecard\PaymentSdk\Entity\CardHolderAccount;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
+use Wirecard\PaymentSdk\Entity\MerchantRiskIndicator;
 use Wirecard\PaymentSdk\Entity\Periodic;
 use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Entity\ThreeDSRequestor;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
@@ -153,6 +157,21 @@ abstract class Transaction extends Risk
      * @var array
      */
     protected $articleNumbers = [];
+
+    /**
+     * @var ThreeDSRequestor
+     */
+    private $threeDSRequestor;
+
+    /**
+     * @var CardHolderAccount
+     */
+    private $cardHolderAccount;
+
+    /**
+     * @var MerchantRiskIndicator
+     */
+    private $merchantRiskIndicator;
 
     /**
      * @param string $entryMode
@@ -352,6 +371,76 @@ abstract class Transaction extends Risk
     }
 
     /**
+     * @param $threeDSRequestor
+     * @return $this
+     * @since 3.7.0
+     */
+    public function setThreeDSRequestor($threeDSRequestor)
+    {
+        if (!$threeDSRequestor instanceof ThreeDSRequestor) {
+            throw new \InvalidArgumentException(
+                '3DS Requestor Information must be of type ThreeDSRequestor.'
+            );
+        }
+        $this->threeDSRequestor = $threeDSRequestor;
+        return $this;
+    }
+
+    /**
+     * @return ThreeDSRequestor
+     * @since 3.7.0
+     */
+    public function getThreeDSRequestor()
+    {
+        return $this->threeDSRequestor;
+    }
+
+    /**
+     * @param $merchantRiskIndicator
+     * @return $this
+     */
+    public function setMerchantRiskIndicator($merchantRiskIndicator)
+    {
+        if (!$merchantRiskIndicator instanceof MerchantRiskIndicator) {
+            throw new \InvalidArgumentException(
+                'Merchant Risk Indicator must be of type MerchantRiskIndicator.'
+            );
+        }
+        $this->merchantRiskIndicator = $merchantRiskIndicator;
+        return $this;
+    }
+
+    public function getMerchantRiskIndicator()
+    {
+        return $this->merchantRiskIndicator;
+    }
+
+    /**
+     * @param $cardHolderAccount
+     * @return $this
+     * @since 3.7.0
+     */
+    public function setCardHolderAccount($cardHolderAccount)
+    {
+        if (!$cardHolderAccount instanceof CardHolderAccount) {
+            throw new InvalidArgumentException(
+                'Cardholder Account must be of type CardHolderAccount.'
+            );
+        }
+        $this->cardHolderAccount = $cardHolderAccount;
+        return $this;
+    }
+
+    /**
+     * @return CardHolderAccount
+     * @since 3.7.0
+     */
+    public function getCardHolderAccount()
+    {
+        return $this->cardHolderAccount;
+    }
+
+    /**
      * @throws MandatoryFieldMissingException
      * @throws UnsupportedOperationException
      * @return array
@@ -439,6 +528,10 @@ abstract class Transaction extends Risk
             if (count($browser) > 0) {
                 $result['browser'] = $this->browser->mappedProperties();
             }
+        }
+
+        if (null !== $this->threeDSRequestor) {
+            $result['threeDSRequestor'] = $this->threeDSRequestor->mappedProperties();
         }
 
         return array_merge($result, $specificProperties);
