@@ -1,10 +1,16 @@
 <?php
-// # PayByBankApp
+// # Purchase for Pay By Bank App
+
+// To reserve and capture an amount for a credit card
+
+// ## Required objects
 
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../inc/common.php';
 require __DIR__ . '/../inc/config.php';
+//Header design
+require __DIR__ . '/../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
@@ -15,39 +21,42 @@ use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Transaction\PayByBankAppTransaction;
 use Wirecard\PaymentSdk\TransactionService;
-  
+
+// ### Transaction related objects
+
+// Create a amount object as amount which has to be paid by the consumer.
 $amount = new Amount(1.23, 'GBP');
 
-$transaction = new PayByBankAppTransaction();
-$transaction->setAmount($amount);
-
+// Create a consumer device.
 $device = new Device();
 $device->setType("pc");
 $device->setOperatingSystem("windows");
-$transaction->setDevice($device);
 
+// Create the mandatory fields needed for By Bank App(merchant string, transaction type, Delivery type).
 $customFields = new CustomFieldCollection();
-$transaction->setCustomFields($customFields);
-
-function addCustomField($key, $value) {
-    $customField = new CustomField($key, $value);
-    $customField->setPrefix("");
-    return $customField;
-}
-
-$customFields->add(addCustomField('zapp.in.MerchantRtnStrng', '123'));
-$customFields->add(addCustomField('zapp.in.TxType', 'PAYMT'));
-$customFields->add(addCustomField('zapp.in.DeliveryType', 'DELTAD'));
+$customFields->add(prepareCustomField('zapp.in.MerchantRtnStrng', '123'));
+$customFields->add(prepareCustomField('zapp.in.TxType', 'PAYMT'));
+$customFields->add(prepareCustomField('zapp.in.DeliveryType', 'DELTAD'));
 
 // The redirect URLs determine where the consumer should be redirected after approval/cancellation.
 $redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
-$transaction->setRedirect($redirectUrls);
 
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
 $notificationUrl = getUrl('notify.php');
 
+// ## Transaction
+
+// The Pay By Bank App transaction holds all transaction relevant data for the pay process.
+$transaction = new PayByBankAppTransaction();
+$transaction->setAmount($amount);
+$transaction->setDevice($device);
+$transaction->setCustomFields($customFields);
+$transaction->setRedirect($redirectUrls);
 $transaction->setNotificationUrl($notificationUrl);
 
+// ### Transaction Service
+
+// The service is used to execute the payment operation itself. A response object is returned.
 $transactionService = new TransactionService($config);      
 $response = $transactionService->pay($transaction);
 
@@ -57,23 +66,22 @@ $response = $transactionService->pay($transaction);
 // if the transaction was successful.
 if ($response instanceof InteractionResponse) {
         die("<meta http-equiv='refresh' content='0;url={$response->getRedirectUrl()}'>");
-// In case of a failed transaction, a `FailureResponse` object is returned.
+
+// The failure state is represented by a FailureResponse object.
+// In this case the returned errors should be stored in your system.
 } elseif ($response instanceof FailureResponse) {
-    $jresult = ['success' => false, 'errors' => []];
+// In our example we iterate over all errors and echo them out. You should display them as
+// error, warning or information based on the given severity.
+	foreach ($response->getStatusCollection() as $status) {
+		/**
+		 * @var $status \Wirecard\PaymentSdk\Entity\Status
+		 */
+		$severity = ucfirst($status->getSeverity());
+		$code = $status->getCode();
+		$description = $status->getDescription();
+		echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
+	}
+}
+//Footer design
+require __DIR__ . '/../inc/footer.php';
 
-    foreach ($response->getStatusCollection() as $status) {
-        /**
-         * @var $status \Wirecard\PaymentSdk\Entity\Status
-         */
-        $severity = ucfirst($status->getSeverity());
-        $code = $status->getCode();
-        $description = $status->getDescription();
-        
-        $err = ['severity' => $severity, 'code' => $code, 'description' => $description];
-        $jresult['errors'][] = $err;
-    }
-
-    $resultJson = json_encode($jresult);
-    echo($resultJson);
-}       
-?>

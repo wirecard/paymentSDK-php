@@ -1,7 +1,7 @@
 <?php
-// # iDEAL return after transaction
+// # Pay By Bank App return after transaction
 
-// The consumer gets redirected to this page after a iDEAL transaction.
+// When a transaction is finished, the response from Wirecard can be read and processed.
 
 // ## Required objects
 
@@ -19,7 +19,6 @@ use Wirecard\PaymentSdk\TransactionService;
 // ## Transaction
 
 // ### Transaction Service
-
 // The `TransactionService` is used to determine the response from the service provider.
 $service = new TransactionService($config);
 $response = $service->handleResponse($_POST);

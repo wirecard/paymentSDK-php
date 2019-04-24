@@ -135,7 +135,9 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
             'status_code_0' => '201.000',
             'status_description_0' => 'Dummy status description',
             'status_severity_0' => 'information',
-            'parent_transaction_id' => 'ptrid'
+            'parent_transaction_id' => 'ptrid',
+            'requested_amount_currency' => 'EUR',
+            'requested_amount' => '40'
         );
 
         $response = $this->service->processJsResponse($data, $url);
