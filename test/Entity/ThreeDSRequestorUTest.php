@@ -88,7 +88,7 @@ class ThreeDSRequestorUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $threeDSRequestor->mappedSeamlessProperties());
     }
 
-    public function testMappingNotImplemented()
+    public function testMappingNotSupported()
     {
         $threeDSRequestor = new ThreeDSRequestor();
 

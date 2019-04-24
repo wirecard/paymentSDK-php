@@ -198,7 +198,7 @@ class MerchantRiskIndicator implements MappableEntity
      */
     public function setGiftCardCount($giftCardCount)
     {
-        if ($giftCardCount > 0 && $giftCardCount < 100) {
+        if ($giftCardCount < 1 || $giftCardCount > 99) {
             throw new \InvalidArgumentException('Gift card count must not exceed 2 digits');
         }
 

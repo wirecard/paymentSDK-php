@@ -98,7 +98,7 @@ class CardHolderAccountUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $cardHolderAccount->mappedSeamlessProperties());
     }
 
-    public function testMappingNotImplemented()
+    public function testMappingNotSupported()
     {
         $cardHolderAccount = new CardHolderAccount();
 

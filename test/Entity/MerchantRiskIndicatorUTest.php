@@ -41,13 +41,22 @@ use Wirecard\PaymentSdk\Exception\NotImplementedException;
 
 class MerchantRiskIndicatorUTest extends \PHPUnit_Framework_TestCase
 {
-    public function testSeamlessMappingWithGiftCardCountInvalid()
+    public function testSeamlessMappingWithGiftCardCountTooLarge()
     {
         $merchantRiskIndicator = new MerchantRiskIndicator();
 
         $this->expectException(\InvalidArgumentException::class);
 
         $merchantRiskIndicator->setGiftCardCount(133);
+    }
+
+    public function testSeamlessMappingWithGiftCardCountTooSmall()
+    {
+        $merchantRiskIndicator = new MerchantRiskIndicator();
+
+        $this->expectException(\InvalidArgumentException::class);
+
+        $merchantRiskIndicator->setGiftCardCount(0);
     }
 
     public function testSeamlessMappingWithAllFields()
@@ -82,7 +91,7 @@ class MerchantRiskIndicatorUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $merchantRiskIndicator->mappedSeamlessProperties());
     }
 
-    public function testMappingNotImplemented()
+    public function testMappingNotSupported()
     {
         $cardHolderAccount = new MerchantRiskIndicator();
 
