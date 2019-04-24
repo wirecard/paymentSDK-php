@@ -127,24 +127,19 @@ class Browser implements MappableEntity
     {
         switch (true) {
             case $width <= 250:
-                /** 250x400 */
-                $challengeWindowSize = '01';
+                $challengeWindowSize = '01'; // 250x400
                 break;
             case $width <= 390:
-                /** 390x400 */
-                $challengeWindowSize = '02';
+                $challengeWindowSize = '02'; // 390x400
                 break;
             case $width <= 500:
-                /** 500x400 */
-                $challengeWindowSize = '03';
+                $challengeWindowSize = '03'; // 500x400
                 break;
             case $width <= 600:
-                /** 600x400 */
-                $challengeWindowSize = '04';
+                $challengeWindowSize = '04'; // 600x400
                 break;
             default:
-                /** Full screen */
-                $challengeWindowSize = '05';
+                $challengeWindowSize = '05'; // Fullscreen
         }
 
         $this->challengeWindowSize = $challengeWindowSize;
