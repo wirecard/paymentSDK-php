@@ -198,7 +198,7 @@ class MerchantRiskIndicator implements MappableEntity
      */
     public function setGiftCardCount($giftCardCount)
     {
-        if (strlen((string)$giftCardCount) > 2) {
+        if ($giftCardCount > 0 && $giftCardCount < 100) {
             throw new \InvalidArgumentException('Gift card count must not exceed 2 digits');
         }
 
@@ -230,7 +230,8 @@ class MerchantRiskIndicator implements MappableEntity
      */
     public function mappedProperties()
     {
-        throw new NotImplementedException('mappedProperties() not implemented.');
+        throw new NotImplementedException('mappedProperties() not supported for this entity, 
+        mappedSeamlessProperties() only.');
     }
 
     /**

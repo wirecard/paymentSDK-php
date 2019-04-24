@@ -265,7 +265,8 @@ class CardHolderAccount implements MappableEntity
      */
     public function mappedProperties()
     {
-        throw new NotImplementedException('mappedProperties() not implemented.');
+        throw new NotImplementedException('mappedProperties() not supported for this entity, 
+        mappedSeamlessProperties() only.');
     }
 
     /**
