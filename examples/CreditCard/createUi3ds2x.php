@@ -122,7 +122,6 @@ $transaction->setCardHolderAccount($cardHolderAccount);
 
 // ### Merchant's assessment of the level of fraud risk for the specific authentication for both the cardholder and the authentication being conducted
 $merchantRiskIndicator = new \Wirecard\PaymentSdk\Entity\MerchantRiskIndicator();
-$giftAmount            = new Amount(143.78, 'EUR');
 // Indicates whether cardholder is placing an order for merchandise with a future availability or release date. Merchandise available '01', Future availability '02'
 $merchantRiskIndicator->setAvailability(\Wirecard\PaymentSdk\Constant\RiskInfoAvailability::MERCHANDISE_AVAILABLE);
 // For electronic delivery, the email address the merchandise was delivered
@@ -130,7 +129,7 @@ $merchantRiskIndicator->setDeliveryEmailAddress('max.muster@mail.com');
 // Indicates the merchandise delivery timeframe. Electronic Delivery 01, Same day shipping 02, Overnight shipping 03, Two-day or more shipping 04
 $merchantRiskIndicator->setDeliveryTimeFrame(\Wirecard\PaymentSdk\Constant\RiskInfoDeliveryTimeFrame::ELECTRONIC_DELIVERY);
 // The purchase amount total of prepaid or gift card(s) and currency used. Will be trimmed to major units ignoring decimals
-$merchantRiskIndicator->setGiftAmount($giftAmount);
+$merchantRiskIndicator->setGiftAmount(new Amount(143.78, 'EUR'));
 // Quantity of ordered prepaid or gift cards. Limited to 2 characters
 $merchantRiskIndicator->setGiftCardCount(13);
 // Transaction type, classification of goods derived from ISO 8583. Goods/Service purchase 01, Check Acceptance 03, Account Funding 10, Quasi-Cash Transaction 11, Prepaid activation and Loan 28
