@@ -28,7 +28,7 @@ $amount = new Amount(25, 'EUR');
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $postedAmount = $_POST['amount'];
     $postedCurrency = $_POST['currency'];
-    $amount = new Amount($postedAmount, $postedCurrency);
+    $amount = new Amount((int)$postedAmount, $postedCurrency);
 }
 $orderNumber = 'A2';
 
