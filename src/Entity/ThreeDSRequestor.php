@@ -32,6 +32,7 @@
 namespace Wirecard\PaymentSdk\Entity;
 
 use Wirecard\PaymentSdk\Constant\ChallengeInd;
+use Wirecard\PaymentSdk\Exception\NotImplementedException;
 
 /**
  * Class ThreeDSRequestor
@@ -84,22 +85,13 @@ class ThreeDSRequestor implements MappableEntity
     }
 
     /**
-     * @return array
+     * @return array|void
+     * @throws NotImplementedException
      * @since 3.7.0
      */
     public function mappedProperties()
     {
-        $threeDSRequestor = null;
-        if (null !== $this->authenticationInfo) {
-            //remove entity array
-            $threeDSRequestor['threeDSRequestorAuthenticationInfo'] = $this->authenticationInfo->mappedProperties();
-        }
-
-        if (null !== $this->challengeInd) {
-            $threeDSRequestor['threeDSRequestorChallengeInd'] = $this->challengeInd;
-        }
-
-        return $threeDSRequestor;
+        throw new NotImplementedException('mappedProperties() not implemented.');
     }
 
     /**

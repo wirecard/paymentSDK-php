@@ -31,21 +31,68 @@
 
 namespace WirecardTest\PaymentSdk\Entity;
 
+use Wirecard\PaymentSdk\Entity\AuthenticationInfo;
 use Wirecard\PaymentSdk\Entity\ThreeDSRequestor;
+use Wirecard\PaymentSdk\Exception\NotImplementedException;
 
 class ThreeDSRequestorUTest extends \PHPUnit_Framework_TestCase
 {
-    public function testSetAuthenticationInfo()
+    public function testSeamlessMappingWithAuthenticationInfo()
     {
-        $threeDSRequestor = new ThreeDSRequestor();
-        //$threeDSRequestor->setAuthenticationInfo()
+        $threeDSRequestor   = new ThreeDSRequestor();
+        $authenticationInfo = new AuthenticationInfo();
+        $timeStamp          = gmdate(AuthenticationInfo::DATE_FORMAT);
 
-        $expected = [];
+        $authenticationInfo->setAuthMethod(\Wirecard\PaymentSdk\Constant\AuthMethod::GUEST_CHECKOUT);
+        $authenticationInfo->setAuthTimestamp($timeStamp);
+        $threeDSRequestor->setAuthenticationInfo($authenticationInfo);
 
-        //$this->assertEquals($expected, $threeDSRequestor->mappedProperties());
+        $expected = [
+            'authentication_method'    => \Wirecard\PaymentSdk\Constant\AuthMethod::GUEST_CHECKOUT,
+            'authentication_timestamp' => $timeStamp,
+        ];
+
+        $this->assertEquals($expected, $threeDSRequestor->mappedSeamlessProperties());
     }
 
-    public function testSetChallengeInd()
+    public function testSeamlessMappingWithChallengeInd()
     {
+        $threeDSRequestor = new ThreeDSRequestor();
+        $threeDSRequestor->setChallengeInd(\Wirecard\PaymentSdk\Constant\ChallengeInd::NO_PREFERENCE);
+
+        $expected = [
+            'challenge_indicator' => \Wirecard\PaymentSdk\Constant\ChallengeInd::NO_PREFERENCE,
+        ];
+
+        $this->assertEquals($expected, $threeDSRequestor->mappedSeamlessProperties());
+    }
+
+    public function testSeamlessMappingWithAllFields()
+    {
+        $threeDSRequestor   = new ThreeDSRequestor();
+        $authenticationInfo = new AuthenticationInfo();
+        $timeStamp          = gmdate(AuthenticationInfo::DATE_FORMAT);
+
+        $authenticationInfo->setAuthMethod(\Wirecard\PaymentSdk\Constant\AuthMethod::GUEST_CHECKOUT);
+        $authenticationInfo->setAuthTimestamp($timeStamp);
+        $threeDSRequestor->setAuthenticationInfo($authenticationInfo);
+
+        $threeDSRequestor->setChallengeInd(\Wirecard\PaymentSdk\Constant\ChallengeInd::NO_PREFERENCE);
+
+        $expected = [
+            'authentication_method'    => \Wirecard\PaymentSdk\Constant\AuthMethod::GUEST_CHECKOUT,
+            'authentication_timestamp' => $timeStamp,
+            'challenge_indicator'      => \Wirecard\PaymentSdk\Constant\ChallengeInd::NO_PREFERENCE,
+        ];
+
+        $this->assertEquals($expected, $threeDSRequestor->mappedSeamlessProperties());
+    }
+
+    public function testMappingNotImplemented()
+    {
+        $threeDSRequestor = new ThreeDSRequestor();
+
+        $this->expectException(NotImplementedException::class);
+        $threeDSRequestor->mappedProperties();
     }
 }
