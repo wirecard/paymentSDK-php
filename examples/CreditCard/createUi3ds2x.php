@@ -46,11 +46,16 @@ $basket->add($item2);
 
 // #### Account holder with address
 $address = new \Wirecard\PaymentSdk\Entity\Address('DE', 'Berlin', 'Teststrasse');
+$address->setStreet2('Test street 2');
+$address->setStreet3('TestStr3');
 $address->setPostalCode('13353');
 
 $accountHolder = new \Wirecard\PaymentSdk\Entity\AccountHolder();
 $accountHolder->setEmail('john.doe@test.com');
 $accountHolder->setPhone('03018425165');
+$accountHolder->setHomePhone('0345345');
+$accountHolder->setWorkPhone('0765573242');
+$accountHolder->setMobilePhone('041232342');
 $accountHolder->setDateOfBirth(new \DateTime('1973-12-07'));
 $accountHolder->setAddress($address);
 
@@ -140,6 +145,13 @@ $merchantRiskIndicator->setPreOrderDate(new DateTime());
 $merchantRiskIndicator->setReorderItems(\Wirecard\PaymentSdk\Constant\RiskInfoReorder::FIRST_TIME_ORDERED);
 
 $transaction->setMerchantRiskIndicator($merchantRiskIndicator);
+
+// ### Contains browser information. This field is required when deviceChannel is set to 02.
+$browser = new \Wirecard\PaymentSdk\Entity\Browser();
+// Defines the challenge window size through the given width in px
+$browser->setChallengeWindowSize(500);
+
+$transaction->setBrowser($browser);
 
 ?>
 
