@@ -133,7 +133,7 @@ class Browser implements MappableEntity
                 $challengeWindowSize = '02'; // 390x400
                 break;
             case $width <= 500:
-                $challengeWindowSize = '03'; // 500x400
+                $challengeWindowSize = '03'; // 500x600
                 break;
             case $width <= 600:
                 $challengeWindowSize = '04'; // 600x400
