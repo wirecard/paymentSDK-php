@@ -45,7 +45,7 @@ matrix:
   - &acceptance-test
     stage: acceptance-test
     if: type != cron
-    php: 7.1
+    php: 7.2
     env: GATEWAY=API-TEST
     install:
     - travis_retry composer require --dev $COMPOSER_ARGS codeception/codeception

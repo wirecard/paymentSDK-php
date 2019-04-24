@@ -14,7 +14,7 @@ modules:
         browser: chrome # 'chrome' or 'firefox'
         capabilities:
           'build': '%VERSION%'
-          'project': 'payment-SDK'
+          'project': 'payment-SDK-%GATEWAY%'
           'browserstack.user': '%BROWSERSTACK_USER%'
           'browserstack.key': '%BROWSERSTACK_ACCESS_KEY%'
     - \Helper\Acceptance
