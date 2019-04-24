@@ -185,7 +185,7 @@ class MerchantRiskIndicator implements MappableEntity
      */
     public function setGiftAmount(Amount $giftAmount)
     {
-        $this->giftAmount   = round($giftAmount->getValue(), 0, PHP_ROUND_HALF_DOWN);
+        $this->giftAmount   = (int)floor($giftAmount->getValue());
         $this->giftCurrency = $giftAmount->getCurrency();
 
         return $this;
