@@ -31,7 +31,6 @@
 
 namespace Wirecard\PaymentSdk\Entity;
 
-use phpDocumentor\Reflection\Types\Array_;
 use Wirecard\IsoToPayPal\Converter;
 use Wirecard\IsoToPayPal\Exception\CountryNotFoundException;
 use Wirecard\IsoToPayPal\Exception\StateNotFoundException;
