@@ -23,7 +23,7 @@ use Wirecard\PaymentSdk\TransactionService;
 
 // Create a amount object as amount which has to be paid by the consumer.
 
-$amount = new Amount($_POST['amount'], $_POST['currency']);
+$amount = new Amount((int)$_POST['amount'], $_POST['currency']);
 
 // Otherwise if a token was defined when submitting the credit card data to Wirecard via the UI, this token is used.
 $tokenId = array_key_exists('tokenId', $_POST) ? $_POST['tokenId'] : null;
