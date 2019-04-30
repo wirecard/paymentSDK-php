@@ -62,3 +62,9 @@
 #creditcard-form-div {
     height: 300px;
 }
+
+footer {
+    background-color: #002846;
+    padding: 50px 0;
+    color: white;
+}

@@ -32,7 +32,7 @@ if ($response instanceof SuccessResponse) {
     echo 'Payment successfully completed.<br>';
     echo getTransactionLink($baseUrl, $response);
     ?>
-    <form action="../iDEAL/credit-based-on-pay.php" method="post">
+    <form action="credit-based-on-pay.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <button type="submit" class="btn btn-primary">Request a credit based on this payment</button>
     </form>

@@ -49,7 +49,7 @@ if ($_POST) {
             <button type="submit" class="btn btn-primary">Request a new payment based on this payment</button>
         </form>
 
-        <form action="../Sofort/credit-based-on-pay.php" method="post">
+        <form action="sed-on-pay.php" method="post">
             <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
             <button type="submit" class="btn btn-primary">Request a credit based on this payment</button>
         </form>
