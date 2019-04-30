@@ -6,10 +6,10 @@
 // ## Required objects
 
 // To include the necessary files, we use the composer for PSR-4 autoloading.
-require __DIR__ . '/../../vendor/autoload.php';
-require __DIR__ . '/../inc/common.php';
-require __DIR__ . '/../inc/config.php';
-require __DIR__ . '/../inc/header.php';
+require __DIR__ . '/../../../vendor/autoload.php';
+require __DIR__ . '/../common.php';
+require __DIR__ . '/../../configuration/config.php';
+require __DIR__ . '/../header.php';
 
 use Wirecard\PaymentSdk\Transaction\IdealTransaction;
 use Wirecard\PaymentSdk\BackendService;
@@ -47,8 +47,10 @@ echo "Order state: " . $backendService->getOrderState(Transaction::TYPE_DEBIT);
 // It is also possible to process orders over the backend service where the fallback for refund is build in. If an cancel transaction fails the sdk will try to do a refund
 
 try {
-	// This is only a example of the use, for testing you need to provide a real transaction otherwise it will fail
-	$backendService->process($transaction, \Wirecard\PaymentSdk\Transaction\Operation::CANCEL);
+    // This is only a example of the use, for testing you need to provide a real transaction otherwise it will fail
+    $backendService->process($transaction, \Wirecard\PaymentSdk\Transaction\Operation::CANCEL);
 } catch (Exception $exception) {
-	die();
+    die();
 }
+//Footer design
+require __DIR__ . '/../footer.php';

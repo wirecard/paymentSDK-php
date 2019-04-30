@@ -6,11 +6,11 @@
 // ## Required objects
 
 // To include the necessary files, we use the composer for PSR-4 autoloading.
-require __DIR__ . '/../../vendor/autoload.php';
-require __DIR__ . '/../inc/common.php';
-require __DIR__ . '/../inc/globalconfig.php';
+require __DIR__ . '/../../../vendor/autoload.php';
+require __DIR__ . '/../../inc/common.php';
+require __DIR__ . '/../../configuration/globalconfig.php';
 //Header design
-require __DIR__ . '/../inc/header.php';
+require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
@@ -77,10 +77,12 @@ if ($response instanceof SuccessResponse) {
     echo 'Reservation successfully completed.<br>';
     echo getTransactionLink($baseUrl, $response);
     ?>
+    <br>
     <form action="pay-based-on-reserve.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <button type="submit" class="btn btn-primary">Capture</button>
     </form>
+    <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <button type="submit" class="btn btn-primary">Cancel</button>
@@ -102,4 +104,4 @@ if ($response instanceof SuccessResponse) {
     }
 }
 //Footer design
-require __DIR__ . '/../inc/footer.php';
+require __DIR__ . '/../../inc/footer.php';

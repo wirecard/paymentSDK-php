@@ -7,11 +7,11 @@
 // ## Required objects
 
 // To include the necessary files, we use the composer for PSR-4 autoloading.
-require __DIR__ . '/../../vendor/autoload.php';
-require __DIR__ . '/../inc/common.php';
-require __DIR__ . '/../inc/config.php';
+require __DIR__ . '/../../../vendor/autoload.php';
+require __DIR__ . '/../../inc/common.php';
+require __DIR__ . '/../../configuration/config.php';
 //Header design
-require __DIR__ . '/../inc/header.php';
+require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Mandate;
@@ -79,4 +79,4 @@ if ($response instanceof SuccessResponse) {
 }
 
 //Footer design
-require __DIR__ . '/../inc/footer.php';
+require __DIR__ . '/../../inc/footer.php';

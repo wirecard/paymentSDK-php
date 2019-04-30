@@ -6,11 +6,11 @@
 // ## Required objects
 
 // To include the necessary files, we use the composer for PSR-4 autoloading.
-require __DIR__ . '/../../vendor/autoload.php';
-require __DIR__ . '/../inc/common.php';
-require __DIR__ . '/../inc/config.php';
+require __DIR__ . '/../../../vendor/autoload.php';
+require __DIR__ . '/../../inc/common.php';
+require __DIR__ . '/../../configuration/config.php';
 //Header design
-require __DIR__ . '/../inc/header.php';
+require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\BackendService;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -19,7 +19,7 @@ use Wirecard\PaymentSdk\TransactionService;
 
 // Set a public key for certificate pinning used for response signature validation, this certificate needs to be always
 // up to date
-$config->setPublicKey(file_get_contents(__DIR__ . '/../inc/api-test.wirecard.com.crt'));
+$config->setPublicKey(file_get_contents(__DIR__ . '/../../inc/api-test.wirecard.com.crt'));
 
 // ## Transaction
 
@@ -84,4 +84,4 @@ if ($_POST) {
     echo 'The transaction has been cancelled.<br>';
 }
 //Footer design
-require __DIR__ . '/../inc/footer.php';
+require __DIR__ . '/../../inc/footer.php';

@@ -8,9 +8,9 @@
 
 // ## Required libraries and objects
 // To include the necessary files, use the composer for PSR-4 autoloading.
-require __DIR__ . '/../../vendor/autoload.php';
-require __DIR__ . '/../inc/common.php';
-require __DIR__ . '/../inc/maestroconfig.php';
+require __DIR__ . '/../../../vendor/autoload.php';
+require __DIR__ . '/../../inc/common.php';
+require __DIR__ . '/../../configuration/maestroconfig.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\TransactionService;
@@ -72,7 +72,7 @@ $custom_fields = new \Wirecard\PaymentSdk\Entity\CustomFieldCollection();
 $custom_fields->add( new \Wirecard\PaymentSdk\Entity\CustomField( 'orderId', '123' ) );
 $transaction->setCustomFields( $custom_fields );
 
-require __DIR__ . '/../inc/header.php';
+require __DIR__ . '/../../inc/header.php';
     // This library is needed to generate the UI and to get a valid token ID.
     ?>
     <script src="<?= $baseUrl ?>/engine/hpp/paymentPageLoader.js" type="text/javascript"></script>
@@ -151,4 +151,4 @@ require __DIR__ . '/../inc/header.php';
 
 </script>
 <?php
-require __DIR__ . '/../inc/footer.php';
+require __DIR__ . '/../../inc/footer.php';

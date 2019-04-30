@@ -6,10 +6,10 @@
 // ## Required objects
 
 // To include the necessary files, we use the composer for PSR-4 autoloading.
-require __DIR__ . '/../../vendor/autoload.php';
-require __DIR__ . '/../inc/config.php';
+require __DIR__ . '/../../../vendor/autoload.php';
+require __DIR__ . '/../../configuration/config.php';
 //Header design included
-require __DIR__ . '/../inc/header.php';
+require __DIR__ . '/../../inc/header.php';
 
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -69,4 +69,4 @@ if ($notification instanceof SuccessResponse) {
     }
 }
 //Footer design
-require __DIR__ . '/../inc/footer.php';
+require __DIR__ . '/../../inc/footer.php';

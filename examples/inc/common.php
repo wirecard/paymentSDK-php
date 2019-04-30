@@ -1,5 +1,7 @@
 <?php
 
+use Wirecard\PaymentSdk\Entity\CustomField;
+
 // # Custom functions
 // For requests which include an URL for e.g. notifications, it is easier to get the URL from the server variables.
 
@@ -41,8 +43,9 @@ function getTransactionLink($baseUrl, $response, $config = null)
     return $output;
 }
 
-function prepareCustomField($key, $value, $prefix = '') {
-	$customField = new CustomField($key, $value);
-	$customField->setPrefix($prefix);
-	return $customField;
+function prepareCustomField($key, $value, $prefix = '')
+{
+    $customField = new CustomField($key, $value);
+    $customField->setPrefix($prefix);
+    return $customField;
 }

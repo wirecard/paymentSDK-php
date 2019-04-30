@@ -6,10 +6,10 @@
 // ## Required objects
 
 // To include the necessary files, we use the composer for PSR-4 autoloading.
-require __DIR__ . '/../../vendor/autoload.php';
-require __DIR__ . '/../inc/config.php';
+require __DIR__ . '/../../../vendor/autoload.php';
+require __DIR__ . '/../../configuration/config.php';
 //Header design
-require __DIR__ . '/../inc/header.php';
+require __DIR__ . '/../../inc/header.php';
 
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -21,7 +21,7 @@ use Wirecard\PaymentSdk\TransactionService;
 
 // Set a public key for certificate pinning used for response signature validation, this certificate needs to be always
 // up to date
-$config->setPublicKey(file_get_contents(__DIR__ . '/../inc/api-test.wirecard.com.crt'));
+$config->setPublicKey(file_get_contents(__DIR__ . '/../../inc/api-test.wirecard.com.crt'));
 
 
 // ## Transaction
@@ -33,7 +33,7 @@ $service = new TransactionService($config);
 
 // We use Monolog as logger. Set up a logger for the notifications.
 $log = new Logger('Wirecard notifications');
-$log->pushHandler(new StreamHandler(__DIR__ . '/../../logs/notify.log', Logger::INFO));
+$log->pushHandler(new StreamHandler(__DIR__ . '/../../../logs/notify.log', Logger::INFO));
 
 
 // ## Notification status
@@ -69,4 +69,4 @@ if ($notification instanceof SuccessResponse) {
     }
 }
 //Footer design
-require __DIR__ . '/../inc/footer.php';
+require __DIR__ . '/../../inc/footer.php';

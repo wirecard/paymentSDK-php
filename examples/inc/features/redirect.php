@@ -9,11 +9,11 @@
 // ## Required objects
 
 // To include the necessary files, use the composer for PSR-4 autoloading.
-require __DIR__ . '/../../vendor/autoload.php';
-require __DIR__ . '/../inc/common.php';
-require __DIR__ . '/../inc/config.php';
+require __DIR__ . '/../../../vendor/autoload.php';
+require __DIR__ . '/../common.php';
+require __DIR__ . '/../../configuration/config.php';
 //Header design
-require __DIR__ . '/../inc/header.php';
+require __DIR__ . '/../header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
@@ -36,7 +36,7 @@ $transaction->setAmount(new Amount(12.59, 'EUR'));
 // The redirect URLs are defined in a corresponding object.
 $redirectUrl = new Redirect(
 // A URL for successful transactions is expected.
-    getUrl('../CreditCard/return.php?status=success')
+    getUrl('../../payments/CreditCard/return.php?status=success')
 );
 
 // Set the redirect URL to enable the functionality.
@@ -84,4 +84,4 @@ if ($response instanceof FormInteractionResponse) {
     }
 }
 //Footer design
-require __DIR__ . '/../inc/footer.php';
+require __DIR__ . '/../footer.php';

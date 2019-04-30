@@ -7,18 +7,18 @@
 // ## Required objects
 
 // To include the necessary files, we use the composer for PSR-4 autoloading.
-require __DIR__ . '/../../vendor/autoload.php';
-require __DIR__ . '/../inc/common.php';
-require __DIR__ . '/../inc/config.php';
+require __DIR__ . '/../../../vendor/autoload.php';
+require __DIR__ . '/../common.php';
+require __DIR__ . '/../../configuration/config.php';
 //Header design
-require __DIR__ . '/../inc/header.php';
+require __DIR__ . '/../header.php';
 
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\TransactionService;
 
 // A response from Wirecard includes a signature. This signature can be validated but requires
 // a public key for certificate pinning. The provided certificate needs to be **always up-to-date**.
-$config->setPublicKey(file_get_contents(__DIR__ . '/../inc/api-test.wirecard.com.crt'));
+$config->setPublicKey(file_get_contents(__DIR__ . '/../../inc/api-test.wirecard.com.crt'));
 
 // ## Transaction
 
@@ -41,4 +41,4 @@ if ($response instanceof SuccessResponse) {
     echo "Transaction was not successful.";
 }
 //Footer design
-require __DIR__ . '/../inc/footer.php';
+require __DIR__ . '/../footer.php';

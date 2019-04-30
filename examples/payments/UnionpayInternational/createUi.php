@@ -8,8 +8,8 @@
 
 // ## Required libraries and objects
 // To include the necessary files, use the composer for PSR-4 autoloading.
-require __DIR__ . '/../../vendor/autoload.php';
-require __DIR__ . '/../inc/upiconfig.php';
+require __DIR__ . '/../../../vendor/autoload.php';
+require __DIR__ . '/../../configuration/upiconfig.php';
 
 use Wirecard\PaymentSdk\TransactionService;
 
@@ -20,7 +20,7 @@ use Wirecard\PaymentSdk\TransactionService;
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
 
-require __DIR__ . '/../inc/header.php';
+require __DIR__ . '/../../inc/header.php';
 
 // This library is needed to generate the UI and to get a valid token ID.
 ?>
@@ -89,4 +89,5 @@ require __DIR__ . '/../inc/header.php';
     }
 
 </script>
-require __DIR__ . '/../inc/footer.php';
+<?php
+require __DIR__ . '/../../inc/footer.php';
