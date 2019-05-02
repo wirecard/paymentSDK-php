@@ -8,7 +8,7 @@
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../common.php';
-require __DIR__ . '/../../configuration/config.php';
+require __DIR__ . '/../../configuration/globalconfig.php';
 require __DIR__ . '/../header.php';
 
 use Wirecard\PaymentSdk\Transaction\IdealTransaction;
