@@ -36,10 +36,17 @@ $redirectUrls = new Redirect(
 // ## Transaction
 
 // The BancontactTransaction object holds all transaction relevant data for the payment process.
+// ### Mandatory fields
 // The required fields are: amount, success, cancel and failure redirect URL-s
 $transaction = new BancontactTransaction();
 $transaction->setRedirect($redirectUrls);
 $transaction->setAmount($amount);
+
+// ### Optional fields
+//Language used to localize the BCMC landing page.
+//Supported by BCMC: zh,nl,en,fr,de,hi,it,ja,pt,ru,sk,es,ru,sk,es
+//Default locale is English.
+$transaction->setLocale('en');
 
 // ### Transaction Service
 

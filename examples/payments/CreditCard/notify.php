@@ -33,7 +33,7 @@ $service = new TransactionService($config);
 
 // We use Monolog as logger. Set up a logger for the notifications.
 $log = new Logger('Wirecard notifications');
-$log->pushHandler(new StreamHandler(__DIR__ . '/../../logs/notify.log', Logger::INFO));
+$log->pushHandler(new StreamHandler(__DIR__ . '/../../../logs/notify.log', Logger::INFO));
 
 
 // ## Notification status

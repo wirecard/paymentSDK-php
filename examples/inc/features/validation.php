@@ -12,6 +12,7 @@ require __DIR__ . '/../common.php';
 require __DIR__ . '/../../configuration/config.php';
 //Header design
 require __DIR__ . '/../header.php';
+require __DIR__ . '/../payload/creditcard.php';
 
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\TransactionService;
@@ -28,7 +29,7 @@ $config->setPublicKey(file_get_contents(__DIR__ . '/../../inc/api-test.wirecard.
 $transactionService = new TransactionService($config);
 
 // The POST data is processed with the method `handleResponse()`.
-$response = $transactionService->handleResponse($_POST);
+$response = $transactionService->handleResponse($payload);
 
 
 // ## Payment results

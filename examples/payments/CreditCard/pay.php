@@ -41,13 +41,18 @@ $redirectUrl = getUrl('return.php?status=success');
 
 
 // ## Transaction
-
+// ### Mandatory fields
 // The credit card transaction contains all relevant data for the payment process.
+// The required fields are: amount, tokenId, redirectUrl
 $transaction = new CreditCardTransaction();
 $transaction->setAmount($amount);
 $transaction->setTokenId($tokenId);
 $transaction->setTermUrl($redirectUrl);
 $transaction->setParentTransactionId($parentTransactionId);
+
+// ### Optional fields
+// Full list of all optional fields see https://document-center.wirecard.com/pages/viewpage.action?pageId=3703633
+$transaction->setLocale('en');
 
 // ### Transaction Service
 

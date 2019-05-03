@@ -12,9 +12,13 @@ require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../configuration/config.php';
 
 use Wirecard\PaymentSdk\TransactionService;
+use Wirecard\PaymentSdk\Transaction\CreditCardMotoTransaction;
 
 
 // ## Transaction
+
+$transaction = new CreditCardMotoTransaction();
+
 
 // ### Transaction Service
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
@@ -45,7 +49,7 @@ require __DIR__ . '/../../inc/header.php';
 
         // We fill the _requestData_ with the return value
         // from the `getDataForCreditCardUi` method of the `transactionService`.
-        requestData: <?= $transactionService->getDataForCreditCardMotoUi(); ?>,
+        requestData: <?= $transactionService->getCreditCardUiWithData($transaction, 'authorization-only', 'en'); ?>,
         wrappingDivId: "creditcard-form-div",
         onSuccess: logCallback,
         onError: logCallback

@@ -23,6 +23,7 @@ use Wirecard\PaymentSdk\TransactionService;
 // ### Transaction related objects
 
 // Use the amount object as amount which has to be paid by the consumer.
+// Available currencies: AUD, CAD, CHF, DKK, EUR, GBP, HKD, JPY, KRW, NOK, NZD, SEK, SGD, THB, USD
 $amount = new Amount(1.59, 'EUR');
 
 // Use the AccountHolder object to specify the first and last name
@@ -30,8 +31,8 @@ $accountHolder = new AccountHolder();
 $accountHolder->setFirstName("testname");
 $accountHolder->setLastName("testlastname");
 
-// The redirect URLs determine where the consumer should be redirected by Alipay Crossborder after approval, cancellation and
-// failure.
+// The redirect URLs determine where the consumer should be redirected by Alipay Crossborder after approval,
+// cancellation and failure.
 $redirectUrls = new Redirect(
     getUrl('return.php?status=success'),
     getUrl('return.php?status=cancel'),
@@ -43,12 +44,19 @@ $notificationUrl = getUrl('notify.php');
 // ## Transaction
 
 // The AlipayCrossborderTransaction object holds all transaction relevant data for the payment process.
+// ### Mandatory fields
 // The required fields are: amount, accountHolder, success, cancel and failure redirect URL-s
 $transaction = new AlipayCrossborderTransaction();
 $transaction->setRedirect($redirectUrls);
 $transaction->setNotificationUrl($notificationUrl);
 $transaction->setAmount($amount);
 $transaction->setAccountHolder($accountHolder);
+
+// ## Optional fields
+// full list of optional fields see in: https://document-center.wirecard.com/display/PTD/Fields
+$transaction->setIpAddress('127.0.0.1');
+$transaction->setOrderNumber('001');
+$transaction->setDescriptor('Test Alipay');
 
 // ### Transaction Service
 
@@ -83,4 +91,3 @@ if ($response instanceof InteractionResponse) {
 }
 //Footer design
 require __DIR__ . '/../../inc/footer.php';
-

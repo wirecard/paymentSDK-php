@@ -50,7 +50,7 @@ try {
     // This is only a example of the use, for testing you need to provide a real transaction otherwise it will fail
     $backendService->process($transaction, \Wirecard\PaymentSdk\Transaction\Operation::CANCEL);
 } catch (Exception $exception) {
-    die();
+    echo $exception->getMessage();
 }
 //Footer design
 require __DIR__ . '/../footer.php';

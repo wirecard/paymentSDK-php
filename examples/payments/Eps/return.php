@@ -11,7 +11,7 @@ require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/globalconfig.php';
 //Header design
 require __DIR__ . '/../../inc/header.php';
-
+require __DIR__ . '/../../inc/payload/eps.php';
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\TransactionService;
@@ -23,8 +23,8 @@ use Wirecard\PaymentSdk\TransactionService;
 // The `TransactionService` is used to determine the response from the service provider.
 $service = new TransactionService($config);
 // If there is response data from the service provider handle response
-if ($_POST) {
-    $response = $service->handleResponse($_POST);
+if ($payload) {
+    $response = $service->handleResponse($payload);
 
 
 // ## Payment results

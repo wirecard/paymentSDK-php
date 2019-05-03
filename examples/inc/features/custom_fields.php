@@ -63,7 +63,6 @@ $response = $transactionService->pay($transaction);
 // Parameter with name _special1_ with an expected value of _abc123_
 if ($response instanceof InteractionResponse) {
     echo 'Custom field "special1" was set to: ' . $response->getCustomFields()->get('special1');
-    exit;
 } else {
     echo "Transaction was not successful.";
 }

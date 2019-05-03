@@ -16,6 +16,7 @@ use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\AlipayCrossborderTransaction;
 use Wirecard\PaymentSdk\TransactionService;
+use Wirecard\PaymentSdk\Entity\Amount;
 
 if (!isset($_POST['parentTransactionId'])) {
     ?>
@@ -31,7 +32,7 @@ if (!isset($_POST['parentTransactionId'])) {
 // ## Transaction
     $transaction = new AlipayCrossborderTransaction();
     $transaction->setParentTransactionId($_POST['parentTransactionId']);
-    $amount = new \Wirecard\PaymentSdk\Entity\Amount(1.59, 'EUR');
+    $amount = new Amount(1.59, 'EUR');
     $transaction->setAmount($amount);
 
 // ### Transaction Service
@@ -54,7 +55,7 @@ if (!isset($_POST['parentTransactionId'])) {
         // You should display them as error, warning or information based on the given severity.
         foreach ($response->getStatusCollection() as $status) {
             /**
-             * @var $status \Wirecard\PaymentSdk\Entity\Status
+             * @var Wirecard\PaymentSdk\Entity\Status $status
              */
             $severity = ucfirst($status->getSeverity());
             $code = $status->getCode();

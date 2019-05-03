@@ -11,6 +11,7 @@ require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/config.php';
 //Header design
 require __DIR__ . '/../../inc/header.php';
+require __DIR__ . '/../../inc/payload/bancontact.php';
 
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
@@ -29,7 +30,7 @@ $config->setPublicKey(file_get_contents(__DIR__ . '/../../inc/api-test.wirecard.
 
 // The `TransactionService` is used to determine the response from the service provider.
 $service = new TransactionService($config);
-$response = $service->handleResponse($_POST);
+$response = $service->handleResponse($payload);
 
 // ## Payment results
 
@@ -41,7 +42,7 @@ if ($response instanceof SuccessResponse) {
     echo getTransactionLink($baseUrl, $response);
     ?>
     <br>
-    <form action="on-pay.php" method="post">
+    <form action="credit-based-on-pay.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <button type="submit" class="btn btn-primary">Request a credit based on this payment</button>
     </form>
