@@ -1,5 +1,9 @@
-function includeHTML() {
-    var z, i, elmnt, file, xhttp;
+/**
+ * Add HTML form attribute include-html to existing page.
+ */
+function includeHTML()
+{
+    let z, i, elmnt, file, xhttp;
     /*loop through a collection of all HTML elements:*/
     z = document.getElementsByTagName("*");
     for (i = 0; i < z.length; i++) {
@@ -28,4 +32,58 @@ function includeHTML() {
             return;
         }
     }
-};
+}
+
+/**
+ * Include all payment menus
+ */
+function includePaymentMenu()
+{
+    /**
+     * List of all available payment menus
+     * It should be the same as order name in payments folder
+     * @type {string[]}
+     */
+    let payments = [
+        'AlipayCrossborder',
+        'Bancontact',
+        'CreditCard',
+        'CreditCardMoto',
+        'Eps',
+        'Giropay',
+        'iDEAL',
+        'Maestro',
+        'Masterpass',
+        'PayByBankApp',
+        'PoiPia',
+        'PayPal',
+        'Payolution_BtwoB',
+        'Payolution_Invoice',
+        'Paysafecard',
+        'Przelewy24',
+        'RatePAY_DirectDebit',
+        'RatePAY_Installment',
+        'RatePAY_Invoice',
+        'SepaDirectDebit',
+        'SepaCredit',
+        'SepaBtwoB',
+        'Sofort',
+        'UPOP',
+        'UnionpayInternational',
+        'WeChat'
+    ];
+
+    let element = document.getElementById('payments');
+    let renderedHtml = '';
+    payments.forEach(function (payment, index) {
+        let file = 'payments/' + payment + '/menu.html';
+        if (index % 3 === 0) {
+            renderedHtml += '<div class="row">';
+        }
+        renderedHtml += '<div include-html="' + file + '"></div>';
+        if (index % 3 === 2 || index === (payments.length - 1)) {
+            renderedHtml += '</div>';
+        }
+    });
+    element.innerHTML = renderedHtml;
+}
