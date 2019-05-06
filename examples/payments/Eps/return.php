@@ -23,8 +23,8 @@ use Wirecard\PaymentSdk\TransactionService;
 // The `TransactionService` is used to determine the response from the service provider.
 $service = new TransactionService($config);
 // If there is response data from the service provider handle response
-if ($payload) {
-    $response = $service->handleResponse($payload);
+if ($_POST) {
+    $response = $service->handleResponse($_POST);
 
 
 // ## Payment results

@@ -30,7 +30,7 @@ $config->setPublicKey(file_get_contents(__DIR__ . '/../../inc/api-test.wirecard.
 
 // The `TransactionService` is used to determine the response from the service provider.
 $service = new TransactionService($config);
-$response = $service->handleResponse($payload);
+$response = $service->handleResponse($_POST);
 
 // ## Payment results
 

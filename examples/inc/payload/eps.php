@@ -1,8 +1,6 @@
 <?php
-if (!empty($_POST)) {
-    $payload = $_POST;
-} else {
-    $payload = [
+if ( empty($_POST)) {
+    $_POST = [
         "locale" => "en",
         "custom_css_url" => "",
         "psp_name" => "elastic-payments",

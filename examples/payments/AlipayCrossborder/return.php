@@ -30,8 +30,8 @@ $transactionService = new TransactionService($config);
 // The Alipay page redirects to the _returnUrl_, which points to this file. To continue the payment process
 // the sent data can be fed directly to the transaction service via the method `handleResponse()`.
 // If there is response data from the service provider handle response
-if ($payload) {
-    $response = $transactionService->handleResponse($payload);
+if ($_POST) {
+    $response = $transactionService->handleResponse($_POST);
 
 
 // ## Payment results
