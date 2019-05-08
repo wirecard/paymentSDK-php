@@ -48,7 +48,6 @@ function includePaymentMenu()
         'AlipayCrossborder',
         'Bancontact',
         'CreditCard',
-        'CreditCardMoto',
         'Eps',
         'Giropay',
         'iDEAL',
