@@ -32,11 +32,10 @@
 namespace Wirecard\PaymentSdk\Formatter;
 
 /**
- * Interface PropertyFormatter
  * @package Wirecard\PaymentSdk\Formatter
  *
- * Represents an entity which can be mapped
- * => it can be included in a request to Wirecard's Payment Processing Gateway.
+ * Implementation of a PropertyFormatter
+ * It can be used to format Dates
  */
 class DateFormatter implements PropertyFormatter
 {

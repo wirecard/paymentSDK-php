@@ -79,18 +79,21 @@ abstract class Mappable implements MappableEntity
     public function mapProperties($type)
     {
         $mappedArray = array();
+
         foreach (static::PROPERTY_CONFIGURATION as $property => $configuration) {
             if (!isset($this->{$property}) || !isset($configuration[$type])) {
                 continue;
             }
 
             $configuration = $configuration[$type];
+
             $mappedArray[$configuration['key']] = $this->getFormattedValue(
                 $property,
                 isset($configuration['formatter']) ? $configuration['formatter'] : null,
                 isset($configuration['formatterParams']) ? $configuration['formatterParams'] : null
             );
         }
+
         return $mappedArray;
     }
 

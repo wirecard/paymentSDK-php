@@ -35,8 +35,8 @@ namespace Wirecard\PaymentSdk\Formatter;
  * Interface PropertyFormatter
  * @package Wirecard\PaymentSdk\Formatter
  *
- * Represents an entity which can be mapped
- * => it can be included in a request to Wirecard's Payment Processing Gateway.
+ * Represents a Formatter
+ * It can be used to format properties
  */
 interface PropertyFormatter
 {
