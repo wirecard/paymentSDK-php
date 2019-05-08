@@ -68,6 +68,10 @@ abstract class Mappable implements MappableEntity
         return $this->mapProperties('mappedSeamless');
     }
 
+    /**
+     * @param $type
+     * @return array
+     */
     public function mapProperties($type)
     {
         $mappedArray = array();
@@ -79,8 +83,7 @@ abstract class Mappable implements MappableEntity
             $configuration = $configuration[$type];
             $mappedArray[$configuration['key']] = $this->getFormattedValue(
                 $property,
-                $configuration['type'],
-                isset($configuration['formatter']) ? $configuration['formatter'] : false
+                isset($configuration['formatter']) ? $configuration['formatter'] : null
             );
         }
         return $mappedArray;
@@ -88,15 +91,14 @@ abstract class Mappable implements MappableEntity
 
     /**
      * @param $property
-     * @param $type
      * @param bool $formatter
      * @return mixed
      */
-    public function getFormattedValue($property, $type, $formatter = false)
+    public function getFormattedValue($property, $formatter = null)
     {
-        $prefixedFormatter = 'getFormatted' . $type;
+        $prefixedFormatter = 'getFormatted' . $formatter;
 
-        if ($formatter == false || !method_exists($this, $prefixedFormatter)) {
+        if (is_null($formatter) || !method_exists($this, $prefixedFormatter)) {
             return $this->{$property};
         }
 

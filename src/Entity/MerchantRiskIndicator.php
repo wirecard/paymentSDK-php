@@ -53,7 +53,7 @@ class MerchantRiskIndicator extends Mappable
      * @const array
      */
     const PROPERTY_CONFIGURATION = [
-        'deliveryTimeFrame' => [
+        'deliveryTimeFrame' => [ // String, Enum
             // Example if mapped should be used
             //'mapped' => [
             //  'key' => 'risk-info-delivery-timeframe',
@@ -64,53 +64,47 @@ class MerchantRiskIndicator extends Mappable
                 'type' => 'String',
             ],
         ],
-        'deliveryEmailAddress' => [
+        'deliveryEmailAddress' => [ // String
             'mappedSeamless' => [
                 'key'  => 'risk_info_delivery_mail',
                 'type' => 'String', //mail in case we want to verify
             ]
         ],
-        'reorderItems' => [
+        'reorderItems' => [ // String, Enum
             'mappedSeamless' => [
                 'key'  => 'risk_info_reorder_items',
-                'type' => 'String', //enum
-            ]
-        ],
-        'availability' => [
-            'mappedSeamless' => [
-                'key'  => 'risk_info_availability',
-                'type' => 'String', // enum
-            ]
-        ],
-        'preOrderDate' => [
-            'mappedSeamless' => [
-                'key'       => 'risk_info_preorder_date',
-                'type'      => 'Date',
-                'formatter' => true,
-            ]
-        ],
-        'giftAmount' => [
-            'mappedSeamless' => [
-                'key'  => 'risk_info_gift_amount',
-                'type' => 'Integer',
-            ]
-        ],
-        'giftCurrency' => [
-            'mappedSeamless' => [
-                'key'  => 'risk_info_gift_amount_currency',
                 'type' => 'String',
             ]
         ],
-        'giftCardCount' => [
+        'availability' => [ // String, Enum
             'mappedSeamless' => [
-                'key'  => 'risk_info_gift_card_count',
-                'type' => 'integer',
+                'key'  => 'risk_info_availability',
             ]
         ],
-        'isoTransactionType' => [
+        'preOrderDate' => [ // Date
+            'mappedSeamless' => [
+                'key'       => 'risk_info_preorder_date',
+                'formatter' => 'Date',
+            ]
+        ],
+        'giftAmount' => [ // Integer
+            'mappedSeamless' => [
+                'key'  => 'risk_info_gift_amount',
+            ]
+        ],
+        'giftCurrency' => [ // String
+            'mappedSeamless' => [
+                'key'  => 'risk_info_gift_amount_currency',
+            ]
+        ],
+        'giftCardCount' => [ // Integer
+            'mappedSeamless' => [
+                'key'  => 'risk_info_gift_card_count',
+            ]
+        ],
+        'isoTransactionType' => [ // String, Enum
             'mappedSeamless' => [
                 'key'  => 'iso_transaction_type',
-                'type' => 'string', //enum
             ]
         ],
     ];
