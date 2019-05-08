@@ -13,7 +13,8 @@ require __DIR__ . '/../../configuration/config.php';
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\AccountHolder;
-use Wirecard\PaymentSdk\Entity\CustomField;
+use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Entity\Browser;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Entity\Device;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -34,15 +35,34 @@ if (!isset($_POST['parentTransactionId'])) {
 } else {
 // ### Transaction related objects
 
-// Create the mandatory fields needed for By Bank App(merchant string, transaction type, Delivery type).
-	$customFields = new CustomFieldCollection();
-	$customFields->add(prepareCustomField('zapp.in.RefundReasonType', 'LATECONFIRMATION'));
-	$customFields->add(prepareCustomField('zapp.in.RefundMethod', 'BACS'));
+    $amount = new Amount(1.23, 'GBP');
 
+// The account holder (first name, last name) is required.
+    $accountHolder = new AccountHolder();
+    $accountHolder->setLastName('Doe');
+    $accountHolder->setFirstName('Jane');
+
+// Create the mandatory fields needed for Pay By Bank App(merchant string, transaction type, Delivery type).
+    $customFields = new CustomFieldCollection();
+    $customFields->add(prepareCustomField('zapp.in.RefundReasonType', 'LATECONFIRMATION'));
+    $customFields->add(prepareCustomField('zapp.in.RefundMethod', 'BACS'));
+
+// Create a consumer device.
+    $device = new Device();
+    $device->setType("pc");
+    $device->setOperatingSystem("windows");
+
+// Set Browser
+    $browser = new Browser();
+    $browser->setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0');
+    $browser->setTimezone('+01:00');
+    $browser->setScreenResolution('1920*1080');
 // ## Transaction
 
 // The Pay By Bank App transaction holds all transaction relevant data for the payment process.
     $transaction = new PayByBankAppTransaction();
+    $transaction->setAmount($amount);
+    $transaction->setBrowser($browser);
     $transaction->setParentTransactionId($_POST['parentTransactionId']);
     $transaction->setDevice($device);
     $transaction->setAccountHolder($accountHolder);

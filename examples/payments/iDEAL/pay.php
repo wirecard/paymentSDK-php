@@ -43,11 +43,17 @@ $accountHolder->setFirstName('John');
 // The IdealTransaction object holds all transaction relevant data for the payment process.
 // The required fields are: amount, descriptor, success and cancel redirect URL-s
 $transaction = new IdealTransaction();
+
+// ### Mandatory fields
+
 $transaction->setRedirect($redirectUrls);
 $transaction->setAmount($amount);
 $transaction->setBic(IdealBic::INGBNL2A);
-$transaction->setAccountHolder($accountHolder);
+
+// ### Optional fields
+
 $transaction->setNotificationUrl($notificationUrl);
+$transaction->setAccountHolder($accountHolder);
 $transaction->setDescriptor('customer-statement');
 
 // ### Transaction Service

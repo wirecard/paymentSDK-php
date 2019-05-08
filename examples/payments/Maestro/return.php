@@ -11,6 +11,7 @@ require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/maestroconfig.php';
 //Header design
 require __DIR__ . '/../../inc/header.php';
+require __DIR__ . '/../../inc/payload/maestro.php';
 
 use Wirecard\PaymentSdk\BackendService;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -33,7 +34,6 @@ $transactionService = new TransactionService($config);
 if ($_POST) {
     $response = $transactionService->handleResponse($_POST);
 
-
 // ## Payment results
 
 // The response from the service can be used for disambiguation.
@@ -49,19 +49,21 @@ if ($_POST) {
             <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
             <button type="submit" class="btn btn-primary">Cancel the payment</button>
         </form>
-       <?php
-	    // ##  Example of BackendService use
-	    // For more info on BackendService please see the backendService example under Features
-	    // Create an transaction with the response transaction id.
-       $backendService = new BackendService($config);
-       $transaction = new \Wirecard\PaymentSdk\Transaction\MaestroTransaction();
-       $transaction->setParentTransactionId($response->getTransactionId());
-       // ### Retrieve possible operations for the transaction. An array of possible operations is returned
-       echo '<br>Possible backend operations: ' . print_r($backendService->retrieveBackendOperations($transaction, true), true) . '<br>';
-       // ### Check it the state of the transaction is final.
-       echo '<br>Is '. $response->getTransactionType() .' final: ' . printf($backendService->isFinal($response->getTransactionType())) . '<br>';
-       // ### Get order state of the transaction
-       echo '<br>Order state: ' . $backendService->getOrderState($response->getTransactionType());
+        <?php
+        // ##  Example of BackendService use
+        // For more info on BackendService please see the backendService example under Features
+        // Create an transaction with the response transaction id.
+        $backendService = new BackendService($config);
+        $transaction = new \Wirecard\PaymentSdk\Transaction\MaestroTransaction();
+        $transaction->setParentTransactionId($response->getTransactionId());
+        // ### Retrieve possible operations for the transaction. An array of possible operations is returned
+        echo '<br>Possible backend operations: ' .
+            print_r($backendService->retrieveBackendOperations($transaction, true), true) . '<br>';
+        // ### Check it the state of the transaction is final.
+        echo '<br>Is ' . $response->getTransactionType() . ' final: ' .
+            printf($backendService->isFinal($response->getTransactionType())) . '<br>';
+        // ### Get order state of the transaction
+        echo '<br>Order state: ' . $backendService->getOrderState($response->getTransactionType());
 
 // In case of a failed transaction, a `FailureResponse` object is returned.
     } elseif ($response instanceof FailureResponse) {

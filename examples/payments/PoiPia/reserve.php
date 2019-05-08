@@ -35,7 +35,6 @@ $accountHolder->setEmail("john.doe@wirecard.com");
 // after an approval/cancellation on the issuer's ACS page.
 $redirectUrl = getUrl('return.php?status=success');
 
-
 // ## Transaction
 
 // The Payment on invoice / Payment in advance transaction contains all relevant data for the payment process.
@@ -61,7 +60,7 @@ if ($response instanceof SuccessResponse):
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <button type="submit" class="btn btn-primary">Cancel the reservation</button>
     </form>
-    <?php
+<?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
 elseif ($response instanceof FailureResponse):
     // In our example we iterate over all errors and display them in a raw state.

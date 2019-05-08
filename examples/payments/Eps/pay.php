@@ -16,23 +16,35 @@ use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Transaction\EpsTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
+// # Set amount
 $amount = new Amount(18.4, 'EUR');
 
-$tx = new EpsTransaction();
-$tx->setAmount($amount);
-
+// # Set success, cancel and failure url
 $redirect = new Redirect(
     getUrl('return.php?status=success'),
-    null,
+    getUrl('return.php?status=cancel'),
     getUrl('return.php?status=failure')
 );
-$tx->setRedirect($redirect);
+// # Set Bank Account
 $bankAccount = new BankAccount();
 $bankAccount->setBic("BWFBATW1XXX");
-$tx->setBankAccount($bankAccount);
+$bankAccount->setIban("NL13TEST0123456789");
+
+$transaction = new EpsTransaction();
+
+// ### Mandatory fields
+
+$transaction->setAmount($amount);
+$transaction->setRedirect($redirect);
+$transaction->setBankAccount($bankAccount);
+
+
+// ### Optional fields
+
+$transaction->setDescriptor('eps pay 123');
 
 $transactionService = new TransactionService($config);
-$response = $transactionService->pay($tx);
+$response = $transactionService->pay($transaction);
 
 // ## Response handling
 

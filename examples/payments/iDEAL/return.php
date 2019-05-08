@@ -11,6 +11,7 @@ require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/globalconfig.php';
 //Header design
 require __DIR__ . '/../../inc/header.php';
+require __DIR__ . '/../../inc/payload/ideal.php';
 
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;

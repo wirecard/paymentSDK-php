@@ -32,7 +32,7 @@ $device = new Device();
 $device->setType("pc");
 $device->setOperatingSystem("windows");
 
-// Create the mandatory fields needed for By Bank App(merchant string, transaction type, Delivery type).
+// Create the mandatory fields needed for Pay By Bank App(merchant string, transaction type, Delivery type).
 $customFields = new CustomFieldCollection();
 $customFields->add(prepareCustomField('zapp.in.MerchantRtnStrng', '123'));
 $customFields->add(prepareCustomField('zapp.in.TxType', 'PAYMT'));
@@ -48,16 +48,22 @@ $notificationUrl = getUrl('notify.php');
 
 // The Pay By Bank App transaction holds all transaction relevant data for the pay process.
 $transaction = new PayByBankAppTransaction();
+
+// ### Mandatory fields
+
 $transaction->setAmount($amount);
 $transaction->setDevice($device);
 $transaction->setCustomFields($customFields);
 $transaction->setRedirect($redirectUrls);
 $transaction->setNotificationUrl($notificationUrl);
 
+// ### Optional fields
+
+
 // ### Transaction Service
 
 // The service is used to execute the payment operation itself. A response object is returned.
-$transactionService = new TransactionService($config);      
+$transactionService = new TransactionService($config);
 $response = $transactionService->pay($transaction);
 
 // ## Response handling
@@ -72,15 +78,15 @@ if ($response instanceof InteractionResponse) {
 } elseif ($response instanceof FailureResponse) {
 // In our example we iterate over all errors and echo them out. You should display them as
 // error, warning or information based on the given severity.
-	foreach ($response->getStatusCollection() as $status) {
-		/**
-		 * @var $status \Wirecard\PaymentSdk\Entity\Status
-		 */
-		$severity = ucfirst($status->getSeverity());
-		$code = $status->getCode();
-		$description = $status->getDescription();
-		echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
-	}
+    foreach ($response->getStatusCollection() as $status) {
+        /**
+         * @var $status \Wirecard\PaymentSdk\Entity\Status
+         */
+        $severity = ucfirst($status->getSeverity());
+        $code = $status->getCode();
+        $description = $status->getDescription();
+        echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
+    }
 }
 //Footer design
 require __DIR__ . '/../../inc/footer.php';

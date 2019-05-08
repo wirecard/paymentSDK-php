@@ -32,7 +32,11 @@ $bankAccount->setBic("GENODETT488");
 
 
 // The redirect URLs determine where the consumer should be redirected by giropay after approval/cancellation.
-$redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
+$redirectUrls = new Redirect(
+    getUrl('return.php?status=success'),
+    getUrl('return.php?status=cancel'),
+    getUrl('return.php?status=failure')
+);
 
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
 $notificationUrl = getUrl('notify.php');
@@ -42,21 +46,22 @@ $notificationUrl = getUrl('notify.php');
 // The giropay transaction holds all transaction relevant data for the payment process.
 $transaction = new GiropayTransaction();
 
+// ### Mandatory fields
 $transaction->setNotificationUrl($notificationUrl);
 $transaction->setRedirect($redirectUrls);
 $transaction->setAmount($amount);
-$transaction->setOrderNumber('1020304050');
-$transaction->setOrderDetail('Teste teste teste');
 $transaction->setBankAccount($bankAccount);
+
+// ### Optional fields
+
+$transaction->setOrderNumber('1020304050');
+$transaction->setOrderDetail('Test Giropay');
 
 // ### Transaction Service
 
 // The service is used to execute the payment operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
 $response = $transactionService->pay($transaction);
-
-
-
 
 // ## Response handling
 

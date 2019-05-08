@@ -65,10 +65,13 @@ if ($response instanceof SuccessResponse) {
     echo 'Reservation successfully completed.<br>';
     echo getTransactionLink($baseUrl, $response);
     ?>
+    <br>
+    <br>
     <form action="pay-based-on-reserve.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <button type="submit" class="btn btn-primary">Capture</button>
     </form>
+    <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <button type="submit" class="btn btn-primary">Cancel</button>
