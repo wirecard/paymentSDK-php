@@ -33,6 +33,7 @@ if (!isset($_POST['parentTransactionId'])) {
 
     $transaction = new SepaDirectDebitTransaction();
     $transaction->setParentTransactionId($_POST['parentTransactionId']);
+    $transaction->setParentTransactionType($_POST['parentTransactionType']);
 
 // ### Transaction Service
 

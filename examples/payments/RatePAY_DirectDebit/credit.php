@@ -9,9 +9,9 @@
 // To include the necessary files, use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
-require __DIR__ . '/../../configuration/globalconfig.php';
+require __DIR__ . '/../../configuration/sepaconfig.php';
 //Header design
-require __DIR__ . '/../inc/header.php';
+require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -23,9 +23,12 @@ use Wirecard\PaymentSdk\TransactionService;
 
 // Use the amount object as amount which has to be paid by the consumer.
 if (array_key_exists('amount', $_POST)) {
-    $amountValue = $_POST['amount'];
+    $amountValue = floatval($_POST['amount']);
 } else {
     $amountValue = 100;
+}
+if (!array_key_exists('parentTransactionId', $_POST)) {
+    $_POST['parentTransactionId'] = '14c7699a-088c-4022-a173-cfc99e0db03c';
 }
 $amount = new Amount($amountValue, 'EUR');
 
@@ -80,4 +83,4 @@ if ($response instanceof SuccessResponse) {
     }
 }
 //Footer design
-require __DIR__ . '/../inc/footer.php';
+require __DIR__ . '/../../inc/footer.php';

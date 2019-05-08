@@ -13,6 +13,8 @@ require __DIR__ . '/../../configuration/globalconfig.php';
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Entity\Address;
+use Wirecard\PaymentSdk\Entity\Item;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
@@ -50,7 +52,7 @@ $item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(400, 'EUR'), 
 $item1->setArticleNumber('A1');
 $item1->setTaxRate(10.0);
 
-$item2 = new \Wirecard\PaymentSdk\Entity\Item('Item 2', new Amount(1000, 'EUR'), 2);
+$item2 = new Item('Item 2', new Amount(1000, 'EUR'), 2);
 $item2->setArticleNumber('B2');
 $item2->setTaxRate(20.0);
 
@@ -61,7 +63,7 @@ $basket->add($item2);
 
 
 // ### Account holder with address
-$address = new \Wirecard\PaymentSdk\Entity\Address('DE', 'Berlin', 'Berlin');
+$address = new Address('DE', 'Berlin', 'Berlin');
 $address->setPostalCode('13353');
 
 $accountHolder = new \Wirecard\PaymentSdk\Entity\AccountHolder();

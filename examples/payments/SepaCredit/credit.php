@@ -43,6 +43,9 @@ if (!isset($_POST['iban'])) {
     $amount = null;
     if (empty($_POST['amount']) && empty($_POST['parentTransactionId'])) {
         $amount = new Amount(10, 'EUR');
+    } else {
+        $amount = floatval($_POST['amount']);
+        $_POST['parentTransactionId'] = '14c7699a-088c-4022-a173-cfc99e0db03c';
     }
 
 // The account holder (first name, last name) is required.
@@ -93,10 +96,13 @@ if (!isset($_POST['iban'])) {
         echo getTransactionLink($baseUrl, $response, $config);
         ?>
         <br>
+        <br>
         <form action="../SepaDirectDebit/cancel.php" method="post">
             <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+            <input type="hidden" name="parentTransactionType" value="pending-debit"/>
             <button type="submit" class="btn btn-primary">Cancel the credit</button>
         </form>
+        <br>
         <form action="credit.php" method="post">
             <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
             <button type="submit" class="btn btn-primary">Request a new credit based on this credit</button>

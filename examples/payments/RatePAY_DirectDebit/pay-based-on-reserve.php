@@ -101,16 +101,19 @@ if (array_key_exists('item_to_capture', $_POST)) {
 // ## Select the item to capture
 ?>
     Select the item to capture:
+<br><br>
     <form action="pay-based-on-reserve.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $parentTransactionId ?>"/>
         <input type="hidden" name="item_to_capture" value="all"/>
         <button type="submit" class="btn btn-primary">Capture all items</button>
     </form>
+<br>
     <form action="pay-based-on-reserve.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $parentTransactionId ?>"/>
         <input type="hidden" name="item_to_capture" value="1"/>
         <button type="submit" class="btn btn-primary">Capture item 1</button>
     </form>
+<br>
     <form action="pay-based-on-reserve.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $parentTransactionId ?>"/>
         <input type="hidden" name="item_to_capture" value="2"/>

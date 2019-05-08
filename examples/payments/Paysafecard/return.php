@@ -11,6 +11,7 @@ require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/config.php';
 //Header design
 require __DIR__ . '/../../inc/header.php';
+require __DIR__ . '/../../inc/payload/paysafecard.php';
 
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
@@ -55,10 +56,12 @@ if ($_POST) {
         <?php
         if ($response->getTransactionType() === PaysafecardTransaction::TYPE_AUTHORIZATION) {
             ?>
+            <br>
             <form action="cancel.php" method="post">
                 <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
                 <button type="submit" class="btn btn-primary">Cancel</button>
             </form>
+            <br>
             <form action="pay-based-on-reserve.php" method="post">
                 <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
                 <button type="submit" class="btn btn-primary">Capture the payment</button>
