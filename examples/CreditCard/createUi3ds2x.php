@@ -74,8 +74,8 @@ $transaction->setShipping($accountHolder);
 
 // Send custom fields for CreditCard transactions
 $custom_fields = new \Wirecard\PaymentSdk\Entity\CustomFieldCollection();
-$custom_fields->add( new \Wirecard\PaymentSdk\Entity\CustomField( 'orderId', '123' ) );
-$transaction->setCustomFields( $custom_fields );
+$custom_fields->add(new \Wirecard\PaymentSdk\Entity\CustomField('orderId', '123'));
+$transaction->setCustomFields($custom_fields);
 
 /**
  * @since 3.7.0

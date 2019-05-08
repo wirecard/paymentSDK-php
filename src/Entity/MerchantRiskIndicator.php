@@ -143,7 +143,7 @@ class MerchantRiskIndicator implements MappableEntity
      */
     public function setReorderItems($reorderItems)
     {
-        if (!RiskInfoDeliveryTimeFrame::isValid($reorderItems)) {
+        if (!RiskInfoReorder::isValid($reorderItems)) {
             throw new \InvalidArgumentException('Reorder Items preference is invalid.');
         }
         $this->reorderItems = $reorderItems;
@@ -158,7 +158,7 @@ class MerchantRiskIndicator implements MappableEntity
      */
     public function setAvailability($availability)
     {
-        if (!RiskInfoDeliveryTimeFrame::isValid($availability)) {
+        if (!RiskInfoAvailability::isValid($availability)) {
             throw new \InvalidArgumentException('Availability preference is invalid.');
         }
         $this->availability = $availability;
