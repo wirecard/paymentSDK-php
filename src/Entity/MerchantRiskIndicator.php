@@ -57,23 +57,19 @@ class MerchantRiskIndicator extends Mappable
             // Example if mapped should be used
             //'mapped' => [
             //  'key' => 'risk-info-delivery-timeframe',
-            //  'type' => 'String',
             //],
             'mappedSeamless' => [
                 'key'  => 'risk_info_delivery_timeframe',
-                'type' => 'String',
             ],
         ],
         'deliveryEmailAddress' => [ // String
             'mappedSeamless' => [
                 'key'  => 'risk_info_delivery_mail',
-                'type' => 'String', //mail in case we want to verify
             ]
         ],
         'reorderItems' => [ // String, Enum
             'mappedSeamless' => [
                 'key'  => 'risk_info_reorder_items',
-                'type' => 'String',
             ]
         ],
         'availability' => [ // String, Enum
