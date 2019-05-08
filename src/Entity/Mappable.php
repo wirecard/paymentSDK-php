@@ -96,13 +96,11 @@ abstract class Mappable implements MappableEntity
      */
     public function getFormattedValue($property, $formatter = null)
     {
-        $prefixedFormatter = 'getFormatted' . $formatter;
-
-        if (is_null($formatter) || !method_exists($this, $prefixedFormatter)) {
+        if (is_null($formatter) || !method_exists($this, $formatter)) {
             return $this->{$property};
         }
 
-        return $this->$prefixedFormatter($property);
+        return $this->$formatter($property);
     }
 
     /**
