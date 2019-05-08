@@ -31,6 +31,9 @@
 
 namespace Wirecard\PaymentSdk\Entity;
 
+use Wirecard\PaymentSdk\Formatter\DateFormatter;
+use Wirecard\PaymentSdk\Formatter\PropertyFormatter;
+
 /**
  * Interface MappableEntity
  * @package Wirecard\PaymentSdk\Entity
@@ -41,16 +44,17 @@ namespace Wirecard\PaymentSdk\Entity;
 abstract class Mappable implements MappableEntity
 {
     /**
-     * @const string
-     * Default date format
-     */
-    const DATE_FORMAT = 'Ymd';
-
-    /**
      * @const array
      * Used to configure the mapping of properties
      */
     const PROPERTY_CONFIGURATION = array();
+
+    protected $dateFormatter;
+
+    public function __construct()
+    {
+        $this->dateFormatter = new DateFormatter();
+    }
 
     /**
      * @return array
@@ -83,7 +87,8 @@ abstract class Mappable implements MappableEntity
             $configuration = $configuration[$type];
             $mappedArray[$configuration['key']] = $this->getFormattedValue(
                 $property,
-                isset($configuration['formatter']) ? $configuration['formatter'] : null
+                isset($configuration['formatter']) ? $configuration['formatter'] : null,
+                isset($configuration['formatterParams']) ? $configuration['formatterParams'] : null
             );
         }
         return $mappedArray;
@@ -91,27 +96,47 @@ abstract class Mappable implements MappableEntity
 
     /**
      * @param $property
-     * @param bool $formatter
+     * @param PropertyFormatter $formatter
+     * @param array $formatterParams
      * @return mixed
      */
-    public function getFormattedValue($property, $formatter = null)
+    private function getFormattedValue($property, $formatter, $formatterParams)
     {
-        if (is_null($formatter) || !method_exists($this, $formatter)) {
+        if (is_null($formatter) || !isset($this->{$formatter})) {
             return $this->{$property};
         }
 
-        return $this->$formatter($property);
+        if (is_null($formatterParams)) {
+            return $this->getFormattedValuePlain($property, $formatter);
+        }
+
+        return $this->getFormattedValueWithParameters($property, $formatter, $formatterParams);
     }
 
     /**
      * @param $property
-     * @return string
+     * @param $formatter
+     * @return mixed
      */
-    public function getFormattedDate($property)
+    private function getFormattedValuePlain($property, $formatter)
     {
-        /** @var \DateTime $date */
-        $date = $this->{$property};
+        return $this->{$formatter}->formatProperty(
+            $this->{$property},
+            array()
+        );
+    }
 
-        return $date->format(self::DATE_FORMAT);
+    /**
+     * @param $property
+     * @param $formatter
+     * @param $formatterParams
+     * @return mixed
+     */
+    private function getFormattedValueWithParameters($property, $formatter, $formatterParams)
+    {
+        return $this->{$formatter}->formatProperty(
+            $this->{$property},
+            $formatterParams
+        );
     }
 }

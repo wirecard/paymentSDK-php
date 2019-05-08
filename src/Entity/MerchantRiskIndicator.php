@@ -84,7 +84,11 @@ class MerchantRiskIndicator extends Mappable
         'preOrderDate' => [ // Date
             'mappedSeamless' => [
                 'key'       => 'risk_info_preorder_date',
-                'formatter' => 'getFormattedDate',
+                //'formatter' => 'getFormattedDate',
+                'formatter' => 'dateFormatter',
+                'formatterParams' => [
+                    'dateFormat' => self::DATE_FORMAT
+                ],
             ]
         ],
         'giftAmount' => [ // Integer
