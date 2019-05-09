@@ -56,7 +56,7 @@ class DateFormatter implements PropertyFormatter
             return $this->formatDateWithDateFormat($date, $params['dateFormat']);
         }
 
-        return $date->format(self::DATE_FORMAT);
+        return $this->formatDateWithDateFormat($date, self::DATE_FORMAT);
     }
 
     /**
