@@ -23,7 +23,6 @@ use Wirecard\PaymentSdk\Transaction\MasterpassTransaction;
 use Wirecard\PaymentSdk\Transaction\AlipayCrossborderTransaction;
 use Wirecard\PaymentSdk\Transaction\PoiPiaTransaction;
 use Wirecard\PaymentSdk\Transaction\PtwentyfourTransaction;
-use Wirecard\PaymentSdk\Transaction\CreditCardMotoTransaction;
 use Wirecard\PaymentSdk\Transaction\UpopTransaction;
 use Wirecard\PaymentSdk\Transaction\PayByBankAppTransaction;
 
@@ -137,14 +136,6 @@ $creditcardConfig->setThreeDCredentials(
 );
 
 $config->add($creditcardConfig);
-
-// ### Credit Card Moto
-
-$ccardMotoMAID = '53f2895a-e4de-4e82-a813-0d87a10e55e6';
-$ccardMotoSecretKey = 'dbc5a498-9a66-43b9-bf1d-a618dd399684';
-$ccardMotoConfig = new PaymentMethodConfig(CreditCardMotoTransaction::NAME, $ccardMotoMAID, $ccardMotoSecretKey);
-
-$config->add($ccardMotoConfig);
 
 // ### PayPal
 

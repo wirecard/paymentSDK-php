@@ -55,7 +55,6 @@ use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Response\Response;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
-use Wirecard\PaymentSdk\Transaction\CreditCardMotoTransaction;
 use Wirecard\PaymentSdk\Transaction\IdealTransaction;
 use Wirecard\PaymentSdk\Transaction\MaestroTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
@@ -363,42 +362,6 @@ class TransactionService
             'custom_css_url',
             'ip_address'
         );
-    }
-
-    /**
-     * @throws UnconfiguredPaymentMethodException
-     * @return string
-     *
-     * @deprecated This method is deprecated since 2.2.0 if you still are using it please update your front-end so that
-     * it uses getCreditCardUiWithData.
-     */
-    public function getDataForCreditCardMotoUi($language = 'en')
-    {
-        $requestData = array(
-            'request_time_stamp' => gmdate('YmdHis'),
-            self::REQUEST_ID => call_user_func($this->requestIdGenerator, 64),
-            'transaction_type' => 'authorization-only',
-            'merchant_account_id' => $this->config->get(CreditCardMotoTransaction::NAME)->getMerchantAccountId(),
-            'requested_amount' => 0,
-            'requested_amount_currency' => $this->config->getDefaultCurrency(),
-            'locale' => $language,
-            'payment_method' => 'creditcard',
-        );
-
-        $requestData['request_signature'] = hash(
-            'sha256',
-            trim(
-                $requestData['request_time_stamp'] .
-                $requestData[self::REQUEST_ID] .
-                $requestData['merchant_account_id'] .
-                $requestData['transaction_type'] .
-                $requestData['requested_amount'] .
-                $requestData['requested_amount_currency'] .
-                $this->config->get(CreditCardMotoTransaction::NAME)->getSecret()
-            )
-        );
-
-        return json_encode($requestData);
     }
 
     /**
