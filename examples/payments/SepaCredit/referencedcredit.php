@@ -53,10 +53,13 @@ if ($response instanceof SuccessResponse) {
     echo getTransactionLink($baseUrl, $response, $config);
     ?>
     <br>
+    <br>
     <form action="../SepaDirectDebit/cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+        <input type="hidden" name="parentTransactionType" value="pending-debit"/>
         <button type="submit" class="btn btn-primary">Cancel the credit</button>
     </form>
+    <br>
     <form action="credit.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <button type="submit" class="btn btn-primary">Request a new credit based on this credit</button>

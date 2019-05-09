@@ -11,6 +11,7 @@ require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/globalconfig.php';
 //Header design
 require __DIR__ . '/../../inc/header.php';
+require __DIR__ . '/../../inc/payload/sofort.php';
 
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
@@ -44,12 +45,13 @@ if ($_POST) {
         echo getTransactionLink($baseUrl, $response);
         ?>
         <br>
+        <br>
         <form action="../SepaDirectDebit/pay.php" method="post">
             <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
             <button type="submit" class="btn btn-primary">Request a new payment based on this payment</button>
         </form>
-
-        <form action="sed-on-pay.php" method="post">
+        <br>
+        <form action="pay-based-on-pay.html" method="post">
             <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
             <button type="submit" class="btn btn-primary">Request a credit based on this payment</button>
         </form>

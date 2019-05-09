@@ -37,12 +37,13 @@ if ($response instanceof SuccessResponse) {
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <button type="submit" class="btn btn-primary">Cancel the payment</button>
     </form>
-
+    <br>
+    <br>
     <form action="pay.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <button type="submit" class="btn btn-primary">Request a new payment based on this payment</button>
     </form>
-
+    <br>
     <form action="../SepaCredit/referencedcredit.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <div class="form-group">
