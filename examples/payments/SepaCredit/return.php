@@ -12,6 +12,7 @@ require __DIR__ . '/../../configuration/sepaconfig.php';
 //Header design
 require __DIR__ . '/../../inc/header.php';
 
+require __DIR__ . '/../../inc/payload/sepacredit.php';
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\TransactionService;
@@ -33,16 +34,17 @@ if ($response instanceof SuccessResponse) {
     echo getTransactionLink($baseUrl, $response, $config);
     ?>
     <br>
+    <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <button type="submit" class="btn btn-primary">Cancel the payment</button>
     </form>
-
+    <br>
     <form action="../SepaDirectDebit/pay.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <button type="submit" class="btn btn-primary">Request a new payment based on this payment</button>
     </form>
-
+    <br>
     <form action="referencedcredit.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
         <div class="form-group">

@@ -8,9 +8,10 @@
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
-require __DIR__ . '/../../configuration/config.php';
+require __DIR__ . '/../../configuration/sepaconfig.php';
 //Header design
 require __DIR__ . '/../../inc/header.php';
+require __DIR__ . '/../../inc/payload/sepacredit.php';
 
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
