@@ -86,3 +86,22 @@ function includePaymentMenu()
     });
     element.innerHTML = renderedHtml;
 }
+
+/**
+ * Flash paypal button
+ */
+function flashPayPalLink()
+{
+    let link = $("#paypal-pay-link"), counter = 0;
+
+    let interval = setInterval(function () {
+        counter++;
+        link.toggleClass("flash");
+        if (counter > 10) {
+            clearInterval(interval);
+            link.removeClass("flash");
+        }
+    }, 500);
+
+
+}

@@ -69,3 +69,8 @@ footer {
     margin-top: 50px;
     color: white;
 }
+
+.flash {
+    color: white!important;
+    background-color: #002846;
+}
