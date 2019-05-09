@@ -97,7 +97,7 @@ function flashPayPalLink()
     let interval = setInterval(function () {
         counter++;
         link.toggleClass("flash");
-        if (counter > 10) {
+        if (counter > 6) {
             clearInterval(interval);
             link.removeClass("flash");
         }
