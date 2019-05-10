@@ -38,6 +38,7 @@ use Http\Message\Authentication\BasicAuth;
 use Monolog\Handler\ErrorLogHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
+use Psr\Http\Client\ClientExceptionInterface;
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -46,7 +47,6 @@ use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException;
-use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 use Wirecard\PaymentSdk\Mapper\RequestMapper;
 use Wirecard\PaymentSdk\Mapper\ResponseMapper;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -75,6 +75,7 @@ class TransactionService
 {
     const APPLICATION_JSON = 'application/json';
     const REQUEST_ID = 'request_id';
+    const HPP_LANGUAGE_CACHEFILE = 'backend_languages.json';
 
     /**
      * @var Config
@@ -888,5 +889,123 @@ class TransactionService
     public function getConfig()
     {
         return $this->config;
+    }
+
+    /**
+     * Get supported backend languages - useful to decide the best match for
+     * credit card ui etc.
+     *
+     * The configured backend is used to fetch the information from.
+     *
+     * The result is a JSON contains languageCode => languageName
+     *
+     * @param int|float $cacheTtlInMinutes How long a valid result is cached
+     * @return string|null list of supported backend languages, as JSON
+     */
+    public function getBackendLanguages($cacheTtlInMinutes = 1400)
+    {
+        $baseUrl      = $this->config->getBaseUrl();
+        $cachedResult = $this->fetchBackendLanguagesFromCache($baseUrl, $cacheTtlInMinutes);
+        if (!is_null($cachedResult)) {
+            return $cachedResult;
+        }
+        $directResult = $this->fetchBackendLanguagesFromWeb($baseUrl);
+        if (!is_null($directResult)) {
+            $this->storeBackendLanguagesInCache($baseUrl, $directResult);
+        }
+        return $directResult;
+    }
+
+    /**
+     * Try to fetch the list of supported languages from the cache
+     *
+     * Without a cache hit: return null
+     * When information in cache older than $cacheTtlInMinutes: return null
+     *
+     * @param string $baseUrl baseUrl (used as cache key)
+     * @param int|float $cacheTtlInMinutes
+     * @return string|null list of supported backend languages, as JSON
+     */
+    private function fetchBackendLanguagesFromCache($baseUrl, $cacheTtlInMinutes) {
+        $cache = $this->jsonAsArrayFromFile($this->getLanguageCacheFileName());
+        if (!is_null($cache) && array_key_exists($baseUrl, $cache)) {
+            $ageInMinutes = (time() - $cache[$baseUrl]['created'] ) / 60;
+            if ($ageInMinutes <= $cacheTtlInMinutes) {
+                return $cache[$baseUrl]['data'];
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Stores a list of supported languages in cache
+     *
+     * If the cache not exists, a new cache is created. Existing cache entries
+     * for other keys than $baseUrl will be keep unchanged.
+     *
+     * @param string $baseUrl baseUrl (used as cache key)
+     * @return string|null list of supported backend languages, as JSON
+     */
+    private function storeBackendLanguagesInCache($baseUrl, $supportedLanguages) {
+        $cacheFilename = $this->getLanguageCacheFileName();
+
+        $cache = $this->jsonAsArrayFromFile($cacheFilename);
+        if (is_null($cache)) {
+            $cache = [];
+        }
+
+        $cache[$baseUrl] = [
+            'created' => time(),
+            'data'    => $supportedLanguages,
+        ];
+
+        file_put_contents($cacheFilename, json_encode($cache), LOCK_EX);
+    }
+
+    /**
+     * Construct the cache file name
+     *
+     * @return string cache file name
+     */
+    private function getLanguageCacheFileName() {
+        $path = sys_get_temp_dir();
+        return $path . '/' . self::HPP_LANGUAGE_CACHEFILE;
+    }
+
+    /**
+     * Load the cache data (JSON format assumpted) into an array
+     *
+     * If cache file not exists or data are not JSON, null is returned
+     *
+     * @param string $filename cache file name
+     * @return array|null cache content as array, null if cache empty
+     */
+    private function jsonAsArrayFromFile($filename) {
+        if (!file_exists($filename)) {
+            return null;
+        }
+        $rawContent = file_get_contents($filename);
+        return json_decode($rawContent, JSON_OBJECT_AS_ARRAY);
+    }
+
+    /**
+     * Request the supported backend languages directly from backend
+     *
+     * The result is a JSON string - or null if the backend not exists or
+     * not reachable.
+     *
+     * @param string $baseUrl
+     * @return string|null list of supported backend languages, as JSON
+     */
+    private function fetchBackendLanguagesFromWeb($baseUrl) {
+        $url = $baseUrl . '/engine/includes/i18n/languages/hpplanguages.json';
+        try {
+            $request = $this->messageFactory->createRequest('GET', $url);
+            return $this->httpClient->sendRequest($request)->getBody()->getContents();
+        } catch (ClientExceptionInterface $cei) {
+            $errMsg = 'fetchBackendLanguagesFromWeb: Cannot reach %s: %s';
+            $this->getLogger()->warn(sprintf($errMsg, $url, $cei->getMessage()));
+            return null;
+        }
     }
 }
