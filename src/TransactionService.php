@@ -926,7 +926,8 @@ class TransactionService
      * @param int|float $cacheTtlInMinutes
      * @return string|null list of supported backend languages, as JSON
      */
-    private function fetchBackendLanguagesFromCache($baseUrl, $cacheTtlInMinutes) {
+    private function fetchBackendLanguagesFromCache($baseUrl, $cacheTtlInMinutes)
+    {
         $cache = $this->jsonAsArrayFromFile($this->getLanguageCacheFileName());
         if (!is_null($cache) && array_key_exists($baseUrl, $cache)) {
             $ageInMinutes = (time() - $cache[$baseUrl]['created'] ) / 60;
@@ -946,7 +947,8 @@ class TransactionService
      * @param string $baseUrl baseUrl (used as cache key)
      * @return string|null list of supported backend languages, as JSON
      */
-    private function storeBackendLanguagesInCache($baseUrl, $supportedLanguages) {
+    private function storeBackendLanguagesInCache($baseUrl, $supportedLanguages)
+    {
         $cacheFilename = $this->getLanguageCacheFileName();
 
         $cache = $this->jsonAsArrayFromFile($cacheFilename);
@@ -967,7 +969,8 @@ class TransactionService
      *
      * @return string cache file name
      */
-    private function getLanguageCacheFileName() {
+    private function getLanguageCacheFileName()
+    {
         $path = sys_get_temp_dir();
         return $path . '/' . self::HPP_LANGUAGE_CACHEFILE;
     }
@@ -980,7 +983,8 @@ class TransactionService
      * @param string $filename cache file name
      * @return array|null cache content as array, null if cache empty
      */
-    private function jsonAsArrayFromFile($filename) {
+    private function jsonAsArrayFromFile($filename)
+    {
         if (!file_exists($filename)) {
             return null;
         }
@@ -997,7 +1001,8 @@ class TransactionService
      * @param string $baseUrl
      * @return string|null list of supported backend languages, as JSON
      */
-    private function fetchBackendLanguagesFromWeb($baseUrl) {
+    private function fetchBackendLanguagesFromWeb($baseUrl)
+    {
         $url = $baseUrl . '/engine/includes/i18n/languages/hpplanguages.json';
         try {
             $request = $this->messageFactory->createRequest('GET', $url);
