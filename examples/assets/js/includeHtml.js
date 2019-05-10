@@ -3,7 +3,7 @@
  */
 function includeHTML()
 {
-    let z, i, elmnt, file, xhttp;
+    var z, i, elmnt, file, xhttp;
     /*loop through a collection of all HTML elements:*/
     z = document.getElementsByTagName("*");
     for (i = 0; i < z.length; i++) {
@@ -44,7 +44,7 @@ function includePaymentMenu()
      * It should be the same as order name in payments folder
      * @type {string[]}
      */
-    let payments = [
+    var payments = [
         'AlipayCrossborder',
         'Bancontact',
         'CreditCard',
@@ -72,10 +72,10 @@ function includePaymentMenu()
         'WeChat'
     ];
 
-    let element = document.getElementById('payments');
-    let renderedHtml = '';
+    var element = document.getElementById('payments');
+    var renderedHtml = '';
     payments.forEach(function (payment, index) {
-        let file = 'payments/' + payment + '/menu.html';
+        var file = 'payments/' + payment + '/menu.html';
         if (index % 3 === 0) {
             renderedHtml += '<div class="row">';
         }
@@ -92,9 +92,8 @@ function includePaymentMenu()
  */
 function flashPayPalLink()
 {
-    let link = $("#paypal-pay-link"), counter = 0;
-
-    let interval = setInterval(function () {
+    var link = $("#paypal-pay-link"), counter = 0;
+    var interval = setInterval(function () {
         counter++;
         link.toggleClass("flash");
         if (counter > 6) {
@@ -102,6 +101,4 @@ function flashPayPalLink()
             link.removeClass("flash");
         }
     }, 500);
-
-
 }
