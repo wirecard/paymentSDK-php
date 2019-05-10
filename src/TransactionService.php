@@ -75,7 +75,8 @@ class TransactionService
 {
     const APPLICATION_JSON = 'application/json';
     const REQUEST_ID = 'request_id';
-    const HPP_LANGUAGE_CACHEFILE = 'backend_languages.json';
+    /** @var string filename to cache backend language results */
+    const HPP_LANGUAGE_CACHEFILE = 'hpp_backend_languages.json';
 
     /**
      * @var Config
@@ -950,6 +951,11 @@ class TransactionService
     private function storeBackendLanguagesInCache($baseUrl, $supportedLanguages)
     {
         $cacheFilename = $this->getLanguageCacheFileName();
+        if (file_exists($cacheFilename) && !is_writable($cacheFilename)) {
+            return;
+        } elseif (!file_exists($cacheFilename) && !is_writable(sys_get_temp_dir())) {
+            return;
+        }
 
         $cache = $this->jsonAsArrayFromFile($cacheFilename);
         if (is_null($cache)) {
