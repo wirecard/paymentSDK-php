@@ -10,7 +10,7 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/sepaconfig.php';
-// Header design
+
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -27,7 +27,7 @@ use Wirecard\PaymentSdk\TransactionService;
 $mandate = new Mandate('12345678');
 
 
-// ## Transaction
+// ### Transaction
 
 // Create a `SepaBtwobTransaction` object, which contains all relevant data for the credit process.
 $transaction = new SepaBtwobTransaction();
@@ -78,5 +78,5 @@ if ($response instanceof SuccessResponse) {
     }
 }
 
-// Footer design
+
 require __DIR__ . '/../../inc/footer.php';

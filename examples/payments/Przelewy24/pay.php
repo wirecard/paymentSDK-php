@@ -9,7 +9,7 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/globalconfig.php';
-// Header design
+
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -43,7 +43,7 @@ $redirectUrls = new Redirect(
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
 $notificationUrl = getUrl('notify.php');
 
-// ## Transaction
+// ### Transaction
 
 // The Przelewy24 transaction contains all relevant data for the payment process.
 $transaction = new PtwentyfourTransaction();
@@ -81,5 +81,5 @@ elseif ($response instanceof FailureResponse):
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 endif;
-// Footer design
+
 require __DIR__ . '/../../inc/footer.php';

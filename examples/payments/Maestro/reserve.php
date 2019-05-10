@@ -10,7 +10,7 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/maestroconfig.php';
-// Header design
+
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -51,7 +51,7 @@ if (array_key_exists('jsresponse', $_POST) && $_POST['jsresponse']) {
     $response = $transactionService->processJsResponse($_POST, $redirectUrl);
 
 } else {
-    // ## Transaction
+    // ### Transaction
 
     // The Maestro transaction contains all relevant data for the payment process.
     $transaction = new MaestroTransaction();
@@ -108,5 +108,5 @@ elseif ($response instanceof FailureResponse):
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 endif;
-// Footer design
+
 require __DIR__ . '/../../inc/footer.php';

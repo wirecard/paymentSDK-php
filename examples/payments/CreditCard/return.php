@@ -9,7 +9,6 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/config.php';
-// Header design
 require __DIR__ . '/../../inc/header.php';
 require __DIR__ . '/../../inc/payload/creditcard.php';
 
@@ -17,12 +16,13 @@ use Wirecard\PaymentSdk\BackendService;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\TransactionService;
+use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 
 // Set a public key for certificate pinning used for response signature validation, this certificate needs to be always
 // up to date
 $config->setPublicKey(file_get_contents(__DIR__ . '/../../inc/api-test.wirecard.com.crt'));
 
-// ## Transaction
+// ### Transaction
 
 // ### Transaction Service
 // The `TransactionService` is used to determine the response from the service provider.
@@ -33,7 +33,6 @@ $transactionService = new TransactionService($config);
 // If there is response data from the service provider handle response
 if ($_POST) {
     $response = $transactionService->handleResponse($_POST);
-
 
 // ## Payment results
 
@@ -50,19 +49,21 @@ if ($_POST) {
             <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
             <button type="submit" class="btn btn-primary">Cancel the payment</button>
         </form>
-       <?php
-	    // ##  Example of BackendService use
-	    // For more info on BackendService please see the backendService example under Features
-	    // Create an transaction with the response transaction id.
-       $backendService = new BackendService($config);
-       $transaction = new \Wirecard\PaymentSdk\Transaction\CreditCardTransaction();
-       $transaction->setParentTransactionId($response->getTransactionId());
-       // ### Retrieve possible operations for the transaction. An array of possible operations is returned
-       echo '<br>Possible backend operations: ' . print_r($backendService->retrieveBackendOperations($transaction, true), true) . '<br>';
-       // ### Check it the state of the transaction is final.
-       echo '<br>Is '. $response->getTransactionType() .' final: ' . printf($backendService->isFinal($response->getTransactionType())) . '<br>';
-       // ### Get order state of the transaction
-       echo '<br>Order state: ' . $backendService->getOrderState($response->getTransactionType());
+        <?php
+        // ##  Example of BackendService use
+        // For more info on BackendService please see the backendService example under Features
+        // Create an transaction with the response transaction id.
+        $backendService = new BackendService($config);
+        $transaction = new CreditCardTransaction();
+        $transaction->setParentTransactionId($response->getTransactionId());
+        // ### Retrieve possible operations for the transaction. An array of possible operations is returned
+        echo '<br>Possible backend operations: ' .
+            print_r($backendService->retrieveBackendOperations($transaction, true), true) . '<br>';
+        // ### Check it the state of the transaction is final.
+        echo '<br>Is ' . $response->getTransactionType() .
+            ' final: ' . printf($backendService->isFinal($response->getTransactionType())) . '<br>';
+        // ### Get order state of the transaction
+        echo '<br>Order state: ' . $backendService->getOrderState($response->getTransactionType());
 
 // In case of a failed transaction, a `FailureResponse` object is returned.
     } elseif ($response instanceof FailureResponse) {
@@ -84,5 +85,5 @@ if ($_POST) {
 } else {
     echo 'The transaction has been cancelled.<br>';
 }
-// Footer design
+
 require __DIR__ . '/../../inc/footer.php';

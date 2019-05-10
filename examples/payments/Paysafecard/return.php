@@ -9,7 +9,7 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/config.php';
-// Header design
+
 require __DIR__ . '/../../inc/header.php';
 require __DIR__ . '/../../inc/payload/paysafecard.php';
 
@@ -25,7 +25,7 @@ use Wirecard\PaymentSdk\TransactionService;
 $config->setPublicKey(file_get_contents(__DIR__ . '/../../inc/api-test.wirecard.com.crt'));
 
 
-// ## Transaction
+// ### Transaction
 
 // ### Transaction Service
 
@@ -88,5 +88,5 @@ if ($_POST) {
 } else {
     echo 'The transaction has been cancelled.<br>';
 }
-// Footer design
+
 require __DIR__ . '/../../inc/footer.php';

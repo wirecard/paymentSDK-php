@@ -9,7 +9,6 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../common.php';
 require __DIR__ . '/../../configuration/config.php';
-// Header design
 require __DIR__ . '/../header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -40,7 +39,7 @@ $customFields = new CustomFieldCollection();
 $customFields->add($special1);
 
 
-// ## Transaction
+// ### Transaction
 
 $transaction = new PayPalTransaction();
 $transaction->setNotificationUrl($notificationUrl);
@@ -57,7 +56,7 @@ $transactionService = new TransactionService($config);
 $response = $transactionService->pay($transaction);
 
 
-// ## Response handling
+// ### Response handling
 
 // In this example we output our custom parameter we sent in request from our response.
 // Parameter with name _special1_ with an expected value of _abc123_
@@ -66,5 +65,5 @@ if ($response instanceof InteractionResponse) {
 } else {
     echo "Transaction was not successful.";
 }
-// Footer design
+
 require __DIR__ . '/../footer.php';

@@ -9,7 +9,7 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/globalconfig.php';
-// Header design
+
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -28,7 +28,7 @@ $amount = new Amount(12.59, 'EUR');
 $redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
 
 
-// ## Transaction
+// ### Transaction
 
 // The SofortTransaction object holds all transaction relevant data for the payment process.
 // The required fields are: amount, descriptor, success and cancel redirect URL-s
@@ -68,5 +68,5 @@ if ($response instanceof InteractionResponse) {
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 }
-// Footer design
+
 require __DIR__ . '/../../inc/footer.php';

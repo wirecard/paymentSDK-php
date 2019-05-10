@@ -9,20 +9,21 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/maestroconfig.php';
-// Header design
+
 require __DIR__ . '/../../inc/header.php';
 require __DIR__ . '/../../inc/payload/maestro.php';
 
 use Wirecard\PaymentSdk\BackendService;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
+use Wirecard\PaymentSdk\Transaction\MaestroTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 // Set a public key for certificate pinning used for response signature validation, this certificate needs to be always
 // up to date
 $config->setPublicKey(file_get_contents(__DIR__ . '/../../inc/api-test.wirecard.com.crt'));
 
-// ## Transaction
+// ### Transaction
 
 // ### Transaction Service
 // The `TransactionService` is used to determine the response from the service provider.
@@ -54,7 +55,7 @@ if ($_POST) {
         // For more info on BackendService please see the backendService example under Features
         // Create an transaction with the response transaction id.
         $backendService = new BackendService($config);
-        $transaction = new \Wirecard\PaymentSdk\Transaction\MaestroTransaction();
+        $transaction = new MaestroTransaction();
         $transaction->setParentTransactionId($response->getTransactionId());
         // ### Retrieve possible operations for the transaction. An array of possible operations is returned
         echo '<br>Possible backend operations: ' .
@@ -85,5 +86,5 @@ if ($_POST) {
 } else {
     echo 'The transaction has been cancelled.<br>';
 }
-// Footer design
+
 require __DIR__ . '/../../inc/footer.php';

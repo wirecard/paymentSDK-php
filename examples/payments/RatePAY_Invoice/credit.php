@@ -10,10 +10,11 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/globalconfig.php';
-// Header design
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Entity\Basket;
+use Wirecard\PaymentSdk\Entity\Item;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
@@ -34,15 +35,15 @@ $amount = new Amount($amountValue, 'EUR');
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
 $notificationUrl = getUrl('notify.php');
 
-$credit1 = new \Wirecard\PaymentSdk\Entity\Item('Credit 1', $amount, 1);
+$credit1 = new Item('Credit 1', $amount, 1);
 $credit1->setArticleNumber('C1');
 $credit1->setTaxRate(0.0);
 
-$basket = new \Wirecard\PaymentSdk\Entity\Basket();
+$basket = new Basket();
 $basket->add($credit1);
 
 
-// ## Transaction
+// ### Transaction
 
 // The RatePAY transaction holds all transaction relevant data for the payment process.
 $transaction = new RatepayInvoiceTransaction();
@@ -79,5 +80,5 @@ if ($response instanceof SuccessResponse) {
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 }
-// Footer design
+
 require __DIR__ . '/../../inc/footer.php';

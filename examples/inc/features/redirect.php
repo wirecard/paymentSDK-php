@@ -12,7 +12,6 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../common.php';
 require __DIR__ . '/../../configuration/config.php';
-// Header design
 require __DIR__ . '/../header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -21,7 +20,6 @@ use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
-
 
 // ### Transaction
 
@@ -34,21 +32,17 @@ $transaction->setAmount(new Amount(12.59, 'EUR'));
 // ### Redirects
 
 // The redirect URLs are defined in a corresponding object.
-$redirectUrl = new Redirect(
 // A URL for successful transactions is expected.
-    getUrl('../../payments/CreditCard/return.php?status=success')
-);
+$redirectUrl = new Redirect(getUrl('../../payments/CreditCard/return.php?status=success'));
 
 // Set the redirect URL to enable the functionality.
 $transaction->setRedirect(($redirectUrl));
-
 
 // ### Transaction Service
 
 // The service is used to execute the reservation (authorization) operation itself.
 $transactionService = new TransactionService($config);
 $response = $transactionService->reserve($transaction);
-
 
 // ### Response handling
 
@@ -58,8 +52,8 @@ if ($response instanceof FormInteractionResponse) {
     ?>
     <form method="<?= $response->getMethod(); ?>" action="<?= $response->getUrl(); ?>">
         <?php
-        // The form fields contain the successful response, therefore these data need to be forwareded.
-        foreach ($response->getFormFields() as $key => $value): ?>
+        // The form fields contain the successful response, therefore these data need to be forwarded.
+        foreach ($response->getFormFields() as $key => $value) : ?>
             <input type="hidden" name="<?= $key ?>" value="<?= $value ?>">
         <?php endforeach;
         // Usually an automated transmission of the form would be made.
@@ -83,5 +77,5 @@ if ($response instanceof FormInteractionResponse) {
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 }
-// Footer design
+
 require __DIR__ . '/../footer.php';

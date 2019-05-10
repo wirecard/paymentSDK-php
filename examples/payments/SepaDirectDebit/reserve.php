@@ -10,7 +10,7 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/sepaconfig.php';
-// Header design
+
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\AccountHolder;
@@ -46,7 +46,7 @@ if (!isset($_POST['iban'])) {
     $accountHolder->setFirstName('Jane');
 
 
-// ## Transaction
+// ### Transaction
 
 // Create a `SepaDirectDebitTransaction` object, which contains all relevant data for the payment process.
     $transaction = new SepaDirectDebitTransaction();
@@ -97,5 +97,5 @@ if (!isset($_POST['iban'])) {
         }
     }
 }
-// Footer design
+
 require __DIR__ . '/../../inc/footer.php';

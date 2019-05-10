@@ -9,7 +9,7 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/config.php';
-// Header design
+
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\AccountHolder;
@@ -57,7 +57,7 @@ if (!isset($_POST['parentTransactionId'])) {
     $browser->setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0');
     $browser->setTimezone('+01:00');
     $browser->setScreenResolution('1920*1080');
-// ## Transaction
+// ### Transaction
 
 // The Pay By Bank App transaction holds all transaction relevant data for the payment process.
     $transaction = new PayByBankAppTransaction();
@@ -95,5 +95,5 @@ if (!isset($_POST['parentTransactionId'])) {
         }
     }
 }
-// Footer design
+
 require __DIR__ . '/../../inc/footer.php';

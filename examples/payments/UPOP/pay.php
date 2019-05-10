@@ -9,7 +9,7 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/config.php';
-// Header design
+
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -34,7 +34,7 @@ $accountHolder->setEmail('max.cavalera@email.com');
 $redirectUrls = new Redirect(getUrl('return.php'));
 
 
-// ## Transaction
+// ### Transaction
 
 // The UpopTransaction object holds all transaction relevant data for the payment process.
 // The required fields are: amount, accountHolder and redirect URL-s
@@ -74,5 +74,5 @@ if ($response instanceof InteractionResponse) {
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 }
-// Footer design
+
 require __DIR__ . '/../../inc/footer.php';

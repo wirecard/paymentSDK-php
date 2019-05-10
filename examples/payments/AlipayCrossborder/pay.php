@@ -9,7 +9,7 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/globalconfig.php';
-// Header design
+
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -41,7 +41,7 @@ $redirectUrls = new Redirect(
 
 $notificationUrl = getUrl('notify.php');
 
-// ## Transaction
+// ### Transaction
 
 // The AlipayCrossborderTransaction object holds all transaction relevant data for the payment process.
 // ### Mandatory fields
@@ -52,8 +52,8 @@ $transaction->setNotificationUrl($notificationUrl);
 $transaction->setAmount($amount);
 $transaction->setAccountHolder($accountHolder);
 
-// ## Optional fields
-// full list of optional fields see in: https://document-center.wirecard.com/display/PTD/Fields
+// ### Optional fields
+// For the full list of all fields see: https://doc.wirecard.com/RestApi_Fields.html
 $transaction->setIpAddress('127.0.0.1');
 $transaction->setOrderNumber('001');
 $transaction->setDescriptor('Test Alipay');
@@ -89,5 +89,5 @@ if ($response instanceof InteractionResponse) {
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 }
-// Footer design
+
 require __DIR__ . '/../../inc/footer.php';

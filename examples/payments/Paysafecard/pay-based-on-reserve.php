@@ -9,7 +9,7 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/config.php';
-// Header design
+
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -27,7 +27,7 @@ if (array_key_exists('amount', $_POST)) {
     $amount = new Amount(12.59, 'EUR');
 }
 
-// ## Transaction
+// ### Transaction
 
 $transaction = new PaysafecardTransaction();
 $transaction->setAmount($amount);
@@ -65,5 +65,5 @@ if ($response instanceof SuccessResponse) {
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 }
-// Footer design
+
 require __DIR__ . '/../../inc/footer.php';

@@ -10,11 +10,12 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../common.php';
 require __DIR__ . '/../../configuration/config.php';
-// Header design
 require __DIR__ . '/../header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Entity\Item;
+use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
@@ -35,18 +36,18 @@ $notificationUrl = getUrl('../PayPal/notify.php');
 // For each item you have to set some properties as described here.
 // The name, the price and the quantity are required,
 // the article number, the description, the tax rate and the tax amount are optional.
-$item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(2.59, 'EUR'), 1);
+$item1 = new Item('Item 1', new Amount(2.59, 'EUR'), 1);
 $item1->setArticleNumber('A1');
 $item1->setDescription('My first item');
 $item1->setTaxRate(20.0);
 
-$item2 = new \Wirecard\PaymentSdk\Entity\Item('Item 2', new Amount(5, 'EUR'), 2);
+$item2 = new Item('Item 2', new Amount(5, 'EUR'), 2);
 $item2->setArticleNumber('B2');
 $item2->setDescription('My second item');
 $item2->setTaxRate(10.0);
 
 // The items are all stored in a `Basket` object.
-$basket = new \Wirecard\PaymentSdk\Entity\Basket();
+$basket = new Basket();
 $basket->add($item1);
 $basket->add($item2);
 
@@ -54,7 +55,7 @@ $basket->add($item2);
 $amount = new Amount(12.59, 'EUR');
 
 
-// ## Transaction
+// ### Transaction
 
 // The PayPal transaction holds all transaction relevant data for the reserve process.
 $transaction = new PayPalTransaction();
@@ -96,5 +97,5 @@ if ($response instanceof InteractionResponse) {
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 }
-// Footer design
+
 require __DIR__ . '/../footer.php';

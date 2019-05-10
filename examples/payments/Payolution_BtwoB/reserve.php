@@ -9,7 +9,7 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/globalconfig.php';
-// Header design
+
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -54,7 +54,7 @@ $companyInfo->setCompanyUid('ATU000000');
 $companyInfo->setCompanyTradeRegisterNumber('FN 00000 n');
 $companyInfo->setCompanyRegisterKey('2112322');
 
-// ## Transaction
+// ### Transaction
 
 // The Payolution B2B transaction holds all transaction relevant data for the reserve process.
 $transaction = new PayolutionBtwobTransaction();
@@ -103,5 +103,5 @@ if ($response instanceof SuccessResponse) {
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 }
-// Footer design
+
 require __DIR__ . '/../../inc/footer.php';

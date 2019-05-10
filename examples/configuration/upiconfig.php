@@ -32,7 +32,7 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 // * the merchant account ID
 // * the corresponding secret key
 
-// ### UPI
+// ### Unionpay International
 
 $upiMAID = 'c6e9331c-5c1f-4fc6-8a08-ef65ce09ddb0';
 $upiSecretKey = '16d85b73-79e2-4c33-932a-7da99fb04a9c';

@@ -9,10 +9,14 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/globalconfig.php';
-// Header design
+
 require __DIR__ . '/../../inc/header.php';
 
+use Wirecard\PaymentSdk\Entity\AccountHolder;
+use Wirecard\PaymentSdk\Entity\Address;
 use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Entity\Basket;
+use Wirecard\PaymentSdk\Entity\Item;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\RatepayDirectDebitTransaction;
@@ -28,22 +32,22 @@ $orderNumber = 'A2';
 
 // #### Order items
 
-$item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(400, 'EUR'), 1);
+$item1 = new Item('Item 1', new Amount(400, 'EUR'), 1);
 $item1->setArticleNumber('A1');
 $item1->setTaxRate(10.0);
 
-$item2 = new \Wirecard\PaymentSdk\Entity\Item('Item 2', new Amount(1000, 'EUR'), 2);
+$item2 = new Item('Item 2', new Amount(1000, 'EUR'), 2);
 $item2->setArticleNumber('B2');
 $item2->setTaxRate(20.0);
 
 // Create a basket to store the items.
-$basket = new \Wirecard\PaymentSdk\Entity\Basket();
+$basket = new Basket();
 
-// #### Account holder with address
-$address = new \Wirecard\PaymentSdk\Entity\Address('DE', 'Berlin', 'Berlin');
+// ### Account holder with address
+$address = new Address('DE', 'Berlin', 'Berlin');
 $address->setPostalCode('13353');
 
-$accountHolder = new \Wirecard\PaymentSdk\Entity\AccountHolder();
+$accountHolder = new AccountHolder();
 $accountHolder->setFirstName('John');
 $accountHolder->setLastName('Constantine');
 $accountHolder->setEmail('john.doe@test.com');
@@ -52,7 +56,7 @@ $accountHolder->setDateOfBirth(new \DateTime('1973-12-07'));
 $accountHolder->setAddress($address);
 
 
-// ## Transaction
+// ### Transaction
 
 // The RatePAY Direct Debit transaction holds all transaction relevant data for the reserve process.
 $transaction = new RatepayDirectDebitTransaction();
@@ -156,5 +160,5 @@ if ($response instanceof SuccessResponse) {
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 }
-// Footer design
+
 require __DIR__ . '/../../inc/footer.php';

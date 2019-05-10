@@ -9,7 +9,7 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/upiconfig.php';
-// Header design
+
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -28,7 +28,7 @@ if (!isset($_POST['parentTransactionId'])) {
     </form>
 <?php
 } else {
-// ## Transaction
+// ### Transaction
     $transaction = new UpiTransaction();
     $transaction->setParentTransactionId($_POST['parentTransactionId']);
 
@@ -61,5 +61,5 @@ if (!isset($_POST['parentTransactionId'])) {
         }
     }
 }
-// Footer design
+
 require __DIR__ . '/../../inc/footer.php';

@@ -10,7 +10,7 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../common.php';
 require __DIR__ . '/../../configuration/config.php';
-// Header design
+
 require __DIR__ . '/../header.php';
 require __DIR__ . '/../payload/creditcard.php';
 
@@ -21,7 +21,7 @@ use Wirecard\PaymentSdk\TransactionService;
 // a public key for certificate pinning. The provided certificate needs to be **always up-to-date**.
 $config->setPublicKey(file_get_contents(__DIR__ . '/../../inc/api-test.wirecard.com.crt'));
 
-// ## Transaction
+// ### Transaction
 
 // ### Transaction Service
 
@@ -41,5 +41,5 @@ if ($response instanceof SuccessResponse) {
 } else {
     echo "Transaction was not successful.";
 }
-// Footer design
+
 require __DIR__ . '/../footer.php';

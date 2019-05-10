@@ -9,7 +9,7 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../configuration/globalconfig.php';
 
-// Header design
+
 require __DIR__ . '/../../inc/header.php';
 
 use Monolog\Handler\StreamHandler;
@@ -25,7 +25,7 @@ use Wirecard\PaymentSdk\TransactionService;
 $config->setPublicKey(file_get_contents(__DIR__ . '/../../inc/api-test.wirecard.com.crt'));
 
 
-// ## Transaction
+// ### Transaction
 
 // ### Transaction Service
 
@@ -69,5 +69,5 @@ if ($notification instanceof SuccessResponse) {
         $log->warning(sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description));
     }
 }
-// Footer design
+
 require __DIR__ . '/../../inc/footer.php';

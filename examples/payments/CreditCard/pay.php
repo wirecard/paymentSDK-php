@@ -9,7 +9,6 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/config.php';
-// Header design
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -40,7 +39,7 @@ if ($parentTransactionId === null && $tokenId === null) {
 $redirectUrl = getUrl('return.php?status=success');
 
 
-// ## Transaction
+// ### Transaction
 // ### Mandatory fields
 // The credit card transaction contains all relevant data for the payment process.
 // The required fields are: amount, tokenId, redirectUrl
@@ -51,7 +50,7 @@ $transaction->setTermUrl($redirectUrl);
 $transaction->setParentTransactionId($parentTransactionId);
 
 // ### Optional fields
-// Full list of all optional fields see https://document-center.wirecard.com/pages/viewpage.action?pageId=3703633
+// Full list of fields: https://doc.wirecard.com/CreditCard.html#CreditCard_Fields
 $transaction->setLocale('en');
 
 // ### Transaction Service
@@ -70,7 +69,7 @@ if ($response instanceof FormInteractionResponse):
     // A form for redirect should be created and submitted afterwards.
     ?>
     <form method="<?= $response->getMethod(); ?>" action="<?= $response->getUrl(); ?>">
-        <?php foreach ($response->getFormFields() as $key => $value): ?>
+        <?php foreach ($response->getFormFields() as $key => $value) : ?>
             <input type="hidden" name="<?= $key ?>" value="<?= $value ?>">
         <?php endforeach;
         // Usually an automated transmission of the form would be made.
@@ -80,7 +79,7 @@ if ($response instanceof FormInteractionResponse):
         <button type="submit" class="btn btn-primary">Redirect to 3-D Secure page</button>
     </form>
     <?php
-elseif ($response instanceof SuccessResponse):
+elseif ($response instanceof SuccessResponse) :
     echo 'Payment successfully completed.<br>';
     echo getTransactionLink($baseUrl, $response);
     echo '<br>Credit Card Token-Id: ' . $response->getCardTokenId();
@@ -93,7 +92,7 @@ elseif ($response instanceof SuccessResponse):
 
     <?php
 // In case of a failed transaction, a `FailureResponse` object is returned.
-elseif ($response instanceof FailureResponse):
+elseif ($response instanceof FailureResponse) :
     // In our example we iterate over all errors and display them in a raw state.
     // You should handle them based on the given severity as error, warning or information.
     foreach ($response->getStatusCollection() as $status) {
@@ -106,5 +105,5 @@ elseif ($response instanceof FailureResponse):
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 endif;
-// Footer design
+
 require __DIR__ . '/../../inc/footer.php';

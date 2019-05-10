@@ -9,7 +9,7 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/globalconfig.php';
-// Header design
+
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -36,7 +36,7 @@ if (!isset($_POST['parentTransactionId'])) {
 // Use the amount object as amount which has to be paid by the consumer.
     $amount = new Amount(700, 'EUR');
 
-// ## Transaction
+// ### Transaction
     $transaction = new PayolutionBtwobTransaction();
     $transaction->setParentTransactionId($_POST['parentTransactionId']);
     $transaction->setAmount($amount);
@@ -72,5 +72,5 @@ if (!isset($_POST['parentTransactionId'])) {
     }
 }
 
-// Footer design
+
 require __DIR__ . '/../../inc/footer.php';

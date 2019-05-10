@@ -14,7 +14,7 @@ require __DIR__ . '/../../configuration/upiconfig.php';
 use Wirecard\PaymentSdk\TransactionService;
 
 
-// ## Transaction
+// ### Transaction
 
 // ### Transaction Service
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.

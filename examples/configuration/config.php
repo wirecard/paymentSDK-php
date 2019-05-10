@@ -192,4 +192,5 @@ $sepaCreditTransferConfig = new SepaConfig(
     $sepaCreditTransferMAID,
     $sepaCreditTransferKey
 );
+
 $config->add($sepaCreditTransferConfig);

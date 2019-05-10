@@ -9,7 +9,7 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/upiconfig.php';
-// Header design
+
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -20,7 +20,7 @@ use Wirecard\PaymentSdk\TransactionService;
 // up to date
 $config->setPublicKey(file_get_contents(__DIR__ . '/../../inc/api-test.wirecard.com.crt'));
 
-// ## Transaction
+// ### Transaction
 
 // ### Transaction Service
 // The `TransactionService` is used to determine the response from the service provider.
@@ -69,5 +69,5 @@ if ($_POST) {
 } else {
     echo 'The transaction has been cancelled.<br>';
 }
-// Footer design
+
 require __DIR__ . '/../../inc/footer.php';

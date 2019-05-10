@@ -9,7 +9,7 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/config.php';
-// Header design
+
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -35,7 +35,7 @@ $redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return
 $notificationUrl = getUrl('notify.php');
 
 
-// ## Transaction
+// ### Transaction
 
 $transaction = new PayPalTransaction();
 $transaction->setNotificationUrl($notificationUrl);
@@ -81,5 +81,5 @@ if ($response instanceof SuccessResponse) {
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 }
-// Footer design
+
 require __DIR__ . '/../../inc/footer.php';

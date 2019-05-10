@@ -9,7 +9,7 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/config.php';
-// Header design
+
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -37,7 +37,7 @@ if ($tokenId === null) {
 $redirectUrl = getUrl('return.php?status=success');
 
 
-// ## Transaction
+// ### Transaction
 
 // The credit card transaction contains all relevant data for the payment process.
 $transaction = new CreditCardTransaction();
@@ -83,5 +83,5 @@ elseif ($response instanceof FailureResponse):
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 endif;
-// Footer design
+
 require __DIR__ . '/../../inc/footer.php';

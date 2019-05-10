@@ -9,9 +9,11 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/config.php';
-// Header design
+
 require __DIR__ . '/../../inc/header.php';
 
+use Wirecard\PaymentSdk\Entity\AccountHolder;
+use Wirecard\PaymentSdk\Entity\Address;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -37,13 +39,13 @@ $notificationUrl = getUrl('notify.php');
 
 // ### Account hold r
 
-$address = new \Wirecard\PaymentSdk\Entity\Address('US', 'Portland', 'Mariahilferstraße');
+$address = new Address('US', 'Portland', 'Mariahilferstraße');
 $address->setState('OR');
 
-$accountHolder = new \Wirecard\PaymentSdk\Entity\AccountHolder();
+$accountHolder = new AccountHolder();
 $accountHolder->setAddress($address);
 
-// ## Transaction
+// ### Transaction
 
 // The PayPal transaction holds all transaction relevant data for the payment process.
 $transaction = new PayPalTransaction();
@@ -89,5 +91,5 @@ if ($response instanceof InteractionResponse) {
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 }
-// Footer design
+
 require __DIR__ . '/../../inc/footer.php';

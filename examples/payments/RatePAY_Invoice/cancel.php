@@ -9,10 +9,11 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/globalconfig.php';
-// Header design
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
+use Wirecard\PaymentSdk\Entity\Basket;
+use Wirecard\PaymentSdk\Entity\Item;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
@@ -41,21 +42,21 @@ if (!isset($_POST['parentTransactionId'])) {
 // #### Order items
 
 // Create your items.
-    $item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(400, 'EUR'), 1);
+    $item1 = new Item('Item 1', new Amount(400, 'EUR'), 1);
     $item1->setArticleNumber('A1');
     $item1->setTaxRate(10.0);
 
-    $item2 = new \Wirecard\PaymentSdk\Entity\Item('Item 2', new Amount(1000, 'EUR'), 2);
+    $item2 = new Item('Item 2', new Amount(1000, 'EUR'), 2);
     $item2->setArticleNumber('B2');
     $item2->setTaxRate(20.0);
 
 // Create an item collection to store the items.
-    $basket = new \Wirecard\PaymentSdk\Entity\Basket();
+    $basket = new Basket();
     $basket->add($item1);
     $basket->add($item2);
 
 
-// ## Transaction
+// ### Transaction
 
     $transaction = new RatepayInvoiceTransaction();
     $transaction->setParentTransactionId($_POST['parentTransactionId']);
@@ -92,5 +93,5 @@ if (!isset($_POST['parentTransactionId'])) {
         }
     }
 }
-// Footer design
+
 require __DIR__ . '/../../inc/footer.php';

@@ -10,7 +10,7 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/config.php';
-// Header design
+
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -49,7 +49,7 @@ if (!isset($_POST['iban'])) {
     $mandate = new Mandate('12345678');
 
 
-// ## Transaction
+// ### Transaction
 
 // Create a `SepaBtwobTransaction` object, which contains all relevant data for the credit process.
     $transaction = new SepaBtwobTransaction();
@@ -112,5 +112,5 @@ if (!isset($_POST['iban'])) {
         }
     }
 }
-// Footer design
+
 require __DIR__ . '/../../inc/footer.php';

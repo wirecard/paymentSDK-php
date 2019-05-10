@@ -10,7 +10,7 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/config.php';
-// Header design
+
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\AccountHolder;
@@ -35,7 +35,7 @@ $accountHolder = new AccountHolder();
 $accountHolder->setEmail("customer@wirecard.com");
 
 
-// ## Transaction
+// ### Transaction
 
 // The PayPal transaction holds all transaction relevant data for the payment process.
 $transaction = new PayPalTransaction();
@@ -71,5 +71,5 @@ if ($response instanceof SuccessResponse) {
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 }
-// Footer design
+
 require __DIR__ . '/../../inc/footer.php';

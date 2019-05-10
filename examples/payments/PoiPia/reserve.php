@@ -10,7 +10,7 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/globalconfig.php';
-// Header design
+
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -35,7 +35,7 @@ $accountHolder->setEmail("john.doe@wirecard.com");
 // after an approval/cancellation on the issuer's ACS page.
 $redirectUrl = getUrl('return.php?status=success');
 
-// ## Transaction
+// ### Transaction
 
 // The Payment on invoice / Payment in advance transaction contains all relevant data for the payment process.
 $transaction = new PoiPiaTransaction();
@@ -75,5 +75,5 @@ elseif ($response instanceof FailureResponse):
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 endif;
-// Footer design
+
 require __DIR__ . '/../../inc/footer.php';

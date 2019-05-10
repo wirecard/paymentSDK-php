@@ -9,7 +9,6 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/config.php';
-// Header design
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -33,7 +32,7 @@ $redirectUrls = new Redirect(
 );
 
 
-// ## Transaction
+// ### Transaction
 
 // The BancontactTransaction object holds all transaction relevant data for the payment process.
 // ### Mandatory fields
@@ -79,5 +78,5 @@ if ($response instanceof InteractionResponse) {
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 }
-// Footer design
+
 require __DIR__ . '/../inc/footer.php';

@@ -9,7 +9,7 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/globalconfig.php';
-// Header design
+
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -39,7 +39,7 @@ if (!isset($_POST['parentTransactionId'])) {
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
     $notificationUrl = getUrl('notify.php');
 
-// ## Transaction
+// ### Transaction
 
 // The Payolution invoice transaction holds all transaction relevant data for the reserve process.
     $transaction = new PayolutionBtwobTransaction();
@@ -87,5 +87,5 @@ if (!isset($_POST['parentTransactionId'])) {
     }
 }
 
-// Footer design
+
 require __DIR__ . '/../../inc/footer.php';

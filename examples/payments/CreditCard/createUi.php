@@ -14,6 +14,7 @@ require __DIR__ . '/../../configuration/config.php';
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Address;
+use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Entity\CustomField;
@@ -22,7 +23,7 @@ use Wirecard\PaymentSdk\Entity\Item;
 use Wirecard\PaymentSdk\TransactionService;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 
-// ## Transaction
+// ### Transaction
 
 // ### Transaction Service
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
@@ -50,11 +51,11 @@ $basket = new Basket();
 $basket->add($item1);
 $basket->add($item2);
 
-// #### Account holder with address
+// ### Account holder with address
 $address = new Address('DE', 'Berlin', 'Teststrasse');
 $address->setPostalCode('13353');
 
-$accountHolder = new \Wirecard\PaymentSdk\Entity\AccountHolder();
+$accountHolder = new AccountHolder();
 $accountHolder->setEmail('john.doe@test.com');
 $accountHolder->setPhone('03018425165');
 $accountHolder->setDateOfBirth(new \DateTime('1973-12-07'));
