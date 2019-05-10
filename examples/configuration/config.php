@@ -148,7 +148,7 @@ $paypalKey = 'dbc5a498-9a66-43b9-bf1d-a618dd399684';
 $paypalConfig = new PaymentMethodConfig(PayPalTransaction::NAME, $paypalMAID, $paypalKey);
 $config->add($paypalConfig);
 
-// ### paysafecard
+// ### Paysafecard
 
 $paysafecardMAID = '28d4938b-d0d6-4c4a-b591-fb63175de53e';
 $paysafecardKey = 'dbc5a498-9a66-43b9-bf1d-a618dd399684';

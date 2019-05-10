@@ -10,7 +10,7 @@ require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/globalconfig.php';
 require __DIR__ . '/../../inc/payload/giropay.php';
-//Header design
+// Header design
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -53,5 +53,5 @@ if ($_POST) {
 } else {
     echo 'The transaction has been cancelled.<br>';
 }
-//Footer design
+// Footer design
 require __DIR__ . '/../../inc/footer.php';

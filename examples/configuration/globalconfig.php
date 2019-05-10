@@ -49,7 +49,7 @@ $ratepayInvoiceKey = '555d998b-15db-46a9-8f1f-d9bc3ec66b19';
 $ratepayInvoiceConfig = new PaymentMethodConfig(RatepayInvoiceTransaction::NAME, $ratepayInvoiceMAID, $ratepayInvoiceKey);
 $config->add($ratepayInvoiceConfig);
 
-// #### Guaranteed Installment by Wirecard / Ratepay
+// ### Guaranteed Installment by Wirecard / Ratepay
 
 $ratepayInstallmentMAID = '5fcfd1ba-10bd-4ad4-b8e7-9a1926f5b3fe';
 $ratepayInstallmentKey = 'c92236cc-9fea-4d45-93d9-707fc7964da0';

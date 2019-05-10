@@ -9,7 +9,7 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../common.php';
 require __DIR__ . '/../../configuration/config.php';
-//Header design
+// Header design
 require __DIR__ . '/../header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -66,5 +66,5 @@ if ($response instanceof InteractionResponse) {
 } else {
     echo "Transaction was not successful.";
 }
-//Footer design
+// Footer design
 require __DIR__ . '/../footer.php';

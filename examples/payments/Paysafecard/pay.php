@@ -9,7 +9,7 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/config.php';
-//Header design
+// Header design
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\AccountHolder;
@@ -31,7 +31,7 @@ $redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
 $notificationUrl = getUrl('notify.php');
 
-//Account holder with last name and the crm id of your customer
+// Account holder with last name and the crm id of your customer
 $accountHolder = new AccountHolder();
 $accountHolder->setCrmId(20);
 $accountHolder->setLastName('Doe');
@@ -76,5 +76,5 @@ if ($response instanceof InteractionResponse) {
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 }
-//Footer design
+// Footer design
 require __DIR__ . '/../inc/footer.php';

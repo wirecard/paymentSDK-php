@@ -8,7 +8,7 @@
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../configuration/config.php';
-//Header design
+// Header design
 require __DIR__ . '/../../inc/header.php';
 
 use Monolog\Handler\StreamHandler;
@@ -75,5 +75,5 @@ try {
     $log->error(sprintf('Cannot interprete received data as notification: %s', $mre->getMessage()));
 }
 
-//Footer design
+// Footer design
 require __DIR__ . '/../../inc/footer.php';

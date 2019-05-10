@@ -9,7 +9,7 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/globalconfig.php';
-//Header design
+// Header design
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -31,7 +31,7 @@ if (!isset($_POST['parentTransactionId'])) {
 } else {
 // ### Transaction related objects
 
-//Use the amount object as amount which has to be paid by the consumer.
+// Use the amount object as amount which has to be paid by the consumer.
     $amount = new Amount(500, 'EUR');
 
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
@@ -83,5 +83,5 @@ if (!isset($_POST['parentTransactionId'])) {
         }
     }
 }
-//Footer design
+// Footer design
 require __DIR__ . '/../../inc/footer.php';

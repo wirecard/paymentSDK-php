@@ -5,7 +5,7 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/globalconfig.php';
-//Header design
+// Header design
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -16,16 +16,16 @@ use Wirecard\PaymentSdk\Response\InteractionResponse;
 use Wirecard\PaymentSdk\Transaction\EpsTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
-// # Set amount
+// ### Set amount
 $amount = new Amount(18.4, 'EUR');
 
-// # Set success, cancel and failure url
+// ### Set success, cancel and failure url
 $redirect = new Redirect(
     getUrl('return.php?status=success'),
     getUrl('return.php?status=cancel'),
     getUrl('return.php?status=failure')
 );
-// # Set Bank Account
+// ### Set Bank Account
 $bankAccount = new BankAccount();
 $bankAccount->setBic("BWFBATW1XXX");
 $bankAccount->setIban("NL13TEST0123456789");
@@ -42,11 +42,10 @@ $transaction->setBankAccount($bankAccount);
 // ### Optional fields
 
 $transaction->setDescriptor('eps pay 123');
-
 $transactionService = new TransactionService($config);
 $response = $transactionService->pay($transaction);
 
-// ## Response handling
+// ### Response handling
 
 // The response from the service can be used for disambiguation.
 // Since a redirect for successful transactions is defined, a FormInteractionResponse is returned
@@ -70,5 +69,5 @@ if ($response instanceof InteractionResponse) {
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 }
-//Footer design
+// Footer design
 require __DIR__ . '/../../inc/footer.php';

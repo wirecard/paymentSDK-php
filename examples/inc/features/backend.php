@@ -52,5 +52,5 @@ try {
 } catch (Exception $exception) {
     echo $exception->getMessage();
 }
-//Footer design
+// Footer design
 require __DIR__ . '/../footer.php';

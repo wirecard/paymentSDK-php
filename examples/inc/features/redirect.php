@@ -6,13 +6,13 @@
 // a financial service provider. For integration it is sometimes useful, if the responses are similar. Therefore
 // the SDK will create a `FormRedirectResponse` for synchronous payment methods, if a redirect URL is provided.
 
-// ## Required objects
+// ### Required objects
 
 // To include the necessary files, use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../common.php';
 require __DIR__ . '/../../configuration/config.php';
-//Header design
+// Header design
 require __DIR__ . '/../header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -23,7 +23,7 @@ use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 
-// ## Transaction
+// ### Transaction
 
 // The redirect functionality is illustrated using a credit card transaction, which is synchronous
 // for non 3-D Secure transactions.
@@ -50,7 +50,7 @@ $transactionService = new TransactionService($config);
 $response = $transactionService->reserve($transaction);
 
 
-// ## Response handling
+// ### Response handling
 
 // The response from the service can be used for disambiguation.
 // Since the redirect URL is set, a `FormInteractionResponse` will be returned, if the request was successful.
@@ -83,5 +83,5 @@ if ($response instanceof FormInteractionResponse) {
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 }
-//Footer design
+// Footer design
 require __DIR__ . '/../footer.php';
