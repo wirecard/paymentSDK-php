@@ -11,14 +11,11 @@ require __DIR__ . '/../../vendor/autoload.php';
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
-use Wirecard\PaymentSdk\Config\SepaConfig;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Transaction\BancontactTransaction;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Transaction\PaysafecardTransaction;
 use Wirecard\PaymentSdk\Transaction\MasterpassTransaction;
-use Wirecard\PaymentSdk\Transaction\CreditCardMotoTransaction;
-use Wirecard\PaymentSdk\Transaction\SepaCreditTransferTransaction;
 use Wirecard\PaymentSdk\Transaction\UpopTransaction;
 use Wirecard\PaymentSdk\Transaction\PayByBankAppTransaction;
 
@@ -132,14 +129,6 @@ $creditcardConfig->setThreeDCredentials(
 );
 
 $config->add($creditcardConfig);
-
-// ### Credit Card Moto
-
-$ccardMotoMAID = '53f2895a-e4de-4e82-a813-0d87a10e55e6';
-$ccardMotoSecretKey = 'dbc5a498-9a66-43b9-bf1d-a618dd399684';
-$ccardMotoConfig = new PaymentMethodConfig(CreditCardMotoTransaction::NAME, $ccardMotoMAID, $ccardMotoSecretKey);
-
-$config->add($ccardMotoConfig);
 
 // ### PayPal
 
