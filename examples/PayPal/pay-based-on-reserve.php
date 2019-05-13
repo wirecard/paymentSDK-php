@@ -39,10 +39,11 @@ $notificationUrl = getUrl('notify.php');
 
 $transaction = new PayPalTransaction();
 $transaction->setNotificationUrl($notificationUrl);
-$transaction->setRedirect($redirectUrls);
 $transaction->setAmount($amount);
 if (array_key_exists('parentTransactionId', $_POST)) {
     $transaction->setParentTransactionId($_POST['parentTransactionId']);
+} else {
+    $transaction->setRedirect($redirectUrls);
 }
 
 // ### Transaction service
