@@ -11,11 +11,14 @@ require __DIR__ . '/../../vendor/autoload.php';
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
+use Wirecard\PaymentSdk\Config\SepaConfig;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Transaction\BancontactTransaction;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Transaction\PaysafecardTransaction;
 use Wirecard\PaymentSdk\Transaction\MasterpassTransaction;
+use Wirecard\PaymentSdk\Transaction\SepaCreditTransferTransaction;
+use Wirecard\PaymentSdk\Transaction\SepaDirectDebitTransaction;
 use Wirecard\PaymentSdk\Transaction\UpopTransaction;
 use Wirecard\PaymentSdk\Transaction\PayByBankAppTransaction;
 
@@ -171,15 +174,3 @@ $pbbaMAID = '70055b24-38f1-4500-a3a8-afac4b1e3249';
 $pbbaSecret = '	4a4396df-f78c-44b9-b8a0-b72b108ac465';
 $pbbaConfig = new PaymentMethodConfig(PayByBankAppTransaction::NAME, $pbbaMAID, $pbbaSecret);
 $config->add($pbbaConfig);
-
-// ### SepaCredit
-$sepaCreditTransferMAID = '59a01668-693b-49f0-8a1f-f3c1ba025d45';
-$sepaCreditTransferKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
-// SEPA requires the creditor ID, therefore a different config object is used.
-$sepaCreditTransferConfig = new SepaConfig(
-    SepaCreditTransferTransaction::NAME,
-    $sepaCreditTransferMAID,
-    $sepaCreditTransferKey
-);
-
-$config->add($sepaCreditTransferConfig);

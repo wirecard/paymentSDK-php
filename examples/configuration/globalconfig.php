@@ -12,12 +12,15 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
+use Wirecard\PaymentSdk\Config\SepaConfig;
 use Wirecard\PaymentSdk\Transaction\EpsTransaction;
 use Wirecard\PaymentSdk\Transaction\GiropayTransaction;
 use Wirecard\PaymentSdk\Transaction\IdealTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayInstallmentTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayInvoiceTransaction;
 use Wirecard\PaymentSdk\Transaction\RatepayDirectDebitTransaction;
+use Wirecard\PaymentSdk\Transaction\SepaCreditTransferTransaction;
+use Wirecard\PaymentSdk\Transaction\SepaDirectDebitTransaction;
 use Wirecard\PaymentSdk\Transaction\SofortTransaction;
 use Wirecard\PaymentSdk\Transaction\AlipayCrossborderTransaction;
 use Wirecard\PaymentSdk\Transaction\PoiPiaTransaction;
@@ -123,3 +126,18 @@ $payolutionB2BMAID = '2048677d-57f4-44b0-8d67-9014c6631d5f';
 $payolutionB2BSecretKey = '74bd2f0c-6d1b-4e9a-b278-abc34b83ab9f';
 $payolutionB2BConfig = new PaymentMethodConfig(PayolutionBtwobTransaction::NAME, $payolutionB2BMAID, $payolutionB2BSecretKey);
 $config->add($payolutionB2BConfig);
+
+// ### SEPA Direct Debit
+$sepaDirectDebitMAID = '933ad170-88f0-4c3d-a862-cff315ecfbc0';
+$sepaDirectDebitKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
+// SEPA requires the creditor ID, therefore a different config object is used.
+$sepaDirectDebitConfig = new SepaConfig(SepaDirectDebitTransaction::NAME, $sepaDirectDebitMAID, $sepaDirectDebitKey);
+$sepaDirectDebitConfig->setCreditorId('DE98ZZZ09999999999');
+$config->add($sepaDirectDebitConfig);
+
+// ### SEPA Credit Transfer
+$sepaCreditTransferMAID = '59a01668-693b-49f0-8a1f-f3c1ba025d45';
+$sepaCreditTransferKey = 'ecdf5990-0372-47cd-a55d-037dccfe9d25';
+// SEPA requires the creditor ID, therefore a different config object is used.
+$sepaCreditTransferConfig = new SepaConfig(SepaCreditTransferTransaction::NAME, $sepaCreditTransferMAID, $sepaCreditTransferKey);
+$config->add($sepaCreditTransferConfig);

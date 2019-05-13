@@ -9,7 +9,7 @@
 // To include the necessary files, use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
-require __DIR__ . '/../../configuration/sepaconfig.php';
+require __DIR__ . '/../../configuration/globalconfig.php';
 
 require __DIR__ . '/../../inc/header.php';
 
