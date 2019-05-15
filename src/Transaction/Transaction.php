@@ -155,6 +155,11 @@ abstract class Transaction extends Risk
     protected $articleNumbers = [];
 
     /**
+     * @var string
+     */
+    protected $endpoint;
+
+    /**
      * @param string $entryMode
      * @return Transaction
      */
@@ -541,10 +546,24 @@ abstract class Transaction extends Risk
     abstract protected function mappedSpecificProperties();
 
     /**
+     * @param $endpoint
+     * @return Transaction
+     */
+    public function setEndpoint($endpoint)
+    {
+        $this->endpoint = $endpoint;
+        return $this;
+    }
+
+    /**
      * return string
      */
     public function getEndpoint()
     {
+        if (isset($this->endpoint)) {
+            return $this->endpoint;
+        }
+
         return self::ENDPOINT_PAYMENT_METHODS;
     }
 
