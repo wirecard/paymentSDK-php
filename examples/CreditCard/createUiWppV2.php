@@ -1,6 +1,6 @@
 <?php
 
-// # Credit Card UI creation
+// # Credit Card UI WPPv2 creation
 
 // Since the credit card data needs to be sent directly to Wirecard, you need to invoke the creation of a special form
 // for entering the credit card data. This form is created via a javascript. Additional processing also needs
@@ -82,7 +82,7 @@ $transaction->setCustomFields( $custom_fields );
     <?php
     // This library is needed to generate the UI and to get a valid token ID.
     ?>
-    <script src="<?= $baseUrl ?>/loader/paymentPage.js" type="text/javascript"></script>
+    <script src="https://wpp-test.wirecard.com/loader/paymentPage.js" type="text/javascript"></script>
     <style>
         #creditcard-form-div {
             height: 300px;
@@ -174,7 +174,7 @@ $transaction->setCustomFields( $custom_fields );
 <script type="application/javascript">
 
     // This function will render the credit card UI in the specified div.
-    WirecardPaymentPage.seamlessRenderForm({
+    WPP.seamlessRender({
 
         <?php
         // We can send additional fields if we need to. E.g. shopOrderId
@@ -209,7 +209,7 @@ $transaction->setCustomFields( $custom_fields );
             // If not, we will prevent the submission of the form and submit the form of credit card UI instead.
             event.preventDefault();
 
-            WirecardPaymentPage.seamlessSubmitForm({
+            WPP.seamlessSubmit({
                 onSuccess: setParentTransactionId,
                 onError: logCallback
             })
