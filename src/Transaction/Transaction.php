@@ -560,10 +560,6 @@ abstract class Transaction extends Risk
      */
     public function getEndpoint()
     {
-        if (isset($this->endpoint)) {
-            return $this->endpoint;
-        }
-
         return self::ENDPOINT_PAYMENT_METHODS;
     }
 
