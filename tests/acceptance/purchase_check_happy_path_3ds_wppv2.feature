@@ -5,13 +5,13 @@ Feature: check_credit_card_wppv2_3DS_functionality_happy_path
   And to be able to cancel the transaction
 
   Background:
-    Given I am on "Create Credit Card WPPv2 UI Page" page
+    Given I am on "Create Credit Card UI WPPv2 Page" page
     When I fill fields with "Valid Credit Card Data"
     And I click "Save"
 
   @default_gateway
   Scenario: try purchase_check
-    Given I am redirected to "Credit Card WPPv2 Reserve Page" page
+    Given I am redirected to "Credit Card Reserve WPPv2 Page" page
     And I click "Redirect to 3-D Secure page"
     When I am redirected to "Verified Page" page
     And I enter "wirecard" in field "Password"
@@ -22,7 +22,7 @@ Feature: check_credit_card_wppv2_3DS_functionality_happy_path
 
   @default_gateway
   Scenario: try void_purchase_check
-    Given I am redirected to "Credit Card WPPv2 Reserve Page" page
+    Given I am redirected to "Credit Card Reserve WPPv2 Page" page
     And I click "Redirect to 3-D Secure page"
     And I am redirected to "Verified Page" page
     And I enter "wirecard" in field "Password"

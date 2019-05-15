@@ -7,10 +7,10 @@
 
 namespace Page;
 
-class CreditCardCreateUIWppV2 extends Base
+class CreditCardCreateUINon3DWppV2 extends Base
 {
     // include url of current page
-    public $URL = '/CreditCard/createUiWppV2.php';
+    public $URL = '/CreditCard/createUiWppV2NonThreeD.php';
 
     public $page_specific = 'createUi';
 
