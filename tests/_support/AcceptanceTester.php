@@ -26,6 +26,7 @@ use Page\Base;
 use Page\CreditCardCreateUI as CreditCardCreateUIPage;
 use Page\CreditCardCreateUIWppV2 as CreditCardWppV2CreateUiPage;
 use Page\CreditCardReserve as CreditCardReservePage;
+use Page\CreditCardReserveWppV2 as CreditCardWppV2ReservePage;
 use Page\CreditCardSuccess as CreditCardSuccessPage;
 use Page\Verified as VerifiedPage;
 use Page\CreditCardCancel as CreditCardCancelPage;
@@ -58,6 +59,10 @@ class AcceptanceTester extends \Codeception\Actor
                 break;
             case "Credit Card Reserve Page":
                 $page = new CreditCardReservePage($this);
+                $this->wait(15);
+                break;
+            case "Credit Card WPPv2 Reserve Page":
+                $page = new CreditCardWppV2ReservePage($this);
                 $this->wait(15);
                 break;
             case "Credit Card Success Page":

@@ -40,8 +40,9 @@ class CreditCardCreateUIWppV2 extends Base
     {
         $I = $this->tester;
         // Switch to Credit Card UI frame
-        $wirecard_frame = "wirecard-seamless-frame";
-        $I->executeJS('jQuery(".' . $wirecard_frame . '").attr("name", "' . $wirecard_frame . '")');
+        // new id wirecard-integrated-payment-page-frame instead of class
+        $wirecard_frame = "wirecard-integrated-payment-page-frame";
+        $I->executeJS('jQuery("#' . $wirecard_frame . '").attr("name", "' . $wirecard_frame . '")');
         $I->switchToIFrame("$wirecard_frame");
     }
 
@@ -56,6 +57,7 @@ class CreditCardCreateUIWppV2 extends Base
     /**
      * Method Method prepareDataForField
      * @param string $cardData
+     * @throws
      */
     public function fillCreditCardFields($cardData)
     {
@@ -72,7 +74,7 @@ class CreditCardCreateUIWppV2 extends Base
         $I->fillField($this->getElement("Last name"), $data_field_values->last_name);
         $I->fillField($this->getElement("Card number"), $data_field_values->card_number);
         $I->fillField($this->getElement("CVV"), $data_field_values->cvv);
-        $I->fillfield($this->getElement("Valid until month / year"), $data_field_values->valid_until_month);
+        $I->fillfield($this->getElement("Valid until month / year"), '0123');
         $I->switchToIFrame();
     }
 }
