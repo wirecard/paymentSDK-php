@@ -107,7 +107,7 @@ $config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
 // maid and secret in the default CreditCardConfig. However if you want to use non-3-D transactions you have two
 // ways of setting the credentials. First via setting the parameters maid and secret -
 
-// ### Credit Card Non-3-D WPPv1
+// ### Credit Card Non-3-D
 
 $creditcardConfig = new CreditCardConfig();
 
@@ -128,7 +128,7 @@ $creditcardConfig->addThreeDMinLimit(new Amount(50.0, 'EUR'));
 // Amounts larger than threeDMinLimit and smaller or equal nonThreeDLimit will first be tried as 3-D-Secure transaction and
 // will fallback on error as non-3D transaction
 
-// ### Credit Card 3-D WPPv1
+// ### Credit Card 3-D
 
 $creditcardConfig->setThreeDCredentials(
     $gatewayConfig('threed_maid'),
