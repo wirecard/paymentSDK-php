@@ -51,7 +51,8 @@ class CreditCardCreateUI extends Base
      * Method Method prepareDataForField
      * @param string $cardData
      */
-    public function fillCreditCardFields($cardData){
+    public function fillCreditCardFields($cardData)
+    {
         $I = $this->tester;
         $data_field_values = $I->getCardDataFromDataFile($cardData);
         $env = getenv('GATEWAY');

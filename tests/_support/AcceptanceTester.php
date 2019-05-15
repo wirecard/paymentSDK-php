@@ -24,6 +24,7 @@
 use Helper\Acceptance;
 use Page\Base;
 use Page\CreditCardCreateUI as CreditCardCreateUIPage;
+use Page\CreditCardCreateUIWppV2 as CreditCardWppV2CreateUiPage;
 use Page\CreditCardReserve as CreditCardReservePage;
 use Page\CreditCardSuccess as CreditCardSuccessPage;
 use Page\Verified as VerifiedPage;
@@ -51,6 +52,9 @@ class AcceptanceTester extends \Codeception\Actor
         switch ($name) {
             case "Create Credit Card UI Page":
                 $page = new CreditCardCreateUIPage($this);
+                break;
+            case "Create Credit Card WPPv2 UI Page":
+                $page = new CreditCardWppV2CreateUiPage($this);
                 break;
             case "Credit Card Reserve Page":
                 $page = new CreditCardReservePage($this);
