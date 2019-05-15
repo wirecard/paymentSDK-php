@@ -30,11 +30,9 @@ use Page\Verified as VerifiedPage;
 use Page\CreditCardCancel as CreditCardCancelPage;
 use Page\SimulatorPage as SimulatorPage;
 use Page\CreditCardSuccessNon3D as CreditCardSuccessNon3DPage;
-
 // WPPv2 3D
 use Page\CreditCardCreateUIWppV2 as CreditCardCreateUIWppV2Page;
 use Page\CreditCardReserveWppV2 as CreditCardReserveWppV2Page;
-
 // WPPv2 Non 3D
 use Page\CreditCardCreateUINon3DWppV2 as CreditCardCreateUINon3DWppV2Page;
 use Page\CreditCardWppV2SuccessNon3D as CreditCardWppV2SuccessNon3DPage;
