@@ -7,12 +7,10 @@
 
 namespace Page;
 
-class CreditCardCreateUI extends Base
+class CreditCardCreateUI extends CreditCardCreateUiBase
 {
     // include url of current page
     public $URL = '/CreditCard/createUi_tokenize.php';
-
-    public $page_specific = 'createUi';
 
     public $elements = array(
         'First name' => "//*[@id='first_name']",
@@ -27,6 +25,8 @@ class CreditCardCreateUI extends Base
         'Credit Card payment form' => "//*[@id='payment-form']"
     );
 
+    public $wirecard_frame = "wirecard-seamless-frame";
+
     /**
      * Method switchFrame
      */
@@ -35,8 +35,8 @@ class CreditCardCreateUI extends Base
         $I = $this->tester;
         // Switch to Credit Card UI frame
         $wirecard_frame = "wirecard-seamless-frame";
-        $I->executeJS('jQuery(".' . $wirecard_frame . '").attr("name", "' . $wirecard_frame . '")');
-        $I->switchToIFrame("$wirecard_frame");
+        $I->executeJS('jQuery(".' . $this->wirecard_frame . '").attr("name", "' . $this->wirecard_frame . '")');
+        $I->switchToIFrame("$this->wirecard_frame");
     }
 
     /**
@@ -44,42 +44,15 @@ class CreditCardCreateUI extends Base
      */
     public function prepareClick()
     {
-        $I = $this->tester;
-        $I->switchToIFrame();
+        parent::prepareClick();
     }
     /**
      * Method Method prepareDataForField
      * @param string $cardData
+     * @param null $type
      */
-    public function fillCreditCardFields($cardData)
+    public function fillCreditCardFields($cardData, $type = null)
     {
-        $I = $this->tester;
-        $data_field_values = $I->getCardDataFromDataFile($cardData);
-        $env = getenv('GATEWAY');
-        if ('NOVA' == $env || 'API-WDCEE-TEST' == $env || 'API-TEST' == $env) {
-            $I->waitForElementVisible($this->getElement("Last name"));
-            $I->fillField($this->getElement("Last name"), $data_field_values->last_name);
-            $I->fillField($this->getElement("Card number"), $data_field_values->card_number);
-            $I->fillField($this->getElement("CVV"), $data_field_values->cvv);
-            $I->selectOption($this->getElement("Valid until month"), $data_field_values->valid_until_month);
-            $I->selectOption($this->getElement("Valid until year"), $data_field_values->valid_until_year);
-            $I->switchToIFrame();
-        } else if ('TEST-SG' == $env) {
-            $I->waitForElementVisible($this->getElement("First name"));
-            $I->fillField($this->getElement("First name"), $data_field_values->first_name);
-            $I->fillField($this->getElement("Last name"), $data_field_values->last_name);
-            $I->fillField($this->getElement("Card number"), $data_field_values->card_number);
-            $I->fillField($this->getElement("CVV"), $data_field_values->cvv);
-            $I->selectOption($this->getElement("Valid until month"), $data_field_values->valid_until_month);
-            $I->selectOption($this->getElement("Valid until year"), $data_field_values->valid_until_year);
-            $I->switchToIFrame();
-        } else if ('SECURE-TEST-SG' == $env) {
-            $I->waitForElementVisible($this->getElement("Card number"));
-            $I->fillField($this->getElement("Card number"), $data_field_values->card_number);
-            $I->fillField($this->getElement("CVV"), $data_field_values->cvv);
-            $I->selectOption($this->getElement("Valid until month"), $data_field_values->valid_until_month);
-            $I->selectOption($this->getElement("Valid until year"), $data_field_values->valid_until_year);
-            $I->switchToIFrame();
-        }
+        parent::fillCreditCardFields($cardData);
     }
 }
