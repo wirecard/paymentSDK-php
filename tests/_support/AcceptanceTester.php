@@ -61,7 +61,7 @@ class AcceptanceTester extends \Codeception\Actor
                 break;
             case "Credit Card Reserve WPPv2 Page":
                 $page = new CreditCardReserveWppV2Page($this);
-                $this->wait(15);
+                $this->wait(25);
                 break;
             // Credit Card non 3D WPPv2
             case "Create Credit Card UI non 3D WPPv2 Page":
