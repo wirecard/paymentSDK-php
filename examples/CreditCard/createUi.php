@@ -178,12 +178,21 @@ $transaction->setCustomFields( $custom_fields );
 
         <?php
         // We can send additional fields if we need to. E.g. shopOrderId
-        $additionalData = ['shopOrderId' => 53];
+        $additionalData     = ['shopOrderId' => 53];
+        // Note: not every language is supported, try to negotiate a match and define a fallback
+        $language           = 'en'; // your preferred language
+        $fallbackLanguage   = 'en'; // default language
+        $eeLanguages        = $transactionService->getBackendLanguages(); // JSON encoded
+        $supportedLanguages = array_keys(json_decode($eeLanguages, JSON_OBJECT_AS_ARRAY));
+        $transactionService->getBackendLanguages();
+        if (empty($supportedLanguages) || !in_array($language, $supportedLanguages)) {
+            $language = $fallbackLanguage;
+        }
         ?>
 
         // We fill the _requestData_ with the return value
         // from the `getCreditCardUiWithData` method of the `transactionService` which expects a transaction with all desired parameters.
-        requestData: <?= $transactionService->getCreditCardUiWithData($transaction, 'authorization', 'en'); ?>,
+        requestData: <?= $transactionService->getCreditCardUiWithData($transaction, 'authorization', $language); ?>,
         wrappingDivId: "creditcard-form-div",
         onSuccess: logCallback,
         onError: logCallback

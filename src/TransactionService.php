@@ -953,7 +953,8 @@ class TransactionService
         $cacheFilename = $this->getLanguageCacheFileName();
         if (file_exists($cacheFilename) && !is_writable($cacheFilename)) {
             return;
-        } elseif (!file_exists($cacheFilename) && !is_writable(sys_get_temp_dir())) {
+        }
+        if (!file_exists($cacheFilename) && !is_writable(sys_get_temp_dir())) {
             return;
         }
 
