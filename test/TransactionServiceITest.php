@@ -54,7 +54,7 @@ class TransactionServiceITest extends \PHPUnit_Framework_TestCase
         $config = new \Wirecard\PaymentSdk\Config\Config($baseUrl, '', '');
         $service = new TransactionService($config);
 
-        $backendLanguages = $service->getBackendLanguages();
+        $backendLanguages = $service->getBackendLanguages(0.5);
         $this->assertNotEmpty($backendLanguages);
         $this->isJson($backendLanguages);
     }
