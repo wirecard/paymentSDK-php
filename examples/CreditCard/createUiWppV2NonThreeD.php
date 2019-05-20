@@ -31,11 +31,11 @@ $orderNumber = 'A2';
 
 // For each item you have to set some properties as described here.
 // Required: name, price, quantity, article number, tax rate.
-$item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(400, 'EUR'), 1);
+$item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(10, 'EUR'), 1);
 $item1->setArticleNumber('A1');
 $item1->setTaxRate(10.0);
 
-$item2 = new \Wirecard\PaymentSdk\Entity\Item('Item 2', new Amount(1000, 'EUR'), 2);
+$item2 = new \Wirecard\PaymentSdk\Entity\Item('Item 2', new Amount(10, 'EUR'), 2);
 $item2->setArticleNumber('B2');
 $item2->setTaxRate(20.0);
 
