@@ -87,8 +87,8 @@ before_deploy:
 
 deploy:
   provider: releases
-  api_key:
-    secure: BOCYBPIqK0gpRmPf34Nj2nOWjpqEO7s63AKw0Ct/sN6MPaaIX/Op/REJMx4jTj74QpSRKNfaKsn4a2IL42eh96H3fJJp8nRXoycwC9EK4SFF53PxOn6VuSpvyAqTYash5efmlmFQgxYfEsqZbuT9ogPVfHKwIQRyOZkERXCX+pEYsGnNW7K0gw/2X5wSgSXvEtTW58sh4K1ewJQpUXTxgN9B72Kcu9nZuLckusWuKle/4rhfmMX284Hel8DsjA55ENg6CtrCeQR16RYMDs/+J7LwStonByDVXYhi4frPL5SB5/MFXzi3qHDMMp9WV1ihrNT0ho5rMgcZwReiFdCVEsTN3mVAIYhuGtKWkAIP3JHzv4prONEeBv66drr6l/OOBkeB1V0QCm9c+dvDiDbvAt7GMh6Jtq8nsEmue421GUcsWLwTa01iROkyfEAkmidKZULMDjUArVrcEwd1Gxd2v4mXQGJkJepGOOjZi/FbnPHGoZ9KaBm4IX5b52CjrMeg+JHxEKv8dvUGl1lZULYMrkRuLbAyrUsuEodyygYliY6sJUFPCjsuEYumw3N6yEkn2+c2WZjsbB7Igv0F/B6kRItUR7TIQvR7svioJaaydHf6dFFOBh8rrcDvmOimB7vvIRr0cmkyAH2PvW5/uYFqcr17epU3c0ZV7nhApoVOeSM=
+  github_token: ${GITHUB_TOKEN}
+  api_key: ${GITHUB_TOKEN}
   file: target/wirecard-paymentSDK-php-$TRAVIS_TAG.zip
   skip_cleanup: true
   on:
