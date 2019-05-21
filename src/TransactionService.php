@@ -894,6 +894,7 @@ class TransactionService
     /**
      * Access to the configuration object which was set in constructor
      *
+     * @since 3.6.3
      * @return Config
      */
     public function getConfig()
@@ -909,18 +910,20 @@ class TransactionService
      *
      * The result is a JSON contains languageCode => languageName
      *
+     * @since 3.7.0
      * @param int|float $cacheTtlInMinutes How long a valid result is cached
      * @return string|null list of supported backend languages, as JSON
      */
     public function getBackendLanguages($cacheTtlInMinutes = 1400)
     {
-        $baseUrl      = $this->config->getBaseUrl();
+        $baseUrl = $this->config->getBaseUrl();
         return $this->backendLanguagesService->getBackendLanguages($baseUrl, $cacheTtlInMinutes);
     }
 
     /**
      * Allow override the default implementation to request backend languages
      *
+     * @since 3.7.0
      * @param BackendLanguagesService $implementation Instance of BackendLanguagesService
      */
     public function setBackendLanguagesService(BackendLanguagesService $implementation)
@@ -930,10 +933,12 @@ class TransactionService
 
     /**
      * Init default BackendLanguagesService
+     *
+     * @since 3.7.0
      */
     private function initBackendLanguagesService()
     {
-        $fsCache = new FileSystemCache('hpp_backend_languages.json');
+        $fsCache = new FileSystemCache(self::HPP_LANGUAGE_CACHEFILE);
         $service = new CachedBackendLanguageService(
             $this->httpClient,
             $this->messageFactory,

@@ -41,6 +41,7 @@ interface Cache
      *
      * NOTE: Any existing entry stored with $key will be overwritten
      *
+     * @since 3.7.0
      * @param string $key Cache key
      * @return mixed|null Payload, null if no payload found
      */
@@ -51,6 +52,7 @@ interface Cache
      *
      * Supported payload types: string|array|integer|double
      *
+     * @since 3.7.0
      * @param string $key Cache key
      * @param mixed $payload Cache payload
      */
@@ -59,12 +61,15 @@ interface Cache
     /**
      * Remove a specific value from the cache
      *
+     * @since 3.7.0
      * @param string $key Cache key
      */
     public function remove($key);
 
     /**
      * Clear all values from the cache
+     *
+     * @since 3.7.0
      */
     public function clear();
 }

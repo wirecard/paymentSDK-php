@@ -51,10 +51,11 @@ class TransactionServiceITest extends \PHPUnit_Framework_TestCase
     public function testBackendLanguageCache()
     {
         $baseUrl = 'https://api-test.wirecard.com';
-        $config = new \Wirecard\PaymentSdk\Config\Config($baseUrl, '', '');
+        $config  = new \Wirecard\PaymentSdk\Config\Config($baseUrl, '', '');
         $service = new TransactionService($config);
 
         $backendLanguages = $service->getBackendLanguages(0.5);
+
         $this->assertNotEmpty($backendLanguages);
         $this->isJson($backendLanguages);
     }

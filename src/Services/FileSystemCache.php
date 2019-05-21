@@ -44,6 +44,7 @@ class FileSystemCache implements Cache
      *
      * Filename is mandatory, folder name optionally.
      *
+     * @since 3.7.0
      * @param string $cacheFile Name of the file inside $cacheFolder
      * @param string|null $cacheFolder Cachefolder, null to use system temp dir as default
      */
@@ -66,6 +67,7 @@ class FileSystemCache implements Cache
      *
      * If entry not found, null is returned
      *
+     * @since 3.7.0
      * @param string $key Key to access the specific value
      * @return mixed|null Stored payload, or null if no value found
      */
@@ -83,12 +85,13 @@ class FileSystemCache implements Cache
      *
      * Supported payload types: string|array|integer|double
      *
+     * @since 3.7.0
      * @param string $key Key to access the specific value
      * @param mixed $payload Payload to store
      */
     public function store($key, $payload)
     {
-        $cacheData = $this->readData();
+        $cacheData       = $this->readData();
         $cacheData[$key] = $payload;
         $this->writeData($cacheData);
     }
@@ -96,6 +99,7 @@ class FileSystemCache implements Cache
     /**
      * Remove a specific value from cache.
      *
+     * @since 3.7.0
      * @param string $key Key to access the specific value
      */
     public function remove($key)
@@ -109,6 +113,8 @@ class FileSystemCache implements Cache
 
     /**
      * Clear the complete cache
+     *
+     * @since 3.7.0
      */
     public function clear()
     {
@@ -119,6 +125,7 @@ class FileSystemCache implements Cache
     /**
      * Build the full path name to cachefile (folder + filename)
      *
+     * @since 3.7.0
      * @return string
      */
     private function buildCacheFileName()
@@ -137,11 +144,12 @@ class FileSystemCache implements Cache
      * NOTE: There is no notification if cache is misconfigured and
      * not available!
      *
+     * @since 3.7.0
      * @param array $newCacheData complete cache content
      */
     private function writeData(array $newCacheData)
     {
-        $filename = $this->buildCacheFileName();
+        $filename    = $this->buildCacheFileName();
         $isWriteable = (
             (file_exists($filename) && is_writable($filename))
             || (!file_exists($filename) && is_writable($this->cacheFolder))
@@ -158,13 +166,14 @@ class FileSystemCache implements Cache
      * The result is a map $key => $payload with one entry per
      * cache line.
      *
+     * @since 3.7.0
      * @return array always an array, maybe an empty one
      */
     private function readData()
     {
         $filename = $this->buildCacheFileName();
         if (file_exists($filename)) {
-            $rawContent = file_get_contents($filename);
+            $rawContent  = file_get_contents($filename);
             $decodedData = json_decode($rawContent, JSON_OBJECT_AS_ARRAY);
             if (!empty($decodedData)) {
                 return $decodedData;

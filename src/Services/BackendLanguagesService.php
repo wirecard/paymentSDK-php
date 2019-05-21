@@ -45,6 +45,7 @@ interface BackendLanguagesService
      *
      * If the service not available/not reachable, null is returned.
      *
+     * @since 3.7.0
      * @param string $baseUrl baseUrl of gateway to check languages
      * @param int|double $cacheTtlInMinutes time to live for a valid result
      * @return string|null JSON string contains backend languages, or null

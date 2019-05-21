@@ -59,6 +59,7 @@ class CachedBackendLanguageService implements BackendLanguagesService
      * The default service implementation expects some other objects to re-use
      * it instead instanciate an own copy.
      *
+     * @since 3.7.0
      * @param HttpMethodsClient $httpClient   PSR-18 Http Client
      * @param MessageFactory $messageFactory  PSR-7 Message Factory
      * @param Cache $cache                    Cache implementation
@@ -92,6 +93,7 @@ class CachedBackendLanguageService implements BackendLanguagesService
      *
      * If the service not available/not reachable, null is returned.
      *
+     * @since 3.7.0
      * @param string $baseUrl baseUrl of gateway to check languages
      * @param int|double $cacheTtlInMinutes time to live for a valid result, 0 will disable caching
      * @return string|null JSON string contains backend languages, or null
@@ -118,6 +120,7 @@ class CachedBackendLanguageService implements BackendLanguagesService
      * With $cacheTtlInMinutes a found cache hit is checked if the payload
      * outdated or not.
      *
+     * @since 3.7.0
      * @param string $baseUrl
      * @param int|double $cacheTtlInMinutes time to live for a valid result
      * @return string|null JSON string contains backend languages, or null
@@ -147,6 +150,7 @@ class CachedBackendLanguageService implements BackendLanguagesService
      * $baseUrl is used as key, the cache time is automatically added so
      * later access to cache is able to check if result outdated or not
      *
+     * @since 3.7.0
      * @param string $baseUrl here used as cache key
      * @param string $backendLanguages JSON encoded map of backend languages
      */
@@ -164,6 +168,7 @@ class CachedBackendLanguageService implements BackendLanguagesService
      *
      * If web service not available null is returned.
      *
+     * @since 3.7.0
      * @param string $baseUrl
      * @return string|null JSON string contains backend languages, or null
      */
