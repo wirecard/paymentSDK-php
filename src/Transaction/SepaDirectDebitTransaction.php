@@ -40,6 +40,11 @@ class SepaDirectDebitTransaction extends Transaction implements Reservable
     const NAME = 'sepadirectdebit';
 
     /**
+     * @var bool
+     */
+    protected $sepaCredit = true;
+
+    /**
      * @var string
      */
     private $iban;
