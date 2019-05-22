@@ -64,22 +64,18 @@ class SuccessResponse extends Response
 
     /**
      * @return string
-     * @throws MalformedResponseException
      */
     private function findProviderTransactionId()
     {
         $result = null;
         foreach ($this->simpleXml->{'statuses'}->{'status'} as $status) {
-            if ($result === null) {
-                $result = $status['provider-transaction-id'];
-            }
-
-            if (isset($status['provider-transaction-id']) &&
-                strcmp($result, $status['provider-transaction-id']) !== 0) {
-                throw new MalformedResponseException('More different provider transaction ID-s in response.');
+            if (isset($status['provider-transaction-id'])) {
+                $result[] = $status['provider-transaction-id'];
             }
         }
-
+        if (is_array($result)) {
+            $result = implode(',', $result);
+        }
         return (string)$result;
     }
 

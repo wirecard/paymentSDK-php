@@ -25,7 +25,9 @@
     "symfony/debug": "^3",
     "symfony/console": "^3",
     "symfony/process": "^3",
-    "symfony/yaml": "^3"
+    "symfony/yaml": "^3",
+    "ext-simplexml": "*",
+    "ext-dom": "*"
   },
   "scripts": {
     "upload-coverage": "codacycoverage clover build/coverage/xml",
