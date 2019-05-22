@@ -50,9 +50,10 @@ if (!isset($_POST['iban']) && !isset($_POST['parentTransactionId'])) {
         $amount = new Amount(12.59, 'EUR');
     }
 
-// The account holder (first name, last name) is required.
+// The account holder last name is required.
     $accountHolder = new AccountHolder();
     $accountHolder->setLastName('Doe');
+// The account holders first name is optional.
     $accountHolder->setFirstName('Jane');
 
 // A mandate with ID and signed date is required.
