@@ -42,7 +42,12 @@ class FileSystemCache implements Cache
     /**
      * FileSystemCache constructor.
      *
-     * Filename is mandatory, folder name optionally.
+     * Filename $cacheFile is mandatory, foldername $cacheFolder optionally.
+     *
+     * Note:
+     * - $cacheFolder should not end with directory separator
+     * - it's recommended to use an absolute path for $cacheFolder
+     * - if $cacheFolder is empty, systems temp folder is used by default
      *
      * @since 3.7.0
      * @param string $cacheFile Name of the file inside $cacheFolder

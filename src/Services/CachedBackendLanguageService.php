@@ -43,6 +43,8 @@ class CachedBackendLanguageService implements BackendLanguagesService
     const KEY_CACHETIME = 'cachetime';
     /** @var string internal key to access the payload of a cache hit */
     const KEY_PAYLOAD   = 'payload';
+    /** @var string path to build URL for requesting backend languages */
+    const URL_PATH_BACKEND_LANGUAGES = '/engine/includes/i18n/languages/hpplanguages.json';
 
     /** @var Cache cache implementation */
     private $cache;
@@ -174,7 +176,7 @@ class CachedBackendLanguageService implements BackendLanguagesService
      */
     private function fetchResultFromWeb($baseUrl)
     {
-        $url = $baseUrl . '/engine/includes/i18n/languages/hpplanguages.json';
+        $url = $baseUrl . self::URL_PATH_BACKEND_LANGUAGES;
         try {
             $request = $this->messageFactory->createRequest('GET', $url);
             return $this->httpClient->sendRequest($request)->getBody()->getContents();

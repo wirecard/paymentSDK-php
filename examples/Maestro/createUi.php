@@ -182,8 +182,8 @@ $transaction->setCustomFields( $custom_fields );
         // Note: not every language is supported, try to negotiate a match and define a fallback
         $language           = 'en'; // your preferred language
         $fallbackLanguage   = 'en'; // default language
-        $eeLanguages        = $transactionService->getBackendLanguages(); // JSON encoded
-        $supportedLanguages = array_keys(json_decode($eeLanguages, JSON_OBJECT_AS_ARRAY));
+        $gatewayLanguages   = $transactionService->getBackendLanguages(); // JSON encoded
+        $supportedLanguages = array_keys(json_decode($gatewayLanguages, JSON_OBJECT_AS_ARRAY));
         $transactionService->getBackendLanguages();
         if (empty($supportedLanguages) || !in_array($language, $supportedLanguages)) {
             $language = $fallbackLanguage;

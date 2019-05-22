@@ -39,8 +39,6 @@ interface Cache
      *
      * If value not found or cache not available, null is returned
      *
-     * NOTE: Any existing entry stored with $key will be overwritten
-     *
      * @since 3.7.0
      * @param string $key Cache key
      * @return mixed|null Payload, null if no payload found
@@ -51,6 +49,8 @@ interface Cache
      * Store a value into cache
      *
      * Supported payload types: string|array|integer|double
+     *
+     * NOTE: Any existing entry stored with $key will be overwritten
      *
      * @since 3.7.0
      * @param string $key Cache key
