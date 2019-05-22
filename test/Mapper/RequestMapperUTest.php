@@ -31,6 +31,7 @@
 
 namespace WirecardTest\PaymentSdk\Mapper;
 
+use PHPUnit_Framework_TestCase;
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
@@ -45,7 +46,7 @@ use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
-class RequestMapperUTest extends \PHPUnit_Framework_TestCase
+class RequestMapperUTest extends PHPUnit_Framework_TestCase
 {
     const MAID = 'B612';
 
@@ -91,22 +92,23 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $followupTransaction->setParentTransactionType(Transaction::TYPE_CREDIT);
         $followupTransaction->setOperation(Operation::CREDIT);
         $followupTransaction->setConfig($config);
+        $followupTransaction->setLocale('de');
 
-        $_SERVER['REMOTE_ADDR'] = 'test';
-
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '0.0.0.1';
         $result = $mapper->map($followupTransaction);
 
         $expectedResult = ['payment' => [
             'request-id' => '5B-dummy-id',
             'merchant-account-id' => ['value' => 'B612'],
             'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
+            'ip-address' => '0.0.0.1',
             'parent-transaction-id' => '642',
-            'ip-address' => 'test',
             'locale' => 'de',
             'entry-mode' => 'ecommerce',
             'transaction-type' => 'credit'
         ]];
-        $this->assertEquals(json_encode($expectedResult), $result);
+        $this->assertJsonStringEqualsJsonString(json_encode($expectedResult), $result);
     }
 
     /**
@@ -156,7 +158,7 @@ class RequestMapperUTest extends \PHPUnit_Framework_TestCase
         $transaction->setDevice(new Device());
         $transaction->setPeriodic(new Periodic('ci', 'first'));
 
-        $_SERVER['REMOTE_ADDR'] = 'test';
+        $_SERVER['REMOTE_ADDR'] = '0.0.0.1';
 
         $requestdata = ['transaction-type' => 'authorization'];
 

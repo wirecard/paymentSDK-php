@@ -31,6 +31,7 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use PHPUnit_Framework_TestCase;
 use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Card;
@@ -40,7 +41,7 @@ use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
-class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
+class CreditCardTransactionUTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var CreditCardTransaction
@@ -93,7 +94,7 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
 
     public function testSslCreditCardTransactionWithTokenId()
     {
-        $_SERVER['REMOTE_ADDR'] = 'test IP';
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 
         $expectedResult = [
             'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
@@ -102,7 +103,7 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
             'card-token' => [
                 'token-id' => '21'
             ],
-            'ip-address' => 'test IP',
+            'ip-address' => '127.0.0.1',
             'merchant-account-id' => [
                 'value' => 'maid'
             ],
@@ -124,7 +125,7 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
 
     public function testSslCreditCardTransactionWithTokenIdAndSubMerchantInfo()
     {
-        $_SERVER['REMOTE_ADDR'] = 'test IP';
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 
         $id = '12345';
         $name = 'my name';
@@ -159,7 +160,7 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
             'card-token' => [
                 'token-id' => '45'
             ],
-            'ip-address' => 'test IP',
+            'ip-address' => '127.0.0.1',
             'merchant-account-id' => [
                 'value' => 'maid'
             ],
@@ -244,13 +245,13 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
 
     public function testSslCreditCardTransactionWithBothTokenIdAndParentTransactionId()
     {
-        $_SERVER['REMOTE_ADDR'] = 'test IP';
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 
         $expectedResult = [
             'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
             'requested-amount' => ['currency' => 'EUR', 'value' => 24],
             'parent-transaction-id' => 'parent5',
-            'ip-address' => 'test IP',
+            'ip-address' => '127.0.0.1',
             'transaction-type' => 'referenced-authorization',
             'card-token' => [
                 'token-id' => '33'
@@ -327,14 +328,14 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
         $transaction->setParentTransactionId('642');
         $transaction->setParentTransactionType($transactionType);
         $transaction->setOperation(Operation::CANCEL);
-        $_SERVER['REMOTE_ADDR'] = 'test';
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 
         $result = $transaction->mappedProperties();
 
         $expectedResult = [
             'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
             'parent-transaction-id' => '642',
-            'ip-address' => 'test',
+            'ip-address' => '127.0.0.1',
             'transaction-type' => $cancelType,
             'merchant-account-id' => [
                 'value' => 'maid'
@@ -379,14 +380,14 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
         $transaction->setParentTransactionId('642');
         $transaction->setParentTransactionType($transactionType);
         $transaction->setOperation(Operation::PAY);
-        $_SERVER['REMOTE_ADDR'] = 'test';
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '127.0.0.1,0.0.0.1';
 
         $result = $transaction->mappedProperties();
 
         $expectedResult = [
             'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
             'parent-transaction-id' => '642',
-            'ip-address' => 'test',
+            'ip-address' => '127.0.0.1',
             'transaction-type' => $payType,
             'merchant-account-id' => [
                 'value' => 'maid'
@@ -417,9 +418,8 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
         $transaction->setConfig($this->config);
         $transaction->setParentTransactionId('642');
         $transaction->setParentTransactionType('test');
+        $transaction->setLocale('de');
         $transaction->setOperation(Operation::CANCEL);
-        $_SERVER['REMOTE_ADDR'] = 'test';
-
         $transaction->mappedProperties();
     }
 
@@ -456,14 +456,13 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
         $transaction->setParentTransactionId('642');
         $transaction->setParentTransactionType($transactionType);
         $transaction->setOperation(Operation::REFUND);
-        $_SERVER['REMOTE_ADDR'] = 'test';
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 
         $result = $transaction->mappedProperties();
-
         $expectedResult = [
             'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
             'parent-transaction-id' => '642',
-            'ip-address' => 'test',
+            'ip-address' => '127.0.0.1',
             'transaction-type' => $refundType,
             'merchant-account-id' => [
                 'value' => 'maid'
@@ -495,7 +494,7 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
         $transaction->setParentTransactionId('642');
         $transaction->setParentTransactionType('test');
         $transaction->setOperation(Operation::REFUND);
-        $_SERVER['REMOTE_ADDR'] = 'test';
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 
         $transaction->mappedProperties();
     }
@@ -508,14 +507,14 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
         $transaction->setParentTransactionType(Transaction::TYPE_CREDIT);
         $transaction->setOperation(Operation::CREDIT);
 
-        $_SERVER['REMOTE_ADDR'] = 'test';
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 
         $result = $transaction->mappedProperties();
 
         $expectedResult = [
             'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
             'parent-transaction-id' => '642',
-            'ip-address' => 'test',
+            'ip-address' => '127.0.0.1',
             'transaction-type' => 'credit',
             'merchant-account-id' => [
                 'value' => 'maid'
@@ -582,12 +581,12 @@ class CreditCardTransactionUTest extends \PHPUnit_Framework_TestCase
      */
     public function testThreeDCreditCardTransaction($operation, $parentTransactionType, $expectedType)
     {
-        $_SERVER['REMOTE_ADDR'] = 'test IP';
+        $_SERVER['REMOTE_ADDR'] = '192.168.1.1';
         $expectedResult = [
             'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
             'requested-amount' => ['currency' => 'EUR', 'value' => 24],
             'parent-transaction-id' => 'parent54',
-            'ip-address' => 'test IP',
+            'ip-address' => '192.168.1.1',
             'transaction-type' => $expectedType,
             'card-token' => [
                 'token-id' => '21'

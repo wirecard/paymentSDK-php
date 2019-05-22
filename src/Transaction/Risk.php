@@ -120,7 +120,19 @@ abstract class Risk
      */
     public function getIpAddress()
     {
-        return $this->ipAddress;
+        if (isset($this->ipAddress)) {
+            return $this->ipAddress;
+        } else {
+            if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $_SERVER['HTTP_X_FORWARDED_FOR']) {
+                if (strpos($_SERVER['HTTP_X_FORWARDED_FOR'], ',')) {
+                    $ips = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+                    return $ips[0];
+                } else {
+                    return $_SERVER['HTTP_X_FORWARDED_FOR'];
+                }
+            }
+            return isset($_SERVER['REMOTE_ADDR'])? $_SERVER['REMOTE_ADDR'] : null;
+        }
     }
 
     /**
@@ -222,8 +234,8 @@ abstract class Risk
             $data['account-holder'] = $this->accountHolder->mappedProperties();
         }
 
-        if (null !== $this->ipAddress) {
-            $data['ip-address'] = $this->ipAddress;
+        if (null !== $this->getIpAddress()) {
+            $data['ip-address'] = $this->getIpAddress();
         }
 
         if (null !== $this->consumerId) {

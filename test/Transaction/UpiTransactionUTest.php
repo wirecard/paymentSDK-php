@@ -31,13 +31,14 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use PHPUnit_Framework_TestCase;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Transaction\UpiTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
-class UpiTransactionUTest extends \PHPUnit_Framework_TestCase
+class UpiTransactionUTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var UpiTransaction
@@ -45,7 +46,7 @@ class UpiTransactionUTest extends \PHPUnit_Framework_TestCase
     private $tx;
 
     /**
-     * @var UpiConfig
+     * @var PaymentMethodConfig Upi
      */
     private $config;
 
@@ -97,7 +98,7 @@ class UpiTransactionUTest extends \PHPUnit_Framework_TestCase
 
     public function testSslUpiTransactionWithTokenId()
     {
-        $_SERVER['REMOTE_ADDR'] = 'test IP';
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 
         $expectedResult = [
             'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
@@ -106,7 +107,7 @@ class UpiTransactionUTest extends \PHPUnit_Framework_TestCase
             'card-token' => [
                 'token-id' => '21'
             ],
-            'ip-address' => 'test IP',
+            'ip-address' => '127.0.0.1',
             'entry-mode' => 'ecommerce',
             'locale' => 'de',
             'periodic' => ['periodic-type' => 'recurring']
@@ -195,14 +196,14 @@ class UpiTransactionUTest extends \PHPUnit_Framework_TestCase
         $transaction->setParentTransactionId('642');
         $transaction->setParentTransactionType($transactionType);
         $transaction->setOperation(Operation::CANCEL);
-        $_SERVER['REMOTE_ADDR'] = 'test';
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 
         $result = $transaction->mappedProperties();
 
         $expectedResult = [
             'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
             'parent-transaction-id' => '642',
-            'ip-address' => 'test',
+            'ip-address' => '127.0.0.1',
             'transaction-type' => $cancelType,
             'entry-mode' => 'ecommerce',
             'locale' => 'de',
@@ -229,7 +230,7 @@ class UpiTransactionUTest extends \PHPUnit_Framework_TestCase
         $transaction->setParentTransactionId('642');
         $transaction->setParentTransactionType('test');
         $transaction->setOperation(Operation::CANCEL);
-        $_SERVER['REMOTE_ADDR'] = 'test';
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 
         $transaction->mappedProperties();
     }
@@ -264,14 +265,14 @@ class UpiTransactionUTest extends \PHPUnit_Framework_TestCase
         $transaction->setParentTransactionId('642');
         $transaction->setParentTransactionType($transactionType);
         $transaction->setOperation(Operation::PAY);
-        $_SERVER['REMOTE_ADDR'] = 'test';
+        $_SERVER['REMOTE_ADDR'] = '0.0.0.1';
 
         $result = $transaction->mappedProperties();
 
         $expectedResult = [
             'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
             'parent-transaction-id' => '642',
-            'ip-address' => 'test',
+            'ip-address' => '0.0.0.1',
             'transaction-type' => $payType,
             'entry-mode' => 'ecommerce',
             'locale' => 'de',
@@ -312,14 +313,15 @@ class UpiTransactionUTest extends \PHPUnit_Framework_TestCase
         $transaction->setParentTransactionId('642');
         $transaction->setParentTransactionType($transactionType);
         $transaction->setOperation(Operation::REFUND);
-        $_SERVER['REMOTE_ADDR'] = 'test';
+        $transaction->setLocale('de');
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 
         $result = $transaction->mappedProperties();
 
         $expectedResult = [
             'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
             'parent-transaction-id' => '642',
-            'ip-address' => 'test',
+            'ip-address' => '127.0.0.1',
             'transaction-type' => $refundType,
             'entry-mode' => 'ecommerce',
             'locale' => 'de',
@@ -348,7 +350,7 @@ class UpiTransactionUTest extends \PHPUnit_Framework_TestCase
         $transaction->setParentTransactionId('642');
         $transaction->setParentTransactionType('test');
         $transaction->setOperation(Operation::REFUND);
-        $_SERVER['REMOTE_ADDR'] = 'test';
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 
         $transaction->mappedProperties();
     }
