@@ -152,7 +152,8 @@ class SuccessResponseUTest extends PHPUnit_Framework_TestCase
         $status3->addAttribute('description', '3d-acquirer:Cardholder Successfully authenticated.');
         $status3->addAttribute('severity', 'information');
         $response = new SuccessResponse($xml);
-        $this->assertEquals('C016768154324581511879,C275923154324581440567', $response->getProviderTransactionId());
+        $expectedResponse = ['C016768154324581511879','C275923154324581440567'];
+        $this->assertEquals($expectedResponse, $response->getProviderTransactionId(true));
     }
 
     public function testGetPaymentMethod()
