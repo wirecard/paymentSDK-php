@@ -31,6 +31,7 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use PHPUnit_Framework_TestCase;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
@@ -38,7 +39,7 @@ use Wirecard\PaymentSdk\Transaction\PtwentyfourTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
-class PtwentyfourTransactionUTest extends \PHPUnit_Framework_TestCase
+class PtwentyfourTransactionUTest extends PHPUnit_Framework_TestCase
 {
     const SUCCESS_URL = 'http://www.example.com/success';
     const CANCEL_URL = 'http://www.example.com/cancel';
@@ -55,6 +56,8 @@ class PtwentyfourTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx = new PtwentyfourTransaction();
         $this->tx->setRedirect($redirect);
         $this->tx->setAmount(new Amount(33, 'PLN'));
+        $this->tx->setLocale('de');
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '0.0.0.1';
     }
 
     public function testGetEndpointPayments()
@@ -133,6 +136,7 @@ class PtwentyfourTransactionUTest extends \PHPUnit_Framework_TestCase
             'fail-redirect-url' => self::FAILURE_URL,
             'locale' => 'de',
             'entry-mode' => 'ecommerce',
+            'ip-address' => '0.0.0.1'
         ];
 
         $this->tx->setOperation(Operation::PAY);

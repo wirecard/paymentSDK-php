@@ -31,9 +31,12 @@
 
 namespace WirecardTest\PaymentSdk\Response;
 
+use DOMDocument;
+use PHPUnit_Framework_TestCase;
+use SimpleXMLElement;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 
-class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
+class SuccessResponseUTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var SuccessResponse
@@ -41,7 +44,7 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
     private $response;
 
     /**
-     * @var \SimpleXMLElement $simpleXml
+     * @var SimpleXMLElement $simpleXml
      */
     private $simpleXml;
 
@@ -104,17 +107,17 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
                             <cardholder-authentication-status>Y</cardholder-authentication-status>
                         </three-d>
                     </payment>');
-        $this->response = new SuccessResponse($this->simpleXml, false);
+        $this->response = new SuccessResponse($this->simpleXml);
     }
 
     private function getSimpleXmlWithout($tag)
     {
-        $doc = new \DOMDocument();
+        $doc = new DOMDocument();
         $doc->loadXml($this->simpleXml->asXML());
         $document = $doc->documentElement;
         $element = $document->getElementsByTagName($tag)->item(0);
         $element->parentNode->removeChild($element);
-        return new \SimpleXMLElement($doc->saveXML());
+        return new SimpleXMLElement($doc->saveXML());
     }
 
     public function testGetTransactionType()
@@ -148,19 +151,19 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
         $status3->addAttribute('description', 'Ok.');
         $status3->addAttribute('severity', 'Information');
 
-        new SuccessResponse($xml, false);
+        new SuccessResponse($xml);
     }
 
     public function testGetPaymentMethod()
     {
-        $response = new SuccessResponse($this->simpleXml, false);
+        $response = new SuccessResponse($this->simpleXml);
         $this->assertEquals('paypal', $response->getPaymentMethod());
     }
 
     public function testGetPaymentMethodWithoutPaymentMethodArray()
     {
         $xml = $this->getSimpleXmlWithout('payment-methods');
-        $response = new SuccessResponse($xml, false);
+        $response = new SuccessResponse($xml);
         $this->assertEquals('', $response->getPaymentMethod());
     }
 
@@ -170,7 +173,7 @@ class SuccessResponseUTest extends \PHPUnit_Framework_TestCase
         /** @var \SimpleXMLElement $pms */
         $pms = $xml->{'payment-methods'};
         $pms->addChild('payment-method');
-        $response = new SuccessResponse($xml, false);
+        $response = new SuccessResponse($xml);
         $this->assertEquals(null, $response->getPaymentMethod());
     }
 
