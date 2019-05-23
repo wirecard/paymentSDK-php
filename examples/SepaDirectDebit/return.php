@@ -12,6 +12,8 @@ require __DIR__ . '/../inc/sepaconfig.php';
 //Header design
 require __DIR__ . '/../inc/header.php';
 
+use Wirecard\PaymentSdk\BackendService;
+use Wirecard\PaymentSdk\Transaction\SepaDirectDebitTransaction;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\TransactionService;
@@ -66,5 +68,18 @@ if ($response instanceof SuccessResponse) {
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 }
+$backendService = new BackendService($config);
+$transaction = new SepaDirectDebitTransaction();
+$transaction->setParentTransactionId($response->getTransactionId());
+
+// ### Retrieve possible operations for the transaction. An array of possible operations is returned
+echo '<br>Possible backend operations: ' .
+    print_r($backendService->retrieveBackendOperations($transaction, true), true) . '<br>';
+// ### Check it the state of the transaction is final.
+echo '<br>Is '. $response->getTransactionType() .' final: ' .
+    printf($backendService->isFinal($response->getTransactionType())) . '<br>';
+// ### Get order state of the transaction
+echo '<br>Order state: ' . $backendService->getOrderState($response->getTransactionType());
+
 //Footer design
 require __DIR__ . '/../inc/footer.php';
