@@ -16,6 +16,8 @@
     "whichbrowser/parser": "^2.0"
   },
   "require-dev": {
+    "ext-simplexml": "*",
+    "ext-dom": "*",
     "phpunit/phpunit": "^5.7",
     "squizlabs/php_codesniffer": "^3.3",
     "mikey179/vfsstream": "^1.6",
@@ -25,9 +27,7 @@
     "symfony/debug": "^3",
     "symfony/console": "^3",
     "symfony/process": "^3",
-    "symfony/yaml": "^3",
-    "ext-simplexml": "*",
-    "ext-dom": "*"
+    "symfony/yaml": "^3"
   },
   "scripts": {
     "upload-coverage": "codacycoverage clover build/coverage/xml",
