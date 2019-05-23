@@ -47,7 +47,7 @@ class SuccessResponse extends Response
     /**
      * @var array
      */
-    private $providerTransactionId;
+    private $providerTransactionIds;
 
     /**
      * SuccessResponse constructor.
@@ -58,14 +58,14 @@ class SuccessResponse extends Response
     {
         parent::__construct($simpleXml);
         $this->transactionId = $this->findElement('transaction-id');
-        $this->providerTransactionId = $this->findProviderTransactionId();
+        $this->providerTransactionIds = $this->findProviderTransactionIds();
         $this->transactionType = $this->findElement('transaction-type');
     }
 
     /**
      * @return array
      */
-    private function findProviderTransactionId()
+    private function findProviderTransactionIds()
     {
         $result = [];
         foreach ($this->simpleXml->{'statuses'}->{'status'} as $status) {
@@ -86,15 +86,20 @@ class SuccessResponse extends Response
     }
 
     /**
-     * @param boolean $returnAll if is set to true return all IDs as array else return first id as string
-     * @return string | array
+     * @deprecated please use getProviderTransactionIds
+     * @return string
      */
-    public function getProviderTransactionId($returnAll = false)
+    public function getProviderTransactionId()
     {
-        if ($returnAll) {
-            return $this->providerTransactionId;
-        }
-        return (string)$this->providerTransactionId[0];
+        return (string) $this->providerTransactionIds[0];
+    }
+
+    /**
+     * @return array
+     */
+    public function getProviderTransactionIds()
+    {
+            return $this->providerTransactionIds;
     }
 
     /**

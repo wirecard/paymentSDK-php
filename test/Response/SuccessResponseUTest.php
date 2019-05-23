@@ -153,7 +153,7 @@ class SuccessResponseUTest extends PHPUnit_Framework_TestCase
         $status3->addAttribute('severity', 'information');
         $response = new SuccessResponse($xml);
         $expectedResponse = ['C016768154324581511879','C275923154324581440567'];
-        $this->assertEquals($expectedResponse, $response->getProviderTransactionId(true));
+        $this->assertEquals($expectedResponse, $response->getProviderTransactionIds());
     }
 
     public function testGetPaymentMethod()
