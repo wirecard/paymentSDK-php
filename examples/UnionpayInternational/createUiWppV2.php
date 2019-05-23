@@ -87,7 +87,7 @@ $transactionService = new TransactionService($config);
     <?php
     // This library is needed to generate the UI and to get a valid token ID.
     ?>
-    <script src="<?= $baseUrl ?>/engine/hpp/paymentPageLoader.js" type="text/javascript"></script>
+    <script src="https://wpp-test.wirecard.com/loader/paymentPage.js" type="text/javascript"></script>
     <style>
         #creditcard-form-div {
             height: 300px;
@@ -109,7 +109,7 @@ $transactionService = new TransactionService($config);
     <div>
         <div class="row">
             <div class="col-sm-12">
-                <a href="https://doc.wirecard.com/PP.html" target="_blank"><h3>WPP v1</h3></a>
+                <a href="https://doc.wirecard.com/WPP.html" target="_blank"><h3>WPP v2</h3></a>
             </div>
         </div>
     </div>
@@ -131,7 +131,7 @@ $transactionService = new TransactionService($config);
 <script type="application/javascript">
 
     // This function will render the credit card UI in the specified div.
-    WirecardPaymentPage.seamlessRenderForm({
+    WPP.seamlessRender({
 
         // We fill the _requestData_ with the return value
         // from the `getDataForUpiUi` method of the `transactionService`.
@@ -159,7 +159,7 @@ $transactionService = new TransactionService($config);
             // If not, we will prevent the submission of the form and submit the form of credit card UI instead.
             event.preventDefault();
 
-            WirecardPaymentPage.seamlessSubmitForm({
+            WPP.seamlessSubmit({
                 onSuccess: setParentTransactionId,
                 onError: logCallback
             })
