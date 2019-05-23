@@ -41,6 +41,10 @@ matrix:
     if: type != cron
     env:
     - MUTATION_TESTS=true
+  - php: 7.3
+    if: type != cron
+    env:
+    - MUTATION_TESTS=true
   - &acceptance-test
     stage: acceptance-test
     if: type = cron
