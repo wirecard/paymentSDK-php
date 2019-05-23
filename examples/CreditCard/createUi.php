@@ -157,6 +157,13 @@ $transaction->setCustomFields( $custom_fields );
             </div>
         </div>
     </div>
+    <div>
+        <div class="row">
+            <div class="col-sm-12">
+                <a href="https://doc.wirecard.com/PP.html" target="_blank"><h3>WPP v1</h3></a>
+            </div>
+        </div>
+    </div>
     <form id="payment-form" method="post" action="reserve.php">
         <?php
         // The data, which is returned from the credit card UI, needs to be sent on submitting the form.
