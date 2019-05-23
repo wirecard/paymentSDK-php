@@ -11,6 +11,7 @@
 </head>
 <body id="overrides">
 <div class="container">
+    <div class="content">
     <div class="page-header">
         <div class="row align-baseline">
             <div class="col-sm-3">
