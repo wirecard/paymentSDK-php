@@ -58,6 +58,8 @@ class CreditCardTransactionUTest extends PHPUnit_Framework_TestCase
         $this->config = new CreditCardConfig('maid', 'secret');
         $this->tx = new CreditCardTransaction();
         $this->tx->setConfig($this->config);
+        $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'de';
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
     }
 
     public function testSetTermUrl()
@@ -94,8 +96,6 @@ class CreditCardTransactionUTest extends PHPUnit_Framework_TestCase
 
     public function testSslCreditCardTransactionWithTokenId()
     {
-        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
-
         $expectedResult = [
             'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
             'requested-amount' => ['currency' => 'EUR', 'value' => 24],
@@ -200,6 +200,7 @@ class CreditCardTransactionUTest extends PHPUnit_Framework_TestCase
             ],
             'entry-mode' => 'ecommerce',
             'locale' => 'de',
+            'ip-address' => '127.0.0.1'
         ];
         $this->tx->setOperation('testtype');
         $this->assertEquals($valid, $this->tx->mappedProperties());
@@ -218,6 +219,7 @@ class CreditCardTransactionUTest extends PHPUnit_Framework_TestCase
             ],
             'entry-mode' => 'ecommerce',
             'locale' => 'de',
+            'ip-address' => '127.0.0.1'
         ];
 
         $transaction = new CreditCardTransaction();

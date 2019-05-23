@@ -60,6 +60,7 @@ class RequestMapperUTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->mapper = $this->createRequestMapper();
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
     }
 
     public function testSetEmailNotification()
@@ -94,7 +95,7 @@ class RequestMapperUTest extends PHPUnit_Framework_TestCase
         $followupTransaction->setConfig($config);
         $followupTransaction->setLocale('de');
 
-        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+
         $_SERVER['HTTP_X_FORWARDED_FOR'] = '0.0.0.1';
         $result = $mapper->map($followupTransaction);
 
@@ -157,9 +158,6 @@ class RequestMapperUTest extends PHPUnit_Framework_TestCase
         $transaction->setConsumerId('cons123');
         $transaction->setDevice(new Device());
         $transaction->setPeriodic(new Periodic('ci', 'first'));
-
-        $_SERVER['REMOTE_ADDR'] = '0.0.0.1';
-
         $requestdata = ['transaction-type' => 'authorization'];
 
         $result = $mapper->mapSeamlessRequest($transaction, $requestdata);

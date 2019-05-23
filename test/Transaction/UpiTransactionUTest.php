@@ -55,6 +55,8 @@ class UpiTransactionUTest extends PHPUnit_Framework_TestCase
         $this->config = new PaymentMethodConfig(UpiTransaction::NAME, 'maid', 'secret');
         $this->tx = new UpiTransaction();
         $this->tx->setConfig($this->config);
+        $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'de';
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
     }
 
     public function testSetTermUrl()
@@ -98,8 +100,6 @@ class UpiTransactionUTest extends PHPUnit_Framework_TestCase
 
     public function testSslUpiTransactionWithTokenId()
     {
-        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
-
         $expectedResult = [
             'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
             'requested-amount' => ['currency' => 'EUR', 'value' => 24],
@@ -134,6 +134,7 @@ class UpiTransactionUTest extends PHPUnit_Framework_TestCase
             'transaction-type' => 'referenced-authorization',
             'entry-mode' => 'ecommerce',
             'locale' => 'de',
+            'ip-address' => '127.0.0.1'
         ];
 
         $transaction = new UpiTransaction();
@@ -196,7 +197,6 @@ class UpiTransactionUTest extends PHPUnit_Framework_TestCase
         $transaction->setParentTransactionId('642');
         $transaction->setParentTransactionType($transactionType);
         $transaction->setOperation(Operation::CANCEL);
-        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 
         $result = $transaction->mappedProperties();
 
@@ -230,7 +230,6 @@ class UpiTransactionUTest extends PHPUnit_Framework_TestCase
         $transaction->setParentTransactionId('642');
         $transaction->setParentTransactionType('test');
         $transaction->setOperation(Operation::CANCEL);
-        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 
         $transaction->mappedProperties();
     }
@@ -265,8 +264,7 @@ class UpiTransactionUTest extends PHPUnit_Framework_TestCase
         $transaction->setParentTransactionId('642');
         $transaction->setParentTransactionType($transactionType);
         $transaction->setOperation(Operation::PAY);
-        $_SERVER['REMOTE_ADDR'] = '0.0.0.1';
-
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '0.0.0.1';
         $result = $transaction->mappedProperties();
 
         $expectedResult = [
@@ -314,7 +312,6 @@ class UpiTransactionUTest extends PHPUnit_Framework_TestCase
         $transaction->setParentTransactionType($transactionType);
         $transaction->setOperation(Operation::REFUND);
         $transaction->setLocale('de');
-        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 
         $result = $transaction->mappedProperties();
 
@@ -350,8 +347,6 @@ class UpiTransactionUTest extends PHPUnit_Framework_TestCase
         $transaction->setParentTransactionId('642');
         $transaction->setParentTransactionType('test');
         $transaction->setOperation(Operation::REFUND);
-        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
-
         $transaction->mappedProperties();
     }
 

@@ -31,6 +31,7 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use PHPUnit_Framework_TestCase;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
@@ -38,7 +39,7 @@ use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\AlipayCrossborderTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
-class AlipayCrossborderTransactionUTest extends \PHPUnit_Framework_TestCase
+class AlipayCrossborderTransactionUTest extends PHPUnit_Framework_TestCase
 {
     const SUCCESS_URL = 'http://www.example.com/success';
     const CANCEL_URL = 'http://www.example.com/cancel';
@@ -58,6 +59,8 @@ class AlipayCrossborderTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx->setRedirect($redirect);
         $this->tx->setAmount(new Amount(45, 'EUR'));
         $this->tx->setAccountHolder($accountHolder);
+        $this->tx->setLocale('de');
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '0.0.0.1';
     }
 
     public function testGetEndpointPayments()
@@ -117,7 +120,8 @@ class AlipayCrossborderTransactionUTest extends \PHPUnit_Framework_TestCase
             'account-holder' => [
                 'first-name' => 'Firstname',
                 'last-name' => 'Lastname'
-            ]
+            ],
+            'ip-address' => '0.0.0.1'
         ];
 
         $this->tx->setOperation(Operation::PAY);

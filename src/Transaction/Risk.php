@@ -131,7 +131,7 @@ abstract class Risk
                     return $_SERVER['HTTP_X_FORWARDED_FOR'];
                 }
             }
-            return isset($_SERVER['REMOTE_ADDR'])? $_SERVER['REMOTE_ADDR'] : null;
+            return $_SERVER['REMOTE_ADDR'];
         }
     }
 
@@ -234,9 +234,7 @@ abstract class Risk
             $data['account-holder'] = $this->accountHolder->mappedProperties();
         }
 
-        if (null !== $this->getIpAddress()) {
-            $data['ip-address'] = $this->getIpAddress();
-        }
+        $data['ip-address'] = $this->getIpAddress();
 
         if (null !== $this->consumerId) {
             $data['consumer-id'] = $this->consumerId;
