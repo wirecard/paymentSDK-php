@@ -149,11 +149,18 @@ $transaction->setCustomFields( $custom_fields );
 <div class="container">
     <div class="page-header">
         <div class="row">
-            <div class="col-sm-2">
+            <div class="col-sm-3">
                 <img src="https://raw.githubusercontent.com/wirecard/paymentSDK-php/master/examples/src/img/wirecard_logo.png" alt="wirecard" />
             </div>
-            <div class="col-sm-10 align-bottom">
+            <div class="col-sm-9 align-bottom">
                 <h1>Payment SDK for PHP Examples</h1>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="row">
+            <div class="col-sm-12">
+                <a href="https://doc.wirecard.com/WPP.html" target="_blank"><h3>WPP v2 3D Secure</h3></a>
             </div>
         </div>
     </div>
