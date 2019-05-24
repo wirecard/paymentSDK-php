@@ -31,12 +31,13 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use PHPUnit_Framework_TestCase;
 use Wirecard\PaymentSdk\Entity\BankAccount;
 use Wirecard\PaymentSdk\Entity\Mandate;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\RatepayDirectDebitTransaction;
 
-class RatepayDirectDebitTransactionUTest extends \PHPUnit_Framework_TestCase
+class RatepayDirectDebitTransactionUTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var RatepayDirectDebitTransaction
@@ -46,6 +47,8 @@ class RatepayDirectDebitTransactionUTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->tx = new RatepayDirectDebitTransaction();
+        $this->tx->setLocale('de');
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '0.0.0.1';
     }
 
     public function testSetCreditorId()

@@ -31,6 +31,7 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use PHPUnit_Framework_TestCase;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Mandate;
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -38,7 +39,7 @@ use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\SepaCreditTransferTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
-class SepaCreditTransferTransactionUTest extends \PHPUnit_Framework_TestCase
+class SepaCreditTransferTransactionUTest extends PHPUnit_Framework_TestCase
 {
     const IBAN = 'DE42512308000000060004';
     const LAST_NAME = 'Doe';
@@ -72,6 +73,8 @@ class SepaCreditTransferTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx = new SepaCreditTransferTransaction();
         $this->tx->setMandate($mandate);
         $this->tx->setAmount($this->amount);
+        $this->tx->setLocale('de');
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '0.0.0.1';
     }
 
     public function testMappedPropertiesCreditIbanOnly()
@@ -132,6 +135,7 @@ class SepaCreditTransferTransactionUTest extends \PHPUnit_Framework_TestCase
             ],
             'entry-mode' => 'ecommerce',
             'locale' => 'de',
+            'ip-address' => '0.0.0.1'
         ];
     }
 
@@ -196,6 +200,7 @@ class SepaCreditTransferTransactionUTest extends \PHPUnit_Framework_TestCase
             'parent-transaction-id' => $parentTransactionId,
             'locale' => 'de',
             'entry-mode' => 'ecommerce',
+            'ip-address' => '0.0.0.1'
         ];
     }
 

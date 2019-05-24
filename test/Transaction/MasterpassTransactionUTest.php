@@ -31,6 +31,7 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use PHPUnit_Framework_TestCase;
 use ReflectionClass;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
@@ -38,7 +39,7 @@ use Wirecard\PaymentSdk\Transaction\MasterpassTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
-class MasterpassTransactionUTest extends \PHPUnit_Framework_TestCase
+class MasterpassTransactionUTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var MasterpassTransaction
@@ -56,6 +57,8 @@ class MasterpassTransactionUTest extends \PHPUnit_Framework_TestCase
 
         $this->tx = new MasterpassTransaction();
         $this->tx->setAmount($this->amount);
+        $this->tx->setLocale('de');
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '0.0.0.1';
     }
 
     public function testMappedPropertiesFollowUp()
