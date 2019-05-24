@@ -19,7 +19,7 @@
   "require-dev": {
     "ext-json": "*",
     "ext-dom": "*",
-    "phpunit/phpunit": "^5.7",
+    "phpunit/phpunit": "^6.5",
     "squizlabs/php_codesniffer": "^3.3",
     "mikey179/vfsstream": "^1.6",
     "php-http/guzzle6-adapter": ">=1.1.1",
