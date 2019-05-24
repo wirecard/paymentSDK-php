@@ -31,14 +31,14 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use PHPUnit_Framework_TestCase;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\Operation;
-use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
-class TransactionUTest extends \PHPUnit_Framework_TestCase
+class TransactionUTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Transaction
@@ -69,6 +69,9 @@ class TransactionUTest extends \PHPUnit_Framework_TestCase
     {
         $this->tx = $this->getMockWithoutRetrieveMethod('retrieveTransactionTypeForPay', Transaction::TYPE_DEBIT);
         $this->tx->method('mappedSpecificProperties')->willReturn([]);
+        $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'de';
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '0.0.0.1';
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
     }
 
     public function testMappingForConsumerId()

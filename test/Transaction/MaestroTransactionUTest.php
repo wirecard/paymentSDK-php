@@ -31,12 +31,13 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use PHPUnit_Framework_TestCase;
 use Wirecard\PaymentSdk\Config\MaestroConfig;
 use Wirecard\PaymentSdk\Transaction\MaestroTransaction;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Transaction\Operation;
 
-class MaestroTransactionUTest extends \PHPUnit_Framework_TestCase
+class MaestroTransactionUTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var MaestroTransaction
@@ -57,7 +58,7 @@ class MaestroTransactionUTest extends \PHPUnit_Framework_TestCase
 
     public function testSslCreditCardTransactionWithTokenId()
     {
-        $_SERVER['REMOTE_ADDR'] = 'test IP';
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 
         $expectedResult = [
             'payment-methods' => ['payment-method' => [['name' => 'creditcard']]],
@@ -66,7 +67,7 @@ class MaestroTransactionUTest extends \PHPUnit_Framework_TestCase
             'card-token' => [
                 'token-id' => '21'
             ],
-            'ip-address' => 'test IP',
+            'ip-address' => '127.0.0.1',
             'merchant-account-id' => [
                 'value' => null
             ],
