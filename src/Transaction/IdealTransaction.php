@@ -91,4 +91,21 @@ class IdealTransaction extends Transaction
     {
         return self::TYPE_DEBIT;
     }
+
+    /**
+     * Maximum characters: 35
+     * Allowed characters:
+     * umlaut space 0-9 a-z A-Z ' + , - .
+     * @param string $descriptor
+     * @since 3.7.0
+     */
+    public function setDescriptor($descriptor)
+    {
+        parent::setDescriptor($descriptor);
+        $this->descriptor = mb_strimwidth(
+            preg_replace("/[^a-zA-Z0-9\s\'\+\,\-\.\Ä\Ö\Ü\ä\ö\ü]/u", '', $descriptor),
+            0,
+            35
+        );
+    }
 }

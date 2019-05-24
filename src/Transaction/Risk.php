@@ -34,6 +34,7 @@ namespace Wirecard\PaymentSdk\Transaction;
 use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Entity\Device;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
+use Wirecard\PaymentSdk\Exception\UnsupportedEncodingException;
 
 /**
  * Class Risk
@@ -208,7 +209,12 @@ abstract class Risk
      */
     public function setDescriptor($descriptor)
     {
-        $this->descriptor = $descriptor;
+        // If is valid utf8 string set descriptor else throw exception
+        if (preg_match("//u", $descriptor)) {
+            $this->descriptor = $descriptor;
+        } else {
+            throw new UnsupportedEncodingException('Unsupported character encoding in descriptor');
+        }
     }
 
     /**

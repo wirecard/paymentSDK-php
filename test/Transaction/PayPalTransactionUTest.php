@@ -322,4 +322,15 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(Transaction::ENDPOINT_PAYMENT_METHODS, $this->tx->getEndpoint());
     }
+
+    public function testDescriptor()
+    {
+        $descriptor = "0123-€\$§%!=#~;+/?:().,'&><\"*{}[]@\_°^|ÄÖÜäöüß^°`" .
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        // Only 27 chars are allowed
+        $expectedDescriptor = "0123-+.,'ÄÖÜäöüabcdefghijkl";
+        $transaction = new PayPalTransaction();
+        $transaction->setDescriptor($descriptor);
+        $this->assertEquals($expectedDescriptor, $transaction->getDescriptor());
+    }
 }

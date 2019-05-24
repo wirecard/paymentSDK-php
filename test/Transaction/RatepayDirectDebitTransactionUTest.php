@@ -32,14 +32,9 @@
 namespace WirecardTest\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Entity\BankAccount;
-use Wirecard\PaymentSdk\Entity\Basket;
-use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Mandate;
-use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\RatepayDirectDebitTransaction;
-use Wirecard\PaymentSdk\Transaction\RatepayTransaction;
-use Wirecard\PaymentSdk\Transaction\Transaction;
 
 class RatepayDirectDebitTransactionUTest extends \PHPUnit_Framework_TestCase
 {

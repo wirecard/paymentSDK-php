@@ -135,4 +135,15 @@ class SepaDirectDebitTransaction extends Transaction implements Reservable
         }
         return 'void-' . $this->parentTransactionType;
     }
+
+    /**
+     * Maximum number of characters: 100
+     * @param string $descriptor
+     * @since 3.7.0
+     */
+    public function setDescriptor($descriptor)
+    {
+        parent::setDescriptor($descriptor);
+        $this->descriptor = mb_strimwidth($descriptor, 0, 100);
+    }
 }

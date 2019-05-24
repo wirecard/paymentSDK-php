@@ -77,4 +77,15 @@ class EpsTransactionUTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expectedResult, $result);
     }
+
+    public function testDescriptor()
+    {
+        $descriptor = "0123-€\$§%!=#~;+/?:().,'&><\"*{}[]@\_°^ |ÄÖÜäöüß°`abcdefghijklmn" .
+            "opqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        $expectedDescriptor = "0123-€\$§%!=#~;+/?:().,'&><\"*{}[]@\_°^ |ÄÖÜäöüß°" .
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        $transaction = new EpsTransaction();
+        $transaction->setDescriptor($descriptor);
+        $this->assertEquals($expectedDescriptor, $transaction->getDescriptor());
+    }
 }

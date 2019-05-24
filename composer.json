@@ -4,6 +4,7 @@
   "minimum-stability": "stable",
   "license": "GPL-3.0-only",
   "require": {
+    "ext-mbstring": "*",
     "php": ">=5.6",
     "ext-intl": ">=1.0.0",
     "monolog/monolog": ">=1.16",
@@ -16,6 +17,7 @@
     "whichbrowser/parser": "^2.0"
   },
   "require-dev": {
+    "ext-iconv": "*",
     "phpunit/phpunit": "^5.7",
     "squizlabs/php_codesniffer": "^3.3",
     "mikey179/vfsstream": "^1.6",

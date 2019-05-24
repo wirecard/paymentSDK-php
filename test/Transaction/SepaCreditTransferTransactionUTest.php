@@ -206,4 +206,16 @@ class SepaCreditTransferTransactionUTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(Transaction::TYPE_CREDIT, $data['transaction-type']);
     }
+
+    public function testDescriptor()
+    {
+        $descriptor = "0123-€\$§%!=#~;+/?:().,'&><\"*{}[]@\_°^|ÄÖÜäöüß^°`" .
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123lorem ipsum try to get more than 100 characters";
+        // Only 100 chars are allowed
+        $expectedDescriptor = "0123-€\$§%!=#~;+/?:().,'&><\"*{}[]@\_°^|ÄÖÜäöüß^°`" .
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        $transaction = new SepaCreditTransferTransaction();
+        $transaction->setDescriptor($descriptor);
+        $this->assertEquals($expectedDescriptor, $transaction->getDescriptor());
+    }
 }
