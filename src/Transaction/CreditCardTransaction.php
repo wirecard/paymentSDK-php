@@ -178,7 +178,7 @@ class CreditCardTransaction extends Transaction implements Reservable
     }
 
     /**
-     * Size of descriptor is 64
+     * Maximum number of characters: 64
      * Allowed characters: 0-9, a-z, A-Z
      * @param string $descriptor
      * @since 3.4.0
