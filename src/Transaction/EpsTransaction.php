@@ -42,6 +42,19 @@ class EpsTransaction extends Transaction
     const NAME='eps';
 
     /**
+     * Maximum 140 characters
+     */
+    const DESCRIPTOR_LENGTH = 140;
+
+    /**
+     * Allowed characters:
+     * a b c d e f g h i j k l m n o p q r s t u v w x y z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+     * 0 1 2 3 4 5 6 7 8 9 - € $ § % ! = # ~ ; + / ? : ( ) . , ' & > < " * { } [ ] @ \ _ ° ^ | Ä Ö Ü ä ö ü ß Space
+     */
+    const DESCRIPTOR_ALLOWED_CHAR_REGEX =
+        "/[^a-zA-Z0-9\s\-\€\$\§\%\!\=\#\~\;\+\/\?\:\(\)\.\,\\'\&\>\<\"\*\{\}\[\]\@\\\_\°\^\|\Ä\Ö\Ü\ä\ö\ü\ß]/u";
+
+    /**
      * @var string
      */
     private $bankData;
@@ -76,23 +89,5 @@ class EpsTransaction extends Transaction
     protected function retrieveTransactionTypeForPay()
     {
         return Transaction::TYPE_DEBIT;
-    }
-
-    /**
-     * Maximum 140 characters
-     * Allowed characters:
-     * a b c d e f g h i j k l m n o p q r s t u v w x y z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
-     * 0 1 2 3 4 5 6 7 8 9 - € $ § % ! = # ~ ; + / ? : ( ) . , ' & > < " * { } [ ] @ \ _ ° ^ | Ä Ö Ü ä ö ü ß Space
-     * @param string $descriptor
-     * @since 3.7.0
-     */
-    public function setDescriptor($descriptor)
-    {
-        parent::setDescriptor($descriptor);
-        $this->descriptor = mb_strimwidth(preg_replace(
-            "/[^a-zA-Z0-9\s\-\€\$\§\%\!\=\#\~\;\+\/\?\:\(\)\.\,\\'\&\>\<\"\*\{\}\[\]\@\\\_\°\^\|\Ä\Ö\Ü\ä\ö\ü\ß]/u",
-            '',
-            $descriptor
-        ), 0, 140);
     }
 }

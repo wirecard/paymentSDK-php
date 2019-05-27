@@ -43,6 +43,18 @@ class PtwentyfourTransaction extends Transaction implements Reservable
     const NAME = 'p24';
 
     /**
+     * Do not use no more than 20 characters and do not use special chars
+     * as it can be misinterpreted by a bank system.
+     */
+    const DESCRIPTOR_LENGTH = 20;
+
+    /**
+     * Allowed characters:
+     * '0-9','a-z','A-Z'
+     */
+    const DESCRIPTOR_ALLOWED_CHAR_REGEX = '/[^a-zA-Z0-9]/u';
+
+    /**
      * return string
      */
     public function getEndpoint()
@@ -85,16 +97,5 @@ class PtwentyfourTransaction extends Transaction implements Reservable
             throw new UnsupportedOperationException('Only debit can be refunded.');
         }
         return Transaction::TYPE_REFUND_REQUEST;
-    }
-
-    /**
-     * Do not use no more than 20 characters and do not use special chars as it can be misinterpreted by a bank system.
-     * @param string $descriptor
-     * @since 3.7.0
-     */
-    public function setDescriptor($descriptor)
-    {
-        parent::setDescriptor($descriptor);
-        $this->descriptor = mb_strimwidth(preg_replace('/[^a-zA-Z0-9]/u', '', $descriptor), 0, 20);
     }
 }

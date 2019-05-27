@@ -36,6 +36,16 @@ class SofortTransaction extends Transaction
     const NAME = 'sofortbanking';
 
     /**
+     * Maximum characters: 27
+     */
+    const DESCRIPTOR_LENGTH = 27;
+    /**
+     * Allowed characters:
+     * umlaut, '0-9' 'a-z' 'A-Z' ' ' '+' ',' '-' '.'
+     */
+    const DESCRIPTOR_ALLOWED_CHAR_REGEX = "/[^a-zA-Z0-9\s\'\+\,\-\.\Ä\Ö\Ü\ä\ö\ü]/u";
+
+    /**
      * @var bool
      */
     protected $sepaCredit = true;
@@ -56,24 +66,5 @@ class SofortTransaction extends Transaction
     protected function retrieveTransactionTypeForPay()
     {
         return self::TYPE_DEBIT;
-    }
-
-
-    /**
-     * Mandatory field.
-     * Maximum characters: 27
-     * Allowed characters:
-     * umlaut, '0-9' 'a-z' 'A-Z' ' ' '+' ',' '-' '.'
-     * @param string $descriptor
-     * @since 3.7.0
-     */
-    public function setDescriptor($descriptor)
-    {
-        parent::setDescriptor($descriptor);
-        $this->descriptor = mb_strimwidth(
-            preg_replace("/[^a-zA-Z0-9\s\'\+\,\-\.\Ä\Ö\Ü\ä\ö\ü]/u", '', $descriptor),
-            0,
-            27
-        );
     }
 }

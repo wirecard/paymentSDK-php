@@ -40,6 +40,11 @@ class SepaCreditTransferTransaction extends Transaction implements Reservable
     const NAME = 'sepacredit';
 
     /**
+     * Maximum number of characters: 100
+     */
+    const DESCRIPTOR_LENGTH = 100;
+
+    /**
      * @var string
      */
     private $iban;
@@ -122,16 +127,5 @@ class SepaCreditTransferTransaction extends Transaction implements Reservable
     protected function retrieveTransactionTypeForCredit()
     {
         return self::TYPE_CREDIT;
-    }
-
-    /**
-     * Maximum number of characters: 100
-     * @param string $descriptor
-     * @since 3.7.0
-     */
-    public function setDescriptor($descriptor)
-    {
-        parent::setDescriptor($descriptor);
-        $this->descriptor = mb_strimwidth($descriptor, 0, 100);
     }
 }

@@ -47,6 +47,8 @@ class CreditCardTransaction extends Transaction implements Reservable
 {
     const NAME = 'creditcard';
     const TYPE_CHECK_ENROLLMENT = 'check-enrollment';
+    const DESCRIPTOR_LENGTH = 64;
+    const DESCRIPTOR_ALLOWED_CHAR_REGEX = "/[^a-zA-Z0-9]/u";
 
     /**
      * @var string
@@ -175,18 +177,6 @@ class CreditCardTransaction extends Transaction implements Reservable
     public function getThreeD()
     {
         return $this->isThreeD();
-    }
-
-    /**
-     * Maximum number of characters: 64
-     * Allowed characters: 0-9, a-z, A-Z
-     * @param string $descriptor
-     * @since 3.4.0
-     */
-    public function setDescriptor($descriptor)
-    {
-        parent::setDescriptor($descriptor);
-        $this->descriptor = substr(preg_replace('/[^a-zA-Z0-9]/u', '', $descriptor), 0, 64);
     }
 
     /**

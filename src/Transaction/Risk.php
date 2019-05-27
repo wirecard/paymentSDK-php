@@ -44,6 +44,11 @@ use Wirecard\PaymentSdk\Exception\UnsupportedEncodingException;
  */
 abstract class Risk
 {
+
+    const DESCRIPTOR_LENGTH = 64;
+    const DESCRIPTOR_ALLOWED_CHAR_REGEX = "//";
+    const DESCRIPTOR_CHARSET = "UTF-8";
+
     /**
      * @var AccountHolder
      */
@@ -221,12 +226,14 @@ abstract class Risk
      */
     public function setDescriptor($descriptor)
     {
-        // If is valid utf8 string set descriptor else throw exception
-        if (preg_match("//u", $descriptor)) {
-            $this->descriptor = $descriptor;
-        } else {
+        if (!mb_detect_encoding($descriptor, self::DESCRIPTOR_CHARSET, true)) {
             throw new UnsupportedEncodingException('Unsupported character encoding in descriptor');
         }
+        $this->descriptor = $this->sanitizeDescriptor(
+            $descriptor,
+            static::DESCRIPTOR_LENGTH,
+            static::DESCRIPTOR_ALLOWED_CHAR_REGEX
+        );
     }
 
     /**
@@ -268,5 +275,16 @@ abstract class Risk
         }
 
         return $data;
+    }
+
+    /**
+     * @param string $descriptor
+     * @param int $length
+     * @param string $regex
+     * @return string
+     */
+    private function sanitizeDescriptor($descriptor, $length, $regex)
+    {
+        return mb_strimwidth(preg_replace($regex, '', $descriptor), 0, $length);
     }
 }
