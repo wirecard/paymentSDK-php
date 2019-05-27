@@ -31,6 +31,8 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use DateTime;
+use PHPUnit_Framework_TestCase;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -39,7 +41,7 @@ use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\PayolutionInvoiceTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
-class PayolutionInvoiceTransactionUTest extends \PHPUnit_Framework_TestCase
+class PayolutionInvoiceTransactionUTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var PayolutionInvoiceTransaction
@@ -49,6 +51,8 @@ class PayolutionInvoiceTransactionUTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->tx = new PayolutionInvoiceTransaction();
+        $this->tx->setLocale('de');
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '0.0.0.1';
     }
 
     /**
@@ -110,7 +114,7 @@ class PayolutionInvoiceTransactionUTest extends \PHPUnit_Framework_TestCase
         $accountHolder = new AccountHolder();
         $accountHolder->setFirstName('first');
         $accountHolder->setLastName('last');
-        $accountHolder->setDateOfBirth(new \DateTime('12-12-1970'));
+        $accountHolder->setDateOfBirth(new DateTime('12-12-1970'));
 
         /**
          * @var Redirect $redirect

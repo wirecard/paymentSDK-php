@@ -31,6 +31,7 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use PHPUnit_Framework_TestCase;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Redirect;
@@ -38,7 +39,7 @@ use Wirecard\PaymentSdk\Transaction\UpopTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
-class UpopTransactionUTest extends \PHPUnit_Framework_TestCase
+class UpopTransactionUTest extends PHPUnit_Framework_TestCase
 {
     const SUCCESS_URL = 'http://www.example.com/success';
     const CANCEL_URL = 'http://www.example.com/cancel';
@@ -63,6 +64,8 @@ class UpopTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx = new UpopTransaction();
         $this->tx->setRedirect($redirect);
         $this->tx->setAmount(new Amount(33, 'CNY'));
+        $this->tx->setLocale('de');
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '0.0.0.1';
     }
 
     public function testGetEndpointPayments()
@@ -130,6 +133,7 @@ class UpopTransactionUTest extends \PHPUnit_Framework_TestCase
             'fail-redirect-url' => self::FAILURE_URL,
             'locale' => 'de',
             'entry-mode' => 'ecommerce',
+            'ip-address' => '0.0.0.1'
         ];
 
         $this->tx->setOperation(Operation::PAY);
