@@ -33,15 +33,16 @@ $bankAccount->setIban("NL13TEST0123456789");
 $transaction = new EpsTransaction();
 
 // ### Mandatory fields
-
 $transaction->setAmount($amount);
 $transaction->setRedirect($redirect);
 $transaction->setBankAccount($bankAccount);
 
-
 // ### Optional fields
-
+// For the full list of fields see: https://doc.wirecard.com/RestApi_Fields.html
 $transaction->setDescriptor('eps pay 123');
+
+// ### Transaction Service
+// The service is used to execute the payment operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
 $response = $transactionService->pay($transaction);
 

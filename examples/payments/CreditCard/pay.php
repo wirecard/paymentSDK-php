@@ -50,7 +50,7 @@ $transaction->setTermUrl($redirectUrl);
 $transaction->setParentTransactionId($parentTransactionId);
 
 // ### Optional fields
-// Full list of fields: https://doc.wirecard.com/CreditCard.html#CreditCard_Fields
+// For the full list of fields see: https://doc.wirecard.com/RestApi_Fields.html
 $transaction->setLocale('en');
 
 // ### Transaction Service

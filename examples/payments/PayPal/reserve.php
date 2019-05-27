@@ -29,8 +29,16 @@ $amount = new Amount(12.59, 'EUR');
 // If there was a previous transaction, use the ID of this parent transaction as reference.
 $parentTransactionId = array_key_exists('parentTransactionId', $_POST) ? $_POST['parentTransactionId'] : null;
 
-// The redirect URLs determine where the consumer should be redirected by PayPal after the reserve.
-$redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
+// Set redirect URLs for success, cancel and failure.
+// From payment page you will be redirected to:
+// Success URL when the payment is approved.
+// Cancel URL when the user cancels the transaction on payment page.
+// Failure URL when payment is not approved or the data are missing or incorrect
+$redirectUrls = new Redirect(
+    getUrl('return.php?status=success'),
+    getUrl('return.php?status=cancel'),
+    getUrl('return.php?status=failure')
+);
 
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
 $notificationUrl = getUrl('notify.php');
@@ -41,6 +49,7 @@ $address = new Address('US', 'Portland', 'Mariahilferstraße');
 $address->setState('OR');
 
 $accountHolder = new AccountHolder();
+$accountHolder->setLastName('Mustermann');
 $accountHolder->setAddress($address);
 
 // ### Transaction

@@ -25,8 +25,16 @@ use Wirecard\PaymentSdk\TransactionService;
 // Use the amount object as amount which has to be paid by the consumer.
 $amount = new Amount(12.59, 'EUR');
 
-// The redirect URLs determine where the consumer should be redirected by Paysafecard after approval/cancellation.
-$redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
+// Set redirect URLs for success, cancel and failure.
+// From payment page you will be redirected to:
+// Success URL when the payment is approved.
+// Cancel URL when the user cancels the transaction on payment page.
+// Failure URL when payment is not approved or the data are missing or incorrect
+$redirectUrls = new Redirect(
+    getUrl('return.php?status=success'),
+    getUrl('return.php?status=cancel'),
+    getUrl('return.php?status=failure')
+);
 
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
 $notificationUrl = getUrl('notify.php');
@@ -39,7 +47,7 @@ $accountHolder->setLastName('Doe');
 
 // ### Transaction
 
-// The Paysafecard transaction holds all transaction relevant data for the payment process.
+// The paysafecard transaction holds all transaction relevant data for the payment process.
 $transaction = new PaysafecardTransaction();
 $transaction->setNotificationUrl($notificationUrl);
 $transaction->setRedirect($redirectUrls);
@@ -77,4 +85,4 @@ if ($response instanceof InteractionResponse) {
     }
 }
 
-require __DIR__ . '/../inc/footer.php';
+require __DIR__ . '/../../inc/footer.php';

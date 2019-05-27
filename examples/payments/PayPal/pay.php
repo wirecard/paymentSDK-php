@@ -26,7 +26,11 @@ use Wirecard\PaymentSdk\TransactionService;
 // Use the amount object as amount which has to be paid by the consumer.
 $amount = new Amount(12.59, 'EUR');
 
-// The redirect URLs determine where the consumer should be redirected by PayPal after approval/cancellation.
+// Set redirect URLs for success, cancel and failure.
+// From payment page you will be redirected to:
+// Success URL when the payment is approved.
+// Cancel URL when the user cancels the transaction on payment page.
+// Failure URL when payment is not approved or the data are missing or incorrect
 $redirectUrls = new Redirect(
     getUrl('return.php?status=success'),
     getUrl('return.php?status=success'),
@@ -37,12 +41,13 @@ $redirectUrls = new Redirect(
 $notificationUrl = getUrl('notify.php');
 
 
-// ### Account hold r
+// ### Account holder
 
 $address = new Address('US', 'Portland', 'Mariahilferstraße');
 $address->setState('OR');
 
 $accountHolder = new AccountHolder();
+$accountHolder->setLastName('Mustermann');
 $accountHolder->setAddress($address);
 
 // ### Transaction
@@ -58,10 +63,10 @@ $transaction->setAccountHolder($accountHolder);
 
 
 // ### Optional fields
+// For the full list of fields see: https://doc.wirecard.com/RestApi_Fields.html
 $transaction->setIpAddress('127.0.0.1');
 
 // ### Transaction Service
-
 // The service is used to execute the payment operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
 $response = $transactionService->pay($transaction);

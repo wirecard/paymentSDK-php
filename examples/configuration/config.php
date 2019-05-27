@@ -11,14 +11,11 @@ require __DIR__ . '/../../vendor/autoload.php';
 use Wirecard\PaymentSdk\Config;
 use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
-use Wirecard\PaymentSdk\Config\SepaConfig;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Transaction\BancontactTransaction;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Transaction\PaysafecardTransaction;
 use Wirecard\PaymentSdk\Transaction\MasterpassTransaction;
-use Wirecard\PaymentSdk\Transaction\SepaCreditTransferTransaction;
-use Wirecard\PaymentSdk\Transaction\SepaDirectDebitTransaction;
 use Wirecard\PaymentSdk\Transaction\UpopTransaction;
 use Wirecard\PaymentSdk\Transaction\PayByBankAppTransaction;
 
@@ -29,8 +26,7 @@ $gateway = getenv('GATEWAY');
 
 $gatewayConfig = function ($key) use ($gateway) {
     // if no gateway was defined in the environment, use the api-test.wirecard.com
-    if ( ! $gateway)
-    {
+    if (!$gateway) {
         $gateway = 'API-TEST';
     }
     $dataArray = [
@@ -140,7 +136,7 @@ $paypalKey = 'dbc5a498-9a66-43b9-bf1d-a618dd399684';
 $paypalConfig = new PaymentMethodConfig(PayPalTransaction::NAME, $paypalMAID, $paypalKey);
 $config->add($paypalConfig);
 
-// ### Paysafecard
+// ### paysafecard
 
 $paysafecardMAID = '28d4938b-d0d6-4c4a-b591-fb63175de53e';
 $paysafecardKey = 'dbc5a498-9a66-43b9-bf1d-a618dd399684';

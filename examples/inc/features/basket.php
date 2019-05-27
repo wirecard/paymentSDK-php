@@ -23,10 +23,15 @@ use Wirecard\PaymentSdk\TransactionService;
 
 // ### Transaction related objects
 
-// For more information on these parameters visit the PayPal examples.
+// Set redirect URLs for success, cancel and failure.
+// From payment page you will be redirected to:
+// Success URL when the payment is approved.
+// Cancel URL when the user cancels the transaction on payment page.
+// Failure URL when payment is not approved or the data are missing or incorrect
 $redirectUrls = new Redirect(
     getUrl('../PayPal/return.php?status=success'),
-    getUrl('../PayPal/return.php?status=cancel')
+    getUrl('../PayPal/return.php?status=cancel'),
+    getUrl('../PayPal/return.php?status=failure')
 );
 $notificationUrl = getUrl('../PayPal/notify.php');
 

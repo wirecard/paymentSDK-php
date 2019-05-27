@@ -29,7 +29,7 @@ $config->setPublicKey(file_get_contents(__DIR__ . '/../../inc/api-test.wirecard.
 $transactionService = new TransactionService($config);
 
 // The POST data is processed with the method `handleResponse()`.
-$response = $transactionService->handleResponse($payload);
+$response = $transactionService->handleResponse($_POST);
 
 
 // ## Payment results

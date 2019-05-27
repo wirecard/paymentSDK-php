@@ -15,7 +15,6 @@ require __DIR__ . '/../../inc/header.php';
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Entity\Device;
-use Wirecard\PaymentSdk\Entity\CustomField;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
@@ -38,8 +37,16 @@ $customFields->add(prepareCustomField('zapp.in.MerchantRtnStrng', '123'));
 $customFields->add(prepareCustomField('zapp.in.TxType', 'PAYMT'));
 $customFields->add(prepareCustomField('zapp.in.DeliveryType', 'DELTAD'));
 
-// The redirect URLs determine where the consumer should be redirected after approval/cancellation.
-$redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
+// Set redirect URLs for success, cancel and failure.
+// From payment page you will be redirected to:
+// Success URL when the payment is approved.
+// Cancel URL when the user cancels the transaction on payment page.
+// Failure URL when payment is not approved or the data are missing or incorrect
+$redirectUrls = new Redirect(
+    getUrl('return.php?status=success'),
+    getUrl('return.php?status=cancel'),
+    getUrl('return.php?status=failure')
+);
 
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
 $notificationUrl = getUrl('notify.php');
@@ -58,10 +65,10 @@ $transaction->setRedirect($redirectUrls);
 $transaction->setNotificationUrl($notificationUrl);
 
 // ### Optional fields
-
+// For the full list of fields see: https://doc.wirecard.com/RestApi_Fields.html
+$transaction->setIpAddress('127.0.0.1');
 
 // ### Transaction Service
-
 // The service is used to execute the payment operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
 $response = $transactionService->pay($transaction);

@@ -27,8 +27,11 @@ use Wirecard\PaymentSdk\Entity\Basket;
 $amount = new Amount(2400, 'EUR');
 
 // ### URLs
-
-// The redirect URLs determine where the consumer should be redirected by RatePAY installment after the reserve.
+// Set redirect URLs for success, cancel and failure.
+// From payment page you will be redirected to:
+// Success URL when the payment is approved.
+// Cancel URL when the user cancels the transaction on payment page.
+// Failure URL when payment is not approved or the data are missing or incorrect
 $redirectUrls = new Redirect(
     getUrl('return.php?status=success'),
     getUrl('return.php?status=cancel'),
@@ -71,7 +74,7 @@ $accountHolder->setFirstName('John');
 $accountHolder->setLastName('Constantine');
 $accountHolder->setEmail('john.doe@test.com');
 $accountHolder->setPhone('03018425165');
-$accountHolder->setDateOfBirth(new \DateTime('1973-12-07'));
+$accountHolder->setDateOfBirth(new DateTime('1973-12-07'));
 $accountHolder->setAddress($address);
 
 

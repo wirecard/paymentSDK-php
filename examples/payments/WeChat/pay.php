@@ -27,7 +27,11 @@ use Wirecard\PaymentSdk\TransactionService;
 $amount = new Amount(1.01, 'USD');
 
 
-// The redirect URLs determine where the consumer should be redirected by WeChat QRPay after approval/cancellation.
+// Set redirect URLs for success, cancel and failure.
+// From payment page you will be redirected to:
+// Success URL when the payment is approved.
+// Cancel URL when the user cancels the transaction on payment page.
+// Failure URL when payment is not approved or the data are missing or incorrect
 $redirectUrls = new Redirect(
     getUrl('return.php?status=success'),
     getUrl('return.php?status=cancel'),

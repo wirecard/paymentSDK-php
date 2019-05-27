@@ -31,7 +31,11 @@ $bankAccount = new BankAccount();
 $bankAccount->setBic("GENODETT488");
 
 
-// The redirect URLs determine where the consumer should be redirected by giropay after approval/cancellation.
+// Set redirect URLs for success, cancel and failure.
+// From payment page you will be redirected to:
+// Success URL when the payment is approved.
+// Cancel URL when the user cancels the transaction on payment page.
+// Failure URL when payment is not approved or the data are missing or incorrect
 $redirectUrls = new Redirect(
     getUrl('return.php?status=success'),
     getUrl('return.php?status=cancel'),
@@ -53,7 +57,7 @@ $transaction->setAmount($amount);
 $transaction->setBankAccount($bankAccount);
 
 // ### Optional fields
-
+// For the full list of fields see: https://doc.wirecard.com/RestApi_Fields.html
 $transaction->setOrderNumber('1020304050');
 $transaction->setOrderDetail('Test Giropay');
 

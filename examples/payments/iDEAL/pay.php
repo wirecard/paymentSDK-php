@@ -27,8 +27,16 @@ use Wirecard\PaymentSdk\TransactionService;
 // Use the amount object as amount which has to be paid by the consumer.
 $amount = new Amount(12.59, 'EUR');
 
-// The redirect URLs determine where the consumer should be redirected by iDEAL after approval/cancellation.
-$redirectUrls = new Redirect(getUrl('return.php?status=success'), getUrl('return.php?status=cancel'));
+// Set redirect URLs for success, cancel and failure.
+// From payment page you will be redirected to:
+// Success URL when the payment is approved.
+// Cancel URL when the user cancels the transaction on payment page.
+// Failure URL when payment is not approved or the data are missing or incorrect
+$redirectUrls = new Redirect(
+    getUrl('return.php?status=success'),
+    getUrl('return.php?status=cancel'),
+    getUrl('return.php?status=failure')
+);
 
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
 $notificationUrl = getUrl('notify.php');
@@ -51,7 +59,7 @@ $transaction->setAmount($amount);
 $transaction->setBic(IdealBic::INGBNL2A);
 
 // ### Optional fields
-
+// For the full list of fields see: https://doc.wirecard.com/RestApi_Fields.html
 $transaction->setNotificationUrl($notificationUrl);
 $transaction->setAccountHolder($accountHolder);
 $transaction->setDescriptor('customer-statement');

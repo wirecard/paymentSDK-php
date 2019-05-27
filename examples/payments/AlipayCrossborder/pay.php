@@ -31,8 +31,11 @@ $accountHolder = new AccountHolder();
 $accountHolder->setFirstName("testname");
 $accountHolder->setLastName("testlastname");
 
-// The redirect URLs determine where the consumer should be redirected by Alipay Crossborder after approval,
-// cancellation and failure.
+// Set redirect URLs for success, cancel and failure.
+// From payment page you will be redirected to:
+// Success URL when the payment is approved.
+// Cancel URL when the user cancels the transaction on payment page.
+// Failure URL when payment is not approved or the data are missing or incorrect
 $redirectUrls = new Redirect(
     getUrl('return.php?status=success'),
     getUrl('return.php?status=cancel'),
@@ -53,7 +56,7 @@ $transaction->setAmount($amount);
 $transaction->setAccountHolder($accountHolder);
 
 // ### Optional fields
-// For the full list of all fields see: https://doc.wirecard.com/RestApi_Fields.html
+// For the full list of fields see: https://doc.wirecard.com/RestApi_Fields.html
 $transaction->setIpAddress('127.0.0.1');
 $transaction->setOrderNumber('001');
 $transaction->setDescriptor('Test Alipay');

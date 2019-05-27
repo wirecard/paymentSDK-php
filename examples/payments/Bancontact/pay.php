@@ -23,8 +23,11 @@ use Wirecard\PaymentSdk\TransactionService;
 // Use the amount object as amount which has to be paid by the consumer.
 $amount = new Amount(12.59, 'EUR');
 
-// The redirect URLs determine where the consumer should be redirected by Bancontact after approval, cancellation and
-// failure.
+// Set redirect URLs for success, cancel and failure.
+// From payment page you will be redirected to:
+// Success URL when the payment is approved.
+// Cancel URL when the user cancels the transaction on payment page.
+// Failure URL when payment is not approved or the data are missing or incorrect
 $redirectUrls = new Redirect(
     getUrl('return.php?status=success'),
     getUrl('return.php?status=cancel'),
@@ -42,6 +45,7 @@ $transaction->setRedirect($redirectUrls);
 $transaction->setAmount($amount);
 
 // ### Optional fields
+// For the full list of fields see: https://doc.wirecard.com/RestApi_Fields.html
 // Language used to localize the BCMC landing page.
 // Supported by BCMC: zh,nl,en,fr,de,hi,it,ja,pt,ru,sk,es,ru,sk,es
 // Default locale is English.
@@ -79,4 +83,4 @@ if ($response instanceof InteractionResponse) {
     }
 }
 
-require __DIR__ . '/../inc/footer.php';
+require __DIR__ . '/../../inc/footer.php';

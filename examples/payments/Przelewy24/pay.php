@@ -31,12 +31,14 @@ $accountHolder->setFirstName('Max');
 $accountHolder->setLastName('Cavalera');
 $accountHolder->setEmail('max.cavalera@email.com');
 
-// The redirect URL determines where the consumer should be redirected to
-// after he is finished on the
+// Set redirect URLs for success, cancel and failure.
+// From payment page you will be redirected to:
+// Success URL when the payment is approved.
+// Cancel URL when the user cancels the transaction on payment page.
+// Failure URL when payment is not approved or the data are missing or incorrect
 $redirectUrls = new Redirect(
-    // when the payment is successful
     getUrl('return.php?status=success'),
-    // when the payment failed
+    getUrl('return.php?status=failure'),
     getUrl('return.php?status=failure')
 );
 
