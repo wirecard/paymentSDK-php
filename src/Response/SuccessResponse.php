@@ -86,7 +86,7 @@ class SuccessResponse extends Response
     }
 
     /**
-     * @deprecated please use getProviderTransactionIds
+     * @deprecated This method is since 3.6.6 deprecated, please use getProviderTransactionIds
      * @return string
      */
     public function getProviderTransactionId()
@@ -96,6 +96,7 @@ class SuccessResponse extends Response
 
     /**
      * @return array
+     * @since 3.6.6
      */
     public function getProviderTransactionIds()
     {
