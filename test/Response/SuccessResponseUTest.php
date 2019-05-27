@@ -44,7 +44,7 @@ class SuccessResponseUTest extends PHPUnit_Framework_TestCase
     private $response;
 
     /**
-     * @var \SimpleXMLElement $simpleXml
+     * @var SimpleXMLElement $simpleXml
      */
     private $simpleXml;
 
@@ -69,7 +69,7 @@ class SuccessResponseUTest extends PHPUnit_Framework_TestCase
                             <payment-method name="paypal"/>
                         </payment-methods>
                         <statuses>
-                            <status code="200" description="Test description" severity="information" />
+                            <status code="1" description="a" severity="0" />
                         </statuses>
                         <account-holder>
                             <first-name>Hr</first-name>
@@ -130,7 +130,10 @@ class SuccessResponseUTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(true, $this->response->isValidSignature());
     }
 
-    public function testMultipleDifferentProviderTransactionIds()
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\MalformedResponseException
+     */
+    public function testMultipleDifferentProviderTransactionIdsThrowException()
     {
         $xml = $this->simpleXml;
         $statuses = $xml->{'statuses'};
@@ -138,22 +141,17 @@ class SuccessResponseUTest extends PHPUnit_Framework_TestCase
          * @var $statuses \SimpleXMLElement
          */
         $status2 = $statuses->addChild('status');
-        $status2->addAttribute('provider-transaction-id', 'C016768154324581511879');
-        $status2->addAttribute('provider-code', '0');
-        $status2->addAttribute('provider-message', 'Batch transaction pending');
-        $status2->addAttribute('code', '201.0000');
-        $status2->addAttribute('description', '3d-acquirer:The resource was successfully created.');
-        $status2->addAttribute('severity', 'information');
+        $status2->addAttribute('provider-transaction-id', '123');
+        $status2->addAttribute('code', '200');
+        $status2->addAttribute('description', 'Ok.');
+        $status2->addAttribute('severity', 'Information');
         $status3 = $statuses->addChild('status');
-        $status3->addAttribute('provider-transaction-id', 'C275923154324581440567');
-        $status3->addAttribute('provider-code', '0');
-        $status3->addAttribute('provider-message', 'Transaction OK');
-        $status3->addAttribute('code', '200.1083');
-        $status3->addAttribute('description', '3d-acquirer:Cardholder Successfully authenticated.');
-        $status3->addAttribute('severity', 'information');
-        $response = new SuccessResponse($xml);
-        $expectedResponse = ['C016768154324581511879','C275923154324581440567'];
-        $this->assertEquals($expectedResponse, $response->getProviderTransactionIds());
+        $status3->addAttribute('provider-transaction-id', '456');
+        $status3->addAttribute('code', '200');
+        $status3->addAttribute('description', 'Ok.');
+        $status3->addAttribute('severity', 'Information');
+
+        new SuccessResponse($xml);
     }
 
     public function testGetPaymentMethod()
@@ -252,9 +250,9 @@ class SuccessResponseUTest extends PHPUnit_Framework_TestCase
             "parent-transaction-id" => "ca-6ed-b69",
             "transaction-type" => "transaction",
             "payment-methods.0.name" => "paypal",
-            "statuses.0.code" => '200',
-            "statuses.0.description" => 'Test description',
-            "statuses.0.severity" => 'information',
+            "statuses.0.code" => '1',
+            "statuses.0.description" => "a",
+            "statuses.0.severity" => '0',
             "card-token.0.token-id" => '4748178566351002',
             "card-token.0.masked-account-number" => "541333******1006",
             "three-d.0.cardholder-authentication-status" => "Y",

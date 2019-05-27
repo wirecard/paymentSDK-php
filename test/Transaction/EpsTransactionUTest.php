@@ -31,17 +31,19 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use PHPUnit_Framework_TestCase;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\EpsTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
 
-class EpsTransactionUTest extends \PHPUnit_Framework_TestCase
+class EpsTransactionUTest extends PHPUnit_Framework_TestCase
 {
     public function testMappedProperties()
     {
         $tx = new EpsTransaction();
-
+        $tx->setLocale('de');
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '0.0.0.1';
         $amount = new Amount(18.4, 'EUR');
         $tx->setAmount($amount);
 
@@ -71,6 +73,7 @@ class EpsTransactionUTest extends \PHPUnit_Framework_TestCase
             'fail-redirect-url' => 'http://www.test.at/return.php?status=failure',
             'locale' => 'de',
             'entry-mode' => 'ecommerce',
+            'ip-address' => '0.0.0.1'
         ];
 
         $result = $tx->mappedProperties();

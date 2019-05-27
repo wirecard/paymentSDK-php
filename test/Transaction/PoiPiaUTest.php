@@ -31,13 +31,14 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use PHPUnit_Framework_TestCase;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 use Wirecard\PaymentSdk\Transaction\PoiPiaTransaction;
 
-class PoiPiaTransactionUTest extends \PHPUnit_Framework_TestCase
+class PoiPiaTransactionUTest extends PHPUnit_Framework_TestCase
 {
     const LAST_NAME = 'Doe';
     const FIRST_NAME = 'John';
@@ -68,6 +69,8 @@ class PoiPiaTransactionUTest extends \PHPUnit_Framework_TestCase
 
         $this->tx = new PoiPiaTransaction();
         $this->tx->setAmount($this->amount);
+        $this->tx->setLocale('de');
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '0.0.0.1';
     }
 
     public function testMappedPropertiesReserve()
@@ -106,6 +109,7 @@ class PoiPiaTransactionUTest extends \PHPUnit_Framework_TestCase
             ],
             'entry-mode' => 'ecommerce',
             'locale' => 'de',
+            'ip-address' => '0.0.0.1'
         ];
     }
 
@@ -152,6 +156,7 @@ class PoiPiaTransactionUTest extends \PHPUnit_Framework_TestCase
             'parent-transaction-id' => $parentTransactionId,
             'locale' => 'de',
             'entry-mode' => 'ecommerce',
+            'ip-address' => '0.0.0.1'
         ];
     }
 
