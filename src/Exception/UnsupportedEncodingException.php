@@ -29,42 +29,16 @@
  * Please do not use the SDK if you do not agree to these terms of use!
  */
 
-namespace Wirecard\PaymentSdk\Transaction;
+namespace Wirecard\PaymentSdk\Exception;
 
-class SofortTransaction extends Transaction
+use UnexpectedValueException;
+
+/**
+ * Class UnsupportedEncodingException
+ * @package Wirecard\PaymentSdk\Exception
+ * @since 3.6.6
+ */
+class UnsupportedEncodingException extends UnexpectedValueException
 {
-    const NAME = 'sofortbanking';
 
-    /**
-     * Maximum characters: 27
-     */
-    const DESCRIPTOR_LENGTH = 27;
-    /**
-     * Allowed characters:
-     * umlaut, '0-9' 'a-z' 'A-Z' ' ' '+' ',' '-' '.'
-     */
-    const DESCRIPTOR_ALLOWED_CHAR_REGEX = "/[^a-zA-Z0-9\s\'\+\,\-\.\Ä\Ö\Ü\ä\ö\ü]/u";
-
-    /**
-     * @var bool
-     */
-    protected $sepaCredit = true;
-
-    /**
-     * @return array
-     */
-    protected function mappedSpecificProperties()
-    {
-        return [
-            'descriptor' => $this->descriptor
-        ];
-    }
-
-    /**
-     * @return string
-     */
-    protected function retrieveTransactionTypeForPay()
-    {
-        return self::TYPE_DEBIT;
-    }
 }

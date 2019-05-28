@@ -4,6 +4,7 @@
   "minimum-stability": "stable",
   "license": "GPL-3.0-only",
   "require": {
+    "ext-mbstring": "*",
     "php": ">=5.6",
     "ext-intl": ">=1.0.0",
     "ext-simplexml": "*",
@@ -17,6 +18,7 @@
     "whichbrowser/parser": "^2.0"
   },
   "require-dev": {
+    "ext-iconv": "*",
     "ext-json": "*",
     "ext-dom": "*",
     "phpunit/phpunit": "^5.7",
