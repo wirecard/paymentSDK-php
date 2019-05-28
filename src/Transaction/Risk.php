@@ -278,10 +278,12 @@ abstract class Risk
     }
 
     /**
+     * The function removes not allowed characters from string via regex and limits the string to max allowed length
      * @param string $descriptor
      * @param int $length
      * @param string $regex
      * @return string
+     * @since 3.6.6
      */
     private function sanitizeDescriptor($descriptor, $length, $regex)
     {
