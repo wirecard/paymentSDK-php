@@ -31,13 +31,14 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use PHPUnit_Framework_TestCase;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\SofortTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
-class SofortTransactionUTest extends \PHPUnit_Framework_TestCase
+class SofortTransactionUTest extends PHPUnit_Framework_TestCase
 {
     const SUCCESS_URL = 'http://www.example.com/success';
     const CANCEL_URL = 'http://www.example.com/cancel';
@@ -55,6 +56,8 @@ class SofortTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx->setRedirect($redirect);
         $this->tx->setDescriptor(self::DESCRIPTOR);
         $this->tx->setAmount(new Amount(33, 'USD'));
+        $this->tx->setLocale('de');
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '0.0.0.1';
     }
 
     /**
@@ -86,6 +89,7 @@ class SofortTransactionUTest extends \PHPUnit_Framework_TestCase
             'descriptor' => self::DESCRIPTOR,
             'locale' => 'de',
             'entry-mode' => 'ecommerce',
+            'ip-address' => '0.0.0.1'
         ];
 
         $this->tx->setOperation(Operation::PAY);

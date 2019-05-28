@@ -32,6 +32,7 @@
 namespace WirecardTest\PaymentSdk;
 
 use Mockery as m;
+use PHPUnit_Framework_TestCase;
 use Psr\Log\LoggerInterface;
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Config\CreditCardConfig;
@@ -49,7 +50,7 @@ use Wirecard\PaymentSdk\TransactionService;
  * Class TransactionServiceUTest
  * @package WirecardTest\PaymentSdk
  */
-class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
+class TransactionServiceUTest extends PHPUnit_Framework_TestCase
 {
 
     const GW_BASE_URL          = 'https://api-test.wirecard.com';
@@ -77,6 +78,7 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $ccardConfig->addThreeDMinLimit(new Amount(self::CC_THREE_D_MIN_LIMIT, 'EUR'));
         $config->add($ccardConfig);
         $this->service = new TransactionService($config, $logger);
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
     }
 
     public function testGetDataFor3dCreditCardUi()
@@ -90,7 +92,8 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
             'requested_amount_currency' => 'EUR',
             'locale' => 'en',
             'payment_method' => 'creditcard',
-            'attempt_three_d' => true
+            'attempt_three_d' => true,
+            'ip_address' => '127.0.0.1'
         ];
 
         $uiData = (array)json_decode($uiData);

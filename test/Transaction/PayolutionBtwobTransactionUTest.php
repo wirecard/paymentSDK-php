@@ -31,6 +31,7 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use PHPUnit_Framework_TestCase;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Basket;
@@ -40,7 +41,7 @@ use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\PayolutionBtwobTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
-class PayolutionBtwobTransactionUTest extends \PHPUnit_Framework_TestCase
+class PayolutionBtwobTransactionUTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var PayolutionBtwobTransaction
@@ -50,6 +51,8 @@ class PayolutionBtwobTransactionUTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->tx = new PayolutionBtwobTransaction();
+        $this->tx->setLocale('de');
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '0.0.0.1';
     }
 
     /**
