@@ -30,10 +30,13 @@ $amount = new Amount(12.59, 'EUR');
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
 $notificationUrl = getUrl('notify.php');
 
-// The account holder last name is required for credit.
 $accountHolder = new AccountHolder();
+// The account holder last name is required for credit.
+$accountHolder->setLastName('Doe');
+// The account holders first name and email are optional.
+// For complete list of all fields please visit https://doc.wirecard.com/RestApi_Fields.html
+$accountHolder->setFirstName('John');
 $accountHolder->setEmail("customer@wirecard.com");
-
 
 // ## Transaction
 
