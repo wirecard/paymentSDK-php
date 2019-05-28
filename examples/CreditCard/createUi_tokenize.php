@@ -72,6 +72,7 @@ $transaction->setBasket($basket);
 $transaction->setOrderNumber($orderNumber);
 $transaction->setAccountHolder($accountHolder);
 $transaction->setShipping($accountHolder);
+$transaction->setThreeD(true);
 
 // Send custom fields for CreditCard transactions
 $custom_fields = new \Wirecard\PaymentSdk\Entity\CustomFieldCollection();
