@@ -27,8 +27,11 @@ $amount = new Amount(70.00, 'EUR');
 
 // Create an account holder object, which contains Payment on invoice / Payment in advance relevant fields
 $accountHolder = new AccountHolder();
-$accountHolder->setFirstName("John");
-$accountHolder->setLastName("Doe");
+// The account holder last name is required for credit.
+$accountHolder->setLastName('Doe');
+// The account holders first name and email are optional.
+// For complete list of all fields please visit https://doc.wirecard.com/RestApi_Fields.html
+$accountHolder->setFirstName('John');
 $accountHolder->setEmail("john.doe@wirecard.com");
 
 // The redirect URL determines where the consumer should be redirected to

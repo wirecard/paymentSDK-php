@@ -50,10 +50,11 @@ if (!isset($_POST['iban']) && !isset($_POST['parentTransactionId'])) {
         $amount = new Amount(12.59, 'EUR');
     }
 
-// The account holder last name is required.
     $accountHolder = new AccountHolder();
+// The account holder last name is required.
     $accountHolder->setLastName('Doe');
 // The account holders first name is optional.
+// For complete list of all fields please visit https://doc.wirecard.com/RestApi_Fields.html
     $accountHolder->setFirstName('Jane');
 
 // A mandate with ID and signed date is required.

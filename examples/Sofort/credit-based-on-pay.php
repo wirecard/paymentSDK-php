@@ -35,9 +35,11 @@ if (!isset($_POST['parentTransactionId'])) {
 } else {
 // ### Transaction related objects
 
-// The account holder (first name, last name) is required.
     $accountHolder = new AccountHolder();
+// The account holder last name is required.
     $accountHolder->setLastName('Doe');
+// The account holders first name is optional.
+// For complete list of all fields please visit https://doc.wirecard.com/RestApi_Fields.html
     $accountHolder->setFirstName('Jane');
 
 // A mandate with ID and signed date is required.

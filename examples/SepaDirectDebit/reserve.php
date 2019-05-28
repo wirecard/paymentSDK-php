@@ -41,12 +41,12 @@ if (!isset($_POST['iban'])) {
 // Create an amount object as amount which has to be paid by the consumer.
     $amount = new Amount(7, 'EUR');
 
-// The account holder last name is required.
     $accountHolder = new AccountHolder();
+// The account holder last name is required.
     $accountHolder->setLastName('Doe');
 // The account holders first name is optional.
+// For complete list of all fields please visit https://doc.wirecard.com/RestApi_Fields.html
     $accountHolder->setFirstName('Jane');
-
 
 // ## Transaction
 

@@ -27,8 +27,11 @@ $amount = new Amount(1.59, 'EUR');
 
 // Use the AccountHolder object to specify the first and last name
 $accountHolder = new AccountHolder();
-$accountHolder->setFirstName("testname");
+// The account holder last name is required.
 $accountHolder->setLastName("testlastname");
+// The account holders first name is optional.
+// For complete list of all fields please visit https://doc.wirecard.com/RestApi_Fields.html
+$accountHolder->setFirstName("testname");
 
 // The redirect URLs determine where the consumer should be redirected by Alipay Crossborder after approval, cancellation and
 // failure.
