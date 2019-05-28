@@ -27,8 +27,11 @@ $amount = new Amount(12.59, 'PLN');
 
 // Crate an account holder object as it is a mandatory field for Przelewy24
 $accountHolder = new AccountHolder();
-$accountHolder->setFirstName('Max');
+// The account holder last name is required for credit.
 $accountHolder->setLastName('Cavalera');
+// The account holders first name and email are optional.
+// For complete list of all fields please visit https://doc.wirecard.com/RestApi_Fields.html
+$accountHolder->setFirstName('Max');
 $accountHolder->setEmail('max.cavalera@email.com');
 
 // Set redirect URLs for success, cancel and failure.

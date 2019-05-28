@@ -109,4 +109,15 @@ class IdealTransactionUTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($expectedResult, $result);
     }
+
+    public function testDescriptor()
+    {
+        $descriptor = "0123-€\$§%!=#~;+/?:().,'&><\"*{}[]@\_°^ |ÄÖÜäöüß°`abcdefghijklmn" .
+            "opqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        // Only 35 chars are allowed
+        $expectedDescriptor = "0123-+.,' ÄÖÜäöüabcdefghijklmnopqrs";
+        $transaction = new IdealTransaction();
+        $transaction->setDescriptor($descriptor);
+        $this->assertEquals($expectedDescriptor, $transaction->getDescriptor());
+    }
 }

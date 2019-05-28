@@ -24,8 +24,11 @@ use Wirecard\PaymentSdk\Transaction\Transaction;
 
 // Prepare referenced pay relevant data
 $accountHolder = new AccountHolder();
-$accountHolder->setFirstName('Max');
+// The account holder last name is required.
 $accountHolder->setLastName('Cavalera');
+// The account holders first name is optional.
+// For complete list of all fields please visit https://doc.wirecard.com/RestApi_Fields.html
+$accountHolder->setFirstName('Max');
 
 $transaction = new MasterpassTransaction();
 $transaction->setParentTransactionId($_POST['parentTransactionId']);

@@ -37,6 +37,7 @@ use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Card;
 use Wirecard\PaymentSdk\Entity\Periodic;
 use Wirecard\PaymentSdk\Entity\SubMerchantInfo;
+use Wirecard\PaymentSdk\Exception\UnsupportedEncodingException;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\Transaction;
@@ -707,5 +708,12 @@ class CreditCardTransactionUTest extends PHPUnit_Framework_TestCase
     public function testGetEndpoint()
     {
         $this->assertEquals(Transaction::ENDPOINT_PAYMENTS, $this->tx->getEndpoint());
+    }
+
+    public function testDescriptor()
+    {
+        $transaction = new CreditCardTransaction();
+        $transaction->setDescriptor('Test üöäü?=(&$§"§$!');
+        $this->assertEquals('Test', $transaction->getDescriptor());
     }
 }

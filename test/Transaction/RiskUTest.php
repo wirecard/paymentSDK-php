@@ -127,4 +127,13 @@ class RiskUTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals('Testshop', $mapped['descriptor']);
     }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedEncodingException
+     */
+    public function testDescriptorException()
+    {
+        $descriptor = iconv('UTF-8', 'ISO-8859-1', 'Test üöäü?=(&$§"§$!');
+        $this->tx->setDescriptor($descriptor);
+    }
 }

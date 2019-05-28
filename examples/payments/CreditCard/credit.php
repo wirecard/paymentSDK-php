@@ -30,10 +30,12 @@ $tokenId = '5168216323601006';
 // Create a amount object as amount which has to be paid by the consumer.
 $amount = new Amount(10.59, 'EUR');
 
-// The account holder last name is required for credit.
 $accountHolder = new AccountHolder();
+// The account holder last name is required.
 $accountHolder->setLastName('Doe');
-
+// The account holders first name is optional.
+// For complete list of all fields please visit https://doc.wirecard.com/RestApi_Fields.html
+$accountHolder->setFirstName('Jane');
 
 // ### Transaction
 

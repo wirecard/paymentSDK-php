@@ -154,4 +154,15 @@ class PtwentyfourTransactionUTest extends PHPUnit_Framework_TestCase
         $this->tx->setParentTransactionType(Transaction::TYPE_DEBIT);
         $this->assertEquals(Transaction::TYPE_REFUND_REQUEST, $this->tx->mappedProperties()['transaction-type']);
     }
+
+    public function testDescriptor()
+    {
+        $descriptor = "0123-€\$§%!=#~;+/?:().,'&><\"*{}[]@\_°^|ÄÖÜäöüß^°`" .
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        // Only 20 chars are allowed
+        $expectedDescriptor = "0123abcdefghijklmnop";
+        $transaction = new PtwentyfourTransaction();
+        $transaction->setDescriptor($descriptor);
+        $this->assertEquals($expectedDescriptor, $transaction->getDescriptor());
+    }
 }

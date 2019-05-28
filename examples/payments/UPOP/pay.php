@@ -26,8 +26,11 @@ use Wirecard\PaymentSdk\TransactionService;
 $amount = new Amount(33, 'CNY');
 
 $accountHolder = new AccountHolder();
-$accountHolder->setFirstName('Max');
+// The account holder last name is required for credit.
 $accountHolder->setLastName('Cavalera');
+// The account holders first name and email are optional.
+// For complete list of all fields please visit https://doc.wirecard.com/RestApi_Fields.html
+$accountHolder->setFirstName('Max');
 $accountHolder->setEmail('max.cavalera@email.com');
 
 // Set redirect URLs for success, cancel and failure.

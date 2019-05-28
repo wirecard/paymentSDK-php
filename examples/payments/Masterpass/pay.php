@@ -26,8 +26,11 @@ use Wirecard\PaymentSdk\TransactionService;
 $amount = new Amount(70.0, 'EUR');
 
 $accountHolder = new AccountHolder();
-$accountHolder->setFirstName('Max');
+// The account holder last name is required.
 $accountHolder->setLastName('Cavalera');
+// The account holders first name is optional.
+// For complete list of all fields please visit https://doc.wirecard.com/RestApi_Fields.html
+$accountHolder->setFirstName('Max');
 
 $redirect = new Redirect(
     getUrl('return.php?status=success'),

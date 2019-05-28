@@ -41,10 +41,12 @@ $redirectUrls = new Redirect(
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
 $notificationUrl = getUrl('notify.php');
 
-// The account holder last name is required for credit.
 $accountHolder = new AccountHolder();
+// The account holder last name is required.
 $accountHolder->setLastName('Doe');
-$accountHolder->setFirstName('John');
+// The account holders first name is optional.
+// For complete list of all fields please visit https://doc.wirecard.com/RestApi_Fields.html
+$accountHolder->setFirstName('Jane');
 
 // ### Transaction
 

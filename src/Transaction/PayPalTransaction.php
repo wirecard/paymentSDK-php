@@ -31,7 +31,6 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
@@ -43,6 +42,17 @@ use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 class PayPalTransaction extends Transaction implements Reservable
 {
     const NAME = 'paypal';
+
+    /**
+     * Maximum characters: 27
+     */
+    const DESCRIPTOR_LENGTH = 27;
+
+    /**
+     * Allowed characters:
+     * umlaut, - '0-9','a-z','A-Z',' ' , '+',',','-','.'
+     */
+    const DESCRIPTOR_ALLOWED_CHAR_REGEX = "/[^a-zA-Z0-9\s\'\+\,\-\.\Ä\Ö\Ü\ä\ö\ü]/u";
 
     /**
      * @var string

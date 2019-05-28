@@ -37,10 +37,13 @@ $orderNumber = '180703111134838';
 
 // ### Account holder with address
 
-// Note: birthdate is not required for B2B
+// Note: birth date is not required for B2B
 $accountHolder = new AccountHolder();
-$accountHolder->setFirstName('John');
+// The account holder last name is required.
 $accountHolder->setLastName('Doe');
+// The account holders first name, email, phone are optional.
+// For complete list of all fields please visit https://doc.wirecard.com/RestApi_Fields.html
+$accountHolder->setFirstName('John');
 $accountHolder->setEmail('support4558@wirecard.at');
 $accountHolder->setPhone('+180629103914690');
 
