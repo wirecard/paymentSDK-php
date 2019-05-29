@@ -51,7 +51,6 @@ function includePaymentMenu()
         'Eps',
         'Giropay',
         'iDEAL',
-        'Maestro',
         'Masterpass',
         'PayByBankApp',
         'PoiPia',

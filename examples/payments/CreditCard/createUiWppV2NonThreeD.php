@@ -8,9 +8,10 @@
 
 // ## Required libraries and objects
 // To include the necessary files, use the composer for PSR-4 autoloading.
-require __DIR__ . '/../../vendor/autoload.php';
-require __DIR__ . '/../inc/common.php';
-require __DIR__ . '/../inc/config.php';
+require __DIR__ . '/../../../vendor/autoload.php';
+require __DIR__ . '/../../inc/common.php';
+require __DIR__ . '/../../configuration/config.php';
+require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\TransactionService;
@@ -73,9 +74,6 @@ $custom_fields->add( new \Wirecard\PaymentSdk\Entity\CustomField( 'orderId', '12
 $transaction->setCustomFields( $custom_fields );
 
 ?>
-
-<html>
-<head>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" type="application/javascript"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -83,85 +81,9 @@ $transaction->setCustomFields( $custom_fields );
     // This library is needed to generate the UI and to get a valid token ID.
     ?>
     <script src="https://wpp-test.wirecard.com/loader/paymentPage.js" type="text/javascript"></script>
-    <style>
-        #creditcard-form-div {
-            height: 300px;
-        }
-
-        #overrides h1 {
-            margin: 0px;
-            font-size: 2vw;
-        }
-
-        #overrides h2 {
-            padding-bottom: 10px;
-            border-bottom: 1px solid #dedede;
-        }
-
-        #overrides h3 {
-            min-height: 52.8px;
-        }
-
-        #overrides img {
-            height: 40px;
-            margin: 0px 20px;
-        }
-
-        #overrides .align-baseline {
-            position: relative;
-        }
-
-        #overrides .bottom-align-text {
-            position: absolute;
-            bottom: -0.35vw;
-            left: 235px;
-        }
-
-        #overrides .page-header {
-            background-color: #002846;
-            margin-top: 0px;
-            padding: 40px 20px;
-            color: white;
-        }
-
-        #overrides .list-group-item {
-            border-radius: 0px;
-            text-transform: uppercase;
-            font-size: 12px;
-        }
-
-        #overrides .list-group-item:hover {
-            color: #ff2014;
-            background-color: #F7F7F8;
-        }
-
-        #overrides .btn-primary {
-            background-color: #002846;
-        }
-
-        #overrides .btn-primary:hover {
-            background-color: #414B56;
-        }
-
-    </style>
-</head>
-<body id="overrides">
-<div class="container">
-    <div class="page-header">
-        <div class="row">
-            <div class="col-sm-2">
-                <img src="https://raw.githubusercontent.com/wirecard/paymentSDK-php/master/examples/src/img/wirecard_logo.png" alt="wirecard" />
-            </div>
-            <div class="col-sm-10 align-bottom">
-                <h1>Payment SDK for PHP Examples</h1>
-            </div>
-        </div>
-    </div>
-    <div>
-        <div class="row">
-            <div class="col-sm-12">
-                <a href="https://doc.wirecard.com/WPP.html" target="_blank"><h3>WPP v2</h3></a>
-            </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <a href="https://doc.wirecard.com/WPP.html" target="_blank"><h3>WPP v2</h3></a>
         </div>
     </div>
     <form id="payment-form" method="post" action="reserve.php">
@@ -177,7 +99,6 @@ $transaction->setCustomFields( $custom_fields );
         <div id="creditcard-form-div"></div>
         <button type="submit" class="btn btn-primary">Save</button>
     </form>
-</div>
 <script type="application/javascript">
 
     // This function will render the credit card UI in the specified div.
@@ -237,5 +158,5 @@ $transaction->setCustomFields( $custom_fields );
     }
 
 </script>
-</body>
-</html>
+<?php
+require __DIR__ . '/../../inc/footer.php';
