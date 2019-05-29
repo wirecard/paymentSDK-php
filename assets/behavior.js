@@ -16,1743 +16,308 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         {
           "type": "folder",
           "data": {
-            "path": "examples/AlipayCrossborder",
-            "title": "AlipayCrossborder"
+            "path": "examples/inc",
+            "title": "inc"
           },
           "depth": 2,
           "children": [
             {
-              "type": "file",
+              "type": "folder",
               "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/AlipayCrossborder/cancel.php",
-                "projectPath": "examples/AlipayCrossborder/cancel.php",
-                "targetPath": "examples/AlipayCrossborder/cancel",
-                "pageTitle": "examples/AlipayCrossborder/cancel",
-                "title": "cancel"
+                "path": "examples/inc/features",
+                "title": "features"
               },
               "depth": 3,
-              "outline": [
+              "children": [
                 {
-                  "type": "heading",
+                  "type": "file",
                   "data": {
-                    "level": 1,
-                    "title": "Refund a transaction",
-                    "slug": "refund-a-transaction"
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/features/backend.php",
+                    "projectPath": "examples/inc/features/backend.php",
+                    "targetPath": "examples/inc/features/backend",
+                    "pageTitle": "examples/inc/features/backend",
+                    "title": "backend"
                   },
-                  "depth": 1,
-                  "children": [
+                  "depth": 4,
+                  "outline": [
                     {
                       "type": "heading",
                       "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
+                        "level": 1,
+                        "title": "Backend Service",
+                        "slug": "backend-service"
                       },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
+                      "depth": 1,
                       "children": [
                         {
                           "type": "heading",
                           "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
                           },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/AlipayCrossborder/notify.php",
-                "projectPath": "examples/AlipayCrossborder/notify.php",
-                "targetPath": "examples/AlipayCrossborder/notify",
-                "pageTitle": "examples/AlipayCrossborder/notify",
-                "title": "notify"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Alipay Crossborder notification",
-                    "slug": "alipay-crossborder-notification"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Validation",
-                            "slug": "validation"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Notification status",
-                        "slug": "notification-status"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/AlipayCrossborder/pay.php",
-                "projectPath": "examples/AlipayCrossborder/pay.php",
-                "targetPath": "examples/AlipayCrossborder/pay",
-                "pageTitle": "examples/AlipayCrossborder/pay",
-                "title": "pay"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Alipay Crossborder payment transaction",
-                    "slug": "alipay-crossborder-payment-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/AlipayCrossborder/return.php",
-                "projectPath": "examples/AlipayCrossborder/return.php",
-                "targetPath": "examples/AlipayCrossborder/return",
-                "pageTitle": "examples/AlipayCrossborder/return",
-                "title": "return"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Handling the response of a transaction",
-                    "slug": "handling-the-response-of-a-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Payment results",
-                        "slug": "payment-results"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }, {
-          "type": "folder",
-          "data": {
-            "path": "examples/Bancontact",
-            "title": "Bancontact"
-          },
-          "depth": 2,
-          "children": [
-            {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Bancontact/credit-based-on-pay.php",
-                "projectPath": "examples/Bancontact/credit-based-on-pay.php",
-                "targetPath": "examples/Bancontact/credit-based-on-pay",
-                "pageTitle": "examples/Bancontact/credit-based-on-pay",
-                "title": "credit-based-on-pay"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Credit based on pay",
-                    "slug": "credit-based-on-pay"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Bancontact/pay.php",
-                "projectPath": "examples/Bancontact/pay.php",
-                "targetPath": "examples/Bancontact/pay",
-                "pageTitle": "examples/Bancontact/pay",
-                "title": "pay"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Bancontact payment transaction",
-                    "slug": "bancontact-payment-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Bancontact/return.php",
-                "projectPath": "examples/Bancontact/return.php",
-                "targetPath": "examples/Bancontact/return",
-                "pageTitle": "examples/Bancontact/return",
-                "title": "return"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Bancontact return after transaction",
-                    "slug": "bancontact-return-after-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Validation",
-                            "slug": "validation"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Payment results",
-                        "slug": "payment-results"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }, {
-          "type": "folder",
-          "data": {
-            "path": "examples/CreditCard",
-            "title": "CreditCard"
-          },
-          "depth": 2,
-          "children": [
-            {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/CreditCard/cancel.php",
-                "projectPath": "examples/CreditCard/cancel.php",
-                "targetPath": "examples/CreditCard/cancel",
-                "pageTitle": "examples/CreditCard/cancel",
-                "title": "cancel"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Cancelling a transaction",
-                    "slug": "cancelling-a-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/CreditCard/createUi.php",
-                "projectPath": "examples/CreditCard/createUi.php",
-                "targetPath": "examples/CreditCard/createUi",
-                "pageTitle": "examples/CreditCard/createUi",
-                "title": "createUi"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Credit Card UI creation",
-                    "slug": "credit-card-ui-creation"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required libraries and objects",
-                        "slug": "required-libraries-and-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Basket items",
-                            "slug": "basket-items"
-                          },
-                          "depth": 3,
+                          "depth": 2,
                           "children": [
                             {
                               "type": "heading",
                               "data": {
-                                "level": 4,
-                                "title": "Account holder with address",
-                                "slug": "account-holder-with-address"
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
                               },
-                              "depth": 4
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Backend operations",
+                                "slug": "backend-operations"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Final status",
+                                "slug": "final-status"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Order state",
+                                "slug": "order-state"
+                              },
+                              "depth": 3,
+                              "children": [
+                                {
+                                  "type": "heading",
+                                  "data": {
+                                    "level": 4,
+                                    "title": "Backend process",
+                                    "slug": "backend-process"
+                                  },
+                                  "depth": 4
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/features/basket.php",
+                    "projectPath": "examples/inc/features/basket.php",
+                    "targetPath": "examples/inc/features/basket",
+                    "pageTitle": "examples/inc/features/basket",
+                    "title": "basket"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Basket data",
+                        "slug": "basket-data"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Basket items",
+                                "slug": "basket-items"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
                             }
                           ]
                         }, {
                           "type": "heading",
                           "data": {
-                            "level": 3,
-                            "title": "Basic CreditCardTransaction",
-                            "slug": "basic-creditcardtransaction"
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
                           },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Render the form",
-                            "slug": "render-the-form"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Submit handler for the form",
-                            "slug": "submit-handler-for-the-form"
-                          },
-                          "depth": 3
+                          "depth": 2
                         }
                       ]
                     }
                   ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/CreditCard/createUi_tokenize.php",
-                "projectPath": "examples/CreditCard/createUi_tokenize.php",
-                "targetPath": "examples/CreditCard/createUi_tokenize",
-                "pageTitle": "examples/CreditCard/createUi_tokenize",
-                "title": "createUi_tokenize"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
+                }, {
+                  "type": "file",
                   "data": {
-                    "level": 1,
-                    "title": "Credit Card UI creation",
-                    "slug": "credit-card-ui-creation"
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/features/custom_fields.php",
+                    "projectPath": "examples/inc/features/custom_fields.php",
+                    "targetPath": "examples/inc/features/custom_fields",
+                    "pageTitle": "examples/inc/features/custom_fields",
+                    "title": "custom_fields"
                   },
-                  "depth": 1,
-                  "children": [
+                  "depth": 4,
+                  "outline": [
                     {
                       "type": "heading",
                       "data": {
-                        "level": 2,
-                        "title": "Required libraries and objects",
-                        "slug": "required-libraries-and-objects"
+                        "level": 1,
+                        "title": "Custom fields",
+                        "slug": "custom-fields"
                       },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
+                      "depth": 1,
                       "children": [
                         {
                           "type": "heading",
                           "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
                           },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Basket items",
-                            "slug": "basket-items"
-                          },
-                          "depth": 3,
+                          "depth": 2,
                           "children": [
                             {
                               "type": "heading",
                               "data": {
-                                "level": 4,
-                                "title": "Account holder with address",
-                                "slug": "account-holder-with-address"
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
                               },
-                              "depth": 4
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Custom fields",
+                                "slug": "custom-fields"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Response handling",
+                                "slug": "response-handling"
+                              },
+                              "depth": 3
                             }
                           ]
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Basic CreditCardTransaction",
-                            "slug": "basic-creditcardtransaction"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Render the form",
-                            "slug": "render-the-form"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Submit handler for the form",
-                            "slug": "submit-handler-for-the-form"
-                          },
-                          "depth": 3
                         }
                       ]
                     }
                   ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/CreditCard/credit.php",
-                "projectPath": "examples/CreditCard/credit.php",
-                "targetPath": "examples/CreditCard/credit",
-                "pageTitle": "examples/CreditCard/credit",
-                "title": "credit"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
+                }, {
+                  "type": "file",
                   "data": {
-                    "level": 1,
-                    "title": "Credit to a credit card",
-                    "slug": "credit-to-a-credit-card"
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/features/redirect.php",
+                    "projectPath": "examples/inc/features/redirect.php",
+                    "targetPath": "examples/inc/features/redirect",
+                    "pageTitle": "examples/inc/features/redirect",
+                    "title": "redirect"
                   },
-                  "depth": 1,
-                  "children": [
+                  "depth": 4,
+                  "outline": [
                     {
                       "type": "heading",
                       "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
+                        "level": 1,
+                        "title": "Redirect with synchronous payments",
+                        "slug": "redirect-with-synchronous-payments"
                       },
-                      "depth": 2,
+                      "depth": 1,
                       "children": [
                         {
                           "type": "heading",
                           "data": {
                             "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
+                            "title": "Required objects",
+                            "slug": "required-objects"
                           },
                           "depth": 3
                         }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/CreditCard/notify.php",
-                "projectPath": "examples/CreditCard/notify.php",
-                "targetPath": "examples/CreditCard/notify",
-                "pageTitle": "examples/CreditCard/notify",
-                "title": "notify"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Credit Card notification",
-                    "slug": "credit-card-notification"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Validation",
-                            "slug": "validation"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Notification status",
-                        "slug": "notification-status"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/CreditCard/pay.php",
-                "projectPath": "examples/CreditCard/pay.php",
-                "targetPath": "examples/CreditCard/pay",
-                "pageTitle": "examples/CreditCard/pay",
-                "title": "pay"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Purchase for credit card",
-                    "slug": "purchase-for-credit-card"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/CreditCard/pay-based-on-reserve.php",
-                "projectPath": "examples/CreditCard/pay-based-on-reserve.php",
-                "targetPath": "examples/CreditCard/pay-based-on-reserve",
-                "pageTitle": "examples/CreditCard/pay-based-on-reserve",
-                "title": "pay-based-on-reserve"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Payment after a reservation",
-                    "slug": "payment-after-a-reservation"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/CreditCard/pay-based-on-token.php",
-                "projectPath": "examples/CreditCard/pay-based-on-token.php",
-                "targetPath": "examples/CreditCard/pay-based-on-token",
-                "pageTitle": "examples/CreditCard/pay-based-on-token",
-                "title": "pay-based-on-token"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Purchase for credit card via token",
-                    "slug": "purchase-for-credit-card-via-token"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/CreditCard/pay_tokenize.php",
-                "projectPath": "examples/CreditCard/pay_tokenize.php",
-                "targetPath": "examples/CreditCard/pay_tokenize",
-                "pageTitle": "examples/CreditCard/pay_tokenize",
-                "title": "pay_tokenize"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Purchase for credit card",
-                    "slug": "purchase-for-credit-card"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/CreditCard/reserve.php",
-                "projectPath": "examples/CreditCard/reserve.php",
-                "targetPath": "examples/CreditCard/reserve",
-                "pageTitle": "examples/CreditCard/reserve",
-                "title": "reserve"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Credit card reservation",
-                    "slug": "credit-card-reservation"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/CreditCard/return.php",
-                "projectPath": "examples/CreditCard/return.php",
-                "targetPath": "examples/CreditCard/return",
-                "pageTitle": "examples/CreditCard/return",
-                "title": "return"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Handling the response of a transaction",
-                    "slug": "handling-the-response-of-a-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Payment results",
-                        "slug": "payment-results"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Example of BackendService use",
-                        "slug": "example-of-backendservice-use"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Retrieve possible operations for the transaction. An array of possible operations is returned",
-                            "slug": "retrieve-possible-operations-for-the-transaction-an-array-of-possible-operations-is-returned"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Check it the state of the transaction is final.",
-                            "slug": "check-it-the-state-of-the-transaction-is-final"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Get order state of the transaction",
-                            "slug": "get-order-state-of-the-transaction"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }, {
-          "type": "folder",
-          "data": {
-            "path": "examples/CreditCardMoto",
-            "title": "CreditCardMoto"
-          },
-          "depth": 2,
-          "children": [
-            {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/CreditCardMoto/cancel.php",
-                "projectPath": "examples/CreditCardMoto/cancel.php",
-                "targetPath": "examples/CreditCardMoto/cancel",
-                "pageTitle": "examples/CreditCardMoto/cancel",
-                "title": "cancel"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Cancelling a transaction",
-                    "slug": "cancelling-a-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/CreditCardMoto/createUi.php",
-                "projectPath": "examples/CreditCardMoto/createUi.php",
-                "targetPath": "examples/CreditCardMoto/createUi",
-                "pageTitle": "examples/CreditCardMoto/createUi",
-                "title": "createUi"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Credit Card Moto UI creation",
-                    "slug": "credit-card-moto-ui-creation"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required libraries and objects",
-                        "slug": "required-libraries-and-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Render the form",
-                            "slug": "render-the-form"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Submit handler for the form",
-                            "slug": "submit-handler-for-the-form"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/CreditCardMoto/reserve.php",
-                "projectPath": "examples/CreditCardMoto/reserve.php",
-                "targetPath": "examples/CreditCardMoto/reserve",
-                "pageTitle": "examples/CreditCardMoto/reserve",
-                "title": "reserve"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Credit Card Moto reservation",
-                    "slug": "credit-card-moto-reservation"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }, {
-          "type": "folder",
-          "data": {
-            "path": "examples/Features",
-            "title": "Features"
-          },
-          "depth": 2,
-          "children": [
-            {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Features/backend.php",
-                "projectPath": "examples/Features/backend.php",
-                "targetPath": "examples/Features/backend",
-                "pageTitle": "examples/Features/backend",
-                "title": "backend"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Backend Service",
-                    "slug": "backend-service"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
                           "type": "heading",
                           "data": {
                             "level": 3,
@@ -1761,264 +326,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                           },
                           "depth": 3
                         }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Backend operations",
-                            "slug": "backend-operations"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Final status",
-                            "slug": "final-status"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Order state",
-                            "slug": "order-state"
-                          },
-                          "depth": 3,
-                          "children": [
-                            {
-                              "type": "heading",
-                              "data": {
-                                "level": 4,
-                                "title": "Backend process",
-                                "slug": "backend-process"
-                              },
-                              "depth": 4
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Features/basket.php",
-                "projectPath": "examples/Features/basket.php",
-                "targetPath": "examples/Features/basket",
-                "pageTitle": "examples/Features/basket",
-                "title": "basket"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Basket data",
-                    "slug": "basket-data"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Basket items",
-                            "slug": "basket-items"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Features/custom_fields.php",
-                "projectPath": "examples/Features/custom_fields.php",
-                "targetPath": "examples/Features/custom_fields",
-                "pageTitle": "examples/Features/custom_fields",
-                "title": "custom_fields"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Custom fields",
-                    "slug": "custom-fields"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Custom fields",
-                            "slug": "custom-fields"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Features/redirect.php",
-                "projectPath": "examples/Features/redirect.php",
-                "targetPath": "examples/Features/redirect",
-                "pageTitle": "examples/Features/redirect",
-                "title": "redirect"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Redirect with synchronous payments",
-                    "slug": "redirect-with-synchronous-payments"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
                           "type": "heading",
                           "data": {
                             "level": 3,
@@ -2034,3793 +341,361 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                             "slug": "transaction-service"
                           },
                           "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Features/validation.php",
-                "projectPath": "examples/Features/validation.php",
-                "targetPath": "examples/Features/validation",
-                "pageTitle": "examples/Features/validation",
-                "title": "validation"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Validating a response from Wirecard",
-                    "slug": "validating-a-response-from-wirecard"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Payment results",
-                        "slug": "payment-results"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }, {
-          "type": "folder",
-          "data": {
-            "path": "examples/Maestro",
-            "title": "Maestro"
-          },
-          "depth": 2,
-          "children": [
-            {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Maestro/cancel.php",
-                "projectPath": "examples/Maestro/cancel.php",
-                "targetPath": "examples/Maestro/cancel",
-                "pageTitle": "examples/Maestro/cancel",
-                "title": "cancel"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Cancelling a transaction",
-                    "slug": "cancelling-a-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Maestro/createUi.php",
-                "projectPath": "examples/Maestro/createUi.php",
-                "targetPath": "examples/Maestro/createUi",
-                "pageTitle": "examples/Maestro/createUi",
-                "title": "createUi"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Maestro UI creation",
-                    "slug": "maestro-ui-creation"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required libraries and objects",
-                        "slug": "required-libraries-and-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
                         }, {
                           "type": "heading",
                           "data": {
                             "level": 3,
-                            "title": "Basket items",
-                            "slug": "basket-items"
-                          },
-                          "depth": 3,
-                          "children": [
-                            {
-                              "type": "heading",
-                              "data": {
-                                "level": 4,
-                                "title": "Account holder with address",
-                                "slug": "account-holder-with-address"
-                              },
-                              "depth": 4
-                            }
-                          ]
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Basic CreditCardTransaction",
-                            "slug": "basic-creditcardtransaction"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Render the form",
-                            "slug": "render-the-form"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Submit handler for the form",
-                            "slug": "submit-handler-for-the-form"
+                            "title": "Response handling",
+                            "slug": "response-handling"
                           },
                           "depth": 3
                         }
                       ]
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Maestro/credit.php",
-                "projectPath": "examples/Maestro/credit.php",
-                "targetPath": "examples/Maestro/credit",
-                "pageTitle": "examples/Maestro/credit",
-                "title": "credit"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Credit to a Maestro",
-                    "slug": "credit-to-a-maestro"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Maestro/notify.php",
-                "projectPath": "examples/Maestro/notify.php",
-                "targetPath": "examples/Maestro/notify",
-                "pageTitle": "examples/Maestro/notify",
-                "title": "notify"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Maestro notification",
-                    "slug": "maestro-notification"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Validation",
-                            "slug": "validation"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Notification status",
-                        "slug": "notification-status"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Maestro/pay.php",
-                "projectPath": "examples/Maestro/pay.php",
-                "targetPath": "examples/Maestro/pay",
-                "pageTitle": "examples/Maestro/pay",
-                "title": "pay"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Purchase for Maestro",
-                    "slug": "purchase-for-maestro"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Maestro/pay-based-on-reserve.php",
-                "projectPath": "examples/Maestro/pay-based-on-reserve.php",
-                "targetPath": "examples/Maestro/pay-based-on-reserve",
-                "pageTitle": "examples/Maestro/pay-based-on-reserve",
-                "title": "pay-based-on-reserve"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Payment after a reservation",
-                    "slug": "payment-after-a-reservation"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Maestro/pay-based-on-token.php",
-                "projectPath": "examples/Maestro/pay-based-on-token.php",
-                "targetPath": "examples/Maestro/pay-based-on-token",
-                "pageTitle": "examples/Maestro/pay-based-on-token",
-                "title": "pay-based-on-token"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Purchase for Maestro via token",
-                    "slug": "purchase-for-maestro-via-token"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Maestro/reserve.php",
-                "projectPath": "examples/Maestro/reserve.php",
-                "targetPath": "examples/Maestro/reserve",
-                "pageTitle": "examples/Maestro/reserve",
-                "title": "reserve"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Maestro reservation",
-                    "slug": "maestro-reservation"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Maestro/return.php",
-                "projectPath": "examples/Maestro/return.php",
-                "targetPath": "examples/Maestro/return",
-                "pageTitle": "examples/Maestro/return",
-                "title": "return"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Handling the response of a transaction",
-                    "slug": "handling-the-response-of-a-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Payment results",
-                        "slug": "payment-results"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Example of BackendService use",
-                        "slug": "example-of-backendservice-use"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Retrieve possible operations for the transaction. An array of possible operations is returned",
-                            "slug": "retrieve-possible-operations-for-the-transaction-an-array-of-possible-operations-is-returned"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Check it the state of the transaction is final.",
-                            "slug": "check-it-the-state-of-the-transaction-is-final"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Get order state of the transaction",
-                            "slug": "get-order-state-of-the-transaction"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }, {
-          "type": "folder",
-          "data": {
-            "path": "examples/Masterpass",
-            "title": "Masterpass"
-          },
-          "depth": 2,
-          "children": [
-            {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Masterpass/cancel.php",
-                "projectPath": "examples/Masterpass/cancel.php",
-                "targetPath": "examples/Masterpass/cancel",
-                "pageTitle": "examples/Masterpass/cancel",
-                "title": "cancel"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Cancelling a transaction",
-                    "slug": "cancelling-a-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Notification URL",
-                            "slug": "notification-url"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Masterpass/pay.php",
-                "projectPath": "examples/Masterpass/pay.php",
-                "targetPath": "examples/Masterpass/pay",
-                "pageTitle": "examples/Masterpass/pay",
-                "title": "pay"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Payment after a reservation",
-                    "slug": "payment-after-a-reservation"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Masterpass/pay-based-on-pay.php",
-                "projectPath": "examples/Masterpass/pay-based-on-pay.php",
-                "targetPath": "examples/Masterpass/pay-based-on-pay",
-                "pageTitle": "examples/Masterpass/pay-based-on-pay",
-                "title": "pay-based-on-pay"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Payment after a reservation",
-                    "slug": "payment-after-a-reservation"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Masterpass/pay-based-on-reserve.php",
-                "projectPath": "examples/Masterpass/pay-based-on-reserve.php",
-                "targetPath": "examples/Masterpass/pay-based-on-reserve",
-                "pageTitle": "examples/Masterpass/pay-based-on-reserve",
-                "title": "pay-based-on-reserve"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Payment after a reservation",
-                    "slug": "payment-after-a-reservation"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Masterpass/reserve.php",
-                "projectPath": "examples/Masterpass/reserve.php",
-                "targetPath": "examples/Masterpass/reserve",
-                "pageTitle": "examples/Masterpass/reserve",
-                "title": "reserve"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Masterpass reservation",
-                    "slug": "masterpass-reservation"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Masterpass/return.php",
-                "projectPath": "examples/Masterpass/return.php",
-                "targetPath": "examples/Masterpass/return",
-                "pageTitle": "examples/Masterpass/return",
-                "title": "return"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Handling the response of a transaction",
-                    "slug": "handling-the-response-of-a-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Payment results",
-                        "slug": "payment-results"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }, {
-          "type": "folder",
-          "data": {
-            "path": "examples/PayByBankApp",
-            "title": "PayByBankApp"
-          },
-          "depth": 2,
-          "children": [
-            {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/PayByBankApp/notify.php",
-                "projectPath": "examples/PayByBankApp/notify.php",
-                "targetPath": "examples/PayByBankApp/notify",
-                "pageTitle": "examples/PayByBankApp/notify",
-                "title": "notify"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Pay By Bank App notification",
-                    "slug": "pay-by-bank-app-notification"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Validation",
-                            "slug": "validation"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Notification status",
-                            "slug": "notification-status"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/PayByBankApp/pay.php",
-                "projectPath": "examples/PayByBankApp/pay.php",
-                "targetPath": "examples/PayByBankApp/pay",
-                "pageTitle": "examples/PayByBankApp/pay",
-                "title": "pay"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Purchase for Pay By Bank App",
-                    "slug": "purchase-for-pay-by-bank-app"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/PayByBankApp/refund.php",
-                "projectPath": "examples/PayByBankApp/refund.php",
-                "targetPath": "examples/PayByBankApp/refund",
-                "pageTitle": "examples/PayByBankApp/refund",
-                "title": "refund"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Cancelling a transaction",
-                    "slug": "cancelling-a-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/PayByBankApp/return.php",
-                "projectPath": "examples/PayByBankApp/return.php",
-                "targetPath": "examples/PayByBankApp/return",
-                "pageTitle": "examples/PayByBankApp/return",
-                "title": "return"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Pay By Bank App return after transaction",
-                    "slug": "pay-by-bank-app-return-after-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Payment results",
-                        "slug": "payment-results"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }, {
-          "type": "folder",
-          "data": {
-            "path": "examples/PayPal",
-            "title": "PayPal"
-          },
-          "depth": 2,
-          "children": [
-            {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/PayPal/cancel.php",
-                "projectPath": "examples/PayPal/cancel.php",
-                "targetPath": "examples/PayPal/cancel",
-                "pageTitle": "examples/PayPal/cancel",
-                "title": "cancel"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Cancelling a transaction",
-                    "slug": "cancelling-a-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/PayPal/credit.php",
-                "projectPath": "examples/PayPal/credit.php",
-                "targetPath": "examples/PayPal/credit",
-                "pageTitle": "examples/PayPal/credit",
-                "title": "credit"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Credit via PayPal",
-                    "slug": "credit-via-paypal"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Notification URL",
-                            "slug": "notification-url"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/PayPal/notify.php",
-                "projectPath": "examples/PayPal/notify.php",
-                "targetPath": "examples/PayPal/notify",
-                "pageTitle": "examples/PayPal/notify",
-                "title": "notify"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "PayPal notification",
-                    "slug": "paypal-notification"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Validation",
-                            "slug": "validation"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Notification status",
-                        "slug": "notification-status"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/PayPal/pay.php",
-                "projectPath": "examples/PayPal/pay.php",
-                "targetPath": "examples/PayPal/pay",
-                "pageTitle": "examples/PayPal/pay",
-                "title": "pay"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "PayPal payment transaction",
-                    "slug": "paypal-payment-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Account hold r",
-                            "slug": "account-hold-r"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/PayPal/pay-based-on-reserve.php",
-                "projectPath": "examples/PayPal/pay-based-on-reserve.php",
-                "targetPath": "examples/PayPal/pay-based-on-reserve",
-                "pageTitle": "examples/PayPal/pay-based-on-reserve",
-                "title": "pay-based-on-reserve"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Payment after a reservation",
-                    "slug": "payment-after-a-reservation"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/PayPal/reserve.php",
-                "projectPath": "examples/PayPal/reserve.php",
-                "targetPath": "examples/PayPal/reserve",
-                "pageTitle": "examples/PayPal/reserve",
-                "title": "reserve"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "PayPal reserve transaction",
-                    "slug": "paypal-reserve-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Account holder",
-                            "slug": "account-holder"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/PayPal/return.php",
-                "projectPath": "examples/PayPal/return.php",
-                "targetPath": "examples/PayPal/return",
-                "pageTitle": "examples/PayPal/return",
-                "title": "return"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "PayPal return after transaction",
-                    "slug": "paypal-return-after-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Validation",
-                            "slug": "validation"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Payment results",
-                        "slug": "payment-results"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }, {
-          "type": "folder",
-          "data": {
-            "path": "examples/Payolution_BtwoB",
-            "title": "Payolution_BtwoB"
-          },
-          "depth": 2,
-          "children": [
-            {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Payolution_BtwoB/cancel.php",
-                "projectPath": "examples/Payolution_BtwoB/cancel.php",
-                "targetPath": "examples/Payolution_BtwoB/cancel",
-                "pageTitle": "examples/Payolution_BtwoB/cancel",
-                "title": "cancel"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Cancelling a Payolution B2B transaction",
-                    "slug": "cancelling-a-payolution-b2b-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Gathering data",
-                        "slug": "gathering-data"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Payolution_BtwoB/notify.php",
-                "projectPath": "examples/Payolution_BtwoB/notify.php",
-                "targetPath": "examples/Payolution_BtwoB/notify",
-                "pageTitle": "examples/Payolution_BtwoB/notify",
-                "title": "notify"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Handling Payolution B2B notification",
-                    "slug": "handling-payolution-b2b-notification"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Validation",
-                        "slug": "validation"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Notification status",
-                        "slug": "notification-status"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Payolution_BtwoB/pay-based-on-reserve.php",
-                "projectPath": "examples/Payolution_BtwoB/pay-based-on-reserve.php",
-                "targetPath": "examples/Payolution_BtwoB/pay-based-on-reserve",
-                "pageTitle": "examples/Payolution_BtwoB/pay-based-on-reserve",
-                "title": "pay-based-on-reserve"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Payment after a reservation",
-                    "slug": "payment-after-a-reservation"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Gathering data",
-                        "slug": "gathering-data"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Payolution_BtwoB/refund.php",
-                "projectPath": "examples/Payolution_BtwoB/refund.php",
-                "targetPath": "examples/Payolution_BtwoB/refund",
-                "pageTitle": "examples/Payolution_BtwoB/refund",
-                "title": "refund"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Refund a Payolution B2B transaction",
-                    "slug": "refund-a-payolution-b2b-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Gathering data",
-                        "slug": "gathering-data"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Payolution_BtwoB/reserve.php",
-                "projectPath": "examples/Payolution_BtwoB/reserve.php",
-                "targetPath": "examples/Payolution_BtwoB/reserve",
-                "pageTitle": "examples/Payolution_BtwoB/reserve",
-                "title": "reserve"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Payolution B2B reserve transaction",
-                    "slug": "payolution-b2b-reserve-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Collect data",
-                        "slug": "collect-data"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Account holder with address",
-                            "slug": "account-holder-with-address"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "companyInfo with at least the company name, other info are optionally",
-                            "slug": "companyinfo-with-at-least-the-company-name-other-info-are-optionally"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }, {
-          "type": "folder",
-          "data": {
-            "path": "examples/Payolution_Invoice",
-            "title": "Payolution_Invoice"
-          },
-          "depth": 2,
-          "children": [
-            {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Payolution_Invoice/cancel.php",
-                "projectPath": "examples/Payolution_Invoice/cancel.php",
-                "targetPath": "examples/Payolution_Invoice/cancel",
-                "pageTitle": "examples/Payolution_Invoice/cancel",
-                "title": "cancel"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Cancelling a transaction",
-                    "slug": "cancelling-a-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Payolution_Invoice/notify.php",
-                "projectPath": "examples/Payolution_Invoice/notify.php",
-                "targetPath": "examples/Payolution_Invoice/notify",
-                "pageTitle": "examples/Payolution_Invoice/notify",
-                "title": "notify"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Handling Payolution Invoice notification",
-                    "slug": "handling-payolution-invoice-notification"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Validation",
-                        "slug": "validation"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Notification status",
-                        "slug": "notification-status"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Payolution_Invoice/pay-based-on-reserve.php",
-                "projectPath": "examples/Payolution_Invoice/pay-based-on-reserve.php",
-                "targetPath": "examples/Payolution_Invoice/pay-based-on-reserve",
-                "pageTitle": "examples/Payolution_Invoice/pay-based-on-reserve",
-                "title": "pay-based-on-reserve"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Payment after a reservation",
-                    "slug": "payment-after-a-reservation"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Payolution_Invoice/refund.php",
-                "projectPath": "examples/Payolution_Invoice/refund.php",
-                "targetPath": "examples/Payolution_Invoice/refund",
-                "pageTitle": "examples/Payolution_Invoice/refund",
-                "title": "refund"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Refund a transaction",
-                    "slug": "refund-a-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Payolution_Invoice/reserve.php",
-                "projectPath": "examples/Payolution_Invoice/reserve.php",
-                "targetPath": "examples/Payolution_Invoice/reserve",
-                "pageTitle": "examples/Payolution_Invoice/reserve",
-                "title": "reserve"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Payolution invoice reserve transaction",
-                    "slug": "payolution-invoice-reserve-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
                     }
                   ]
                 }, {
-                  "type": "heading",
+                  "type": "file",
                   "data": {
-                    "level": 1,
-                    "title": "#",
-                    "slug": ""
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/features/validation.php",
+                    "projectPath": "examples/inc/features/validation.php",
+                    "targetPath": "examples/inc/features/validation",
+                    "pageTitle": "examples/inc/features/validation",
+                    "title": "validation"
                   },
-                  "depth": 1,
-                  "children": [
+                  "depth": 4,
+                  "outline": [
                     {
                       "type": "heading",
                       "data": {
-                        "level": 3,
-                        "title": "Transaction related objects",
-                        "slug": "transaction-related-objects"
+                        "level": 1,
+                        "title": "Validating a response from Wirecard",
+                        "slug": "validating-a-response-from-wirecard"
                       },
-                      "depth": 3,
+                      "depth": 1,
                       "children": [
                         {
                           "type": "heading",
                           "data": {
-                            "level": 4,
-                            "title": "Account holder with address",
-                            "slug": "account-holder-with-address"
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
                           },
-                          "depth": 4
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }, {
-          "type": "folder",
-          "data": {
-            "path": "examples/PoiPia",
-            "title": "PoiPia"
-          },
-          "depth": 2,
-          "children": [
-            {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/PoiPia/cancel.php",
-                "projectPath": "examples/PoiPia/cancel.php",
-                "targetPath": "examples/PoiPia/cancel",
-                "pageTitle": "examples/PoiPia/cancel",
-                "title": "cancel"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Cancelling a Payment on invoice / Payment in advance-transaction",
-                    "slug": "cancelling-a-payment-on-invoice--payment-in-advance-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/PoiPia/reserve.php",
-                "projectPath": "examples/PoiPia/reserve.php",
-                "targetPath": "examples/PoiPia/reserve",
-                "pageTitle": "examples/PoiPia/reserve",
-                "title": "reserve"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Payment on invoice / Payment in advance reservation",
-                    "slug": "payment-on-invoice--payment-in-advance-reservation"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }, {
-          "type": "folder",
-          "data": {
-            "path": "examples/Przelewy24",
-            "title": "Przelewy24"
-          },
-          "depth": 2,
-          "children": [
-            {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Przelewy24/cancel.php",
-                "projectPath": "examples/Przelewy24/cancel.php",
-                "targetPath": "examples/Przelewy24/cancel",
-                "pageTitle": "examples/Przelewy24/cancel",
-                "title": "cancel"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Refund a P24 transaction",
-                    "slug": "refund-a-p24-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Przelewy24/notify.php",
-                "projectPath": "examples/Przelewy24/notify.php",
-                "targetPath": "examples/Przelewy24/notify",
-                "pageTitle": "examples/Przelewy24/notify",
-                "title": "notify"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Przelewy24 notification",
-                    "slug": "przelewy24-notification"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Notification status",
-                            "slug": "notification-status"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Przelewy24/pay.php",
-                "projectPath": "examples/Przelewy24/pay.php",
-                "targetPath": "examples/Przelewy24/pay",
-                "pageTitle": "examples/Przelewy24/pay",
-                "title": "pay"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Purchase for Przelewy24",
-                    "slug": "purchase-for-przelewy24"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Przelewy24/return.php",
-                "projectPath": "examples/Przelewy24/return.php",
-                "targetPath": "examples/Przelewy24/return",
-                "pageTitle": "examples/Przelewy24/return",
-                "title": "return"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Handling the response of a transaction",
-                    "slug": "handling-the-response-of-a-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Payment results",
-                        "slug": "payment-results"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }, {
-          "type": "folder",
-          "data": {
-            "path": "examples/RatePAY_DirectDebit",
-            "title": "RatePAY_DirectDebit"
-          },
-          "depth": 2,
-          "children": [
-            {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/RatePAY_DirectDebit/cancel.php",
-                "projectPath": "examples/RatePAY_DirectDebit/cancel.php",
-                "targetPath": "examples/RatePAY_DirectDebit/cancel",
-                "pageTitle": "examples/RatePAY_DirectDebit/cancel",
-                "title": "cancel"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Cancelling a transaction",
-                    "slug": "cancelling-a-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3,
+                          "depth": 2,
                           "children": [
                             {
                               "type": "heading",
                               "data": {
-                                "level": 4,
-                                "title": "Order items",
-                                "slug": "order-items"
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
                               },
-                              "depth": 4
-                            }
-                          ]
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/RatePAY_DirectDebit/credit.php",
-                "projectPath": "examples/RatePAY_DirectDebit/credit.php",
-                "targetPath": "examples/RatePAY_DirectDebit/credit",
-                "pageTitle": "examples/RatePAY_DirectDebit/credit",
-                "title": "credit"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Credit via RatePAY",
-                    "slug": "credit-via-ratepay"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Notification URL",
-                            "slug": "notification-url"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/RatePAY_DirectDebit/pay-based-on-reserve.php",
-                "projectPath": "examples/RatePAY_DirectDebit/pay-based-on-reserve.php",
-                "targetPath": "examples/RatePAY_DirectDebit/pay-based-on-reserve",
-                "pageTitle": "examples/RatePAY_DirectDebit/pay-based-on-reserve",
-                "title": "pay-based-on-reserve"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Payment after a reservation",
-                    "slug": "payment-after-a-reservation"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3,
-                          "children": [
-                            {
-                              "type": "heading",
-                              "data": {
-                                "level": 4,
-                                "title": "Order items",
-                                "slug": "order-items"
-                              },
-                              "depth": 4
+                              "depth": 3
                             }, {
                               "type": "heading",
                               "data": {
-                                "level": 4,
-                                "title": "Account holder with address",
-                                "slug": "account-holder-with-address"
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
                               },
-                              "depth": 4
+                              "depth": 3
                             }
                           ]
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
+                        }, {
                           "type": "heading",
                           "data": {
-                            "level": 3,
-                            "title": "Transaction service",
-                            "slug": "transaction-service"
+                            "level": 2,
+                            "title": "Payment results",
+                            "slug": "payment-results"
                           },
-                          "depth": 3
+                          "depth": 2
                         }
                       ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Select the item to capture",
-                        "slug": "select-the-item-to-capture"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
                     }
                   ]
                 }
               ]
             }, {
-              "type": "file",
+              "type": "folder",
               "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/RatePAY_DirectDebit/reserve.php",
-                "projectPath": "examples/RatePAY_DirectDebit/reserve.php",
-                "targetPath": "examples/RatePAY_DirectDebit/reserve",
-                "pageTitle": "examples/RatePAY_DirectDebit/reserve",
-                "title": "reserve"
+                "path": "examples/inc/payload",
+                "title": "payload"
               },
               "depth": 3,
-              "outline": [
+              "children": [
                 {
-                  "type": "heading",
+                  "type": "file",
                   "data": {
-                    "level": 1,
-                    "title": "RatePAY Direct Debit reserve transaction",
-                    "slug": "ratepay-direct-debit-reserve-transaction"
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/payload/alipay.php",
+                    "projectPath": "examples/inc/payload/alipay.php",
+                    "targetPath": "examples/inc/payload/alipay",
+                    "pageTitle": "examples/inc/payload/alipay",
+                    "title": "alipay"
                   },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Basket items",
-                            "slug": "basket-items"
-                          },
-                          "depth": 3,
-                          "children": [
-                            {
-                              "type": "heading",
-                              "data": {
-                                "level": 4,
-                                "title": "Account holder with address",
-                                "slug": "account-holder-with-address"
-                              },
-                              "depth": 4
-                            }
-                          ]
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
+                  "depth": 4,
+                  "outline": []
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/payload/bancontact.php",
+                    "projectPath": "examples/inc/payload/bancontact.php",
+                    "targetPath": "examples/inc/payload/bancontact",
+                    "pageTitle": "examples/inc/payload/bancontact",
+                    "title": "bancontact"
+                  },
+                  "depth": 4,
+                  "outline": []
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/payload/creditcard.php",
+                    "projectPath": "examples/inc/payload/creditcard.php",
+                    "targetPath": "examples/inc/payload/creditcard",
+                    "pageTitle": "examples/inc/payload/creditcard",
+                    "title": "creditcard"
+                  },
+                  "depth": 4,
+                  "outline": []
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/payload/eps.php",
+                    "projectPath": "examples/inc/payload/eps.php",
+                    "targetPath": "examples/inc/payload/eps",
+                    "pageTitle": "examples/inc/payload/eps",
+                    "title": "eps"
+                  },
+                  "depth": 4,
+                  "outline": []
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/payload/giropay.php",
+                    "projectPath": "examples/inc/payload/giropay.php",
+                    "targetPath": "examples/inc/payload/giropay",
+                    "pageTitle": "examples/inc/payload/giropay",
+                    "title": "giropay"
+                  },
+                  "depth": 4,
+                  "outline": []
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/payload/ideal.php",
+                    "projectPath": "examples/inc/payload/ideal.php",
+                    "targetPath": "examples/inc/payload/ideal",
+                    "pageTitle": "examples/inc/payload/ideal",
+                    "title": "ideal"
+                  },
+                  "depth": 4,
+                  "outline": []
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/payload/maestro.php",
+                    "projectPath": "examples/inc/payload/maestro.php",
+                    "targetPath": "examples/inc/payload/maestro",
+                    "pageTitle": "examples/inc/payload/maestro",
+                    "title": "maestro"
+                  },
+                  "depth": 4,
+                  "outline": []
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/payload/paybybank.php",
+                    "projectPath": "examples/inc/payload/paybybank.php",
+                    "targetPath": "examples/inc/payload/paybybank",
+                    "pageTitle": "examples/inc/payload/paybybank",
+                    "title": "paybybank"
+                  },
+                  "depth": 4,
+                  "outline": []
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/payload/paypal.php",
+                    "projectPath": "examples/inc/payload/paypal.php",
+                    "targetPath": "examples/inc/payload/paypal",
+                    "pageTitle": "examples/inc/payload/paypal",
+                    "title": "paypal"
+                  },
+                  "depth": 4,
+                  "outline": []
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/payload/paysafecard.php",
+                    "projectPath": "examples/inc/payload/paysafecard.php",
+                    "targetPath": "examples/inc/payload/paysafecard",
+                    "pageTitle": "examples/inc/payload/paysafecard",
+                    "title": "paysafecard"
+                  },
+                  "depth": 4,
+                  "outline": []
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/payload/przelewy24.php",
+                    "projectPath": "examples/inc/payload/przelewy24.php",
+                    "targetPath": "examples/inc/payload/przelewy24",
+                    "pageTitle": "examples/inc/payload/przelewy24",
+                    "title": "przelewy24"
+                  },
+                  "depth": 4,
+                  "outline": []
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/payload/ratepay.php",
+                    "projectPath": "examples/inc/payload/ratepay.php",
+                    "targetPath": "examples/inc/payload/ratepay",
+                    "pageTitle": "examples/inc/payload/ratepay",
+                    "title": "ratepay"
+                  },
+                  "depth": 4,
+                  "outline": []
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/payload/sepacredit.php",
+                    "projectPath": "examples/inc/payload/sepacredit.php",
+                    "targetPath": "examples/inc/payload/sepacredit",
+                    "pageTitle": "examples/inc/payload/sepacredit",
+                    "title": "sepacredit"
+                  },
+                  "depth": 4,
+                  "outline": []
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/payload/sofort.php",
+                    "projectPath": "examples/inc/payload/sofort.php",
+                    "targetPath": "examples/inc/payload/sofort",
+                    "pageTitle": "examples/inc/payload/sofort",
+                    "title": "sofort"
+                  },
+                  "depth": 4,
+                  "outline": []
                 }
               ]
             }
@@ -5828,327 +703,4903 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
         }, {
           "type": "folder",
           "data": {
-            "path": "examples/RatePAY_Installment",
-            "title": "RatePAY_Installment"
+            "path": "examples/payments",
+            "title": "payments"
           },
           "depth": 2,
           "children": [
             {
-              "type": "file",
+              "type": "folder",
               "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/RatePAY_Installment/cancel.php",
-                "projectPath": "examples/RatePAY_Installment/cancel.php",
-                "targetPath": "examples/RatePAY_Installment/cancel",
-                "pageTitle": "examples/RatePAY_Installment/cancel",
-                "title": "cancel"
+                "path": "examples/payments/AlipayCrossborder",
+                "title": "AlipayCrossborder"
               },
               "depth": 3,
-              "outline": [
+              "children": [
                 {
-                  "type": "heading",
+                  "type": "file",
                   "data": {
-                    "level": 1,
-                    "title": "Cancelling a transaction",
-                    "slug": "cancelling-a-transaction"
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/AlipayCrossborder/cancel.php",
+                    "projectPath": "examples/payments/AlipayCrossborder/cancel.php",
+                    "targetPath": "examples/payments/AlipayCrossborder/cancel",
+                    "pageTitle": "examples/payments/AlipayCrossborder/cancel",
+                    "title": "cancel"
                   },
-                  "depth": 1,
-                  "children": [
+                  "depth": 4,
+                  "outline": [
                     {
                       "type": "heading",
                       "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
+                        "level": 1,
+                        "title": "Refund a transaction",
+                        "slug": "refund-a-transaction"
                       },
-                      "depth": 2,
+                      "depth": 1,
                       "children": [
                         {
                           "type": "heading",
                           "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
                           },
-                          "depth": 3,
+                          "depth": 2,
                           "children": [
                             {
                               "type": "heading",
                               "data": {
-                                "level": 4,
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/AlipayCrossborder/notify.php",
+                    "projectPath": "examples/payments/AlipayCrossborder/notify.php",
+                    "targetPath": "examples/payments/AlipayCrossborder/notify",
+                    "pageTitle": "examples/payments/AlipayCrossborder/notify",
+                    "title": "notify"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Alipay Crossborder notification",
+                        "slug": "alipay-crossborder-notification"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Validation",
+                                "slug": "validation"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Notification status",
+                            "slug": "notification-status"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/AlipayCrossborder/pay.php",
+                    "projectPath": "examples/payments/AlipayCrossborder/pay.php",
+                    "targetPath": "examples/payments/AlipayCrossborder/pay",
+                    "pageTitle": "examples/payments/AlipayCrossborder/pay",
+                    "title": "pay"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Alipay Crossborder payment transaction",
+                        "slug": "alipay-crossborder-payment-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Mandatory fields",
+                                "slug": "mandatory-fields"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Optional fields",
+                                "slug": "optional-fields"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/AlipayCrossborder/return.php",
+                    "projectPath": "examples/payments/AlipayCrossborder/return.php",
+                    "targetPath": "examples/payments/AlipayCrossborder/return",
+                    "pageTitle": "examples/payments/AlipayCrossborder/return",
+                    "title": "return"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Handling the response of a transaction",
+                        "slug": "handling-the-response-of-a-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Payment results",
+                            "slug": "payment-results"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "folder",
+              "data": {
+                "path": "examples/payments/Bancontact",
+                "title": "Bancontact"
+              },
+              "depth": 3,
+              "children": [
+                {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Bancontact/credit-based-on-pay.php",
+                    "projectPath": "examples/payments/Bancontact/credit-based-on-pay.php",
+                    "targetPath": "examples/payments/Bancontact/credit-based-on-pay",
+                    "pageTitle": "examples/payments/Bancontact/credit-based-on-pay",
+                    "title": "credit-based-on-pay"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Credit based on pay",
+                        "slug": "credit-based-on-pay"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Bancontact/pay.php",
+                    "projectPath": "examples/payments/Bancontact/pay.php",
+                    "targetPath": "examples/payments/Bancontact/pay",
+                    "pageTitle": "examples/payments/Bancontact/pay",
+                    "title": "pay"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Bancontact payment transaction",
+                        "slug": "bancontact-payment-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Mandatory fields",
+                                "slug": "mandatory-fields"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Optional fields",
+                                "slug": "optional-fields"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Bancontact/return.php",
+                    "projectPath": "examples/payments/Bancontact/return.php",
+                    "targetPath": "examples/payments/Bancontact/return",
+                    "pageTitle": "examples/payments/Bancontact/return",
+                    "title": "return"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Bancontact return after transaction",
+                        "slug": "bancontact-return-after-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Validation",
+                                "slug": "validation"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Payment results",
+                            "slug": "payment-results"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "folder",
+              "data": {
+                "path": "examples/payments/CreditCard",
+                "title": "CreditCard"
+              },
+              "depth": 3,
+              "children": [
+                {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/CreditCard/cancel.php",
+                    "projectPath": "examples/payments/CreditCard/cancel.php",
+                    "targetPath": "examples/payments/CreditCard/cancel",
+                    "pageTitle": "examples/payments/CreditCard/cancel",
+                    "title": "cancel"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Cancelling a transaction",
+                        "slug": "cancelling-a-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/CreditCard/createUi.php",
+                    "projectPath": "examples/payments/CreditCard/createUi.php",
+                    "targetPath": "examples/payments/CreditCard/createUi",
+                    "pageTitle": "examples/payments/CreditCard/createUi",
+                    "title": "createUi"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Credit Card UI creation",
+                        "slug": "credit-card-ui-creation"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required libraries and objects",
+                            "slug": "required-libraries-and-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
                                 "title": "Basket items",
                                 "slug": "basket-items"
                               },
-                              "depth": 4
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Account holder with address",
+                                "slug": "account-holder-with-address"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Basic CreditCardTransaction",
+                                "slug": "basic-creditcardtransaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Render the form",
+                                "slug": "render-the-form"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Submit handler for the form",
+                                "slug": "submit-handler-for-the-form"
+                              },
+                              "depth": 3
                             }
                           ]
                         }
                       ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
                     }
                   ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/RatePAY_Installment/credit.php",
-                "projectPath": "examples/RatePAY_Installment/credit.php",
-                "targetPath": "examples/RatePAY_Installment/credit",
-                "pageTitle": "examples/RatePAY_Installment/credit",
-                "title": "credit"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
+                }, {
+                  "type": "file",
                   "data": {
-                    "level": 1,
-                    "title": "Credit via RatePAY",
-                    "slug": "credit-via-ratepay"
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/CreditCard/createUi_tokenize.php",
+                    "projectPath": "examples/payments/CreditCard/createUi_tokenize.php",
+                    "targetPath": "examples/payments/CreditCard/createUi_tokenize",
+                    "pageTitle": "examples/payments/CreditCard/createUi_tokenize",
+                    "title": "createUi_tokenize"
                   },
-                  "depth": 1,
-                  "children": [
+                  "depth": 4,
+                  "outline": [
                     {
                       "type": "heading",
                       "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
+                        "level": 1,
+                        "title": "Credit Card UI creation",
+                        "slug": "credit-card-ui-creation"
                       },
-                      "depth": 2,
+                      "depth": 1,
                       "children": [
                         {
                           "type": "heading",
                           "data": {
-                            "level": 3,
-                            "title": "Notification URL",
-                            "slug": "notification-url"
+                            "level": 2,
+                            "title": "Required libraries and objects",
+                            "slug": "required-libraries-and-objects"
                           },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Basket items",
-                            "slug": "basket-items"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/RatePAY_Installment/pay-based-on-reserve.php",
-                "projectPath": "examples/RatePAY_Installment/pay-based-on-reserve.php",
-                "targetPath": "examples/RatePAY_Installment/pay-based-on-reserve",
-                "pageTitle": "examples/RatePAY_Installment/pay-based-on-reserve",
-                "title": "pay-based-on-reserve"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Payment after a reservation",
-                    "slug": "payment-after-a-reservation"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Basket items",
-                            "slug": "basket-items"
-                          },
-                          "depth": 3,
+                          "depth": 2,
                           "children": [
                             {
                               "type": "heading",
                               "data": {
-                                "level": 4,
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Basket items",
+                                "slug": "basket-items"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
                                 "title": "Account holder with address",
                                 "slug": "account-holder-with-address"
                               },
-                              "depth": 4
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Basic CreditCardTransaction",
+                                "slug": "basic-creditcardtransaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Render the form",
+                                "slug": "render-the-form"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Submit handler for the form",
+                                "slug": "submit-handler-for-the-form"
+                              },
+                              "depth": 3
                             }
                           ]
                         }
                       ]
-                    }, {
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/CreditCard/credit.php",
+                    "projectPath": "examples/payments/CreditCard/credit.php",
+                    "targetPath": "examples/payments/CreditCard/credit",
+                    "pageTitle": "examples/payments/CreditCard/credit",
+                    "title": "credit"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
                       "type": "heading",
                       "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
+                        "level": 1,
+                        "title": "Credit to a credit card",
+                        "slug": "credit-to-a-credit-card"
                       },
-                      "depth": 2,
+                      "depth": 1,
                       "children": [
                         {
                           "type": "heading",
                           "data": {
-                            "level": 3,
-                            "title": "Transaction service",
-                            "slug": "transaction-service"
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
                           },
-                          "depth": 3
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
                         }
                       ]
-                    }, {
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/CreditCard/notify.php",
+                    "projectPath": "examples/payments/CreditCard/notify.php",
+                    "targetPath": "examples/payments/CreditCard/notify",
+                    "pageTitle": "examples/payments/CreditCard/notify",
+                    "title": "notify"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
                       "type": "heading",
                       "data": {
-                        "level": 2,
-                        "title": "Select the item to capture",
-                        "slug": "select-the-item-to-capture"
+                        "level": 1,
+                        "title": "Credit Card notification",
+                        "slug": "credit-card-notification"
                       },
-                      "depth": 2
-                    }, {
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Validation",
+                                "slug": "validation"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Notification status",
+                            "slug": "notification-status"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/CreditCard/pay.php",
+                    "projectPath": "examples/payments/CreditCard/pay.php",
+                    "targetPath": "examples/payments/CreditCard/pay",
+                    "pageTitle": "examples/payments/CreditCard/pay",
+                    "title": "pay"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
                       "type": "heading",
                       "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
+                        "level": 1,
+                        "title": "Purchase for credit card",
+                        "slug": "purchase-for-credit-card"
                       },
-                      "depth": 2
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Mandatory fields",
+                                "slug": "mandatory-fields"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Optional fields",
+                                "slug": "optional-fields"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/CreditCard/pay-based-on-reserve.php",
+                    "projectPath": "examples/payments/CreditCard/pay-based-on-reserve.php",
+                    "targetPath": "examples/payments/CreditCard/pay-based-on-reserve",
+                    "pageTitle": "examples/payments/CreditCard/pay-based-on-reserve",
+                    "title": "pay-based-on-reserve"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Payment after a reservation",
+                        "slug": "payment-after-a-reservation"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/CreditCard/pay-based-on-token.php",
+                    "projectPath": "examples/payments/CreditCard/pay-based-on-token.php",
+                    "targetPath": "examples/payments/CreditCard/pay-based-on-token",
+                    "pageTitle": "examples/payments/CreditCard/pay-based-on-token",
+                    "title": "pay-based-on-token"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Purchase for credit card via token",
+                        "slug": "purchase-for-credit-card-via-token"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/CreditCard/pay_tokenize.php",
+                    "projectPath": "examples/payments/CreditCard/pay_tokenize.php",
+                    "targetPath": "examples/payments/CreditCard/pay_tokenize",
+                    "pageTitle": "examples/payments/CreditCard/pay_tokenize",
+                    "title": "pay_tokenize"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Purchase for credit card",
+                        "slug": "purchase-for-credit-card"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/CreditCard/reserve.php",
+                    "projectPath": "examples/payments/CreditCard/reserve.php",
+                    "targetPath": "examples/payments/CreditCard/reserve",
+                    "pageTitle": "examples/payments/CreditCard/reserve",
+                    "title": "reserve"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Credit card reservation",
+                        "slug": "credit-card-reservation"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/CreditCard/return.php",
+                    "projectPath": "examples/payments/CreditCard/return.php",
+                    "targetPath": "examples/payments/CreditCard/return",
+                    "pageTitle": "examples/payments/CreditCard/return",
+                    "title": "return"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Handling the response of a transaction",
+                        "slug": "handling-the-response-of-a-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Payment results",
+                            "slug": "payment-results"
+                          },
+                          "depth": 2
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Example of BackendService use",
+                            "slug": "example-of-backendservice-use"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Retrieve possible operations for the transaction. An array of possible operations is returned",
+                                "slug": "retrieve-possible-operations-for-the-transaction-an-array-of-possible-operations-is-returned"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Check it the state of the transaction is final.",
+                                "slug": "check-it-the-state-of-the-transaction-is-final"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Get order state of the transaction",
+                                "slug": "get-order-state-of-the-transaction"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }
+                      ]
                     }
                   ]
                 }
               ]
             }, {
-              "type": "file",
+              "type": "folder",
               "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/RatePAY_Installment/reserve.php",
-                "projectPath": "examples/RatePAY_Installment/reserve.php",
-                "targetPath": "examples/RatePAY_Installment/reserve",
-                "pageTitle": "examples/RatePAY_Installment/reserve",
-                "title": "reserve"
+                "path": "examples/payments/Eps",
+                "title": "Eps"
               },
               "depth": 3,
-              "outline": [
+              "children": [
                 {
-                  "type": "heading",
+                  "type": "file",
                   "data": {
-                    "level": 1,
-                    "title": "RatePAY installment reserve transaction",
-                    "slug": "ratepay-installment-reserve-transaction"
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Eps/credit-based-on-pay.php",
+                    "projectPath": "examples/payments/Eps/credit-based-on-pay.php",
+                    "targetPath": "examples/payments/Eps/credit-based-on-pay",
+                    "pageTitle": "examples/payments/Eps/credit-based-on-pay",
+                    "title": "credit-based-on-pay"
                   },
-                  "depth": 1,
-                  "children": [
+                  "depth": 4,
+                  "outline": [
                     {
                       "type": "heading",
                       "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
+                        "level": 1,
+                        "title": "Credit based on pay",
+                        "slug": "credit-based-on-pay"
                       },
-                      "depth": 2,
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Eps/notify.php",
+                    "projectPath": "examples/payments/Eps/notify.php",
+                    "targetPath": "examples/payments/Eps/notify",
+                    "pageTitle": "examples/payments/Eps/notify",
+                    "title": "notify"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Eps notification",
+                        "slug": "eps-notification"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Validation",
+                                "slug": "validation"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Notification status",
+                            "slug": "notification-status"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Eps/pay.php",
+                    "projectPath": "examples/payments/Eps/pay.php",
+                    "targetPath": "examples/payments/Eps/pay",
+                    "pageTitle": "examples/payments/Eps/pay",
+                    "title": "pay"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "EPS payment",
+                        "slug": "eps-payment"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Set amount",
+                            "slug": "set-amount"
+                          },
+                          "depth": 3
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Set success, cancel and failure url",
+                            "slug": "set-success-cancel-and-failure-url"
+                          },
+                          "depth": 3
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Set Bank Account",
+                            "slug": "set-bank-account"
+                          },
+                          "depth": 3
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Mandatory fields",
+                            "slug": "mandatory-fields"
+                          },
+                          "depth": 3
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Optional fields",
+                            "slug": "optional-fields"
+                          },
+                          "depth": 3
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Transaction Service",
+                            "slug": "transaction-service"
+                          },
+                          "depth": 3
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 3,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 3
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Eps/return.php",
+                    "projectPath": "examples/payments/Eps/return.php",
+                    "targetPath": "examples/payments/Eps/return",
+                    "pageTitle": "examples/payments/Eps/return",
+                    "title": "return"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "eps return after transaction",
+                        "slug": "eps-return-after-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Payment results",
+                            "slug": "payment-results"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "folder",
+              "data": {
+                "path": "examples/payments/Giropay",
+                "title": "Giropay"
+              },
+              "depth": 3,
+              "children": [
+                {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Giropay/credit-based-on-pay.php",
+                    "projectPath": "examples/payments/Giropay/credit-based-on-pay.php",
+                    "targetPath": "examples/payments/Giropay/credit-based-on-pay",
+                    "pageTitle": "examples/payments/Giropay/credit-based-on-pay",
+                    "title": "credit-based-on-pay"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Credit based on pay",
+                        "slug": "credit-based-on-pay"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Giropay/notify.php",
+                    "projectPath": "examples/payments/Giropay/notify.php",
+                    "targetPath": "examples/payments/Giropay/notify",
+                    "pageTitle": "examples/payments/Giropay/notify",
+                    "title": "notify"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Giropay notification",
+                        "slug": "giropay-notification"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Validation",
+                                "slug": "validation"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Notification status",
+                            "slug": "notification-status"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Giropay/pay.php",
+                    "projectPath": "examples/payments/Giropay/pay.php",
+                    "targetPath": "examples/payments/Giropay/pay",
+                    "pageTitle": "examples/payments/Giropay/pay",
+                    "title": "pay"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Giropay payment transaction",
+                        "slug": "giropay-payment-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Mandatory fields",
+                                "slug": "mandatory-fields"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Optional fields",
+                                "slug": "optional-fields"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Giropay/return.php",
+                    "projectPath": "examples/payments/Giropay/return.php",
+                    "targetPath": "examples/payments/Giropay/return",
+                    "pageTitle": "examples/payments/Giropay/return",
+                    "title": "return"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "giropay return after transaction",
+                        "slug": "giropay-return-after-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Payment results",
+                            "slug": "payment-results"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "folder",
+              "data": {
+                "path": "examples/payments/Maestro",
+                "title": "Maestro"
+              },
+              "depth": 3,
+              "children": [
+                {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Maestro/cancel.php",
+                    "projectPath": "examples/payments/Maestro/cancel.php",
+                    "targetPath": "examples/payments/Maestro/cancel",
+                    "pageTitle": "examples/payments/Maestro/cancel",
+                    "title": "cancel"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Cancelling a transaction",
+                        "slug": "cancelling-a-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Maestro/createUi.php",
+                    "projectPath": "examples/payments/Maestro/createUi.php",
+                    "targetPath": "examples/payments/Maestro/createUi",
+                    "pageTitle": "examples/payments/Maestro/createUi",
+                    "title": "createUi"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Maestro UI creation",
+                        "slug": "maestro-ui-creation"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required libraries and objects",
+                            "slug": "required-libraries-and-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Basket items",
+                                "slug": "basket-items"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Account holder with address",
+                                "slug": "account-holder-with-address"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Basic CreditCardTransaction",
+                                "slug": "basic-creditcardtransaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Render the form",
+                                "slug": "render-the-form"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Submit handler for the form",
+                                "slug": "submit-handler-for-the-form"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Maestro/credit.php",
+                    "projectPath": "examples/payments/Maestro/credit.php",
+                    "targetPath": "examples/payments/Maestro/credit",
+                    "pageTitle": "examples/payments/Maestro/credit",
+                    "title": "credit"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Credit to a Maestro",
+                        "slug": "credit-to-a-maestro"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Maestro/notify.php",
+                    "projectPath": "examples/payments/Maestro/notify.php",
+                    "targetPath": "examples/payments/Maestro/notify",
+                    "pageTitle": "examples/payments/Maestro/notify",
+                    "title": "notify"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Maestro notification",
+                        "slug": "maestro-notification"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Validation",
+                                "slug": "validation"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Notification status",
+                            "slug": "notification-status"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Maestro/pay.php",
+                    "projectPath": "examples/payments/Maestro/pay.php",
+                    "targetPath": "examples/payments/Maestro/pay",
+                    "pageTitle": "examples/payments/Maestro/pay",
+                    "title": "pay"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Purchase for Maestro",
+                        "slug": "purchase-for-maestro"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Maestro/pay-based-on-reserve.php",
+                    "projectPath": "examples/payments/Maestro/pay-based-on-reserve.php",
+                    "targetPath": "examples/payments/Maestro/pay-based-on-reserve",
+                    "pageTitle": "examples/payments/Maestro/pay-based-on-reserve",
+                    "title": "pay-based-on-reserve"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Payment after a reservation",
+                        "slug": "payment-after-a-reservation"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Maestro/pay-based-on-token.php",
+                    "projectPath": "examples/payments/Maestro/pay-based-on-token.php",
+                    "targetPath": "examples/payments/Maestro/pay-based-on-token",
+                    "pageTitle": "examples/payments/Maestro/pay-based-on-token",
+                    "title": "pay-based-on-token"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Purchase for Maestro via token",
+                        "slug": "purchase-for-maestro-via-token"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Maestro/reserve.php",
+                    "projectPath": "examples/payments/Maestro/reserve.php",
+                    "targetPath": "examples/payments/Maestro/reserve",
+                    "pageTitle": "examples/payments/Maestro/reserve",
+                    "title": "reserve"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Maestro reservation",
+                        "slug": "maestro-reservation"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Maestro/return.php",
+                    "projectPath": "examples/payments/Maestro/return.php",
+                    "targetPath": "examples/payments/Maestro/return",
+                    "pageTitle": "examples/payments/Maestro/return",
+                    "title": "return"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Handling the response of a transaction",
+                        "slug": "handling-the-response-of-a-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Payment results",
+                            "slug": "payment-results"
+                          },
+                          "depth": 2
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Example of BackendService use",
+                            "slug": "example-of-backendservice-use"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Retrieve possible operations for the transaction. An array of possible operations is returned",
+                                "slug": "retrieve-possible-operations-for-the-transaction-an-array-of-possible-operations-is-returned"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Check it the state of the transaction is final.",
+                                "slug": "check-it-the-state-of-the-transaction-is-final"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Get order state of the transaction",
+                                "slug": "get-order-state-of-the-transaction"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "folder",
+              "data": {
+                "path": "examples/payments/Masterpass",
+                "title": "Masterpass"
+              },
+              "depth": 3,
+              "children": [
+                {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Masterpass/cancel.php",
+                    "projectPath": "examples/payments/Masterpass/cancel.php",
+                    "targetPath": "examples/payments/Masterpass/cancel",
+                    "pageTitle": "examples/payments/Masterpass/cancel",
+                    "title": "cancel"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Cancelling a transaction",
+                        "slug": "cancelling-a-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Notification URL",
+                                "slug": "notification-url"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Masterpass/pay.php",
+                    "projectPath": "examples/payments/Masterpass/pay.php",
+                    "targetPath": "examples/payments/Masterpass/pay",
+                    "pageTitle": "examples/payments/Masterpass/pay",
+                    "title": "pay"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Payment after a reservation",
+                        "slug": "payment-after-a-reservation"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Masterpass/pay-based-on-pay.php",
+                    "projectPath": "examples/payments/Masterpass/pay-based-on-pay.php",
+                    "targetPath": "examples/payments/Masterpass/pay-based-on-pay",
+                    "pageTitle": "examples/payments/Masterpass/pay-based-on-pay",
+                    "title": "pay-based-on-pay"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Payment after a reservation",
+                        "slug": "payment-after-a-reservation"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Masterpass/pay-based-on-reserve.php",
+                    "projectPath": "examples/payments/Masterpass/pay-based-on-reserve.php",
+                    "targetPath": "examples/payments/Masterpass/pay-based-on-reserve",
+                    "pageTitle": "examples/payments/Masterpass/pay-based-on-reserve",
+                    "title": "pay-based-on-reserve"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Payment after a reservation",
+                        "slug": "payment-after-a-reservation"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Masterpass/reserve.php",
+                    "projectPath": "examples/payments/Masterpass/reserve.php",
+                    "targetPath": "examples/payments/Masterpass/reserve",
+                    "pageTitle": "examples/payments/Masterpass/reserve",
+                    "title": "reserve"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Masterpass reservation",
+                        "slug": "masterpass-reservation"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Masterpass/return.php",
+                    "projectPath": "examples/payments/Masterpass/return.php",
+                    "targetPath": "examples/payments/Masterpass/return",
+                    "pageTitle": "examples/payments/Masterpass/return",
+                    "title": "return"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Handling the response of a transaction",
+                        "slug": "handling-the-response-of-a-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Payment results",
+                            "slug": "payment-results"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "folder",
+              "data": {
+                "path": "examples/payments/PayByBankApp",
+                "title": "PayByBankApp"
+              },
+              "depth": 3,
+              "children": [
+                {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/PayByBankApp/notify.php",
+                    "projectPath": "examples/payments/PayByBankApp/notify.php",
+                    "targetPath": "examples/payments/PayByBankApp/notify",
+                    "pageTitle": "examples/payments/PayByBankApp/notify",
+                    "title": "notify"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Pay by Bank app notification",
+                        "slug": "pay-by-bank-app-notification"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Validation",
+                                "slug": "validation"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Notification status",
+                                "slug": "notification-status"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/PayByBankApp/pay.php",
+                    "projectPath": "examples/payments/PayByBankApp/pay.php",
+                    "targetPath": "examples/payments/PayByBankApp/pay",
+                    "pageTitle": "examples/payments/PayByBankApp/pay",
+                    "title": "pay"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Purchase for Pay by Bank app",
+                        "slug": "purchase-for-pay-by-bank-app"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Mandatory fields",
+                                "slug": "mandatory-fields"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Optional fields",
+                                "slug": "optional-fields"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/PayByBankApp/refund.php",
+                    "projectPath": "examples/payments/PayByBankApp/refund.php",
+                    "targetPath": "examples/payments/PayByBankApp/refund",
+                    "pageTitle": "examples/payments/PayByBankApp/refund",
+                    "title": "refund"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Cancelling a transaction",
+                        "slug": "cancelling-a-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/PayByBankApp/return.php",
+                    "projectPath": "examples/payments/PayByBankApp/return.php",
+                    "targetPath": "examples/payments/PayByBankApp/return",
+                    "pageTitle": "examples/payments/PayByBankApp/return",
+                    "title": "return"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Pay by Bank app return after transaction",
+                        "slug": "pay-by-bank-app-return-after-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Payment results",
+                            "slug": "payment-results"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "folder",
+              "data": {
+                "path": "examples/payments/PayPal",
+                "title": "PayPal"
+              },
+              "depth": 3,
+              "children": [
+                {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/PayPal/cancel.php",
+                    "projectPath": "examples/payments/PayPal/cancel.php",
+                    "targetPath": "examples/payments/PayPal/cancel",
+                    "pageTitle": "examples/payments/PayPal/cancel",
+                    "title": "cancel"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Cancelling a transaction",
+                        "slug": "cancelling-a-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/PayPal/credit.php",
+                    "projectPath": "examples/payments/PayPal/credit.php",
+                    "targetPath": "examples/payments/PayPal/credit",
+                    "pageTitle": "examples/payments/PayPal/credit",
+                    "title": "credit"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Credit via PayPal",
+                        "slug": "credit-via-paypal"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Notification URL",
+                                "slug": "notification-url"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/PayPal/notify.php",
+                    "projectPath": "examples/payments/PayPal/notify.php",
+                    "targetPath": "examples/payments/PayPal/notify",
+                    "pageTitle": "examples/payments/PayPal/notify",
+                    "title": "notify"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "PayPal notification",
+                        "slug": "paypal-notification"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Validation",
+                                "slug": "validation"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Notification status",
+                            "slug": "notification-status"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/PayPal/pay.php",
+                    "projectPath": "examples/payments/PayPal/pay.php",
+                    "targetPath": "examples/payments/PayPal/pay",
+                    "pageTitle": "examples/payments/PayPal/pay",
+                    "title": "pay"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "PayPal payment transaction",
+                        "slug": "paypal-payment-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Account holder",
+                                "slug": "account-holder"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Mandatory fields",
+                                "slug": "mandatory-fields"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Optional fields",
+                                "slug": "optional-fields"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/PayPal/pay-based-on-reserve.php",
+                    "projectPath": "examples/payments/PayPal/pay-based-on-reserve.php",
+                    "targetPath": "examples/payments/PayPal/pay-based-on-reserve",
+                    "pageTitle": "examples/payments/PayPal/pay-based-on-reserve",
+                    "title": "pay-based-on-reserve"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Payment after a reservation",
+                        "slug": "payment-after-a-reservation"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/PayPal/reserve.php",
+                    "projectPath": "examples/payments/PayPal/reserve.php",
+                    "targetPath": "examples/payments/PayPal/reserve",
+                    "pageTitle": "examples/payments/PayPal/reserve",
+                    "title": "reserve"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "PayPal reserve transaction",
+                        "slug": "paypal-reserve-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Account holder",
+                                "slug": "account-holder"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/PayPal/return.php",
+                    "projectPath": "examples/payments/PayPal/return.php",
+                    "targetPath": "examples/payments/PayPal/return",
+                    "pageTitle": "examples/payments/PayPal/return",
+                    "title": "return"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "PayPal return after transaction",
+                        "slug": "paypal-return-after-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Validation",
+                                "slug": "validation"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Payment results",
+                            "slug": "payment-results"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "folder",
+              "data": {
+                "path": "examples/payments/Payolution_BtwoB",
+                "title": "Payolution_BtwoB"
+              },
+              "depth": 3,
+              "children": [
+                {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Payolution_BtwoB/cancel.php",
+                    "projectPath": "examples/payments/Payolution_BtwoB/cancel.php",
+                    "targetPath": "examples/payments/Payolution_BtwoB/cancel",
+                    "pageTitle": "examples/payments/Payolution_BtwoB/cancel",
+                    "title": "cancel"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Cancelling a Payolution B2B transaction",
+                        "slug": "cancelling-a-payolution-b2b-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Gathering data",
+                            "slug": "gathering-data"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Payolution_BtwoB/notify.php",
+                    "projectPath": "examples/payments/Payolution_BtwoB/notify.php",
+                    "targetPath": "examples/payments/Payolution_BtwoB/notify",
+                    "pageTitle": "examples/payments/Payolution_BtwoB/notify",
+                    "title": "notify"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Handling Payolution B2B notification",
+                        "slug": "handling-payolution-b2b-notification"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Validation",
+                            "slug": "validation"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Notification status",
+                            "slug": "notification-status"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Payolution_BtwoB/pay-based-on-reserve.php",
+                    "projectPath": "examples/payments/Payolution_BtwoB/pay-based-on-reserve.php",
+                    "targetPath": "examples/payments/Payolution_BtwoB/pay-based-on-reserve",
+                    "pageTitle": "examples/payments/Payolution_BtwoB/pay-based-on-reserve",
+                    "title": "pay-based-on-reserve"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Payment after a reservation",
+                        "slug": "payment-after-a-reservation"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Gathering data",
+                            "slug": "gathering-data"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Payolution_BtwoB/refund.php",
+                    "projectPath": "examples/payments/Payolution_BtwoB/refund.php",
+                    "targetPath": "examples/payments/Payolution_BtwoB/refund",
+                    "pageTitle": "examples/payments/Payolution_BtwoB/refund",
+                    "title": "refund"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Refund a Payolution B2B transaction",
+                        "slug": "refund-a-payolution-b2b-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Gathering data",
+                            "slug": "gathering-data"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Payolution_BtwoB/reserve.php",
+                    "projectPath": "examples/payments/Payolution_BtwoB/reserve.php",
+                    "targetPath": "examples/payments/Payolution_BtwoB/reserve",
+                    "pageTitle": "examples/payments/Payolution_BtwoB/reserve",
+                    "title": "reserve"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Payolution B2B reserve transaction",
+                        "slug": "payolution-b2b-reserve-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Collect data",
+                            "slug": "collect-data"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Account holder with address",
+                                "slug": "account-holder-with-address"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "companyInfo with at least the company name, other info are optionally",
+                                "slug": "companyinfo-with-at-least-the-company-name-other-info-are-optionally"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "folder",
+              "data": {
+                "path": "examples/payments/Payolution_Invoice",
+                "title": "Payolution_Invoice"
+              },
+              "depth": 3,
+              "children": [
+                {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Payolution_Invoice/cancel.php",
+                    "projectPath": "examples/payments/Payolution_Invoice/cancel.php",
+                    "targetPath": "examples/payments/Payolution_Invoice/cancel",
+                    "pageTitle": "examples/payments/Payolution_Invoice/cancel",
+                    "title": "cancel"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Cancelling a transaction",
+                        "slug": "cancelling-a-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Payolution_Invoice/notify.php",
+                    "projectPath": "examples/payments/Payolution_Invoice/notify.php",
+                    "targetPath": "examples/payments/Payolution_Invoice/notify",
+                    "pageTitle": "examples/payments/Payolution_Invoice/notify",
+                    "title": "notify"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Handling Payolution Invoice notification",
+                        "slug": "handling-payolution-invoice-notification"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Validation",
+                            "slug": "validation"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Notification status",
+                            "slug": "notification-status"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Payolution_Invoice/pay-based-on-reserve.php",
+                    "projectPath": "examples/payments/Payolution_Invoice/pay-based-on-reserve.php",
+                    "targetPath": "examples/payments/Payolution_Invoice/pay-based-on-reserve",
+                    "pageTitle": "examples/payments/Payolution_Invoice/pay-based-on-reserve",
+                    "title": "pay-based-on-reserve"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Payment after a reservation",
+                        "slug": "payment-after-a-reservation"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Payolution_Invoice/refund.php",
+                    "projectPath": "examples/payments/Payolution_Invoice/refund.php",
+                    "targetPath": "examples/payments/Payolution_Invoice/refund",
+                    "pageTitle": "examples/payments/Payolution_Invoice/refund",
+                    "title": "refund"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Refund a transaction",
+                        "slug": "refund-a-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Payolution_Invoice/reserve.php",
+                    "projectPath": "examples/payments/Payolution_Invoice/reserve.php",
+                    "targetPath": "examples/payments/Payolution_Invoice/reserve",
+                    "pageTitle": "examples/payments/Payolution_Invoice/reserve",
+                    "title": "reserve"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Payolution invoice reserve transaction",
+                        "slug": "payolution-invoice-reserve-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "#",
+                        "slug": ""
+                      },
+                      "depth": 1,
                       "children": [
                         {
                           "type": "heading",
@@ -6156,22 +5607,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                             "level": 3,
                             "title": "Transaction related objects",
                             "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "URLs",
-                            "slug": "urls"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Basket items",
-                            "slug": "basket-items"
                           },
                           "depth": 3
                         }, {
@@ -6182,3920 +5617,482 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                             "slug": "account-holder-with-address"
                           },
                           "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
+                        }, {
                           "type": "heading",
                           "data": {
                             "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/RatePAY_Installment/return.php",
-                "projectPath": "examples/RatePAY_Installment/return.php",
-                "targetPath": "examples/RatePAY_Installment/return",
-                "pageTitle": "examples/RatePAY_Installment/return",
-                "title": "return"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "RatePAY installment return after transaction",
-                    "slug": "ratepay-installment-return-after-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Validation",
-                            "slug": "validation"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Payment results",
-                        "slug": "payment-results"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }, {
-          "type": "folder",
-          "data": {
-            "path": "examples/RatePAY_Invoice",
-            "title": "RatePAY_Invoice"
-          },
-          "depth": 2,
-          "children": [
-            {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/RatePAY_Invoice/cancel.php",
-                "projectPath": "examples/RatePAY_Invoice/cancel.php",
-                "targetPath": "examples/RatePAY_Invoice/cancel",
-                "pageTitle": "examples/RatePAY_Invoice/cancel",
-                "title": "cancel"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Cancelling a transaction",
-                    "slug": "cancelling-a-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3,
-                          "children": [
-                            {
-                              "type": "heading",
-                              "data": {
-                                "level": 4,
-                                "title": "Order items",
-                                "slug": "order-items"
-                              },
-                              "depth": 4
-                            }
-                          ]
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/RatePAY_Invoice/credit.php",
-                "projectPath": "examples/RatePAY_Invoice/credit.php",
-                "targetPath": "examples/RatePAY_Invoice/credit",
-                "pageTitle": "examples/RatePAY_Invoice/credit",
-                "title": "credit"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Credit via RatePAY",
-                    "slug": "credit-via-ratepay"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
+                            "title": "Transaction",
+                            "slug": "transaction"
                           },
                           "depth": 3
                         }, {
                           "type": "heading",
                           "data": {
                             "level": 3,
-                            "title": "Notification URL",
-                            "slug": "notification-url"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
                             "title": "Transaction Service",
                             "slug": "transaction-service"
                           },
                           "depth": 3
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
                         }
                       ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
                     }
                   ]
                 }
               ]
             }, {
-              "type": "file",
+              "type": "folder",
               "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/RatePAY_Invoice/pay-based-on-reserve.php",
-                "projectPath": "examples/RatePAY_Invoice/pay-based-on-reserve.php",
-                "targetPath": "examples/RatePAY_Invoice/pay-based-on-reserve",
-                "pageTitle": "examples/RatePAY_Invoice/pay-based-on-reserve",
-                "title": "pay-based-on-reserve"
+                "path": "examples/payments/Paysafecard",
+                "title": "Paysafecard"
               },
               "depth": 3,
-              "outline": [
+              "children": [
                 {
-                  "type": "heading",
+                  "type": "file",
                   "data": {
-                    "level": 1,
-                    "title": "Payment after a reservation",
-                    "slug": "payment-after-a-reservation"
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Paysafecard/cancel.php",
+                    "projectPath": "examples/payments/Paysafecard/cancel.php",
+                    "targetPath": "examples/payments/Paysafecard/cancel",
+                    "pageTitle": "examples/payments/Paysafecard/cancel",
+                    "title": "cancel"
                   },
-                  "depth": 1,
-                  "children": [
+                  "depth": 4,
+                  "outline": [
                     {
                       "type": "heading",
                       "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
+                        "level": 1,
+                        "title": "Cancelling a transaction",
+                        "slug": "cancelling-a-transaction"
                       },
-                      "depth": 2,
+                      "depth": 1,
                       "children": [
                         {
                           "type": "heading",
                           "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
                           },
-                          "depth": 3,
+                          "depth": 2,
                           "children": [
                             {
                               "type": "heading",
                               "data": {
-                                "level": 4,
-                                "title": "Order items",
-                                "slug": "order-items"
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
                               },
-                              "depth": 4
+                              "depth": 3
                             }, {
                               "type": "heading",
                               "data": {
-                                "level": 4,
-                                "title": "Account holder with address",
-                                "slug": "account-holder-with-address"
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
                               },
-                              "depth": 4
+                              "depth": 3
                             }
                           ]
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Select the item to capture",
-                        "slug": "select-the-item-to-capture"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/RatePAY_Invoice/reserve.php",
-                "projectPath": "examples/RatePAY_Invoice/reserve.php",
-                "targetPath": "examples/RatePAY_Invoice/reserve",
-                "pageTitle": "examples/RatePAY_Invoice/reserve",
-                "title": "reserve"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "RatePAY invoice reserve transaction",
-                    "slug": "ratepay-invoice-reserve-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
                         }, {
                           "type": "heading",
                           "data": {
-                            "level": 3,
-                            "title": "Basket items",
-                            "slug": "basket-items"
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
                           },
-                          "depth": 3,
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Paysafecard/notify.php",
+                    "projectPath": "examples/payments/Paysafecard/notify.php",
+                    "targetPath": "examples/payments/Paysafecard/notify",
+                    "pageTitle": "examples/payments/Paysafecard/notify",
+                    "title": "notify"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Paysafecard notification",
+                        "slug": "paysafecard-notification"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
                           "children": [
                             {
                               "type": "heading",
                               "data": {
-                                "level": 4,
-                                "title": "Account holder with address",
-                                "slug": "account-holder-with-address"
+                                "level": 3,
+                                "title": "Validation",
+                                "slug": "validation"
                               },
-                              "depth": 4
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
                             }
                           ]
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }, {
-          "type": "folder",
-          "data": {
-            "path": "examples/SepaBtwoB",
-            "title": "SepaBtwoB"
-          },
-          "depth": 2,
-          "children": [
-            {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/SepaBtwoB/cancel.php",
-                "projectPath": "examples/SepaBtwoB/cancel.php",
-                "targetPath": "examples/SepaBtwoB/cancel",
-                "pageTitle": "examples/SepaBtwoB/cancel",
-                "title": "cancel"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Cancelling a SEPA B2B-transaction",
-                    "slug": "cancelling-a-sepa-b2b-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/SepaBtwoB/credit.php",
-                "projectPath": "examples/SepaBtwoB/credit.php",
-                "targetPath": "examples/SepaBtwoB/credit",
-                "pageTitle": "examples/SepaBtwoB/credit",
-                "title": "credit"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "SEPA B2B credit transfer",
-                    "slug": "sepa-b2b-credit-transfer"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/SepaBtwoB/pay.php",
-                "projectPath": "examples/SepaBtwoB/pay.php",
-                "targetPath": "examples/SepaBtwoB/pay",
-                "pageTitle": "examples/SepaBtwoB/pay",
-                "title": "pay"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "SEPA B2B amount payment",
-                    "slug": "sepa-b2b-amount-payment"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/SepaBtwoB/referencedcredit.php",
-                "projectPath": "examples/SepaBtwoB/referencedcredit.php",
-                "targetPath": "examples/SepaBtwoB/referencedcredit",
-                "pageTitle": "examples/SepaBtwoB/referencedcredit",
-                "title": "referencedcredit"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "SEPA B2B credit transfer",
-                    "slug": "sepa-b2b-credit-transfer"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/SepaBtwoB/return.php",
-                "projectPath": "examples/SepaBtwoB/return.php",
-                "targetPath": "examples/SepaBtwoB/return",
-                "pageTitle": "examples/SepaBtwoB/return",
-                "title": "return"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "SEPA B2B return after transaction",
-                    "slug": "sepa-b2b-return-after-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }, {
-          "type": "folder",
-          "data": {
-            "path": "examples/SepaCredit",
-            "title": "SepaCredit"
-          },
-          "depth": 2,
-          "children": [
-            {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/SepaCredit/cancel.php",
-                "projectPath": "examples/SepaCredit/cancel.php",
-                "targetPath": "examples/SepaCredit/cancel",
-                "pageTitle": "examples/SepaCredit/cancel",
-                "title": "cancel"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Cancelling a SEPA-transaction",
-                    "slug": "cancelling-a-sepa-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/SepaCredit/credit.php",
-                "projectPath": "examples/SepaCredit/credit.php",
-                "targetPath": "examples/SepaCredit/credit",
-                "pageTitle": "examples/SepaCredit/credit",
-                "title": "credit"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "SEPA credit transfer",
-                    "slug": "sepa-credit-transfer"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/SepaCredit/referencedcredit.php",
-                "projectPath": "examples/SepaCredit/referencedcredit.php",
-                "targetPath": "examples/SepaCredit/referencedcredit",
-                "pageTitle": "examples/SepaCredit/referencedcredit",
-                "title": "referencedcredit"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "SEPA credit transfer",
-                    "slug": "sepa-credit-transfer"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/SepaCredit/return.php",
-                "projectPath": "examples/SepaCredit/return.php",
-                "targetPath": "examples/SepaCredit/return",
-                "pageTitle": "examples/SepaCredit/return",
-                "title": "return"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "SEPA return after transaction",
-                    "slug": "sepa-return-after-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }, {
-          "type": "folder",
-          "data": {
-            "path": "examples/SepaDirectDebit",
-            "title": "SepaDirectDebit"
-          },
-          "depth": 2,
-          "children": [
-            {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/SepaDirectDebit/cancel.php",
-                "projectPath": "examples/SepaDirectDebit/cancel.php",
-                "targetPath": "examples/SepaDirectDebit/cancel",
-                "pageTitle": "examples/SepaDirectDebit/cancel",
-                "title": "cancel"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Cancelling a SEPA-transaction",
-                    "slug": "cancelling-a-sepa-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/SepaDirectDebit/pay.php",
-                "projectPath": "examples/SepaDirectDebit/pay.php",
-                "targetPath": "examples/SepaDirectDebit/pay",
-                "pageTitle": "examples/SepaDirectDebit/pay",
-                "title": "pay"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "SEPA amount payment",
-                    "slug": "sepa-amount-payment"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/SepaDirectDebit/reserve.php",
-                "projectPath": "examples/SepaDirectDebit/reserve.php",
-                "targetPath": "examples/SepaDirectDebit/reserve",
-                "pageTitle": "examples/SepaDirectDebit/reserve",
-                "title": "reserve"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "SEPA amount reservation",
-                    "slug": "sepa-amount-reservation"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/SepaDirectDebit/return.php",
-                "projectPath": "examples/SepaDirectDebit/return.php",
-                "targetPath": "examples/SepaDirectDebit/return",
-                "pageTitle": "examples/SepaDirectDebit/return",
-                "title": "return"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "SEPA return after transaction",
-                    "slug": "sepa-return-after-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }, {
-          "type": "folder",
-          "data": {
-            "path": "examples/Sofort",
-            "title": "Sofort"
-          },
-          "depth": 2,
-          "children": [
-            {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Sofort/credit-based-on-pay.php",
-                "projectPath": "examples/Sofort/credit-based-on-pay.php",
-                "targetPath": "examples/Sofort/credit-based-on-pay",
-                "pageTitle": "examples/Sofort/credit-based-on-pay",
-                "title": "credit-based-on-pay"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Credit based on pay",
-                    "slug": "credit-based-on-pay"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Sofort/pay.php",
-                "projectPath": "examples/Sofort/pay.php",
-                "targetPath": "examples/Sofort/pay",
-                "pageTitle": "examples/Sofort/pay",
-                "title": "pay"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Sofortbanking payment transaction",
-                    "slug": "sofortbanking-payment-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/Sofort/return.php",
-                "projectPath": "examples/Sofort/return.php",
-                "targetPath": "examples/Sofort/return",
-                "pageTitle": "examples/Sofort/return",
-                "title": "return"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Sofortbanking return after transaction",
-                    "slug": "sofortbanking-return-after-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Validation",
-                            "slug": "validation"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Payment results",
-                        "slug": "payment-results"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }, {
-          "type": "folder",
-          "data": {
-            "path": "examples/UPOP",
-            "title": "UPOP"
-          },
-          "depth": 2,
-          "children": [
-            {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/UPOP/cancel.php",
-                "projectPath": "examples/UPOP/cancel.php",
-                "targetPath": "examples/UPOP/cancel",
-                "pageTitle": "examples/UPOP/cancel",
-                "title": "cancel"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Refund a UnionPay Online Payments transaction",
-                    "slug": "refund-a-unionpay-online-payments-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/UPOP/pay.php",
-                "projectPath": "examples/UPOP/pay.php",
-                "targetPath": "examples/UPOP/pay",
-                "pageTitle": "examples/UPOP/pay",
-                "title": "pay"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "UnionPay Online Payments payment transaction",
-                    "slug": "unionpay-online-payments-payment-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/UPOP/return.php",
-                "projectPath": "examples/UPOP/return.php",
-                "targetPath": "examples/UPOP/return",
-                "pageTitle": "examples/UPOP/return",
-                "title": "return"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "UnionPay Online Payments return after transaction",
-                    "slug": "unionpay-online-payments-return-after-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Validation",
-                            "slug": "validation"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Payment results",
-                        "slug": "payment-results"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }, {
-          "type": "folder",
-          "data": {
-            "path": "examples/UnionpayInternational",
-            "title": "UnionpayInternational"
-          },
-          "depth": 2,
-          "children": [
-            {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/UnionpayInternational/cancel.php",
-                "projectPath": "examples/UnionpayInternational/cancel.php",
-                "targetPath": "examples/UnionpayInternational/cancel",
-                "pageTitle": "examples/UnionpayInternational/cancel",
-                "title": "cancel"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Cancelling a transaction",
-                    "slug": "cancelling-a-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/UnionpayInternational/createUi.php",
-                "projectPath": "examples/UnionpayInternational/createUi.php",
-                "targetPath": "examples/UnionpayInternational/createUi",
-                "pageTitle": "examples/UnionpayInternational/createUi",
-                "title": "createUi"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Unionpay International UI creation",
-                    "slug": "unionpay-international-ui-creation"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required libraries and objects",
-                        "slug": "required-libraries-and-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
                         }, {
                           "type": "heading",
                           "data": {
-                            "level": 3,
-                            "title": "Render the form",
-                            "slug": "render-the-form"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Submit handler for the form",
-                            "slug": "submit-handler-for-the-form"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/UnionpayInternational/pay.php",
-                "projectPath": "examples/UnionpayInternational/pay.php",
-                "targetPath": "examples/UnionpayInternational/pay",
-                "pageTitle": "examples/UnionpayInternational/pay",
-                "title": "pay"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Purchase for Unionpay International",
-                    "slug": "purchase-for-unionpay-international"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/UnionpayInternational/pay-based-on-reserve.php",
-                "projectPath": "examples/UnionpayInternational/pay-based-on-reserve.php",
-                "targetPath": "examples/UnionpayInternational/pay-based-on-reserve",
-                "pageTitle": "examples/UnionpayInternational/pay-based-on-reserve",
-                "title": "pay-based-on-reserve"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Payment after a reservation",
-                    "slug": "payment-after-a-reservation"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/UnionpayInternational/reserve.php",
-                "projectPath": "examples/UnionpayInternational/reserve.php",
-                "targetPath": "examples/UnionpayInternational/reserve",
-                "pageTitle": "examples/UnionpayInternational/reserve",
-                "title": "reserve"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Upi reservation",
-                    "slug": "upi-reservation"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/UnionpayInternational/return.php",
-                "projectPath": "examples/UnionpayInternational/return.php",
-                "targetPath": "examples/UnionpayInternational/return",
-                "pageTitle": "examples/UnionpayInternational/return",
-                "title": "return"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Handling the response of a transaction",
-                    "slug": "handling-the-response-of-a-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Payment results",
-                        "slug": "payment-results"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }, {
-          "type": "folder",
-          "data": {
-            "path": "examples/WeChat",
-            "title": "WeChat"
-          },
-          "depth": 2,
-          "children": [
-            {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/WeChat/cancel.php",
-                "projectPath": "examples/WeChat/cancel.php",
-                "targetPath": "examples/WeChat/cancel",
-                "pageTitle": "examples/WeChat/cancel",
-                "title": "cancel"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Cancelling a transaction",
-                    "slug": "cancelling-a-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Notification URL",
-                            "slug": "notification-url"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/WeChat/pay.php",
-                "projectPath": "examples/WeChat/pay.php",
-                "targetPath": "examples/WeChat/pay",
-                "pageTitle": "examples/WeChat/pay",
-                "title": "pay"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "WeChat QRPay Payments payment transaction",
-                    "slug": "wechat-qrpay-payments-payment-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/WeChat/refund.php",
-                "projectPath": "examples/WeChat/refund.php",
-                "targetPath": "examples/WeChat/refund",
-                "pageTitle": "examples/WeChat/refund",
-                "title": "refund"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Refunding a transaction",
-                    "slug": "refunding-a-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Notification URL",
-                            "slug": "notification-url"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/WeChat/return.php",
-                "projectPath": "examples/WeChat/return.php",
-                "targetPath": "examples/WeChat/return",
-                "pageTitle": "examples/WeChat/return",
-                "title": "return"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Handling the response of a transaction",
-                    "slug": "handling-the-response-of-a-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Payment results",
-                        "slug": "payment-results"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }, {
-          "type": "folder",
-          "data": {
-            "path": "examples/eps",
-            "title": "eps"
-          },
-          "depth": 2,
-          "children": [
-            {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/eps/credit-based-on-pay.php",
-                "projectPath": "examples/eps/credit-based-on-pay.php",
-                "targetPath": "examples/eps/credit-based-on-pay",
-                "pageTitle": "examples/eps/credit-based-on-pay",
-                "title": "credit-based-on-pay"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Credit based on pay",
-                    "slug": "credit-based-on-pay"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/eps/notify.php",
-                "projectPath": "examples/eps/notify.php",
-                "targetPath": "examples/eps/notify",
-                "pageTitle": "examples/eps/notify",
-                "title": "notify"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Eps notification",
-                    "slug": "eps-notification"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Validation",
-                            "slug": "validation"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Notification status",
-                        "slug": "notification-status"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/eps/pay.php",
-                "projectPath": "examples/eps/pay.php",
-                "targetPath": "examples/eps/pay",
-                "pageTitle": "examples/eps/pay",
-                "title": "pay"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "EPS payment",
-                    "slug": "eps-payment"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/eps/return.php",
-                "projectPath": "examples/eps/return.php",
-                "targetPath": "examples/eps/return",
-                "pageTitle": "examples/eps/return",
-                "title": "return"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "eps return after transaction",
-                    "slug": "eps-return-after-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Payment results",
-                        "slug": "payment-results"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }, {
-          "type": "folder",
-          "data": {
-            "path": "examples/giropay",
-            "title": "giropay"
-          },
-          "depth": 2,
-          "children": [
-            {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/giropay/credit-based-on-pay.php",
-                "projectPath": "examples/giropay/credit-based-on-pay.php",
-                "targetPath": "examples/giropay/credit-based-on-pay",
-                "pageTitle": "examples/giropay/credit-based-on-pay",
-                "title": "credit-based-on-pay"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Credit based on pay",
-                    "slug": "credit-based-on-pay"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/giropay/notify.php",
-                "projectPath": "examples/giropay/notify.php",
-                "targetPath": "examples/giropay/notify",
-                "pageTitle": "examples/giropay/notify",
-                "title": "notify"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Giropay notification",
-                    "slug": "giropay-notification"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Validation",
-                            "slug": "validation"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Notification status",
-                        "slug": "notification-status"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/giropay/pay.php",
-                "projectPath": "examples/giropay/pay.php",
-                "targetPath": "examples/giropay/pay",
-                "pageTitle": "examples/giropay/pay",
-                "title": "pay"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Giropay payment transaction",
-                    "slug": "giropay-payment-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/giropay/return.php",
-                "projectPath": "examples/giropay/return.php",
-                "targetPath": "examples/giropay/return",
-                "pageTitle": "examples/giropay/return",
-                "title": "return"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "giropay return after transaction",
-                    "slug": "giropay-return-after-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Payment results",
-                        "slug": "payment-results"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }, {
-          "type": "folder",
-          "data": {
-            "path": "examples/iDEAL",
-            "title": "iDEAL"
-          },
-          "depth": 2,
-          "children": [
-            {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/iDEAL/credit-based-on-pay.php",
-                "projectPath": "examples/iDEAL/credit-based-on-pay.php",
-                "targetPath": "examples/iDEAL/credit-based-on-pay",
-                "pageTitle": "examples/iDEAL/credit-based-on-pay",
-                "title": "credit-based-on-pay"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Credit based on pay",
-                    "slug": "credit-based-on-pay"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/iDEAL/notify.php",
-                "projectPath": "examples/iDEAL/notify.php",
-                "targetPath": "examples/iDEAL/notify",
-                "pageTitle": "examples/iDEAL/notify",
-                "title": "notify"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "iDEAL notification",
-                    "slug": "ideal-notification"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
+                            "level": 2,
                             "title": "Notification status",
                             "slug": "notification-status"
                           },
-                          "depth": 3
+                          "depth": 2
                         }
                       ]
                     }
                   ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/iDEAL/pay.php",
-                "projectPath": "examples/iDEAL/pay.php",
-                "targetPath": "examples/iDEAL/pay",
-                "pageTitle": "examples/iDEAL/pay",
-                "title": "pay"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
+                }, {
+                  "type": "file",
                   "data": {
-                    "level": 1,
-                    "title": "iDEAL payment transaction",
-                    "slug": "ideal-payment-transaction"
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Paysafecard/pay.php",
+                    "projectPath": "examples/payments/Paysafecard/pay.php",
+                    "targetPath": "examples/payments/Paysafecard/pay",
+                    "pageTitle": "examples/payments/Paysafecard/pay",
+                    "title": "pay"
                   },
-                  "depth": 1,
-                  "children": [
+                  "depth": 4,
+                  "outline": [
                     {
                       "type": "heading",
                       "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
+                        "level": 1,
+                        "title": "Paysafecard payment transaction",
+                        "slug": "paysafecard-payment-transaction"
                       },
-                      "depth": 2,
+                      "depth": 1,
                       "children": [
                         {
                           "type": "heading",
                           "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
                           },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/iDEAL/return.php",
-                "projectPath": "examples/iDEAL/return.php",
-                "targetPath": "examples/iDEAL/return",
-                "pageTitle": "examples/iDEAL/return",
-                "title": "return"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "iDEAL return after transaction",
-                    "slug": "ideal-return-after-transaction"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Payment results",
-                        "slug": "payment-results"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }, {
-          "type": "folder",
-          "data": {
-            "path": "examples/inc",
-            "title": "inc"
-          },
-          "depth": 2,
-          "children": [
-            {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/common.php",
-                "projectPath": "examples/inc/common.php",
-                "targetPath": "examples/inc/common",
-                "pageTitle": "examples/inc/common",
-                "title": "common"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Custom functions",
-                    "slug": "custom-functions"
-                  },
-                  "depth": 1
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/config.php",
-                "projectPath": "examples/inc/config.php",
-                "targetPath": "examples/inc/config",
-                "pageTitle": "examples/inc/config",
-                "title": "config"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Configuration",
-                    "slug": "configuration"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Connection",
-                        "slug": "connection"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Payment methods",
-                        "slug": "payment-methods"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Credit Card Non-3-D",
-                            "slug": "credit-card-non-3-d"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Credit Card 3-D",
-                            "slug": "credit-card-3-d"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Credit Card Moto",
-                            "slug": "credit-card-moto"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "PayPal",
-                            "slug": "paypal"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "paysafecard",
-                            "slug": "paysafecard"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Bancontact",
-                            "slug": "bancontact"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Masterpass",
-                            "slug": "masterpass"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "UnionPay Online Payments (UPOP)",
-                            "slug": "unionpay-online-payments-upop"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Pay By Bank App",
-                            "slug": "pay-by-bank-app"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/footer.php",
-                "projectPath": "examples/inc/footer.php",
-                "targetPath": "examples/inc/footer",
-                "pageTitle": "examples/inc/footer",
-                "title": "footer"
-              },
-              "depth": 3,
-              "outline": []
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/globalconfig.php",
-                "projectPath": "examples/inc/globalconfig.php",
-                "targetPath": "examples/inc/globalconfig",
-                "pageTitle": "examples/inc/globalconfig",
-                "title": "globalconfig"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Configuration with httpUser 16390-testing",
-                    "slug": "configuration-with-httpuser-16390-testing"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Connection",
-                        "slug": "connection"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Payment methods",
-                        "slug": "payment-methods"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Guaranteed Invoice by Wirecard / Ratepay",
-                            "slug": "guaranteed-invoice-by-wirecard--ratepay"
-                          },
-                          "depth": 3,
+                          "depth": 2,
                           "children": [
                             {
                               "type": "heading",
                               "data": {
-                                "level": 4,
-                                "title": "Guaranteed Installment by Wirecard / Ratepay",
-                                "slug": "guaranteed-installment-by-wirecard--ratepay"
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
                               },
-                              "depth": 4
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
                             }
                           ]
                         }, {
                           "type": "heading",
                           "data": {
-                            "level": 3,
-                            "title": "Guaranteed Direct Debit by Ratepay",
-                            "slug": "guaranteed-direct-debit-by-ratepay"
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
                           },
-                          "depth": 3
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Paysafecard/pay-based-on-reserve.php",
+                    "projectPath": "examples/payments/Paysafecard/pay-based-on-reserve.php",
+                    "targetPath": "examples/payments/Paysafecard/pay-based-on-reserve",
+                    "pageTitle": "examples/payments/Paysafecard/pay-based-on-reserve",
+                    "title": "pay-based-on-reserve"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Payment after a reservation",
+                        "slug": "payment-after-a-reservation"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
                         }, {
                           "type": "heading",
                           "data": {
-                            "level": 3,
-                            "title": "Payment on Invoice / Payment in Advance",
-                            "slug": "payment-on-invoice--payment-in-advance"
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
                           },
-                          "depth": 3
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Paysafecard/reserve.php",
+                    "projectPath": "examples/payments/Paysafecard/reserve.php",
+                    "targetPath": "examples/payments/Paysafecard/reserve",
+                    "pageTitle": "examples/payments/Paysafecard/reserve",
+                    "title": "reserve"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Paysafecard reserve transaction",
+                        "slug": "paysafecard-reserve-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
                         }, {
                           "type": "heading",
                           "data": {
-                            "level": 3,
-                            "title": "Alipay Cross-border",
-                            "slug": "alipay-cross-border"
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
                           },
-                          "depth": 3
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Paysafecard/return.php",
+                    "projectPath": "examples/payments/Paysafecard/return.php",
+                    "targetPath": "examples/payments/Paysafecard/return",
+                    "pageTitle": "examples/payments/Paysafecard/return",
+                    "title": "return"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Paysafecard return after transaction",
+                        "slug": "paysafecard-return-after-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Validation",
+                                "slug": "validation"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
                         }, {
                           "type": "heading",
                           "data": {
-                            "level": 3,
-                            "title": "Przelewy24",
-                            "slug": "przelewy24"
+                            "level": 2,
+                            "title": "Payment results",
+                            "slug": "payment-results"
                           },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "giropay",
-                            "slug": "giropay"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "eps",
-                            "slug": "eps"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "iDEAL",
-                            "slug": "ideal"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Sofortbanking",
-                            "slug": "sofortbanking"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Payolution Invoice",
-                            "slug": "payolution-invoice"
-                          },
-                          "depth": 3
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Payolution B2B",
-                            "slug": "payolution-b2b"
-                          },
-                          "depth": 3
+                          "depth": 2
                         }
                       ]
                     }
@@ -10103,160 +6100,151 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                 }
               ]
             }, {
-              "type": "file",
+              "type": "folder",
               "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/header.php",
-                "projectPath": "examples/inc/header.php",
-                "targetPath": "examples/inc/header",
-                "pageTitle": "examples/inc/header",
-                "title": "header"
+                "path": "examples/payments/PoiPia",
+                "title": "PoiPia"
               },
               "depth": 3,
-              "outline": []
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/maestroconfig.php",
-                "projectPath": "examples/inc/maestroconfig.php",
-                "targetPath": "examples/inc/maestroconfig",
-                "pageTitle": "examples/inc/maestroconfig",
-                "title": "maestroconfig"
-              },
-              "depth": 3,
-              "outline": [
+              "children": [
                 {
-                  "type": "heading",
+                  "type": "file",
                   "data": {
-                    "level": 1,
-                    "title": "Maestro Configuration",
-                    "slug": "maestro-configuration"
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/PoiPia/cancel.php",
+                    "projectPath": "examples/payments/PoiPia/cancel.php",
+                    "targetPath": "examples/payments/PoiPia/cancel",
+                    "pageTitle": "examples/payments/PoiPia/cancel",
+                    "title": "cancel"
                   },
-                  "depth": 1,
-                  "children": [
+                  "depth": 4,
+                  "outline": [
                     {
                       "type": "heading",
                       "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
+                        "level": 1,
+                        "title": "Cancelling a Payment on invoice / Payment in advance-transaction",
+                        "slug": "cancelling-a-payment-on-invoice--payment-in-advance-transaction"
                       },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Connection",
-                        "slug": "connection"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Payment methods",
-                        "slug": "payment-methods"
-                      },
-                      "depth": 2,
+                      "depth": 1,
                       "children": [
                         {
                           "type": "heading",
                           "data": {
-                            "level": 3,
-                            "title": "Maestro",
-                            "slug": "maestro"
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
                           },
-                          "depth": 3
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/sepaconfig.php",
-                "projectPath": "examples/inc/sepaconfig.php",
-                "targetPath": "examples/inc/sepaconfig",
-                "pageTitle": "examples/inc/sepaconfig",
-                "title": "sepaconfig"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "SEPA Configuration",
-                    "slug": "sepa-configuration"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Connection",
-                        "slug": "connection"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Payment methods",
-                        "slug": "payment-methods"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "SEPA Direct Debit",
-                            "slug": "sepa-direct-debit"
-                          },
-                          "depth": 3
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
                         }, {
                           "type": "heading",
                           "data": {
-                            "level": 3,
-                            "title": "SEPA Credit Transfer",
-                            "slug": "sepa-credit-transfer"
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
                           },
-                          "depth": 3
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/PoiPia/reserve.php",
+                    "projectPath": "examples/payments/PoiPia/reserve.php",
+                    "targetPath": "examples/payments/PoiPia/reserve",
+                    "pageTitle": "examples/payments/PoiPia/reserve",
+                    "title": "reserve"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Payment on invoice / Payment in advance reservation",
+                        "slug": "payment-on-invoice--payment-in-advance-reservation"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
                         }
                       ]
                     }
@@ -10264,66 +6252,285 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                 }
               ]
             }, {
-              "type": "file",
+              "type": "folder",
               "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/upiconfig.php",
-                "projectPath": "examples/inc/upiconfig.php",
-                "targetPath": "examples/inc/upiconfig",
-                "pageTitle": "examples/inc/upiconfig",
-                "title": "upiconfig"
+                "path": "examples/payments/Przelewy24",
+                "title": "Przelewy24"
               },
               "depth": 3,
-              "outline": [
+              "children": [
                 {
-                  "type": "heading",
+                  "type": "file",
                   "data": {
-                    "level": 1,
-                    "title": "Configuration",
-                    "slug": "configuration"
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Przelewy24/cancel.php",
+                    "projectPath": "examples/payments/Przelewy24/cancel.php",
+                    "targetPath": "examples/payments/Przelewy24/cancel",
+                    "pageTitle": "examples/payments/Przelewy24/cancel",
+                    "title": "cancel"
                   },
-                  "depth": 1,
-                  "children": [
+                  "depth": 4,
+                  "outline": [
                     {
                       "type": "heading",
                       "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
+                        "level": 1,
+                        "title": "Refund a P24 transaction",
+                        "slug": "refund-a-p24-transaction"
                       },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Connection",
-                        "slug": "connection"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Payment methods",
-                        "slug": "payment-methods"
-                      },
-                      "depth": 2,
+                      "depth": 1,
                       "children": [
                         {
                           "type": "heading",
                           "data": {
-                            "level": 3,
-                            "title": "UPI",
-                            "slug": "upi"
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
                           },
-                          "depth": 3
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Przelewy24/notify.php",
+                    "projectPath": "examples/payments/Przelewy24/notify.php",
+                    "targetPath": "examples/payments/Przelewy24/notify",
+                    "pageTitle": "examples/payments/Przelewy24/notify",
+                    "title": "notify"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Przelewy24 notification",
+                        "slug": "przelewy24-notification"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Notification status",
+                                "slug": "notification-status"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Przelewy24/pay.php",
+                    "projectPath": "examples/payments/Przelewy24/pay.php",
+                    "targetPath": "examples/payments/Przelewy24/pay",
+                    "pageTitle": "examples/payments/Przelewy24/pay",
+                    "title": "pay"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Purchase for Przelewy24",
+                        "slug": "purchase-for-przelewy24"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Przelewy24/return.php",
+                    "projectPath": "examples/payments/Przelewy24/return.php",
+                    "targetPath": "examples/payments/Przelewy24/return",
+                    "pageTitle": "examples/payments/Przelewy24/return",
+                    "title": "return"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Handling the response of a transaction",
+                        "slug": "handling-the-response-of-a-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Payment results",
+                            "slug": "payment-results"
+                          },
+                          "depth": 2
                         }
                       ]
                     }
@@ -10331,535 +6538,3699 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                 }
               ]
             }, {
-              "type": "file",
+              "type": "folder",
               "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/inc/wechatconfig.php",
-                "projectPath": "examples/inc/wechatconfig.php",
-                "targetPath": "examples/inc/wechatconfig",
-                "pageTitle": "examples/inc/wechatconfig",
-                "title": "wechatconfig"
+                "path": "examples/payments/RatePAY_DirectDebit",
+                "title": "RatePAY_DirectDebit"
               },
               "depth": 3,
-              "outline": [
+              "children": [
                 {
-                  "type": "heading",
+                  "type": "file",
                   "data": {
-                    "level": 1,
-                    "title": "Configuration",
-                    "slug": "configuration"
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/RatePAY_DirectDebit/cancel.php",
+                    "projectPath": "examples/payments/RatePAY_DirectDebit/cancel.php",
+                    "targetPath": "examples/payments/RatePAY_DirectDebit/cancel",
+                    "pageTitle": "examples/payments/RatePAY_DirectDebit/cancel",
+                    "title": "cancel"
                   },
-                  "depth": 1,
-                  "children": [
+                  "depth": 4,
+                  "outline": [
                     {
                       "type": "heading",
                       "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
+                        "level": 1,
+                        "title": "Cancelling a transaction",
+                        "slug": "cancelling-a-transaction"
                       },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Connection",
-                        "slug": "connection"
-                      },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Payment methods",
-                        "slug": "payment-methods"
-                      },
-                      "depth": 2,
+                      "depth": 1,
                       "children": [
                         {
                           "type": "heading",
                           "data": {
-                            "level": 3,
-                            "title": "WeChat QRPay",
-                            "slug": "wechat-qrpay"
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
                           },
-                          "depth": 3
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3,
+                              "children": [
+                                {
+                                  "type": "heading",
+                                  "data": {
+                                    "level": 4,
+                                    "title": "Order items",
+                                    "slug": "order-items"
+                                  },
+                                  "depth": 4
+                                }
+                              ]
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
                         }
                       ]
                     }
                   ]
-                }
-              ]
-            }
-          ]
-        }, {
-          "type": "folder",
-          "data": {
-            "path": "examples/paysafecard",
-            "title": "paysafecard"
-          },
-          "depth": 2,
-          "children": [
-            {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/paysafecard/cancel.php",
-                "projectPath": "examples/paysafecard/cancel.php",
-                "targetPath": "examples/paysafecard/cancel",
-                "pageTitle": "examples/paysafecard/cancel",
-                "title": "cancel"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
+                }, {
+                  "type": "file",
                   "data": {
-                    "level": 1,
-                    "title": "Cancelling a transaction",
-                    "slug": "cancelling-a-transaction"
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/RatePAY_DirectDebit/credit.php",
+                    "projectPath": "examples/payments/RatePAY_DirectDebit/credit.php",
+                    "targetPath": "examples/payments/RatePAY_DirectDebit/credit",
+                    "pageTitle": "examples/payments/RatePAY_DirectDebit/credit",
+                    "title": "credit"
                   },
-                  "depth": 1,
-                  "children": [
+                  "depth": 4,
+                  "outline": [
                     {
                       "type": "heading",
                       "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
+                        "level": 1,
+                        "title": "Credit via RatePAY",
+                        "slug": "credit-via-ratepay"
                       },
-                      "depth": 2
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
+                      "depth": 1,
                       "children": [
                         {
                           "type": "heading",
                           "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
                           },
-                          "depth": 3
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Notification URL",
+                                "slug": "notification-url"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
                         }
                       ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
                     }
                   ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/paysafecard/notify.php",
-                "projectPath": "examples/paysafecard/notify.php",
-                "targetPath": "examples/paysafecard/notify",
-                "pageTitle": "examples/paysafecard/notify",
-                "title": "notify"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
+                }, {
+                  "type": "file",
                   "data": {
-                    "level": 1,
-                    "title": "Paysafecard notification",
-                    "slug": "paysafecard-notification"
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/RatePAY_DirectDebit/pay-based-on-reserve.php",
+                    "projectPath": "examples/payments/RatePAY_DirectDebit/pay-based-on-reserve.php",
+                    "targetPath": "examples/payments/RatePAY_DirectDebit/pay-based-on-reserve",
+                    "pageTitle": "examples/payments/RatePAY_DirectDebit/pay-based-on-reserve",
+                    "title": "pay-based-on-reserve"
                   },
-                  "depth": 1,
-                  "children": [
+                  "depth": 4,
+                  "outline": [
                     {
                       "type": "heading",
                       "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
+                        "level": 1,
+                        "title": "Payment after a reservation",
+                        "slug": "payment-after-a-reservation"
                       },
-                      "depth": 2,
+                      "depth": 1,
                       "children": [
                         {
                           "type": "heading",
                           "data": {
-                            "level": 3,
-                            "title": "Validation",
-                            "slug": "validation"
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
                           },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3,
+                              "children": [
+                                {
+                                  "type": "heading",
+                                  "data": {
+                                    "level": 4,
+                                    "title": "Order items",
+                                    "slug": "order-items"
+                                  },
+                                  "depth": 4
+                                }
+                              ]
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Account holder with address",
+                                "slug": "account-holder-with-address"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
                           "type": "heading",
                           "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
+                            "level": 2,
+                            "title": "Select the item to capture",
+                            "slug": "select-the-item-to-capture"
                           },
-                          "depth": 3
+                          "depth": 2
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
                         }
                       ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Notification status",
-                        "slug": "notification-status"
-                      },
-                      "depth": 2
                     }
                   ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/paysafecard/pay.php",
-                "projectPath": "examples/paysafecard/pay.php",
-                "targetPath": "examples/paysafecard/pay",
-                "pageTitle": "examples/paysafecard/pay",
-                "title": "pay"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
+                }, {
+                  "type": "file",
                   "data": {
-                    "level": 1,
-                    "title": "Paysafecard payment transaction",
-                    "slug": "paysafecard-payment-transaction"
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/RatePAY_DirectDebit/reserve.php",
+                    "projectPath": "examples/payments/RatePAY_DirectDebit/reserve.php",
+                    "targetPath": "examples/payments/RatePAY_DirectDebit/reserve",
+                    "pageTitle": "examples/payments/RatePAY_DirectDebit/reserve",
+                    "title": "reserve"
                   },
-                  "depth": 1,
-                  "children": [
+                  "depth": 4,
+                  "outline": [
                     {
                       "type": "heading",
                       "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
+                        "level": 1,
+                        "title": "RatePAY Direct Debit reserve transaction",
+                        "slug": "ratepay-direct-debit-reserve-transaction"
                       },
-                      "depth": 2,
+                      "depth": 1,
                       "children": [
                         {
                           "type": "heading",
                           "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
                           },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Basket items",
+                                "slug": "basket-items"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Account holder with address",
+                                "slug": "account-holder-with-address"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
                           "type": "heading",
                           "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
                           },
-                          "depth": 3
+                          "depth": 2
                         }
                       ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
-                    }
-                  ]
-                }
-              ]
-            }, {
-              "type": "file",
-              "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/paysafecard/pay-based-on-reserve.php",
-                "projectPath": "examples/paysafecard/pay-based-on-reserve.php",
-                "targetPath": "examples/paysafecard/pay-based-on-reserve",
-                "pageTitle": "examples/paysafecard/pay-based-on-reserve",
-                "title": "pay-based-on-reserve"
-              },
-              "depth": 3,
-              "outline": [
-                {
-                  "type": "heading",
-                  "data": {
-                    "level": 1,
-                    "title": "Payment after a reservation",
-                    "slug": "payment-after-a-reservation"
-                  },
-                  "depth": 1,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
-                      },
-                      "depth": 2,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 3,
-                            "title": "Transaction service",
-                            "slug": "transaction-service"
-                          },
-                          "depth": 3
-                        }
-                      ]
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
-                      },
-                      "depth": 2
                     }
                   ]
                 }
               ]
             }, {
-              "type": "file",
+              "type": "folder",
               "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/paysafecard/reserve.php",
-                "projectPath": "examples/paysafecard/reserve.php",
-                "targetPath": "examples/paysafecard/reserve",
-                "pageTitle": "examples/paysafecard/reserve",
-                "title": "reserve"
+                "path": "examples/payments/RatePAY_Installment",
+                "title": "RatePAY_Installment"
               },
               "depth": 3,
-              "outline": [
+              "children": [
                 {
-                  "type": "heading",
+                  "type": "file",
                   "data": {
-                    "level": 1,
-                    "title": "Paysafecard reserve transaction",
-                    "slug": "paysafecard-reserve-transaction"
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/RatePAY_Installment/cancel.php",
+                    "projectPath": "examples/payments/RatePAY_Installment/cancel.php",
+                    "targetPath": "examples/payments/RatePAY_Installment/cancel",
+                    "pageTitle": "examples/payments/RatePAY_Installment/cancel",
+                    "title": "cancel"
                   },
-                  "depth": 1,
-                  "children": [
+                  "depth": 4,
+                  "outline": [
                     {
                       "type": "heading",
                       "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
+                        "level": 1,
+                        "title": "Cancelling a transaction",
+                        "slug": "cancelling-a-transaction"
                       },
-                      "depth": 2,
+                      "depth": 1,
                       "children": [
                         {
                           "type": "heading",
                           "data": {
-                            "level": 3,
-                            "title": "Transaction related objects",
-                            "slug": "transaction-related-objects"
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
                           },
-                          "depth": 3
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3,
+                              "children": [
+                                {
+                                  "type": "heading",
+                                  "data": {
+                                    "level": 4,
+                                    "title": "Basket items",
+                                    "slug": "basket-items"
+                                  },
+                                  "depth": 4
+                                }
+                              ]
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
                         }
                       ]
-                    }, {
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/RatePAY_Installment/credit.php",
+                    "projectPath": "examples/payments/RatePAY_Installment/credit.php",
+                    "targetPath": "examples/payments/RatePAY_Installment/credit",
+                    "pageTitle": "examples/payments/RatePAY_Installment/credit",
+                    "title": "credit"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
                       "type": "heading",
                       "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
+                        "level": 1,
+                        "title": "Credit via RatePAY",
+                        "slug": "credit-via-ratepay"
                       },
-                      "depth": 2,
+                      "depth": 1,
                       "children": [
                         {
                           "type": "heading",
                           "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
                           },
-                          "depth": 3
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Notification URL",
+                                "slug": "notification-url"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Basket items",
+                                "slug": "basket-items"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
                         }
                       ]
-                    }, {
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/RatePAY_Installment/pay-based-on-reserve.php",
+                    "projectPath": "examples/payments/RatePAY_Installment/pay-based-on-reserve.php",
+                    "targetPath": "examples/payments/RatePAY_Installment/pay-based-on-reserve",
+                    "pageTitle": "examples/payments/RatePAY_Installment/pay-based-on-reserve",
+                    "title": "pay-based-on-reserve"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
                       "type": "heading",
                       "data": {
-                        "level": 2,
-                        "title": "Response handling",
-                        "slug": "response-handling"
+                        "level": 1,
+                        "title": "Payment after a reservation",
+                        "slug": "payment-after-a-reservation"
                       },
-                      "depth": 2
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Basket items",
+                                "slug": "basket-items"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Account holder with address",
+                                "slug": "account-holder-with-address"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Select the item to capture",
+                            "slug": "select-the-item-to-capture"
+                          },
+                          "depth": 2
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/RatePAY_Installment/reserve.php",
+                    "projectPath": "examples/payments/RatePAY_Installment/reserve.php",
+                    "targetPath": "examples/payments/RatePAY_Installment/reserve",
+                    "pageTitle": "examples/payments/RatePAY_Installment/reserve",
+                    "title": "reserve"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "RatePAY installment reserve transaction",
+                        "slug": "ratepay-installment-reserve-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "URLs",
+                                "slug": "urls"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Basket items",
+                                "slug": "basket-items"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Account holder with address",
+                                "slug": "account-holder-with-address"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/RatePAY_Installment/return.php",
+                    "projectPath": "examples/payments/RatePAY_Installment/return.php",
+                    "targetPath": "examples/payments/RatePAY_Installment/return",
+                    "pageTitle": "examples/payments/RatePAY_Installment/return",
+                    "title": "return"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "RatePAY installment return after transaction",
+                        "slug": "ratepay-installment-return-after-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Validation",
+                                "slug": "validation"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Payment results",
+                            "slug": "payment-results"
+                          },
+                          "depth": 2
+                        }
+                      ]
                     }
                   ]
                 }
               ]
             }, {
-              "type": "file",
+              "type": "folder",
               "data": {
-                "language": {
-                  "nameMatchers": [{}, ".fbp"],
-                  "pygmentsLexer": "php",
-                  "singleLineComment": ["//"],
-                  "ignorePrefix": "}",
-                  "foldPrefix": "^",
-                  "name": "PHP"
-                },
-                "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/paysafecard/return.php",
-                "projectPath": "examples/paysafecard/return.php",
-                "targetPath": "examples/paysafecard/return",
-                "pageTitle": "examples/paysafecard/return",
-                "title": "return"
+                "path": "examples/payments/RatePAY_Invoice",
+                "title": "RatePAY_Invoice"
               },
               "depth": 3,
-              "outline": [
+              "children": [
                 {
-                  "type": "heading",
+                  "type": "file",
                   "data": {
-                    "level": 1,
-                    "title": "Paysafecard return after transaction",
-                    "slug": "paysafecard-return-after-transaction"
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/RatePAY_Invoice/cancel.php",
+                    "projectPath": "examples/payments/RatePAY_Invoice/cancel.php",
+                    "targetPath": "examples/payments/RatePAY_Invoice/cancel",
+                    "pageTitle": "examples/payments/RatePAY_Invoice/cancel",
+                    "title": "cancel"
                   },
-                  "depth": 1,
-                  "children": [
+                  "depth": 4,
+                  "outline": [
                     {
                       "type": "heading",
                       "data": {
-                        "level": 2,
-                        "title": "Required objects",
-                        "slug": "required-objects"
+                        "level": 1,
+                        "title": "Cancelling a transaction",
+                        "slug": "cancelling-a-transaction"
                       },
-                      "depth": 2,
+                      "depth": 1,
                       "children": [
                         {
                           "type": "heading",
                           "data": {
-                            "level": 3,
-                            "title": "Validation",
-                            "slug": "validation"
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
                           },
-                          "depth": 3
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3,
+                              "children": [
+                                {
+                                  "type": "heading",
+                                  "data": {
+                                    "level": 4,
+                                    "title": "Order items",
+                                    "slug": "order-items"
+                                  },
+                                  "depth": 4
+                                }
+                              ]
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
                         }
                       ]
-                    }, {
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/RatePAY_Invoice/credit.php",
+                    "projectPath": "examples/payments/RatePAY_Invoice/credit.php",
+                    "targetPath": "examples/payments/RatePAY_Invoice/credit",
+                    "pageTitle": "examples/payments/RatePAY_Invoice/credit",
+                    "title": "credit"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
                       "type": "heading",
                       "data": {
-                        "level": 2,
-                        "title": "Transaction",
-                        "slug": "transaction"
+                        "level": 1,
+                        "title": "Credit via RatePAY",
+                        "slug": "credit-via-ratepay"
                       },
-                      "depth": 2,
+                      "depth": 1,
                       "children": [
                         {
                           "type": "heading",
                           "data": {
-                            "level": 3,
-                            "title": "Transaction Service",
-                            "slug": "transaction-service"
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
                           },
-                          "depth": 3
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Notification URL",
+                                "slug": "notification-url"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
                         }
                       ]
-                    }, {
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/RatePAY_Invoice/pay-based-on-reserve.php",
+                    "projectPath": "examples/payments/RatePAY_Invoice/pay-based-on-reserve.php",
+                    "targetPath": "examples/payments/RatePAY_Invoice/pay-based-on-reserve",
+                    "pageTitle": "examples/payments/RatePAY_Invoice/pay-based-on-reserve",
+                    "title": "pay-based-on-reserve"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
                       "type": "heading",
                       "data": {
-                        "level": 2,
-                        "title": "Payment results",
-                        "slug": "payment-results"
+                        "level": 1,
+                        "title": "Payment after a reservation",
+                        "slug": "payment-after-a-reservation"
                       },
-                      "depth": 2
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3,
+                              "children": [
+                                {
+                                  "type": "heading",
+                                  "data": {
+                                    "level": 4,
+                                    "title": "Order items",
+                                    "slug": "order-items"
+                                  },
+                                  "depth": 4
+                                }
+                              ]
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Account holder with address",
+                                "slug": "account-holder-with-address"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Select the item to capture",
+                            "slug": "select-the-item-to-capture"
+                          },
+                          "depth": 2
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/RatePAY_Invoice/reserve.php",
+                    "projectPath": "examples/payments/RatePAY_Invoice/reserve.php",
+                    "targetPath": "examples/payments/RatePAY_Invoice/reserve",
+                    "pageTitle": "examples/payments/RatePAY_Invoice/reserve",
+                    "title": "reserve"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "RatePAY invoice reserve transaction",
+                        "slug": "ratepay-invoice-reserve-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Basket items",
+                                "slug": "basket-items"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Account holder with address",
+                                "slug": "account-holder-with-address"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "folder",
+              "data": {
+                "path": "examples/payments/SepaBtwoB",
+                "title": "SepaBtwoB"
+              },
+              "depth": 3,
+              "children": [
+                {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/SepaBtwoB/cancel.php",
+                    "projectPath": "examples/payments/SepaBtwoB/cancel.php",
+                    "targetPath": "examples/payments/SepaBtwoB/cancel",
+                    "pageTitle": "examples/payments/SepaBtwoB/cancel",
+                    "title": "cancel"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Cancelling a SEPA B2B-transaction",
+                        "slug": "cancelling-a-sepa-b2b-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/SepaBtwoB/credit.php",
+                    "projectPath": "examples/payments/SepaBtwoB/credit.php",
+                    "targetPath": "examples/payments/SepaBtwoB/credit",
+                    "pageTitle": "examples/payments/SepaBtwoB/credit",
+                    "title": "credit"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "SEPA B2B credit transfer",
+                        "slug": "sepa-b2b-credit-transfer"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/SepaBtwoB/pay.php",
+                    "projectPath": "examples/payments/SepaBtwoB/pay.php",
+                    "targetPath": "examples/payments/SepaBtwoB/pay",
+                    "pageTitle": "examples/payments/SepaBtwoB/pay",
+                    "title": "pay"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "SEPA B2B amount payment",
+                        "slug": "sepa-b2b-amount-payment"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/SepaBtwoB/referencedcredit.php",
+                    "projectPath": "examples/payments/SepaBtwoB/referencedcredit.php",
+                    "targetPath": "examples/payments/SepaBtwoB/referencedcredit",
+                    "pageTitle": "examples/payments/SepaBtwoB/referencedcredit",
+                    "title": "referencedcredit"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "SEPA B2B credit transfer",
+                        "slug": "sepa-b2b-credit-transfer"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/SepaBtwoB/return.php",
+                    "projectPath": "examples/payments/SepaBtwoB/return.php",
+                    "targetPath": "examples/payments/SepaBtwoB/return",
+                    "pageTitle": "examples/payments/SepaBtwoB/return",
+                    "title": "return"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "SEPA B2B return after transaction",
+                        "slug": "sepa-b2b-return-after-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "folder",
+              "data": {
+                "path": "examples/payments/SepaCredit",
+                "title": "SepaCredit"
+              },
+              "depth": 3,
+              "children": [
+                {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/SepaCredit/cancel.php",
+                    "projectPath": "examples/payments/SepaCredit/cancel.php",
+                    "targetPath": "examples/payments/SepaCredit/cancel",
+                    "pageTitle": "examples/payments/SepaCredit/cancel",
+                    "title": "cancel"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Cancelling a SEPA-transaction",
+                        "slug": "cancelling-a-sepa-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/SepaCredit/credit.php",
+                    "projectPath": "examples/payments/SepaCredit/credit.php",
+                    "targetPath": "examples/payments/SepaCredit/credit",
+                    "pageTitle": "examples/payments/SepaCredit/credit",
+                    "title": "credit"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "SEPA credit transfer",
+                        "slug": "sepa-credit-transfer"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/SepaCredit/referencedcredit.php",
+                    "projectPath": "examples/payments/SepaCredit/referencedcredit.php",
+                    "targetPath": "examples/payments/SepaCredit/referencedcredit",
+                    "pageTitle": "examples/payments/SepaCredit/referencedcredit",
+                    "title": "referencedcredit"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "SEPA credit transfer",
+                        "slug": "sepa-credit-transfer"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/SepaCredit/return.php",
+                    "projectPath": "examples/payments/SepaCredit/return.php",
+                    "targetPath": "examples/payments/SepaCredit/return",
+                    "pageTitle": "examples/payments/SepaCredit/return",
+                    "title": "return"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "SEPA return after transaction",
+                        "slug": "sepa-return-after-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "folder",
+              "data": {
+                "path": "examples/payments/SepaDirectDebit",
+                "title": "SepaDirectDebit"
+              },
+              "depth": 3,
+              "children": [
+                {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/SepaDirectDebit/cancel.php",
+                    "projectPath": "examples/payments/SepaDirectDebit/cancel.php",
+                    "targetPath": "examples/payments/SepaDirectDebit/cancel",
+                    "pageTitle": "examples/payments/SepaDirectDebit/cancel",
+                    "title": "cancel"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Cancelling a SEPA-transaction",
+                        "slug": "cancelling-a-sepa-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/SepaDirectDebit/pay.php",
+                    "projectPath": "examples/payments/SepaDirectDebit/pay.php",
+                    "targetPath": "examples/payments/SepaDirectDebit/pay",
+                    "pageTitle": "examples/payments/SepaDirectDebit/pay",
+                    "title": "pay"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "SEPA amount payment",
+                        "slug": "sepa-amount-payment"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/SepaDirectDebit/reserve.php",
+                    "projectPath": "examples/payments/SepaDirectDebit/reserve.php",
+                    "targetPath": "examples/payments/SepaDirectDebit/reserve",
+                    "pageTitle": "examples/payments/SepaDirectDebit/reserve",
+                    "title": "reserve"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "SEPA amount reservation",
+                        "slug": "sepa-amount-reservation"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/SepaDirectDebit/return.php",
+                    "projectPath": "examples/payments/SepaDirectDebit/return.php",
+                    "targetPath": "examples/payments/SepaDirectDebit/return",
+                    "pageTitle": "examples/payments/SepaDirectDebit/return",
+                    "title": "return"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "SEPA return after transaction",
+                        "slug": "sepa-return-after-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Retrieve possible operations for the transaction. An array of possible operations is returned",
+                                "slug": "retrieve-possible-operations-for-the-transaction-an-array-of-possible-operations-is-returned"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Check it the state of the transaction is final.",
+                                "slug": "check-it-the-state-of-the-transaction-is-final"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Get order state of the transaction",
+                                "slug": "get-order-state-of-the-transaction"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "folder",
+              "data": {
+                "path": "examples/payments/Sofort",
+                "title": "Sofort"
+              },
+              "depth": 3,
+              "children": [
+                {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Sofort/credit-based-on-pay.php",
+                    "projectPath": "examples/payments/Sofort/credit-based-on-pay.php",
+                    "targetPath": "examples/payments/Sofort/credit-based-on-pay",
+                    "pageTitle": "examples/payments/Sofort/credit-based-on-pay",
+                    "title": "credit-based-on-pay"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Credit based on pay",
+                        "slug": "credit-based-on-pay"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Sofort/pay.php",
+                    "projectPath": "examples/payments/Sofort/pay.php",
+                    "targetPath": "examples/payments/Sofort/pay",
+                    "pageTitle": "examples/payments/Sofort/pay",
+                    "title": "pay"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Sofortbanking payment transaction",
+                        "slug": "sofortbanking-payment-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/Sofort/return.php",
+                    "projectPath": "examples/payments/Sofort/return.php",
+                    "targetPath": "examples/payments/Sofort/return",
+                    "pageTitle": "examples/payments/Sofort/return",
+                    "title": "return"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Sofortbanking return after transaction",
+                        "slug": "sofortbanking-return-after-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Validation",
+                                "slug": "validation"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Payment results",
+                            "slug": "payment-results"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "folder",
+              "data": {
+                "path": "examples/payments/UPOP",
+                "title": "UPOP"
+              },
+              "depth": 3,
+              "children": [
+                {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/UPOP/cancel.php",
+                    "projectPath": "examples/payments/UPOP/cancel.php",
+                    "targetPath": "examples/payments/UPOP/cancel",
+                    "pageTitle": "examples/payments/UPOP/cancel",
+                    "title": "cancel"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Refund a UnionPay Online Payments transaction",
+                        "slug": "refund-a-unionpay-online-payments-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/UPOP/pay.php",
+                    "projectPath": "examples/payments/UPOP/pay.php",
+                    "targetPath": "examples/payments/UPOP/pay",
+                    "pageTitle": "examples/payments/UPOP/pay",
+                    "title": "pay"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "UnionPay Online Payments payment transaction",
+                        "slug": "unionpay-online-payments-payment-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/UPOP/return.php",
+                    "projectPath": "examples/payments/UPOP/return.php",
+                    "targetPath": "examples/payments/UPOP/return",
+                    "pageTitle": "examples/payments/UPOP/return",
+                    "title": "return"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "UnionPay Online Payments return after transaction",
+                        "slug": "unionpay-online-payments-return-after-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Validation",
+                                "slug": "validation"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Payment results",
+                            "slug": "payment-results"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "folder",
+              "data": {
+                "path": "examples/payments/UnionpayInternational",
+                "title": "UnionpayInternational"
+              },
+              "depth": 3,
+              "children": [
+                {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/UnionpayInternational/cancel.php",
+                    "projectPath": "examples/payments/UnionpayInternational/cancel.php",
+                    "targetPath": "examples/payments/UnionpayInternational/cancel",
+                    "pageTitle": "examples/payments/UnionpayInternational/cancel",
+                    "title": "cancel"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Cancelling a transaction",
+                        "slug": "cancelling-a-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/UnionpayInternational/createUi.php",
+                    "projectPath": "examples/payments/UnionpayInternational/createUi.php",
+                    "targetPath": "examples/payments/UnionpayInternational/createUi",
+                    "pageTitle": "examples/payments/UnionpayInternational/createUi",
+                    "title": "createUi"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Unionpay International UI creation",
+                        "slug": "unionpay-international-ui-creation"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required libraries and objects",
+                            "slug": "required-libraries-and-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Render the form",
+                                "slug": "render-the-form"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Submit handler for the form",
+                                "slug": "submit-handler-for-the-form"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/UnionpayInternational/pay.php",
+                    "projectPath": "examples/payments/UnionpayInternational/pay.php",
+                    "targetPath": "examples/payments/UnionpayInternational/pay",
+                    "pageTitle": "examples/payments/UnionpayInternational/pay",
+                    "title": "pay"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Purchase for Unionpay International",
+                        "slug": "purchase-for-unionpay-international"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/UnionpayInternational/pay-based-on-reserve.php",
+                    "projectPath": "examples/payments/UnionpayInternational/pay-based-on-reserve.php",
+                    "targetPath": "examples/payments/UnionpayInternational/pay-based-on-reserve",
+                    "pageTitle": "examples/payments/UnionpayInternational/pay-based-on-reserve",
+                    "title": "pay-based-on-reserve"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Payment after a reservation",
+                        "slug": "payment-after-a-reservation"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/UnionpayInternational/reserve.php",
+                    "projectPath": "examples/payments/UnionpayInternational/reserve.php",
+                    "targetPath": "examples/payments/UnionpayInternational/reserve",
+                    "pageTitle": "examples/payments/UnionpayInternational/reserve",
+                    "title": "reserve"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Upi reservation",
+                        "slug": "upi-reservation"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/UnionpayInternational/return.php",
+                    "projectPath": "examples/payments/UnionpayInternational/return.php",
+                    "targetPath": "examples/payments/UnionpayInternational/return",
+                    "pageTitle": "examples/payments/UnionpayInternational/return",
+                    "title": "return"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Handling the response of a transaction",
+                        "slug": "handling-the-response-of-a-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Payment results",
+                            "slug": "payment-results"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "folder",
+              "data": {
+                "path": "examples/payments/WeChat",
+                "title": "WeChat"
+              },
+              "depth": 3,
+              "children": [
+                {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/WeChat/cancel.php",
+                    "projectPath": "examples/payments/WeChat/cancel.php",
+                    "targetPath": "examples/payments/WeChat/cancel",
+                    "pageTitle": "examples/payments/WeChat/cancel",
+                    "title": "cancel"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Cancelling a transaction",
+                        "slug": "cancelling-a-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Notification URL",
+                                "slug": "notification-url"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/WeChat/pay.php",
+                    "projectPath": "examples/payments/WeChat/pay.php",
+                    "targetPath": "examples/payments/WeChat/pay",
+                    "pageTitle": "examples/payments/WeChat/pay",
+                    "title": "pay"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "WeChat QRPay Payments payment transaction",
+                        "slug": "wechat-qrpay-payments-payment-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/WeChat/refund.php",
+                    "projectPath": "examples/payments/WeChat/refund.php",
+                    "targetPath": "examples/payments/WeChat/refund",
+                    "pageTitle": "examples/payments/WeChat/refund",
+                    "title": "refund"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Refunding a transaction",
+                        "slug": "refunding-a-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Notification URL",
+                                "slug": "notification-url"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/WeChat/return.php",
+                    "projectPath": "examples/payments/WeChat/return.php",
+                    "targetPath": "examples/payments/WeChat/return",
+                    "pageTitle": "examples/payments/WeChat/return",
+                    "title": "return"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Handling the response of a transaction",
+                        "slug": "handling-the-response-of-a-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Payment results",
+                            "slug": "payment-results"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }, {
+              "type": "folder",
+              "data": {
+                "path": "examples/payments/iDEAL",
+                "title": "iDEAL"
+              },
+              "depth": 3,
+              "children": [
+                {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/iDEAL/credit-based-on-pay.php",
+                    "projectPath": "examples/payments/iDEAL/credit-based-on-pay.php",
+                    "targetPath": "examples/payments/iDEAL/credit-based-on-pay",
+                    "pageTitle": "examples/payments/iDEAL/credit-based-on-pay",
+                    "title": "credit-based-on-pay"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "Credit based on pay",
+                        "slug": "credit-based-on-pay"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/iDEAL/notify.php",
+                    "projectPath": "examples/payments/iDEAL/notify.php",
+                    "targetPath": "examples/payments/iDEAL/notify",
+                    "pageTitle": "examples/payments/iDEAL/notify",
+                    "title": "notify"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "iDEAL notification",
+                        "slug": "ideal-notification"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Notification status",
+                                "slug": "notification-status"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/iDEAL/pay.php",
+                    "projectPath": "examples/payments/iDEAL/pay.php",
+                    "targetPath": "examples/payments/iDEAL/pay",
+                    "pageTitle": "examples/payments/iDEAL/pay",
+                    "title": "pay"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "iDEAL payment transaction",
+                        "slug": "ideal-payment-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction related objects",
+                                "slug": "transaction-related-objects"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Mandatory fields",
+                                "slug": "mandatory-fields"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Optional fields",
+                                "slug": "optional-fields"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Response handling",
+                            "slug": "response-handling"
+                          },
+                          "depth": 2
+                        }
+                      ]
+                    }
+                  ]
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [{}, ".fbp"],
+                      "pygmentsLexer": "php",
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "PHP"
+                    },
+                    "sourcePath": "/home/travis/build/wirecard/paymentSDK-php/examples/payments/iDEAL/return.php",
+                    "projectPath": "examples/payments/iDEAL/return.php",
+                    "targetPath": "examples/payments/iDEAL/return",
+                    "pageTitle": "examples/payments/iDEAL/return",
+                    "title": "return"
+                  },
+                  "depth": 4,
+                  "outline": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "iDEAL return after transaction",
+                        "slug": "ideal-return-after-transaction"
+                      },
+                      "depth": 1,
+                      "children": [
+                        {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Required objects",
+                            "slug": "required-objects"
+                          },
+                          "depth": 2,
+                          "children": [
+                            {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction",
+                                "slug": "transaction"
+                              },
+                              "depth": 3
+                            }, {
+                              "type": "heading",
+                              "data": {
+                                "level": 3,
+                                "title": "Transaction Service",
+                                "slug": "transaction-service"
+                              },
+                              "depth": 3
+                            }
+                          ]
+                        }, {
+                          "type": "heading",
+                          "data": {
+                            "level": 2,
+                            "title": "Payment results",
+                            "slug": "payment-results"
+                          },
+                          "depth": 2
+                        }
+                      ]
                     }
                   ]
                 }
