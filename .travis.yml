@@ -23,11 +23,11 @@ matrix:
     - stage: acceptance-test
   include:
   - php: 5.6
-    if: type = cron
+    if: type != cron
     env:
     - TEST_COVERAGE=true
   - php: 7
-    if: type = cron
+    if: type != cron
     env:
     - CHECK_CS=true
     - CREATE_DOCS=true
@@ -36,7 +36,7 @@ matrix:
     env:
     - MUTATION_TESTS=true
   - php: 7.2
-    if: type = cron
+    if: type != cron
     env:
     - MUTATION_TESTS=true
   - php: 7.3
@@ -45,7 +45,7 @@ matrix:
     - MUTATION_TESTS=true
   - &acceptance-test
     stage: acceptance-test
-    if: type != cron
+    if: type = cron
     php: 7.2
     env: GATEWAY=API-TEST
     install:
@@ -53,11 +53,11 @@ matrix:
     - travis_retry composer install $COMPOSER_ARGS
     - composer show
     script: bash .bin/run-ui-tests.sh
-    after_success: skip
-#    - bash .bin/upload-logs-and-notify.sh
-    after_failure: skip
-#    - bash .bin/output-failed-logs.sh
-#    - bash .bin/upload-logs-and-notify.sh fail
+    after_success:
+    - bash .bin/upload-logs-and-notify.sh
+    after_failure:
+    - bash .bin/output-failed-logs.sh
+    - bash .bin/upload-logs-and-notify.sh fail
   - <<: *acceptance-test
     env: GATEWAY=API-WDCEE-TEST
   - <<: *acceptance-test
