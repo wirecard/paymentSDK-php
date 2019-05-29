@@ -168,6 +168,10 @@ class CreditCardTransaction extends Transaction implements Reservable
      */
     public function getEndpoint()
     {
+        if (isset($this->endpoint)) {
+            return $this->endpoint;
+        }
+
         return self::ENDPOINT_PAYMENTS;
     }
 
