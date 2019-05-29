@@ -17,7 +17,7 @@ class CreditCardWppV2SuccessNon3D extends Base
     public $elements = array(
         'Reservation successfully completed..' => "Reservation successfully completed..",
         'Transaction ID' => "Transaction ID",
-        'Transaction Identification' => "//*[@id='overrides']/div/a"
+        'Transaction Identification' => "//div[contains(@class, 'content')]/a"
 
     );
 }

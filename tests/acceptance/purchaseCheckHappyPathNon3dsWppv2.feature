@@ -1,4 +1,4 @@
-Feature: check_credit_card_wppv2_non_3DS_functionality_happy_path
+Feature: checkCreditCardWppv2Non3DSFunctionalityHappyPath
   As a user
   I want to make a purchase with a Credit Card 3DS
   And to see that transaction was successful
@@ -9,14 +9,14 @@ Feature: check_credit_card_wppv2_non_3DS_functionality_happy_path
     When I fill fields with "Valid Credit Card Data"
     And I click "Save"
 
-  @default_gateway
-  Scenario: try purchase_check
+  @API-TEST @API-WDCEE-TEST
+  Scenario: try purchaseCheck
     Given I am redirected to "Credit Card Reserve WPPv2 Page" page
     Then I see text "Reservation successfully completed."
     And I see text "Transaction ID"
 
-  @default_gateway
-  Scenario: try void_purchase_check
+  @API-TEST @API-WDCEE-TEST
+  Scenario: try voidPurchaseCheck
     Given I am redirected to "Credit Card Reserve WPPv2 Page" page
     And I click "Cancel the payment"
     And I am redirected to "Credit Card Cancel Page" page
