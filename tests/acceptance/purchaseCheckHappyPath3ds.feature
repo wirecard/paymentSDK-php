@@ -11,7 +11,7 @@ Feature: checkCrediCard3DSFunctionalityHappyPath
     And I choose "EUR" in field "Currency"
     And I click "Save"
 
-  @API-TEST @WDCEE-API-TEST @NOVA
+  @API-TEST @API-WDCEE-TEST @NOVA
   Scenario: try purchaseCheck
     Given I am redirected to "Credit Card Reserve Page" page
     And I click "Redirect to 3-D Secure page"
@@ -22,7 +22,7 @@ Feature: checkCrediCard3DSFunctionalityHappyPath
     Then I see text "Payment successfully completed."
     And I see text "Transaction ID"
 
-  @API-TEST @WDCEE-API-TEST
+  @API-TEST @API-WDCEE-TEST
   Scenario: try voidPurchaseCheck
     Given I am redirected to "Credit Card Reserve Page" page
     And I click "Redirect to 3-D Secure page"

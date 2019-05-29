@@ -11,13 +11,13 @@ Feature: checkCreditCardNon3DSFunctionalityHappyPath
     And I choose "EUR" in field "Currency"
     And I click "Save"
 
-  @API-TEST @WDCEE-API-TEST @NOVA @TEST-SG @SECURE-TEST-SG
+  @API-TEST @API-WDCEE-TEST @NOVA @TEST-SG @SECURE-TEST-SG
   Scenario: try purchaseCheck
     Given I am redirected to "Credit Card Success Page Non 3D Page" page
     Then I see text "Reservation successfully completed."
     And I see text "Transaction ID"
 
-  @API-TEST @WDCEE-API-TEST @NOVA @TEST-SG @SECURE-TEST-SG
+  @API-TEST @API-WDCEE-TEST @NOVA @TEST-SG @SECURE-TEST-SG
   Scenario: try voidPurchaseCheck
     Given I am redirected to "Credit Card Success Page Non 3D Page" page
     And I see text "Transaction ID"

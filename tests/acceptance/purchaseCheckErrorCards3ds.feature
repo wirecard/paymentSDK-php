@@ -2,7 +2,7 @@ Feature: checkCreditCard3DSFunctionalityErrorCards
   As a user
   I want to check that I'm not able to make transactions with error cards
 
-  @API-TEST @WDCEE-API-TEST @NOVA
+  @API-TEST @API-WDCEE-TEST @NOVA
   Scenario Outline: purchaseErrorCaseNoRedirect3DS
     Given I am on "Create Credit Card UI Page" page
     When I fill fields with <credit_card_data>
@@ -24,7 +24,7 @@ Feature: checkCreditCard3DSFunctionalityErrorCards
       | "MPI Error Mastercard Data"                        | "500.1074" |
       | "MPI Error Maestro Data"                           | "500.1074" |
 
-  @API-TEST @WDCEE-API-TEST @NOVA
+  @API-TEST @API-WDCEE-TEST @NOVA
   Scenario Outline: purchaseErrorCaseRedirect3DS
     Given I am on "Create Credit Card UI Page" page
     When I fill fields with <credit_card_data>
