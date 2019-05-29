@@ -1,0 +1,100 @@
+<!DOCTYPE html><html lang="en"><head><title>examples/payments/CreditCard/createUiWppV2</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../../"><meta name="groc-document-path" content="examples/payments/CreditCard/createUiWppV2"><meta name="groc-project-path" content="examples/payments/CreditCard/createUiWppV2.php"><link rel="stylesheet" type="text/css" media="all" href="../../../assets/style.css"><script type="text/javascript" src="../../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">examples/payments/CreditCard/createUiWppV2.php</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-preprocessor">&lt;?php</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h1 id="credit-card-ui-wppv2-creation">Credit Card UI WPPv2 creation</h1></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Since the credit card data needs to be sent directly to Wirecard, you need to invoke the creation of a special form
+for entering the credit card data. This form is created via a javascript. Additional processing also needs
+to take place on the client-side, so that the credit card data is not processed and/or stored anywhere else.</p></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="required-libraries-and-objects">Required libraries and objects</h2>
+<p>To include the necessary files, use the composer for PSR-4 autoloading.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-keyword">require</span> <span class="hljs-keyword">__DIR__</span> . <span class="hljs-string">'/../../../vendor/autoload.php'</span>;
+<span class="hljs-keyword">require</span> <span class="hljs-keyword">__DIR__</span> . <span class="hljs-string">'/../../inc/common.php'</span>;
+<span class="hljs-keyword">require</span> <span class="hljs-keyword">__DIR__</span> . <span class="hljs-string">'/../../configuration/config.php'</span>;
+<span class="hljs-keyword">require</span> <span class="hljs-keyword">__DIR__</span> . <span class="hljs-string">'/../../inc/header.php'</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Wirecard</span>\<span class="hljs-title">PaymentSdk</span>\<span class="hljs-title">Entity</span>\<span class="hljs-title">Amount</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Wirecard</span>\<span class="hljs-title">PaymentSdk</span>\<span class="hljs-title">TransactionService</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Wirecard</span>\<span class="hljs-title">PaymentSdk</span>\<span class="hljs-title">Transaction</span>\<span class="hljs-title">CreditCardTransaction</span>;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="transaction">Transaction</h2></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="transaction-service">Transaction Service</h3>
+<p>The <em>TransactionService</em> is used to generate the request data needed for the generation of the UI.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$transactionService</span> = <span class="hljs-keyword">new</span> TransactionService(<span class="hljs-variable">$config</span>);
+
+<span class="hljs-variable">$redirectUrl</span> = getUrl(<span class="hljs-string">'return.php?status=success'</span>);
+<span class="hljs-variable">$amount</span> = <span class="hljs-keyword">new</span> Amount(<span class="hljs-number">70.00</span>, <span class="hljs-string">'EUR'</span>);
+<span class="hljs-variable">$orderNumber</span> = <span class="hljs-string">'A2'</span>;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="basket-items">Basket items</h3>
+<p>A Basket contains one or more items.</p></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>For each item you have to set some properties as described here.
+Required: name, price, quantity, article number, tax rate.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$item1</span> = <span class="hljs-keyword">new</span> \Wirecard\PaymentSdk\Entity\Item(<span class="hljs-string">'Item 1'</span>, <span class="hljs-keyword">new</span> Amount(<span class="hljs-number">30</span>, <span class="hljs-string">'EUR'</span>), <span class="hljs-number">1</span>);
+<span class="hljs-variable">$item1</span>-&gt;setArticleNumber(<span class="hljs-string">'A1'</span>);
+<span class="hljs-variable">$item1</span>-&gt;setTaxRate(<span class="hljs-number">10.0</span>);
+
+<span class="hljs-variable">$item2</span> = <span class="hljs-keyword">new</span> \Wirecard\PaymentSdk\Entity\Item(<span class="hljs-string">'Item 2'</span>, <span class="hljs-keyword">new</span> Amount(<span class="hljs-number">40</span>, <span class="hljs-string">'EUR'</span>), <span class="hljs-number">2</span>);
+<span class="hljs-variable">$item2</span>-&gt;setArticleNumber(<span class="hljs-string">'B2'</span>);
+<span class="hljs-variable">$item2</span>-&gt;setTaxRate(<span class="hljs-number">20.0</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Create a basket to store the items.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$basket</span> = <span class="hljs-keyword">new</span> \Wirecard\PaymentSdk\Entity\Basket();
+<span class="hljs-variable">$basket</span>-&gt;add(<span class="hljs-variable">$item1</span>);
+<span class="hljs-variable">$basket</span>-&gt;add(<span class="hljs-variable">$item2</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h4 id="account-holder-with-address">Account holder with address</h4></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-variable">$address</span> = <span class="hljs-keyword">new</span> \Wirecard\PaymentSdk\Entity\Address(<span class="hljs-string">'DE'</span>, <span class="hljs-string">'Berlin'</span>, <span class="hljs-string">'Teststrasse'</span>);
+<span class="hljs-variable">$address</span>-&gt;setPostalCode(<span class="hljs-string">'13353'</span>);
+
+<span class="hljs-variable">$accountHolder</span> = <span class="hljs-keyword">new</span> \Wirecard\PaymentSdk\Entity\AccountHolder();
+<span class="hljs-variable">$accountHolder</span>-&gt;setEmail(<span class="hljs-string">'john.doe@test.com'</span>);
+<span class="hljs-variable">$accountHolder</span>-&gt;setPhone(<span class="hljs-string">'03018425165'</span>);
+<span class="hljs-variable">$accountHolder</span>-&gt;setDateOfBirth(<span class="hljs-keyword">new</span> \DateTime(<span class="hljs-string">'1973-12-07'</span>));
+<span class="hljs-variable">$accountHolder</span>-&gt;setAddress(<span class="hljs-variable">$address</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="basic-creditcardtransaction">Basic CreditCardTransaction</h3>
+<p>Create a CreditCardTransaction with all parameters which should be sent in the initial transaction.
+The fields will be mapped for the javascript request.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$transaction</span> = <span class="hljs-keyword">new</span> CreditCardTransaction();
+<span class="hljs-variable">$transaction</span>-&gt;setConfig(<span class="hljs-variable">$creditcardConfig</span>);
+<span class="hljs-variable">$transaction</span>-&gt;setAmount(<span class="hljs-variable">$amount</span>);
+<span class="hljs-variable">$transaction</span>-&gt;setTermUrl(<span class="hljs-variable">$redirectUrl</span>);
+<span class="hljs-variable">$transaction</span>-&gt;setNotificationUrl(<span class="hljs-variable">$redirectUrl</span>);
+<span class="hljs-variable">$transaction</span>-&gt;setBasket(<span class="hljs-variable">$basket</span>);
+<span class="hljs-variable">$transaction</span>-&gt;setOrderNumber(<span class="hljs-variable">$orderNumber</span>);
+<span class="hljs-variable">$transaction</span>-&gt;setAccountHolder(<span class="hljs-variable">$accountHolder</span>);
+<span class="hljs-variable">$transaction</span>-&gt;setShipping(<span class="hljs-variable">$accountHolder</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Send custom fields for CreditCard transactions</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$custom_fields</span> = <span class="hljs-keyword">new</span> \Wirecard\PaymentSdk\Entity\CustomFieldCollection();
+<span class="hljs-variable">$custom_fields</span>-&gt;add(<span class="hljs-keyword">new</span> \Wirecard\PaymentSdk\Entity\CustomField(<span class="hljs-string">'orderId'</span>, <span class="hljs-string">'123'</span>));
+<span class="hljs-variable">$transaction</span>-&gt;setCustomFields(<span class="hljs-variable">$custom_fields</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>This library is needed to generate the UI and to get a valid token ID.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-preprocessor">?&gt;</span>
+&lt;script src=<span class="hljs-string">"https://wpp-test.wirecard.com/loader/paymentPage.js"</span> type=<span class="hljs-string">"text/javascript"</span>&gt;&lt;/script&gt;
+
+&lt;div <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">row</span>"&gt;
+    &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">col</span>-<span class="hljs-title">sm</span>-12"&gt;
+        &lt;<span class="hljs-title">a</span> <span class="hljs-title">href</span>="<span class="hljs-title">https</span>://<span class="hljs-title">doc</span>.<span class="hljs-title">wirecard</span>.<span class="hljs-title">com</span>/<span class="hljs-title">WPP</span>.<span class="hljs-title">html</span>" <span class="hljs-title">target</span>="<span class="hljs-title">_blank</span>"&gt;&lt;<span class="hljs-title">h3</span>&gt;<span class="hljs-title">WPP</span> <span class="hljs-title">v2</span> 3<span class="hljs-title">D</span> <span class="hljs-title">Secure</span>&lt;/<span class="hljs-title">h3</span>&gt;&lt;/<span class="hljs-title">a</span>&gt;
+    &lt;/<span class="hljs-title">div</span>&gt;
+&lt;/<span class="hljs-title">div</span>&gt;
+&lt;<span class="hljs-title">form</span> <span class="hljs-title">id</span>="<span class="hljs-title">payment</span>-<span class="hljs-title">form</span>" <span class="hljs-title">method</span>="<span class="hljs-title">post</span>" <span class="hljs-title">action</span>="<span class="hljs-title">reserve</span>.<span class="hljs-title">php</span>"&gt;
+    &lt;?<span class="hljs-title">php</span></span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>The data, which is returned from the credit card UI, needs to be sent on submitting the form.
+In this example this is facilitated via a hidden form field.</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-preprocessor">?&gt;</span>
+    <span class="hljs-preprocessor">&lt;?php</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="render-the-form">Render the form</h3></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>The javascript library needs a div which it can fill with all credit card related fields.</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-preprocessor">?&gt;</span>
+    &lt;div id=<span class="hljs-string">"creditcard-form-div"</span>&gt;&lt;/div&gt;
+    &lt;button type=<span class="hljs-string">"submit"</span> <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">btn</span> <span class="hljs-title">btn</span>-<span class="hljs-title">primary</span>"&gt;<span class="hljs-title">Save</span>&lt;/<span class="hljs-title">button</span>&gt;
+&lt;/<span class="hljs-title">form</span>&gt;
+&lt;<span class="hljs-title">script</span> <span class="hljs-title">type</span>="<span class="hljs-title">application</span>/<span class="hljs-title">javascript</span>"&gt;
+</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>This function will render the credit card UI in the specified div.</p></div></div><div class="code"><div class="wrapper">    WPP.seamlessRender({
+
+        <span class="hljs-preprocessor">&lt;?php</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>We can send additional fields if we need to. E.g. shopOrderId</p></div></div><div class="code"><div class="wrapper">        <span class="hljs-variable">$additionalData</span> = [<span class="hljs-string">'shopOrderId'</span> =&gt; <span class="hljs-number">53</span>];
+        <span class="hljs-preprocessor">?&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>We fill the <em>requestData</em> with the return value
+from the <code>getCreditCardUiWithData</code> method of the <code>transactionService</code> which expects a transaction with all desired parameters.</p></div></div><div class="code"><div class="wrapper">        requestData: <span class="hljs-preprocessor">&lt;?</span>= <span class="hljs-variable">$transactionService</span>-&gt;getCreditCardUiWithData(<span class="hljs-variable">$transaction</span>, <span class="hljs-string">'authorization'</span>, <span class="hljs-string">'en'</span>); <span class="hljs-preprocessor">?&gt;</span>,
+        wrappingDivId: <span class="hljs-string">"creditcard-form-div"</span>,
+        onSuccess: logCallback,
+        onError: logCallback
+    });
+
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logCallback</span><span class="hljs-params">(response)</span> </span>{
+        console.log(response);
+    }</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="submit-handler-for-the-form">Submit handler for the form</h3></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>To prevent the data to be submitted on any other server than the Wirecard server, the credit card UI form
+is sent to Wirecard via javascript. You receive a token ID which you need for processing the payment.</p></div></div><div class="code"><div class="wrapper">    $(<span class="hljs-string">'#payment-form'</span>).submit(submit);
+
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">submit</span><span class="hljs-params">(event)</span> </span>{</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>We check if the response fields are already set.</p></div></div><div class="code"><div class="wrapper">        <span class="hljs-keyword">if</span> ($(<span class="hljs-string">"input#jsresponse"</span>).length) {
+            console.log(<span class="hljs-string">'Sending the following request to your server..'</span>);
+            console.log($(event.target).serialize());
+        } <span class="hljs-keyword">else</span> {</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>If not, we will prevent the submission of the form and submit the form of credit card UI instead.</p></div></div><div class="code"><div class="wrapper">            event.preventDefault();
+
+            WPP.seamlessSubmit({
+                onSuccess: setParentTransactionId,
+                onError: logCallback
+            })
+        }
+    }</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>If the submit to Wirecard is successful, <code>seamlessSubmitForm</code> will set the form fields and submit your form to
+to your server.</p></div></div><div class="code"><div class="wrapper">    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setParentTransactionId</span><span class="hljs-params">(response)</span> </span>{
+        <span class="hljs-keyword">var</span> form = $(<span class="hljs-string">'#payment-form'</span>);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> key in response) {
+            <span class="hljs-keyword">if</span> (response.hasOwnProperty(key)) {
+                form.append(<span class="hljs-string">"&lt;input type='hidden' name='"</span> + key + <span class="hljs-string">"' value='"</span> + response[key] + <span class="hljs-string">"'&gt;"</span>);
+            }
+        }
+        form.append(<span class="hljs-string">"&lt;input id='jsresponse' type='hidden' name='jsresponse' value='true'&gt;"</span>);
+        form.submit();
+    }
+
+&lt;/script&gt;
+<span class="hljs-preprocessor">&lt;?php</span>
+<span class="hljs-keyword">require</span> <span class="hljs-keyword">__DIR__</span> . <span class="hljs-string">'/../../inc/footer.php'</span>;</div></div></div></div></body></html>
