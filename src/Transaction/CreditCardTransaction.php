@@ -47,6 +47,8 @@ class CreditCardTransaction extends Transaction implements Reservable
 {
     const NAME = 'creditcard';
     const TYPE_CHECK_ENROLLMENT = 'check-enrollment';
+    const DESCRIPTOR_LENGTH = 64;
+    const DESCRIPTOR_ALLOWED_CHAR_REGEX = "/[^a-zA-Z0-9]/u";
 
     /**
      * @var string
@@ -179,15 +181,6 @@ class CreditCardTransaction extends Transaction implements Reservable
     public function getThreeD()
     {
         return $this->isThreeD();
-    }
-
-    /**
-     * @param string $descriptor
-     * @since 3.4.0
-     */
-    public function setDescriptor($descriptor)
-    {
-        $this->descriptor = preg_replace('/[^a-zA-Z0-9]/', '', $descriptor);
     }
 
     /**

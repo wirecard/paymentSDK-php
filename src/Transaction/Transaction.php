@@ -381,10 +381,6 @@ abstract class Transaction extends Risk
             $result[self::PARAM_PARENT_TRANSACTION_ID] = $this->parentTransactionId;
         }
 
-        if (array_key_exists('REMOTE_ADDR', $_SERVER) && !isset($result['ip-address'])) {
-            $result['ip-address'] = $_SERVER['REMOTE_ADDR'];
-        }
-
         if (null !== $this->notificationUrl) {
             $onlyNotificationUrl = ['notification' => [['url' => $this->notificationUrl]]];
             $result['notifications'] = $onlyNotificationUrl;

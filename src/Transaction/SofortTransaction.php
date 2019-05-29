@@ -36,6 +36,16 @@ class SofortTransaction extends Transaction
     const NAME = 'sofortbanking';
 
     /**
+     * Maximum characters: 27
+     */
+    const DESCRIPTOR_LENGTH = 27;
+    /**
+     * Allowed characters:
+     * umlaut, '0-9' 'a-z' 'A-Z' ' ' '+' ',' '-' '.'
+     */
+    const DESCRIPTOR_ALLOWED_CHAR_REGEX = "/[^a-zA-Z0-9\s\'\+\,\-\.\Ä\Ö\Ü\ä\ö\ü]/u";
+
+    /**
      * @var bool
      */
     protected $sepaCredit = true;

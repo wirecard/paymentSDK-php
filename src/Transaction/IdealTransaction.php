@@ -43,6 +43,17 @@ class IdealTransaction extends Transaction
     const NAME = 'ideal';
 
     /**
+     * Maximum characters: 35
+     */
+    const DESCRIPTOR_LENGTH = 35;
+
+    /**
+     * Allowed characters:
+     * umlaut space 0-9 a-z A-Z ' + , - .
+     */
+    const DESCRIPTOR_ALLOWED_CHAR_REGEX = "/[^a-zA-Z0-9\s\'\+\,\-\.\Ä\Ö\Ü\ä\ö\ü]/u";
+
+    /**
      * @var string
      */
     private $bic;

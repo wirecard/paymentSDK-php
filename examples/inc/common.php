@@ -1,8 +1,15 @@
 <?php
 
+use Wirecard\PaymentSdk\Entity\CustomField;
+
 // # Custom functions
 // For requests which include an URL for e.g. notifications, it is easier to get the URL from the server variables.
 
+/**
+ * Get the URL from the server variables.
+ * @param string $path relative path
+ * @return string
+ */
 function getUrl($path)
 {
     $protocol = 'http';
@@ -17,9 +24,10 @@ function getUrl($path)
 }
 
 /**
- * @param $baseUrl
- * @param \Wirecard\PaymentSdk\Response\SuccessResponse $response
- * @param \Wirecard\PaymentSdk\Config\Config|null $config
+ * Creates a html link with transaction url
+ * @param string $baseUrl
+ * @param Wirecard\PaymentSdk\Response\SuccessResponse $response
+ * @param Wirecard\PaymentSdk\Config\Config|null $config
  * @return string
  */
 function getTransactionLink($baseUrl, $response, $config = null)
@@ -41,8 +49,16 @@ function getTransactionLink($baseUrl, $response, $config = null)
     return $output;
 }
 
-function prepareCustomField($key, $value, $prefix = '') {
-	$customField = new CustomField($key, $value);
-	$customField->setPrefix($prefix);
-	return $customField;
+/**
+ * Creates a custom field with key and value
+ * @param string $key
+ * @param string $value
+ * @param string $prefix
+ * @return CustomField
+ */
+function prepareCustomField($key, $value, $prefix = '')
+{
+    $customField = new CustomField($key, $value);
+    $customField->setPrefix($prefix);
+    return $customField;
 }
