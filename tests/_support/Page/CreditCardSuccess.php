@@ -18,9 +18,5 @@ class CreditCardSuccess extends Base
         'Payment successfully completed.' => "Payment successfully completed.",
         'Transaction ID' => "Transaction ID",
         'Transaction Identification' => "//div[contains(@class, 'content')]/a"
-
-
     );
 }
-//*[@id="overrides"]/div/div/a
-//*[@id="overrides"]/div/div/text()[3]
