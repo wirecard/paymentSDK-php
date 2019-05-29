@@ -1,5 +1,5 @@
 <?php
-// # Pay By Bank App notification
+// # Pay by Bank app notification
 
 // Wirecard sends a server-to-server request regarding any changes in the transaction status.
 

@@ -1,5 +1,5 @@
 <?php
-// # Pay By Bank App return after transaction
+// # Pay by Bank app return after transaction
 
 // When a transaction is finished, the response from Wirecard can be read and processed.
 

@@ -42,7 +42,7 @@ if (!isset($_POST['parentTransactionId'])) {
     $accountHolder->setLastName('Doe');
     $accountHolder->setFirstName('Jane');
 
-// Create the mandatory fields needed for Pay By Bank App(merchant string, transaction type, Delivery type).
+// Create the mandatory fields needed for Pay by Bank app(merchant string, transaction type, Delivery type).
     $customFields = new CustomFieldCollection();
     $customFields->add(prepareCustomField('zapp.in.RefundReasonType', 'LATECONFIRMATION'));
     $customFields->add(prepareCustomField('zapp.in.RefundMethod', 'BACS'));
@@ -59,7 +59,7 @@ if (!isset($_POST['parentTransactionId'])) {
     $browser->setScreenResolution('1920*1080');
 // ### Transaction
 
-// The Pay By Bank App transaction holds all transaction relevant data for the payment process.
+// The Pay by Bank app transaction holds all transaction relevant data for the payment process.
     $transaction = new PayByBankAppTransaction();
     $transaction->setAmount($amount);
     $transaction->setBrowser($browser);

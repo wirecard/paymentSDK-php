@@ -1,5 +1,5 @@
 <?php
-// # Purchase for Pay By Bank App
+// # Purchase for Pay by Bank app
 
 // To reserve and capture an amount for a credit card
 
@@ -31,7 +31,7 @@ $device = new Device();
 $device->setType("pc");
 $device->setOperatingSystem("windows");
 
-// Create the mandatory fields needed for Pay By Bank App(merchant string, transaction type, Delivery type).
+// Create the mandatory fields needed for Pay by Bank app(merchant string, transaction type, Delivery type).
 $customFields = new CustomFieldCollection();
 $customFields->add(prepareCustomField('zapp.in.MerchantRtnStrng', '123'));
 $customFields->add(prepareCustomField('zapp.in.TxType', 'PAYMT'));
@@ -53,7 +53,7 @@ $notificationUrl = getUrl('notify.php');
 
 // ### Transaction
 
-// The Pay By Bank App transaction holds all transaction relevant data for the pay process.
+// The Pay by Bank app transaction holds all transaction relevant data for the pay process.
 $transaction = new PayByBankAppTransaction();
 
 // ### Mandatory fields

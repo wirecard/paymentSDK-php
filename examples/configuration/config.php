@@ -164,7 +164,7 @@ $upopSecret = 'b2f8ffd2-7866-44ed-a858-f27f13f0bd77';
 $upopConfig = new PaymentMethodConfig(UpopTransaction::NAME, $upopMAID, $upopSecret);
 $config->add($upopConfig);
 
-// ### Pay By Bank App
+// ### Pay by Bank app
 
 $pbbaMAID = '70055b24-38f1-4500-a3a8-afac4b1e3249';
 $pbbaSecret = '	4a4396df-f78c-44b9-b8a0-b72b108ac465';
