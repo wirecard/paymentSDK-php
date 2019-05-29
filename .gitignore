@@ -1,5 +1,7 @@
 # IntelliJ project files
 .idea/
+tmp
+doc
 
 # dependency directories
 vendor

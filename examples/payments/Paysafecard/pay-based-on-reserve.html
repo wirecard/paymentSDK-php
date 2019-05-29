@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pay with Paysafecard after a reserve</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+    <link rel='shortcut icon' type='image/x-icon' href='../../assets/img/favicon.ico'/>
+    <link rel="stylesheet" href="../../assets/css/app.css"/>
+</head>
+<body id="overrides">
+<div class="container">
+    <div class="page-header">
+        <div class="row align-baseline">
+            <div class="col-sm-3">
+                <a href="../../index.html"><img
+                        src="https://raw.githubusercontent.com/wirecard/paymentSDK-php/master/examples/assets/img/wirecard_logo.png"
+                        alt="wirecard"/></a>
+            </div>
+            <div class="col-sm-9 bottom-align-text">
+                <h1>Payment SDK for PHP Examples</h1>
+            </div>
+        </div>
+    </div>
+    <form action="pay-based-on-reserve.php" method="post">
+        <label for="parentTransactionId">Reserve transaction ID:</label><br>
+        <input id="parentTransactionId" name="parentTransactionId" style="width:300px"/><br>
+        <label for="amount">Amount:</label><br>
+        <input id="amount" name="amount" style="width:300px" value="1.0"/>
+        <br><br>
+        <button class="btn btn-primary" type="submit">Pay</button>
+    </form>
+    <footer>
+        <div class="container">
+            &copy;
+            <script type="text/javascript">
+                document.write(new Date().getFullYear());
+            </script>
+            Wirecard
+        </div>
+    </footer>
+</div>
+
+</body>
+</html>

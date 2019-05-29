@@ -67,7 +67,7 @@ before_install:
   - travis_retry composer self-update
 install:
   - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer require --dev $COMPOSER_ARGS codacy/coverage:1.4.2 ; fi
-  - if [[ $MUTATION_TESTS == 'true' ]]; then travis_retry composer require --dev $COMPOSER_ARGS infection/infection:0.10.5 ; fi
+  - if [[ $MUTATION_TESTS == 'true' ]]; then travis_retry composer require --dev $COMPOSER_ARGS infection/infection:0.12.2 ; fi
   - travis_retry composer install $COMPOSER_ARGS
   - composer show
 script:
