@@ -64,8 +64,6 @@ matrix:
     env: GATEWAY=NOVA
   - <<: *acceptance-test
     env: GATEWAY=SECURE-TEST-SG
-  - <<: *acceptance-test
-    env: GATEWAY=TEST-SG
 
 before_install:
   - travis_retry composer self-update

@@ -27,12 +27,5 @@ while [ ! ${NGROK_URL} ] || [ ${NGROK_URL} = 'null' ];  do
     sleep 1
 done
 
-GROUP='default_gateway'
-
-if [[ ${GATEWAY} = "TEST-SG" ]] || [[ ${GATEWAY} = "SECURE-TEST-SG" ]]; then
-  GROUP='sg_gateway'
-fi
-
 #run tests
-
-vendor/bin/codecept run acceptance -g ${GROUP} --html --xml
+vendor/bin/codecept run acceptance -g "${GATEWAY}" --html --xml

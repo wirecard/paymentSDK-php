@@ -1,4 +1,4 @@
-Feature: check_credit_card_3DS_functionality_happy_path
+Feature: checkCrediCard3DSFunctionalityHappyPath
   As a user
   I want to make a purchase with a Credit Card 3DS
   And to see that transaction was successful
@@ -11,8 +11,8 @@ Feature: check_credit_card_3DS_functionality_happy_path
     And I choose "EUR" in field "Currency"
     And I click "Save"
 
-  @default_gateway
-  Scenario: try purchase_check
+  @API-TEST @API-WDCEE-TEST @NOVA
+  Scenario: try purchaseCheck
     Given I am redirected to "Credit Card Reserve Page" page
     And I click "Redirect to 3-D Secure page"
     When I am redirected to "Verified Page" page
@@ -22,8 +22,8 @@ Feature: check_credit_card_3DS_functionality_happy_path
     Then I see text "Payment successfully completed."
     And I see text "Transaction ID"
 
-  @default_gateway
-  Scenario: try void_purchase_check
+  @API-TEST @API-WDCEE-TEST
+  Scenario: try voidPurchaseCheck
     Given I am redirected to "Credit Card Reserve Page" page
     And I click "Redirect to 3-D Secure page"
     And I am redirected to "Verified Page" page
@@ -38,8 +38,8 @@ Feature: check_credit_card_3DS_functionality_happy_path
     Then I see text "Payment successfully cancelled."
     And I see text "Transaction ID"
 
-  @sg_gateway
-  Scenario: try purchase_check
+  @TEST-SG @SECURE-TEST-SG
+  Scenario: try purchaseCheck
     Given I am redirected to "Credit Card Reserve Page" page
     And I click "Redirect to 3-D Secure page"
     When I am redirected to "SimulatorPage" page
@@ -48,8 +48,8 @@ Feature: check_credit_card_3DS_functionality_happy_path
     Then I see text "Payment successfully completed."
     And I see text "Transaction ID"
 
-  @sg_gateway
-  Scenario: try void_purchase_check
+  @TEST-SG @SECURE-TEST-SG
+  Scenario: try voidPurchaseCheck
     Given I am redirected to "Credit Card Reserve Page" page
     And I click "Redirect to 3-D Secure page"
     And I am redirected to "SimulatorPage" page
