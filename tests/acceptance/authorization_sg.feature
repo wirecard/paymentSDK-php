@@ -11,13 +11,13 @@ Feature: check_credit_card_authorization
     And I choose "SGD" in field "Currency"
     And I click "Save"
 
-  @SECURE-TEST-SG @TEST-SG
+  @TEST-SG
   Scenario: try authorization
     Given I am redirected to "Credit Card Reserve Page" page
     Then I see text "Reservation successfully completed."
     And I see text "Transaction ID"
 
-  @SECURE-TEST-SG @TEST-SG
+  @TEST-SG
   Scenario: try capture
     Given I am redirected to "Credit Card Reserve Page" page
     And I see text "Transaction ID"
@@ -29,7 +29,7 @@ Feature: check_credit_card_authorization
     Then I see text "Payment successfully completed."
     And I see text "Transaction ID"
 
-  @SECURE-TEST-SG @TEST-SG
+  @TEST-SG
   Scenario: try refund
     Given I am redirected to "Credit Card Reserve Page" page
     And I see text "Transaction ID"
@@ -47,7 +47,7 @@ Feature: check_credit_card_authorization
     And I see text "Payment successfully cancelled."
     And I see text "Transaction ID"
 
-  @SECURE-TEST-SG @TEST-SG
+  @TEST-SG
   Scenario: try cancel
     Given I am redirected to "Credit Card Reserve Page" page
     And I see text "Transaction ID"

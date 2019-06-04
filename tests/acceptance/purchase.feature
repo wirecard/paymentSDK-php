@@ -11,7 +11,7 @@ Feature: check_credit_card_purchase
     And I choose "EUR" in field "Currency"
     And I click "Save"
 
-  @API-TEST @API-WDCEE-TEST @NOVA
+  @API-TEST @API-WDCEE-TEST
   Scenario: try purchase
     Given I am redirected to "Credit Card Reserve Page" page
     And I click "Redirect to 3-D Secure page"
@@ -22,7 +22,7 @@ Feature: check_credit_card_purchase
     Then I see text "Payment successfully completed."
     And I see text "Transaction ID"
 
-  @API-TEST @API-WDCEE-TEST @NOVA
+  @API-TEST @API-WDCEE-TEST
   Scenario: try refund
     Given I am redirected to "Credit Card Reserve Page" page
     And I click "Redirect to 3-D Secure page"
