@@ -15,6 +15,8 @@ class CreditCardReserve extends Base
     public $page_specific = 'pay';
 
     public $elements = array(
-        'Redirect to 3-D Secure page' => "//*[@class='btn btn-primary']"
+        'Redirect to 3-D Secure page' => "//*[@class='btn btn-primary']",
+        'Transaction ID' => "Transaction ID",
+        'Transaction Identification' => "//div[contains(@class, 'content')]/a"
     );
 }
