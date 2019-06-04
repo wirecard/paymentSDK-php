@@ -1,25 +1,35 @@
-Feature: check_credit_card_purchase
+Feature: checkCreditCard3DsFunctionalityPurchase
   As a user
   I want to make a purchase with a Credit Card 3DS
   And to see that transaction was successful
-  And to be able to cancel the transaction
+  And to be able to cancel/refund the transaction
 
   Background:
     Given I am on "Create Credit Card UI Purchase Page" page
     When I fill fields with "Valid Credit Card Data"
     And I enter "70" in field "Amount"
-    And I choose "SGD" in field "Currency"
+    And I choose "EUR" in field "Currency"
     And I click "Save"
 
-  @TEST-SG
+  @API-TEST @API-WDCEE-TEST
   Scenario: try purchase
     Given I am redirected to "Credit Card Reserve Page" page
-    Then I see text "Reservation successfully completed."
+    And I click "Redirect to 3-D Secure page"
+    When I am redirected to "Verified Page" page
+    And I enter "wirecard" in field "Password"
+    And I click "Continue"
+    And I am redirected to "Credit Card Success Page" page
+    Then I see text "Payment successfully completed."
     And I see text "Transaction ID"
 
-  @TEST-SG
-  Scenario: try refund
+  @API-TEST @API-WDCEE-TEST
+  Scenario: try refund/cancel
     Given I am redirected to "Credit Card Reserve Page" page
+    And I click "Redirect to 3-D Secure page"
+    And I am redirected to "Verified Page" page
+    And I enter "wirecard" in field "Password"
+    And I click "Continue"
+    And I am redirected to "Credit Card Success Page" page
     And I see text "Transaction ID"
     And I note the "Transaction Identification"
     When I am on "Credit Card Cancel Page" page

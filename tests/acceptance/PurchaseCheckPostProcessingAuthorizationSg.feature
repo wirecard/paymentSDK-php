@@ -1,7 +1,9 @@
-Feature: check_credit_card_authorization
+Feature: checkCreditCard3DsFunctionalityAuthorizationSg
   As a user
   I want to make a purchase with a Credit Card 3DS
   And to see that transaction was successful
+  And to be able to capture the transaction
+  And to be able to refund the transaction
   And to be able to cancel the transaction
 
   Background:
