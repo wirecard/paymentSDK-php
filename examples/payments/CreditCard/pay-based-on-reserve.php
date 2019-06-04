@@ -38,8 +38,8 @@ if (!isset($_POST['parentTransactionId'])) {
 
     $transaction = new CreditCardTransaction();
     $transaction->setParentTransactionId($_POST['parentTransactionId']);
-    if (array_key_exists('amount', $_POST)) {
-        $transaction->setAmount(new Amount((float)$_POST['amount'], 'EUR'));
+    if (array_key_exists('amount', $_POST) && array_key_exists('currency', $_POST)) {
+        $transaction->setAmount(new Amount((float)$_POST['amount'], $_POST['currency']));
     }
 
 // ### Transaction Service
