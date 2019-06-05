@@ -30,7 +30,12 @@ use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 $transactionService = new TransactionService($config);
 $redirectUrl = getUrl('return.php?status=success');
 
-$amount = new Amount(25, 'EUR');
+$gatewayEnv = getenv('GATEWAY');
+if ('NOVA' == $gatewayEnv || 'API-TEST' == $gatewayEnv || 'API-WDCEE-TEST' == $gatewayEnv) {
+    $amount = new Amount(70.00, 'EUR');
+} elseif ('SECURE-TEST-SG' == $gatewayEnv || 'TEST-SG' == $gatewayEnv) {
+    $amount = new Amount(70.00, 'SGD');
+}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $postedAmount = $_POST['amount'];
