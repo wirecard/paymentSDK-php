@@ -108,11 +108,9 @@ class AcceptanceTester extends \Codeception\Actor
                 break;
             case "Create Credit Card UI Purchase Page":
                 $page = new CreditCardCreateUIPurchasePage($this);
-                $this->wait(20);
                 break;
             case "Create Credit Card UI Authorization Page":
                 $page = new CreditCardCreateUIAuthorizationPage($this);
-                $this->wait(20);
                 break;
         }
         return $page;

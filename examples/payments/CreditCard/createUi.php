@@ -33,10 +33,11 @@ $redirectUrl = getUrl('return.php?status=success');
 
 $gatewayEnv = getenv('GATEWAY');
 if ('NOVA' == $gatewayEnv || 'API-TEST' == $gatewayEnv || 'API-WDCEE-TEST' == $gatewayEnv) {
-    $amount = new Amount(70.00, 'EUR');
+    $amount = new Amount(25.00, 'EUR');
 } elseif ('SECURE-TEST-SG' == $gatewayEnv || 'TEST-SG' == $gatewayEnv) {
-    $amount = new Amount(70.00, 'SGD');
+    $amount = new Amount(25.00, 'SGD');
 }
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $postedAmount = $_POST['amount'];
     $currency = $_GET['currency'];

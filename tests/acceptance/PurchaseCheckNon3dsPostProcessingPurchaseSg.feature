@@ -1,4 +1,4 @@
-Feature: checkCreditCard3DsFunctionalityPurchaseSg
+Feature: checkCreditCardNon3DsFunctionalityPurchaseSg
   As a user
   I want to make a purchase with a Credit Card 3DS
   And to see that transaction was successful
