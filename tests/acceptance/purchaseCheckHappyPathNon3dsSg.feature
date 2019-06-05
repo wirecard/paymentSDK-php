@@ -1,4 +1,4 @@
-Feature: checkCreditCardNon3DSFunctionalityHappyPath
+Feature: checkCreditCardNon3DSFunctionalityHappyPathSg
   As a user
   I want to make a purchase with a Credit Card Non-3DS
   And to see that transaction was successful
@@ -8,16 +8,16 @@ Feature: checkCreditCardNon3DSFunctionalityHappyPath
     Given I am on "Create Credit Card UI Page" page
     When I fill fields with "Valid Credit Card Data"
     And I enter "25" in field "Amount"
-    And I choose "EUR" in field "Currency"
+    And I choose "SGD" in field "Currency"
     And I click "Save"
 
-  @API-TEST @API-WDCEE-TEST
+  @TEST-SG @SECURE-TEST-SG
   Scenario: try purchaseCheck
     Given I am redirected to "Credit Card Success Page Non 3D Page" page
     Then I see text "Reservation successfully completed."
     And I see text "Transaction ID"
 
-  @API-TEST @API-WDCEE-TEST
+  @TEST-SG @SECURE-TEST-SG
   Scenario: try voidPurchaseCheck
     Given I am redirected to "Credit Card Success Page Non 3D Page" page
     And I see text "Transaction ID"
