@@ -7,7 +7,7 @@ Feature: checkCreditCardNon3DsFunctionalityPurchaseSg
   Background:
     Given I am on "Create Credit Card UI Purchase Page" page
     When I fill fields with "Valid Credit Card Data"
-    And I enter "70" in field "Amount"
+    And I enter "25" in field "Amount"
     And I choose "SGD" in field "Currency"
     And I click "Save"
 

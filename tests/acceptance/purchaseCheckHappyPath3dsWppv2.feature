@@ -9,7 +9,7 @@ Feature: checkCreditCardWppv23DSFunctionalityHappyPath
     When I fill fields with "Valid Credit Card Data"
     And I click "Save"
 
-  @API-TEST @API-WDCEE-TEST
+#  @API-TEST @API-WDCEE-TEST
   Scenario: try purchase_check
     Given I am redirected to "Credit Card Reserve WPPv2 Page" page
     And I click "Redirect to 3-D Secure page"
@@ -20,7 +20,7 @@ Feature: checkCreditCardWppv23DSFunctionalityHappyPath
     Then I see text "Payment successfully completed."
     And I see text "Transaction ID"
 
-  @API-TEST @API-WDCEE-TEST
+#  @API-TEST @API-WDCEE-TEST
   Scenario: try void_purchase_check
     Given I am redirected to "Credit Card Reserve WPPv2 Page" page
     And I click "Redirect to 3-D Secure page"
