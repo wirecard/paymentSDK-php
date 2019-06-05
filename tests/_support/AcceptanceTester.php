@@ -96,7 +96,7 @@ class AcceptanceTester extends \Codeception\Actor
                 break;
             case "SimulatorPage":
                 $page = new SimulatorPage($this);
-                $this->wait(2);
+                $this->wait(5);
                 break;
             case "Credit Card Success Page Non 3D Page":
                 $page = new CreditCardSuccessNon3DPage($this);
