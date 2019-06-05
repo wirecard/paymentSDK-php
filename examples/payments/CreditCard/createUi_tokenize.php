@@ -31,10 +31,19 @@ $transactionService = new TransactionService($config);
 $redirectUrl = getUrl('return.php?status=success');
 
 $gatewayEnv = getenv('GATEWAY');
+
 if ('NOVA' == $gatewayEnv || 'API-TEST' == $gatewayEnv || 'API-WDCEE-TEST' == $gatewayEnv) {
-    $amount = new Amount(70.00, 'EUR');
+    if (70 == intval($_GET['amount'])) {
+        $amount = new Amount(70, 'EUR');
+    } else {
+        $amount = new Amount(25, 'EUR');
+    }
 } elseif ('SECURE-TEST-SG' == $gatewayEnv || 'TEST-SG' == $gatewayEnv) {
-    $amount = new Amount(70.00, 'SGD');
+    if (70 == intval($_GET['amount'])) {
+        $amount = new Amount(70, 'SGD');
+    } else {
+        $amount = new Amount(25, 'SGD');
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {

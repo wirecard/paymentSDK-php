@@ -10,7 +10,7 @@ namespace Page;
 class CreditCardCreateUIAuthorization extends CreditCardCreateUiBase
 {
     // include url of current page
-    public $URL = '/CreditCard/createUi.php?paymentAction=authorization';
+    public $URL = '/CreditCard/createUi.php?paymentAction=authorization&amount=70';
 
     public $elements = array(
         'First name' => "//*[@id='first_name']",
