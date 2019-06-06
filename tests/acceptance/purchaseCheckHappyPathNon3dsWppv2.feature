@@ -9,13 +9,13 @@ Feature: checkCreditCardWppv2Non3DSFunctionalityHappyPath
     When I fill fields with "Valid Credit Card Data"
     And I click "Save"
 
-#  @API-TEST @API-WDCEE-TEST
+  @API-TEST @API-WDCEE-TEST
   Scenario: try purchaseCheck
     Given I am redirected to "Credit Card Reserve WPPv2 Page" page
     Then I see text "Reservation successfully completed."
     And I see text "Transaction ID"
 
-#  @API-TEST @API-WDCEE-TEST
+  @API-TEST @API-WDCEE-TEST
   Scenario: try voidPurchaseCheck
     Given I am redirected to "Credit Card Reserve WPPv2 Page" page
     And I click "Cancel the payment"

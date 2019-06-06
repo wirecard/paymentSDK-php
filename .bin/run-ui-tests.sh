@@ -28,5 +28,4 @@ while [ ! ${NGROK_URL} ] || [ ${NGROK_URL} = 'null' ];  do
 done
 
 #run tests
-#vendor/bin/codecept run acceptance -g "${GATEWAY}" --html --xml
-vendor/bin/codecept run acceptance -g "${GATEWAY}" --steps -vvv
+vendor/bin/codecept run acceptance -g "${GATEWAY}" --html --xml

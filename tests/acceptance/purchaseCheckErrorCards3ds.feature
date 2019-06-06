@@ -21,7 +21,7 @@ Feature: checkCreditCard3DSFunctionalityErrorCards
       | "MPI Error VISA Data"                              | "500.1074" |
       | "MPI Error Mastercard Data"                        | "500.1074" |
 
-#  @API-TEST @API-WDCEE-TEST
+  @API-TEST @API-WDCEE-TEST
   Scenario Outline: purchaseErrorCaseNoRedirect3DS
     Given I fill fields with <credit_card_data>
     And I enter "500" in field "Amount"
@@ -38,7 +38,7 @@ Feature: checkCreditCard3DSFunctionalityErrorCards
       | "Unable to Verify Enrolment Mastercard Data"       | "500.1073" |
       | "MPI Error Maestro Data"                           | "500.1074" |
 
-#  @API-TEST @API-WDCEE-TEST
+  @API-TEST @API-WDCEE-TEST
   Scenario Outline: purchaseErrorCaseRedirect3DS
     Given I fill fields with <credit_card_data>
     And I enter "500" in field "Amount"
