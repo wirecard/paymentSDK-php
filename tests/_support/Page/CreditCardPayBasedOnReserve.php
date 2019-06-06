@@ -21,20 +21,4 @@ class CreditCardPayBasedOnReserve extends Base
         'Noted Transaction Identification' => '',
         'Pay' => "//*[@class='btn btn-primary']",
     );
-
-    /**
-     * Method prepareDataForField
-     *
-     * @param string $fieldValue
-     * @param string $valueToKeepBetweenSteps
-     * @return string
-     */
-    public function prepareDataForField($fieldValue, $valueToKeepBetweenSteps)
-    {
-        if (strpos($fieldValue, "Noted") !== false) {
-            return $valueToKeepBetweenSteps;
-        } else {
-            return $fieldValue;
-        }
-    }
 }

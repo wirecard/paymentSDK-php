@@ -24,35 +24,4 @@ class CreditCardCreateUIPurchase extends CreditCardCreateUiBase
         'Save' => "//*[@class='btn btn-primary']",
         'Credit Card payment form' => "//*[@id='payment-form']"
     );
-
-    public $wirecard_frame = "wirecard-seamless-frame";
-
-    /**
-     * Method switchFrame
-     */
-    public function switchFrame()
-    {
-        $I = $this->tester;
-        // Switch to Credit Card UI frame
-        $wirecard_frame = "wirecard-seamless-frame";
-        $I->executeJS('jQuery(".' . $this->wirecard_frame . '").attr("name", "' . $this->wirecard_frame . '")');
-        $I->switchToIFrame("$this->wirecard_frame");
-    }
-
-    /**
-     * Method prepareClick
-     */
-    public function prepareClick()
-    {
-        parent::prepareClick();
-    }
-    /**
-     * Method Method prepareDataForField
-     * @param string $cardData
-     * @param null $type
-     */
-    public function fillCreditCardFields($cardData, $type = null)
-    {
-        parent::fillCreditCardFields($cardData);
-    }
 }

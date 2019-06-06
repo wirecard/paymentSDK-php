@@ -24,20 +24,4 @@ class CreditCardCancel extends Base
         'Amount' => "//*[@id='amount']",
         'Currency' => "//*[@id='currency']",
     );
-
-    /**
-     * Method prepareDataForField
-     *
-     * @param string $fieldValue
-     * @param string $valueToKeepBetweenSteps
-     * @return string
-     */
-    public function prepareDataForField($fieldValue, $valueToKeepBetweenSteps)
-    {
-        if (strpos($fieldValue, "Noted") !== false) {
-            return $valueToKeepBetweenSteps;
-        } else {
-            return $fieldValue;
-        }
-    }
 }

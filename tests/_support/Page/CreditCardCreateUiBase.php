@@ -31,8 +31,10 @@ class CreditCardCreateUiBase extends Base
      */
     public function switchFrame()
     {
+        $wirecard_frame = "wirecard-seamless-frame";
         $I = $this->tester;
-        $I->executeJS('jQuery("#' . $this->wirecard_frame . '").attr("name", "' . $this->wirecard_frame . '")');
+        $this->wirecard_frame = $wirecard_frame;
+        $I->executeJS('jQuery(".' . $this->wirecard_frame . '").attr("name", "' . $this->wirecard_frame . '")');
         $I->switchToIFrame("$this->wirecard_frame");
     }
 

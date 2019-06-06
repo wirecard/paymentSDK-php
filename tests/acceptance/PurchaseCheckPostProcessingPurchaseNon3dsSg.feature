@@ -1,4 +1,4 @@
-Feature: checkCreditCardNon3DsFunctionalityPurchase
+Feature: checkCreditCardNon3DsFunctionalityPostprocessingPurchaseSg
   As a user
   I want to make a purchase with a Credit Card Non3DS
   And to see that transaction was successful
@@ -8,17 +8,17 @@ Feature: checkCreditCardNon3DsFunctionalityPurchase
     Given I am on "Create Credit Card UI Purchase Page" page
     When I fill fields with "Valid Credit Card Data"
     And I enter "25" in field "Amount"
-    And I choose "EUR" in field "Currency"
+    And I choose "SGD" in field "Currency"
     And I click "Save"
 
-  @API-TEST @API-WDCEE-TEST
+  @TEST-SG
   Scenario: try purchase
     Given I am redirected to "Credit Card Reserve Page" page
     Then I see text "Reservation successfully completed."
     And I see text "Transaction ID"
 
-  @API-TEST @API-WDCEE-TEST
-  Scenario: try refund/cancel
+  @TEST-SG
+  Scenario: try refund
     Given I am redirected to "Credit Card Reserve Page" page
     And I see text "Transaction ID"
     And I note the "Transaction Identification"

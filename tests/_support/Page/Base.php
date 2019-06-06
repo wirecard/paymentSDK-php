@@ -63,21 +63,27 @@ class Base
     }
 
     /**
-     * Method Method prepareDataForField
+     * Method prepareDataForField
+     *
      * @param string $fieldValue
      * @param string $valueToKeepBetweenSteps
      * @return string
      */
     public function prepareDataForField($fieldValue, $valueToKeepBetweenSteps)
     {
-        return $fieldValue;
+        if (strpos($fieldValue, "Noted") !== false) {
+            return $valueToKeepBetweenSteps;
+        } else {
+            return $fieldValue;
+        }
     }
 
     /**
      * Method Method prepareDataForField
      * @param string $cardData
      */
-    public function fillCreditCardFields($cardData){
+    public function fillCreditCardFields($cardData)
+    {
         ;
     }
 

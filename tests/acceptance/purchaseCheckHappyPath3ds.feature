@@ -66,3 +66,26 @@ Feature: checkCrediCard3DSFunctionalityHappyPath
     And I click "Refund"
     Then I see text "Payment successfully cancelled."
     And I see text "Transaction ID"
+
+  Scenario: try purchaseCheck
+    Given I am redirected to "Credit Card Reserve Page" page
+    And I click "Redirect to 3-D Secure page"
+    When I am redirected to "SimulatorPage" page
+    And I click "Submit"
+    And I am redirected to "Credit Card Success Page" page
+    Then I see text "Payment successfully completed."
+    And I see text "Transaction ID"
+
+  Scenario: try voidPurchaseCheck
+    Given I am redirected to "Credit Card Reserve Page" page
+    And I click "Redirect to 3-D Secure page"
+    And I am redirected to "SimulatorPage" page
+    And I click "Submit"
+    When I am redirected to "Credit Card Success Page" page
+    And I see text "Transaction ID"
+    And I note the "Transaction Identification"
+    And I am on "Credit Card Cancel Page" page
+    And I enter "Noted Transaction Identification" in field "Transaction ID to be refunded"
+    And I click "Refund"
+    Then I see text "Payment successfully cancelled."
+    And I see text "Transaction ID"

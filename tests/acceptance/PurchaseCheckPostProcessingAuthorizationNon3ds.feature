@@ -1,6 +1,6 @@
-Feature: checkCreditCardNon3DsFunctionalityAuthorizationSg
+Feature: checkCreditCardNon3DsFunctionalityPostprocessingAuthorization
   As a user
-  I want to make a purchase with a Credit Card 3DS
+  I want to make a purchase with a Credit Card Non3DS
   And to see that transaction was successful
   And to be able to capture the transaction
   And to be able to refund the transaction
@@ -10,16 +10,16 @@ Feature: checkCreditCardNon3DsFunctionalityAuthorizationSg
     Given I am on "Create Credit Card UI Authorization Page" page
     When I fill fields with "Valid Credit Card Data"
     And I enter "25" in field "Amount"
-    And I choose "SGD" in field "Currency"
+    And I choose "EUR" in field "Currency"
     And I click "Save"
 
-  @TEST-SG
+  @API-TEST @API-WDCEE-TEST
   Scenario: try authorization
     Given I am redirected to "Credit Card Reserve Page" page
     Then I see text "Reservation successfully completed."
     And I see text "Transaction ID"
 
-  @TEST-SG
+  @API-TEST @API-WDCEE-TEST
   Scenario: try capture
     Given I am redirected to "Credit Card Reserve Page" page
     And I see text "Transaction ID"
@@ -31,7 +31,7 @@ Feature: checkCreditCardNon3DsFunctionalityAuthorizationSg
     Then I see text "Payment successfully completed."
     And I see text "Transaction ID"
 
-  @TEST-SG
+  @API-TEST @API-WDCEE-TEST
   Scenario: try refund
     Given I am redirected to "Credit Card Reserve Page" page
     And I see text "Transaction ID"
@@ -49,7 +49,7 @@ Feature: checkCreditCardNon3DsFunctionalityAuthorizationSg
     And I see text "Payment successfully cancelled."
     And I see text "Transaction ID"
 
-  @TEST-SG
+  @API-TEST @API-WDCEE-TEST
   Scenario: try cancel
     Given I am redirected to "Credit Card Reserve Page" page
     And I see text "Transaction ID"
