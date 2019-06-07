@@ -16,6 +16,7 @@ use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
+use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\TransactionService;
 
 if (!isset($_POST['parentTransactionId'])) {
@@ -24,6 +25,23 @@ if (!isset($_POST['parentTransactionId'])) {
         <div class="form-group">
             <label for="parentTransactionId">Transaction ID to be refunded:</label><br>
             <input id="parentTransactionId" name="parentTransactionId" class="form-control" />
+            <div class="col-sm-6" style="margin: 0; padding: 0;">
+                <label data-i18n="amount">Amount</label>
+                <small data-i18n="optional" class="pull-right">Mandatory</small>
+                <div class="form-group has-feedback">
+                    <input class="form-control" id="amount" name="amount" placeholder="Amount"><i
+                            class="form-control-feedback fv-icon-no-label" data-fv-icon-for="amount"></i>
+                </div>
+            </div>
+            <div class="col-sm-6" style="margin-top: 25px;">
+                <div class="form-group has-select-feedback has-feedback">
+                    <select id="currency" class="form-control" name="currency">
+                        <option value="" disabled="true" selected="true">Currency</option>
+                        <option value="SGD">SGD</option>
+                        <option value="EUR">EUR</option>
+                    </select>
+                </div>
+            </div>
         </div>
         <button type="submit" class="btn btn-primary">Refund</button>
     </form>
@@ -32,6 +50,7 @@ if (!isset($_POST['parentTransactionId'])) {
 // ### Transaction
     $transaction = new CreditCardTransaction();
     $transaction->setParentTransactionId($_POST['parentTransactionId']);
+    $transaction->setAmount(new Amount(floatval($_POST['amount']), $_POST['currency']));
 
 // ### Transaction Service
 
