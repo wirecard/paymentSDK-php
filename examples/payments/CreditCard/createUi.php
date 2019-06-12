@@ -36,7 +36,7 @@ $gatewayEnv = getenv('GATEWAY');
 $currency='EUR';
 $startAmount = 25;
 
-if (strpos($gatewayEnv, 'SG')>0) {
+if (strpos($gatewayEnv, 'SG') !== false) {
     $currency='SGD';
 }
 if (70 == intval($_GET['amount'])) {
