@@ -21,7 +21,7 @@ use Wirecard\PaymentSdk\TransactionService;
 
 // Set a public key for certificate pinning used for response signature validation, this certificate needs to be always
 // up to date
-$config->setPublicKey(file_get_contents(__DIR__ . '/../inc/api-test.wirecard.com.crt'));
+$config->setPublicKey(file_get_contents(__DIR__ . '/../../inc/api-test.wirecard.com.crt'));
 
 
 // ### Transaction
