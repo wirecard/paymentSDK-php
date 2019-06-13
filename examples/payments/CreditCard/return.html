@@ -23,6 +23,8 @@ In case of a successful transaction, a <code>SuccessResponse</code> object is re
         &lt;br&gt;
         &lt;form action=<span class="hljs-string">"cancel.php"</span> method=<span class="hljs-string">"post"</span>&gt;
             &lt;input type=<span class="hljs-string">"hidden"</span> name=<span class="hljs-string">"parentTransactionId"</span> value=<span class="hljs-string">"&lt;?= $response-&gt;getTransactionId() ?&gt;"</span>/&gt;
+            &lt;input type=<span class="hljs-string">"hidden"</span> name=<span class="hljs-string">"amount"</span> value=<span class="hljs-string">"&lt;?= $response-&gt;getRequestedAmount()-&gt;getValue() ?&gt;"</span>/&gt;
+            &lt;input type=<span class="hljs-string">"hidden"</span> name=<span class="hljs-string">"currency"</span> value=<span class="hljs-string">"&lt;?= $response-&gt;getRequestedAmount()-&gt;getCurrency() ?&gt;"</span>/&gt;
             &lt;button type=<span class="hljs-string">"submit"</span> <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">btn</span> <span class="hljs-title">btn</span>-<span class="hljs-title">primary</span>"&gt;<span class="hljs-title">Cancel</span> <span class="hljs-title">the</span> <span class="hljs-title">payment</span>&lt;/<span class="hljs-title">button</span>&gt;
         &lt;/<span class="hljs-title">form</span>&gt;
         &lt;?<span class="hljs-title">php</span></span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="example-of-backendservice-use">Example of BackendService use</h2>
