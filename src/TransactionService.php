@@ -276,6 +276,8 @@ class TransactionService
      * @param string $language
      *
      * @return string
+     *
+     * @since 3.7.1 Add nvp shop information to requestData
      */
     public function getCreditCardUiWithData(
         $transaction,
@@ -312,6 +314,8 @@ class TransactionService
             'payment_method' => 'creditcard',
             'attempt_three_d' => $isThreeD ? true : false,
         );
+
+        array_merge($requestData, $this->config->getNvpShopInformation());
 
         $requestData = $this->requestMapper->mapSeamlessRequest($transaction, $requestData);
 
