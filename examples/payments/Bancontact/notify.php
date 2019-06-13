@@ -1,5 +1,5 @@
 <?php
-// # Alipay Crossborder notification
+// # Eps notification
 
 // Wirecard sends a server-to-server request regarding any changes in the transaction status.
 
@@ -8,6 +8,7 @@
 // To include the necessary files, we use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../configuration/globalconfig.php';
+
 
 require __DIR__ . '/../../inc/header.php';
 
@@ -69,4 +70,4 @@ if ($notification instanceof SuccessResponse) {
     }
 }
 
-require __DIR__ . '/../../inc/footer.php';
+require __DIR__ . '/../inc/footer.php';

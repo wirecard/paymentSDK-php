@@ -34,6 +34,8 @@ $redirectUrls = new Redirect(
     getUrl('return.php?status=failure')
 );
 
+// As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
+$notificationUrl = getUrl('notify.php');
 
 // ### Transaction
 
@@ -50,7 +52,7 @@ $transaction->setAmount($amount);
 // Supported by BCMC: zh,nl,en,fr,de,hi,it,ja,pt,ru,sk,es,ru,sk,es
 // Default locale is English.
 $transaction->setLocale('en');
-
+$transaction->setNotificationUrl($notificationUrl);
 // ### Transaction Service
 
 // The service is used to execute the payment operation itself. A response object is returned.
