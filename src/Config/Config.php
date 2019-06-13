@@ -130,6 +130,16 @@ class Config
     }
 
     /**
+     * @return string
+     *
+     * @since 3.7.1
+     */
+    public function getShopSystemVersion()
+    {
+        return $this->shopSystemVersion;
+    }
+
+    /**
      * @param string $versionFile
      * @return string
      */
