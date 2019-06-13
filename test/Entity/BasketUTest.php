@@ -82,6 +82,7 @@ class BasketUTest extends \PHPUnit_Framework_TestCase
     public function testMappedPropertiesMultiple()
     {
         $item = new Item('test item name', new Amount(1, 'EUR'), 1);
+        $item->setTaxRate(12);
         $this->itemCollection->add($item);
         $this->itemCollection->add($item);
 
@@ -93,7 +94,8 @@ class BasketUTest extends \PHPUnit_Framework_TestCase
                         'value' => '1',
                         'currency' => 'EUR'
                     ],
-                    'quantity' => '2'
+                    'quantity' => '2',
+                    'tax-rate' => 12
                 ]
             ]
         ];
