@@ -315,7 +315,7 @@ class TransactionService
             'attempt_three_d' => $isThreeD ? true : false,
         );
 
-        array_merge($requestData, $this->config->getNvpShopInformation());
+        $requestData = array_merge($requestData, $this->config->getNvpShopInformation());
 
         $requestData = $this->requestMapper->mapSeamlessRequest($transaction, $requestData);
 
