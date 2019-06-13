@@ -68,6 +68,8 @@ class TransactionServiceUTest extends PHPUnit_Framework_TestCase
      */
     private $service;
 
+    private $shopSystemVersion;
+
     public function setUp()
     {
         $logger = $this->createMock(LoggerInterface::class);
@@ -78,7 +80,8 @@ class TransactionServiceUTest extends PHPUnit_Framework_TestCase
         $ccardConfig->addThreeDMinLimit(new Amount(self::CC_THREE_D_MIN_LIMIT, 'EUR'));
         $config->add($ccardConfig);
         $this->service = new TransactionService($config, $logger);
-        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+        $_SERVER['REMOTE_ADDR']  = '127.0.0.1';
+        $this->shopSystemVersion = $config->getShopSystemVersion();
     }
 
     public function testGetDataFor3dCreditCardUi()
@@ -93,7 +96,9 @@ class TransactionServiceUTest extends PHPUnit_Framework_TestCase
             'locale' => 'en',
             'payment_method' => 'creditcard',
             'attempt_three_d' => true,
-            'ip_address' => '127.0.0.1'
+            'ip_address' => '127.0.0.1',
+            'shop_system_name' => 'paymentSDK-php',
+            'shop_system_version' => $this->shopSystemVersion
         ];
 
         $uiData = (array)json_decode($uiData);

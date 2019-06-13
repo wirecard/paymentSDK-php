@@ -196,6 +196,11 @@ class Basket implements \IteratorAggregate, MappableEntity
                 );
                 $basketItem->setTaxAmount($taxAmount);
             }
+            if (isset($orderItem->{'tax-rate'})) {
+                $basketItem->setTaxRate(
+                    (float)$orderItem->{'tax-rate'}
+                );
+            }
             $basketItem->setVersion($basketVersion)
                 ->setDescription((string)$orderItem->description)
                 ->setArticleNumber((string)$orderItem->{'article-number'});

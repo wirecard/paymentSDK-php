@@ -130,6 +130,16 @@ class Config
     }
 
     /**
+     * @return string
+     *
+     * @since 3.7.1
+     */
+    public function getShopSystemVersion()
+    {
+        return $this->shopSystemVersion;
+    }
+
+    /**
      * @param string $versionFile
      * @return string
      */
@@ -242,6 +252,28 @@ class Config
         }
 
         return array('headers' => $data);
+    }
+
+    /**
+     * Get shop information for nvp request
+     *
+     * @return array
+     *
+     * @since 3.7.1
+     */
+    public function getNvpShopInformation()
+    {
+        $data = array(
+            'shop_system_name'    => $this->shopSystem,
+            'shop_system_version' => $this->shopSystemVersion,
+        );
+
+        if ($this->pluginName && $this->pluginVersion) {
+            $data['plugin_name']    = $this->pluginName;
+            $data['plugin_version'] = $this->pluginVersion;
+        }
+
+        return $data;
     }
 
     /**

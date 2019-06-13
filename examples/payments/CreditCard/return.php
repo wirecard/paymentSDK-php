@@ -47,6 +47,8 @@ if ($_POST) {
         <br>
         <form action="cancel.php" method="post">
             <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+            <input type="hidden" name="amount" value="<?= $response->getRequestedAmount()->getValue() ?>"/>
+            <input type="hidden" name="currency" value="<?= $response->getRequestedAmount()->getCurrency() ?>"/>
             <button type="submit" class="btn btn-primary">Cancel the payment</button>
         </form>
         <?php

@@ -20,7 +20,9 @@ class CreditCardCancel extends Base
         '"Payment successfully cancelled.' => "Payment successfully cancelled.",
         'Transaction ID' => "Transaction ID",
         'Transaction Identification' => "//*[@id='overrides']/div/a",
-        'Noted Transaction Identification' => ''
+        'Noted Transaction Identification' => '',
+        'Amount' => "//*[@id='amount']",
+        'Currency' => "//*[@id='currency']",
     );
 
     /**
