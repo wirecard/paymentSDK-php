@@ -33,6 +33,9 @@ $redirectUrl = getUrl('return.php?status=success');
 $amount = new Amount(70.00, 'EUR');
 $orderNumber = 'A2';
 
+// As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
+$notificationUrl = getUrl('notify.php');
+
 // ### Basket items
 // A Basket contains one or more items.
 
@@ -68,7 +71,7 @@ $transaction = new CreditCardTransaction();
 $transaction->setConfig($creditcardConfig);
 $transaction->setAmount($amount);
 $transaction->setTermUrl($redirectUrl);
-$transaction->setNotificationUrl($redirectUrl);
+$transaction->setNotificationUrl($notificationUrl);
 $transaction->setBasket($basket);
 $transaction->setOrderNumber($orderNumber);
 $transaction->setAccountHolder($accountHolder);
