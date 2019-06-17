@@ -32,10 +32,10 @@ $gatewayConfig = function ($key) use ($gateway) {
     $dataArray = [
         'NOVA' => [
             'base_url' => 'https://payments-test.wirecard.com',
-            'http_user' => 'NovaTeam',
-            'http_pass' => 'kCopTTMkpw',
-            'threed_maid' => 'fd83dbfa-8790-4492-8391-3f3938908b28',
-            'threed_secret' => '38424ae8-2dc5-45be-af4c-6e0fee0fea3e',
+            'http_user' => 'ShopUser',
+            'http_pass' => 'pNUPurGGgL',
+            'threed_maid' => '9bbd794c-c791-4bc8-9257-35f3f72d2b55',
+            'threed_secret' => 'c6e2715e-4d2b-4ba9-b620-8d7b75eed4c1',
             'non_threed_maid' => 'fd83dbfa-8790-4492-8391-3f3938908b28',
             'non_threed_secret' => '38424ae8-2dc5-45be-af4c-6e0fee0fea3e'
         ],
