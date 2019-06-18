@@ -61,8 +61,9 @@ class CreditCardCreateUiBase extends Base
             $I->waitForElementVisible($this->getElement("First name"));
             $I->fillField($this->getElement("First name"), $data_field_values->first_name);
         }
-
-        $I->fillField($this->getElement("Last name"), $data_field_values->last_name);
+        if ('SECURE-TEST-SG' != $env) {
+            $I->fillField($this->getElement("Last name"), $data_field_values->last_name);
+        }
         $I->fillField($this->getElement("Card number"), $data_field_values->card_number);
         $I->fillField($this->getElement("CVV"), $data_field_values->cvv);
 
