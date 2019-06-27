@@ -329,7 +329,7 @@ class CreditCardTransaction extends Transaction implements Reservable
     protected function retrieveTransactionTypeForRefund()
     {
         if (!$this->parentTransactionId) {
-            throw new MandatoryFieldMissingException('No transaction for cancellation set.');
+            throw new MandatoryFieldMissingException('No transaction for refund set.');
         }
 
         switch ($this->parentTransactionType) {
