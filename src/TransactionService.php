@@ -73,6 +73,7 @@ use Wirecard\PaymentSdk\Transaction\UpiTransaction;
 class TransactionService
 {
     const APPLICATION_JSON = 'application/json';
+    const APPLICATION_XML = 'application/xml';   
     const REQUEST_ID = 'request_id';
 
     /**
@@ -165,7 +166,7 @@ class TransactionService
 
         $this->httpHeader = array(
             'Content-Type' => self::APPLICATION_JSON,
-            'Accept' => 'application/xml'
+            'Accept' => self::APPLICATION_XML
         );
     }
 
@@ -559,7 +560,7 @@ class TransactionService
     private function sendGetRequest($endpoint, $acceptJson = false, $logNotFound = true)
     {
         $requestHeader = array_merge_recursive($this->httpHeader, $this->config->getShopHeader());
-        $requestHeader['Accept'] = $acceptJson ? self::APPLICATION_JSON : 'application/xml';
+        $requestHeader['Accept'] = $acceptJson ? self::APPLICATION_JSON : self::APPLICATION_XML;
 
         $request = $this->messageFactory->createRequest('GET', $endpoint, $requestHeader);
         $request = $this->basicAuth->authenticate($request);
