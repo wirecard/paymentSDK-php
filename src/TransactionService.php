@@ -73,7 +73,7 @@ use Wirecard\PaymentSdk\Transaction\UpiTransaction;
 class TransactionService
 {
     const APPLICATION_JSON = 'application/json';
-    const APPLICATION_XML = 'application/xml';   
+    const APPLICATION_XML = 'application/xml';
     const REQUEST_ID = 'request_id';
 
     /**
