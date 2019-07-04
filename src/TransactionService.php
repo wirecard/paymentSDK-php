@@ -635,7 +635,9 @@ class TransactionService
             $response->setOperation($operation);
         }
 
-        if ($transaction instanceof CreditCardTransaction && $response instanceof FailureResponse && $transaction->isFallback()) {
+        if ($transaction instanceof CreditCardTransaction 
+            && $response instanceof FailureResponse 
+            && $transaction->isFallback()) {
             if (!$response->getStatusCollection()->hasStatusCodes(['500.1072', '500.1073', '500.1074'])) {
                 return $response;
             }
@@ -660,7 +662,7 @@ class TransactionService
      * @return Response
      */
     private function processFallback(CreditCardTransaction $transaction, Response $response)
-    {        
+    {
         $transaction->setThreeD(false);
         $requestBody = $this->requestMapper->map($transaction);
         $endpoint = $this->config->getBaseUrl() . $transaction->getEndpoint();
