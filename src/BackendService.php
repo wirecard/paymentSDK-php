@@ -66,10 +66,19 @@ class BackendService extends TransactionService
      *
      * @param Transaction $transaction
      * @param boolean $limit
+     * @throws MandatoryFieldMissingException
      * @return array|bool
      */
     public function retrieveBackendOperations($transaction, $limit = false)
     {
+        if (is_null($transaction)) {
+            throw new MandatoryFieldMissingException('Transaction mandatory!');
+        }   
+
+        if (is_null($transaction->getParentTransactionId())) {
+            throw new MandatoryFieldMissingException('Parent transaction id is mandatory!');
+        }   
+
         $parentTransaction = $this->getTransactionByTransactionId(
             $transaction->getParentTransactionId(),
             $transaction::NAME != MaestroTransaction::NAME ? $transaction::NAME : CreditCardTransaction::NAME
