@@ -29,14 +29,11 @@ class CreditCardCreateUI extends CreditCardCreateUiBase
 
     /**
      * Method switchFrame
+     * @param boolean $wpp2
      */
-    public function switchFrame()
+    public function switchFrame($wpp2 = false)
     {
-        $I = $this->tester;
-        // Switch to Credit Card UI frame
-        $wirecard_frame = "wirecard-seamless-frame";
-        $I->executeJS('jQuery(".' . $this->wirecard_frame . '").attr("name", "' . $this->wirecard_frame . '")');
-        $I->switchToIFrame("$this->wirecard_frame");
+        parent::switchFrame($wpp2);
     }
 
     /**
