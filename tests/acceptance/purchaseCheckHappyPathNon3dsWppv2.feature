@@ -10,14 +10,14 @@ Feature: CreditCardWppv2Non3DSHappyPath
     And I click "Save"
 
   @API-TEST @API-WDCEE-TEST
-  Scenario: try purchaseCheck
+  Scenario: purchase
     Given I am redirected to "Credit Card Reserve WPPv2 Page" page
     Then I see text "Reservation successfully completed."
     And I see text "Transaction ID"
 
 
   @API-TEST @API-WDCEE-TEST
-  Scenario: try_void_purchase_check
+  Scenario: voidPurchase
     Given I am redirected to "Credit Card Reserve WPPv2 Page" page
     Then I see text "Reservation successfully completed."
     And I see text "Transaction ID"

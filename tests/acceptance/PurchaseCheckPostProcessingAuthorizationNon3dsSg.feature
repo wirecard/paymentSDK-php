@@ -14,13 +14,13 @@ Feature: CreditCardNon3DsPostprocessingAuthorizationSg
     And I click "Save"
 
   @TEST-SG
-  Scenario: try authorization
+  Scenario: authorization
     Given I am redirected to "Credit Card Reserve Page" page
     Then I see text "Reservation successfully completed."
     And I see text "Transaction ID"
 
   @TEST-SG
-  Scenario: try capture
+  Scenario: capture
     Given I am redirected to "Credit Card Reserve Page" page
     And I see text "Transaction ID"
     And I note the "Transaction Identification"
@@ -32,7 +32,7 @@ Feature: CreditCardNon3DsPostprocessingAuthorizationSg
     And I see text "Transaction ID"
 
   @TEST-SG
-  Scenario: try refund
+  Scenario: refund
     Given I am redirected to "Credit Card Reserve Page" page
     And I see text "Transaction ID"
     And I note the "Transaction Identification"
@@ -50,7 +50,7 @@ Feature: CreditCardNon3DsPostprocessingAuthorizationSg
     And I see text "Transaction ID"
 
   @TEST-SG
-  Scenario: try cancel
+  Scenario: cancel
     Given I am redirected to "Credit Card Reserve Page" page
     And I see text "Transaction ID"
     And I note the "Transaction Identification"

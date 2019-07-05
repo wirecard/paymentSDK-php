@@ -12,13 +12,13 @@ Feature: CreditCardNon3DSHappyPath
     And I click "Save"
 
   @API-TEST @API-WDCEE-TEST
-  Scenario: try purchaseCheck
+  Scenario: purchase
     Given I am redirected to "Credit Card Success Page Non 3D Page" page
     Then I see text "Reservation successfully completed."
     And I see text "Transaction ID"
 
   @API-TEST @API-WDCEE-TEST
-  Scenario: try voidPurchaseCheck
+  Scenario: voidPurchase
     Given I am redirected to "Credit Card Success Page Non 3D Page" page
     And I see text "Transaction ID"
     And I note the "Transaction Identification"

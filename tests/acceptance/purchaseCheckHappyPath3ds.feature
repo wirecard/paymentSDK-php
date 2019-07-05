@@ -12,7 +12,7 @@ Feature: CrediCard3DSHappyPath
     And I click "Save"
 
   @API-TEST @API-WDCEE-TEST @NOVA
-  Scenario: try purchaseCheck
+  Scenario: purchase
     Given I am redirected to "Credit Card Reserve Page" page
     And I click "Redirect to 3-D Secure page"
     When I am redirected to "Verified Page" page
@@ -23,7 +23,7 @@ Feature: CrediCard3DSHappyPath
     And I see text "Transaction ID"
 
   @API-TEST @API-WDCEE-TEST
-  Scenario: try voidPurchaseCheck
+  Scenario: voidPurchase
     Given I am redirected to "Credit Card Reserve Page" page
     And I click "Redirect to 3-D Secure page"
     And I am redirected to "Verified Page" page
@@ -40,8 +40,7 @@ Feature: CrediCard3DSHappyPath
     Then I see text "Payment successfully cancelled."
     And I see text "Transaction ID"
 
-  @TEST-SG @SECURE-TEST-SG
-  Scenario: try purchaseCheck
+  Scenario: purchase
     Given I am redirected to "Credit Card Reserve Page" page
     And I click "Redirect to 3-D Secure page"
     When I am redirected to "SimulatorPage" page
@@ -50,8 +49,7 @@ Feature: CrediCard3DSHappyPath
     Then I see text "Payment successfully completed."
     And I see text "Transaction ID"
 
-  @TEST-SG @SECURE-TEST-SG
-  Scenario: try voidPurchaseCheck
+  Scenario: voidPurchase
     Given I am redirected to "Credit Card Reserve Page" page
     And I click "Redirect to 3-D Secure page"
     And I am redirected to "SimulatorPage" page
@@ -63,29 +61,6 @@ Feature: CrediCard3DSHappyPath
     And I enter "Noted Transaction Identification" in field "Transaction ID to be refunded"
     And I enter "70" in field "Amount"
     And I choose "EUR" in field "Currency"
-    And I click "Refund"
-    Then I see text "Payment successfully cancelled."
-    And I see text "Transaction ID"
-
-  Scenario: try purchaseCheck
-    Given I am redirected to "Credit Card Reserve Page" page
-    And I click "Redirect to 3-D Secure page"
-    When I am redirected to "SimulatorPage" page
-    And I click "Submit"
-    And I am redirected to "Credit Card Success Page" page
-    Then I see text "Payment successfully completed."
-    And I see text "Transaction ID"
-
-  Scenario: try voidPurchaseCheck
-    Given I am redirected to "Credit Card Reserve Page" page
-    And I click "Redirect to 3-D Secure page"
-    And I am redirected to "SimulatorPage" page
-    And I click "Submit"
-    When I am redirected to "Credit Card Success Page" page
-    And I see text "Transaction ID"
-    And I note the "Transaction Identification"
-    And I am on "Credit Card Cancel Page" page
-    And I enter "Noted Transaction Identification" in field "Transaction ID to be refunded"
     And I click "Refund"
     Then I see text "Payment successfully cancelled."
     And I see text "Transaction ID"

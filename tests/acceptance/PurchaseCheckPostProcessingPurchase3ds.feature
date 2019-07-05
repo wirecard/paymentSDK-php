@@ -12,7 +12,7 @@ Feature: CreditCard3DSPostprocessingPurchase
     And I click "Save"
 
   @API-TEST @API-WDCEE-TEST
-  Scenario: try purchase
+  Scenario: purchase
     Given I am redirected to "Credit Card Reserve Page" page
     And I click "Redirect to 3-D Secure page"
     When I am redirected to "Verified Page" page
@@ -23,7 +23,7 @@ Feature: CreditCard3DSPostprocessingPurchase
     And I see text "Transaction ID"
 
   @API-TEST @API-WDCEE-TEST
-  Scenario: try refund/cancel
+  Scenario: refundOrcancel
     Given I am redirected to "Credit Card Reserve Page" page
     And I click "Redirect to 3-D Secure page"
     And I am redirected to "Verified Page" page

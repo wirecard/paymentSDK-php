@@ -12,13 +12,13 @@ Feature: CreditCardNon3DsPostprocessingPurchaseSg
     And I click "Save"
 
   @TEST-SG
-  Scenario: try purchase
+  Scenario: purchase
     Given I am redirected to "Credit Card Reserve Page" page
     Then I see text "Reservation successfully completed."
     And I see text "Transaction ID"
 
   @TEST-SG
-  Scenario: try refund
+  Scenario: refund
     Given I am redirected to "Credit Card Reserve Page" page
     And I see text "Transaction ID"
     And I note the "Transaction Identification"

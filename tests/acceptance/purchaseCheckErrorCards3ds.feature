@@ -6,7 +6,7 @@ Feature: CreditCard3DSErrorCards
     Given I am on "Create Credit Card UI Page" page
 
   @API-TEST @API-WDCEE-TEST @NOVA
-  Scenario Outline: purchaseErrorCaseNoRedirect3DS
+  Scenario Outline: purchaseErrorNoRedirect3DS
     Given I fill fields with <credit_card_data>
     And I enter "500" in field "Amount"
     And I choose "EUR" in field "Currency"
@@ -22,7 +22,7 @@ Feature: CreditCard3DSErrorCards
       | "MPI Error Mastercard Data"                        | "500.1074" |
 
   @API-TEST @API-WDCEE-TEST
-  Scenario Outline: purchaseErrorCaseNoRedirect3DS
+  Scenario Outline: purchaseErrorNoRedirect3DS
     Given I fill fields with <credit_card_data>
     And I enter "500" in field "Amount"
     And I choose "EUR" in field "Currency"
@@ -39,7 +39,7 @@ Feature: CreditCard3DSErrorCards
       | "MPI Error Maestro Data"                           | "500.1074" |
 
   @API-TEST @API-WDCEE-TEST
-  Scenario Outline: purchaseErrorCaseRedirect3DS
+  Scenario Outline: purchaseErrorRedirect3DS
     Given I fill fields with <credit_card_data>
     And I enter "500" in field "Amount"
     And I choose "EUR" in field "Currency"

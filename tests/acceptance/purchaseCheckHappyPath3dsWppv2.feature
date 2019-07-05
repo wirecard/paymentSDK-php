@@ -10,7 +10,7 @@ Feature: CreditCardWppv23DSHappyPath
     And I click "Save"
 
   @API-TEST @API-WDCEE-TEST
-  Scenario: try_purchase_check
+  Scenario: purchase
     Given I am redirected to "Credit Card Reserve WPPv2 Page" page
     And I click "Redirect to 3-D Secure page"
     When I am redirected to "Verified Page" page
@@ -21,7 +21,7 @@ Feature: CreditCardWppv23DSHappyPath
     And I see text "Transaction ID"
 
   @API-TEST @API-WDCEE-TEST
-  Scenario: try_void_purchase_check
+  Scenario: voidPurchase
     Given I am redirected to "Credit Card Reserve WPPv2 Page" page
     And I click "Redirect to 3-D Secure page"
     And I am redirected to "Verified Page" page
