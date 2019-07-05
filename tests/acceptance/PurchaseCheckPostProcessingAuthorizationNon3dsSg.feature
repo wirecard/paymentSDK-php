@@ -1,4 +1,4 @@
-Feature: checkCreditCardNon3DsFunctionalityPostprocessingAuthorizationSg
+Feature: CreditCardNon3DsPostprocessingAuthorizationSg
   As a user
   I want to make a purchase with a Credit Card Non3DS
   And to see that transaction was successful

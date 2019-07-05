@@ -1,4 +1,4 @@
-Feature: checkCreditCardWppv23DSFunctionalityHappyPath
+Feature: CreditCardWppv23DSHappyPath
   As a user
   I want to make a purchase with a Credit Card 3DS
   And to see that transaction was successful
@@ -10,7 +10,7 @@ Feature: checkCreditCardWppv23DSFunctionalityHappyPath
     And I click "Save"
 
   @API-TEST @API-WDCEE-TEST
-  Scenario: try purchase_check
+  Scenario: try_purchase_check
     Given I am redirected to "Credit Card Reserve WPPv2 Page" page
     And I click "Redirect to 3-D Secure page"
     When I am redirected to "Verified Page" page
@@ -21,7 +21,7 @@ Feature: checkCreditCardWppv23DSFunctionalityHappyPath
     And I see text "Transaction ID"
 
   @API-TEST @API-WDCEE-TEST
-  Scenario: try void_purchase_check
+  Scenario: try_void_purchase_check
     Given I am redirected to "Credit Card Reserve WPPv2 Page" page
     And I click "Redirect to 3-D Secure page"
     And I am redirected to "Verified Page" page
@@ -32,6 +32,8 @@ Feature: checkCreditCardWppv23DSFunctionalityHappyPath
     And I note the "Transaction Identification"
     When I am on "Credit Card Cancel Page" page
     And I enter "Noted Transaction Identification" in field "Transaction ID to be refunded"
+    And I enter "70" in field "Amount"
+    And I choose "EUR" in field "Currency"
     And I click "Refund"
     Then I see text "Payment successfully cancelled."
     And I see text "Transaction ID"

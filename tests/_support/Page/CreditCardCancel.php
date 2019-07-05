@@ -17,11 +17,12 @@ class CreditCardCancel extends Base
     public $elements = array(
         'Transaction ID to be refunded' => "//*[@id='parentTransactionId']",
         'Refund' => "//*[@class='btn btn-primary']",
-        '"Payment successfully cancelled.' => "Payment successfully cancelled.",
+        'Payment successfully cancelled.' => "Payment successfully cancelled.",
         'Transaction ID' => "Transaction ID",
-        'Transaction Identification' => "//*[@id='overrides']/div/a",
+        'Transaction Identification' => "//div[contains(@class, 'content')]/a",
         'Noted Transaction Identification' => '',
         'Amount' => "//*[@id='amount']",
         'Currency' => "//*[@id='currency']",
+
     );
 }

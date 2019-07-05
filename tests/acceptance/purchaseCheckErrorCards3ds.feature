@@ -1,4 +1,4 @@
-Feature: checkCreditCard3DSFunctionalityErrorCards
+Feature: CreditCard3DSErrorCards
   As a user
   I want to check that I'm not able to make transactions with error cards
 

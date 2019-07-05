@@ -16,10 +16,11 @@ class CreditCardCreateUINon3DWppV2 extends CreditCardCreateUiBase
 
     /**
      * Method switchFrame
+     * @param $wpp2
      */
-    public function switchFrame()
+    public function switchFrame($wpp2 = true)
     {
-        parent::switchFrame();
+        parent::switchFrame($wpp2);
     }
 
     /**

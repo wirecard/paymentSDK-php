@@ -146,7 +146,7 @@ class AcceptanceTester extends \Codeception\Actor
     {
         // Open the page and initialize required pageObject
         $this->currentPage = $this->selectPage($page);
-        $this->amOnPage($this->currentPage->getURL());
+        $this->amOnPage($this->currentPage->getURL($this->getScenario()->current('name')));
         $this->currentPage->switchFrame();
     }
 

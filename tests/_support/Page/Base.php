@@ -41,7 +41,7 @@ class Base
      *
      * @return string
      */
-    public function getURL()
+    public function getURL($scenarioName)
     {
         return $this->URL;
     }
