@@ -635,8 +635,8 @@ class TransactionService
             $response->setOperation($operation);
         }
 
-        if ($transaction instanceof CreditCardTransaction 
-            && $response instanceof FailureResponse 
+        if ($transaction instanceof CreditCardTransaction
+            && $response instanceof FailureResponse
             && $transaction->isFallback()) {
             if (!$response->getStatusCollection()->hasStatusCodes(['500.1072', '500.1073', '500.1074'])) {
                 return $response;
