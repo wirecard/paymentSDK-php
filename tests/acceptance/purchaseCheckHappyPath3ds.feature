@@ -1,4 +1,4 @@
-Feature: CrediCard3DSHappyPath
+Feature: CrediCard3DSTokenizeHappyPath
   As a user
   I want to make a purchase with a Credit Card 3DS
   And to see that transaction was successful
@@ -40,6 +40,7 @@ Feature: CrediCard3DSHappyPath
     Then I see text "Payment successfully cancelled."
     And I see text "Transaction ID"
 
+  @SECURE-TEST-SG
   Scenario: purchase
     Given I am redirected to "Credit Card Reserve Page" page
     And I click "Redirect to 3-D Secure page"
@@ -49,6 +50,7 @@ Feature: CrediCard3DSHappyPath
     Then I see text "Payment successfully completed."
     And I see text "Transaction ID"
 
+  @SECURE-TEST-SG
   Scenario: voidPurchase
     Given I am redirected to "Credit Card Reserve Page" page
     And I click "Redirect to 3-D Secure page"

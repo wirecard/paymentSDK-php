@@ -1,4 +1,4 @@
-Feature: CreditCardNon3DSHappyPath
+Feature: CreditCardNon3DSTokenizeHappyPath
   As a user
   I want to make a purchase with a Credit Card Non-3DS
   And to see that transaction was successful
