@@ -1,4 +1,4 @@
-Feature: CreditCard3DSTokenizeErrorCards
+Feature: CreditCard3DSTokenizePurchaseErrorCards
   As a user
   I want to check that I'm not able to make transactions with error cards
 

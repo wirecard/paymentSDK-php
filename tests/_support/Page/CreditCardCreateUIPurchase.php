@@ -32,7 +32,7 @@ class CreditCardCreateUIPurchase extends CreditCardCreateUiBase
      */
     public function getURL($scenarioName)
     {
-        $amount = (strpos($scenarioName, 'Non3Ds') ? '25' : '70');
+        $amount = (strpos($scenarioName, 'Non3D') ? '25' : '70');
 
         return $this->URL . $amount;
     }

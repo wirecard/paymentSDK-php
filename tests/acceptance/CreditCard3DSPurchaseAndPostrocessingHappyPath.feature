@@ -1,17 +1,19 @@
-Feature: CreditCardWppv23DSHappyPath
+Feature: CreditCard3DSPurchaseAndPostprocessingHappyPath
   As a user
   I want to make a purchase with a Credit Card 3DS
   And to see that transaction was successful
-  And to be able to cancel the transaction
+  And to be able to cancel/refund the transaction
 
   Background:
-    Given I am on "Create Credit Card UI WPPv2 Page" page
+    Given I am on "Create Credit Card UI Purchase Page" page
     When I fill fields with "Valid Credit Card Data"
+    And I enter "70" in field "Amount"
+    And I choose "EUR" in field "Currency"
     And I click "Save"
 
   @API-TEST @API-WDCEE-TEST
   Scenario: purchase
-    Given I am redirected to "Credit Card Reserve WPPv2 Page" page
+    Given I am redirected to "Credit Card Reserve Page" page
     And I click "Redirect to 3-D Secure page"
     When I am redirected to "Verified Page" page
     And I enter "wirecard" in field "Password"
@@ -21,8 +23,8 @@ Feature: CreditCardWppv23DSHappyPath
     And I see text "Transaction ID"
 
   @API-TEST @API-WDCEE-TEST
-  Scenario: voidPurchase
-    Given I am redirected to "Credit Card Reserve WPPv2 Page" page
+  Scenario: refundOrcancel
+    Given I am redirected to "Credit Card Reserve Page" page
     And I click "Redirect to 3-D Secure page"
     And I am redirected to "Verified Page" page
     And I enter "wirecard" in field "Password"
@@ -32,7 +34,7 @@ Feature: CreditCardWppv23DSHappyPath
     And I note the "Transaction Identification"
     When I am on "Credit Card Cancel Page" page
     And I enter "Noted Transaction Identification" in field "Transaction ID to be refunded"
-    And I enter "70" in field "Amount"
+    And I enter "25" in field "Amount"
     And I choose "EUR" in field "Currency"
     And I click "Refund"
     Then I see text "Payment successfully cancelled."
