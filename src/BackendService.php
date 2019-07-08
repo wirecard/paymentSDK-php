@@ -73,11 +73,11 @@ class BackendService extends TransactionService
     {
         if (is_null($transaction)) {
             throw new MandatoryFieldMissingException('Transaction mandatory!');
-        }   
+        }
 
         if (is_null($transaction->getParentTransactionId())) {
             throw new MandatoryFieldMissingException('Parent transaction id is mandatory!');
-        }   
+        }
 
         $parentTransaction = $this->getTransactionByTransactionId(
             $transaction->getParentTransactionId(),
