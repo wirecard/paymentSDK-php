@@ -7,7 +7,7 @@ Feature: CreditCard3DSAuthorizationAndPostprocessingHappyPath
   And to be able to cancel the transaction
 
   Background:
-    Given I am on "Create Credit Card UI Authorization Page" page
+    Given I am on "Create Credit Card UI Payment Action Page" page
     When I fill fields with "Valid Credit Card Data"
     And I enter "70" in field "Amount"
     And I choose "EUR" in field "Currency"

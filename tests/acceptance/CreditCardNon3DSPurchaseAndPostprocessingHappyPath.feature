@@ -5,7 +5,7 @@ Feature: CreditCardNon3DSPurchaseAndPostprocessingHappyPath
   And to be able to cancel/refund the transaction
 
   Background:
-    Given I am on "Create Credit Card UI Purchase Page" page
+    Given I am on "Create Credit Card UI Payment Action Page" page
     When I fill fields with "Valid Credit Card Data"
     And I enter "25" in field "Amount"
     And I choose "EUR" in field "Currency"

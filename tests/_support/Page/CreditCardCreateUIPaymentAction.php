@@ -7,10 +7,10 @@
 
 namespace Page;
 
-class CreditCardCreateUIAuthorization extends CreditCardCreateUiBase
+class CreditCardCreateUIPaymentAction extends CreditCardCreateUiBase
 {
     // include url of current page
-    public $URL = '/CreditCard/createUi.php?paymentAction=authorization&amount=';
+    public $URL = '/CreditCard/createUi.php?paymentAction=';
 
     public $elements = array(
         'First name' => "//*[@id='first_name']",
@@ -32,8 +32,8 @@ class CreditCardCreateUIAuthorization extends CreditCardCreateUiBase
      */
     public function getURL($scenarioName)
     {
+        $action = (strpos($scenarioName, 'Authorization') ? 'authorization' : 'purchase');
         $amount = (strpos($scenarioName, 'Non3D') ? '25' : '70');
-
-        return $this->URL . $amount;
+        return $this->URL . $action . '&amount=' . $amount;
     }
 }
