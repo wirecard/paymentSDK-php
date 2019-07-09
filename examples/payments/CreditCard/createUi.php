@@ -30,7 +30,26 @@ use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 $transactionService = new TransactionService($config);
 
 $redirectUrl = getUrl('return.php?status=success');
-$amount = new Amount(70.00, 'EUR');
+
+$gatewayEnv = getenv('GATEWAY');
+
+$currency='EUR';
+$startAmount = 25;
+
+if (strpos($gatewayEnv, 'SG') !== false) {
+    $currency='SGD';
+}
+if (70 == intval($_GET['amount'])) {
+    $startAmount = 70;
+}
+
+$amount = new Amount($startAmount, $currency);
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $postedAmount = $_POST['amount'];
+    $currency = $_POST['currency'];
+    $amount = new Amount((int)$postedAmount, $currency);
+}
 $orderNumber = 'A2';
 
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
@@ -103,6 +122,25 @@ $transaction->setCustomFields($custom_fields);
         // The javascript library needs a div which it can fill with all credit card related fields.
         ?>
         <div id="creditcard-form-div"></div>
+        <div class="col-sm-6" style="margin: 0; padding: 0;">
+            <label data-i18n="amount">Amount</label>
+            <small data-i18n="optional" class="pull-right">Mandatory</small>
+            <div class="form-group has-feedback">
+                <input type="number" class="form-control ee-request-nvp" id="amount" name="amount"
+                       placeholder="Amount"><i
+                        class="form-control-feedback fv-icon-no-label" data-fv-icon-for="amount"
+                        style="display: none;"></i>
+            </div>
+        </div>
+        <div class="col-sm-6" style="margin-top: 25px;">
+            <div class="form-group has-select-feedback has-feedback">
+                <select id="currency" class="form-control ee-request-nvp" name="currency">
+                    <option value="" data-i18n="month" disabled="true" selected="true">Currency</option>
+                    <option value="SGD">SGD</option>
+                    <option value="EUR">EUR</option>
+                </select>
+            </div>
+        </div>
         <button type="submit" class="btn btn-primary">Save</button>
     </form>
 <script type="application/javascript">
@@ -118,7 +156,7 @@ $transaction->setCustomFields($custom_fields);
         // We fill the _requestData_ with the return value
         // from the `getCreditCardUiWithData` method of the `transactionService` which expects a transaction
         // with all desired parameters.
-        requestData: <?= $transactionService->getCreditCardUiWithData($transaction, 'authorization', 'en'); ?>,
+        requestData: <?= $transactionService->getCreditCardUiWithData($transaction, $_GET['paymentAction'], 'en'); ?>,
         wrappingDivId: "creditcard-form-div",
         onSuccess: logCallback,
         onError: logCallback

@@ -113,13 +113,14 @@ class Config
         $baseUrl,
         $httpUser,
         $httpPassword,
-        $defaultCurrency = 'EUR'
+        $defaultCurrency = 'EUR',
+        $baseUrlWppv2 = ''
     ) {
         $this->baseUrl = $baseUrl;
         $this->httpUser = $httpUser;
         $this->httpPassword = $httpPassword;
         $this->defaultCurrency = $defaultCurrency;
-
+        $this->baseUrlWppv2 = $baseUrlWppv2;
         // During development the default debug level is set to DEBUG
         $this->logLevel = Logger::DEBUG;
 

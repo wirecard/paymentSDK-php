@@ -75,8 +75,7 @@ $transaction->setCustomFields($custom_fields);
 
 // This library is needed to generate the UI and to get a valid token ID.
 ?>
-<script src="https://wpp-test.wirecard.com/loader/paymentPage.js" type="text/javascript"></script>
-
+    <script src="<?= $baseUrlWppv2 ?>/loader/paymentPage.js" type="text/javascript"></script>
 <div class="row">
     <div class="col-sm-12">
         <a href="https://doc.wirecard.com/WPP.html" target="_blank"><h3>WPP v2 3D Secure</h3></a>

@@ -31,6 +31,7 @@ $gatewayConfig = function ($key) use ($gateway) {
     }
     $dataArray = [
         'NOVA' => [
+            'base_url_wppv2' => 'https://payments-test.wirecard.com',
             'base_url' => 'https://payments-test.wirecard.com',
             'http_user' => 'ShopUser',
             'http_pass' => 'pNUPurGGgL',
@@ -40,6 +41,7 @@ $gatewayConfig = function ($key) use ($gateway) {
             'non_threed_secret' => '38424ae8-2dc5-45be-af4c-6e0fee0fea3e'
         ],
         'API-WDCEE-TEST' => [
+            'base_url_wppv2' => 'https://wpp-wdcee-test.wirecard.com',
             'base_url' => 'https://api-wdcee-test.wirecard.com',
             'http_user' => 'pink-test',
             'http_pass' => '8f5y2h0s',
@@ -49,6 +51,7 @@ $gatewayConfig = function ($key) use ($gateway) {
             'non_threed_secret'=> 'cf8be86b-a671-4da4-b870-80af5c3eedb1'
         ],
         'API-TEST' => [
+            'base_url_wppv2' => 'https://wpp-test.wirecard.com',
             'base_url' => 'https://api-test.wirecard.com',
             'http_user' => '70000-APITEST-AP',
             'http_pass' => 'qD2wzQ_hrc!8',
@@ -58,6 +61,7 @@ $gatewayConfig = function ($key) use ($gateway) {
             'non_threed_secret'=> 'dbc5a498-9a66-43b9-bf1d-a618dd399684'
         ],
         'SECURE-TEST-SG' => [
+            'base_url_wppv2' => 'https://secure-test.wirecard.com.sg',
             'base_url' => 'https://secure-test.wirecard.com.sg',
             'http_user' => 'uatwd_ecom',
             'http_pass' => 'Tomcat123',
@@ -67,6 +71,7 @@ $gatewayConfig = function ($key) use ($gateway) {
             'non_threed_secret' => '543d957b-dcc9-46cd-8258-0f49ed97fa8e'
         ],
         'TEST-SG' => [
+            'base_url_wppv2' => 'https://test.wirecard.com.sg',
             'base_url' => 'https://test.wirecard.com.sg',
             'http_user' => 'wirecarduser3d',
             'http_pass' => 'Tomcat123',
@@ -82,13 +87,14 @@ $gatewayConfig = function ($key) use ($gateway) {
 
 // The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.
 $baseUrl = $gatewayConfig('base_url');
+$baseUrlWppv2 = $gatewayConfig('base_url_wppv2');
 $httpUser = $gatewayConfig('http_user');
 $httpPass = $gatewayConfig('http_pass');
 
 
 // The configuration is stored in an object containing the connection settings set above.
 // A default currency can also be provided.
-$config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR');
+$config = new Config\Config($baseUrl, $httpUser, $httpPass, 'EUR', $baseUrlWppv2);
 
 
 // ## Payment methods

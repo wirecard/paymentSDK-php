@@ -7,10 +7,10 @@
 
 namespace Page;
 
-class CreditCardCreateUI extends CreditCardCreateUiBase
+class CreditCardCreateUIPaymentAction extends CreditCardCreateUiBase
 {
     // include url of current page
-    public $URL = '/CreditCard/createUi_tokenize.php';
+    public $URL = '/CreditCard/createUi.php?paymentAction=';
 
     public $elements = array(
         'First name' => "//*[@id='first_name']",
@@ -25,31 +25,15 @@ class CreditCardCreateUI extends CreditCardCreateUiBase
         'Credit Card payment form' => "//*[@id='payment-form']"
     );
 
-    public $wirecard_frame = "wirecard-seamless-frame";
-
     /**
-     * Method switchFrame
-     * @param boolean $wpp2
+     * Method getURL
+     * @param string $scenarioName
+     * @return string
      */
-    public function switchFrame($wpp2 = false)
+    public function getURL($scenarioName)
     {
-        parent::switchFrame($wpp2);
-    }
-
-    /**
-     * Method prepareClick
-     */
-    public function prepareClick()
-    {
-        parent::prepareClick();
-    }
-    /**
-     * Method Method prepareDataForField
-     * @param string $cardData
-     * @param null $type
-     */
-    public function fillCreditCardFields($cardData, $type = null)
-    {
-        parent::fillCreditCardFields($cardData);
+        $action = (strpos($scenarioName, 'Authorization') ? 'authorization' : 'purchase');
+        $amount = (strpos($scenarioName, 'Non3D') ? '25' : '70');
+        return $this->URL . $action . '&amount=' . $amount;
     }
 }

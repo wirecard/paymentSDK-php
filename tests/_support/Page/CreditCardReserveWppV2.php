@@ -17,5 +17,6 @@ class CreditCardReserveWppV2 extends Base
     public $elements = array(
         'Redirect to 3-D Secure page' => "//*[@class='btn btn-primary']",
         'Cancel the payment' => "//*[@class='btn btn-primary']",
+        'Transaction ID' => "//div[contains(@class, 'content')]/a",
     );
 }
