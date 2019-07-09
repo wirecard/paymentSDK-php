@@ -34,7 +34,7 @@ Feature: CreditCard3DSPurchaseAndPostprocessingHappyPath
     And I note the "Transaction Identification"
     When I am on "Credit Card Cancel Page" page
     And I enter "Noted Transaction Identification" in field "Transaction ID to be refunded"
-    And I enter "25" in field "Amount"
+    And I enter "70" in field "Amount"
     And I choose "EUR" in field "Currency"
     And I click "Refund"
     Then I see text "Payment successfully cancelled."
