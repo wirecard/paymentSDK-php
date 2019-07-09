@@ -586,6 +586,8 @@ class TransactionService
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
+     *
+     * @since 3.7.2 Refactor credit card fallback
      */
     public function process(Transaction $transaction, $operation)
     {
@@ -636,13 +638,10 @@ class TransactionService
         }
 
         if ($transaction instanceof CreditCardTransaction
-            && $response instanceof FailureResponse
-            && $transaction->isFallback()) {
-            if (!$response->getStatusCollection()->hasStatusCodes(['500.1072', '500.1073', '500.1074'])) {
-                return $response;
-            }
-    
-            return $this->processFallback($transaction, $response);
+            && $transaction->isFallback()
+            && $response->getStatusCollection()->hasStatusCodes(['500.1072', '500.1073', '500.1074'])
+        ) {
+            $response = $this->processFallback($transaction);
         }
 
         return $response;
@@ -653,15 +652,16 @@ class TransactionService
      * we do a fallback from a 3-D to an SSL credit card transaction
      *
      * @param CreditCardTransaction $transaction
-     * @param Response $response
      * @throws UnconfiguredPaymentMethodException
      * @throws MandatoryFieldMissingException
      * @throws \RuntimeException
      * @throws MalformedResponseException
      * @throws \InvalidArgumentException
      * @return Response
+     *
+     * @since 3.7.2 Remove $response param
      */
-    private function processFallback(CreditCardTransaction $transaction, Response $response)
+    private function processFallback(CreditCardTransaction $transaction)
     {
         $transaction->setThreeD(false);
         $requestBody = $this->requestMapper->map($transaction);
