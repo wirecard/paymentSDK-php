@@ -458,12 +458,10 @@ class TransactionService
      */
     public function reserve(Transaction $transaction)
     {
-        if ($transaction instanceof Reservable
-        ) {
+        if ($transaction instanceof Reservable) {
             return $this->process($transaction, Operation::RESERVE);
-        } else {
-            throw new UnsupportedOperationException('Only reservable transactions allowed');
-        }
+        } 
+        throw new UnsupportedOperationException('Only reservable transactions allowed');        
     }
 
     /**
