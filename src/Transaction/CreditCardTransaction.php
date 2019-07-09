@@ -301,25 +301,21 @@ class CreditCardTransaction extends Transaction implements Reservable
         switch ($this->parentTransactionType) {
             case self::TYPE_AUTHORIZATION:
             case self::TYPE_REFERENCED_AUTHORIZATION:
-                $transactionType = self::TYPE_VOID_AUTHORIZATION;
-                break;
+                return self::TYPE_VOID_AUTHORIZATION;
             case self::TYPE_REFUND_CAPTURE:
+                return self::TYPE_VOID_REFUND_CAPTURE;
             case self::TYPE_REFUND_PURCHASE:
+                return self::TYPE_VOID_REFUND_PURCHASE;
             case self::TYPE_CREDIT:
-                $transactionType = 'void-' . $this->parentTransactionType;
-                break;
+                return self::TYPE_VOID_CREDIT;
             case self::TYPE_PURCHASE:
             case self::TYPE_REFERENCED_PURCHASE:
-                $transactionType = self::TYPE_VOID_PURCHASE;
-                break;
+                return self::TYPE_VOID_PURCHASE;
             case self::TYPE_CAPTURE_AUTHORIZATION:
-                $transactionType = self::TYPE_VOID_CAPTURE;
-                break;
+                return self::TYPE_VOID_CAPTURE;
             default:
                 throw new UnsupportedOperationException('The transaction can not be canceled.');
         }
-
-        return $transactionType;
     }
 
     /**
