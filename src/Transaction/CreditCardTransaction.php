@@ -333,11 +333,11 @@ class CreditCardTransaction extends Transaction implements Reservable
         }
 
         switch ($this->parentTransactionType) {
-            case $this::TYPE_PURCHASE:
-            case $this::TYPE_REFERENCED_PURCHASE:
-                return 'refund-purchase';
-            case $this::TYPE_CAPTURE_AUTHORIZATION:
-                return 'refund-capture';
+            case self::TYPE_PURCHASE:
+            case self::TYPE_REFERENCED_PURCHASE:
+                return self::TYPE_REFUND_PURCHASE;
+            case self::TYPE_CAPTURE_AUTHORIZATION:
+                return self::TYPE_REFUND_CAPTURE;
             default:
                 throw new UnsupportedOperationException('The transaction can not be refunded.');
         }
