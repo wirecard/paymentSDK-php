@@ -638,6 +638,7 @@ class TransactionService
         }
 
         if ($transaction instanceof CreditCardTransaction
+            && $response instanceof FailureResponse
             && $transaction->isFallback()
             && $response->getStatusCollection()->hasStatusCodes(['500.1072', '500.1073', '500.1074'])
         ) {
