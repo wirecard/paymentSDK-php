@@ -449,17 +449,20 @@ class TransactionService
     }
 
     /**
-     * @param Reservable $transaction
+     * @param Transaction $transaction
      * @throws MalformedResponseException
      * @throws UnconfiguredPaymentMethodException
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
-     * @throws MandatoryFieldMissingException
+     * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
      */
-    public function reserve(Reservable $transaction)
+    public function reserve(Transaction $transaction)
     {
-        return $this->process($transaction, Operation::RESERVE);
+        if ($transaction instanceof Reservable) {
+            return $this->process($transaction, Operation::RESERVE);
+        }
+        throw new UnsupportedOperationException('Only reservable transactions allowed');
     }
 
     /**
