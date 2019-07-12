@@ -8,8 +8,8 @@
 
 // ## Required libraries and objects
 // To include the necessary files, use the composer for PSR-4 autoloading.
-require __DIR__ . '/../../vendor/autoload.php';
-require __DIR__ . '/../inc/config.php';
+require __DIR__ . '/../../../vendor/autoload.php';
+require __DIR__ . '/../../configuration/config.php';
 
 use Wirecard\PaymentSdk\TransactionService;
 use Wirecard\PaymentSdk\Transaction\ApplePayTransaction;
@@ -35,7 +35,7 @@ if (isset($_GET['validationUrl'])) {
     sendPaymentRequest($transactionService, $applePayTransaction);
     die();
 } else {
-    require __DIR__ . '/../inc/header.php';
+    require __DIR__ . '/../../inc/header.php';
 }
 ?>
 
@@ -184,3 +184,5 @@ function sendPaymentRequest($transactionService, $transaction)
     }
     die;
 }
+
+include __DIR__ . '/../../inc/footer.php';
