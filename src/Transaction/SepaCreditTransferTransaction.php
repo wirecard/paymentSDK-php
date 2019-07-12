@@ -40,6 +40,11 @@ class SepaCreditTransferTransaction extends Transaction implements Reservable
     const NAME = 'sepacredit';
 
     /**
+     * Maximum number of characters: 100
+     */
+    const DESCRIPTOR_LENGTH = 100;
+
+    /**
      * @var string
      */
     private $iban;

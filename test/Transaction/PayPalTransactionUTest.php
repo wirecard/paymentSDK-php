@@ -31,6 +31,7 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use PHPUnit_Framework_TestCase;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -41,7 +42,7 @@ use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
-class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
+class PayPalTransactionUTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var PayPalTransaction
@@ -51,6 +52,8 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->tx = new PayPalTransaction();
+        $this->tx->setLocale('de');
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '0.0.0.1';
     }
 
     /**
@@ -124,7 +127,8 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
             'order-number' => 'order number 13',
             'order-detail' => 'order-detail my',
             'descriptor' => 'descriptor',
-            'browser' => ['accept' => 'application/xml']
+            'browser' => ['accept' => 'application/xml'],
+            'ip-address' => '0.0.0.1'
         ];
 
         $this->assertEquals($expected, $data);
@@ -321,5 +325,16 @@ class PayPalTransactionUTest extends \PHPUnit_Framework_TestCase
     public function testGetEndpoint()
     {
         $this->assertEquals(Transaction::ENDPOINT_PAYMENT_METHODS, $this->tx->getEndpoint());
+    }
+
+    public function testDescriptor()
+    {
+        $descriptor = "0123-€\$§%!=#~;+/?:().,'&><\"*{}[]@\_°^|ÄÖÜäöüß^°`" .
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        // Only 27 chars are allowed
+        $expectedDescriptor = "0123-+.,'ÄÖÜäöüabcdefghijkl";
+        $transaction = new PayPalTransaction();
+        $transaction->setDescriptor($descriptor);
+        $this->assertEquals($expectedDescriptor, $transaction->getDescriptor());
     }
 }

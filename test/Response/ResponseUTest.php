@@ -32,43 +32,88 @@
 namespace WirecardTest\PaymentSdk\Response;
 
 use Wirecard\PaymentSdk\Entity\CustomField;
-use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Response\Response;
 use Wirecard\PaymentSdk\Transaction\Operation;
 
 class ResponseUTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var Response
-     */
-    private $response;
-
-    public function setUp()
+    public function testGetNormalCustomField()
     {
-        $simpleXml = simplexml_load_string('<raw>
-                        <request-id>123</request-id>
-                        <statuses>
-                            <status code="1" description="a" severity="0"/>
-                        </statuses>
-                        <custom-fields>
-                            <custom-field field-name="paysdk_testfield1" field-value="value1"/>
-                            <custom-field field-name="paysdk_testfield2" field-value="value2"/>
-                        </custom-fields>
-                    </raw>');
-        $this->response = $this->getMockForAbstractClass(Response::class, [$simpleXml]);
+        $inputXml = simplexml_load_string('
+            <raw>
+                <request-id>123</request-id>
+                <statuses>
+                    <status code="1" description="a" severity="0"/>
+                </statuses>
+                <custom-fields>
+                    <custom-field field-name="paysdk_testfield1" field-value="value1"/>
+                </custom-fields>
+            </raw>');
+        $response = $this->getMockForAbstractClass(Response::class, [$inputXml]);
+
+        $customFields = $response->getCustomFields();
+
+        $customField = $customFields->getIterator()->offsetGet(0);
+        $this->assertTrue($customField instanceof CustomField);
+        $this->assertEquals('testfield1', $customField->getName());
+        $this->assertEquals('value1', $customField->getValue());
     }
 
-    public function testGetCustomFieldCollection()
+    public function testGetRawCustomField()
     {
-        $customFieldCollection = new CustomFieldCollection();
-        $customFieldCollection->add(new CustomField('testfield1', 'value1'));
-        $customFieldCollection->add(new CustomField('testfield2', 'value2'));
-        $this->assertEquals($customFieldCollection, $this->response->getCustomFields());
+        $inputXml = simplexml_load_string('
+            <raw>
+                <request-id>123</request-id>
+                <statuses>
+                    <status code="1" description="a" severity="0"/>
+                </statuses>
+                <custom-fields>
+                    <custom-field field-name="utestprefix_testfield2" field-value="value2"/>
+                </custom-fields>
+            </raw>');
+        $response = $this->getMockForAbstractClass(Response::class, [$inputXml]);
+
+        $customFields = $response->getCustomFields();
+
+        $customField = $customFields->getIterator()->offsetGet(0);
+        $this->assertTrue($customField instanceof CustomField);
+        $this->assertEquals('utestprefix_testfield2', $customField->getName());
+        $this->assertEquals('value2', $customField->getValue());
+    }
+
+    public function testIgnoreEmptyCustomFields()
+    {
+        $inputXml = simplexml_load_string('
+            <raw>
+                <request-id>123</request-id>
+                <statuses>
+                    <status code="1" description="a" severity="0"/>
+                </statuses>
+                <custom-fields>
+                    <custom-field field-name="utestprefix_testfield2"/>
+                    <custom-field field-value="value2"/>
+                </custom-fields>
+            </raw>');
+        $response = $this->getMockForAbstractClass(Response::class, [$inputXml]);
+
+        $customFields = $response->getCustomFields();
+
+        $this->assertEquals(0, $customFields->getIterator()->count());
     }
 
     public function testSetOperation()
     {
-        $this->response->setOperation(Operation::PAY);
-        $this->assertEquals(Operation::PAY, $this->response->getOperation());
+        $inputXml = simplexml_load_string('
+            <raw>
+                <request-id>123</request-id>
+                <statuses>
+                    <status code="1" description="a" severity="0"/>
+                </statuses>
+            </raw>');
+        $response = $this->getMockForAbstractClass(Response::class, [$inputXml]);
+
+        $response->setOperation(Operation::PAY);
+
+        $this->assertEquals(Operation::PAY, $response->getOperation());
     }
 }

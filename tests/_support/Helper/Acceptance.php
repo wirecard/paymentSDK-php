@@ -38,4 +38,19 @@ class Acceptance extends \Codeception\Module
         $transaction_id = explode('/', $link);
         return $transaction_id = end($transaction_id);
     }
+
+    public static function getCardDataFromDataFile($cardDataType) {
+        $gatewayEnv = getenv('GATEWAY');
+        if ('NOVA' == $gatewayEnv || 'API-TEST' == $gatewayEnv || 'API-WDCEE-TEST' == $gatewayEnv) {
+            $gateway = 'default_gateway';
+        } else if ('SECURE-TEST-SG' == $gatewayEnv) {
+            $gateway = 'sg_secure_gateway';
+        } else if ('TEST-SG' == $gatewayEnv) {
+            $gateway = 'sg_gateway';
+        }
+
+        $fileData = file_get_contents('tests/_support/data.json');
+        $data = json_decode($fileData); // decode the JSON feed
+        return $data->$gateway->$cardDataType;
+    }
 }

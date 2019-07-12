@@ -1,0 +1,86 @@
+body{
+    min-height: 100vh;
+}
+
+.content{
+    display: block;
+    min-height: 82vh;
+}
+
+#overrides h1 {
+    margin: 0px;
+    font-size: 2vw;
+}
+
+#overrides h2 {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #dedede;
+}
+
+#overrides h3 {
+    min-height: 52.8px;
+}
+
+#overrides img {
+    height: 40px;
+    margin: 0px 20px;
+}
+
+#overrides .align-baseline {
+    position: relative;
+}
+
+#overrides .bottom-align-text {
+    position: absolute;
+    bottom: -0.35vw;
+    left: 235px;
+}
+
+#overrides .page-header {
+    background-color: #002846;
+    margin-top: 0px;
+    padding: 40px 20px;
+    color: white;
+}
+
+#overrides .list-group-item {
+    border-radius: 0px;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+#overrides .list-group-item:hover {
+    color: #ff2014;
+    background-color: #F7F7F8;
+}
+
+#overrides .btn-primary {
+    background-color: #002846;
+}
+
+#overrides .btn-primary:hover {
+    background-color: #414B56;
+}
+
+.info {
+    font-size: x-small;
+    padding: 5px;
+    color: #cccccc;
+}
+
+#creditcard-form-div {
+    height: 300px;
+}
+
+footer {
+    background-color: #002846;
+    padding: 50px 0;
+    margin-top: 50px;
+    color: white;
+    min-height: 50px;
+}
+
+.flash {
+    color: white!important;
+    background-color: #002846;
+}

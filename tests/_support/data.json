@@ -1,0 +1,136 @@
+{
+  "default_gateway": {
+    "Valid Credit Card Data": {
+      "last_name": "test",
+      "card_number": "4012000300001003",
+      "cvv": "003",
+      "valid_until_month" : "01",
+      "valid_until_year" : "2023"
+    },
+    "Card Not Enrolled VISA Data": {
+      "last_name": "test",
+      "card_number": "4012000300006002",
+      "cvv": "002",
+      "valid_until_month" : "01",
+      "valid_until_year" : "2023"
+    },
+    "Card Not Enrolled Mastercard Data": {
+      "last_name": "test",
+      "card_number": "5413330300006005",
+      "cvv": "005",
+      "valid_until_month" : "01",
+      "valid_until_year" : "2023"
+    },
+    "Card Not Enrolled Maestro Data": {
+      "last_name": "test",
+      "card_number": "6799860300006000008",
+      "cvv": "008",
+      "valid_until_month" : "01",
+      "valid_until_year" : "2023"
+    },
+    "Unable to Verify Enrolment VISA Data": {
+      "last_name": "test",
+      "card_number": "4012000300007000",
+      "cvv": "999",
+      "valid_until_month" : "01",
+      "valid_until_year" : "2023"
+    },
+    "Unable to Verify Enrolment Mastercard Data": {
+      "last_name": "test",
+      "card_number": "5413330300007003",
+      "cvv": "003",
+      "valid_until_month" : "01",
+      "valid_until_year" : "2023"
+    },
+    "Unable to Verify Enrolment Maestro Data": {
+      "last_name": "test",
+      "card_number": "6799860300007000007",
+      "cvv": "007",
+      "valid_until_month" : "01",
+      "valid_until_year" : "2023"
+    },
+    "MPI Error VISA Data": {
+      "last_name": "test",
+      "card_number": "4012000300008008",
+      "cvv": "008",
+      "valid_until_month" : "01",
+      "valid_until_year" : "2023"
+    },
+    "MPI Error Mastercard Data": {
+      "last_name": "test",
+      "card_number": "5413330300008001",
+      "cvv": "001",
+      "valid_until_month" : "01",
+      "valid_until_year" : "2023"
+    },
+    "MPI Error Maestro Data": {
+      "last_name": "test",
+      "card_number": "6799860300008000006",
+      "cvv": "006",
+      "valid_until_month" : "01",
+      "valid_until_year" : "2023"
+    },
+
+    "Consumer failed or Cancelled auth VISA Data": {
+      "last_name": "test",
+      "card_number": "4012000300003009",
+      "cvv": "009",
+      "valid_until_month" : "01",
+      "valid_until_year" : "2023"
+    },
+    "Consumer failed or Cancelled auth Mastercard Data": {
+      "last_name": "test",
+      "card_number": "5413330300003002",
+      "cvv": "002",
+      "valid_until_month" : "01",
+      "valid_until_year" : "2023"
+    },
+    "Consumer failed or Cancelled auth Maestro Data": {
+      "last_name": "test",
+      "card_number": "6799860300003000001",
+      "cvv": "001",
+      "valid_until_month" : "01",
+      "valid_until_year" : "2023"
+    },
+
+    "Auth not completed tech problem VISA Data": {
+      "last_name": "test",
+      "card_number": "4012000300004007",
+      "cvv": "007",
+      "valid_until_month" : "01",
+      "valid_until_year" : "2023"
+    },
+    "Auth not completed tech problem Mastercard Data": {
+      "last_name": "test",
+      "card_number": "5413330300004000",
+      "cvv": "999",
+      "valid_until_month" : "01",
+      "valid_until_year" : "2023"
+    },
+    "Auth not completed tech problem Maestro Data": {
+      "last_name": "test",
+      "card_number": "6799860300004000000",
+      "cvv": "999",
+      "valid_until_month" : "01",
+      "valid_until_year" : "2023"
+    }
+  },
+  "sg_secure_gateway": {
+    "Valid Credit Card Data": {
+      "card_number": "4005550000000001",
+      "cvv": "602",
+      "valid_until_month" : "12",
+      "valid_until_year" : "2021"
+    }
+  },
+  "sg_gateway": {
+    "Valid Credit Card Data": {
+      "first_name": "test",
+      "last_name": "test",
+      "card_number": "4005550000000001",
+      "cvv": "602",
+      "valid_until_month": "12",
+      "valid_until_year": "2021"
+    }
+  }
+}

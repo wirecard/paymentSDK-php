@@ -31,15 +31,15 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use PHPUnit_Framework_TestCase;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Entity\Device;
 use Wirecard\PaymentSdk\Entity\Redirect;
-use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\Risk;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
-class RiskUTest extends \PHPUnit_Framework_TestCase
+class RiskUTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Transaction
@@ -52,7 +52,7 @@ class RiskUTest extends \PHPUnit_Framework_TestCase
          * @var \PHPUnit_Framework_MockObject_MockObject $txMock
          */
         $this->tx = $this->getMockBuilder(Risk::class)->getMockForAbstractClass();
-        return $this->tx;
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '0.0.0.1';
     }
 
     public function testMappingForConsumerId()
@@ -126,5 +126,14 @@ class RiskUTest extends \PHPUnit_Framework_TestCase
         $mapped = $this->tx->mappedProperties();
 
         $this->assertEquals('Testshop', $mapped['descriptor']);
+    }
+
+    /**
+     * @expectedException \Wirecard\PaymentSdk\Exception\UnsupportedEncodingException
+     */
+    public function testDescriptorException()
+    {
+        $descriptor = iconv('UTF-8', 'ISO-8859-1', 'Test üöäü?=(&$§"§$!');
+        $this->tx->setDescriptor($descriptor);
     }
 }

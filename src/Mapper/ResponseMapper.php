@@ -311,6 +311,14 @@ class ResponseMapper
         $this->simpleXml->addChild("payment-method", $payload['payment_method']);
         $this->simpleXml->addChild("request-id", $payload['request_id']);
 
+        if (array_key_exists('requested_amount', $payload) && array_key_exists('requested_amount_currency', $payload)) {
+            $amountSimpleXml = new SimpleXMLElement(
+                '<requested-amount>'.$payload['requested_amount'].'</requested-amount>'
+            );
+            $amountSimpleXml->addAttribute('currency', $payload['requested_amount_currency']);
+            $this->simpleXmlAppendNode($this->simpleXml, $amountSimpleXml);
+        }
+
         if (array_key_exists('acs_url', $payload) && array_key_exists('pareq', $payload)) {
             $threeD = new SimpleXMLElement('<three-d></three-d>');
             $threeD->addChild('acs-url', $payload['acs_url']);

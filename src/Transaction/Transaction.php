@@ -155,6 +155,11 @@ abstract class Transaction extends Risk
     protected $articleNumbers = [];
 
     /**
+     * @var string
+     */
+    protected $endpoint;
+
+    /**
      * @param string $entryMode
      * @return Transaction
      */
@@ -376,10 +381,6 @@ abstract class Transaction extends Risk
             $result[self::PARAM_PARENT_TRANSACTION_ID] = $this->parentTransactionId;
         }
 
-        if (array_key_exists('REMOTE_ADDR', $_SERVER) && !isset($result['ip-address'])) {
-            $result['ip-address'] = $_SERVER['REMOTE_ADDR'];
-        }
-
         if (null !== $this->notificationUrl) {
             $onlyNotificationUrl = ['notification' => [['url' => $this->notificationUrl]]];
             $result['notifications'] = $onlyNotificationUrl;
@@ -539,6 +540,16 @@ abstract class Transaction extends Risk
      * @return array
      */
     abstract protected function mappedSpecificProperties();
+
+    /**
+     * @param $endpoint
+     * @return Transaction
+     */
+    public function setEndpoint($endpoint)
+    {
+        $this->endpoint = $endpoint;
+        return $this;
+    }
 
     /**
      * return string

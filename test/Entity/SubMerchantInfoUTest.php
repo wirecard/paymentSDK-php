@@ -40,9 +40,15 @@ class SubMerchantInfoUTest extends \PHPUnit_Framework_TestCase
      */
     private $subMerchantInfo;
 
+    /**
+     * @var SubMerchantInfo
+     */
+    private $subMerchantInfoExtended;
+
     public function setUp()
     {
         $this->subMerchantInfo = new SubMerchantInfo();
+        $this->subMerchantInfoExtended = new SubMerchantInfo();
     }
 
     public function testGetMappedPropertiesSubMerchantInfo()
@@ -59,6 +65,51 @@ class SubMerchantInfoUTest extends \PHPUnit_Framework_TestCase
                 'name' => $name
             ],
             $this->subMerchantInfo->mappedProperties()
+        );
+    }
+
+    public function testGetMappedPropertiesSubMerchantInfoExtended()
+    {
+        $id = '12345';
+        $name = 'my name';
+        $street = '123 test street';
+        $city = 'testing town';
+        $postalCode = '99999';
+        $state = 'BAV';
+        $country = 'DE';
+
+        $this->subMerchantInfoExtended->setMerchantId($id);
+        $this->subMerchantInfoExtended->setMerchantName($name);
+        $this->subMerchantInfoExtended->setMerchantStreet($street);
+        $this->subMerchantInfoExtended->setMerchantCity($city);
+        $this->subMerchantInfoExtended->setMerchantPostalCode($postalCode);
+        $this->subMerchantInfoExtended->setMerchantState($state);
+        $this->subMerchantInfoExtended->setMerchantCountry($country);
+
+        $this->assertEquals(
+            [
+                'id' => $id,
+                'name' => $name,
+                'street' => $street,
+                'city' => $city,
+                'postal-code' => $postalCode,
+                'state' => $state,
+                'country' => $country
+            ],
+            $this->subMerchantInfoExtended->mappedProperties()
+        );
+
+        $this->subMerchantInfoExtended->setMerchantState(null);
+        $this->assertEquals(
+            [
+                'id' => $id,
+                'name' => $name,
+                'street' => $street,
+                'city' => $city,
+                'postal-code' => $postalCode,
+                'country' => $country
+            ],
+            $this->subMerchantInfoExtended->mappedProperties()
         );
     }
 }

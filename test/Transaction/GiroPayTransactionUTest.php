@@ -31,17 +31,23 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use PHPUnit_Framework_TestCase;
 use ReflectionClass;
 use Wirecard\PaymentSdk\Entity\BankAccount;
 use Wirecard\PaymentSdk\Transaction\GiropayTransaction;
 
-class GiropayTransactionUTest extends \PHPUnit_Framework_TestCase
+class GiropayTransactionUTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @var GiropayTransaction
+     */
     private $tx;
 
     public function setUp()
     {
         $this->tx = new GiropayTransaction();
+        $this->tx->setLocale('de');
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '0.0.0.1';
     }
 
     /**
@@ -60,7 +66,7 @@ class GiropayTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(GiropayTransaction::class, $orderDetail);
     }
 
-    public function testsetBankData()
+    public function testSetBankData()
     {
         $bankAccountMock = $this->createMock(BankAccount::class);
 
@@ -74,7 +80,7 @@ class GiropayTransactionUTest extends \PHPUnit_Framework_TestCase
 
     public static function callMethod($obj, $name, $args = [])
     {
-        $class = new \ReflectionClass($obj);
+        $class = new ReflectionClass($obj);
         $method = $class->getMethod($name);
         $method->setAccessible(true);
         return $method->invokeArgs($obj, $args);

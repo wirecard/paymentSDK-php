@@ -34,6 +34,7 @@ namespace Wirecard\PaymentSdk\Transaction;
 use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Entity\Device;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
+use Wirecard\PaymentSdk\Exception\UnsupportedEncodingException;
 
 /**
  * Class Risk
@@ -43,6 +44,11 @@ use Wirecard\PaymentSdk\Entity\AccountHolder;
  */
 abstract class Risk
 {
+
+    const DESCRIPTOR_LENGTH = 64;
+    const DESCRIPTOR_ALLOWED_CHAR_REGEX = "//";
+    const DESCRIPTOR_CHARSET = "UTF-8";
+
     /**
      * @var AccountHolder
      */
@@ -120,7 +126,19 @@ abstract class Risk
      */
     public function getIpAddress()
     {
-        return $this->ipAddress;
+        if (isset($this->ipAddress)) {
+            return $this->ipAddress;
+        } else {
+            if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $_SERVER['HTTP_X_FORWARDED_FOR']) {
+                if (strpos($_SERVER['HTTP_X_FORWARDED_FOR'], ',')) {
+                    $ips = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+                    return $ips[0];
+                } else {
+                    return $_SERVER['HTTP_X_FORWARDED_FOR'];
+                }
+            }
+            return $_SERVER['REMOTE_ADDR'];
+        }
     }
 
     /**
@@ -208,7 +226,14 @@ abstract class Risk
      */
     public function setDescriptor($descriptor)
     {
-        $this->descriptor = $descriptor;
+        if (!mb_detect_encoding($descriptor, self::DESCRIPTOR_CHARSET, true)) {
+            throw new UnsupportedEncodingException('Unsupported character encoding in descriptor');
+        }
+        $this->descriptor = $this->sanitizeDescriptor(
+            $descriptor,
+            static::DESCRIPTOR_LENGTH,
+            static::DESCRIPTOR_ALLOWED_CHAR_REGEX
+        );
     }
 
     /**
@@ -222,9 +247,7 @@ abstract class Risk
             $data['account-holder'] = $this->accountHolder->mappedProperties();
         }
 
-        if (null !== $this->ipAddress) {
-            $data['ip-address'] = $this->ipAddress;
-        }
+        $data['ip-address'] = $this->getIpAddress();
 
         if (null !== $this->consumerId) {
             $data['consumer-id'] = $this->consumerId;
@@ -252,5 +275,18 @@ abstract class Risk
         }
 
         return $data;
+    }
+
+    /**
+     * The function removes not allowed characters from string via regex and limits the string to max allowed length
+     * @param string $descriptor
+     * @param int $length
+     * @param string $regex
+     * @return string
+     * @since 3.6.6
+     */
+    private function sanitizeDescriptor($descriptor, $length, $regex)
+    {
+        return mb_strimwidth(preg_replace($regex, '', $descriptor), 0, $length);
     }
 }

@@ -31,7 +31,6 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
-use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
@@ -42,6 +41,18 @@ use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 class PtwentyfourTransaction extends Transaction implements Reservable
 {
     const NAME = 'p24';
+
+    /**
+     * Do not use no more than 20 characters and do not use special chars
+     * as it can be misinterpreted by a bank system.
+     */
+    const DESCRIPTOR_LENGTH = 20;
+
+    /**
+     * Allowed characters:
+     * '0-9','a-z','A-Z'
+     */
+    const DESCRIPTOR_ALLOWED_CHAR_REGEX = '/[^a-zA-Z0-9]/u';
 
     /**
      * return string

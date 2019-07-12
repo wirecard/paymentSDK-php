@@ -32,7 +32,6 @@
 namespace WirecardTest\PaymentSdk\Entity;
 
 use Wirecard\PaymentSdk\Entity\Amount;
-use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 
 class AmountUTest extends \PHPUnit_Framework_TestCase
 {
@@ -62,10 +61,6 @@ class AmountUTest extends \PHPUnit_Framework_TestCase
     public function constructorDataProvider()
     {
         return [
-            ['151515.515151,6612456', 151515515151.6612456],
-            ['151515,515151.665613', 151515515151.665613],
-            ['2135345.1234365', 2135345.1234365],
-            ['1234235,21435', 1234235.21435],
             [1, 1.0],
             [1.235485, 1.235485]
         ];
@@ -86,8 +81,8 @@ class AmountUTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException
      */
-    public function testConstructorThrowsException()
+    public function testNonNumericValue()
     {
-        new Amount('asdfsg124345.235,65.34523436fdg', 'EUR');
+        $amount = new Amount('10.00', 'EUR');
     }
 }

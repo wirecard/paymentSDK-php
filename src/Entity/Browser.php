@@ -49,6 +49,16 @@ class Browser implements MappableEntity
     protected $userAgent;
 
     /**
+     * @var string $timezone
+     */
+    protected $timezone;
+
+    /**
+     * @var string $screenResolution
+     */
+    protected $screenResolution;
+
+    /**
      * Browser constructor.
      * @param null $accept
      * @param null $userAgent
@@ -84,6 +94,26 @@ class Browser implements MappableEntity
     }
 
     /**
+     * @param $timezone
+     * @return $this
+     */
+    public function setTimezone($timezone)
+    {
+        $this->timezone = $timezone;
+        return $this;
+    }
+
+    /**
+     * @param $screenResolution
+     * @return $this
+     */
+    public function setScreenResolution($screenResolution)
+    {
+        $this->screenResolution = $screenResolution;
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function mappedProperties()
@@ -100,6 +130,14 @@ class Browser implements MappableEntity
             $data['user-agent'] = $this->userAgent;
         } elseif (isset($_SERVER['HTTP_USER_AGENT'])) {
             $data['user-agent'] = $_SERVER['HTTP_USER_AGENT'];
+        }
+
+        if (isset($this->timezone)) {
+            $data['time-zone'] = $this->timezone;
+        }
+
+        if (isset($this->screenResolution)) {
+            $data['screen-resolution'] = $this->screenResolution;
         }
 
         return $data;

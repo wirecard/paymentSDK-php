@@ -44,4 +44,6 @@ class IdealBic extends Enum
     const SNSBNL2A = 'SNS Bank';
     const TRIONL2U = 'Triodos Bank';
     const FVLBNL22 = 'Van Lanschot Bankiers';
+    const MOYONL21 = 'Moneyou';
+    const HANDNL2A = 'Handelsbanken';
 }

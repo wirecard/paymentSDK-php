@@ -42,11 +42,17 @@ npm install -q -g groc
 
 # groc: generate the examples
 groc -o ${UPLOAD_DIRECTORY}/ examples/*/*.php
+groc -o ${UPLOAD_DIRECTORY}/ examples/*/*/*.php
 
 # Copy the main pages to UPLOAD_DIRECTORY
 cp docs/* ${UPLOAD_DIRECTORY}/
 cp examples/*.html ${UPLOAD_DIRECTORY}/examples/
-
+# Copy menu
+cp --parents examples/payments/*/menu.html ${UPLOAD_DIRECTORY}/
+cp --parents examples/inc/features/*-menu.html ${UPLOAD_DIRECTORY}/
+cp --parents examples/configuration/*-menu.html ${UPLOAD_DIRECTORY}/
+#Copy assets
+cp --parents -r examples/assets/* ${UPLOAD_DIRECTORY}/
 # Prepare the cloned repository for push
 echo "Upload documentation to GitHub Pages:"
 cd ${UPLOAD_DIRECTORY}

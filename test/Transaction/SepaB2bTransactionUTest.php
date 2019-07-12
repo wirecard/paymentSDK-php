@@ -31,11 +31,12 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use PHPUnit_Framework_TestCase;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\SepaBtwobTransaction;
 
-class SepaBtwobTransactionUTest extends \PHPUnit_Framework_TestCase
+class SepaBtwobTransactionUTest extends PHPUnit_Framework_TestCase
 {
     const IBAN = 'DE42512308000000060004';
     const MANDATE_ID = '2345';
@@ -58,6 +59,8 @@ class SepaBtwobTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx = new SepaBtwobTransaction();
         $this->tx->setCompanyName(self::COMPANY_NAME);
         $this->tx->setAmount($this->amount);
+        $this->tx->setLocale('de');
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '0.0.0.1';
     }
 
 
@@ -100,6 +103,7 @@ class SepaBtwobTransactionUTest extends \PHPUnit_Framework_TestCase
             ],
             'entry-mode' => 'ecommerce',
             'locale' => 'de',
+            'ip-address' => '0.0.0.1'
         ];
     }
 }

@@ -34,6 +34,7 @@ namespace WirecardTest\PaymentSdk;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use Mockery as m;
+use PHPUnit_Framework_TestCase;
 use Psr\Log\LoggerInterface;
 use Wirecard\PaymentSdk\Config\ApplePayConfig;
 use Wirecard\PaymentSdk\Config\Config;
@@ -44,6 +45,7 @@ use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
+use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
@@ -51,24 +53,38 @@ use Wirecard\PaymentSdk\TransactionService;
  * Class TransactionServiceUTest
  * @package WirecardTest\PaymentSdk
  */
-class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
+class TransactionServiceUTest extends PHPUnit_Framework_TestCase
 {
 
+    const GW_BASE_URL          = 'https://api-test.wirecard.com';
+    const GW_HTTP_USER         = 'user';
+    const GW_HTTP_PASSWORD     = 'password';
+    const CC_MAID              = 'maid';
+    const CC_SECRET            = 'secret';
+    const CC_THREE_D_MAID      = '3dmaid';
+    const CC_THREE_D_SECRET    = '3dsecret';
+    const CC_SSL_MAX_LIMIT     = 100;
+    const CC_THREE_D_MIN_LIMIT = 50;
+    
     /**
      * @var TransactionService $service
      */
     private $service;
 
+    private $shopSystemVersion;
+
     public function setUp()
     {
         $logger = $this->createMock(LoggerInterface::class);
-        $config = new Config('https://api-test.wirecard.com', 'user', 'password');
-        $ccardConfig = new CreditCardConfig('maid', 'secret');
-        $ccardConfig->setThreeDCredentials('3dmaid', '3dsecret');
-        $ccardConfig->addSslMaxLimit(new Amount(100, 'EUR'));
-        $ccardConfig->addThreeDMinLimit(new Amount(50, 'EUR'));
+        $config = new Config(self::GW_BASE_URL, self::GW_HTTP_USER, self::GW_HTTP_PASSWORD);
+        $ccardConfig = new CreditCardConfig(self::CC_MAID, self::CC_SECRET);
+        $ccardConfig->setThreeDCredentials(self::CC_THREE_D_MAID, self::CC_THREE_D_SECRET);
+        $ccardConfig->addSslMaxLimit(new Amount(self::CC_SSL_MAX_LIMIT, 'EUR'));
+        $ccardConfig->addThreeDMinLimit(new Amount(self::CC_THREE_D_MIN_LIMIT, 'EUR'));
         $config->add($ccardConfig);
         $this->service = new TransactionService($config, $logger);
+        $_SERVER['REMOTE_ADDR']  = '127.0.0.1';
+        $this->shopSystemVersion = $config->getShopSystemVersion();
     }
 
     public function testGetDataFor3dCreditCardUi()
@@ -77,12 +93,15 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
 
         $expected = [
             'transaction_type' => 'authorization',
-            'merchant_account_id' => '3dmaid',
+            'merchant_account_id' => self::CC_THREE_D_MAID,
             'requested_amount' => 300,
             'requested_amount_currency' => 'EUR',
             'locale' => 'en',
             'payment_method' => 'creditcard',
-            'attempt_three_d' => true
+            'attempt_three_d' => true,
+            'ip_address' => '127.0.0.1',
+            'shop_system_name' => 'paymentSDK-php',
+            'shop_system_version' => $this->shopSystemVersion
         ];
 
         $uiData = (array)json_decode($uiData);
@@ -127,7 +146,9 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
             'status_code_0' => '201.000',
             'status_description_0' => 'Dummy status description',
             'status_severity_0' => 'information',
-            'parent_transaction_id' => 'ptrid'
+            'parent_transaction_id' => 'ptrid',
+            'requested_amount_currency' => 'EUR',
+            'requested_amount' => '40'
         );
 
         $response = $this->service->processJsResponse($data, $url);
@@ -302,5 +323,20 @@ class TransactionServiceUTest extends \PHPUnit_Framework_TestCase
         $service = new TransactionService($config, null, $client, $requestMapper, $responseMapper);
 
         $service->validateMerchant('https://apple-pay-gateway-cert.apple.com/paymentservices/startSession');
+    
+    public function testGetConfig()
+    {
+        $config = $this->service->getConfig();
+        $this->assertEquals(self::GW_BASE_URL, $config->getBaseUrl());
+        $this->assertEquals(self::GW_HTTP_USER, $config->getHttpUser());
+        $this->assertEquals(self::GW_HTTP_PASSWORD, $config->getHttpPassword());
+        
+        $ccConfig = $config->get(CreditCardTransaction::NAME);
+        $this->assertEquals(self::CC_MAID, $ccConfig->getMerchantAccountId());
+        $this->assertEquals(self::CC_SECRET, $ccConfig->getSecret());
+        $this->assertEquals(self::CC_THREE_D_MAID, $ccConfig->getThreeDMerchantAccountId());
+        $this->assertEquals(self::CC_THREE_D_SECRET, $ccConfig->getThreeDSecret());
+        $this->assertEquals(self::CC_SSL_MAX_LIMIT, $ccConfig->getSslMaxLimit('EUR'));
+        $this->assertEquals(self::CC_THREE_D_MIN_LIMIT, $ccConfig->getThreeDMinLimit('EUR'));
     }
 }

@@ -38,7 +38,12 @@ namespace Wirecard\PaymentSdk\Entity;
  */
 class CustomField implements MappableEntity
 {
-    const PREFIX = 'paysdk_';
+    const DEFAULT_PREFIX = 'paysdk_';
+
+    /**
+     * @var string
+     */
+    private $prefix = self::DEFAULT_PREFIX;
 
     /**
      * @var string
@@ -55,10 +60,11 @@ class CustomField implements MappableEntity
      * @param string $name
      * @param string $value
      */
-    public function __construct($name, $value)
+    public function __construct($name, $value, $prefix = self::DEFAULT_PREFIX)
     {
         $this->name = $name;
         $this->value = $value;
+        $this->prefix = $prefix;
     }
 
     /**
@@ -78,13 +84,37 @@ class CustomField implements MappableEntity
     }
 
     /**
+     * @return string
+     */
+    public function getPrefix()
+    {
+        return $this->prefix;
+    }
+
+    /**
+     * @param string $prefix
+     */
+    public function setPrefix($prefix)
+    {
+        $this->prefix = $prefix;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMappedName()
+    {
+        return (is_null($this->prefix) ? '' : $this->prefix) . $this->name;
+    }
+
+    /**
      * @return array
      */
     public function mappedProperties()
     {
         return [
-            'field-name' => self::PREFIX . $this->name,
-            'field-value' => $this->value
+            'field-name'  => $this->getMappedName(),
+            'field-value' => $this->getValue()
         ];
     }
 }

@@ -31,6 +31,7 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use PHPUnit_Framework_TestCase;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Mandate;
 use Wirecard\PaymentSdk\Entity\Amount;
@@ -38,7 +39,7 @@ use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\SepaDirectDebitTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
-class SepaDirectDebitTransactionUTest extends \PHPUnit_Framework_TestCase
+class SepaDirectDebitTransactionUTest extends PHPUnit_Framework_TestCase
 {
     const IBAN = 'DE42512308000000060004';
     const LAST_NAME = 'Doe';
@@ -69,6 +70,8 @@ class SepaDirectDebitTransactionUTest extends \PHPUnit_Framework_TestCase
 
         $this->tx = new SepaDirectDebitTransaction();
         $this->tx->setAmount($this->amount);
+        $this->tx->setLocale('de');
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '0.0.0.1';
     }
 
     public function testMappedPropertiesReserveIbanOnly()
@@ -129,6 +132,7 @@ class SepaDirectDebitTransactionUTest extends \PHPUnit_Framework_TestCase
             ],
             'entry-mode' => 'ecommerce',
             'locale' => 'de',
+            'ip-address' => '0.0.0.1'
         ];
     }
 
@@ -179,6 +183,7 @@ class SepaDirectDebitTransactionUTest extends \PHPUnit_Framework_TestCase
             ],
             'entry-mode' => 'ecommerce',
             'locale' => 'de',
+            'ip-address' => '0.0.0.1'
         ];
     }
 
@@ -243,7 +248,20 @@ class SepaDirectDebitTransactionUTest extends \PHPUnit_Framework_TestCase
             'parent-transaction-id' => $parentTransactionId,
             'locale' => 'de',
             'entry-mode' => 'ecommerce',
+            'ip-address' => '0.0.0.1'
         ];
+    }
+
+    public function testDescriptor()
+    {
+        $descriptor = "0123-€\$§%!=#~;+/?:().,'&><\"*{}[]@\_°^|ÄÖÜäöüß^°`" .
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123lorem ipsum try to get more than 100 characters";
+        // Only 100 chars are allowed
+        $expectedDescriptor = "0123-€\$§%!=#~;+/?:().,'&><\"*{}[]@\_°^|ÄÖÜäöüß^°`" .
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        $transaction = new SepaDirectDebitTransaction();
+        $transaction->setDescriptor($descriptor);
+        $this->assertEquals($expectedDescriptor, $transaction->getDescriptor());
     }
 
     /**

@@ -19,11 +19,13 @@ $PWD/ngrok authtoken $NGROK_TOKEN
 TIMESTAMP=$(date +%s)
 $PWD/ngrok http 8080 -subdomain=${TIMESTAMP}${GATEWAY}> /dev/null &
 
-# sleep to allow ngrok to initialize
-sleep 150
-
-# extract the ngrok url
-export NGROK_URL=$(curl -s localhost:4040/api/tunnels/command_line | jq --raw-output .public_url)
+NGROK_URL=$(curl -s localhost:4040/api/tunnels/command_line | jq --raw-output .public_url)
+# allow ngrok to initialize
+while [ ! ${NGROK_URL} ] || [ ${NGROK_URL} = 'null' ];  do
+    echo "Waiting for ngrok to initialize"
+    export NGROK_URL=$(curl -s localhost:4040/api/tunnels/command_line | jq --raw-output .public_url)
+    sleep 1
+done
 
 #run tests
-vendor/bin/codecept run acceptance --steps -v --html
+vendor/bin/codecept run acceptance -g "${GATEWAY}" --html --xml

@@ -15,6 +15,8 @@ class Base
 
     protected $tester;
 
+    public $page_specific = '';
+
     /**
      * @var AcceptanceTester
      */
@@ -39,7 +41,7 @@ class Base
      *
      * @return string
      */
-    public function getURL()
+    public function getURL($scenarioName)
     {
         return $this->URL;
     }
@@ -61,13 +63,28 @@ class Base
     }
 
     /**
-     * Method Method prepareDataForField
+     * Method prepareDataForField
+     *
      * @param string $fieldValue
      * @param string $valueToKeepBetweenSteps
      * @return string
      */
     public function prepareDataForField($fieldValue, $valueToKeepBetweenSteps)
     {
-        return $fieldValue;
+        if (strpos($fieldValue, "Noted") !== false) {
+            return $valueToKeepBetweenSteps;
+        } else {
+            return $fieldValue;
+        }
+    }
+
+    /**
+     * Method getPageSpecific
+     *
+     * @return string
+     */
+    public function getPageSpecific()
+    {
+        return $this->page_specific;
     }
 }

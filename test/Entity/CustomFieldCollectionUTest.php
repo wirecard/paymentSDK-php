@@ -68,7 +68,7 @@ class CustomFieldCollectionUTest extends \PHPUnit_Framework_TestCase
         $expected = [
             'custom-field' => [
                 [
-                    'field-name' => CustomField::PREFIX . 'test',
+                    'field-name' => $customField->getPrefix() . 'test',
                     'field-value' => 'abc'
                 ]
             ]
@@ -96,7 +96,7 @@ class CustomFieldCollectionUTest extends \PHPUnit_Framework_TestCase
         $this->customFieldCollection->add($customField);
 
         $expected = [
-            'field_name_1' => CustomField::PREFIX . 'test',
+            'field_name_1' => $customField->getPrefix() . 'test',
             'field_value_1' => 'abc'
         ];
         $this->assertEquals($expected, $this->customFieldCollection->mappedSeamlessProperties());

@@ -40,6 +40,16 @@ class SepaDirectDebitTransaction extends Transaction implements Reservable
     const NAME = 'sepadirectdebit';
 
     /**
+     * Maximum number of characters: 100
+     */
+    const DESCRIPTOR_LENGTH = 100;
+
+    /**
+     * @var bool
+     */
+    protected $sepaCredit = true;
+
+    /**
      * @var string
      */
     private $iban;

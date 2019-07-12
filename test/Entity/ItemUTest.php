@@ -103,12 +103,12 @@ class ItemUTest extends \PHPUnit_Framework_TestCase
             'description' => 'dthfbvdfg',
             'article-number' => '1232f5445',
             'amount' => [
-                'value' => '1',
+                'value' => 1,
                 'currency' => 'EUR'
             ],
             'quantity' => self::QUANTITY,
             'tax-amount' => [
-                'value' => '0.1',
+                'value' => 0.1,
                 'currency' => 'EUR'
             ],
         ];
@@ -128,12 +128,12 @@ class ItemUTest extends \PHPUnit_Framework_TestCase
             'description' => 'dthfbvdfg',
             'article-number' => '1232f5445',
             'amount' => [
-                'value' => '1',
+                'value' => 1,
                 'currency' => 'EUR'
             ],
             'quantity' => self::QUANTITY,
             'tax-amount' => [
-                'value' => '5.00',
+                'value' => 5.00,
                 'currency' => 'EUR'
             ],
         ];
@@ -149,7 +149,7 @@ class ItemUTest extends \PHPUnit_Framework_TestCase
         $expected = [
             'orderItems1.name' => self::NAME,
             'orderItems1.articleNumber' => '1232f5445',
-            'orderItems1.amount.value' => '1',
+            'orderItems1.amount.value' => 1,
             'orderItems1.amount.currency' => 'EUR',
             'orderItems1.quantity' => self::QUANTITY,
             'orderItems1.taxRate' => 10.0,
