@@ -1,4 +1,10 @@
 #!/bin/bash
+# Shop System SDK:
+# - Terms of Use can be found under:
+# https://github.com/wirecard/paymentSDK-php/blob/master/_TERMS_OF_USE
+# - License can be found under:
+# https://github.com/wirecard/paymentSDK-php/blob/master/LICENSE
+
 # This script will upload logs to the report repository
 # And if 'fail' parameter is passed it will send the notification
 set -e # Exit with nonzero exit code if anything fails
