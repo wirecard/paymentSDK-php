@@ -639,7 +639,7 @@ class TransactionService
 
         if ($transaction instanceof CreditCardTransaction
             && $response->getStatusCollection()->hasStatusCodes(['500.1072', '500.1073', '500.1074'])
-            && $transaction->isFallback())
+            && $transaction->isFallback()
         ) {
             $response = $this->processFallback($transaction);
         }
