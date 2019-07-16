@@ -590,6 +590,8 @@ class TransactionService
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
+     *
+     * @since 3.7.2 Refactor credit card fallback
      */
     public function process(Transaction $transaction, $operation)
     {
@@ -639,8 +641,11 @@ class TransactionService
             $response->setOperation($operation);
         }
 
-        if ($transaction instanceof CreditCardTransaction && $transaction->isFallback()) {
-            return $this->processFallback($transaction, $response);
+        if ($transaction instanceof CreditCardTransaction
+            && $response->getStatusCollection()->hasStatusCodes(['500.1072', '500.1073', '500.1074'])
+            && $transaction->isFallback()
+        ) {
+            $response = $this->processFallback($transaction);
         }
 
         return $response;
@@ -651,20 +656,17 @@ class TransactionService
      * we do a fallback from a 3-D to an SSL credit card transaction
      *
      * @param CreditCardTransaction $transaction
-     * @param Response $response
      * @throws UnconfiguredPaymentMethodException
      * @throws MandatoryFieldMissingException
      * @throws \RuntimeException
      * @throws MalformedResponseException
      * @throws \InvalidArgumentException
      * @return Response
+     *
+     * @since 3.7.2 Remove $response param
      */
-    private function processFallback(CreditCardTransaction $transaction, Response $response)
+    private function processFallback(CreditCardTransaction $transaction)
     {
-        if (!$response->getStatusCollection()->hasStatusCodes(['500.1072', '500.1073', '500.1074'])) {
-            return $response;
-        }
-
         $transaction->setThreeD(false);
         $requestBody = $this->requestMapper->map($transaction);
         $endpoint = $this->config->getBaseUrl() . $transaction->getEndpoint();
@@ -850,7 +852,7 @@ class TransactionService
             return $ret;
         }
     }
-    
+
     /**
      * Access to the configuration object which was set in constructor
      *
