@@ -570,6 +570,14 @@ abstract class Transaction extends Risk
     }
 
     /**
+     * @return Redirect
+     */
+    public function getRedirect()
+    {
+        return $this->redirect;
+    }
+
+    /**
      * @return null|string
      */
     public function getSuccessUrl()
