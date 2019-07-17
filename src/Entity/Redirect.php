@@ -50,6 +50,11 @@ class Redirect
     private $cancelUrl;
 
     /**
+     * @var string
+     */
+    private $failureUrl;
+
+    /**
      * Redirect constructor.
      * @param string $successUrl
      * @param string $cancelUrl
