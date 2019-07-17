@@ -1,6 +1,8 @@
 <?php
 /**
- * Shop System Plugins:
+ * Shop System SDK:
+ * - Terms of Use can be found under:
+ * https://github.com/wirecard/paymentSDK-php/blob/master/_TERMS_OF_USE
  * - License can be found under:
  * https://github.com/wirecard/paymentSDK-php/blob/master/LICENSE
  */
@@ -29,13 +31,11 @@ class CreditCardCreateUI extends CreditCardCreateUiBase
 
     /**
      * Method switchFrame
+     * @param boolean $wpp2
      */
-    public function switchFrame()
+    public function switchFrame($wpp2 = false)
     {
-        $I = $this->tester;
-        // Switch to Credit Card UI frame
-        $I->executeJS('jQuery(".' . $this->wirecard_frame . '").attr("name", "' . $this->wirecard_frame . '")');
-        $I->switchToIFrame("$this->wirecard_frame");
+        parent::switchFrame($wpp2);
     }
 
     /**

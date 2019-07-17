@@ -1,6 +1,8 @@
 <?php
 /**
- * Shop System Plugins:
+ * Shop System SDK:
+ * - Terms of Use can be found under:
+ * https://github.com/wirecard/paymentSDK-php/blob/master/_TERMS_OF_USE
  * - License can be found under:
  * https://github.com/wirecard/paymentSDK-php/blob/master/LICENSE
  */
@@ -16,10 +18,11 @@ class CreditCardCreateUIWppV2 extends CreditCardCreateUiBase
 
     /**
      * Method switchFrame
+     * @param $wpp2
      */
-    public function switchFrame()
+    public function switchFrame($wpp2 = true)
     {
-        parent::switchFrame();
+        parent::switchFrame($wpp2);
     }
 
     /**

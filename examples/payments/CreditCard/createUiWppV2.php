@@ -1,4 +1,11 @@
 <?php
+/**
+ * Shop System SDK:
+ * - Terms of Use can be found under:
+ * https://github.com/wirecard/paymentSDK-php/blob/master/_TERMS_OF_USE
+ * - License can be found under:
+ * https://github.com/wirecard/paymentSDK-php/blob/master/LICENSE
+ */
 
 // # Credit Card UI WPPv2 creation
 
@@ -75,8 +82,7 @@ $transaction->setCustomFields($custom_fields);
 
 // This library is needed to generate the UI and to get a valid token ID.
 ?>
-<script src="https://wpp-test.wirecard.com/loader/paymentPage.js" type="text/javascript"></script>
-
+    <script src="<?= $baseUrlWppv2 ?>/loader/paymentPage.js" type="text/javascript"></script>
 <div class="row">
     <div class="col-sm-12">
         <a href="https://doc.wirecard.com/WPP.html" target="_blank"><h3>WPP v2 3D Secure</h3></a>

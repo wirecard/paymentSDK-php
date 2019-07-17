@@ -1,3 +1,9 @@
+:: Shop System SDK:
+:: - Terms of Use can be found under:
+:: https://github.com/wirecard/paymentSDK-php/blob/master/_TERMS_OF_USE
+:: - License can be found under:
+:: https://github.com/wirecard/paymentSDK-php/blob/master/LICENSE
+
 :: Run this with PHP 5.6 not PHP7
 rm -rf doc
 call  php -f apigen.phar generate -s src -d doc --template-theme="bootstrap"

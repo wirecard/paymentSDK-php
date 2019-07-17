@@ -1,6 +1,8 @@
 <?php
 /**
- * Shop System Plugins:
+ * Shop System SDK:
+ * - Terms of Use can be found under:
+ * https://github.com/wirecard/paymentSDK-php/blob/master/_TERMS_OF_USE
  * - License can be found under:
  * https://github.com/wirecard/paymentSDK-php/blob/master/LICENSE
  */
@@ -28,11 +30,15 @@ class CreditCardCreateUiBase extends Base
 
     /**
      * Method switchFrame
+     * @param boolean $wpp2
      */
-    public function switchFrame()
+    public function switchFrame($wpp2 = false)
     {
+
+        $wirecard_frame = ($wpp2 ? "wirecard-integrated-payment-page-frame" : "wirecard-seamless-frame");
         $I = $this->tester;
-        $I->executeJS('jQuery("#' . $this->wirecard_frame . '").attr("name", "' . $this->wirecard_frame . '")');
+        $this->wirecard_frame = $wirecard_frame;
+        $I->executeJS('jQuery(".' . $this->wirecard_frame . '").attr("name", "' . $this->wirecard_frame . '")');
         $I->switchToIFrame("$this->wirecard_frame");
     }
 

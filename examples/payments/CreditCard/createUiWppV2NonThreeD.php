@@ -1,4 +1,11 @@
 <?php
+/**
+ * Shop System SDK:
+ * - Terms of Use can be found under:
+ * https://github.com/wirecard/paymentSDK-php/blob/master/_TERMS_OF_USE
+ * - License can be found under:
+ * https://github.com/wirecard/paymentSDK-php/blob/master/LICENSE
+ */
 
 // # Credit Card UI WPPv2 creation
 
@@ -24,7 +31,7 @@ use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 $transactionService = new TransactionService($config);
 
 $redirectUrl = getUrl('return.php?status=success');
-$amount = new Amount(20.00, 'EUR');
+$amount = new Amount(25.00, 'EUR');
 $orderNumber = 'A2';
 
 // ### Basket items
@@ -75,12 +82,13 @@ $transaction->setCustomFields( $custom_fields );
 
 ?>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" type="application/javascript"></script>
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <?php
     // This library is needed to generate the UI and to get a valid token ID.
     ?>
-    <script src="https://wpp-test.wirecard.com/loader/paymentPage.js" type="text/javascript"></script>
+    <script src="<?= $baseUrlWppv2 ?>/loader/paymentPage.js" type="text/javascript"></script>
     <div class="row">
         <div class="col-sm-12">
             <a href="https://doc.wirecard.com/WPP.html" target="_blank"><h3>WPP v2</h3></a>

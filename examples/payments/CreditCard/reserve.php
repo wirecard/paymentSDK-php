@@ -1,4 +1,12 @@
 <?php
+/**
+ * Shop System SDK:
+ * - Terms of Use can be found under:
+ * https://github.com/wirecard/paymentSDK-php/blob/master/_TERMS_OF_USE
+ * - License can be found under:
+ * https://github.com/wirecard/paymentSDK-php/blob/master/LICENSE
+ */
+
 // # Credit card reservation
 
 // The method `reserve` of the _transactionService_ provides the means
@@ -23,7 +31,7 @@ use Wirecard\PaymentSdk\TransactionService;
 // ### Transaction related objects
 
 // Create a amount object as amount which has to be paid by the consumer.
-$amount = new Amount(70.00, 'EUR');
+$amount = new Amount((int)$_POST['amount'], $_POST['currency']);
 
 // If there was a previous transaction, use the ID of this parent transaction as reference.
 $parentTransactionId = array_key_exists('parentTransactionId', $_POST) ? $_POST['parentTransactionId'] : null;

@@ -1,6 +1,8 @@
 <?php
 /**
- * Shop System Plugins:
+ * Shop System SDK:
+ * - Terms of Use can be found under:
+ * https://github.com/wirecard/paymentSDK-php/blob/master/_TERMS_OF_USE
  * - License can be found under:
  * https://github.com/wirecard/paymentSDK-php/blob/master/LICENSE
  */
@@ -17,5 +19,6 @@ class CreditCardReserveWppV2 extends Base
     public $elements = array(
         'Redirect to 3-D Secure page' => "//*[@class='btn btn-primary']",
         'Cancel the payment' => "//*[@class='btn btn-primary']",
+        'Transaction ID' => "//div[contains(@class, 'content')]/a",
     );
 }
