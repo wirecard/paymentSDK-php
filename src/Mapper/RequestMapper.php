@@ -159,6 +159,19 @@ class RequestMapper
             $requestData = array_merge($requestData, $periodic->mappedSeamlessProperties());
         }
 
+        $redirects = $transaction->getRedirect();
+        if (null !== $redirects) {
+            if (null !== $redirects->getSuccessUrl()) {
+                $requestData['success-redirect-url'] = $redirects->getSuccessUrl();
+            }
+            if (null !== $redirects->getCancelUrl()) {
+                $requestData['cancel-redirect-url'] = $redirects->getCancelUrl();
+            }
+            if (null !== $redirects->getFailureUrl()) {
+                $requestData['fail-redirect-url'] = $redirects->getFailureUrl();
+            }
+        }
+
         return $requestData;
     }
 }
