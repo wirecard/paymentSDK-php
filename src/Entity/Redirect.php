@@ -51,6 +51,7 @@ class Redirect
 
     /**
      * @var string
+     * @since 3.7.2
      */
     private $failureUrl;
 
@@ -84,10 +85,34 @@ class Redirect
     }
 
     /**
-     * @return null
+     * @return string
+     * @sice 3.7.2
      */
     public function getFailureUrl()
     {
         return $this->failureUrl;
+    }
+
+    /**
+     * @return array
+     * @since 3.7.2
+     */
+    public function mappedSeamlessProperties()
+    {
+        $mappedProperties = [];
+
+        if (null !== $this->successUrl) {
+            $mappedProperties['success-redirect-url'] = $this->successUrl;
+        }
+
+        if (null !== $this->cancelUrl) {
+            $mappedProperties['cancel-redirect-url'] = $this->cancelUrl;
+        }
+
+        if (null !== $this->failureUrl) {
+            $mappedProperties['fail-redirect-url'] = $this->failureUrl;
+        }
+
+        return $mappedProperties;
     }
 }

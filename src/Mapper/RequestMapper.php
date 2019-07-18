@@ -37,6 +37,7 @@ use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Entity\Device;
 use Wirecard\PaymentSdk\Entity\Periodic;
+use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException;
 use Wirecard\PaymentSdk\Transaction\Transaction;
@@ -110,15 +111,20 @@ class RequestMapper
         $device = $transaction->getDevice();
         $customFields = $transaction->getCustomFields();
         $periodic = $transaction->getPeriodic();
+        $redirects = $transaction->getRedirect();
 
         if ($accountHolder instanceof AccountHolder) {
-            $accountHolder = $accountHolder->mappedSeamlessProperties();
-            $requestData = array_merge($requestData, $accountHolder);
+            $requestData = array_merge(
+                $requestData,
+                $accountHolder->mappedSeamlessProperties()
+            );
         }
 
         if ($shipping instanceof AccountHolder) {
-            $shipping = $shipping->mappedSeamlessProperties(AccountHolder::SHIPPING);
-            $requestData = array_merge($requestData, $shipping);
+            $requestData = array_merge(
+                $requestData,
+                $shipping->mappedSeamlessProperties(AccountHolder::SHIPPING)
+            );
         }
 
         if ($basket instanceof Basket) {
@@ -128,6 +134,18 @@ class RequestMapper
 
         if ($customFields instanceof CustomFieldCollection) {
             $requestData = array_merge($requestData, $customFields->mappedSeamlessProperties());
+        }
+
+        if ($periodic instanceof Periodic) {
+            $requestData = array_merge($requestData, $periodic->mappedSeamlessProperties());
+        }
+
+        if ($redirects instanceof Redirect) {
+            $requestData = array_merge($requestData, $redirects->mappedSeamlessProperties());
+        }
+
+        if ($device instanceof Device) {
+            $requestData['device_fingerprint'] = $device->getFingerprint();
         }
 
         if (strlen($transaction->getNotificationUrl())) {
@@ -149,27 +167,6 @@ class RequestMapper
 
         if (null !== $transaction->getConsumerId()) {
             $requestData['consumer_id'] = $transaction->getConsumerId();
-        }
-
-        if ($device instanceof Device) {
-            $requestData['device_fingerprint'] = $device->getFingerprint();
-        }
-
-        if ($periodic instanceof Periodic) {
-            $requestData = array_merge($requestData, $periodic->mappedSeamlessProperties());
-        }
-
-        $redirects = $transaction->getRedirect();
-        if (null !== $redirects) {
-            if (null !== $redirects->getSuccessUrl()) {
-                $requestData['success-redirect-url'] = $redirects->getSuccessUrl();
-            }
-            if (null !== $redirects->getCancelUrl()) {
-                $requestData['cancel-redirect-url'] = $redirects->getCancelUrl();
-            }
-            if (null !== $redirects->getFailureUrl()) {
-                $requestData['fail-redirect-url'] = $redirects->getFailureUrl();
-            }
         }
 
         return $requestData;

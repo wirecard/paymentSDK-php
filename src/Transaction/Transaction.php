@@ -571,6 +571,7 @@ abstract class Transaction extends Risk
 
     /**
      * @return Redirect
+     * @since 3.7.2
      */
     public function getRedirect()
     {
