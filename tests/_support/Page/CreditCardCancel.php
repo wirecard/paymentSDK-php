@@ -17,25 +17,12 @@ class CreditCardCancel extends Base
     public $elements = array(
         'Transaction ID to be refunded' => "//*[@id='parentTransactionId']",
         'Refund' => "//*[@class='btn btn-primary']",
-        '"Payment successfully cancelled.' => "Payment successfully cancelled.",
+        'Payment successfully cancelled.' => "Payment successfully cancelled.",
         'Transaction ID' => "Transaction ID",
-        'Transaction Identification' => "//*[@id='overrides']/div/a",
-        'Noted Transaction Identification' => ''
-    );
+        'Transaction Identification' => "//div[contains(@class, 'content')]/a",
+        'Noted Transaction Identification' => '',
+        'Amount' => "//*[@id='amount']",
+        'Currency' => "//*[@id='currency']",
 
-    /**
-     * Method prepareDataForField
-     *
-     * @param string $fieldValue
-     * @param string $valueToKeepBetweenSteps
-     * @return string
-     */
-    public function prepareDataForField($fieldValue, $valueToKeepBetweenSteps)
-    {
-        if (strpos($fieldValue, "Noted") !== false) {
-            return $valueToKeepBetweenSteps;
-        } else {
-            return $fieldValue;
-        }
-    }
+    );
 }

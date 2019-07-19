@@ -203,6 +203,54 @@ class ConfigUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array('headers' => $expected), $this->config->getShopHeader());
     }
 
+    /**
+     * @since 3.7.1
+     */
+    public function testGetNvpShopInformationSetPlugin()
+    {
+        $versionFile = __DIR__ . '/../../VERSION';
+        $version = '';
+        if (file_exists($versionFile)) {
+            $version = file_get_contents($versionFile, null, null, 0, 10);
+        }
+
+        $expected = array(
+            'shop_system_name' => 'paymentSDK-php',
+            'shop_system_version' => trim($version, " \t\n\r\0\x0B"),
+            'plugin_name' => 'plugin',
+            'plugin_version' => '1.0'
+        );
+        $this->config->setPluginInfo($expected['plugin_name'], $expected['plugin_version']);
+
+        $this->assertEquals($expected, $this->config->getNvpShopInformation());
+    }
+
+    /**
+     * @since 3.7.1
+     */
+    public function testGetNvpShopInformationSetShop()
+    {
+        $expected = array('shop_system_name' => 'testshop', 'shop_system_version' => '1.1');
+        $this->config->setShopInfo($expected['shop_system_name'], $expected['shop_system_version']);
+
+        $this->assertEquals($expected, $this->config->getNvpShopInformation());
+    }
+
+    /**
+     * @since 3.7.1
+     */
+    public function testGetNvpShopInformationSetShopAndOnlyShopName()
+    {
+        $expected = array(
+            'shop_system_name' => 'testshop',
+            'shop_system_version' => '1.1',
+        );
+        $this->config->setShopInfo($expected['shop_system_name'], $expected['shop_system_version']);
+        $this->config->setPluginInfo('pluginName', '');
+
+        $this->assertEquals($expected, $this->config->getNvpShopInformation());
+    }
+
     public function testGetVersionFromNotExistingFile()
     {
         $helper = function ($file) {

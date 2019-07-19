@@ -31,13 +31,14 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use PHPUnit_Framework_TestCase;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\IdealTransaction;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
-class IdealTransactionUTest extends \PHPUnit_Framework_TestCase
+class IdealTransactionUTest extends PHPUnit_Framework_TestCase
 {
     const BANK = 'ING';
     const SUCCESS_URL = 'http://www.example.com/?status=success';
@@ -57,6 +58,8 @@ class IdealTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx->setBic(self::BANK);
         $this->tx->setAmount(new Amount(33, 'USD'));
         $this->tx->setDescriptor(self::DESCRIPTOR);
+        $this->tx->setLocale('de');
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '0.0.0.1';
     }
 
     /**
@@ -97,6 +100,7 @@ class IdealTransactionUTest extends \PHPUnit_Framework_TestCase
             'descriptor' => self::DESCRIPTOR,
             'locale' => 'de',
             'entry-mode' => 'ecommerce',
+            'ip-address' => '0.0.0.1'
         ];
 
         $this->tx->setOperation(Operation::PAY);
@@ -104,5 +108,16 @@ class IdealTransactionUTest extends \PHPUnit_Framework_TestCase
         $result = $this->tx->mappedProperties();
 
         $this->assertEquals($expectedResult, $result);
+    }
+
+    public function testDescriptor()
+    {
+        $descriptor = "0123-€\$§%!=#~;+/?:().,'&><\"*{}[]@\_°^ |ÄÖÜäöüß°`abcdefghijklmn" .
+            "opqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        // Only 35 chars are allowed
+        $expectedDescriptor = "0123-+.,' ÄÖÜäöüabcdefghijklmnopqrs";
+        $transaction = new IdealTransaction();
+        $transaction->setDescriptor($descriptor);
+        $this->assertEquals($expectedDescriptor, $transaction->getDescriptor());
     }
 }
