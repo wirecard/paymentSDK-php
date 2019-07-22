@@ -102,23 +102,29 @@ abstract class Mappable implements MappableEntity
             $configuration = $configuration[$type];
             $formatter = null;
 
-            $mappedArray[$configuration['key']] = $this->getFormattedValue(
+            $mappedArray[$configuration[self::PROPERTY_NAME_KEY]] = $this->getFormattedValue(
                 $property,
-                $this->getConfigurationValue($configuration[self::PROPERTY_FORMATTER_KEY]),
-                $this->getConfigurationValue($configuration[self::PROPERTY_FORMATTER_PARAMS_KEY])
+                $this->getArrayValue($configuration, self::PROPERTY_FORMATTER_KEY),
+                $this->getArrayValue($configuration, self::PROPERTY_FORMATTER_PARAMS_KEY)
             );
         }
 
         return $mappedArray;
     }
 
-    private function getConfigurationValue($formatter)
+    /**
+     * @param $array
+     * @param $value
+     * @return mixed
+     */
+    private function getArrayValue($array, $value)
     {
-        if (isset($formatter)) {
-            return $formatter;
+        $return = null;
+        if (isset($array[$value])) {
+            $return = $array[$value];
         }
 
-        return null;
+        return $return;
     }
 
     /**

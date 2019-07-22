@@ -22,7 +22,7 @@ use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
 
-$redirectUrl = 'https://wppshit.free.beeceptor.com';
+$redirectUrl = getUrl('return.php?status=success');
 $amount = new Amount(1400, 'EUR');
 $orderNumber = 'A2';
 
