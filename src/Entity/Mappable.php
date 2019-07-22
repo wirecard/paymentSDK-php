@@ -74,7 +74,6 @@ abstract class Mappable implements MappableEntity
             }
 
             $configuration = $configuration[$type];
-            $formatter = null;
 
             $mappedArray[$configuration[self::PROPERTY_NAME_KEY]] = $this->getFormattedValue(
                 $property,
