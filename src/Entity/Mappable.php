@@ -44,11 +44,25 @@ use Wirecard\PaymentSdk\Formatter\PropertyFormatter;
 abstract class Mappable implements MappableEntity
 {
     /**
-     * @const array
+     * @const array PROPERTY_CONFIGURATION
      * Used to configure the mapping of properties
      */
     const PROPERTY_CONFIGURATION = array();
+    /** @const string MAP_KEY_SEAMLESS  */
+    const PROPERTY_MAP_SEAMLESS_KEY = 'mappedSeamless';
+    /** @const string MAP_KEY */
+    const PROPERTY_MAP_KEY = 'mapped';
+    /** @var string PROPERTY_FORMATTER_KEY */
+    const PROPERTY_FORMATTER_KEY = 'formatter';
+    /** @var string PROPERTY_FORMATTER_PARAMS_KEY */
+    const PROPERTY_FORMATTER_PARAMS_KEY = 'formatterParams';
+    /** @var string PROPERTY_NAME_KEY */
+    const PROPERTY_NAME_KEY = 'key';
 
+    /**
+     * @var DateFormatter $dateFormatter
+     * Add formatters used by Entities
+     */
     protected $dateFormatter;
 
     public function __construct()
@@ -61,7 +75,7 @@ abstract class Mappable implements MappableEntity
      */
     public function mappedProperties()
     {
-        return $this->mapProperties('mapped');
+        return $this->mapProperties(self::PROPERTY_MAP_KEY);
     }
 
     /**
@@ -69,7 +83,7 @@ abstract class Mappable implements MappableEntity
      */
     public function mappedSeamlessProperties()
     {
-        return $this->mapProperties('mappedSeamless');
+        return $this->mapProperties(self::PROPERTY_MAP_SEAMLESS_KEY);
     }
 
     /**
@@ -86,15 +100,25 @@ abstract class Mappable implements MappableEntity
             }
 
             $configuration = $configuration[$type];
+            $formatter = null;
 
             $mappedArray[$configuration['key']] = $this->getFormattedValue(
                 $property,
-                isset($configuration['formatter']) ? $configuration['formatter'] : null,
-                isset($configuration['formatterParams']) ? $configuration['formatterParams'] : null
+                $this->getConfigurationValue($configuration[self::PROPERTY_FORMATTER_KEY]),
+                $this->getConfigurationValue($configuration[self::PROPERTY_FORMATTER_PARAMS_KEY])
             );
         }
 
         return $mappedArray;
+    }
+
+    private function getConfigurationValue($formatter)
+    {
+        if (isset($formatter)) {
+            return $formatter;
+        }
+
+        return null;
     }
 
     /**

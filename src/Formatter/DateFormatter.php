@@ -39,6 +39,9 @@ namespace Wirecard\PaymentSdk\Formatter;
  */
 class DateFormatter implements PropertyFormatter
 {
+    const FORMATTER_NAME = 'dateFormatter';
+
+    const PARAM_DATE_FORMAT_KEY = 'dateFormat';
     /**
      * @const string
      * Default date format
@@ -52,8 +55,8 @@ class DateFormatter implements PropertyFormatter
      */
     public function formatProperty($date, $params)
     {
-        if (isset($params['dateFormat'])) {
-            return $this->formatDateWithDateFormat($date, $params['dateFormat']);
+        if (isset($params[self::PARAM_DATE_FORMAT_KEY])) {
+            return $this->formatDateWithDateFormat($date, $params[self::PARAM_DATE_FORMAT_KEY]);
         }
 
         return $this->formatDateWithDateFormat($date, self::DATE_FORMAT);

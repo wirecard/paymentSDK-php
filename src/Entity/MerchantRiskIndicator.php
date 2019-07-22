@@ -36,6 +36,7 @@ use Wirecard\PaymentSdk\Constant\RiskInfoAvailability;
 use Wirecard\PaymentSdk\Constant\IsoTransactionType;
 use Wirecard\PaymentSdk\Constant\RiskInfoReorder;
 use Wirecard\PaymentSdk\Exception\NotImplementedException;
+use Wirecard\PaymentSdk\Formatter\DateFormatter;
 
 /**
  * Class MerchantRiskIndicator
@@ -58,52 +59,52 @@ class MerchantRiskIndicator extends Mappable
             //'mapped' => [
             //  'key' => 'risk-info-delivery-timeframe',
             //],
-            'mappedSeamless' => [
-                'key'  => 'risk_info_delivery_timeframe',
+            self::PROPERTY_MAP_SEAMLESS_KEY => [
+                self::PROPERTY_NAME_KEY  => 'risk_info_delivery_timeframe',
             ],
         ],
         'deliveryEmailAddress' => [ // String
-            'mappedSeamless' => [
-                'key'  => 'risk_info_delivery_mail',
+            self::PROPERTY_MAP_SEAMLESS_KEY => [
+                self::PROPERTY_NAME_KEY  => 'risk_info_delivery_mail',
             ]
         ],
         'reorderItems' => [ // String, Enum
-            'mappedSeamless' => [
-                'key'  => 'risk_info_reorder_items',
+            self::PROPERTY_MAP_SEAMLESS_KEY => [
+                self::PROPERTY_NAME_KEY  => 'risk_info_reorder_items',
             ]
         ],
         'availability' => [ // String, Enum
-            'mappedSeamless' => [
-                'key'  => 'risk_info_availability',
+            self::PROPERTY_MAP_SEAMLESS_KEY => [
+                self::PROPERTY_NAME_KEY  => 'risk_info_availability',
             ]
         ],
         'preOrderDate' => [ // Date
-            'mappedSeamless' => [
-                'key'       => 'risk_info_preorder_date',
-                'formatter' => 'dateFormatter',
-                'formatterParams' => [
-                    'dateFormat' => self::DATE_FORMAT
+            self::PROPERTY_MAP_SEAMLESS_KEY => [
+                self::PROPERTY_NAME_KEY       => 'risk_info_preorder_date',
+                self::PROPERTY_FORMATTER_KEY => DateFormatter::FORMATTER_NAME,
+                self::PROPERTY_FORMATTER_PARAMS_KEY => [
+                    DateFormatter::PARAM_DATE_FORMAT_KEY => self::DATE_FORMAT
                 ],
             ]
         ],
         'giftAmount' => [ // Integer
-            'mappedSeamless' => [
-                'key'  => 'risk_info_gift_amount',
+            self::PROPERTY_MAP_SEAMLESS_KEY => [
+                self::PROPERTY_NAME_KEY  => 'risk_info_gift_amount',
             ]
         ],
         'giftCurrency' => [ // String
-            'mappedSeamless' => [
-                'key'  => 'risk_info_gift_amount_currency',
+            self::PROPERTY_MAP_SEAMLESS_KEY => [
+                self::PROPERTY_NAME_KEY  => 'risk_info_gift_amount_currency',
             ]
         ],
         'giftCardCount' => [ // Integer
-            'mappedSeamless' => [
-                'key'  => 'risk_info_gift_card_count',
+            self::PROPERTY_MAP_SEAMLESS_KEY => [
+                self::PROPERTY_NAME_KEY  => 'risk_info_gift_card_count',
             ]
         ],
         'isoTransactionType' => [ // String, Enum
-            'mappedSeamless' => [
-                'key'  => 'iso_transaction_type',
+            self::PROPERTY_MAP_SEAMLESS_KEY => [
+                self::PROPERTY_NAME_KEY  => 'iso_transaction_type',
             ]
         ],
     ];
