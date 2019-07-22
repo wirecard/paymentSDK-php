@@ -102,15 +102,15 @@ class Redirect
         $mappedProperties = [];
 
         if (null !== $this->successUrl) {
-            $mappedProperties['success-redirect-url'] = $this->successUrl;
+            $mappedProperties['success_redirect_url'] = $this->successUrl;
         }
 
         if (null !== $this->cancelUrl) {
-            $mappedProperties['cancel-redirect-url'] = $this->cancelUrl;
+            $mappedProperties['cancel_redirect_url'] = $this->cancelUrl;
         }
 
         if (null !== $this->failureUrl) {
-            $mappedProperties['fail-redirect-url'] = $this->failureUrl;
+            $mappedProperties['fail_redirect_url'] = $this->failureUrl;
         }
 
         return $mappedProperties;
