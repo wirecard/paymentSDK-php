@@ -28,6 +28,12 @@ class Redirect
     private $cancelUrl;
 
     /**
+     * @var string
+     * @since 3.7.2
+     */
+    private $failureUrl;
+
+    /**
      * Redirect constructor.
      * @param string $successUrl
      * @param string $cancelUrl
@@ -57,10 +63,34 @@ class Redirect
     }
 
     /**
-     * @return null
+     * @return string
+     * @sice 3.7.2
      */
     public function getFailureUrl()
     {
         return $this->failureUrl;
+    }
+
+    /**
+     * @return array
+     * @since 3.7.2
+     */
+    public function mappedSeamlessProperties()
+    {
+        $mappedProperties = [];
+
+        if (null !== $this->successUrl) {
+            $mappedProperties['success_redirect_url'] = $this->successUrl;
+        }
+
+        if (null !== $this->cancelUrl) {
+            $mappedProperties['cancel_redirect_url'] = $this->cancelUrl;
+        }
+
+        if (null !== $this->failureUrl) {
+            $mappedProperties['fail_redirect_url'] = $this->failureUrl;
+        }
+
+        return $mappedProperties;
     }
 }
