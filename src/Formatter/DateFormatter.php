@@ -21,8 +21,7 @@ class DateFormatter implements PropertyFormatter
 
     const PARAM_DATE_FORMAT_KEY = 'dateFormat';
     /**
-     * @const string
-     * Default date format
+     * @const string Default date format
      */
     const DATE_FORMAT = 'Ymd';
 

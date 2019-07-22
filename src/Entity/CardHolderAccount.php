@@ -40,17 +40,10 @@ use Wirecard\PaymentSdk\Exception\NotImplementedException;
  */
 class CardHolderAccount implements MappableEntity
 {
-    /**
-     * @const string
-     */
-    //Y-m-dTH:i:s
-    //this is the future timestamp
-    //const DATE_FORMAT = 'Y-m-d';
+    /** @const string DATE_FORMAT */
     const DATE_FORMAT = 'Y-m-d\TH:i:s\Z';
 
-    /**
-     * @const array
-     */
+    /** @const array OPTIONAL_FIELDS */
     const OPTIONAL_FIELDS = [
         'account_creation_date'        => 'creationDate',
         'account_update_date'          => 'updateDate',

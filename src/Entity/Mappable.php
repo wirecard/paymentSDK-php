@@ -24,8 +24,8 @@ use Wirecard\PaymentSdk\Formatter\PropertyFormatter;
 abstract class Mappable implements MappableEntity
 {
     /**
-     * @const array PROPERTY_CONFIGURATION
-     * Used to configure the mapping of properties
+     * @const array PROPERTY_CONFIGURATION Used to configure the mapping
+     *                                     of properties
      *
      * @since 3.8.0
      */
