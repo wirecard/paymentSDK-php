@@ -36,78 +36,101 @@ use Wirecard\PaymentSdk\Constant\RiskInfoAvailability;
 use Wirecard\PaymentSdk\Constant\IsoTransactionType;
 use Wirecard\PaymentSdk\Constant\RiskInfoReorder;
 use Wirecard\PaymentSdk\Exception\NotImplementedException;
+use Wirecard\PaymentSdk\Formatter\DateFormatter;
 
 /**
  * Class MerchantRiskIndicator
  * @package Wirecard\PaymentSdk\Entity
  * @since 3.7.0
  */
-class MerchantRiskIndicator implements MappableEntity
+class MerchantRiskIndicator extends Mappable
 {
-    /**
-     * @const string
-     */
-    const DATE_FORMAT = 'Ymd';
+    /** @const string DATE_FORMAT */
+    const DATE_FORMAT = 'Y-m-d\TH:i:s\Z';
 
-    /**
-     * @const array
-     */
-    const OPTIONAL_FIELDS = [
-        'risk_info_delivery_timeframe'   => 'deliveryTimeFrame',
-        'risk_info_delivery_mail'        => 'deliveryEmailAddress',
-        'risk_info_reorder_items'        => 'reorderItems',
-        'risk_info_availability'         => 'availability',
-        'risk_info_preorder_date'        => 'preOrderDate',
-        'risk_info_gift_amount'          => 'giftAmount',
-        'risk_info_gift_amount_currency' => 'giftCurrency',
-        'risk_info_gift_card_count'      => 'giftCardCount',
-        'iso_transaction_type'           => 'isoTransactionType',
+    /** @const array PROPERTY_CONFIGURATION */
+    const PROPERTY_CONFIGURATION = [
+        'deliveryTimeFrame' => [ // String, Enum
+            self::PROPERTY_MAP_SEAMLESS_KEY => [
+                self::PROPERTY_NAME_KEY  => 'risk_info_delivery_timeframe',
+            ],
+        ],
+        'deliveryEmailAddress' => [ // String
+            self::PROPERTY_MAP_SEAMLESS_KEY => [
+                self::PROPERTY_NAME_KEY  => 'risk_info_delivery_mail',
+            ]
+        ],
+        'reorderItems' => [ // String, Enum
+            self::PROPERTY_MAP_SEAMLESS_KEY => [
+                self::PROPERTY_NAME_KEY  => 'risk_info_reorder_items',
+            ]
+        ],
+        'availability' => [ // String, Enum
+            self::PROPERTY_MAP_SEAMLESS_KEY => [
+                self::PROPERTY_NAME_KEY  => 'risk_info_availability',
+            ]
+        ],
+        'preOrderDate' => [ // Date
+            self::PROPERTY_MAP_SEAMLESS_KEY => [
+                self::PROPERTY_NAME_KEY       => 'risk_info_preorder_date',
+                self::PROPERTY_FORMATTER_KEY => DateFormatter::FORMATTER_NAME,
+                self::PROPERTY_FORMATTER_PARAMS_KEY => [
+                    DateFormatter::PARAM_DATE_FORMAT_KEY => self::DATE_FORMAT
+                ],
+            ]
+        ],
+        'giftAmount' => [ // Integer
+            self::PROPERTY_MAP_SEAMLESS_KEY => [
+                self::PROPERTY_NAME_KEY  => 'risk_info_gift_amount',
+            ]
+        ],
+        'giftCurrency' => [ // String
+            self::PROPERTY_MAP_SEAMLESS_KEY => [
+                self::PROPERTY_NAME_KEY  => 'risk_info_gift_amount_currency',
+            ]
+        ],
+        'giftCardCount' => [ // Integer
+            self::PROPERTY_MAP_SEAMLESS_KEY => [
+                self::PROPERTY_NAME_KEY  => 'risk_info_gift_card_count',
+            ]
+        ],
+        'isoTransactionType' => [ // String, Enum
+            self::PROPERTY_MAP_SEAMLESS_KEY => [
+                self::PROPERTY_NAME_KEY  => 'iso_transaction_type',
+            ]
+        ],
     ];
 
     /**
-     * @var RiskInfoDeliveryTimeFrame
+     * @var RiskInfoDeliveryTimeFrame $deliveryTimeFrame
      */
-    private $deliveryTimeFrame;
+    protected $deliveryTimeFrame;
 
     /**
-     * @var string
+     * @var string $deliveryEmailAddress
      */
-    private $deliveryEmailAddress;
+    protected $deliveryEmailAddress;
 
-    /**
-     * @var RiskInfoReorder
-     */
-    private $reorderItems;
+    /** @var RiskInfoReorder $reorderItems */
+    protected $reorderItems;
 
-    /**
-     * @var RiskInfoAvailability
-     */
-    private $availability;
+    /** @var RiskInfoAvailability $availability */
+    protected $availability;
 
-    /**
-     * @var \DateTime
-     */
-    private $preOrderDate;
+    /** @var \DateTime $preOrderDate */
+    protected $preOrderDate;
 
-    /**
-     * @var int
-     */
-    private $giftAmount;
+    /** @var int $giftAmount */
+    protected $giftAmount;
 
-    /**
-     * @var string
-     */
-    private $giftCurrency;
+    /** @var string $giftCurrency */
+    protected $giftCurrency;
 
-    /**
-     * @var int
-     */
-    private $giftCardCount;
+    /** @var int $giftCardCount */
+    protected $giftCardCount;
 
-    /**
-     * @var IsoTransactionType
-     */
-    private $isoTransactionType;
+    /** @var IsoTransactionType $isoTransactionType */
+    protected $isoTransactionType;
 
     /**
      * @param $deliveryTimeFrame
@@ -232,36 +255,5 @@ class MerchantRiskIndicator implements MappableEntity
     {
         throw new NotImplementedException('mappedProperties() not supported for this entity, 
         mappedSeamlessProperties() only.');
-    }
-
-    /**
-     * @return array
-     * @since 3.7.0
-     */
-    public function mappedSeamlessProperties()
-    {
-        $merchantRiskIndicator = array();
-
-        foreach (self::OPTIONAL_FIELDS as $mappedKey => $property) {
-            if (isset($this->{$property})) {
-                $merchantRiskIndicator[$mappedKey] = $this->getFormattedValue($this->{$property});
-            }
-        }
-
-        return $merchantRiskIndicator;
-    }
-
-    /**
-     * @param $value
-     * @return mixed
-     * @since 3.7.0
-     */
-    private function getFormattedValue($value)
-    {
-        if ($value instanceof \DateTime) {
-            return $value->format(self::DATE_FORMAT);
-        }
-
-        return $value;
     }
 }
