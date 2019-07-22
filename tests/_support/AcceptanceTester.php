@@ -24,12 +24,22 @@
 use Helper\Acceptance;
 use Page\Base;
 use Page\CreditCardCreateUI as CreditCardCreateUIPage;
+use Page\CreditCardCreateUIPaymentAction as CreditCardCreateUIPaymentActionPage;
 use Page\CreditCardReserve as CreditCardReservePage;
 use Page\CreditCardSuccess as CreditCardSuccessPage;
 use Page\Verified as VerifiedPage;
 use Page\CreditCardCancel as CreditCardCancelPage;
 use Page\SimulatorPage as SimulatorPage;
 use Page\CreditCardSuccessNon3D as CreditCardSuccessNon3DPage;
+use Page\CreditCardPayBasedOnReserve as CreditCardPayBasedOnReservePage;
+//use Page\CreditCardCreateUIAuthorization as CreditCardCreateUIAuthorizationPage;
+//use Page\CreditCardCreateUIPurchase as CreditCardCreateUIPurchasePage;
+// WPPv2 3D
+use Page\CreditCardCreateUIWppV2 as CreditCardCreateUIWppV2Page;
+use Page\CreditCardReserveWppV2 as CreditCardReserveWppV2Page;
+// WPPv2 Non 3D
+use Page\CreditCardCreateUINon3DWppV2 as CreditCardCreateUINon3DWppV2Page;
+use Page\CreditCardWppV2SuccessNon3D as CreditCardWppV2SuccessNon3DPage;
 
 class AcceptanceTester extends \Codeception\Actor
 {
@@ -49,32 +59,58 @@ class AcceptanceTester extends \Codeception\Actor
     {
         $page = null;
         switch ($name) {
+            // Credit Card WPPv2 3D
+            case "Create Credit Card UI WPPv2 Page":
+                $page = new CreditCardCreateUIWppV2Page($this);
+                break;
+            case "Credit Card Reserve WPPv2 Page":
+                $page = new CreditCardReserveWppV2Page($this);
+                $this->wait(25);
+                break;
+            // Credit Card non 3D WPPv2
+            case "Create Credit Card UI non 3D WPPv2 Page":
+                $page = new CreditCardCreateUINon3DWppV2Page($this);
+                break;
+            case "Credit Card Success non 3D WPPv2 Page":
+                $page = new CreditCardWppV2SuccessNon3DPage($this);
+                $this->wait(15);
+                break;
+            // Credit Card tokenize
             case "Create Credit Card UI Page":
                 $page = new CreditCardCreateUIPage($this);
                 break;
             case "Credit Card Reserve Page":
                 $page = new CreditCardReservePage($this);
-                $this->wait(15);
+                $this->wait(20);
                 break;
             case "Credit Card Success Page":
                 $page = new CreditCardSuccessPage($this);
-                $this->wait(10);
+                $this->wait(30);
                 break;
             case "Verified Page":
                 $page = new VerifiedPage($this);
-                $this->wait(5);
+                $this->wait(10);
                 break;
             case "Credit Card Cancel Page":
                 $page = new CreditCardCancelPage($this);
+                $this->wait(10);
                 break;
             case "SimulatorPage":
                 $page = new SimulatorPage($this);
-                $this->wait(2);
+                $this->wait(5);
                 break;
             case "Credit Card Success Page Non 3D Page":
                 $page = new CreditCardSuccessNon3DPage($this);
-                $this->wait(15);
+                $this->wait(20);
                 break;
+            case "Create Credit Card Pay Based On Reserve":
+                $page = new CreditCardPayBasedOnReservePage($this);
+                $this->wait(10);
+                break;
+            case "Create Credit Card UI Payment Action Page":
+                $page = new CreditCardCreateUIPaymentActionPage($this);
+                break;
+
         }
         return $page;
     }
@@ -109,7 +145,7 @@ class AcceptanceTester extends \Codeception\Actor
     {
         // Open the page and initialize required pageObject
         $this->currentPage = $this->selectPage($page);
-        $this->amOnPage($this->currentPage->getURL());
+        $this->amOnPage($this->currentPage->getURL($this->getScenario()->current('name')));
         $this->currentPage->switchFrame();
     }
 

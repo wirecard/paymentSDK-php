@@ -17,7 +17,6 @@ class CreditCardSuccess extends Base
     public $elements = array(
         'Payment successfully completed.' => "Payment successfully completed.",
         'Transaction ID' => "Transaction ID",
-        'Transaction Identification' => "//*[@id='overrides']/div/a"
-
+        'Transaction Identification' => "//div[contains(@class, 'content')]/a"
     );
 }

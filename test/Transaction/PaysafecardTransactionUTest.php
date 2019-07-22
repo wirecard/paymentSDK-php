@@ -31,13 +31,14 @@
 
 namespace WirecardTest\PaymentSdk\Transaction;
 
+use PHPUnit_Framework_TestCase;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Transaction\Operation;
 use Wirecard\PaymentSdk\Transaction\PaysafecardTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
-class PaysafecardTransactionUTest extends \PHPUnit_Framework_TestCase
+class PaysafecardTransactionUTest extends PHPUnit_Framework_TestCase
 {
     const SUCCESS_URL = 'http://www.example.com/success';
     const CANCEL_URL = 'http://www.example.com/cancel';
@@ -53,6 +54,8 @@ class PaysafecardTransactionUTest extends \PHPUnit_Framework_TestCase
         $this->tx = new PaysafecardTransaction();
         $this->tx->setRedirect($redirect);
         $this->tx->setAmount(new Amount(33, 'USD'));
+        $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'de';
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '0.0.0.1';
     }
 
     public function testMappedProperties()
@@ -74,6 +77,7 @@ class PaysafecardTransactionUTest extends \PHPUnit_Framework_TestCase
             'success-redirect-url' => self::SUCCESS_URL,
             'entry-mode' => 'ecommerce',
             'locale' => 'de',
+            'ip-address' => '0.0.0.1'
         ];
 
         $this->tx->setOperation(Operation::PAY);
@@ -97,6 +101,7 @@ class PaysafecardTransactionUTest extends \PHPUnit_Framework_TestCase
             ],
             'locale' => 'de',
             'entry-mode' => 'ecommerce',
+            'ip-address' => '0.0.0.1'
         ];
 
         $tx->setOperation(Operation::RESERVE);

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reserve based on a previous reserve</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous">
+<link rel='shortcut icon' type='image/x-icon' href='../../assets/img/favicon.ico'/>
+<link rel="stylesheet" href="../../assets/css/app.css"/>
+</head>
+<body id="overrides">
+<div class="container">
+    <div class="page-header">
+        <div class="row align-baseline">
+            <div class="col-sm-3">
+                <a href="../../index.html"><img
+                        src="https://raw.githubusercontent.com/wirecard/paymentSDK-php/master/examples/assets/img/wirecard_logo.png"
+                        alt="wirecard"/></a>
+            </div>
+            <div class="col-sm-9 bottom-align-text">
+                <h1>Payment SDK for PHP Examples</h1>
+            </div>
+        </div>
+    </div>
+    <form action="reserve.php" method="post" id="payment-form">
+        <div class="form-group">
+            <label for="parentTransactionId">Parent transaction ID:</label><br>
+            <input id="parentTransactionId" name="parentTransactionId" class="form-control"
+                   value="e58b1315-7b73-49e3-9fd4-a91bbdb77e76"/><br>
+        </div>
+        <button type="submit" class="btn btn-primary">Reserve</button>
+    </form>
+
+    <footer>
+        <div class="container">
+            &copy;
+            <script type="text/javascript">
+                document.write(new Date().getFullYear());
+            </script>
+            Wirecard
+        </div>
+    </footer>
+</div>
+</body>
+</html>

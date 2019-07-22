@@ -113,13 +113,14 @@ class Config
         $baseUrl,
         $httpUser,
         $httpPassword,
-        $defaultCurrency = 'EUR'
+        $defaultCurrency = 'EUR',
+        $baseUrlWppv2 = ''
     ) {
         $this->baseUrl = $baseUrl;
         $this->httpUser = $httpUser;
         $this->httpPassword = $httpPassword;
         $this->defaultCurrency = $defaultCurrency;
-
+        $this->baseUrlWppv2 = $baseUrlWppv2;
         // During development the default debug level is set to DEBUG
         $this->logLevel = Logger::DEBUG;
 
@@ -127,6 +128,16 @@ class Config
 
         $version = $this->getVersionFromFile(__DIR__ . '/../../VERSION');
         $this->shopSystemVersion = $version;
+    }
+
+    /**
+     * @return string
+     *
+     * @since 3.7.1
+     */
+    public function getShopSystemVersion()
+    {
+        return $this->shopSystemVersion;
     }
 
     /**
@@ -242,6 +253,28 @@ class Config
         }
 
         return array('headers' => $data);
+    }
+
+    /**
+     * Get shop information for nvp request
+     *
+     * @return array
+     *
+     * @since 3.7.1
+     */
+    public function getNvpShopInformation()
+    {
+        $data = array(
+            'shop_system_name'    => $this->shopSystem,
+            'shop_system_version' => $this->shopSystemVersion,
+        );
+
+        if ($this->pluginName && $this->pluginVersion) {
+            $data['plugin_name']    = $this->pluginName;
+            $data['plugin_version'] = $this->pluginVersion;
+        }
+
+        return $data;
     }
 
     /**

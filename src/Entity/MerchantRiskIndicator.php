@@ -48,7 +48,9 @@ class MerchantRiskIndicator extends Mappable
     /**
      * @const string
      */
-    const DATE_FORMAT = 'Ymd';
+    //Freuture timestamp
+    //const DATE_FORMAT = 'Y-m-d';
+    const DATE_FORMAT = 'Y-m-d\TH:i:s\Z';
 
     /**
      * @const array
@@ -188,7 +190,7 @@ class MerchantRiskIndicator extends Mappable
      */
     public function setReorderItems($reorderItems)
     {
-        if (!RiskInfoDeliveryTimeFrame::isValid($reorderItems)) {
+        if (!RiskInfoReorder::isValid($reorderItems)) {
             throw new \InvalidArgumentException('Reorder Items preference is invalid.');
         }
         $this->reorderItems = $reorderItems;
@@ -203,7 +205,7 @@ class MerchantRiskIndicator extends Mappable
      */
     public function setAvailability($availability)
     {
-        if (!RiskInfoDeliveryTimeFrame::isValid($availability)) {
+        if (!RiskInfoAvailability::isValid($availability)) {
             throw new \InvalidArgumentException('Availability preference is invalid.');
         }
         $this->availability = $availability;

@@ -5,8 +5,6 @@ addons:
   sonarqube:
     token:
       secure: "Vq7wlEnXk/WAO7Rb1Bqt98ZipKXXCaYa+kxTR4ttFCByX4IRjqk5eKDYtFfozmGlVB78zO21YfE8o2FxL0pLC7glVaTBvXPxl7CdjkxRG6H/QBcaK4tGywYtWwXrAULzPGRx1J9/teo0dUb4u76SwtGnGtbitM3D/wmxLbRHmnWLmlds9QY1sCIMY6nBAKVuM6pTv/LgzL817tMQcEI7E3afffE4z6TkNrl4XFc96KAcx4rx6urXGKloX1W9XwAlj5Q1NTq+af/U438WXiipQVMH18ss2NkzPbE4snTEEBlc0PnbUi5jI7c1ff2DCIfHfo7ev8/aISJFg26EMto6fxXpPbopgonu2wvhf+9DqHDN4LQzRcmRq4EaI4cNyAG68W0eR/WVItGM5liQqffKQejKuLytDaw1ZKzc1UcN2v1jX+5j32ztUFnEN3ZJve5Ob5/Yzlesxd+ZMRkoF11sSkYwCy1O+RtsaWjf3u6f7+ETdBDW9H/Oom0NYqfNiArmFrpLkr9/FIQz8FGwvAa+H8NYL1dCEMvWKCI6JfW4iCvSX3Jiow8Mt6a/b1dPf3L2hagybV1ejGqj8FDjTdTxzJP7qoTYivL+Xiv6FrFeJd9eAm/SiZvHWAPdhmynxmDHWkzbgCsm5sIsBSI52R8MFLW9Z9YEsgt71QfN7jWSeJ8="
-    github_token:
-      secure: "PDqe9CZLDdUkGfyIx29Mc4AD9X1sKwiNxUK2IQWkvWNIQHD0v87obZRXxWqisbJ7KLEui9Gee14bPvYJYc03oMlzOp1HMr87TENMEsuFPIzh5OG13TtdyvRnVYTKo24vBQ27F2UWvJvZlo0wfR2RBVILtdsCErYaF+2Ryd7EocFR8JcVeLQchtD+z1pyM5876tfqBZ8XpVe2Uf3sl49yR6yJkgCiGyLbNFWYl3fcSbSZy8kwatlH0SovkkPoYWvVRJJT+dzRVMUO4uCO3TZs48QSnn8x7bqR7GhMLdE9WS94UaK9zTNhH3VTJsUdVVY4phW7SbgAHu4rfPoe4pp2TFnlF5CDyHXPq7LnR9gzEwjFUiYMv4d5i73/xUZw002aOGnikLp2KO+lN445+1HMiHZrn4rV/grWBhPTuAMKM351X2wHF56HX8dUdXYPvJwi4B78hDn1FoTOBgcuq14GHEnLqjkDb/LFdZ4PHtfKsvYtOUhEjMf8RkGQWHeN/2dPqzxJiOW+nOrDS2AADY7K6faeG4ZM0EsaClTmzPHz+AiAC6R5Lv+kcRYRguRg+rdpL0UlWm36uY7TJxCl5sZQLPpwRxE3S7GdRzsfh1JP0p0i36AC8sXdKXjT6BCo7lluOI29Z8IcpvNDcnltlmY18+WSdBRrzGVPLl0XUipADFA="
     browserstack:
       username: ${BROWSERSTACK_USER}
       access_key:
@@ -41,14 +39,17 @@ matrix:
     if: type != cron
     env:
     - MUTATION_TESTS=true
-# running acceptance tests sequentially because in parallel is not possible due to ngrok account
+  - php: 7.3
+    if: type != cron
+    env:
+    - MUTATION_TESTS=true
   - &acceptance-test
     stage: acceptance-test
     if: type = cron
-    php: 7.1
+    php: 7.2
     env: GATEWAY=API-TEST
     install:
-    - travis_retry composer require --dev $COMPOSER_ARGS codeception/codeception
+    - travis_retry composer require --dev $COMPOSER_ARGS codeception/codeception:^2.5
     - travis_retry composer install $COMPOSER_ARGS
     - composer show
     script: bash .bin/run-ui-tests.sh
@@ -70,7 +71,7 @@ before_install:
   - travis_retry composer self-update
 install:
   - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer require --dev $COMPOSER_ARGS codacy/coverage:1.4.2 ; fi
-  - if [[ $MUTATION_TESTS == 'true' ]]; then travis_retry composer require --dev $COMPOSER_ARGS infection/infection:0.10.5 ; fi
+  - if [[ $MUTATION_TESTS == 'true' ]]; then travis_retry composer require --dev $COMPOSER_ARGS infection/infection:0.12.2 ; fi
   - travis_retry composer install $COMPOSER_ARGS
   - composer show
 script:
@@ -90,8 +91,8 @@ before_deploy:
 
 deploy:
   provider: releases
-  api_key:
-    secure: BOCYBPIqK0gpRmPf34Nj2nOWjpqEO7s63AKw0Ct/sN6MPaaIX/Op/REJMx4jTj74QpSRKNfaKsn4a2IL42eh96H3fJJp8nRXoycwC9EK4SFF53PxOn6VuSpvyAqTYash5efmlmFQgxYfEsqZbuT9ogPVfHKwIQRyOZkERXCX+pEYsGnNW7K0gw/2X5wSgSXvEtTW58sh4K1ewJQpUXTxgN9B72Kcu9nZuLckusWuKle/4rhfmMX284Hel8DsjA55ENg6CtrCeQR16RYMDs/+J7LwStonByDVXYhi4frPL5SB5/MFXzi3qHDMMp9WV1ihrNT0ho5rMgcZwReiFdCVEsTN3mVAIYhuGtKWkAIP3JHzv4prONEeBv66drr6l/OOBkeB1V0QCm9c+dvDiDbvAt7GMh6Jtq8nsEmue421GUcsWLwTa01iROkyfEAkmidKZULMDjUArVrcEwd1Gxd2v4mXQGJkJepGOOjZi/FbnPHGoZ9KaBm4IX5b52CjrMeg+JHxEKv8dvUGl1lZULYMrkRuLbAyrUsuEodyygYliY6sJUFPCjsuEYumw3N6yEkn2+c2WZjsbB7Igv0F/B6kRItUR7TIQvR7svioJaaydHf6dFFOBh8rrcDvmOimB7vvIRr0cmkyAH2PvW5/uYFqcr17epU3c0ZV7nhApoVOeSM=
+  github_token: ${GITHUB_TOKEN}
+  api_key: ${GITHUB_TOKEN}
   file: target/wirecard-paymentSDK-php-$TRAVIS_TAG.zip
   skip_cleanup: true
   on:

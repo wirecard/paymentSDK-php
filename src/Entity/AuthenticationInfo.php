@@ -45,7 +45,7 @@ class AuthenticationInfo implements MappableEntity
     /**
      * @var string DATE_FORMAT
      */
-    const DATE_FORMAT = 'YmdHi';
+    const DATE_FORMAT = 'Y-m-d\TH:i:s\Z';
 
     /**
      * @var AuthMethod

@@ -45,9 +45,9 @@ class SuccessResponse extends Response
     private $transactionId;
 
     /**
-     * @var string
+     * @var array
      */
-    private $providerTransactionId;
+    private $providerTransactionIds;
 
     /**
      * SuccessResponse constructor.
@@ -58,29 +58,22 @@ class SuccessResponse extends Response
     {
         parent::__construct($simpleXml);
         $this->transactionId = $this->findElement('transaction-id');
-        $this->providerTransactionId = $this->findProviderTransactionId();
+        $this->providerTransactionIds = $this->findProviderTransactionIds();
         $this->transactionType = $this->findElement('transaction-type');
     }
 
     /**
-     * @return string
-     * @throws MalformedResponseException
+     * @return array
      */
-    private function findProviderTransactionId()
+    private function findProviderTransactionIds()
     {
-        $result = null;
+        $result = [];
         foreach ($this->simpleXml->{'statuses'}->{'status'} as $status) {
-            if ($result === null) {
-                $result = $status['provider-transaction-id'];
-            }
-
-            if (isset($status['provider-transaction-id']) &&
-                strcmp($result, $status['provider-transaction-id']) !== 0) {
-                throw new MalformedResponseException('More different provider transaction ID-s in response.');
+            if (isset($status['provider-transaction-id'])) {
+                $result[] = $status['provider-transaction-id'];
             }
         }
-
-        return (string)$result;
+        return $result;
     }
 
 
@@ -93,11 +86,21 @@ class SuccessResponse extends Response
     }
 
     /**
+     * @deprecated This method is since 3.6.6 deprecated, please use getProviderTransactionIds
      * @return string
      */
     public function getProviderTransactionId()
     {
-        return $this->providerTransactionId;
+        return (string) $this->providerTransactionIds[0];
+    }
+
+    /**
+     * @return array
+     * @since 3.6.6
+     */
+    public function getProviderTransactionIds()
+    {
+            return $this->providerTransactionIds;
     }
 
     /**
