@@ -30,7 +30,7 @@ abstract class Mappable implements MappableEntity
      * @since 3.8.0
      */
     const PROPERTY_CONFIGURATION = array();
-    /** @const string MAP_KEY_SEAMLESS  */
+    /** @const string MAP_KEY_SEAMLESS */
     const PROPERTY_MAP_SEAMLESS_KEY = 'mappedSeamless';
     /** @const string MAP_KEY */
     const PROPERTY_MAP_KEY = 'mapped';
