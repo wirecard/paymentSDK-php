@@ -53,10 +53,10 @@ $gatewayConfig = function ($key) use ($gateway) {
         'API-TEST' => [
             'base_url_wppv2' => 'https://wpp-test.wirecard.com',
             'base_url' => 'https://api-test.wirecard.com',
-            'http_user' => '70000-APILUHN-CARD',
-            'http_pass' => '8mhwavKVb91T',
-            'threed_maid' => '33f6d473-3036-4ca5-acb5-8c64dac862d1',
-            'threed_secret' => '9e0130f6-2e1e-4185-b0d5-dc69079c75cc',
+            'http_user' => '70000-APITEST-AP',
+            'http_pass' => 'qD2wzQ_hrc!8',
+            'threed_maid' => '508b8896-b37d-4614-845c-26bf8bf2c948',
+            'threed_secret' => 'dbc5a498-9a66-43b9-bf1d-a618dd399684',
             'non_threed_maid' => '53f2895a-e4de-4e82-a813-0d87a10e55e6',
             'non_threed_secret'=> 'dbc5a498-9a66-43b9-bf1d-a618dd399684'
         ],
