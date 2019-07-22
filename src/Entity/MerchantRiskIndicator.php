@@ -47,7 +47,9 @@ class MerchantRiskIndicator implements MappableEntity
     /**
      * @const string
      */
-    const DATE_FORMAT = 'Ymd';
+    //Freuture timestamp
+    //const DATE_FORMAT = 'Y-m-d';
+    const DATE_FORMAT = 'Y-m-d\TH:i:s\Z';
 
     /**
      * @const array

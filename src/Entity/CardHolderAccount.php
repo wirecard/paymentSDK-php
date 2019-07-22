@@ -43,7 +43,10 @@ class CardHolderAccount implements MappableEntity
     /**
      * @const string
      */
-    const DATE_FORMAT = 'Ymd';
+    //Y-m-dTH:i:s
+    //this is the future timestamp
+    //const DATE_FORMAT = 'Y-m-d';
+    const DATE_FORMAT = 'Y-m-d\TH:i:s\Z';
 
     /**
      * @const array
