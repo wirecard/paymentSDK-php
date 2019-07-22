@@ -17,12 +17,11 @@ namespace Wirecard\PaymentSdk\Formatter;
  */
 class DateFormatter implements PropertyFormatter
 {
+    /** @var string FORMATTER_NAME */
     const FORMATTER_NAME = 'dateFormatter';
-
+    /** @var string PARAM_DATE_FORMAT_KEY */
     const PARAM_DATE_FORMAT_KEY = 'dateFormat';
-    /**
-     * @const string Default date format
-     */
+    /** @const string DATE_FORMAT Default date format */
     const DATE_FORMAT = 'Ymd';
 
     /**
