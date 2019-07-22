@@ -45,22 +45,12 @@ use Wirecard\PaymentSdk\Formatter\DateFormatter;
  */
 class MerchantRiskIndicator extends Mappable
 {
-    /**
-     * @const string
-     */
-    //Freuture timestamp
-    //const DATE_FORMAT = 'Y-m-d';
+    /** @const string DATE_FORMAT */
     const DATE_FORMAT = 'Y-m-d\TH:i:s\Z';
 
-    /**
-     * @const array
-     */
+    /** @const array PROPERTY_CONFIGURATION */
     const PROPERTY_CONFIGURATION = [
         'deliveryTimeFrame' => [ // String, Enum
-            // Example if mapped should be used
-            //'mapped' => [
-            //  'key' => 'risk-info-delivery-timeframe',
-            //],
             self::PROPERTY_MAP_SEAMLESS_KEY => [
                 self::PROPERTY_NAME_KEY  => 'risk_info_delivery_timeframe',
             ],
@@ -112,48 +102,34 @@ class MerchantRiskIndicator extends Mappable
     ];
 
     /**
-     * @var RiskInfoDeliveryTimeFrame
+     * @var RiskInfoDeliveryTimeFrame $deliveryTimeFrame
      */
     protected $deliveryTimeFrame;
 
     /**
-     * @var string
+     * @var string $deliveryEmailAddress
      */
     protected $deliveryEmailAddress;
 
-    /**
-     * @var RiskInfoReorder
-     */
+    /** @var RiskInfoReorder $reorderItems */
     protected $reorderItems;
 
-    /**
-     * @var RiskInfoAvailability
-     */
+    /** @var RiskInfoAvailability $availability */
     protected $availability;
 
-    /**
-     * @var \DateTime
-     */
+    /** @var \DateTime $preOrderDate */
     protected $preOrderDate;
 
-    /**
-     * @var int
-     */
+    /** @var int $giftAmount */
     protected $giftAmount;
 
-    /**
-     * @var string
-     */
+    /** @var string $giftCurrency */
     protected $giftCurrency;
 
-    /**
-     * @var int
-     */
+    /** @var int $giftCardCount */
     protected $giftCardCount;
 
-    /**
-     * @var IsoTransactionType
-     */
+    /** @var IsoTransactionType $isoTransactionType */
     protected $isoTransactionType;
 
     /**
