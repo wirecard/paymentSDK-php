@@ -41,7 +41,7 @@ $basket->add($item2);
 // #### Account holder with address
 $address = new \Wirecard\PaymentSdk\Entity\Address('DE', 'Berlin', 'Teststrasse');
 $address->setStreet2('Test street 2');
-$address->setStreet3('TestStr3');
+$address->setStreet3('Test street 3');
 $address->setPostalCode('13353');
 $accountHolder = new \Wirecard\PaymentSdk\Entity\AccountHolder();
 $accountHolder->setEmail('john.doe@test.com');
