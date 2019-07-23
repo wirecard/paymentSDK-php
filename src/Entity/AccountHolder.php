@@ -136,7 +136,7 @@ class AccountHolder implements MappableEntity
     /**
      * @param $phone
      * @return $this
-     * @since 3.7.0
+     * @since 3.8.0
      */
     public function setHomePhone($phone)
     {
@@ -147,7 +147,7 @@ class AccountHolder implements MappableEntity
     /**
      * @param $phone
      * @return $this
-     * @since 3.7.0
+     * @since 3.8.0
      */
     public function setMobilePhone($phone)
     {
@@ -158,7 +158,7 @@ class AccountHolder implements MappableEntity
     /**
      * @param $phone
      * @return $this
-     * @since 3.7.0
+     * @since 3.8.0
      */
     public function setWorkPhone($phone)
     {

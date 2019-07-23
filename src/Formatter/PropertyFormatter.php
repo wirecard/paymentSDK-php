@@ -15,6 +15,7 @@ namespace Wirecard\PaymentSdk\Formatter;
  *
  * Represents a Formatter
  * It can be used to format properties
+ * @since 3.8.0
  */
 interface PropertyFormatter
 {
@@ -22,6 +23,7 @@ interface PropertyFormatter
      * @param $property
      * @param array $params
      * @return mixed
+     * @since 3.8.0
      */
     public function formatProperty($property, $params);
 }

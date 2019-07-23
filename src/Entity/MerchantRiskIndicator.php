@@ -1,32 +1,10 @@
 <?php
 /**
- * Shop System SDK - Terms of Use
- *
- * The SDK offered are provided free of charge by Wirecard AG and are explicitly not part
- * of the Wirecard AG range of products and services.
- *
- * They have been tested and approved for full functionality in the standard configuration
- * (status on delivery) of the corresponding shop system. They are under General Public
- * License Version 3 (GPLv3) and can be used, developed and passed on to third parties under
- * the same terms.
- *
- * However, Wirecard AG does not provide any guarantee or accept any liability for any errors
- * occurring when used in an enhanced, customized shop system configuration.
- *
- * Operation in an enhanced, customized configuration is at your own risk and requires a
- * comprehensive test phase by the user of the plugin.
- *
- * Customers use the SDK at their own risk. Wirecard AG does not guarantee their full
- * functionality neither does Wirecard AG assume liability for any disadvantages related to
- * the use of the SDK. Additionally, Wirecard AG does not guarantee the full functionality
- * for customized shop systems or installed SDK of other vendors of plugins within the same
- * shop system.
- *
- * Customers are responsible for testing the SDK's functionality before starting productive
- * operation.
- *
- * By installing the SDK into the shop system the customer agrees to these terms of use.
- * Please do not use the SDK if you do not agree to these terms of use!
+ * Shop System SDK:
+ * - Terms of Use can be found under:
+ * https://github.com/wirecard/paymentSDK-php/blob/master/_TERMS_OF_USE
+ * - License can be found under:
+ * https://github.com/wirecard/paymentSDK-php/blob/master/LICENSE
  */
 
 namespace Wirecard\PaymentSdk\Entity;
@@ -41,7 +19,7 @@ use Wirecard\PaymentSdk\Formatter\DateFormatter;
 /**
  * Class MerchantRiskIndicator
  * @package Wirecard\PaymentSdk\Entity
- * @since 3.7.0
+ * @since 3.8.0
  */
 class MerchantRiskIndicator extends Mappable
 {
@@ -135,7 +113,7 @@ class MerchantRiskIndicator extends Mappable
     /**
      * @param $deliveryTimeFrame
      * @return $this
-     * @since 3.7.0
+     * @since 3.8.0
      */
     public function setDeliveryTimeFrame($deliveryTimeFrame)
     {
@@ -150,7 +128,7 @@ class MerchantRiskIndicator extends Mappable
     /**
      * @param string $deliveryEmailAddress
      * @return $this
-     * @since 3.7.0
+     * @since 3.8.0
      */
     public function setDeliveryEmailAddress($deliveryEmailAddress)
     {
@@ -162,7 +140,7 @@ class MerchantRiskIndicator extends Mappable
     /**
      * @param string $reorderItems
      * @return $this
-     * @since 3.7.0
+     * @since 3.8.0
      */
     public function setReorderItems($reorderItems)
     {
@@ -177,7 +155,7 @@ class MerchantRiskIndicator extends Mappable
     /**
      * @param string $availability
      * @return $this
-     * @since 3.7.0
+     * @since 3.8.0
      */
     public function setAvailability($availability)
     {
@@ -192,7 +170,7 @@ class MerchantRiskIndicator extends Mappable
     /**
      * @param \DateTime $preOrderDate
      * @return $this
-     * @since 3.7.0
+     * @since 3.8.0
      */
     public function setPreOrderDate(\DateTime $preOrderDate)
     {
@@ -204,7 +182,7 @@ class MerchantRiskIndicator extends Mappable
     /**
      * @param Amount $giftAmount
      * @return $this
-     * @since 3.7.0
+     * @since 3.8.0
      */
     public function setGiftAmount(Amount $giftAmount)
     {
@@ -217,7 +195,7 @@ class MerchantRiskIndicator extends Mappable
     /**
      * @param int $giftCardCount
      * @return $this
-     * @since 3.7.0
+     * @since 3.8.0
      */
     public function setGiftCardCount($giftCardCount)
     {
@@ -233,7 +211,7 @@ class MerchantRiskIndicator extends Mappable
     /**
      * @param $isoTransactionType
      * @return $this
-     * @since 3.7.0
+     * @since 3.8.0
      */
     public function setIsoTransactionType($isoTransactionType)
     {
@@ -249,7 +227,7 @@ class MerchantRiskIndicator extends Mappable
     /**
      * @return array|void
      * @throws NotImplementedException
-     * @since 3.7.0
+     * @since 3.8.0
      */
     public function mappedProperties()
     {
