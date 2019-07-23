@@ -1,32 +1,10 @@
 <?php
 /**
- * Shop System SDK - Terms of Use
- *
- * The SDK offered are provided free of charge by Wirecard AG and are explicitly not part
- * of the Wirecard AG range of products and services.
- *
- * They have been tested and approved for full functionality in the standard configuration
- * (status on delivery) of the corresponding shop system. They are under General Public
- * License Version 3 (GPLv3) and can be used, developed and passed on to third parties under
- * the same terms.
- *
- * However, Wirecard AG does not provide any guarantee or accept any liability for any errors
- * occurring when used in an enhanced, customized shop system configuration.
- *
- * Operation in an enhanced, customized configuration is at your own risk and requires a
- * comprehensive test phase by the user of the plugin.
- *
- * Customers use the SDK at their own risk. Wirecard AG does not guarantee their full
- * functionality neither does Wirecard AG assume liability for any disadvantages related to
- * the use of the SDK. Additionally, Wirecard AG does not guarantee the full functionality
- * for customized shop systems or installed SDK of other vendors of plugins within the same
- * shop system.
- *
- * Customers are responsible for testing the SDK's functionality before starting productive
- * operation.
- *
- * By installing the SDK into the shop system the customer agrees to these terms of use.
- * Please do not use the SDK if you do not agree to these terms of use!
+ * Shop System SDK:
+ * - Terms of Use can be found under:
+ * https://github.com/wirecard/paymentSDK-php/blob/master/_TERMS_OF_USE
+ * - License can be found under:
+ * https://github.com/wirecard/paymentSDK-php/blob/master/LICENSE
  */
 
 namespace Wirecard\PaymentSdk;
@@ -73,6 +51,7 @@ use Wirecard\PaymentSdk\Transaction\UpiTransaction;
 class TransactionService
 {
     const APPLICATION_JSON = 'application/json';
+    const APPLICATION_XML = 'application/xml';
     const REQUEST_ID = 'request_id';
 
     /**
@@ -165,7 +144,7 @@ class TransactionService
 
         $this->httpHeader = array(
             'Content-Type' => self::APPLICATION_JSON,
-            'Accept' => 'application/xml'
+            'Accept' => self::APPLICATION_XML
         );
     }
 
@@ -448,17 +427,20 @@ class TransactionService
     }
 
     /**
-     * @param Reservable $transaction
+     * @param Transaction $transaction
      * @throws MalformedResponseException
      * @throws UnconfiguredPaymentMethodException
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
-     * @throws MandatoryFieldMissingException
+     * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
      */
-    public function reserve(Reservable $transaction)
+    public function reserve(Transaction $transaction)
     {
-        return $this->process($transaction, Operation::RESERVE);
+        if ($transaction instanceof Reservable) {
+            return $this->process($transaction, Operation::RESERVE);
+        }
+        throw new UnsupportedOperationException('Only reservable transactions allowed');
     }
 
     /**
@@ -559,7 +541,7 @@ class TransactionService
     private function sendGetRequest($endpoint, $acceptJson = false, $logNotFound = true)
     {
         $requestHeader = array_merge_recursive($this->httpHeader, $this->config->getShopHeader());
-        $requestHeader['Accept'] = $acceptJson ? self::APPLICATION_JSON : 'application/xml';
+        $requestHeader['Accept'] = $acceptJson ? self::APPLICATION_JSON : self::APPLICATION_XML;
 
         $request = $this->messageFactory->createRequest('GET', $endpoint, $requestHeader);
         $request = $this->basicAuth->authenticate($request);
@@ -586,6 +568,8 @@ class TransactionService
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
+     *
+     * @since 3.7.2 Refactor credit card fallback
      */
     public function process(Transaction $transaction, $operation)
     {
@@ -635,8 +619,11 @@ class TransactionService
             $response->setOperation($operation);
         }
 
-        if ($transaction instanceof CreditCardTransaction && $transaction->isFallback()) {
-            return $this->processFallback($transaction, $response);
+        if ($transaction instanceof CreditCardTransaction
+            && $response->getStatusCollection()->hasStatusCodes(['500.1072', '500.1073', '500.1074'])
+            && $transaction->isFallback()
+        ) {
+            $response = $this->processFallback($transaction);
         }
 
         return $response;
@@ -647,20 +634,17 @@ class TransactionService
      * we do a fallback from a 3-D to an SSL credit card transaction
      *
      * @param CreditCardTransaction $transaction
-     * @param Response $response
      * @throws UnconfiguredPaymentMethodException
      * @throws MandatoryFieldMissingException
      * @throws \RuntimeException
      * @throws MalformedResponseException
      * @throws \InvalidArgumentException
      * @return Response
+     *
+     * @since 3.7.2 Remove $response param
      */
-    private function processFallback(CreditCardTransaction $transaction, Response $response)
+    private function processFallback(CreditCardTransaction $transaction)
     {
-        if (!$response->getStatusCollection()->hasStatusCodes(['500.1072', '500.1073', '500.1074'])) {
-            return $response;
-        }
-
         $transaction->setThreeD(false);
         $requestBody = $this->requestMapper->map($transaction);
         $endpoint = $this->config->getBaseUrl() . $transaction->getEndpoint();
@@ -846,7 +830,7 @@ class TransactionService
             return $ret;
         }
     }
-    
+
     /**
      * Access to the configuration object which was set in constructor
      *
