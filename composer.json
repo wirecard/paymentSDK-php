@@ -12,7 +12,7 @@
     "php-http/client-implementation": "~1.0",
     "php-http/client-common":"~1.0|~2.0",
     "php-http/discovery":"~1.0",
-    "myclabs/php-enum": "^1.5.0",
+    "myclabs/php-enum": "1.6.6",
     "robrichards/xmlseclibs": "^3.0",
     "wirecard/iso-paypal-converter": "^1.0",
     "whichbrowser/parser": "^2.0"
