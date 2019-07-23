@@ -1,4 +1,12 @@
 <?php
+/**
+ * Shop System SDK:
+ * - Terms of Use can be found under:
+ * https://github.com/wirecard/paymentSDK-php/blob/master/_TERMS_OF_USE
+ * - License can be found under:
+ * https://github.com/wirecard/paymentSDK-php/blob/master/LICENSE
+ */
+
 // # Backend Service
 
 // This example displays the usage of backend service. The service can be used to get all possible follow up operations on an transaction, check if the transaction is an "final" transaction, where no follow up operations are possible, or get the correct order state depending on the transaction type. The backend service also provides a process method where a fallback for refund is build in, if an cancel operation fails the SDK will automatically try to make an refund operation if the payment method supports it.

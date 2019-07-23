@@ -1,36 +1,49 @@
 <?php
-// # Credit Card UI creation
+/**
+ * Shop System SDK:
+ * - Terms of Use can be found under:
+ * https://github.com/wirecard/paymentSDK-php/blob/master/_TERMS_OF_USE
+ * - License can be found under:
+ * https://github.com/wirecard/paymentSDK-php/blob/master/LICENSE
+ */
+
+// # Credit Card UI WPPv2 creation
+
 // Since the credit card data needs to be sent directly to Wirecard, you need to invoke the creation of a special form
 // for entering the credit card data. This form is created via a javascript. Additional processing also needs
 // to take place on the client-side, so that the credit card data is not processed and/or stored anywhere else.
+
 // ## Required libraries and objects
 // To include the necessary files, use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/config.php';
 require __DIR__ . '/../../inc/header.php';
+
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\TransactionService;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 
 // ## Transaction
+
 // ### Transaction Service
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
 
 $redirectUrl = getUrl('return.php?status=success');
-$amount = new Amount(1400, 'EUR');
+$amount = new Amount(70.00, 'EUR');
 $orderNumber = 'A2';
 
 // ### Basket items
 // A Basket contains one or more items.
+
 // For each item you have to set some properties as described here.
 // Required: name, price, quantity, article number, tax rate.
-$item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(400, 'EUR'), 1);
+$item1 = new \Wirecard\PaymentSdk\Entity\Item('Item 1', new Amount(30, 'EUR'), 1);
 $item1->setArticleNumber('A1');
 $item1->setTaxRate(10.0);
 
-$item2 = new \Wirecard\PaymentSdk\Entity\Item('Item 2', new Amount(1000, 'EUR'), 2);
+$item2 = new \Wirecard\PaymentSdk\Entity\Item('Item 2', new Amount(40, 'EUR'), 2);
 $item2->setArticleNumber('B2');
 $item2->setTaxRate(20.0);
 
@@ -44,6 +57,7 @@ $address = new \Wirecard\PaymentSdk\Entity\Address('DE', 'Berlin', 'Teststrasse'
 $address->setStreet2('Test street 2');
 $address->setStreet3('Test street 3');
 $address->setPostalCode('13353');
+
 $accountHolder = new \Wirecard\PaymentSdk\Entity\AccountHolder();
 $accountHolder->setEmail('john.doe@test.com');
 $accountHolder->setPhone('03018425165');

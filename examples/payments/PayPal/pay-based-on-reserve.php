@@ -1,4 +1,12 @@
 <?php
+/**
+ * Shop System SDK:
+ * - Terms of Use can be found under:
+ * https://github.com/wirecard/paymentSDK-php/blob/master/_TERMS_OF_USE
+ * - License can be found under:
+ * https://github.com/wirecard/paymentSDK-php/blob/master/LICENSE
+ */
+
 // # Payment after a reservation
 
 // Enter the ID of the successful reserve transaction and start a pay transaction with it.
