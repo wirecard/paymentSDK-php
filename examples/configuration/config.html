@@ -16,15 +16,17 @@
     }
     <span class="hljs-variable">$dataArray</span> = [
         <span class="hljs-string">'NOVA'</span> =&gt; [
+            <span class="hljs-string">'base_url_wppv2'</span> =&gt; <span class="hljs-string">'https://payments-test.wirecard.com'</span>,
             <span class="hljs-string">'base_url'</span> =&gt; <span class="hljs-string">'https://payments-test.wirecard.com'</span>,
-            <span class="hljs-string">'http_user'</span> =&gt; <span class="hljs-string">'NovaTeam'</span>,
-            <span class="hljs-string">'http_pass'</span> =&gt; <span class="hljs-string">'kCopTTMkpw'</span>,
-            <span class="hljs-string">'threed_maid'</span> =&gt; <span class="hljs-string">'fd83dbfa-8790-4492-8391-3f3938908b28'</span>,
-            <span class="hljs-string">'threed_secret'</span> =&gt; <span class="hljs-string">'38424ae8-2dc5-45be-af4c-6e0fee0fea3e'</span>,
+            <span class="hljs-string">'http_user'</span> =&gt; <span class="hljs-string">'ShopUser'</span>,
+            <span class="hljs-string">'http_pass'</span> =&gt; <span class="hljs-string">'pNUPurGGgL'</span>,
+            <span class="hljs-string">'threed_maid'</span> =&gt; <span class="hljs-string">'9bbd794c-c791-4bc8-9257-35f3f72d2b55'</span>,
+            <span class="hljs-string">'threed_secret'</span> =&gt; <span class="hljs-string">'c6e2715e-4d2b-4ba9-b620-8d7b75eed4c1'</span>,
             <span class="hljs-string">'non_threed_maid'</span> =&gt; <span class="hljs-string">'fd83dbfa-8790-4492-8391-3f3938908b28'</span>,
             <span class="hljs-string">'non_threed_secret'</span> =&gt; <span class="hljs-string">'38424ae8-2dc5-45be-af4c-6e0fee0fea3e'</span>
         ],
         <span class="hljs-string">'API-WDCEE-TEST'</span> =&gt; [
+            <span class="hljs-string">'base_url_wppv2'</span> =&gt; <span class="hljs-string">'https://wpp-wdcee-test.wirecard.com'</span>,
             <span class="hljs-string">'base_url'</span> =&gt; <span class="hljs-string">'https://api-wdcee-test.wirecard.com'</span>,
             <span class="hljs-string">'http_user'</span> =&gt; <span class="hljs-string">'pink-test'</span>,
             <span class="hljs-string">'http_pass'</span> =&gt; <span class="hljs-string">'8f5y2h0s'</span>,
@@ -34,6 +36,7 @@
             <span class="hljs-string">'non_threed_secret'</span>=&gt; <span class="hljs-string">'cf8be86b-a671-4da4-b870-80af5c3eedb1'</span>
         ],
         <span class="hljs-string">'API-TEST'</span> =&gt; [
+            <span class="hljs-string">'base_url_wppv2'</span> =&gt; <span class="hljs-string">'https://wpp-test.wirecard.com'</span>,
             <span class="hljs-string">'base_url'</span> =&gt; <span class="hljs-string">'https://api-test.wirecard.com'</span>,
             <span class="hljs-string">'http_user'</span> =&gt; <span class="hljs-string">'70000-APITEST-AP'</span>,
             <span class="hljs-string">'http_pass'</span> =&gt; <span class="hljs-string">'qD2wzQ_hrc!8'</span>,
@@ -43,6 +46,7 @@
             <span class="hljs-string">'non_threed_secret'</span>=&gt; <span class="hljs-string">'dbc5a498-9a66-43b9-bf1d-a618dd399684'</span>
         ],
         <span class="hljs-string">'SECURE-TEST-SG'</span> =&gt; [
+            <span class="hljs-string">'base_url_wppv2'</span> =&gt; <span class="hljs-string">'https://secure-test.wirecard.com.sg'</span>,
             <span class="hljs-string">'base_url'</span> =&gt; <span class="hljs-string">'https://secure-test.wirecard.com.sg'</span>,
             <span class="hljs-string">'http_user'</span> =&gt; <span class="hljs-string">'uatwd_ecom'</span>,
             <span class="hljs-string">'http_pass'</span> =&gt; <span class="hljs-string">'Tomcat123'</span>,
@@ -52,6 +56,7 @@
             <span class="hljs-string">'non_threed_secret'</span> =&gt; <span class="hljs-string">'543d957b-dcc9-46cd-8258-0f49ed97fa8e'</span>
         ],
         <span class="hljs-string">'TEST-SG'</span> =&gt; [
+            <span class="hljs-string">'base_url_wppv2'</span> =&gt; <span class="hljs-string">'https://test.wirecard.com.sg'</span>,
             <span class="hljs-string">'base_url'</span> =&gt; <span class="hljs-string">'https://test.wirecard.com.sg'</span>,
             <span class="hljs-string">'http_user'</span> =&gt; <span class="hljs-string">'wirecarduser3d'</span>,
             <span class="hljs-string">'http_pass'</span> =&gt; <span class="hljs-string">'Tomcat123'</span>,
@@ -64,9 +69,10 @@
 
     <span class="hljs-keyword">return</span> <span class="hljs-variable">$dataArray</span>[<span class="hljs-variable">$gateway</span>][<span class="hljs-variable">$key</span>];
 };</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>The basic configuration requires the base URL for Wirecard and the username and password for the HTTP requests.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$baseUrl</span> = <span class="hljs-variable">$gatewayConfig</span>(<span class="hljs-string">'base_url'</span>);
+<span class="hljs-variable">$baseUrlWppv2</span> = <span class="hljs-variable">$gatewayConfig</span>(<span class="hljs-string">'base_url_wppv2'</span>);
 <span class="hljs-variable">$httpUser</span> = <span class="hljs-variable">$gatewayConfig</span>(<span class="hljs-string">'http_user'</span>);
 <span class="hljs-variable">$httpPass</span> = <span class="hljs-variable">$gatewayConfig</span>(<span class="hljs-string">'http_pass'</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>The configuration is stored in an object containing the connection settings set above.
-A default currency can also be provided.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$config</span> = <span class="hljs-keyword">new</span> Config\Config(<span class="hljs-variable">$baseUrl</span>, <span class="hljs-variable">$httpUser</span>, <span class="hljs-variable">$httpPass</span>, <span class="hljs-string">'EUR'</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="payment-methods">Payment methods</h2></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Each payment method can be configured with an individual merchant account ID and the corresponding key.
+A default currency can also be provided.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$config</span> = <span class="hljs-keyword">new</span> Config\Config(<span class="hljs-variable">$baseUrl</span>, <span class="hljs-variable">$httpUser</span>, <span class="hljs-variable">$httpPass</span>, <span class="hljs-string">'EUR'</span>, <span class="hljs-variable">$baseUrlWppv2</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="payment-methods">Payment methods</h2></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Each payment method can be configured with an individual merchant account ID and the corresponding key.
 The configuration object for Credit Card is a little different than other payment methods and can be
 instantiated without any parameters. If you wish to omit non-3-D transactions you can just leave out the
 maid and secret in the default CreditCardConfig. However if you want to use non-3-D transactions you have two
