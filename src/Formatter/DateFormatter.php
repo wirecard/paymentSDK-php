@@ -14,6 +14,7 @@ namespace Wirecard\PaymentSdk\Formatter;
  *
  * Implementation of a PropertyFormatter
  * It can be used to format Dates
+ * @since 3.8.0
  */
 class DateFormatter implements PropertyFormatter
 {
@@ -28,6 +29,7 @@ class DateFormatter implements PropertyFormatter
      * @param \DateTime $date
      * @param array $params
      * @return mixed
+     * @since 3.8.0
      */
     public function formatProperty($date, $params)
     {
@@ -42,6 +44,7 @@ class DateFormatter implements PropertyFormatter
      * @param \DateTime $date
      * @param $format
      * @return mixed
+     * @since 3.8.0
      */
     private function formatDateWithDateFormat($date, $format)
     {

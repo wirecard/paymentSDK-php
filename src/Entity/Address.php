@@ -96,7 +96,7 @@ class Address implements MappableEntity
     /**
      * @param $street3
      * Enter the house number incl. suffixes here.
-     * @since 3.7.0
+     * @since 3.8.0
      */
     public function setStreet3($street3)
     {
@@ -209,7 +209,7 @@ class Address implements MappableEntity
      * @param int $start
      * @param int $length
      * @return array
-     * @since 3.7.0
+     * @since 3.8.0
      */
     private function truncatePropertyIfSet($property, $prefix = '', $start = 0, $length = 128)
     {

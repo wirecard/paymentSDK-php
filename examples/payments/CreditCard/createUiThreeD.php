@@ -1,4 +1,12 @@
 <?php
+/**
+ * Shop System SDK:
+ * - Terms of Use can be found under:
+ * https://github.com/wirecard/paymentSDK-php/blob/master/_TERMS_OF_USE
+ * - License can be found under:
+ * https://github.com/wirecard/paymentSDK-php/blob/master/LICENSE
+ */
+
 // # Credit Card UI creation
 // Since the credit card data needs to be sent directly to Wirecard, you need to invoke the creation of a special form
 // for entering the credit card data. This form is created via a javascript. Additional processing also needs

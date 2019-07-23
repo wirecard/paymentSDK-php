@@ -359,7 +359,7 @@ abstract class Transaction extends Risk
     /**
      * @param $threeDSRequestor
      * @return $this
-     * @since 3.7.0
+     * @since 3.8.0
      */
     public function setThreeDSRequestor($threeDSRequestor)
     {
@@ -374,7 +374,7 @@ abstract class Transaction extends Risk
 
     /**
      * @return ThreeDSRequestor
-     * @since 3.7.0
+     * @since 3.8.0
      */
     public function getThreeDSRequestor()
     {
@@ -384,6 +384,7 @@ abstract class Transaction extends Risk
     /**
      * @param $merchantRiskIndicator
      * @return $this
+     * @since 3.8.0
      */
     public function setMerchantRiskIndicator($merchantRiskIndicator)
     {
@@ -396,6 +397,10 @@ abstract class Transaction extends Risk
         return $this;
     }
 
+    /**
+     * @return MerchantRiskIndicator
+     * @since 3.8.0
+     */
     public function getMerchantRiskIndicator()
     {
         return $this->merchantRiskIndicator;
@@ -404,7 +409,7 @@ abstract class Transaction extends Risk
     /**
      * @param $cardHolderAccount
      * @return $this
-     * @since 3.7.0
+     * @since 3.8.0
      */
     public function setCardHolderAccount($cardHolderAccount)
     {
@@ -419,7 +424,7 @@ abstract class Transaction extends Risk
 
     /**
      * @return CardHolderAccount
-     * @since 3.7.0
+     * @since 3.8.0
      */
     public function getCardHolderAccount()
     {
