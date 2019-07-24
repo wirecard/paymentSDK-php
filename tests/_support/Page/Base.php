@@ -87,4 +87,12 @@ class Base
     {
         return $this->page_specific;
     }
+
+    /**
+     * Method performPaypalLogin
+     *
+     * @since   1.4.4
+     */
+    public function performPaypalLogin() {;
+    }
 }

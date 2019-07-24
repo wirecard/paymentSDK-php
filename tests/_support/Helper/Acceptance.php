@@ -49,8 +49,26 @@ class Acceptance extends \Codeception\Module
             $gateway = 'sg_gateway';
         }
 
-        $fileData = file_get_contents('tests/_support/data.json');
+        $fileData = file_get_contents('tests/_data/data.json');
         $data = json_decode($fileData); // decode the JSON feed
         return $data->$gateway->$cardDataType;
+    }
+
+    /**
+     * Method getDataFromDataFile
+     * @param string $fileName
+     * @return string
+     *
+     * @since   1.4.4
+     */
+    public static function getDataFromDataFile( $fileName ) {
+        // decode the JSON feed
+        $json_data = json_decode( file_get_contents( $fileName ) );
+        if ( ! $json_data ) {
+            $error = error_get_last();
+            echo 'Failed to get customer data from tests/_data/...json. Error was: ' . $error['message'];
+        } else {
+            return $json_data;
+        }
     }
 }
