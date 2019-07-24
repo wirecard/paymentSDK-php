@@ -231,6 +231,104 @@ class CardHolderAccount implements MappableEntity
         return $this;
     }
 
+    /**
+     * @return \DateTime
+     * @since 3.8.0
+     */
+    public function getCreationDate()
+    {
+        return $this->creationDate;
+    }
+
+    /**
+     * @return \DateTime
+     * @since 3.8.0
+     */
+    public function getUpdateDate()
+    {
+        return $this->updateDate;
+    }
+
+    /**
+     * @return \DateTime
+     * @since 3.8.0
+     */
+    public function getPassChangeDate()
+    {
+        return $this->passChangeDate;
+    }
+
+    /**
+     * @return \DateTime
+     * @since 3.8.0
+     */
+    public function getShippingAddressFirstUse()
+    {
+        return $this->shippingAddressFirstUse;
+    }
+
+    /**
+     * @return \DateTime
+     * @since 3.8.0
+     */
+    public function getCardCreationDate()
+    {
+        return $this->cardCreationDate;
+    }
+
+    /**
+     * @return int
+     * @since 3.8.0
+     */
+    public function getAmountTransactionsLastDay()
+    {
+        return $this->amountTransactionsLastDay;
+    }
+
+    /**
+     * @return int
+     * @since 3.8.0
+     */
+    public function getAmountTransactionsLastYear()
+    {
+        return $this->amountTransactionsLastYear;
+    }
+
+    /**
+     * @return int
+     * @since 3.8.0
+     */
+    public function getAmountCardTransactionsLastDay()
+    {
+        return $this->amountCardTransactionsLastDay;
+    }
+
+    /**
+     * @return int
+     * @since 3.8.0
+     */
+    public function getAmountPurchasesLastSixMonths()
+    {
+        return $this->amountPurchasesLastSixMonths;
+    }
+
+    /**
+     * @return bool
+     * @since 3.8.0
+     */
+    public function isSuspiciousActivity()
+    {
+        return $this->suspiciousActivity;
+    }
+
+    /**
+     * @return string
+     * @since 3.8.0
+     */
+    public function getMerchantCrmId()
+    {
+        return $this->merchantCrmId;
+    }
 
     /**
      * @return array|void

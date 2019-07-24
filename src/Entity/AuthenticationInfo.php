@@ -68,6 +68,24 @@ class AuthenticationInfo implements MappableEntity
     }
 
     /**
+     * @return AuthMethod
+     * @since 3.8.0
+     */
+    public function getAuthMethod()
+    {
+        return $this->authMethod;
+    }
+
+    /**
+     * @return \DateTime
+     * @since 3.8.0
+     */
+    public function getAuthTimestamp()
+    {
+        return $this->authTimestamp;
+    }
+
+    /**
      * @return array|void
      * @throws NotImplementedException
      * @since 3.8.0
