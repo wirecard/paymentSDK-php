@@ -21,7 +21,6 @@
  * @SuppressWarnings(PHPMD)
  */
 
-use Facebook\WebDriver\Exception\TimeOutException;
 use Helper\Acceptance;
 use Page\Base;
 use Page\CreditCardCreateUI as CreditCardCreateUIPage;
