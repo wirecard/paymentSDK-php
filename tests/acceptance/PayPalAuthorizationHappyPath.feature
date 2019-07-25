@@ -6,7 +6,7 @@ Feature: PayPalAuthorizationHappyPath
   Background:
     Given I am on "Pay Pal Log In" page
 
-  @API-TEST @API-WDCEE-TEST
+  @API-TEST
   Scenario: authorization
     Given I login to Paypal
     And I am redirected to "Pay Pal Review" page

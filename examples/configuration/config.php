@@ -137,10 +137,8 @@ $config->add($creditcardConfig);
 
 // ### PayPal
 
-//$paypalMAID = '2a0e9351-24ed-4110-9a1b-fd0fee6bec26';
-//$paypalKey = 'dbc5a498-9a66-43b9-bf1d-a618dd399684';
-$paypalMAID = '3191aa81-d930-4e4d-8d95-24bd65b8990b';
-$paypalKey = '995d8de2-0c39-4e98-9216-86f047cb8662';
+$paypalMAID = '2a0e9351-24ed-4110-9a1b-fd0fee6bec26';
+$paypalKey = 'dbc5a498-9a66-43b9-bf1d-a618dd399684';
 $paypalConfig = new PaymentMethodConfig(PayPalTransaction::NAME, $paypalMAID, $paypalKey);
 $config->add($paypalConfig);
 

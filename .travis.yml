@@ -45,7 +45,7 @@ matrix:
     - MUTATION_TESTS=true
   - &acceptance-test
     stage: acceptance-test
-    if: type != cron
+    if: type = cron
     php: 7.2
     env: GATEWAY=API-TEST
     install:
@@ -53,19 +53,19 @@ matrix:
     - travis_retry composer install $COMPOSER_ARGS
     - composer show
     script: bash .bin/run-ui-tests.sh
-#    after_success:
-#    - bash .bin/upload-logs-and-notify.sh
-#    after_failure:
-#    - bash .bin/output-failed-logs.sh
-#    - bash .bin/upload-logs-and-notify.sh fail
+    after_success:
+    - bash .bin/upload-logs-and-notify.sh
+    after_failure:
+    - bash .bin/output-failed-logs.sh
+    - bash .bin/upload-logs-and-notify.sh fail
   - <<: *acceptance-test
     env: GATEWAY=API-WDCEE-TEST
-#  - <<: *acceptance-test
-#    env: GATEWAY=NOVA
-#  - <<: *acceptance-test
-#    env: GATEWAY=SECURE-TEST-SG
-#  - <<: *acceptance-test
-#    env: GATEWAY=TEST-SG
+  - <<: *acceptance-test
+    env: GATEWAY=NOVA
+  - <<: *acceptance-test
+    env: GATEWAY=SECURE-TEST-SG
+  - <<: *acceptance-test
+    env: GATEWAY=TEST-SG
 
 before_install:
   - travis_retry composer self-update
@@ -108,5 +108,5 @@ notifications:
       - "%{repository}#%{build_number} (%{branch} : %{author}): %{message}"
       - "Change view : %{compare_url}"
       - "Build details : %{build_url}"
-    on_success: never
-    on_failure: never
+    on_success: change
+    on_failure: change
