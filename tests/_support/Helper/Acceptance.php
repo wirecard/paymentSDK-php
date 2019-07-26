@@ -41,7 +41,8 @@ class Acceptance extends \Codeception\Module
         return $transaction_id = end($transaction_id);
     }
 
-    public static function getCardDataFromDataFile($cardDataType) {
+    public static function getCardDataFromDataFile($cardDataType)
+    {
         $gatewayEnv = getenv('GATEWAY');
         if ('NOVA' == $gatewayEnv || 'API-TEST' == $gatewayEnv || 'API-WDCEE-TEST' == $gatewayEnv) {
             $gateway = 'default_gateway';
@@ -63,14 +64,15 @@ class Acceptance extends \Codeception\Module
      *
      * @since 3.7.2
      */
-    public static function getDataFromDataFile( $fileName ) {
+    public static function getDataFromDataFile($fileName)
+    {
         // decode the JSON feed
-        $json_data = json_decode( file_get_contents( $fileName ) );
-        if ( ! $json_data ) {
+        $json_data = json_decode( file_get_contents($fileName));
+        if (!$json_data) {
             $error = error_get_last();
             echo 'Failed to get customer data from tests/_data/...json. Error was: ' . $error['message'];
-        } else {
-            return $json_data;
+            return;
         }
+        return $json_data;
     }
 }
