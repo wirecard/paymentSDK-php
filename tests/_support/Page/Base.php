@@ -91,7 +91,7 @@ class Base
     /**
      * Method performPaypalLogin
      *
-     * @since   1.4.4
+     * @since   3.7.2
      */
     public function performPaypalLogin() {;
     }

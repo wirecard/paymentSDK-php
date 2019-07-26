@@ -59,7 +59,7 @@ class Acceptance extends \Codeception\Module
      * @param string $fileName
      * @return string
      *
-     * @since   1.4.4
+     * @since 3.7.2
      */
     public static function getDataFromDataFile( $fileName ) {
         // decode the JSON feed

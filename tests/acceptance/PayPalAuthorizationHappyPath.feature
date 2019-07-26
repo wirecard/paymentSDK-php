@@ -1,6 +1,6 @@
 Feature: PayPalAuthorizationHappyPath
   As a user
-  I want to make a purchase with a PayPal
+  I want to make an authorization with a PayPal
   And to see that reservation was successful
 
   Background:
@@ -16,4 +16,4 @@ Feature: PayPalAuthorizationHappyPath
     And I see text "Transaction ID"
     Then I click "Transaction Identification" link
     And I am redirected to "Wirecard Transaction Details" page
-    And I see text "authorization"
+    And I see in table key "Transaction Type" value "authorization"

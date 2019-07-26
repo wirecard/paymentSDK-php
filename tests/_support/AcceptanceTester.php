@@ -257,7 +257,7 @@ class AcceptanceTester extends \Codeception\Actor
 
     /**
      * @Given I login to Paypal
-     * @since 1.4.4
+     * @since 3.7.2
      */
     public function iLoginToPaypal()
     {
@@ -266,6 +266,7 @@ class AcceptanceTester extends \Codeception\Actor
 
     /**
      * @Given I click :link link
+     * @since 3.7.2
      */
     public function iClickLinkWithAuthCredentialsUserPassword($link)
     {
@@ -274,5 +275,14 @@ class AcceptanceTester extends \Codeception\Actor
         $this->waitForElementVisible($this->getPageElement($link));
         $link_address = $this->grabAttributeFrom($this->getPageElement($link), "href");
         $this->amOnUrl($this->formAuthLink($link_address, $data_field_values->$env->username, $data_field_values->$env->password));
+    }
+
+    /**
+     * @Then I see in table key :tableKey value :tableValue
+     * @since 3.7.2
+     */
+    public function iSeeInTableKeyValue($tableKey, $tableValue)
+    {
+        $this->currentPage->seeTransactionType($tableKey, $tableValue);
     }
 }
