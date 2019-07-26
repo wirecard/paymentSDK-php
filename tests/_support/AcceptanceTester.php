@@ -276,7 +276,8 @@ class AcceptanceTester extends \Codeception\Actor
         $data_field_values = $this->getDataFromDataFile('tests/_data/gatewayUsers.json');
         $this->waitForElementVisible($this->getPageElement($link));
         $link_address = $this->grabAttributeFrom($this->getPageElement($link), "href");
-        $this->amOnUrl($this->formAuthLink($link_address, $data_field_values->$env->username, $data_field_values->$env->password));
+        $this->amOnUrl($this->formAuthLink($link_address, $data_field_values->$env->username,
+            $data_field_values->$env->password));
     }
 
     /**
