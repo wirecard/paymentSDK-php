@@ -32,20 +32,32 @@ class RiskInfo extends Mappable
             self::PROPERTY_MAP_SEAMLESS_KEY => [
                 self::PROPERTY_NAME_KEY  => 'risk_info_delivery_timeframe',
             ],
+            self::PROPERTY_MAP_KEY => [
+                self::PROPERTY_NAME_KEY => 'delivery-timeframe',
+            ]
         ],
         'deliveryEmailAddress' => [ // String
             self::PROPERTY_MAP_SEAMLESS_KEY => [
                 self::PROPERTY_NAME_KEY  => 'risk_info_delivery_mail',
+            ],
+            self::PROPERTY_MAP_KEY => [
+                self::PROPERTY_NAME_KEY => 'delivery-mail',
             ]
         ],
         'reorderItems' => [ // String, Enum
             self::PROPERTY_MAP_SEAMLESS_KEY => [
                 self::PROPERTY_NAME_KEY  => 'risk_info_reorder_items',
+            ],
+            self::PROPERTY_MAP_KEY => [
+                self::PROPERTY_NAME_KEY => 'reorder-items',
             ]
         ],
         'availability' => [ // String, Enum
             self::PROPERTY_MAP_SEAMLESS_KEY => [
                 self::PROPERTY_NAME_KEY  => 'risk_info_availability',
+            ],
+            self::PROPERTY_MAP_KEY => [
+                self::PROPERTY_NAME_KEY => 'availability',
             ]
         ],
         'preOrderDate' => [ // Date
@@ -55,21 +67,37 @@ class RiskInfo extends Mappable
                 self::PROPERTY_FORMATTER_PARAMS_KEY => [
                     DateFormatter::PARAM_DATE_FORMAT_KEY => self::DATE_FORMAT
                 ],
+            ],
+            self::PROPERTY_MAP_KEY => [
+                self::PROPERTY_NAME_KEY => 'preorder-date',
+                self::PROPERTY_FORMATTER_KEY => DateFormatter::FORMATTER_NAME,
+                self::PROPERTY_FORMATTER_PARAMS_KEY => [
+                    DateFormatter::PARAM_DATE_FORMAT_KEY => self::DATE_FORMAT
+                ]
             ]
         ],
         'giftAmount' => [ // Integer
             self::PROPERTY_MAP_SEAMLESS_KEY => [
                 self::PROPERTY_NAME_KEY  => 'risk_info_gift_amount',
+            ],
+            self::PROPERTY_MAP_KEY => [
+                self::PROPERTY_NAME_KEY => 'gift-amount',
             ]
         ],
         'giftCurrency' => [ // String
             self::PROPERTY_MAP_SEAMLESS_KEY => [
                 self::PROPERTY_NAME_KEY  => 'risk_info_gift_amount_currency',
+            ],
+            self::PROPERTY_MAP_KEY => [
+                self::PROPERTY_NAME_KEY => 'gift-amount-currency',
             ]
         ],
         'giftCardCount' => [ // Integer
             self::PROPERTY_MAP_SEAMLESS_KEY => [
                 self::PROPERTY_NAME_KEY  => 'risk_info_gift_card_count',
+            ],
+            self::PROPERTY_MAP_KEY => [
+                self::PROPERTY_NAME_KEY => 'gift-card-count',
             ]
         ]
     ];
@@ -198,16 +226,5 @@ class RiskInfo extends Mappable
         $this->giftCardCount = $giftCardCount;
 
         return $this;
-    }
-
-    /**
-     * @return array|void
-     * @throws NotImplementedException
-     * @since 3.8.0
-     */
-    public function mappedProperties()
-    {
-        throw new NotImplementedException('mappedProperties() not supported for this entity, 
-        mappedSeamlessProperties() only.');
     }
 }

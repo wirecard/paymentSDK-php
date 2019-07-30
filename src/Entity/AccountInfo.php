@@ -25,8 +25,11 @@ class AccountInfo implements MappableEntity
      */
     const DATE_FORMAT = 'Y-m-d\TH:i:s\Z';
 
-    /** @const array OPTIONAL_FIELDS */
-    const OPTIONAL_FIELDS = [
+    /** @const array NVP_FIELDS */
+    const NVP_FIELDS = [
+        'authentication_method'        => 'authMethod',
+        'authentication_timestamp'     => 'authTimestamp',
+        'challenge_indicator'          => 'challengeInd',
         'account_creation_date'        => 'creationDate',
         'account_update_date'          => 'updateDate',
         'account_password_change_date' => 'passChangeDate',
@@ -37,7 +40,23 @@ class AccountInfo implements MappableEntity
         'card_transactions_last_day'   => 'amountCardTransactionsLastDay',
         'purchases_last_six_months'    => 'amountPurchasesLastSixMonths',
         'suspicious_activity'          => 'suspiciousActivity',
-        'merchant_crm_id'              => 'merchantCrmId',
+    ];
+
+    /** @const array REST_FIELDS */
+    const REST_FIELDS = [
+        'authentication-method'        => 'authMethod',
+        'authentication-timestamp'     => 'authTimestamp',
+        'challenge-indicator'          => 'challengeInd',
+        'creation-date'                => 'creationDate',
+        'update-date'                  => 'updateDate',
+        'password-change-date'         => 'passChangeDate',
+        'shipping-address-first-use'   => 'shippingAddressFirstUse',
+        'card-creation-date'           => 'cardCreationDate',
+        'transactions-last-day'        => 'amountTransactionsLastDay',
+        'transactions-last-year'       => 'amountTransactionsLastYear',
+        'card-transactions-last-day'   => 'amountCardTransactionsLastDay',
+        'purchases-last-six-months'    => 'amountPurchasesLastSixMonths',
+        'suspicious-activity'          => 'suspiciousActivity',
     ];
 
     /**
@@ -285,16 +304,11 @@ class AccountInfo implements MappableEntity
     public function mappedProperties()
     {
         $accountInfo = array();
-        if (null !== $this->authMethod) {
-            $accountInfo['authentication-method'] = $this->authMethod;
-        }
 
-        if (null !== $this->authTimestamp) {
-            $accountInfo['authentication-timestamp'] = $this->authTimestamp;
-        }
-
-        if (null !== $this->challengeInd) {
-            $accountInfo['challenge-indicator'] = $this->challengeInd;
+        foreach (self::REST_FIELDS as $mappedKey => $property) {
+            if (isset($this->{$property})) {
+                $accountInfo[$mappedKey] = $this->getFormattedValue($this->{$property});
+            }
         }
 
         return $accountInfo;
@@ -307,26 +321,12 @@ class AccountInfo implements MappableEntity
     public function mappedSeamlessProperties()
     {
         $accountInfo = array();
-        if (null !== $this->authMethod) {
-            $accountInfo['authentication_method'] = $this->authMethod;
-        }
 
-        if (null !== $this->authTimestamp) {
-            $accountInfo['authentication_timestamp'] = $this->authTimestamp;
-        }
-
-        if (null !== $this->challengeInd) {
-            $accountInfo['challenge_indicator'] = $this->challengeInd;
-        }
-
-        $cardHolderAccount = array();
-
-        foreach (self::OPTIONAL_FIELDS as $mappedKey => $property) {
+        foreach (self::NVP_FIELDS as $mappedKey => $property) {
             if (isset($this->{$property})) {
-                $cardHolderAccount[$mappedKey] = $this->getFormattedValue($this->{$property});
+                $accountInfo[$mappedKey] = $this->getFormattedValue($this->{$property});
             }
         }
-        $accountInfo = array_merge($accountInfo, $cardHolderAccount);
 
         return $accountInfo;
     }
