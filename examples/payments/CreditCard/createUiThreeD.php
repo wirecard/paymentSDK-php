@@ -93,7 +93,6 @@ $authenticationInfo->setAuthTimestamp();
 $authenticationInfo->setChallengeInd(\Wirecard\PaymentSdk\Constant\ChallengeInd::NO_PREFERENCE);
 
 // ### Contains additional information about the Cardholder's account provided by the 3DS Requestor
-$cardHolderAccount = new \Wirecard\PaymentSdk\Entity\CardHolderAccount();
 // Account creation date
 $authenticationInfo->setCreationDate(new DateTime());
 // Account update date
@@ -114,13 +113,12 @@ $authenticationInfo->setAmountCardTransactionsLastDay(1);
 $authenticationInfo->setAmountPurchasesLastSixMonths(30);
 // Indicates whether the 3DS requestor has experienced suspicious activity on the cardholder account. Accepted values are true or false
 $authenticationInfo->setSuspiciousActivity(false);
-
 // Set accountInfo for AccountHolder
 $accountHolder->setAccountInfo($authenticationInfo);
-$transaction->setAccountHolder($accountHolder);
 // Additional information about the account provided by the 3DS requestor. Limited to 64 characters
-$cardHolderAccount->setMerchantCrmId('12daw2r');
-$transaction->setCardHolderAccount($cardHolderAccount);
+$accountHolder->setMerchantCrmId('12daw2r');
+$transaction->setAccountHolder($accountHolder);
+
 // ### Merchant's assessment of the level of fraud risk for the specific authentication for both the cardholder and the authentication being conducted
 $merchantRiskIndicator = new \Wirecard\PaymentSdk\Entity\MerchantRiskIndicator();
 // Indicates whether cardholder is placing an order for merchandise with a future availability or release date. Merchandise available '01', Future availability '02'

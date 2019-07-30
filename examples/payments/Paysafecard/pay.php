@@ -51,7 +51,7 @@ $notificationUrl = getUrl('notify.php');
 $accountHolder = new AccountHolder();
 // The account holder last name and Crm Id is required.
 $accountHolder->setLastName('Doe');
-$accountHolder->setCrmId(20);
+$accountHolder->setMerchantCrmId(20);
 // The account holders first name is optional.
 // For complete list of all fields please visit https://doc.wirecard.com/RestApi_Fields.html
 $accountHolder->setFirstName('John');
