@@ -120,7 +120,7 @@ $accountHolder->setMerchantCrmId('12daw2r');
 $transaction->setAccountHolder($accountHolder);
 
 // ### Merchant's assessment of the level of fraud risk for the specific authentication for both the cardholder and the authentication being conducted
-$merchantRiskIndicator = new \Wirecard\PaymentSdk\Entity\MerchantRiskIndicator();
+$merchantRiskIndicator = new \Wirecard\PaymentSdk\Entity\RiskInfo();
 // Indicates whether cardholder is placing an order for merchandise with a future availability or release date. Merchandise available '01', Future availability '02'
 $merchantRiskIndicator->setAvailability(\Wirecard\PaymentSdk\Constant\RiskInfoAvailability::MERCHANDISE_AVAILABLE);
 // For electronic delivery, the email address the merchandise was delivered
@@ -137,7 +137,7 @@ $merchantRiskIndicator->setIsoTransactionType(\Wirecard\PaymentSdk\Constant\IsoT
 $merchantRiskIndicator->setPreOrderDate(new DateTime());
 // Was the good already bought before. First time ordered 01, Reordered 02
 $merchantRiskIndicator->setReorderItems(\Wirecard\PaymentSdk\Constant\RiskInfoReorder::FIRST_TIME_ORDERED);
-$transaction->setMerchantRiskIndicator($merchantRiskIndicator);
+$transaction->setRiskInfo($merchantRiskIndicator);
 // ### Contains browser information. This field is required when deviceChannel is set to 02.
 $browser = new \Wirecard\PaymentSdk\Entity\Browser();
 // Defines the challenge window size through the given width in px

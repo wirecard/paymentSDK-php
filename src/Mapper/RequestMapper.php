@@ -15,7 +15,7 @@ use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Entity\CardHolderAccount;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Entity\Device;
-use Wirecard\PaymentSdk\Entity\MerchantRiskIndicator;
+use Wirecard\PaymentSdk\Entity\RiskInfo;
 use Wirecard\PaymentSdk\Entity\Periodic;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Entity\Browser;
@@ -94,7 +94,7 @@ class RequestMapper
         $periodic = $transaction->getPeriodic();
         $redirects = $transaction->getRedirect();
         $cardHolderAccount = $transaction->getCardHolderAccount();
-        $merchantRiskIndicator = $transaction->getMerchantRiskIndicator();
+        $riskInfo = $transaction->getRiskInfo();
         $browser = $transaction->getBrowser();
 
         if ($accountHolder instanceof AccountHolder) {
@@ -132,8 +132,8 @@ class RequestMapper
             $requestData = array_merge($requestData, $cardHolderAccount->mappedSeamlessProperties());
         }
 
-        if ($merchantRiskIndicator instanceof MerchantRiskIndicator) {
-            $requestData = array_merge($requestData, $merchantRiskIndicator->mappedSeamlessProperties());
+        if ($riskInfo instanceof RiskInfo) {
+            $requestData = array_merge($requestData, $riskInfo->mappedSeamlessProperties());
         }
 
         if ($browser instanceof Browser) {

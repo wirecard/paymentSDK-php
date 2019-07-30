@@ -15,7 +15,7 @@ use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Browser;
 use Wirecard\PaymentSdk\Entity\CardHolderAccount;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
-use Wirecard\PaymentSdk\Entity\MerchantRiskIndicator;
+use Wirecard\PaymentSdk\Entity\RiskInfo;
 use Wirecard\PaymentSdk\Entity\Periodic;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
@@ -149,9 +149,9 @@ abstract class Transaction extends Risk
     private $cardHolderAccount;
 
     /**
-     * @var MerchantRiskIndicator
+     * @var RiskInfo
      */
-    private $merchantRiskIndicator;
+    private $riskInfo;
 
     /**
      * @param string $entryMode
@@ -351,28 +351,28 @@ abstract class Transaction extends Risk
     }
 
     /**
-     * @param $merchantRiskIndicator
+     * @param $riskInfo
      * @return $this
      * @since 3.8.0
      */
-    public function setMerchantRiskIndicator($merchantRiskIndicator)
+    public function setRiskInfo($riskInfo)
     {
-        if (!$merchantRiskIndicator instanceof MerchantRiskIndicator) {
+        if (!$riskInfo instanceof RiskInfo) {
             throw new \InvalidArgumentException(
-                'Merchant Risk Indicator must be of type MerchantRiskIndicator.'
+                'Merchant Risk Indicator must be of type RiskInfo.'
             );
         }
-        $this->merchantRiskIndicator = $merchantRiskIndicator;
+        $this->riskInfo = $riskInfo;
         return $this;
     }
 
     /**
-     * @return MerchantRiskIndicator
+     * @return RiskInfo
      * @since 3.8.0
      */
-    public function getMerchantRiskIndicator()
+    public function getRiskInfo()
     {
-        return $this->merchantRiskIndicator;
+        return $this->riskInfo;
     }
 
     /**
@@ -484,6 +484,10 @@ abstract class Transaction extends Risk
             if (count($browser) > 0) {
                 $result['browser'] = $this->browser->mappedProperties();
             }
+        }
+
+        if ($this->riskInfo instanceof RiskInfo) {
+            $data['risk-info'] = $this->riskInfo->mappedProperties();
         }
 
         return array_merge($result, $specificProperties);

@@ -17,11 +17,11 @@ use Wirecard\PaymentSdk\Exception\NotImplementedException;
 use Wirecard\PaymentSdk\Formatter\DateFormatter;
 
 /**
- * Class MerchantRiskIndicator
+ * Class RiskInfo
  * @package Wirecard\PaymentSdk\Entity
  * @since 3.8.0
  */
-class MerchantRiskIndicator extends Mappable
+class RiskInfo extends Mappable
 {
     /** @const string DATE_FORMAT */
     const DATE_FORMAT = 'Y-m-d\TH:i:s\Z';
