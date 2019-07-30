@@ -12,14 +12,13 @@ namespace Wirecard\PaymentSdk\Entity;
 use Wirecard\PaymentSdk\Constant\ChallengeInd;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Constant\AuthMethod;
-use Wirecard\PaymentSdk\Exception\NotImplementedException;
 
 /**
- * Class AuthenticationInfo
+ * Class AccountInfo
  * @package Wirecard\PaymentSdk\Entity
  * @since 3.8.0
  */
-class AuthenticationInfo implements MappableEntity
+class AccountInfo implements MappableEntity
 {
     /**
      * @var string DATE_FORMAT
@@ -90,14 +89,25 @@ class AuthenticationInfo implements MappableEntity
     }
 
     /**
-     * @return array|void
-     * @throws NotImplementedException
+     * @return array
      * @since 3.8.0
      */
     public function mappedProperties()
     {
-        throw new NotImplementedException('mappedProperties() not supported for this entity, 
-        mappedSeamlessProperties() only.');
+        $accountInfo = array();
+        if (null !== $this->authMethod) {
+            $accountInfo['authentication_method'] = $this->authMethod;
+        }
+
+        if (null !== $this->authTimestamp) {
+            $accountInfo['authentication_timestamp'] = $this->authTimestamp;
+        }
+
+        if (null !== $this->challengeInd) {
+            $accountInfo['challenge_indicator'] = $this->challengeInd;
+        }
+
+        return $accountInfo;
     }
 
     /**
@@ -106,19 +116,19 @@ class AuthenticationInfo implements MappableEntity
      */
     public function mappedSeamlessProperties()
     {
-        $authenticationInfo = array();
+        $accountInfo = array();
         if (null !== $this->authMethod) {
-            $authenticationInfo['authentication_method'] = $this->authMethod;
+            $accountInfo['authentication_method'] = $this->authMethod;
         }
 
         if (null !== $this->authTimestamp) {
-            $authenticationInfo['authentication_timestamp'] = $this->authTimestamp;
+            $accountInfo['authentication_timestamp'] = $this->authTimestamp;
         }
 
         if (null !== $this->challengeInd) {
-            $authenticationInfo['challenge_indicator'] = $this->challengeInd;
+            $accountInfo['challenge_indicator'] = $this->challengeInd;
         }
 
-        return $authenticationInfo;
+        return $accountInfo;
     }
 }

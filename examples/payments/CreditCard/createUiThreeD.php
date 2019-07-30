@@ -89,7 +89,7 @@ $transaction->setCustomFields($custom_fields);
 
 // Information about how the 3DS Requestor authenticated the cardholder before or during the transaction
 // Possible values 01 guest login, 02 User Account in Shop, 03 federated id, 04 issuer of card credentials, 05 third-party authentication, 06 FIDO authentication
-$authenticationInfo = new \Wirecard\PaymentSdk\Entity\AuthenticationInfo();
+$authenticationInfo = new \Wirecard\PaymentSdk\Entity\AccountInfo();
 $authenticationInfo->setAuthMethod(\Wirecard\PaymentSdk\Constant\AuthMethod::GUEST_CHECKOUT);
 $authenticationInfo->setAuthTimestamp();
 // Indicates if a challenge is requested for this transaction, 01 no preference, 02 no challenge, 03 challenge requested 3DS, 04 challenge requested Mandate

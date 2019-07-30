@@ -86,9 +86,9 @@ class AccountHolder implements MappableEntity
     private $socialSecurityNumber;
 
     /**
-     * @var AuthenticationInfo
+     * @var AccountInfo
      */
-    private $authenticationInfo;
+    private $accountInfo;
 
 
     public function __construct($simpleXmlElement = null)
@@ -243,20 +243,29 @@ class AccountHolder implements MappableEntity
     }
 
     /**
-     * @param AuthenticationInfo $authenticationInfo
+     * @param AccountInfo $accountInfo
      * @return $this
      * @since 3.8.0
      */
-    public function setAuthenticationInfo($authenticationInfo)
+    public function setAccountInfo($accountInfo)
     {
-        if (!$authenticationInfo instanceof AuthenticationInfo) {
+        if (!$accountInfo instanceof AccountInfo) {
             throw new \InvalidArgumentException(
-                '3DS Requestor Authentication Information must be of type AuthenticationInfo.'
+                '3DS Requestor Authentication Information must be of type AccountInfo.'
             );
         }
-        $this->authenticationInfo = $authenticationInfo;
+        $this->accountInfo = $accountInfo;
 
         return $this;
+    }
+
+    /**
+     * @return AccountInfo
+     * @since 3.8.0
+     */
+    public function getAccountInfo()
+    {
+        return $this->accountInfo;
     }
 
     /**
@@ -316,6 +325,10 @@ class AccountHolder implements MappableEntity
 
         if (!is_null($this->shippingMethod)) {
             $result['shipping-method'] = $this->shippingMethod;
+        }
+
+        if (!is_null($this->accountInfo)) {
+            $result['account-info'] = $this->accountInfo->mappedProperties();
         }
 
         return $result;
@@ -381,8 +394,8 @@ class AccountHolder implements MappableEntity
             $result['consumer_social_security_number'] = $this->socialSecurityNumber;
         }
 
-        if (!is_null($this->authenticationInfo)) {
-            $result = array_merge($result, $this->authenticationInfo->mappedSeamlessProperties());
+        if (!is_null($this->accountInfo)) {
+            $result = array_merge($result, $this->accountInfo->mappedSeamlessProperties());
         }
 
         return $result;
