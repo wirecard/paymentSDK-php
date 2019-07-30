@@ -146,7 +146,7 @@
 
 				<b>Extends:</b>
 				TransactionService<br>
-			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.BackendService.html#43-196" title="Go to source code">BackendService.php</a>
+			<b>Located at</b> <a href="source-class-Wirecard.PaymentSdk.BackendService.html#21-183" title="Go to source code">BackendService.php</a>
 		<br>
 	</div>
 
@@ -166,7 +166,7 @@
 
 			<td class="name"><div>
 			<a class="anchor" href="#_retrieveBackendOperations">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.BackendService.html#63-112" title="Go to source code">retrieveBackendOperations</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></code> <var>$transaction</var></span>, <span>boolean <var>$limit</var> = <span class="php-keyword1">false</span></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.BackendService.html#41-99" title="Go to source code">retrieveBackendOperations</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></code> <var>$transaction</var></span>, <span>boolean <var>$limit</var> = <span class="php-keyword1">false</span></span> )</code>
 
 			<div class="description short">
 				<p>Method returns possible follow up operations for transaction.
@@ -191,6 +191,10 @@ If limit is set to false (default), all possible operations will be returned.</p
 						array|boolean
 					</div>
 
+					<h4>Throws</h4>
+					<div class="list">
+						MandatoryFieldMissingException
+					</div>
 
 
 
@@ -208,7 +212,7 @@ If limit is set to false (default), all possible operations will be returned.</p
 
 			<td class="name"><div>
 			<a class="anchor" href="#_process">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.BackendService.html#114-131" title="Go to source code">process</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></code> <var>$transaction</var></span>, <span>string <var>$operation</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.BackendService.html#101-118" title="Go to source code">process</a>( <span><code><a href="class-Wirecard.PaymentSdk.Transaction.Transaction.html">Wirecard\PaymentSdk\Transaction\Transaction</a></code> <var>$transaction</var></span>, <span>string <var>$operation</var></span> )</code>
 
 			<div class="description short">
 				<p>Build in fallback for refund</p>
@@ -258,7 +262,7 @@ If limit is set to false (default), all possible operations will be returned.</p
 
 			<td class="name"><div>
 			<a class="anchor" href="#_getOrderState">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.BackendService.html#133-170" title="Go to source code">getOrderState</a>( <span> <var>$transaction_type</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.BackendService.html#120-157" title="Go to source code">getOrderState</a>( <span> <var>$transaction_type</var></span> )</code>
 
 			<div class="description short">
 				<p>Return order state of the transaction</p>
@@ -296,7 +300,7 @@ If limit is set to false (default), all possible operations will be returned.</p
 
 			<td class="name"><div>
 			<a class="anchor" href="#_isFinal">#</a>
-			<code><a href="source-class-Wirecard.PaymentSdk.BackendService.html#172-195" title="Go to source code">isFinal</a>( <span> <var>$transaction_type</var></span> )</code>
+			<code><a href="source-class-Wirecard.PaymentSdk.BackendService.html#159-182" title="Go to source code">isFinal</a>( <span> <var>$transaction_type</var></span> )</code>
 
 			<div class="description short">
 				<p>Check if the transaction is final</p>
@@ -366,7 +370,7 @@ If limit is set to false (default), all possible operations will be returned.</p
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#52" title="Go to source code"><b>TYPE_AUTHORIZED</b></a>
+						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#30" title="Go to source code"><b>TYPE_AUTHORIZED</b></a>
 					</code>
 
 					<div class="description short">
@@ -390,7 +394,7 @@ If limit is set to false (default), all possible operations will be returned.</p
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#53" title="Go to source code"><b>TYPE_CANCELLED</b></a>
+						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#31" title="Go to source code"><b>TYPE_CANCELLED</b></a>
 					</code>
 
 					<div class="description short">
@@ -414,7 +418,7 @@ If limit is set to false (default), all possible operations will be returned.</p
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#54" title="Go to source code"><b>TYPE_PROCESSING</b></a>
+						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#32" title="Go to source code"><b>TYPE_PROCESSING</b></a>
 					</code>
 
 					<div class="description short">
@@ -438,7 +442,7 @@ If limit is set to false (default), all possible operations will be returned.</p
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#55" title="Go to source code"><b>TYPE_REFUNDED</b></a>
+						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#33" title="Go to source code"><b>TYPE_REFUNDED</b></a>
 					</code>
 
 					<div class="description short">
@@ -462,7 +466,7 @@ If limit is set to false (default), all possible operations will be returned.</p
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#56" title="Go to source code"><b>TYPE_PENDING</b></a>
+						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#34" title="Go to source code"><b>TYPE_PENDING</b></a>
 					</code>
 
 					<div class="description short">
@@ -486,7 +490,7 @@ If limit is set to false (default), all possible operations will be returned.</p
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#58" title="Go to source code"><b>CANCEL_BUTTON_TEXT</b></a>
+						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#36" title="Go to source code"><b>CANCEL_BUTTON_TEXT</b></a>
 					</code>
 
 					<div class="description short">
@@ -510,7 +514,7 @@ If limit is set to false (default), all possible operations will be returned.</p
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#59" title="Go to source code"><b>REFUND_BUTTON_TEXT</b></a>
+						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#37" title="Go to source code"><b>REFUND_BUTTON_TEXT</b></a>
 					</code>
 
 					<div class="description short">
@@ -534,7 +538,7 @@ If limit is set to false (default), all possible operations will be returned.</p
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#60" title="Go to source code"><b>CAPTURE_BUTTON_TEXT</b></a>
+						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#38" title="Go to source code"><b>CAPTURE_BUTTON_TEXT</b></a>
 					</code>
 
 					<div class="description short">
@@ -558,7 +562,7 @@ If limit is set to false (default), all possible operations will be returned.</p
 				<td class="attributes"><code>string</code></td>
 				<td class="name">
 					<code>
-						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#61" title="Go to source code"><b>CREDIT_BUTTON_TEXT</b></a>
+						<a href="source-class-Wirecard.PaymentSdk.BackendService.html#39" title="Go to source code"><b>CREDIT_BUTTON_TEXT</b></a>
 					</code>
 
 					<div class="description short">
@@ -584,6 +588,7 @@ If limit is set to false (default), all possible operations will be returned.</p
             <div class="panel-heading"><h3>Constants inherited from <a href="class-Wirecard.PaymentSdk.TransactionService.html#constants">Wirecard\PaymentSdk\TransactionService</a></h3></div>
 			<p class="elementList">
 				<code><a href="class-Wirecard.PaymentSdk.TransactionService.html#APPLICATION_JSON"><b>APPLICATION_JSON</b></a></code>, 
+				<code><a href="class-Wirecard.PaymentSdk.TransactionService.html#APPLICATION_XML"><b>APPLICATION_XML</b></a></code>, 
 				<code><a href="class-Wirecard.PaymentSdk.TransactionService.html#REQUEST_ID"><b>REQUEST_ID</b></a></code>
 			</p>
 		</div>
