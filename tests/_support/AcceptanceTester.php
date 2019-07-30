@@ -120,6 +120,7 @@ class AcceptanceTester extends \Codeception\Actor
                 break;
             case "Pay Pal Log In":
                 $page = new PayPalLoginPage($this);
+                $this->wait(15);
                 break;
             case "Pay Pal Review":
                 $page = new PayPalReviewPage($this);
