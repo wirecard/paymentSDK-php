@@ -54,7 +54,6 @@ class RiskInfoUTest extends \PHPUnit_Framework_TestCase
             'risk_info_gift_amount'          => 143,
             'risk_info_gift_amount_currency' => $giftAmount->getCurrency(),
             'risk_info_gift_card_count'      => $giftCardCount,
-            'iso_transaction_type'           => IsoTransactionType::CHECK_ACCEPTANCE,
         ];
 
         $merchantRiskIndicator->setAvailability(RiskInfoAvailability::MERCHANDISE_AVAILABLE);
@@ -62,7 +61,6 @@ class RiskInfoUTest extends \PHPUnit_Framework_TestCase
         $merchantRiskIndicator->setDeliveryTimeFrame(RiskInfoDeliveryTimeFrame::ELECTRONIC_DELIVERY);
         $merchantRiskIndicator->setGiftAmount($giftAmount);
         $merchantRiskIndicator->setGiftCardCount($giftCardCount);
-        $merchantRiskIndicator->setIsoTransactionType(IsoTransactionType::CHECK_ACCEPTANCE);
         $merchantRiskIndicator->setPreOrderDate($date);
         $merchantRiskIndicator->setReorderItems(RiskInfoReorder::FIRST_TIME_ORDERED);
 

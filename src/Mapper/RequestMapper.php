@@ -12,7 +12,6 @@ namespace Wirecard\PaymentSdk\Mapper;
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Basket;
-use Wirecard\PaymentSdk\Entity\CardHolderAccount;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Entity\Device;
 use Wirecard\PaymentSdk\Entity\RiskInfo;
@@ -93,7 +92,6 @@ class RequestMapper
         $customFields = $transaction->getCustomFields();
         $periodic = $transaction->getPeriodic();
         $redirects = $transaction->getRedirect();
-        $cardHolderAccount = $transaction->getCardHolderAccount();
         $riskInfo = $transaction->getRiskInfo();
         $browser = $transaction->getBrowser();
 
@@ -128,10 +126,6 @@ class RequestMapper
             $requestData = array_merge($requestData, $redirects->mappedSeamlessProperties());
         }
 
-        if ($cardHolderAccount instanceof CardHolderAccount) {
-            $requestData = array_merge($requestData, $cardHolderAccount->mappedSeamlessProperties());
-        }
-
         if ($riskInfo instanceof RiskInfo) {
             $requestData = array_merge($requestData, $riskInfo->mappedSeamlessProperties());
         }
@@ -163,6 +157,10 @@ class RequestMapper
 
         if (null !== $transaction->getConsumerId()) {
             $requestData['consumer_id'] = $transaction->getConsumerId();
+        }
+
+        if (null !== $transaction->getIsoTransactionType()) {
+            $data['iso_transaction_type'] = $transaction->getIsoTransactionType();
         }
 
         return $requestData;

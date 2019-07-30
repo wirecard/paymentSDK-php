@@ -71,12 +71,7 @@ class RiskInfo extends Mappable
             self::PROPERTY_MAP_SEAMLESS_KEY => [
                 self::PROPERTY_NAME_KEY  => 'risk_info_gift_card_count',
             ]
-        ],
-        'isoTransactionType' => [ // String, Enum
-            self::PROPERTY_MAP_SEAMLESS_KEY => [
-                self::PROPERTY_NAME_KEY  => 'iso_transaction_type',
-            ]
-        ],
+        ]
     ];
 
     /**
@@ -106,9 +101,6 @@ class RiskInfo extends Mappable
 
     /** @var int $giftCardCount */
     protected $giftCardCount;
-
-    /** @var IsoTransactionType $isoTransactionType */
-    protected $isoTransactionType;
 
     /**
      * @param $deliveryTimeFrame
@@ -204,22 +196,6 @@ class RiskInfo extends Mappable
         }
 
         $this->giftCardCount = $giftCardCount;
-
-        return $this;
-    }
-
-    /**
-     * @param $isoTransactionType
-     * @return $this
-     * @since 3.8.0
-     */
-    public function setIsoTransactionType($isoTransactionType)
-    {
-        if (!IsoTransactionType::isValid($isoTransactionType)) {
-            throw new \InvalidArgumentException('ISO transaction type preference is invalid.');
-        }
-
-        $this->isoTransactionType = $isoTransactionType;
 
         return $this;
     }

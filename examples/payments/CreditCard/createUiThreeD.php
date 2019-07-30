@@ -131,13 +131,13 @@ $merchantRiskIndicator->setDeliveryTimeFrame(\Wirecard\PaymentSdk\Constant\RiskI
 $merchantRiskIndicator->setGiftAmount(new Amount(143.78, 'EUR'));
 // Quantity of ordered prepaid or gift cards. Limited to 2 characters
 $merchantRiskIndicator->setGiftCardCount(13);
-// Transaction type, classification of goods derived from ISO 8583. Goods/Service purchase 01, Check Acceptance 03, Account Funding 10, Quasi-Cash Transaction 11, Prepaid activation and Loan 28
-$merchantRiskIndicator->setIsoTransactionType(\Wirecard\PaymentSdk\Constant\IsoTransactionType::CHECK_ACCEPTANCE);
 // Expected delivery date for pre-ordered goods
 $merchantRiskIndicator->setPreOrderDate(new DateTime());
 // Was the good already bought before. First time ordered 01, Reordered 02
 $merchantRiskIndicator->setReorderItems(\Wirecard\PaymentSdk\Constant\RiskInfoReorder::FIRST_TIME_ORDERED);
 $transaction->setRiskInfo($merchantRiskIndicator);
+// Transaction type, classification of goods derived from ISO 8583. Goods/Service purchase 01, Check Acceptance 03, Account Funding 10, Quasi-Cash Transaction 11, Prepaid activation and Loan 28
+$transaction->setIsoTransactionType(\Wirecard\PaymentSdk\Constant\IsoTransactionType::CHECK_ACCEPTANCE);
 // ### Contains browser information. This field is required when deviceChannel is set to 02.
 $browser = new \Wirecard\PaymentSdk\Entity\Browser();
 // Defines the challenge window size through the given width in px

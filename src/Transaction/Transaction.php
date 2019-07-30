@@ -9,11 +9,10 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
-use http\Exception\InvalidArgumentException;
 use Locale;
+use Wirecard\PaymentSdk\Constant\IsoTransactionType;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Browser;
-use Wirecard\PaymentSdk\Entity\CardHolderAccount;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Entity\RiskInfo;
 use Wirecard\PaymentSdk\Entity\Periodic;
@@ -144,14 +143,14 @@ abstract class Transaction extends Risk
     protected $endpoint;
 
     /**
-     * @var CardHolderAccount
-     */
-    private $cardHolderAccount;
-
-    /**
      * @var RiskInfo
      */
     private $riskInfo;
+
+    /**
+     * @var IsoTransactionType
+     */
+    protected $isoTransactionType;
 
     /**
      * @param string $entryMode
@@ -376,28 +375,28 @@ abstract class Transaction extends Risk
     }
 
     /**
-     * @param $cardHolderAccount
+     * @param $isoTransactionType
      * @return $this
      * @since 3.8.0
      */
-    public function setCardHolderAccount($cardHolderAccount)
+    public function setIsoTransactionType($isoTransactionType)
     {
-        if (!$cardHolderAccount instanceof CardHolderAccount) {
-            throw new InvalidArgumentException(
-                'Cardholder Account must be of type CardHolderAccount.'
-            );
+        if (!IsoTransactionType::isValid($isoTransactionType)) {
+            throw new \InvalidArgumentException('ISO transaction type preference is invalid.');
         }
-        $this->cardHolderAccount = $cardHolderAccount;
+
+        $this->isoTransactionType = $isoTransactionType;
+
         return $this;
     }
 
     /**
-     * @return CardHolderAccount
+     * @return IsoTransactionType
      * @since 3.8.0
      */
-    public function getCardHolderAccount()
+    public function getIsoTransactionType()
     {
-        return $this->cardHolderAccount;
+        return $this->isoTransactionType;
     }
 
     /**
@@ -488,6 +487,10 @@ abstract class Transaction extends Risk
 
         if ($this->riskInfo instanceof RiskInfo) {
             $data['risk-info'] = $this->riskInfo->mappedProperties();
+        }
+
+        if (null !== $this->isoTransactionType) {
+            $data['iso-transaction-type'] = $this->isoTransactionType;
         }
 
         return array_merge($result, $specificProperties);
