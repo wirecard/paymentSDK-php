@@ -63,6 +63,24 @@ class ThreeDSRequestor implements MappableEntity
     }
 
     /**
+     * @return AuthenticationInfo
+     * @since 3.8.0
+     */
+    public function getAuthenticationInfo()
+    {
+        return $this->authenticationInfo;
+    }
+
+    /**
+     * @return ChallengeInd
+     * @since 3.8.0
+     */
+    public function getChallengeInd()
+    {
+        return $this->challengeInd;
+    }
+
+    /**
      * @return array|void
      * @throws NotImplementedException
      * @since 3.8.0

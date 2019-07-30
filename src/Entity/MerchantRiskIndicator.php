@@ -79,14 +79,10 @@ class MerchantRiskIndicator extends Mappable
         ],
     ];
 
-    /**
-     * @var RiskInfoDeliveryTimeFrame $deliveryTimeFrame
-     */
+    /** @var RiskInfoDeliveryTimeFrame $deliveryTimeFrame */
     protected $deliveryTimeFrame;
 
-    /**
-     * @var string $deliveryEmailAddress
-     */
+    /** @var string $deliveryEmailAddress */
     protected $deliveryEmailAddress;
 
     /** @var RiskInfoReorder $reorderItems */
@@ -222,6 +218,87 @@ class MerchantRiskIndicator extends Mappable
         $this->isoTransactionType = $isoTransactionType;
 
         return $this;
+    }
+
+    /**
+     * @return RiskInfoDeliveryTimeFrame
+     * @since 3.8.0
+     */
+    public function getDeliveryTimeFrame()
+    {
+        return $this->deliveryTimeFrame;
+    }
+
+    /**
+     * @return string
+     * @since 3.8.0
+     */
+    public function getDeliveryEmailAddress()
+    {
+        return $this->deliveryEmailAddress;
+    }
+
+    /**
+     * @return RiskInfoReorder
+     * @since 3.8.0
+     */
+    public function getReorderItems()
+    {
+        return $this->reorderItems;
+    }
+
+    /**
+     * @return RiskInfoAvailability
+     * @since 3.8.0
+     */
+    public function getAvailability()
+    {
+        return $this->availability;
+    }
+
+    /**
+     * @return \DateTime
+     * @since 3.8.0
+     */
+    public function getPreOrderDate()
+    {
+        return $this->preOrderDate;
+    }
+
+    /**
+     * @return int
+     * @since 3.8.0
+     */
+    public function getGiftAmount()
+    {
+        return $this->giftAmount;
+    }
+
+    /**
+     * @return string
+     * @since 3.8.0
+     */
+    public function getGiftCurrency()
+    {
+        return $this->giftCurrency;
+    }
+
+    /**
+     * @return int
+     * @since 3.8.0
+     */
+    public function getGiftCardCount()
+    {
+        return $this->giftCardCount;
+    }
+
+    /**
+     * @return IsoTransactionType
+     * @since 3.8.0
+     */
+    public function getIsoTransactionType()
+    {
+        return $this->isoTransactionType;
     }
 
     /**
