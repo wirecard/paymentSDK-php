@@ -18,7 +18,6 @@ use Wirecard\PaymentSdk\Entity\Device;
 use Wirecard\PaymentSdk\Entity\MerchantRiskIndicator;
 use Wirecard\PaymentSdk\Entity\Periodic;
 use Wirecard\PaymentSdk\Entity\Redirect;
-use Wirecard\PaymentSdk\Entity\ThreeDSRequestor;
 use Wirecard\PaymentSdk\Entity\Browser;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException;
@@ -94,7 +93,6 @@ class RequestMapper
         $customFields = $transaction->getCustomFields();
         $periodic = $transaction->getPeriodic();
         $redirects = $transaction->getRedirect();
-        $threeDSRequestor = $transaction->getThreeDSRequestor();
         $cardHolderAccount = $transaction->getCardHolderAccount();
         $merchantRiskIndicator = $transaction->getMerchantRiskIndicator();
         $browser = $transaction->getBrowser();
@@ -128,10 +126,6 @@ class RequestMapper
 
         if ($redirects instanceof Redirect) {
             $requestData = array_merge($requestData, $redirects->mappedSeamlessProperties());
-        }
-
-        if ($threeDSRequestor instanceof ThreeDSRequestor) {
-            $requestData = array_merge($requestData, $threeDSRequestor->mappedSeamlessProperties());
         }
 
         if ($cardHolderAccount instanceof CardHolderAccount) {

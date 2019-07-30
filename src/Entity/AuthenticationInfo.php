@@ -9,6 +9,7 @@
 
 namespace Wirecard\PaymentSdk\Entity;
 
+use Wirecard\PaymentSdk\Constant\ChallengeInd;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Constant\AuthMethod;
 use Wirecard\PaymentSdk\Exception\NotImplementedException;
@@ -34,6 +35,11 @@ class AuthenticationInfo implements MappableEntity
      * @var \DateTime
      */
     private $authTimestamp;
+
+    /**
+     * @var ChallengeInd
+     */
+    private $challengeInd;
 
     /**
      * @param $authMethod
@@ -68,6 +74,22 @@ class AuthenticationInfo implements MappableEntity
     }
 
     /**
+     * @param string $challengeInd
+     * @return $this
+     * @since 3.8.0
+     */
+    public function setChallengeInd($challengeInd)
+    {
+        if (!ChallengeInd::isValid($challengeInd)) {
+            throw new \InvalidArgumentException('Challenge indication preference is invalid.');
+        }
+
+        $this->challengeInd = $challengeInd;
+
+        return $this;
+    }
+
+    /**
      * @return array|void
      * @throws NotImplementedException
      * @since 3.8.0
@@ -91,6 +113,10 @@ class AuthenticationInfo implements MappableEntity
 
         if (null !== $this->authTimestamp) {
             $authenticationInfo['authentication_timestamp'] = $this->authTimestamp;
+        }
+
+        if (null !== $this->challengeInd) {
+            $authenticationInfo['challenge_indicator'] = $this->challengeInd;
         }
 
         return $authenticationInfo;

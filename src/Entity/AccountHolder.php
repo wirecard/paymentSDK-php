@@ -85,6 +85,11 @@ class AccountHolder implements MappableEntity
      */
     private $socialSecurityNumber;
 
+    /**
+     * @var AuthenticationInfo
+     */
+    private $authenticationInfo;
+
 
     public function __construct($simpleXmlElement = null)
     {
@@ -238,6 +243,23 @@ class AccountHolder implements MappableEntity
     }
 
     /**
+     * @param AuthenticationInfo $authenticationInfo
+     * @return $this
+     * @since 3.8.0
+     */
+    public function setAuthenticationInfo($authenticationInfo)
+    {
+        if (!$authenticationInfo instanceof AuthenticationInfo) {
+            throw new \InvalidArgumentException(
+                '3DS Requestor Authentication Information must be of type AuthenticationInfo.'
+            );
+        }
+        $this->authenticationInfo = $authenticationInfo;
+
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function mappedProperties()
@@ -357,6 +379,10 @@ class AccountHolder implements MappableEntity
 
         if (!is_null($this->socialSecurityNumber)) {
             $result['consumer_social_security_number'] = $this->socialSecurityNumber;
+        }
+
+        if (!is_null($this->authenticationInfo)) {
+            $result = array_merge($result, $this->authenticationInfo->mappedSeamlessProperties());
         }
 
         return $result;

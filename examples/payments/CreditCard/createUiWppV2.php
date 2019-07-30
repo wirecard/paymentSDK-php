@@ -92,16 +92,15 @@ $transaction->setCustomFields($custom_fields);
  * https://www.emvco.com/document-search/?action=search_documents&publish_date=&emvco_document_version=&emvco_document_book=&px_search=&emvco_document_technology%5B%5D=3-d-secure
  */
 // ### Contains information for the 3DS Requestor
-$requestor = new \Wirecard\PaymentSdk\Entity\ThreeDSRequestor();
+//TODO: Add authenticationInfo to AccountHolder after 3DS Requestor removal
+
 // Information about how the 3DS Requestor authenticated the cardholder before or during the transaction
 // Possible values 01 guest login, 02 User Account in Shop, 03 federated id, 04 issuer of card credentials, 05 third-party authentication, 06 FIDO authentication
 $authenticationInfo = new \Wirecard\PaymentSdk\Entity\AuthenticationInfo();
 $authenticationInfo->setAuthMethod(\Wirecard\PaymentSdk\Constant\AuthMethod::GUEST_CHECKOUT);
 $authenticationInfo->setAuthTimestamp();
 // Indicates if a challenge is requested for this transaction, 01 no preference, 02 no challenge, 03 challenge requested 3DS, 04 challenge requested Mandate
-$requestor->setChallengeInd(\Wirecard\PaymentSdk\Constant\ChallengeInd::NO_PREFERENCE);
-$requestor->setAuthenticationInfo($authenticationInfo);
-$transaction->setThreeDSRequestor($requestor);
+$authenticationInfo->setChallengeInd(\Wirecard\PaymentSdk\Constant\ChallengeInd::NO_PREFERENCE);
 // ### Contains additional information about the Cardholder's account provided by the 3DS Requestor
 $cardHolderAccount = new \Wirecard\PaymentSdk\Entity\CardHolderAccount();
 // Account creation date
