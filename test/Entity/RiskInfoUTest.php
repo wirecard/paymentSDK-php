@@ -66,12 +66,4 @@ class RiskInfoUTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $merchantRiskIndicator->mappedSeamlessProperties());
     }
-
-    public function testMappingNotSupported()
-    {
-        $cardHolderAccount = new RiskInfo();
-
-        $this->expectException(NotImplementedException::class);
-        $cardHolderAccount->mappedProperties();
-    }
 }
