@@ -70,7 +70,6 @@ $transaction->setTermUrl($redirectUrl);
 $transaction->setNotificationUrl($redirectUrl);
 $transaction->setBasket($basket);
 $transaction->setOrderNumber($orderNumber);
-$transaction->setAccountHolder($accountHolder);
 $transaction->setShipping($accountHolder);
 
 // Send custom fields for CreditCard transactions
@@ -85,8 +84,6 @@ $transaction->setCustomFields($custom_fields);
  * https://www.emvco.com/document-search/?action=search_documents&publish_date=&emvco_document_version=&emvco_document_book=&px_search=&emvco_document_technology%5B%5D=3-d-secure
  */
 // ### Contains information for the 3DS Requestor
-//TODO: Add authenticationInfo to AccountHolder after 3DS Requestor removal
-
 // Information about how the 3DS Requestor authenticated the cardholder before or during the transaction
 // Possible values 01 guest login, 02 User Account in Shop, 03 federated id, 04 issuer of card credentials, 05 third-party authentication, 06 FIDO authentication
 $authenticationInfo = new \Wirecard\PaymentSdk\Entity\AccountInfo();
@@ -98,25 +95,29 @@ $authenticationInfo->setChallengeInd(\Wirecard\PaymentSdk\Constant\ChallengeInd:
 // ### Contains additional information about the Cardholder's account provided by the 3DS Requestor
 $cardHolderAccount = new \Wirecard\PaymentSdk\Entity\CardHolderAccount();
 // Account creation date
-$cardHolderAccount->setCreationDate(new DateTime());
+$authenticationInfo->setCreationDate(new DateTime());
 // Account update date
-$cardHolderAccount->setUpdateDate(new DateTime());
+$authenticationInfo->setUpdateDate(new DateTime());
 // Account password change date
-$cardHolderAccount->setPassChangeDate(new DateTime());
+$authenticationInfo->setPassChangeDate(new DateTime());
 // Account first usage of the address
-$cardHolderAccount->setShippingAddressFirstUse(new DateTime());
+$authenticationInfo->setShippingAddressFirstUse(new DateTime());
 // Card creation date
-$cardHolderAccount->setCardCreationDate(new DateTime());
+$authenticationInfo->setCardCreationDate(new DateTime());
 // Number of transactions (successful and abandoned) for this cardholder account across all payment accounts in the previous 24 hours
-$cardHolderAccount->setAmountTransactionsLastDay(2);
+$authenticationInfo->setAmountTransactionsLastDay(2);
 // Number of transactions (successful and abandoned) for this cardholder account across all payment accounts in the previous year
-$cardHolderAccount->setAmountTransactionsLastYear(500);
+$authenticationInfo->setAmountTransactionsLastYear(500);
 // Number of card attempts in the previous 24 hours
-$cardHolderAccount->setAmountCardTransactionsLastDay(1);
+$authenticationInfo->setAmountCardTransactionsLastDay(1);
 // Number of purchases with this cardholder account during the previous six months
-$cardHolderAccount->setAmountPurchasesLastSixMonths(30);
+$authenticationInfo->setAmountPurchasesLastSixMonths(30);
 // Indicates whether the 3DS requestor has experienced suspicious activity on the cardholder account. Accepted values are true or false
-$cardHolderAccount->setSuspiciousActivity(false);
+$authenticationInfo->setSuspiciousActivity(false);
+
+// Set accountInfo for AccountHolder
+$accountHolder->setAccountInfo($authenticationInfo);
+$transaction->setAccountHolder($accountHolder);
 // Additional information about the account provided by the 3DS requestor. Limited to 64 characters
 $cardHolderAccount->setMerchantCrmId('12daw2r');
 $transaction->setCardHolderAccount($cardHolderAccount);
