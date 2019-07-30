@@ -265,6 +265,8 @@ abstract class Risk
      */
     private function sanitizeDescriptor($descriptor, $length, $regex)
     {
-        return mb_strimwidth(preg_replace($regex, '', $descriptor), 0, $length);
+        $sanitizedDescriptor =  preg_replace($regex, '', $descriptor);
+        //Remove double spaces and cut to width
+        return mb_strimwidth(preg_replace('/\s+/', ' ', $sanitizedDescriptor), 0, $length);
     }
 }
