@@ -9,13 +9,10 @@
 
 namespace WirecardTest\PaymentSdk\Entity;
 
-use Wirecard\PaymentSdk\Constant\IsoTransactionType;
 use Wirecard\PaymentSdk\Constant\RiskInfoAvailability;
 use Wirecard\PaymentSdk\Constant\RiskInfoDeliveryTimeFrame;
 use Wirecard\PaymentSdk\Constant\RiskInfoReorder;
-use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\RiskInfo;
-use Wirecard\PaymentSdk\Exception\NotImplementedException;
 
 class RiskInfoUTest extends \PHPUnit_Framework_TestCase
 {
@@ -40,5 +37,28 @@ class RiskInfoUTest extends \PHPUnit_Framework_TestCase
         $merchantRiskIndicator->setReorderItems(RiskInfoReorder::FIRST_TIME_ORDERED);
 
         $this->assertEquals($expected, $merchantRiskIndicator->mappedSeamlessProperties());
+    }
+
+    public function testMappingWithAllFields()
+    {
+        $merchantRiskIndicator = new RiskInfo();
+        $mail                  = 'max.muster@mail.com';
+        $date                  = new \DateTime();
+
+        $expected = [
+            'delivery-timeframe'   => RiskInfoDeliveryTimeFrame::ELECTRONIC_DELIVERY,
+            'delivery-mail'        => $mail,
+            'reorder-items'        => RiskInfoReorder::FIRST_TIME_ORDERED,
+            'availability'         => RiskInfoAvailability::MERCHANDISE_AVAILABLE,
+            'preorder-date'        => $date->format(RiskInfo::DATE_FORMAT),
+        ];
+
+        $merchantRiskIndicator->setAvailability(RiskInfoAvailability::MERCHANDISE_AVAILABLE);
+        $merchantRiskIndicator->setDeliveryEmailAddress($mail);
+        $merchantRiskIndicator->setDeliveryTimeFrame(RiskInfoDeliveryTimeFrame::ELECTRONIC_DELIVERY);
+        $merchantRiskIndicator->setPreOrderDate($date);
+        $merchantRiskIndicator->setReorderItems(RiskInfoReorder::FIRST_TIME_ORDERED);
+
+        $this->assertEquals($expected, $merchantRiskIndicator->mappedProperties());
     }
 }
