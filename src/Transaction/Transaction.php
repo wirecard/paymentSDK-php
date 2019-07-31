@@ -486,11 +486,11 @@ abstract class Transaction extends Risk
         }
 
         if ($this->riskInfo instanceof RiskInfo) {
-            $data['risk-info'] = $this->riskInfo->mappedProperties();
+            $result['risk-info'] = $this->riskInfo->mappedProperties();
         }
 
         if (null !== $this->isoTransactionType) {
-            $data['iso-transaction-type'] = $this->isoTransactionType;
+            $result['iso-transaction-type'] = $this->isoTransactionType;
         }
 
         return array_merge($result, $specificProperties);

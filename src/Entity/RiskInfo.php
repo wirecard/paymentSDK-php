@@ -23,83 +23,27 @@ use Wirecard\PaymentSdk\Formatter\DateFormatter;
  */
 class RiskInfo extends Mappable
 {
-    /** @const string DATE_FORMAT */
+    /**
+     * @const string DATE_FORMAT
+     */
     const DATE_FORMAT = 'Y-m-d\TH:i:s\Z';
 
-    /** @const array PROPERTY_CONFIGURATION */
-    const PROPERTY_CONFIGURATION = [
-        'deliveryTimeFrame' => [ // String, Enum
-            self::PROPERTY_MAP_SEAMLESS_KEY => [
-                self::PROPERTY_NAME_KEY  => 'risk_info_delivery_timeframe',
-            ],
-            self::PROPERTY_MAP_KEY => [
-                self::PROPERTY_NAME_KEY => 'delivery-timeframe',
-            ]
-        ],
-        'deliveryEmailAddress' => [ // String
-            self::PROPERTY_MAP_SEAMLESS_KEY => [
-                self::PROPERTY_NAME_KEY  => 'risk_info_delivery_mail',
-            ],
-            self::PROPERTY_MAP_KEY => [
-                self::PROPERTY_NAME_KEY => 'delivery-mail',
-            ]
-        ],
-        'reorderItems' => [ // String, Enum
-            self::PROPERTY_MAP_SEAMLESS_KEY => [
-                self::PROPERTY_NAME_KEY  => 'risk_info_reorder_items',
-            ],
-            self::PROPERTY_MAP_KEY => [
-                self::PROPERTY_NAME_KEY => 'reorder-items',
-            ]
-        ],
-        'availability' => [ // String, Enum
-            self::PROPERTY_MAP_SEAMLESS_KEY => [
-                self::PROPERTY_NAME_KEY  => 'risk_info_availability',
-            ],
-            self::PROPERTY_MAP_KEY => [
-                self::PROPERTY_NAME_KEY => 'availability',
-            ]
-        ],
-        'preOrderDate' => [ // Date
-            self::PROPERTY_MAP_SEAMLESS_KEY => [
-                self::PROPERTY_NAME_KEY       => 'risk_info_preorder_date',
-                self::PROPERTY_FORMATTER_KEY => DateFormatter::FORMATTER_NAME,
-                self::PROPERTY_FORMATTER_PARAMS_KEY => [
-                    DateFormatter::PARAM_DATE_FORMAT_KEY => self::DATE_FORMAT
-                ],
-            ],
-            self::PROPERTY_MAP_KEY => [
-                self::PROPERTY_NAME_KEY => 'preorder-date',
-                self::PROPERTY_FORMATTER_KEY => DateFormatter::FORMATTER_NAME,
-                self::PROPERTY_FORMATTER_PARAMS_KEY => [
-                    DateFormatter::PARAM_DATE_FORMAT_KEY => self::DATE_FORMAT
-                ]
-            ]
-        ],
-        'giftAmount' => [ // Integer
-            self::PROPERTY_MAP_SEAMLESS_KEY => [
-                self::PROPERTY_NAME_KEY  => 'risk_info_gift_amount',
-            ],
-            self::PROPERTY_MAP_KEY => [
-                self::PROPERTY_NAME_KEY => 'gift-amount',
-            ]
-        ],
-        'giftCurrency' => [ // String
-            self::PROPERTY_MAP_SEAMLESS_KEY => [
-                self::PROPERTY_NAME_KEY  => 'risk_info_gift_amount_currency',
-            ],
-            self::PROPERTY_MAP_KEY => [
-                self::PROPERTY_NAME_KEY => 'gift-amount-currency',
-            ]
-        ],
-        'giftCardCount' => [ // Integer
-            self::PROPERTY_MAP_SEAMLESS_KEY => [
-                self::PROPERTY_NAME_KEY  => 'risk_info_gift_card_count',
-            ],
-            self::PROPERTY_MAP_KEY => [
-                self::PROPERTY_NAME_KEY => 'gift-card-count',
-            ]
-        ]
+    /** @const array NVP_FIELDS */
+    const NVP_FIELDS = [
+        'risk_info_delivery_timeframe'  => 'deliveryTimeFrame',
+        'risk_info_delivery_mail'       => 'deliveryEmailAddress',
+        'risk_info_reorder_items'       => 'reorderItems',
+        'risk_info_availability'        => 'availability',
+        'risk_info_preorder_date'       => 'preOrderDate',
+    ];
+
+    /** @const array REST_FIELDS */
+    const REST_FIELDS = [
+        'delivery-timeframe'            => 'deliveryTimeFrame',
+        'delivery-mail'                 => 'deliveryEmailAddress',
+        'reorder-items'                 => 'reorderItems',
+        'availability'                  => 'availability',
+        'preorder-date'                 => 'preOrderDate',
     ];
 
     /**
@@ -112,23 +56,20 @@ class RiskInfo extends Mappable
      */
     protected $deliveryEmailAddress;
 
-    /** @var RiskInfoReorder $reorderItems */
+    /**
+     * @var RiskInfoReorder $reorderItems
+     */
     protected $reorderItems;
 
-    /** @var RiskInfoAvailability $availability */
+    /**
+     * @var RiskInfoAvailability $availability
+     */
     protected $availability;
 
-    /** @var \DateTime $preOrderDate */
+    /**
+     * @var \DateTime $preOrderDate
+     */
     protected $preOrderDate;
-
-    /** @var int $giftAmount */
-    protected $giftAmount;
-
-    /** @var string $giftCurrency */
-    protected $giftCurrency;
-
-    /** @var int $giftCardCount */
-    protected $giftCardCount;
 
     /**
      * @param $deliveryTimeFrame
@@ -200,35 +141,6 @@ class RiskInfo extends Mappable
     }
 
     /**
-     * @param Amount $giftAmount
-     * @return $this
-     * @since 3.8.0
-     */
-    public function setGiftAmount(Amount $giftAmount)
-    {
-        $this->giftAmount   = (int)floor($giftAmount->getValue());
-        $this->giftCurrency = $giftAmount->getCurrency();
-
-        return $this;
-    }
-
-    /**
-     * @param int $giftCardCount
-     * @return $this
-     * @since 3.8.0
-     */
-    public function setGiftCardCount($giftCardCount)
-    {
-        if ($giftCardCount < 1 || $giftCardCount > 99) {
-            throw new \InvalidArgumentException('Gift card count must not exceed 2 digits');
-        }
-
-        $this->giftCardCount = $giftCardCount;
-
-        return $this;
-    }
-
-    /**
      * @return RiskInfoDeliveryTimeFrame
      * @since 3.8.0
      */
@@ -274,29 +186,52 @@ class RiskInfo extends Mappable
     }
 
     /**
-     * @return int
+     * @param array $mapping
+     * @return array
      * @since 3.8.0
      */
-    public function getGiftAmount()
+    public function mapProperties($mapping)
     {
-        return $this->giftAmount;
+        $riskInfo = array();
+
+        foreach ($mapping as $mappedKey => $property) {
+            if (isset($this->{$property})) {
+                $riskInfo[$mappedKey] = $this->getFormattedValue($this->{$property});
+            }
+        }
+
+        return $riskInfo;
     }
 
     /**
-     * @return string
+     * @return array
      * @since 3.8.0
      */
-    public function getGiftCurrency()
+    public function mappedProperties()
     {
-        return $this->giftCurrency;
+        return $this->mapProperties(self::REST_FIELDS);
     }
 
     /**
-     * @return int
+     * @return array
      * @since 3.8.0
      */
-    public function getGiftCardCount()
+    public function mappedSeamlessProperties()
     {
-        return $this->giftCardCount;
+        return $this->mapProperties(self::NVP_FIELDS);
+    }
+
+    /**
+     * @param $value
+     * @return mixed
+     * @since 3.8.0
+     */
+    private function getFormattedValue($value)
+    {
+        if ($value instanceof \DateTime) {
+            return $value->format(self::DATE_FORMAT);
+        }
+
+        return $value;
     }
 }

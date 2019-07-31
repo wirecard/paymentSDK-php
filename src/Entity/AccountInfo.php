@@ -39,7 +39,6 @@ class AccountInfo implements MappableEntity
         'transactions_last_year'       => 'amountTransactionsLastYear',
         'card_transactions_last_day'   => 'amountCardTransactionsLastDay',
         'purchases_last_six_months'    => 'amountPurchasesLastSixMonths',
-        'suspicious_activity'          => 'suspiciousActivity',
     ];
 
     /** @const array REST_FIELDS */
@@ -56,7 +55,6 @@ class AccountInfo implements MappableEntity
         'transactions-last-year'       => 'amountTransactionsLastYear',
         'card-transactions-last-day'   => 'amountCardTransactionsLastDay',
         'purchases-last-six-months'    => 'amountPurchasesLastSixMonths',
-        'suspicious-activity'          => 'suspiciousActivity',
     ];
 
     /**
@@ -118,11 +116,6 @@ class AccountInfo implements MappableEntity
      * @var int
      */
     private $amountPurchasesLastSixMonths;
-
-    /**
-     * @var bool
-     */
-    private $suspiciousActivity;
 
     /**
      * @param $authMethod
@@ -281,23 +274,6 @@ class AccountInfo implements MappableEntity
     }
 
     /**
-     * @param bool $suspiciousActivity
-     * @return $this
-     * @since 3.8.0
-     */
-    public function setSuspiciousActivity($suspiciousActivity)
-    {
-        if ($suspiciousActivity) {
-            $this->suspiciousActivity = '02';
-            return $this;
-        }
-
-        $this->suspiciousActivity = '01';
-
-        return $this;
-    }
-
-    /**
      * @return \DateTime
      * @since 3.8.0
      */
@@ -379,30 +355,30 @@ class AccountInfo implements MappableEntity
     }
 
     /**
-     * @return bool
+     * @param array $mapping
+     * @return array
      * @since 3.8.0
      */
-    public function isSuspiciousActivity()
+    public function mapProperties($mapping)
     {
-        return $this->suspiciousActivity;
+        $riskInfo = array();
+
+        foreach ($mapping as $mappedKey => $property) {
+            if (isset($this->{$property})) {
+                $riskInfo[$mappedKey] = $this->getFormattedValue($this->{$property});
+            }
+        }
+
+        return $riskInfo;
     }
 
     /**
-     * @return array|void
-     * @throws NotImplementedException
+     * @return array
      * @since 3.8.0
      */
     public function mappedProperties()
     {
-        $accountInfo = array();
-
-        foreach (self::REST_FIELDS as $mappedKey => $property) {
-            if (isset($this->{$property})) {
-                $accountInfo[$mappedKey] = $this->getFormattedValue($this->{$property});
-            }
-        }
-
-        return $accountInfo;
+        return $this->mapProperties(self::REST_FIELDS);
     }
 
     /**
@@ -411,15 +387,7 @@ class AccountInfo implements MappableEntity
      */
     public function mappedSeamlessProperties()
     {
-        $accountInfo = array();
-
-        foreach (self::NVP_FIELDS as $mappedKey => $property) {
-            if (isset($this->{$property})) {
-                $accountInfo[$mappedKey] = $this->getFormattedValue($this->{$property});
-            }
-        }
-
-        return $accountInfo;
+        return $this->mapProperties(self::NVP_FIELDS);
     }
 
     /**

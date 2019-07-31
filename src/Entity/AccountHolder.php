@@ -48,11 +48,6 @@ class AccountHolder implements MappableEntity
     /**
      * @var string
      */
-    private $homePhone;
-
-    /**
-     * @var string
-     */
     private $mobilePhone;
 
     /**
@@ -135,17 +130,6 @@ class AccountHolder implements MappableEntity
     public function setPhone($phone)
     {
         $this->phone = $phone;
-        return $this;
-    }
-
-    /**
-     * @param $phone
-     * @return $this
-     * @since 3.8.0
-     */
-    public function setHomePhone($phone)
-    {
-        $this->homePhone = $phone;
         return $this;
     }
 
@@ -295,10 +279,6 @@ class AccountHolder implements MappableEntity
             $result['phone'] = $this->phone;
         }
 
-        if (!is_null($this->homePhone)) {
-            $result['home-phone'] = $this->homePhone;
-        }
-
         if (!is_null($this->mobilePhone)) {
             $result['mobile-phone'] = $this->mobilePhone;
         }
@@ -364,10 +344,6 @@ class AccountHolder implements MappableEntity
 
         if (!is_null($this->phone)) {
             $result['phone'] = $this->phone;
-        }
-
-        if (!is_null($this->homePhone)) {
-            $result['home_phone'] = $this->homePhone;
         }
 
         if (!is_null($this->mobilePhone)) {
@@ -477,7 +453,6 @@ class AccountHolder implements MappableEntity
             'last-name'    => 'setLastName',
             'email'        => 'setEmail',
             'phone'        => 'setPhone',
-            'home-phone'   => 'setHomePhone',
             'work-phone'   => 'setWorkPhone',
             'mobile-phone' => 'setMobilePhone',
         ];

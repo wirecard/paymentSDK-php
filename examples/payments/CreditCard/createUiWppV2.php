@@ -61,7 +61,6 @@ $address->setPostalCode('13353');
 $accountHolder = new \Wirecard\PaymentSdk\Entity\AccountHolder();
 $accountHolder->setEmail('john.doe@test.com');
 $accountHolder->setPhone('03018425165');
-$accountHolder->setHomePhone('0345345');
 $accountHolder->setWorkPhone('0765573242');
 $accountHolder->setMobilePhone('041232342');
 $accountHolder->setDateOfBirth(new \DateTime('1973-12-07'));
@@ -117,8 +116,6 @@ $authenticationInfo->setAmountTransactionsLastYear(500);
 $authenticationInfo->setAmountCardTransactionsLastDay(1);
 // Number of purchases with this cardholder account during the previous six months
 $authenticationInfo->setAmountPurchasesLastSixMonths(30);
-// Indicates whether the 3DS requestor has experienced suspicious activity on the cardholder account. Accepted values are true or false
-$authenticationInfo->setSuspiciousActivity(false);
 // Set accountInfo for AccountHolder
 $accountHolder->setAccountInfo($authenticationInfo);
 // Additional information about the account provided by the 3DS requestor. Limited to 64 characters
@@ -133,10 +130,6 @@ $merchantRiskIndicator->setAvailability(\Wirecard\PaymentSdk\Constant\RiskInfoAv
 $merchantRiskIndicator->setDeliveryEmailAddress('max.muster@mail.com');
 // Indicates the merchandise delivery timeframe. Electronic Delivery 01, Same day shipping 02, Overnight shipping 03, Two-day or more shipping 04
 $merchantRiskIndicator->setDeliveryTimeFrame(\Wirecard\PaymentSdk\Constant\RiskInfoDeliveryTimeFrame::ELECTRONIC_DELIVERY);
-// The purchase amount total of prepaid or gift card(s) and currency used. Will be trimmed to major units ignoring decimals
-$merchantRiskIndicator->setGiftAmount(new Amount(143.78, 'EUR'));
-// Quantity of ordered prepaid or gift cards. Limited to 2 characters
-$merchantRiskIndicator->setGiftCardCount(13);
 // Expected delivery date for pre-ordered goods
 $merchantRiskIndicator->setPreOrderDate(new DateTime());
 // Was the good already bought before. First time ordered 01, Reordered 02
