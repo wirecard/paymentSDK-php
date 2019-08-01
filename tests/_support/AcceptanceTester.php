@@ -42,6 +42,12 @@ use Page\CreditCardReserveWppV2 as CreditCardReserveWppV2Page;
 // WPPv2 Non 3D
 use Page\CreditCardCreateUINon3DWppV2 as CreditCardCreateUINon3DWppV2Page;
 use Page\CreditCardWppV2SuccessNon3D as CreditCardWppV2SuccessNon3DPage;
+use Page\PayPalLogin as PayPalLoginPage;
+use Page\PayPalReview as PayPalReviewPage;
+use Page\PayPalSuccess as PayPalSuccessPage;
+use Page\PayPalPayBasedOnReserve as PayPalPayBasedOnReservePage;
+use Page\PayPalCancel as PayPalCancelPage;
+use Page\WirecardTransactionDetails as WirecardTransactionDetailsPage;
 
 class AcceptanceTester extends \Codeception\Actor
 {
@@ -112,7 +118,27 @@ class AcceptanceTester extends \Codeception\Actor
             case "Create Credit Card UI Payment Action Page":
                 $page = new CreditCardCreateUIPaymentActionPage($this);
                 break;
-
+            case "Pay Pal Log In":
+                $page = new PayPalLoginPage($this);
+                $this->wait(15);
+                break;
+            case "Pay Pal Review":
+                $page = new PayPalReviewPage($this);
+                $this->wait(20);
+                break;
+            case "Pay Pal Pay Based On Reserve":
+                $page = new PayPalPayBasedOnReservePage($this);
+                break;
+            case "Pay Pal Success":
+                $page = new PayPalSuccessPage($this);
+                $this->wait(25);
+                break;
+            case "Pay Pal Cancel":
+                $page = new PayPalCancelPage($this);
+                break;
+            case "Wirecard Transaction Details":
+                $page = new WirecardTransactionDetailsPage($this);
+                break;
         }
         return $page;
     }
@@ -230,5 +256,37 @@ class AcceptanceTester extends \Codeception\Actor
     public function iFillFieldsWith($cardData)
     {
         $this->currentPage->fillCreditCardFields($cardData);
+    }
+
+    /**
+     * @Given I login to Paypal
+     * @since 3.7.2
+     */
+    public function iLoginToPaypal()
+    {
+        $this->currentPage->performPaypalLogin();
+    }
+
+    /**
+     * @Given I click :link link
+     * @since 3.7.2
+     */
+    public function iClickLinkWithAuthCredentialsUserPassword($link)
+    {
+        $env = getenv('GATEWAY');
+        $data_field_values = $this->getDataFromDataFile('tests/_data/gatewayUsers.json');
+        $this->waitForElementVisible($this->getPageElement($link));
+        $link_address = $this->grabAttributeFrom($this->getPageElement($link), "href");
+        $this->amOnUrl($this->formAuthLink($link_address, $data_field_values->$env->username,
+            $data_field_values->$env->password));
+    }
+
+    /**
+     * @Then I see in table key :tableKey value :tableValue
+     * @since 3.7.2
+     */
+    public function iSeeInTableKeyValue($tableKey, $tableValue)
+    {
+        $this->currentPage->seeTransactionType($tableKey, $tableValue);
     }
 }

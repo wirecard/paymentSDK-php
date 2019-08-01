@@ -21,7 +21,7 @@ class SofortTransaction extends Transaction
      * Allowed characters:
      * umlaut, '0-9' 'a-z' 'A-Z' ' ' '+' ',' '-' '.'
      */
-    const DESCRIPTOR_ALLOWED_CHAR_REGEX = "/[^a-zA-Z0-9\s\'\+\,\-\.\Ä\Ö\Ü\ä\ö\ü]/u";
+    const DESCRIPTOR_ALLOWED_CHAR_REGEX = "/[^a-zA-Z0-9\s\+\,\-\.\Ä\Ö\Ü\ä\ö\ü]/u";
 
     /**
      * @var bool
