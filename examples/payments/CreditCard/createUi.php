@@ -46,7 +46,8 @@ $startAmount = 25;
 if (strpos($gatewayEnv, 'SG') !== false) {
     $currency='SGD';
 }
-if (70 == intval($_GET['amount'])) {
+
+if (isset($_GET['amount'])) {
     $startAmount = 70;
 }
 
@@ -56,6 +57,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $postedAmount = $_POST['amount'];
     $currency = $_POST['currency'];
     $amount = new Amount((int)$postedAmount, $currency);
+}
+$paymentAction = 'authorization';
+if (isset($_GET['paymentAction'])) {
+    $paymentAction = $_GET['paymentAction'];
 }
 $orderNumber = 'A2';
 
@@ -163,7 +168,7 @@ $transaction->setCustomFields($custom_fields);
         // We fill the _requestData_ with the return value
         // from the `getCreditCardUiWithData` method of the `transactionService` which expects a transaction
         // with all desired parameters.
-        requestData: <?= $transactionService->getCreditCardUiWithData($transaction, $_GET['paymentAction'], 'en'); ?>,
+        requestData: <?= $transactionService->getCreditCardUiWithData($transaction, $paymentAction, 'en'); ?>,
         wrappingDivId: "creditcard-form-div",
         onSuccess: logCallback,
         onError: logCallback

@@ -48,7 +48,6 @@ We also provide some examples for using the PaymentSDK, which can be found [here
 - Przelewy24
 - SEPA Direct Debit
 - Sofort.
-- UnionPay International
 - UnionPay Online Payments
 
 If you have any questions or need further assistance do not hesitate to contact our [support teams](mailto:support.at@wirecard.com ).

@@ -14,8 +14,10 @@ use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Entity\Device;
+use Wirecard\PaymentSdk\Entity\RiskInfo;
 use Wirecard\PaymentSdk\Entity\Periodic;
 use Wirecard\PaymentSdk\Entity\Redirect;
+use Wirecard\PaymentSdk\Entity\Browser;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException;
 use Wirecard\PaymentSdk\Transaction\Transaction;
@@ -90,6 +92,8 @@ class RequestMapper
         $customFields = $transaction->getCustomFields();
         $periodic = $transaction->getPeriodic();
         $redirects = $transaction->getRedirect();
+        $riskInfo = $transaction->getRiskInfo();
+        $browser = $transaction->getBrowser();
 
         if ($accountHolder instanceof AccountHolder) {
             $requestData = array_merge(
@@ -122,6 +126,14 @@ class RequestMapper
             $requestData = array_merge($requestData, $redirects->mappedSeamlessProperties());
         }
 
+        if ($riskInfo instanceof RiskInfo) {
+            $requestData = array_merge($requestData, $riskInfo->mappedSeamlessProperties());
+        }
+
+        if ($browser instanceof Browser) {
+            $requestData = array_merge($requestData, $browser->mappedSeamlessProperties());
+        }
+
         if ($device instanceof Device) {
             $requestData['device_fingerprint'] = $device->getFingerprint();
         }
@@ -145,6 +157,10 @@ class RequestMapper
 
         if (null !== $transaction->getConsumerId()) {
             $requestData['consumer_id'] = $transaction->getConsumerId();
+        }
+
+        if (null !== $transaction->getIsoTransactionType()) {
+            $data['iso_transaction_type'] = $transaction->getIsoTransactionType();
         }
 
         return $requestData;

@@ -10,9 +10,11 @@
 namespace Wirecard\PaymentSdk\Transaction;
 
 use Locale;
+use Wirecard\PaymentSdk\Constant\IsoTransactionType;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Browser;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
+use Wirecard\PaymentSdk\Entity\RiskInfo;
 use Wirecard\PaymentSdk\Entity\Periodic;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
@@ -139,6 +141,16 @@ abstract class Transaction extends Risk
      * @var string
      */
     protected $endpoint;
+
+    /**
+     * @var RiskInfo
+     */
+    private $riskInfo;
+
+    /**
+     * @var IsoTransactionType
+     */
+    protected $isoTransactionType;
 
     /**
      * @param string $entryMode
@@ -338,6 +350,56 @@ abstract class Transaction extends Risk
     }
 
     /**
+     * @param $riskInfo
+     * @return $this
+     * @since 3.8.0
+     */
+    public function setRiskInfo($riskInfo)
+    {
+        if (!$riskInfo instanceof RiskInfo) {
+            throw new \InvalidArgumentException(
+                'Merchant Risk Indicator must be of type RiskInfo.'
+            );
+        }
+        $this->riskInfo = $riskInfo;
+        return $this;
+    }
+
+    /**
+     * @return RiskInfo
+     * @since 3.8.0
+     */
+    public function getRiskInfo()
+    {
+        return $this->riskInfo;
+    }
+
+    /**
+     * @param $isoTransactionType
+     * @return $this
+     * @since 3.8.0
+     */
+    public function setIsoTransactionType($isoTransactionType)
+    {
+        if (!IsoTransactionType::isValid($isoTransactionType)) {
+            throw new \InvalidArgumentException('ISO transaction type preference is invalid.');
+        }
+
+        $this->isoTransactionType = $isoTransactionType;
+
+        return $this;
+    }
+
+    /**
+     * @return IsoTransactionType
+     * @since 3.8.0
+     */
+    public function getIsoTransactionType()
+    {
+        return $this->isoTransactionType;
+    }
+
+    /**
      * @throws MandatoryFieldMissingException
      * @throws UnsupportedOperationException
      * @return array
@@ -421,6 +483,14 @@ abstract class Transaction extends Risk
             if (count($browser) > 0) {
                 $result['browser'] = $this->browser->mappedProperties();
             }
+        }
+
+        if ($this->riskInfo instanceof RiskInfo) {
+            $result['risk-info'] = $this->riskInfo->mappedProperties();
+        }
+
+        if (null !== $this->isoTransactionType) {
+            $result['iso-transaction-type'] = $this->isoTransactionType;
         }
 
         return array_merge($result, $specificProperties);
