@@ -9,16 +9,14 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
-use http\Exception\InvalidArgumentException;
 use Locale;
+use Wirecard\PaymentSdk\Constant\IsoTransactionType;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Browser;
-use Wirecard\PaymentSdk\Entity\CardHolderAccount;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
-use Wirecard\PaymentSdk\Entity\MerchantRiskIndicator;
+use Wirecard\PaymentSdk\Entity\RiskInfo;
 use Wirecard\PaymentSdk\Entity\Periodic;
 use Wirecard\PaymentSdk\Entity\Redirect;
-use Wirecard\PaymentSdk\Entity\ThreeDSRequestor;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
@@ -145,19 +143,14 @@ abstract class Transaction extends Risk
     protected $endpoint;
 
     /**
-     * @var ThreeDSRequestor
+     * @var RiskInfo
      */
-    private $threeDSRequestor;
+    private $riskInfo;
 
     /**
-     * @var CardHolderAccount
+     * @var IsoTransactionType
      */
-    private $cardHolderAccount;
-
-    /**
-     * @var MerchantRiskIndicator
-     */
-    private $merchantRiskIndicator;
+    protected $isoTransactionType;
 
     /**
      * @param string $entryMode
@@ -357,78 +350,53 @@ abstract class Transaction extends Risk
     }
 
     /**
-     * @param $threeDSRequestor
+     * @param $riskInfo
      * @return $this
      * @since 3.8.0
      */
-    public function setThreeDSRequestor($threeDSRequestor)
+    public function setRiskInfo($riskInfo)
     {
-        if (!$threeDSRequestor instanceof ThreeDSRequestor) {
+        if (!$riskInfo instanceof RiskInfo) {
             throw new \InvalidArgumentException(
-                '3DS Requestor Information must be of type ThreeDSRequestor.'
+                'Merchant Risk Indicator must be of type RiskInfo.'
             );
         }
-        $this->threeDSRequestor = $threeDSRequestor;
+        $this->riskInfo = $riskInfo;
         return $this;
     }
 
     /**
-     * @return ThreeDSRequestor
+     * @return RiskInfo
      * @since 3.8.0
      */
-    public function getThreeDSRequestor()
+    public function getRiskInfo()
     {
-        return $this->threeDSRequestor;
+        return $this->riskInfo;
     }
 
     /**
-     * @param $merchantRiskIndicator
+     * @param $isoTransactionType
      * @return $this
      * @since 3.8.0
      */
-    public function setMerchantRiskIndicator($merchantRiskIndicator)
+    public function setIsoTransactionType($isoTransactionType)
     {
-        if (!$merchantRiskIndicator instanceof MerchantRiskIndicator) {
-            throw new \InvalidArgumentException(
-                'Merchant Risk Indicator must be of type MerchantRiskIndicator.'
-            );
+        if (!IsoTransactionType::isValid($isoTransactionType)) {
+            throw new \InvalidArgumentException('ISO transaction type preference is invalid.');
         }
-        $this->merchantRiskIndicator = $merchantRiskIndicator;
+
+        $this->isoTransactionType = $isoTransactionType;
+
         return $this;
     }
 
     /**
-     * @return MerchantRiskIndicator
+     * @return IsoTransactionType
      * @since 3.8.0
      */
-    public function getMerchantRiskIndicator()
+    public function getIsoTransactionType()
     {
-        return $this->merchantRiskIndicator;
-    }
-
-    /**
-     * @param $cardHolderAccount
-     * @return $this
-     * @since 3.8.0
-     */
-    public function setCardHolderAccount($cardHolderAccount)
-    {
-        if (!$cardHolderAccount instanceof CardHolderAccount) {
-            throw new InvalidArgumentException(
-                'Cardholder Account must be of type CardHolderAccount.'
-            );
-        }
-        $this->cardHolderAccount = $cardHolderAccount;
-        return $this;
-    }
-
-    /**
-     * @return CardHolderAccount
-     * @since 3.8.0
-     */
-    public function getCardHolderAccount()
-    {
-        return $this->cardHolderAccount;
+        return $this->isoTransactionType;
     }
 
     /**
@@ -517,8 +485,12 @@ abstract class Transaction extends Risk
             }
         }
 
-        if (null !== $this->threeDSRequestor) {
-            $result['threeDSRequestor'] = $this->threeDSRequestor->mappedProperties();
+        if ($this->riskInfo instanceof RiskInfo) {
+            $result['risk-info'] = $this->riskInfo->mappedProperties();
+        }
+
+        if (null !== $this->isoTransactionType) {
+            $result['iso-transaction-type'] = $this->isoTransactionType;
         }
 
         return array_merge($result, $specificProperties);

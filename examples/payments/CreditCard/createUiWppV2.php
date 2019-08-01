@@ -61,7 +61,6 @@ $address->setPostalCode('13353');
 $accountHolder = new \Wirecard\PaymentSdk\Entity\AccountHolder();
 $accountHolder->setEmail('john.doe@test.com');
 $accountHolder->setPhone('03018425165');
-$accountHolder->setHomePhone('0345345');
 $accountHolder->setWorkPhone('0765573242');
 $accountHolder->setMobilePhone('041232342');
 $accountHolder->setDateOfBirth(new \DateTime('1973-12-07'));
@@ -77,7 +76,6 @@ $transaction->setTermUrl($redirectUrl);
 $transaction->setNotificationUrl($redirectUrl);
 $transaction->setBasket($basket);
 $transaction->setOrderNumber($orderNumber);
-$transaction->setAccountHolder($accountHolder);
 $transaction->setShipping($accountHolder);
 
 // Send custom fields for CreditCard transactions
@@ -92,60 +90,53 @@ $transaction->setCustomFields($custom_fields);
  * https://www.emvco.com/document-search/?action=search_documents&publish_date=&emvco_document_version=&emvco_document_book=&px_search=&emvco_document_technology%5B%5D=3-d-secure
  */
 // ### Contains information for the 3DS Requestor
-$requestor = new \Wirecard\PaymentSdk\Entity\ThreeDSRequestor();
 // Information about how the 3DS Requestor authenticated the cardholder before or during the transaction
 // Possible values 01 guest login, 02 User Account in Shop, 03 federated id, 04 issuer of card credentials, 05 third-party authentication, 06 FIDO authentication
-$authenticationInfo = new \Wirecard\PaymentSdk\Entity\AuthenticationInfo();
+$authenticationInfo = new \Wirecard\PaymentSdk\Entity\AccountInfo();
 $authenticationInfo->setAuthMethod(\Wirecard\PaymentSdk\Constant\AuthMethod::GUEST_CHECKOUT);
 $authenticationInfo->setAuthTimestamp();
 // Indicates if a challenge is requested for this transaction, 01 no preference, 02 no challenge, 03 challenge requested 3DS, 04 challenge requested Mandate
-$requestor->setChallengeInd(\Wirecard\PaymentSdk\Constant\ChallengeInd::NO_PREFERENCE);
-$requestor->setAuthenticationInfo($authenticationInfo);
-$transaction->setThreeDSRequestor($requestor);
+$authenticationInfo->setChallengeInd(\Wirecard\PaymentSdk\Constant\ChallengeInd::NO_PREFERENCE);
 // ### Contains additional information about the Cardholder's account provided by the 3DS Requestor
-$cardHolderAccount = new \Wirecard\PaymentSdk\Entity\CardHolderAccount();
 // Account creation date
-$cardHolderAccount->setCreationDate(new DateTime());
+$authenticationInfo->setCreationDate(new DateTime());
 // Account update date
-$cardHolderAccount->setUpdateDate(new DateTime());
+$authenticationInfo->setUpdateDate(new DateTime());
 // Account password change date
-$cardHolderAccount->setPassChangeDate(new DateTime());
+$authenticationInfo->setPassChangeDate(new DateTime());
 // Account first usage of the address
-$cardHolderAccount->setShippingAddressFirstUse(new DateTime());
+$authenticationInfo->setShippingAddressFirstUse(new DateTime());
 // Card creation date
-$cardHolderAccount->setCardCreationDate(new DateTime());
+$authenticationInfo->setCardCreationDate(new DateTime());
 // Number of transactions (successful and abandoned) for this cardholder account across all payment accounts in the previous 24 hours
-$cardHolderAccount->setAmountTransactionsLastDay(2);
+$authenticationInfo->setAmountTransactionsLastDay(2);
 // Number of transactions (successful and abandoned) for this cardholder account across all payment accounts in the previous year
-$cardHolderAccount->setAmountTransactionsLastYear(500);
+$authenticationInfo->setAmountTransactionsLastYear(500);
 // Number of card attempts in the previous 24 hours
-$cardHolderAccount->setAmountCardTransactionsLastDay(1);
+$authenticationInfo->setAmountCardTransactionsLastDay(1);
 // Number of purchases with this cardholder account during the previous six months
-$cardHolderAccount->setAmountPurchasesLastSixMonths(30);
-// Indicates whether the 3DS requestor has experienced suspicious activity on the cardholder account. Accepted values are true or false
-$cardHolderAccount->setSuspiciousActivity(false);
+$authenticationInfo->setAmountPurchasesLastSixMonths(30);
+// Set accountInfo for AccountHolder
+$accountHolder->setAccountInfo($authenticationInfo);
 // Additional information about the account provided by the 3DS requestor. Limited to 64 characters
-$cardHolderAccount->setMerchantCrmId('12daw2r');
-$transaction->setCardHolderAccount($cardHolderAccount);
+$accountHolder->setCrmId('12daw2r');
+$transaction->setAccountHolder($accountHolder);
+
 // ### Merchant's assessment of the level of fraud risk for the specific authentication for both the cardholder and the authentication being conducted
-$merchantRiskIndicator = new \Wirecard\PaymentSdk\Entity\MerchantRiskIndicator();
+$merchantRiskIndicator = new \Wirecard\PaymentSdk\Entity\RiskInfo();
 // Indicates whether cardholder is placing an order for merchandise with a future availability or release date. Merchandise available '01', Future availability '02'
 $merchantRiskIndicator->setAvailability(\Wirecard\PaymentSdk\Constant\RiskInfoAvailability::MERCHANDISE_AVAILABLE);
 // For electronic delivery, the email address the merchandise was delivered
 $merchantRiskIndicator->setDeliveryEmailAddress('max.muster@mail.com');
 // Indicates the merchandise delivery timeframe. Electronic Delivery 01, Same day shipping 02, Overnight shipping 03, Two-day or more shipping 04
 $merchantRiskIndicator->setDeliveryTimeFrame(\Wirecard\PaymentSdk\Constant\RiskInfoDeliveryTimeFrame::ELECTRONIC_DELIVERY);
-// The purchase amount total of prepaid or gift card(s) and currency used. Will be trimmed to major units ignoring decimals
-$merchantRiskIndicator->setGiftAmount(new Amount(143.78, 'EUR'));
-// Quantity of ordered prepaid or gift cards. Limited to 2 characters
-$merchantRiskIndicator->setGiftCardCount(13);
-// Transaction type, classification of goods derived from ISO 8583. Goods/Service purchase 01, Check Acceptance 03, Account Funding 10, Quasi-Cash Transaction 11, Prepaid activation and Loan 28
-$merchantRiskIndicator->setIsoTransactionType(\Wirecard\PaymentSdk\Constant\IsoTransactionType::CHECK_ACCEPTANCE);
 // Expected delivery date for pre-ordered goods
 $merchantRiskIndicator->setPreOrderDate(new DateTime());
 // Was the good already bought before. First time ordered 01, Reordered 02
 $merchantRiskIndicator->setReorderItems(\Wirecard\PaymentSdk\Constant\RiskInfoReorder::FIRST_TIME_ORDERED);
-$transaction->setMerchantRiskIndicator($merchantRiskIndicator);
+$transaction->setRiskInfo($merchantRiskIndicator);
+// Transaction type, classification of goods derived from ISO 8583. Goods/Service purchase 01, Check Acceptance 03, Account Funding 10, Quasi-Cash Transaction 11, Prepaid activation and Loan 28
+$transaction->setIsoTransactionType(\Wirecard\PaymentSdk\Constant\IsoTransactionType::CHECK_ACCEPTANCE);
 // ### Contains browser information. This field is required when deviceChannel is set to 02.
 $browser = new \Wirecard\PaymentSdk\Entity\Browser();
 // Defines the challenge window size through the given width in px

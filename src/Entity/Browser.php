@@ -153,7 +153,7 @@ class Browser implements MappableEntity
         }
 
         if (isset($this->challengeWindowSize)) {
-            $data['browser-challenge-window-size'] = $this->challengeWindowSize;
+            $data['challenge-window-size'] = $this->challengeWindowSize;
         }
 
         return $data;

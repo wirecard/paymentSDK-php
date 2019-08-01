@@ -9,20 +9,27 @@
 
 namespace Wirecard\PaymentSdk\Entity;
 
-use Wirecard\PaymentSdk\Exception\NotImplementedException;
+use Wirecard\PaymentSdk\Constant\ChallengeInd;
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
+use Wirecard\PaymentSdk\Constant\AuthMethod;
 
 /**
- * Class CardHolderAccount
+ * Class AccountInfo
  * @package Wirecard\PaymentSdk\Entity
  * @since 3.8.0
  */
-class CardHolderAccount implements MappableEntity
+class AccountInfo implements MappableEntity
 {
-    /** @const string DATE_FORMAT */
-    const DATE_FORMAT = 'Y-m-d\TH:i:s\Z';
+    /**
+     * @const string DATE_FORMAT
+     */
+    const DATE_FORMAT = 'Y-m-d';
 
-    /** @const array OPTIONAL_FIELDS */
-    const OPTIONAL_FIELDS = [
+    /** @const array NVP_FIELDS */
+    const NVP_FIELDS = [
+        'authentication_method'        => 'authMethod',
+        'authentication_timestamp'     => 'authTimestamp',
+        'challenge_indicator'          => 'challengeInd',
         'account_creation_date'        => 'creationDate',
         'account_update_date'          => 'updateDate',
         'account_password_change_date' => 'passChangeDate',
@@ -32,9 +39,38 @@ class CardHolderAccount implements MappableEntity
         'transactions_last_year'       => 'amountTransactionsLastYear',
         'card_transactions_last_day'   => 'amountCardTransactionsLastDay',
         'purchases_last_six_months'    => 'amountPurchasesLastSixMonths',
-        'suspicious_activity'          => 'suspiciousActivity',
-        'merchant_crm_id'              => 'merchantCrmId',
     ];
+
+    /** @const array REST_FIELDS */
+    const REST_FIELDS = [
+        'authentication-method'        => 'authMethod',
+        'authentication-timestamp'     => 'authTimestamp',
+        'challenge-indicator'          => 'challengeInd',
+        'creation-date'                => 'creationDate',
+        'update-date'                  => 'updateDate',
+        'password-change-date'         => 'passChangeDate',
+        'shipping-address-first-use'   => 'shippingAddressFirstUse',
+        'card-creation-date'           => 'cardCreationDate',
+        'transactions-last-day'        => 'amountTransactionsLastDay',
+        'transactions-last-year'       => 'amountTransactionsLastYear',
+        'card-transactions-last-day'   => 'amountCardTransactionsLastDay',
+        'purchases-last-six-months'    => 'amountPurchasesLastSixMonths',
+    ];
+
+    /**
+     * @var AuthMethod
+     */
+    private $authMethod;
+
+    /**
+     * @var \DateTime
+     */
+    private $authTimestamp;
+
+    /**
+     * @var ChallengeInd
+     */
+    private $challengeInd;
 
     /**
      * @var \DateTime
@@ -82,14 +118,52 @@ class CardHolderAccount implements MappableEntity
     private $amountPurchasesLastSixMonths;
 
     /**
-     * @var bool
+     * @param $authMethod
+     * @return $this
+     * @since 3.8.0
      */
-    private $suspiciousActivity;
+    public function setAuthMethod($authMethod)
+    {
+        if (!AuthMethod::isValid($authMethod)) {
+            throw new MandatoryFieldMissingException('Authentication method is not supported.');
+        }
+
+        $this->authMethod = $authMethod;
+
+        return $this;
+    }
 
     /**
-     * @var string
+     * @param $authTimestamp
+     * @return $this
+     * @since 3.8.0
      */
-    private $merchantCrmId;
+    public function setAuthTimestamp($authTimestamp = null)
+    {
+        if (null == $authTimestamp) {
+            $authTimestamp = gmdate('Y-m-d\TH:i:s\Z');
+        }
+
+        $this->authTimestamp = $authTimestamp;
+
+        return $this;
+    }
+
+    /**
+     * @param string $challengeInd
+     * @return $this
+     * @since 3.8.0
+     */
+    public function setChallengeInd($challengeInd)
+    {
+        if (!ChallengeInd::isValid($challengeInd)) {
+            throw new \InvalidArgumentException('Challenge indication preference is invalid.');
+        }
+
+        $this->challengeInd = $challengeInd;
+
+        return $this;
+    }
 
     /**
      * @param $creationDate
@@ -200,38 +274,6 @@ class CardHolderAccount implements MappableEntity
     }
 
     /**
-     * @param bool $suspiciousActivity
-     * @return $this
-     * @since 3.8.0
-     */
-    public function setSuspiciousActivity($suspiciousActivity)
-    {
-        if ($suspiciousActivity) {
-            $this->suspiciousActivity = '02';
-            return $this;
-        }
-
-        $this->suspiciousActivity = '01';
-
-        return $this;
-    }
-
-    /**
-     * @param string $merchantCrmId
-     * @return $this
-     * @since 3.8.0
-     */
-    public function setMerchantCrmId($merchantCrmId)
-    {
-        if (mb_strlen((string)$merchantCrmId) > 64) {
-            throw new \InvalidArgumentException('Max length for the crm id is 64.');
-        }
-        $this->merchantCrmId = $merchantCrmId;
-
-        return $this;
-    }
-
-    /**
      * @return \DateTime
      * @since 3.8.0
      */
@@ -313,32 +355,34 @@ class CardHolderAccount implements MappableEntity
     }
 
     /**
-     * @return bool
+     * @param array $mapping
+     * @return array
      * @since 3.8.0
      */
-    public function isSuspiciousActivity()
+    public function mapProperties($mapping)
     {
-        return $this->suspiciousActivity;
+        $accountInfo = array();
+
+        foreach ($mapping as $mappedKey => $property) {
+            if (isset($this->{$property})) {
+                if ($mappedKey === 'authTimestamp') {
+                    $accountInfo[$mappedKey] = $this->{$property}->format('Y-m-d\TH:i:s');
+                    continue;
+                }
+                $accountInfo[$mappedKey] = $this->getFormattedValue($this->{$property});
+            }
+        }
+
+        return $accountInfo;
     }
 
     /**
-     * @return string
-     * @since 3.8.0
-     */
-    public function getMerchantCrmId()
-    {
-        return $this->merchantCrmId;
-    }
-
-    /**
-     * @return array|void
-     * @throws NotImplementedException
+     * @return array
      * @since 3.8.0
      */
     public function mappedProperties()
     {
-        throw new NotImplementedException('mappedProperties() not supported for this entity, 
-        mappedSeamlessProperties() only.');
+        return $this->mapProperties(self::REST_FIELDS);
     }
 
     /**
@@ -347,15 +391,7 @@ class CardHolderAccount implements MappableEntity
      */
     public function mappedSeamlessProperties()
     {
-        $cardHolderAccount = array();
-
-        foreach (self::OPTIONAL_FIELDS as $mappedKey => $property) {
-            if (isset($this->{$property})) {
-                $cardHolderAccount[$mappedKey] = $this->getFormattedValue($this->{$property});
-            }
-        }
-
-        return $cardHolderAccount;
+        return $this->mapProperties(self::NVP_FIELDS);
     }
 
     /**

@@ -48,11 +48,6 @@ class AccountHolder implements MappableEntity
     /**
      * @var string
      */
-    private $homePhone;
-
-    /**
-     * @var string
-     */
     private $mobilePhone;
 
     /**
@@ -84,6 +79,11 @@ class AccountHolder implements MappableEntity
      * @var string
      */
     private $socialSecurityNumber;
+
+    /**
+     * @var AccountInfo
+     */
+    private $accountInfo;
 
 
     public function __construct($simpleXmlElement = null)
@@ -130,17 +130,6 @@ class AccountHolder implements MappableEntity
     public function setPhone($phone)
     {
         $this->phone = $phone;
-        return $this;
-    }
-
-    /**
-     * @param $phone
-     * @return $this
-     * @since 3.8.0
-     */
-    public function setHomePhone($phone)
-    {
-        $this->homePhone = $phone;
         return $this;
     }
 
@@ -238,6 +227,32 @@ class AccountHolder implements MappableEntity
     }
 
     /**
+     * @param AccountInfo $accountInfo
+     * @return $this
+     * @since 3.8.0
+     */
+    public function setAccountInfo($accountInfo)
+    {
+        if (!$accountInfo instanceof AccountInfo) {
+            throw new \InvalidArgumentException(
+                '3DS Requestor Authentication Information must be of type AccountInfo.'
+            );
+        }
+        $this->accountInfo = $accountInfo;
+
+        return $this;
+    }
+
+    /**
+     * @return AccountInfo
+     * @since 3.8.0
+     */
+    public function getAccountInfo()
+    {
+        return $this->accountInfo;
+    }
+
+    /**
      * @return array
      */
     public function mappedProperties()
@@ -262,10 +277,6 @@ class AccountHolder implements MappableEntity
 
         if (!is_null($this->phone)) {
             $result['phone'] = $this->phone;
-        }
-
-        if (!is_null($this->homePhone)) {
-            $result['home-phone'] = $this->homePhone;
         }
 
         if (!is_null($this->mobilePhone)) {
@@ -294,6 +305,10 @@ class AccountHolder implements MappableEntity
 
         if (!is_null($this->shippingMethod)) {
             $result['shipping-method'] = $this->shippingMethod;
+        }
+
+        if (!is_null($this->accountInfo)) {
+            $result['account-info'] = $this->accountInfo->mappedProperties();
         }
 
         return $result;
@@ -331,10 +346,6 @@ class AccountHolder implements MappableEntity
             $result['phone'] = $this->phone;
         }
 
-        if (!is_null($this->homePhone)) {
-            $result['home_phone'] = $this->homePhone;
-        }
-
         if (!is_null($this->mobilePhone)) {
             $result['mobile_phone'] = $this->mobilePhone;
         }
@@ -357,6 +368,10 @@ class AccountHolder implements MappableEntity
 
         if (!is_null($this->socialSecurityNumber)) {
             $result['consumer_social_security_number'] = $this->socialSecurityNumber;
+        }
+
+        if (!is_null($this->accountInfo)) {
+            $result = array_merge($result, $this->accountInfo->mappedSeamlessProperties());
         }
 
         return $result;
@@ -438,7 +453,6 @@ class AccountHolder implements MappableEntity
             'last-name'    => 'setLastName',
             'email'        => 'setEmail',
             'phone'        => 'setPhone',
-            'home-phone'   => 'setHomePhone',
             'work-phone'   => 'setWorkPhone',
             'mobile-phone' => 'setMobilePhone',
         ];
