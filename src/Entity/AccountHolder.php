@@ -169,7 +169,7 @@ class AccountHolder implements MappableEntity
      * @param string $crmId
      * @return $this
      */
-    public function setMerchantCrmId($crmId)
+    public function setCrmId($crmId)
     {
         $this->crmId = $crmId;
         return $this;

@@ -108,7 +108,7 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
     public function testGetMappedPropertiesCrmId()
     {
         $crmId = '1243df';
-        $this->assertNotNull($this->accountHolder->setMerchantCrmId($crmId));
+        $this->assertNotNull($this->accountHolder->setCrmId($crmId));
 
         $this->assertEquals(
             [
@@ -212,7 +212,7 @@ class AccountHolderUTest extends \PHPUnit_Framework_TestCase
     public function testGetMappedSeamlessPropertiesCrmId()
     {
         $crmId = '1243df';
-        $this->accountHolder->setMerchantCrmId($crmId);
+        $this->accountHolder->setCrmId($crmId);
 
         $this->assertEquals(
             [

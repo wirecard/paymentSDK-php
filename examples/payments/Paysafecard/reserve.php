@@ -52,7 +52,7 @@ $notificationUrl = getUrl('notify.php');
 
 // Account holder with last name and the crm id of your customer
 $accountHolder = new AccountHolder();
-$accountHolder->setMerchantCrmId(20);
+$accountHolder->setCrmId(20);
 $accountHolder->setLastName('Doe');
 
 // ### Transaction

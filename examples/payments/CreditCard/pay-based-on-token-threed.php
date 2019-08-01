@@ -98,7 +98,7 @@ $authenticationInfo->setAmountPurchasesLastSixMonths(30);
 // Set accountInfo for AccountHolder
 $accountHolder->setAccountInfo($authenticationInfo);
 // Additional information about the account provided by the 3DS requestor. Limited to 64 characters
-$accountHolder->setMerchantCrmId('12daw2r');
+$accountHolder->setCrmId('12daw2r');
 $transaction->setAccountHolder($accountHolder);
 
 // ### Merchant's assessment of the level of fraud risk for the specific authentication for both the cardholder and the authentication being conducted
