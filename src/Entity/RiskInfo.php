@@ -26,7 +26,7 @@ class RiskInfo extends Mappable
     /**
      * @const string DATE_FORMAT
      */
-    const DATE_FORMAT = 'Y-m-d\TH:i:s\Z';
+    const DATE_FORMAT = 'Y-m-d';
 
     /** @const array NVP_FIELDS */
     const NVP_FIELDS = [

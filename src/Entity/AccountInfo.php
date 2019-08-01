@@ -23,7 +23,7 @@ class AccountInfo implements MappableEntity
     /**
      * @const string DATE_FORMAT
      */
-    const DATE_FORMAT = 'Y-m-d\TH:i:s\Z';
+    const DATE_FORMAT = 'Y-m-d';
 
     /** @const array NVP_FIELDS */
     const NVP_FIELDS = [
@@ -141,7 +141,7 @@ class AccountInfo implements MappableEntity
     public function setAuthTimestamp($authTimestamp = null)
     {
         if (null == $authTimestamp) {
-            $authTimestamp = gmdate(self::DATE_FORMAT);
+            $authTimestamp = gmdate('Y-m-d\TH:i:s\Z');
         }
 
         $this->authTimestamp = $authTimestamp;
@@ -361,15 +361,19 @@ class AccountInfo implements MappableEntity
      */
     public function mapProperties($mapping)
     {
-        $riskInfo = array();
+        $accountInfo = array();
 
         foreach ($mapping as $mappedKey => $property) {
             if (isset($this->{$property})) {
-                $riskInfo[$mappedKey] = $this->getFormattedValue($this->{$property});
+                if ($mappedKey === 'authTimestamp') {
+                    $accountInfo[$mappedKey] = $this->{$property}->format('Y-m-d\TH:i:s');
+                    continue;
+                }
+                $accountInfo[$mappedKey] = $this->getFormattedValue($this->{$property});
             }
         }
 
-        return $riskInfo;
+        return $accountInfo;
     }
 
     /**

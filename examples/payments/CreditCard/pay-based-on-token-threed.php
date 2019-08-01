@@ -95,8 +95,6 @@ $authenticationInfo->setAmountTransactionsLastYear(500);
 $authenticationInfo->setAmountCardTransactionsLastDay(1);
 // Number of purchases with this cardholder account during the previous six months
 $authenticationInfo->setAmountPurchasesLastSixMonths(30);
-// Indicates whether the 3DS requestor has experienced suspicious activity on the cardholder account. Accepted values are true or false
-$authenticationInfo->setSuspiciousActivity(false);
 // Set accountInfo for AccountHolder
 $accountHolder->setAccountInfo($authenticationInfo);
 // Additional information about the account provided by the 3DS requestor. Limited to 64 characters
