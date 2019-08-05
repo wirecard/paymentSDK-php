@@ -9,7 +9,7 @@ Feature: PayPalAuthorizationAndPostProcessingHappyPath
   Background:
     Given I am on "Pay Pal Log In" page
 
-  @API-TEST
+  @API-TEST @API-WDCEE-TEST
   Scenario: authorization
     Given I login to Paypal
     And I am redirected to "Pay Pal Review" page
@@ -21,7 +21,7 @@ Feature: PayPalAuthorizationAndPostProcessingHappyPath
     And I am redirected to "Wirecard Transaction Details" page
     And I see in table key "Transaction Type" value "authorization"
 
-  @API-TEST
+  @API-TEST @API-WDCEE-TEST
   Scenario: capture
     Given I am redirected to "Pay Pal Review" page
     And I click "Pay Now"
@@ -35,7 +35,7 @@ Feature: PayPalAuthorizationAndPostProcessingHappyPath
     Then I see text "Payment successfully completed."
     And I see text "Transaction ID"
 
-  @API-TEST
+  @API-TEST @API-WDCEE-TEST
   Scenario: refund
     Given I am redirected to "Pay Pal Review" page
     And I click "Pay Now"
@@ -55,7 +55,7 @@ Feature: PayPalAuthorizationAndPostProcessingHappyPath
     And I see text "Payment successfully cancelled."
     And I see text "Transaction ID"
 
-  @API-TEST
+  @API-TEST @API-WDCEE-TEST
   Scenario: cancel
     Given I am redirected to "Pay Pal Review" page
     And I click "Pay Now"
