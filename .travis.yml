@@ -45,7 +45,7 @@ matrix:
     - MUTATION_TESTS=true
   - &acceptance-test
     stage: acceptance-test
-    if: type = cron
+    if: type != cron
     php: 7.2
     env: GATEWAY=API-TEST
     install:
@@ -56,8 +56,8 @@ matrix:
     after_success:
     - bash .bin/upload-logs-and-notify.sh
     after_failure:
-    - bash .bin/output-failed-logs.sh
-    - bash .bin/upload-logs-and-notify.sh fail
+#    - bash .bin/output-failed-logs.sh
+#    - bash .bin/upload-logs-and-notify.sh fail
   - <<: *acceptance-test
     env: GATEWAY=API-WDCEE-TEST
   - <<: *acceptance-test
@@ -108,5 +108,5 @@ notifications:
       - "%{repository}#%{build_number} (%{branch} : %{author}): %{message}"
       - "Change view : %{compare_url}"
       - "Build details : %{build_url}"
-    on_success: change
-    on_failure: change
+    on_success: never
+    on_failure: never
