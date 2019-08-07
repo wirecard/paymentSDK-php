@@ -48,6 +48,7 @@ use Page\PayPalSuccess as PayPalSuccessPage;
 use Page\PayPalPayBasedOnReserve as PayPalPayBasedOnReservePage;
 use Page\PayPalCancel as PayPalCancelPage;
 use Page\WirecardTransactionDetails as WirecardTransactionDetailsPage;
+use Page\PayPalLoginPurchase as PayPalLoginPurchasePage;
 
 class AcceptanceTester extends \Codeception\Actor
 {
@@ -120,6 +121,10 @@ class AcceptanceTester extends \Codeception\Actor
                 break;
             case "Pay Pal Log In":
                 $page = new PayPalLoginPage($this);
+                $this->wait(15);
+                break;
+            case "Pay Pal Log In Purchase":
+                $page = new PayPalLoginPurchasePage($this);
                 $this->wait(15);
                 break;
             case "Pay Pal Review":
