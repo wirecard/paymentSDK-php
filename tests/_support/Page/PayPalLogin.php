@@ -9,6 +9,7 @@
 
 namespace Page;
 
+use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\Exception\TimeOutException;
 
 class PayPalLogIn extends Base
@@ -19,7 +20,7 @@ class PayPalLogIn extends Base
      * @since 3.7.2
      */
     public $URL = 'PayPal/reserve.php';
-
+    public $page_specific = 'express-checkout';
     /**
      * @var array
      * @since 3.7.2
@@ -40,17 +41,23 @@ class PayPalLogIn extends Base
     {
         $I = $this->tester;
         $data_field_values = $I->getDataFromDataFile('tests/_data/payPalData.json');
-        $I->waitForElementVisible($this->getElement('Email'));
-        $I->fillField($this->getElement('Email'), $data_field_values->user_name);
+
         try {
-            $I->waitForElementVisible($this->getElement('Password'));
-        } catch (TimeOutException $e) {
-            $I->waitForElementVisible($this->getElement('Next'));
-            $I->click($this->getElement('Next'));
+            $I->waitForElementVisible($this->getElement('Email'));
+            $I->fillField($this->getElement('Email'), $data_field_values->user_name);
+            try {
+                $I->waitForElementVisible($this->getElement('Password'));
+                $I->fillField($this->getElement('Password'), $data_field_values->password);
+            } catch (TimeOutException $e) {
+                $I->waitForElementVisible($this->getElement('Next'));
+                $I->click($this->getElement('Next'));
+                $I->waitForElementVisible($this->getElement('Password'));
+                $I->fillField($this->getElement('Password'), $data_field_values->password);
+            }
+            $I->waitForElementVisible($this->getElement('Log In'));
+            $I->click($this->getElement('Log In'));
+        } catch (NoSuchElementException $e) {
+            $I->seeInCurrentUrl($this->getPageSpecific());
         }
-        $I->waitForElementVisible($this->getElement('Password'));
-        $I->fillField($this->getElement('Password'), $data_field_values->password);
-        $I->waitForElementVisible($this->getElement('Log In'));
-        $I->click($this->getElement('Log In'));
     }
 }
