@@ -48,7 +48,7 @@ if (strpos($gatewayEnv, 'SG') !== false) {
 }
 
 if (isset($_GET['amount'])) {
-    $paymentAction = $_GET['paymentAction'];
+    $startAmount = $_GET['amount'];
 }
 
 $amount = new Amount($startAmount, $currency);
