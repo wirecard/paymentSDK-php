@@ -16,3 +16,4 @@ deploy_key.enc binary
 /phpcs.xml export-ignore
 /phpunit.xml export-ignore
 /deploy_key.enc export-ignore
+/apigen.phar export-ignore
