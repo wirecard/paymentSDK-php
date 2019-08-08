@@ -18,9 +18,11 @@ class PayPalSuccess extends Base
 
     public $elements = array(
         'Reservation successfully completed.' => "Reservation successfully completed.",
+        'Payment successfully completed.' => "Payment successfully completed.",
         'Transaction ID' => "Transaction ID",
         'Transaction Identification' => "//div[contains(@class, 'content')]/a",
         'authorization' => "//*[@id='mainTable']/tbody/tr:nth-child[7]/td.value",
+        'debit' => "//*[@id='mainTable']/tbody/tr:nth-child[7]/td.value",
         'Username' => "//*[@id='username']",
         'Password' => "//*[@id='password']",
     );
