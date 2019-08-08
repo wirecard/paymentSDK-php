@@ -1,7 +1,7 @@
 Feature: PayPalPurchaseHappyPath
   As a user
   I want to make a purchase with a PayPal
-  And to see that reservation was successful
+  And to see that purchase was successful
 
   Background:
     Given I am on "Pay Pal Log In Purchase" page
