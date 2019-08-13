@@ -32,7 +32,7 @@ use Wirecard\PaymentSdk\TransactionService;
 
 // Use the amount object as amount which has to be paid by the consumer.
 // NOTICE: For the sandbox
-$amount = new Amount(1.01, 'USD');
+$amount = new Amount(0.01, 'USD');
 
 
 // Set redirect URLs for success, cancel and failure.
