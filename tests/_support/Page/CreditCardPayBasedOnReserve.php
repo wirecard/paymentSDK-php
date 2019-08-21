@@ -11,9 +11,13 @@ namespace Page;
 
 class CreditCardPayBasedOnReserve extends Base
 {
-    // include url of current page
+    //include url of current page
     public $URL = '/CreditCard/pay-based-on-reserve.php';
 
+    //page specific text that can be found in the URL
+    public $pageSpecific = 'pay';
+
+    //page elements
     public $elements = array(
         'Reserved transaction ID' => "//*[@id='parentTransactionId']",
         'Amount' => "//*[@id='amount']",

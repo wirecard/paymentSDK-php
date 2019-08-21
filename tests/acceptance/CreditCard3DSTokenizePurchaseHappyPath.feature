@@ -5,7 +5,7 @@ Feature: CrediCard3DSTokenizePurchaseHappyPath
   And to be able to cancel the transaction
 
   Background:
-    Given I am on "Create Credit Card UI Page" page
+    Given I am on "Create Credit Card UI Tokenize Page" page
     When I fill fields with "Valid Credit Card Data"
     And I enter "70" in field "Amount"
     And I choose "EUR" in field "Currency"
@@ -13,7 +13,7 @@ Feature: CrediCard3DSTokenizePurchaseHappyPath
 
   @API-TEST @API-WDCEE-TEST @NOVA
   Scenario: purchase
-    Given I am redirected to "Credit Card Reserve Page" page
+    Given I am redirected to "Credit Card Tokenize Reserve Page" page
     And I click "Redirect to 3-D Secure page"
     When I am redirected to "Verified Page" page
     And I enter "wirecard" in field "Password"
@@ -24,7 +24,7 @@ Feature: CrediCard3DSTokenizePurchaseHappyPath
 
   @API-TEST @API-WDCEE-TEST
   Scenario: voidPurchase
-    Given I am redirected to "Credit Card Reserve Page" page
+    Given I am redirected to "Credit Card Tokenize Reserve Page" page
     And I click "Redirect to 3-D Secure page"
     And I am redirected to "Verified Page" page
     And I enter "wirecard" in field "Password"
@@ -42,7 +42,7 @@ Feature: CrediCard3DSTokenizePurchaseHappyPath
 
   @SECURE-TEST-SG
   Scenario: purchase
-    Given I am redirected to "Credit Card Reserve Page" page
+    Given I am redirected to "Credit Card Tokenize Reserve Page" page
     And I click "Redirect to 3-D Secure page"
     When I am redirected to "SimulatorPage" page
     And I click "Submit"
@@ -52,7 +52,7 @@ Feature: CrediCard3DSTokenizePurchaseHappyPath
 
   @SECURE-TEST-SG
   Scenario: voidPurchase
-    Given I am redirected to "Credit Card Reserve Page" page
+    Given I am redirected to "Credit Card Tokenize Reserve Page" page
     And I click "Redirect to 3-D Secure page"
     And I am redirected to "SimulatorPage" page
     And I click "Submit"

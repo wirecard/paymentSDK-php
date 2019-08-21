@@ -3,7 +3,7 @@ Feature: CreditCard3DSTokenizePurchaseErrorCards
   I want to check that I'm not able to make transactions with error cards
 
   Background:
-    Given I am on "Create Credit Card UI Page" page
+    Given I am on "Create Credit Card UI Tokenize Page" page
 
   @API-TEST @API-WDCEE-TEST @NOVA
   Scenario Outline: purchaseErrorNoRedirect3DS
@@ -11,7 +11,7 @@ Feature: CreditCard3DSTokenizePurchaseErrorCards
     And I enter "500" in field "Amount"
     And I choose "EUR" in field "Currency"
     When I click "Save"
-    Then I am redirected to "Credit Card Reserve Page" page
+    Then I am redirected to "Credit Card Tokenize Reserve Page" page
     And I see text <error_message>
 
     Examples:
@@ -27,7 +27,7 @@ Feature: CreditCard3DSTokenizePurchaseErrorCards
     And I enter "500" in field "Amount"
     And I choose "EUR" in field "Currency"
     When I click "Save"
-    Then I am redirected to "Credit Card Reserve Page" page
+    Then I am redirected to "Credit Card Tokenize Reserve Page" page
     And I see text <error_message>
 
     Examples:
@@ -44,7 +44,7 @@ Feature: CreditCard3DSTokenizePurchaseErrorCards
     And I enter "500" in field "Amount"
     And I choose "EUR" in field "Currency"
     When I click "Save"
-    And I am redirected to "Credit Card Reserve Page" page
+    And I am redirected to "Credit Card Tokenize Reserve Page" page
     And I click "Redirect to 3-D Secure page"
     And I am redirected to "Verified Page" page
     And I enter "wirecard" in field "Password"

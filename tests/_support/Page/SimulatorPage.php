@@ -14,8 +14,10 @@ class SimulatorPage extends Base
     // include url of current page
     public $URL = 'https://test.wirecard.com.sg/mpisimulator/acsurl.jsp';
 
-    public $page_specific = 'simulator';
+    //page specific text that can be found in the URL
+    public $pageSpecific = 'simulator';
 
+    //page elements
     public $elements = array(
         'Submit' => "//*[@type='submit']"
     );

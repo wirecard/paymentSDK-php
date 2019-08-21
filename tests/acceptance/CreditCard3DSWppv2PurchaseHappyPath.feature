@@ -11,7 +11,7 @@ Feature: CreditCard3DSWppv2PurchaseHappyPath
 
   @API-TEST @API-WDCEE-TEST
   Scenario: purchase
-    Given I am redirected to "Credit Card Reserve WPPv2 Page" page
+    Given I am redirected to "Credit Card Reserve Page" page
     And I click "Redirect to 3-D Secure page"
     When I am redirected to "Verified Page" page
     And I enter "wirecard" in field "Password"
@@ -22,7 +22,7 @@ Feature: CreditCard3DSWppv2PurchaseHappyPath
 
   @API-TEST @API-WDCEE-TEST
   Scenario: voidPurchase
-    Given I am redirected to "Credit Card Reserve WPPv2 Page" page
+    Given I am redirected to "Credit Card Reserve Page" page
     And I click "Redirect to 3-D Secure page"
     And I am redirected to "Verified Page" page
     And I enter "wirecard" in field "Password"

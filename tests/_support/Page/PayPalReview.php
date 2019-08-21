@@ -11,8 +11,10 @@ namespace Page;
 
 class PayPalReview extends Base
 {
-    public $page_specific = 'checkout/review';
+    //page specific text that can be found in the URL
+    public $pageSpecific = 'checkout/review';
 
+    //page elements
     public $elements = array(
         'Pay Now' => "//*[@id='confirmButtonTop']",
         'Transaction Identification' => "//div[contains(@class, 'content')]/a"

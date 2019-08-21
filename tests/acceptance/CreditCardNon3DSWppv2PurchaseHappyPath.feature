@@ -11,14 +11,14 @@ Feature: CreditCardNon3DSWppv2PurchaseHappyPath
 
   @API-TEST @API-WDCEE-TEST
   Scenario: purchase
-    Given I am redirected to "Credit Card Reserve WPPv2 Page" page
+    Given I am redirected to "Credit Card Reserve Page" page
     Then I see text "Reservation successfully completed."
     And I see text "Transaction ID"
 
 
   @API-TEST @API-WDCEE-TEST
   Scenario: voidPurchase
-    Given I am redirected to "Credit Card Reserve WPPv2 Page" page
+    Given I am redirected to "Credit Card Reserve Page" page
     Then I see text "Reservation successfully completed."
     And I see text "Transaction ID"
     And I note the "Transaction ID"

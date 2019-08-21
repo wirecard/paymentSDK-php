@@ -11,22 +11,14 @@ namespace Page;
 
 class CreditCardCreateUiBase extends Base
 {
-    // include url of current page
-    public $URL = '/CreditCard/createUiWppV2NonThreeD.php';
+    //include url of current page
+    public $URL = '/CreditCard/';
 
-    public $page_specific = 'createUi';
+    //page specific text that can be found in the URL
+    public $pageSpecific = 'createUi';
 
-    public $wirecard_frame = 'wirecard-integrated-payment-page-frame';
-
-    public $elements = array(
-        'First name' => "//*[@id='pp-cc-first-name']",
-        'Last name' => "//*[@id='pp-cc-last-name']",
-        'Card number' => "//*[@id='pp-cc-account-number']",
-        'CVV' => "//*[@id='pp-cc-cvv']",
-        'Valid until month / year' => "//*[@id='pp-cc-expiration-date']",
-        'Save' => "//*[@class='btn btn-primary']",
-        'Credit Card payment form' => "//*[@id='payment-form']"
-    );
+    //wirecard seamless frame name
+    public $wirecardFrame = '';
 
     /**
      * Method switchFrame
@@ -34,12 +26,11 @@ class CreditCardCreateUiBase extends Base
      */
     public function switchFrame($wpp2 = false)
     {
-
-        $wirecard_frame = ($wpp2 ? "wirecard-integrated-payment-page-frame" : "wirecard-seamless-frame");
+        $wirecardFrame = ($wpp2 ? "wirecard-integrated-payment-page-frame" : "wirecard-seamless-frame");
         $I = $this->tester;
-        $this->wirecard_frame = $wirecard_frame;
-        $I->executeJS('jQuery(".' . $this->wirecard_frame . '").attr("name", "' . $this->wirecard_frame . '")');
-        $I->switchToIFrame("$this->wirecard_frame");
+        $this->wirecardFrame = $wirecardFrame;
+        $I->executeJS('jQuery(".' . $this->wirecardFrame . '").attr("name", "' . $this->wirecardFrame . '")');
+        $I->switchToIFrame("$this->wirecardFrame");
     }
 
     /**
@@ -85,5 +76,21 @@ class CreditCardCreateUiBase extends Base
         }
 
         $I->switchToIFrame();
+    }
+
+    /**
+     * Method getURL
+     * @param string $scenarioName
+     * @return string
+     */
+    public function getURL($scenarioName)
+    {
+        $url = $this->URL;
+        if (strpos($scenarioName, 'AndPostprocessing')) {
+            $action = (strpos($scenarioName, 'Authorization') ? 'authorization' : 'purchase');
+            $amount = (strpos($scenarioName, 'Non3D') ? '25' : '70');
+            $url = $url . $action . '&amount=' . $amount;
+        }
+        return $url;
     }
 }

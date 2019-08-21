@@ -14,8 +14,10 @@ class PayPalSuccess extends Base
     // include url of current page
     public $URL = '/PayPal/return.php?status=success';
 
-    public $page_specific = 'success';
+    //page specific text that can be found in the URL
+    public $pageSpecific = 'success';
 
+    //page elements
     public $elements = array(
         'Reservation successfully completed.' => "Reservation successfully completed.",
         'Payment successfully completed.' => "Payment successfully completed.",

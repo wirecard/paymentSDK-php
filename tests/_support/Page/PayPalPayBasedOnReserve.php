@@ -11,9 +11,10 @@ namespace Page;
 
 class PayPalPayBasedOnReserve extends Base
 {
-    // include url of current page
+    //include url of current page
     public $URL = '/PayPal/pay-based-on-reserve.html';
 
+    //page elements
     public $elements = array(
         'Reserved transaction ID' => "//*[@id='parentTransactionId']",
         'Amount' => "//*[@id='amount']",

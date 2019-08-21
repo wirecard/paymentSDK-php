@@ -14,17 +14,13 @@ use Facebook\WebDriver\Exception\TimeOutException;
 
 class PayPalLogIn extends Base
 {
-
-    /**
-     * @var string
-     * @since 3.7.2
-     */
+    //include url of current page
     public $URL = 'PayPal/reserve.php';
-    public $page_specific = 'express-checkout';
-    /**
-     * @var array
-     * @since 3.7.2
-     */
+
+    //page specific text that can be found in the URL
+    public $pageSpecific = 'express-checkout';
+
+    //page elements
     public $elements = array(
         'Email' => "//*[@id='email']",
         'Password' => "//*[@id='password']",

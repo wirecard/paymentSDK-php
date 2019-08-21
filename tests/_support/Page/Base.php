@@ -11,13 +11,17 @@ namespace Page;
 
 class Base
 {
+    //include url of current page
     protected $URL = '';
 
+    //page elements
     protected $elements = array();
 
+    //Acceptance tester instance
     protected $tester;
 
-    public $page_specific = '';
+   //page specific text that can be found in the URL
+    public $pageSpecific = '';
 
     /**
      * @var AcceptanceTester
@@ -38,9 +42,10 @@ class Base
         return $this->elements[$name];
     }
 
+
     /**
      * Method getURL
-     *
+     * @param string $scenarioName
      * @return string
      */
     public function getURL($scenarioName)
@@ -87,7 +92,7 @@ class Base
      */
     public function getPageSpecific()
     {
-        return $this->page_specific;
+        return $this->pageSpecific;
     }
 
     /**
