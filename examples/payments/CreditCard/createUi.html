@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><title>examples/payments/CreditCard/createUi</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../../"><meta name="groc-document-path" content="examples/payments/CreditCard/createUi"><meta name="groc-project-path" content="examples/payments/CreditCard/createUi.php"><link rel="stylesheet" type="text/css" media="all" href="../../../assets/style.css"><script type="text/javascript" src="../../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">examples/payments/CreditCard/createUi.php</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-preprocessor">&lt;?php</span>
+<!DOCTYPE html><html lang="en"><head><title>examples\payments\CreditCard\createUi</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../../"><meta name="groc-document-path" content="examples\payments\CreditCard\createUi"><meta name="groc-project-path" content="examples\payments\CreditCard\createUi.php"><link rel="stylesheet" type="text/css" media="all" href="../../../assets/style.css"><script type="text/javascript" src="../../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">examples\payments\CreditCard\createUi.php</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-preprocessor">&lt;?php</span>
 <span class="hljs-comment">/**
  * Shop System SDK:
  * - Terms of Use can be found under:
@@ -34,8 +34,9 @@ to take place on the client-side, so that the credit card data is not processed 
 <span class="hljs-keyword">if</span> (strpos(<span class="hljs-variable">$gatewayEnv</span>, <span class="hljs-string">'SG'</span>) !== <span class="hljs-keyword">false</span>) {
     <span class="hljs-variable">$currency</span>=<span class="hljs-string">'SGD'</span>;
 }
-<span class="hljs-keyword">if</span> (<span class="hljs-number">70</span> == intval(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">'amount'</span>])) {
-    <span class="hljs-variable">$startAmount</span> = <span class="hljs-number">70</span>;
+
+<span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">'amount'</span>])) {
+    <span class="hljs-variable">$startAmount</span> = (int)<span class="hljs-variable">$_GET</span>[<span class="hljs-string">'amount'</span>];
 }
 
 <span class="hljs-variable">$amount</span> = <span class="hljs-keyword">new</span> Amount(<span class="hljs-variable">$startAmount</span>, <span class="hljs-variable">$currency</span>);
@@ -44,6 +45,10 @@ to take place on the client-side, so that the credit card data is not processed 
     <span class="hljs-variable">$postedAmount</span> = <span class="hljs-variable">$_POST</span>[<span class="hljs-string">'amount'</span>];
     <span class="hljs-variable">$currency</span> = <span class="hljs-variable">$_POST</span>[<span class="hljs-string">'currency'</span>];
     <span class="hljs-variable">$amount</span> = <span class="hljs-keyword">new</span> Amount((int)<span class="hljs-variable">$postedAmount</span>, <span class="hljs-variable">$currency</span>);
+}
+<span class="hljs-variable">$paymentAction</span> = <span class="hljs-string">'authorization'</span>;
+<span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">'paymentAction'</span>])) {
+    <span class="hljs-variable">$paymentAction</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">'paymentAction'</span>];
 }
 <span class="hljs-variable">$orderNumber</span> = <span class="hljs-string">'A2'</span>;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.</p></div></div><div class="code"><div class="wrapper"><span class="hljs-variable">$notificationUrl</span> = getUrl(<span class="hljs-string">'notify.php'</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="basket-items">Basket items</h3>
 <p>A Basket contains one or more items.</p></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>For each item you have to set some properties as described here.
@@ -115,7 +120,7 @@ In this example this is facilitated via a hidden form field.</p></div></div><div
         <span class="hljs-preprocessor">&lt;?php</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>We can send additional fields if we need to. E.g. shopOrderId</p></div></div><div class="code"><div class="wrapper">        <span class="hljs-variable">$additionalData</span> = [<span class="hljs-string">'shopOrderId'</span> =&gt; <span class="hljs-number">53</span>];
         <span class="hljs-preprocessor">?&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>We fill the <em>requestData</em> with the return value
 from the <code>getCreditCardUiWithData</code> method of the <code>transactionService</code> which expects a transaction
-with all desired parameters.</p></div></div><div class="code"><div class="wrapper">        requestData: <span class="hljs-preprocessor">&lt;?</span>= <span class="hljs-variable">$transactionService</span>-&gt;getCreditCardUiWithData(<span class="hljs-variable">$transaction</span>, <span class="hljs-variable">$_GET</span>[<span class="hljs-string">'paymentAction'</span>], <span class="hljs-string">'en'</span>); <span class="hljs-preprocessor">?&gt;</span>,
+with all desired parameters.</p></div></div><div class="code"><div class="wrapper">        requestData: <span class="hljs-preprocessor">&lt;?</span>= <span class="hljs-variable">$transactionService</span>-&gt;getCreditCardUiWithData(<span class="hljs-variable">$transaction</span>, <span class="hljs-variable">$paymentAction</span>, <span class="hljs-string">'en'</span>); <span class="hljs-preprocessor">?&gt;</span>,
         wrappingDivId: <span class="hljs-string">"creditcard-form-div"</span>,
         onSuccess: logCallback,
         onError: logCallback
