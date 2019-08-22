@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><title>examples\configuration\config</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="examples\configuration\config"><meta name="groc-project-path" content="examples\configuration\config.php"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">examples\configuration\config.php</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-preprocessor">&lt;?php</span>
+<!DOCTYPE html><html lang="en"><head><title>examples/configuration/config</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="examples/configuration/config"><meta name="groc-project-path" content="examples/configuration/config.php"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">examples/configuration/config.php</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-preprocessor">&lt;?php</span>
 <span class="hljs-comment">/**
  * Shop System SDK:
  * - Terms of Use can be found under:
@@ -96,16 +96,8 @@ transaction and will fallback on error as non-3D transaction</p></div></div></di
     <span class="hljs-variable">$gatewayConfig</span>(<span class="hljs-string">'threed_secret'</span>)
 );
 
-<span class="hljs-variable">$config</span>-&gt;add(<span class="hljs-variable">$creditcardConfig</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="paypal">PayPal</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-variable">$env</span> = getenv(<span class="hljs-string">'GATEWAY'</span>);
-
-<span class="hljs-keyword">if</span> (<span class="hljs-string">'API-WDCEE-TEST'</span> == <span class="hljs-variable">$env</span>) {
-    <span class="hljs-variable">$paypalMAID</span> = <span class="hljs-string">'3191aa81-d930-4e4d-8d95-24bd65b8990b'</span>;
-    <span class="hljs-variable">$paypalKey</span> = <span class="hljs-string">'995d8de2-0c39-4e98-9216-86f047cb8662'</span>;
-} <span class="hljs-keyword">else</span> {
-    <span class="hljs-variable">$paypalMAID</span> = <span class="hljs-string">'2a0e9351-24ed-4110-9a1b-fd0fee6bec26'</span>;
-    <span class="hljs-variable">$paypalKey</span> = <span class="hljs-string">'dbc5a498-9a66-43b9-bf1d-a618dd399684'</span>;
-}
-
+<span class="hljs-variable">$config</span>-&gt;add(<span class="hljs-variable">$creditcardConfig</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="paypal">PayPal</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-variable">$paypalMAID</span> = <span class="hljs-string">'2a0e9351-24ed-4110-9a1b-fd0fee6bec26'</span>;
+<span class="hljs-variable">$paypalKey</span> = <span class="hljs-string">'dbc5a498-9a66-43b9-bf1d-a618dd399684'</span>;
 <span class="hljs-variable">$paypalConfig</span> = <span class="hljs-keyword">new</span> PaymentMethodConfig(PayPalTransaction::NAME, <span class="hljs-variable">$paypalMAID</span>, <span class="hljs-variable">$paypalKey</span>);
 <span class="hljs-variable">$config</span>-&gt;add(<span class="hljs-variable">$paypalConfig</span>);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="paysafecard">paysafecard</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-variable">$paysafecardMAID</span> = <span class="hljs-string">'28d4938b-d0d6-4c4a-b591-fb63175de53e'</span>;
 <span class="hljs-variable">$paysafecardKey</span> = <span class="hljs-string">'dbc5a498-9a66-43b9-bf1d-a618dd399684'</span>;
