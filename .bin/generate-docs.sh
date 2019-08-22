@@ -33,9 +33,7 @@ rm -rf ${UPLOAD_DIRECTORY}/**/* || exit 0
 echo "Create reference with ApiGen:"
 
 # ApiGen: Download
-composer require apigen/apigen --dev
-composer install
-#wget -q http://apigen.org/apigen.phar
+wget -q http://apigen.org/apigen.phar
 
 # ApiGen: generate the reference
 vendor/bin/apigen generate -s src -d ${UPLOAD_DIRECTORY}/docs --template-theme="bootstrap"
