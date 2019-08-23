@@ -71,20 +71,20 @@ class AcceptanceTester extends \Codeception\Actor
             // Credit Card WPPv2 3D
             case "Create Credit Card UI WPPv2 Page":
                 $page = new CreditCardCreateUIWppV2Page($this);
-       //         $this->wait(2);
+              //  $this->wait(2);
                 break;
             case "Create Credit Card UI WPPv2 Payment Action Page":
                 $page = new CreditCardCreateUIWppV2PaymentActionPage($this);
-      //          $this->wait(2);
+            //    $this->wait(2);
                 break;
             // Credit Card non 3D WPPv2
             case "Create Credit Card UI non 3D WPPv2 Page":
                 $page = new CreditCardCreateUINon3DWppV2Page($this);
-     //           $this->wait(2);
+           //     $this->wait(2);
                 break;
             case "Credit Card Success non 3D WPPv2 Page":
                 $page = new CreditCardWppV2SuccessNon3DPage($this);
-                $this->wait(15);
+           //     $this->wait(15);
                 break;
             // Credit Card tokenize
             case "Create Credit Card UI Tokenize Page":
