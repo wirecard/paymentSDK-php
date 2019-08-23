@@ -71,20 +71,16 @@ class AcceptanceTester extends \Codeception\Actor
             // Credit Card WPPv2 3D
             case "Create Credit Card UI WPPv2 Page":
                 $page = new CreditCardCreateUIWppV2Page($this);
-              //  $this->wait(2);
                 break;
             case "Create Credit Card UI WPPv2 Payment Action Page":
                 $page = new CreditCardCreateUIWppV2PaymentActionPage($this);
-            //    $this->wait(2);
                 break;
             // Credit Card non 3D WPPv2
             case "Create Credit Card UI non 3D WPPv2 Page":
                 $page = new CreditCardCreateUINon3DWppV2Page($this);
-           //     $this->wait(2);
                 break;
             case "Credit Card Success non 3D WPPv2 Page":
                 $page = new CreditCardWppV2SuccessNon3DPage($this);
-           //     $this->wait(15);
                 break;
             // Credit Card tokenize
             case "Create Credit Card UI Tokenize Page":
@@ -92,35 +88,27 @@ class AcceptanceTester extends \Codeception\Actor
                 break;
             case "Credit Card Reserve Page":
                 $page = new CreditCardReservePage($this);
-//                $this->wait(20);
                 break;
             case "Credit Card Tokenize Reserve Page":
                 $page = new CreditCardReserveTokenizePage($this);
-     //           $this->wait(5);
                 break;
             case "Credit Card Success Page":
                 $page = new CreditCardSuccessPage($this);
-        //        $this->wait(30);
                 break;
             case "Verified Page":
                 $page = new VerifiedPage($this);
-    //            $this->wait(10);
                 break;
             case "Credit Card Cancel Page":
                 $page = new CreditCardCancelPage($this);
-    //            $this->wait(10);
                 break;
             case "SimulatorPage":
                 $page = new SimulatorPage($this);
-    //            $this->wait(5);
                 break;
             case "Credit Card Success Page Non 3D Page":
                 $page = new CreditCardSuccessNon3DPage($this);
-       //         $this->wait(20);
                 break;
             case "Create Credit Card Pay Based On Reserve":
                 $page = new CreditCardPayBasedOnReservePage($this);
-     //           $this->wait(10);
                 break;
             case "Create Credit Card UI Payment Action Page":
                 $page = new CreditCardCreateUIPaymentActionPage($this);
@@ -130,14 +118,12 @@ class AcceptanceTester extends \Codeception\Actor
                 break;
             case "Pay Pal Review":
                 $page = new PayPalReviewPage($this);
-            //    $this->wait(20);
                 break;
             case "Pay Pal Pay Based On Reserve":
                 $page = new PayPalPayBasedOnReservePage($this);
                 break;
             case "Pay Pal Success":
                 $page = new PayPalSuccessPage($this);
-          //      $this->wait(25);
                 break;
             case "Pay Pal Cancel":
                 $page = new PayPalCancelPage($this);
