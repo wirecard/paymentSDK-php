@@ -104,4 +104,26 @@ class Base
     {
         ;
     }
+
+    /**
+     * Method waitUntilLoaded
+     *
+     * @since   3.8.0
+     */
+    public function waitUntilLoaded()
+    {
+        $counter = 0;
+        $I = $this->tester;
+        try {
+            while (strpos($I->grabFromCurrentUrl(), $this->getPageSpecific()) == false) {
+                $I->wait(1);
+                $counter ++;
+                if ($counter == 40) {
+                    break;
+                }
+            }
+        } catch (\PHPUnit_Framework_Exception $e) {
+            ;
+        }
+    }
 }

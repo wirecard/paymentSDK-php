@@ -12,7 +12,7 @@ namespace Page;
 class WirecardTransactionDetails extends Base
 {
     //page specific text that can be found in the URL
-    public $pageSpecific = '/engine/rest/merchants/';
+    public $pageSpecific = 'merchants';
 
     /**
      * Method seeTransactionType

@@ -100,7 +100,7 @@ class AcceptanceTester extends \Codeception\Actor
                 break;
             case "Credit Card Success Page":
                 $page = new CreditCardSuccessPage($this);
-                $this->wait(30);
+        //        $this->wait(30);
                 break;
             case "Verified Page":
                 $page = new VerifiedPage($this);
@@ -116,7 +116,7 @@ class AcceptanceTester extends \Codeception\Actor
                 break;
             case "Credit Card Success Page Non 3D Page":
                 $page = new CreditCardSuccessNon3DPage($this);
-                $this->wait(20);
+       //         $this->wait(20);
                 break;
             case "Create Credit Card Pay Based On Reserve":
                 $page = new CreditCardPayBasedOnReservePage($this);
@@ -183,6 +183,7 @@ class AcceptanceTester extends \Codeception\Actor
         // Open the page and initialize required pageObject
         $this->currentPage = $this->selectPage($page);
         $this->amOnPage($this->currentPage->getURL($this->getScenario()->current('name')));
+        $this->currentPage->waitUntilLoaded();
         $this->currentPage->switchFrame();
     }
 
@@ -194,8 +195,9 @@ class AcceptanceTester extends \Codeception\Actor
         // Initialize required pageObject WITHOUT checking URL
         $this->currentPage = $this->selectPage($page);
         // Check only specific keyword that page URL should contain
+        $this->currentPage->waitUntilLoaded();
         $this->wait(3);
-    //    $this->seeInCurrentUrl($this->getPageSpecific());
+        $this->seeInCurrentUrl($this->getPageSpecific());
     }
 
     /**

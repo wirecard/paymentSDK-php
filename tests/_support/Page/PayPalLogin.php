@@ -39,10 +39,10 @@ class PayPalLogIn extends Base
         $data_field_values = $I->getDataFromDataFile('tests/_data/payPalData.json');
 
         try {
-            $I->waitForElementVisible($this->getElement('Email'), 30);
+            $I->waitForElementVisible($this->getElement('Email'), 15);
             $I->fillField($this->getElement('Email'), $data_field_values->user_name);
             try {
-                $I->waitForElementVisible($this->getElement('Password'), 30);
+                $I->waitForElementVisible($this->getElement('Password'));
                 $I->fillField($this->getElement('Password'), $data_field_values->password);
             } catch (TimeOutException $e) {
                 $I->waitForElementVisible($this->getElement('Next'), 30);
