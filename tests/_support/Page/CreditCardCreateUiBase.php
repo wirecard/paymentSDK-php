@@ -52,10 +52,10 @@ class CreditCardCreateUiBase extends Base
         $I = $this->tester;
         $data_field_values = $I->getCardDataFromDataFile($cardData);
         $env = $gateway = $I->getGateway();
-        $I->waitForElementVisible($this->getElement("Card number"));
+        $I->waitForElementVisible($this->getElement("Card number"), 30);
 
         if ('sg_gateway' == $env) {
-            $I->waitForElementVisible($this->getElement("First name"));
+            $I->waitForElementVisible($this->getElement("First name"), 30);
             $I->fillField($this->getElement("First name"), $data_field_values->first_name);
         }
         if ('sg_secure_gateway' != $env) {

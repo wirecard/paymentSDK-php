@@ -130,14 +130,14 @@ class AcceptanceTester extends \Codeception\Actor
                 break;
             case "Pay Pal Review":
                 $page = new PayPalReviewPage($this);
-                $this->wait(20);
+            //    $this->wait(20);
                 break;
             case "Pay Pal Pay Based On Reserve":
                 $page = new PayPalPayBasedOnReservePage($this);
                 break;
             case "Pay Pal Success":
                 $page = new PayPalSuccessPage($this);
-                $this->wait(25);
+          //      $this->wait(25);
                 break;
             case "Pay Pal Cancel":
                 $page = new PayPalCancelPage($this);
@@ -203,7 +203,7 @@ class AcceptanceTester extends \Codeception\Actor
      */
     public function iSee($element)
     {
-        $this->waitForElementVisible($this->getPageElement($element));
+        $this->waitForElementVisible($this->getPageElement($element), 30);
         $this->seeElement($this->getPageElement($element));
     }
 
@@ -212,7 +212,7 @@ class AcceptanceTester extends \Codeception\Actor
      */
     public function iEnterInField($fieldValue, $fieldID)
     {
-        $this->waitForElementVisible($this->getPageElement($fieldID));
+        $this->waitForElementVisible($this->getPageElement($fieldID), 30);
         $fieldValueDefined = $this->currentPage->prepareDataForField($fieldValue, $this->valueToKeepBetweenSteps);
         $this->fillField($this->getPageElement($fieldID), $fieldValueDefined);
     }
@@ -222,7 +222,7 @@ class AcceptanceTester extends \Codeception\Actor
      */
     public function iChooseInField($fieldValue, $fieldID)
     {
-        $this->waitForElementVisible($this->getPageElement($fieldID));
+        $this->waitForElementVisible($this->getPageElement($fieldID), 30);
         $this->selectOption($this->getPageElement($fieldID), $fieldValue);
     }
 
@@ -232,7 +232,7 @@ class AcceptanceTester extends \Codeception\Actor
     public function iClick($object)
     {
         $this->currentPage->prepareClick();
-        $this->waitForElementVisible($this->getPageElement($object));
+        $this->waitForElementVisible($this->getPageElement($object), 30);
         $this->click($this->getPageElement($object));
     }
 
@@ -285,7 +285,7 @@ class AcceptanceTester extends \Codeception\Actor
     {
         $env = getenv('GATEWAY');
         $data_field_values = $this->getDataFromDataFile('tests/_data/gatewayUsers.json');
-        $this->waitForElementVisible($this->getPageElement($link));
+        $this->waitForElementVisible($this->getPageElement($link), 30);
         $link_address = $this->grabAttributeFrom($this->getPageElement($link), "href");
         $this->amOnUrl($this->formAuthLink(
             $link_address,
