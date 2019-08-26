@@ -21,6 +21,9 @@ Feature: CreditCard3DSWppv2AuthorizationAndPostprocessingHappyPath
     And I am redirected to "Credit Card Success Page" page
     Then I see text "Payment successfully completed."
     And I see text "Transaction ID"
+    And I click "Transaction Identification" link
+    And I am redirected to "Wirecard Transaction Details" page
+    And I see in table key "Transaction Type" value "authorization"
 
   @API-TEST @API-WDCEE-TEST
   Scenario: capture
