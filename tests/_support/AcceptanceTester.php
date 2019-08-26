@@ -39,6 +39,7 @@ use Page\CreditCardCreateUIWppV2 as CreditCardCreateUIWppV2Page;
 use Page\CreditCardCreateUIWppV2PaymentAction as CreditCardCreateUIWppV2PaymentActionPage;
 // WPPv2 Non 3D
 use Page\CreditCardCreateUINon3DWppV2 as CreditCardCreateUINon3DWppV2Page;
+use Page\CreditCardCreateUINon3DWppV2PaymentAction as CreditCardCreateUINon3DWppV2PaymentActionPage;
 use Page\CreditCardWppV2SuccessNon3D as CreditCardWppV2SuccessNon3DPage;
 use Page\CreditCardReserveTokenize as CreditCardReserveTokenizePage;
 use Page\WirecardTransactionDetails as WirecardTransactionDetailsPage;
@@ -81,6 +82,9 @@ class AcceptanceTester extends \Codeception\Actor
                 break;
             case "Credit Card Success non 3D WPPv2 Page":
                 $page = new CreditCardWppV2SuccessNon3DPage($this);
+                break;
+            case "Create Credit Card UI non 3D WPPv2 Payment Action Page":
+                $page = new CreditCardCreateUINon3DWppV2PaymentActionPage($this);
                 break;
             // Credit Card tokenize
             case "Create Credit Card UI Tokenize Page":
