@@ -160,7 +160,7 @@ class RequestMapper
         }
 
         if (null !== $transaction->getIsoTransactionType()) {
-            $data['iso_transaction_type'] = $transaction->getIsoTransactionType();
+            $requestData['iso_transaction_type'] = $transaction->getIsoTransactionType();
         }
 
         return $requestData;
