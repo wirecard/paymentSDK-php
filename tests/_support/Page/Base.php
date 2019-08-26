@@ -20,7 +20,7 @@ class Base
     //Acceptance tester instance
     protected $tester;
 
-   //page specific text that can be found in the URL
+    //page specific text that can be found in the URL
     public $pageSpecific = '';
 
     /**
@@ -112,18 +112,18 @@ class Base
      */
     public function waitUntilLoaded()
     {
-        $counter = 0;
         $I = $this->tester;
-        try {
-            while (strpos($I->grabFromCurrentUrl(), $this->getPageSpecific()) == false) {
-                $I->wait(1);
-                $counter ++;
-                if ($counter == 40) {
+        $timeout = 40;
+        $counter = 0;
+        while ($counter <= $timeout) {
+            $I->wait(1);
+            $counter++;
+            $currentUrl = $I->grabFromCurrentUrl();
+            if ($currentUrl != '' && $this->getPageSpecific() != '') {
+                if (strpos($currentUrl, $this->getPageSpecific()) != false) {
                     break;
                 }
             }
-        } catch (\PHPUnit_Framework_Exception $e) {
-            ;
         }
     }
 }
