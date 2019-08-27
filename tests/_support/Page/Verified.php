@@ -14,8 +14,10 @@ class Verified extends Base
     // include url of current page
     public $URL = 'https://c3-test.wirecard.com/acssim/app/bank';
 
-    public $page_specific = 'bank';
+    //page specific text that can be found in the URL
+    public $pageSpecific = 'bank';
 
+    //page elements
     public $elements = array(
         'Password' => "//*[@id='password']",
         'Continue' => "//*[@name='authenticate']"

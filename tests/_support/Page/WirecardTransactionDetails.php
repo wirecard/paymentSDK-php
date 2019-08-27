@@ -11,8 +11,15 @@ namespace Page;
 
 class WirecardTransactionDetails extends Base
 {
-    public $page_specific = '/engine/rest/merchants/';
+    //page specific text that can be found in the URL
+    public $pageSpecific = 'merchants';
 
+    /**
+     * Method seeTransactionType
+     * @param string $tableKey
+     * @param string $tableValue
+     * @since 3.7.2
+     */
     public function seeTransactionType($tableKey, $tableValue)
     {
         $I = $this->tester;

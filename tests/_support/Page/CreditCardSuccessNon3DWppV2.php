@@ -11,11 +11,13 @@ namespace Page;
 
 class CreditCardWppV2SuccessNon3D extends Base
 {
-    // include url of current page
+    //include url of current page
     public $URL = '/CreditCard/pay.php';
 
-    public $page_specific = 'reserve';
+    //page specific text that can be found in the URL
+    public $pageSpecific = 'reserve';
 
+    //page elements
     public $elements = array(
         'Reservation successfully completed..' => "Reservation successfully completed..",
         'Transaction ID' => "Transaction ID",

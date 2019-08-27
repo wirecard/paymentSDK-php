@@ -5,15 +5,16 @@
  * - License can be found under:
  * https://github.com/wirecard/paymentSDK-php/blob/master/LICENSE
  */
+
 namespace Page;
+
 use Facebook\WebDriver\Exception\TimeOutException;
+
 class PayPalLoginPurchase extends PayPalLogIn
 {
-    /**
-     * @var string
-     * @since 3.7.2
-     */
+    //include url of current page
     public $URL = 'PayPal/pay.php';
+
     /**
      * Method performPaypalLogin
      *

@@ -9,11 +9,12 @@
 
 namespace Page;
 
-class CreditCardCreateUI extends CreditCardCreateUiBase
+class CreditCardCreateUIWppV1Base extends CreditCardCreateUiBase
 {
-    // include url of current page
-    public $URL = '/CreditCard/createUi_tokenize.php';
+    //include url of current page
+    public $URL = '/CreditCard/createUi.php';
 
+    //page elements
     public $elements = array(
         'First name' => "//*[@id='first_name']",
         'Last name' => "//*[@id='last_name']",
@@ -27,31 +28,6 @@ class CreditCardCreateUI extends CreditCardCreateUiBase
         'Credit Card payment form' => "//*[@id='payment-form']"
     );
 
-    public $wirecard_frame = "wirecard-seamless-frame";
-
-    /**
-     * Method switchFrame
-     * @param boolean $wpp2
-     */
-    public function switchFrame($wpp2 = false)
-    {
-        parent::switchFrame($wpp2);
-    }
-
-    /**
-     * Method prepareClick
-     */
-    public function prepareClick()
-    {
-        parent::prepareClick();
-    }
-    /**
-     * Method Method prepareDataForField
-     * @param string $cardData
-     * @param null $type
-     */
-    public function fillCreditCardFields($cardData, $type = null)
-    {
-        parent::fillCreditCardFields($cardData);
-    }
+    //wirecard seamless frame name
+    public $wirecardFrame = "wirecard-seamless-frame";
 }

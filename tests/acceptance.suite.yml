@@ -12,6 +12,10 @@ modules:
         port: 80
         url: '%NGROK_URL%/examples/payments/'
         browser: chrome # 'chrome' or 'firefox'
+        connection_timeout: 60
+        request_timeout: 60
+        pageload_timeout: 60
+        wait: 30
         capabilities:
           'build': '%VERSION%'
           'project': 'payment-SDK-%GATEWAY%'

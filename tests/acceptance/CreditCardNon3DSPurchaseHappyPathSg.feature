@@ -5,7 +5,7 @@ Feature: CreditCardNon3DSTokenizePurchaseHappyPathSg
   And to be able to cancel the transaction
 
   Background:
-    Given I am on "Create Credit Card UI Page" page
+    Given I am on "Create Credit Card UI Tokenize Page" page
     When I fill fields with "Valid Credit Card Data"
     And I enter "25" in field "Amount"
     And I choose "SGD" in field "Currency"

@@ -9,11 +9,13 @@ namespace Page;
 
 class PayPalCancel extends Base
 {
-
+    //include url of current page
     public $URL = '/PayPal/cancel.php';
 
-    public $page_specific = 'cancel';
+    //page specific text that can be found in the URL
+    public $pageSpecific = 'cancel';
 
+    //page elements
     public $elements = array(
         'Transaction ID to be refunded' => "//*[@id='parentTransactionId']",
         'Cancel' => "//*[@class='btn btn-primary']",

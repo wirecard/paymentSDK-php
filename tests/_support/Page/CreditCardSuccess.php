@@ -11,11 +11,13 @@ namespace Page;
 
 class CreditCardSuccess extends Base
 {
-    // include url of current page
+    //include url of current page
     public $URL = '/CreditCard/return.php?status=success';
 
-    public $page_specific = 'success';
+    //page specific text that can be found in the URL
+    public $pageSpecific = 'success';
 
+    //page elements
     public $elements = array(
         'Payment successfully completed.' => "Payment successfully completed.",
         'Transaction ID' => "Transaction ID",

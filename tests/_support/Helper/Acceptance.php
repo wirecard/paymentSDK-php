@@ -22,10 +22,14 @@ class Acceptance extends \Codeception\Module
     public static function formAuthLink($link, $username, $password)
     {
         $link_parts = parse_url($link);
-        $link_parts["user"] = $username;
-        $link_parts["pass"] = $password;
-
-        $new_link = $link_parts['scheme'] . '://' . $link_parts["user"] . ":" . $link_parts["pass"] . "@" . $link_parts['host'] . $link_parts['path'];
+        $new_link = sprintf(
+            '%s://%s:%s@%s%s',
+            $link_parts['scheme'],
+            $username,
+            $password,
+            $link_parts['host'],
+            $link_parts['path']
+        );
         return $new_link;
     }
 
@@ -41,17 +45,32 @@ class Acceptance extends \Codeception\Module
         return $transaction_id = end($transaction_id);
     }
 
-    public static function getCardDataFromDataFile($cardDataType)
+    /**
+     * Method returns gateway type based on environment variable
+     *
+     * @return string
+     */
+    public static function getGateway()
     {
         $gatewayEnv = getenv('GATEWAY');
-        if ('NOVA' == $gatewayEnv || 'API-TEST' == $gatewayEnv || 'API-WDCEE-TEST' == $gatewayEnv) {
-            $gateway = 'default_gateway';
-        } else if ('SECURE-TEST-SG' == $gatewayEnv) {
+        $gateway = 'default_gateway';
+        if ('SECURE-TEST-SG' == $gatewayEnv) {
             $gateway = 'sg_secure_gateway';
-        } else if ('TEST-SG' == $gatewayEnv) {
+        } elseif ('TEST-SG' == $gatewayEnv) {
             $gateway = 'sg_gateway';
         }
+        return $gateway;
+    }
 
+    /**
+     * Method returns card data from file
+     *
+     * @param string $cardDataType
+     * @return string
+     */
+    public static function getCardDataFromDataFile($cardDataType)
+    {
+        $gateway = self::getGateway();
         $fileData = file_get_contents('tests/_data/data.json');
         $data = json_decode($fileData); // decode the JSON feed
         return $data->$gateway->$cardDataType;
@@ -67,7 +86,7 @@ class Acceptance extends \Codeception\Module
     public static function getDataFromDataFile($fileName)
     {
         // decode the JSON feed
-        $json_data = json_decode( file_get_contents($fileName));
+        $json_data = json_decode(file_get_contents($fileName));
         if (!$json_data) {
             $error = error_get_last();
             echo 'Failed to get customer data from tests/_data/...json. Error was: ' . $error['message'];

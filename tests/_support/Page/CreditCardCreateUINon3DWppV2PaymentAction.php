@@ -9,8 +9,8 @@
 
 namespace Page;
 
-class CreditCardCreateUINon3DWppV2 extends CreditCardCreateUiWppV2Base
+class CreditCardCreateUINon3DWppV2PaymentAction extends CreditCardCreateUiWppV2Base
 {
-    // include url of current page
-    public $URL = '/CreditCard/createUiWppV2NonThreeD.php';
+    //include url of current page
+    public $URL = '/CreditCard/createUiWppV2NonThreeD.php?paymentAction=';
 }

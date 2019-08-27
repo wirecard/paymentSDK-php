@@ -9,19 +9,11 @@
 
 namespace Page;
 
-class CreditCardSuccessNon3D extends Base
+class CreditCardReserveTokenize extends CreditCardReserve
 {
     //include url of current page
     public $URL = '/CreditCard/pay_tokenize.php';
 
     //page specific text that can be found in the URL
-    public $pageSpecific = 'pay_tokenize';
-
-    //page elements
-    public $elements = array(
-        'Reservation successfully completed..' => "Reservation successfully completed..",
-        'Transaction ID' => "Transaction ID",
-        'Transaction Identification' => "//div[contains(@class, 'content')]/a"
-
-    );
+    public $pageSpecific = 'pay';
 }

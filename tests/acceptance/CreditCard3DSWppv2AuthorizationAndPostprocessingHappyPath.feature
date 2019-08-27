@@ -1,4 +1,4 @@
-Feature: CreditCard3DSAuthorizationAndPostprocessingHappyPath
+Feature: CreditCard3DSWppv2AuthorizationAndPostprocessingHappyPath
   As a user
   I want to make a purchase with a Credit Card 3DS
   And to see that transaction was successful
@@ -7,10 +7,8 @@ Feature: CreditCard3DSAuthorizationAndPostprocessingHappyPath
   And to be able to cancel the transaction
 
   Background:
-    Given I am on "Create Credit Card UI Payment Action Page" page
+    Given I am on "Create Credit Card UI WPPv2 Payment Action Page" page
     When I fill fields with "Valid Credit Card Data"
-    And I enter "70" in field "Amount"
-    And I choose "EUR" in field "Currency"
     And I click "Save"
 
   @API-TEST @API-WDCEE-TEST

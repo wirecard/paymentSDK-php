@@ -25,7 +25,7 @@
 
 use Helper\Acceptance;
 use Page\Base;
-use Page\CreditCardCreateUI as CreditCardCreateUIPage;
+use Page\CreditCardCreateUITokenize as CreditCardCreateUITokenizePage;
 use Page\CreditCardCreateUIPaymentAction as CreditCardCreateUIPaymentActionPage;
 use Page\CreditCardReserve as CreditCardReservePage;
 use Page\CreditCardSuccess as CreditCardSuccessPage;
@@ -34,20 +34,21 @@ use Page\CreditCardCancel as CreditCardCancelPage;
 use Page\SimulatorPage as SimulatorPage;
 use Page\CreditCardSuccessNon3D as CreditCardSuccessNon3DPage;
 use Page\CreditCardPayBasedOnReserve as CreditCardPayBasedOnReservePage;
-//use Page\CreditCardCreateUIAuthorization as CreditCardCreateUIAuthorizationPage;
-//use Page\CreditCardCreateUIPurchase as CreditCardCreateUIPurchasePage;
 // WPPv2 3D
 use Page\CreditCardCreateUIWppV2 as CreditCardCreateUIWppV2Page;
-use Page\CreditCardReserveWppV2 as CreditCardReserveWppV2Page;
+use Page\CreditCardCreateUIWppV2PaymentAction as CreditCardCreateUIWppV2PaymentActionPage;
 // WPPv2 Non 3D
 use Page\CreditCardCreateUINon3DWppV2 as CreditCardCreateUINon3DWppV2Page;
+use Page\CreditCardCreateUINon3DWppV2PaymentAction as CreditCardCreateUINon3DWppV2PaymentActionPage;
 use Page\CreditCardWppV2SuccessNon3D as CreditCardWppV2SuccessNon3DPage;
+use Page\CreditCardReserveTokenize as CreditCardReserveTokenizePage;
+use Page\WirecardTransactionDetails as WirecardTransactionDetailsPage;
+//PayPal
 use Page\PayPalLogin as PayPalLoginPage;
 use Page\PayPalReview as PayPalReviewPage;
 use Page\PayPalSuccess as PayPalSuccessPage;
 use Page\PayPalPayBasedOnReserve as PayPalPayBasedOnReservePage;
 use Page\PayPalCancel as PayPalCancelPage;
-use Page\WirecardTransactionDetails as WirecardTransactionDetailsPage;
 use Page\PayPalLoginPurchase as PayPalLoginPurchasePage;
 
 class AcceptanceTester extends \Codeception\Actor
@@ -72,9 +73,8 @@ class AcceptanceTester extends \Codeception\Actor
             case "Create Credit Card UI WPPv2 Page":
                 $page = new CreditCardCreateUIWppV2Page($this);
                 break;
-            case "Credit Card Reserve WPPv2 Page":
-                $page = new CreditCardReserveWppV2Page($this);
-                $this->wait(25);
+            case "Create Credit Card UI WPPv2 Payment Action Page":
+                $page = new CreditCardCreateUIWppV2PaymentActionPage($this);
                 break;
             // Credit Card non 3D WPPv2
             case "Create Credit Card UI non 3D WPPv2 Page":
@@ -82,39 +82,37 @@ class AcceptanceTester extends \Codeception\Actor
                 break;
             case "Credit Card Success non 3D WPPv2 Page":
                 $page = new CreditCardWppV2SuccessNon3DPage($this);
-                $this->wait(15);
+                break;
+            case "Create Credit Card UI non 3D WPPv2 Payment Action Page":
+                $page = new CreditCardCreateUINon3DWppV2PaymentActionPage($this);
                 break;
             // Credit Card tokenize
-            case "Create Credit Card UI Page":
-                $page = new CreditCardCreateUIPage($this);
+            case "Create Credit Card UI Tokenize Page":
+                $page = new CreditCardCreateUITokenizePage($this);
                 break;
             case "Credit Card Reserve Page":
                 $page = new CreditCardReservePage($this);
-                $this->wait(20);
+                break;
+            case "Credit Card Tokenize Reserve Page":
+                $page = new CreditCardReserveTokenizePage($this);
                 break;
             case "Credit Card Success Page":
                 $page = new CreditCardSuccessPage($this);
-                $this->wait(30);
                 break;
             case "Verified Page":
                 $page = new VerifiedPage($this);
-                $this->wait(10);
                 break;
             case "Credit Card Cancel Page":
                 $page = new CreditCardCancelPage($this);
-                $this->wait(10);
                 break;
             case "SimulatorPage":
                 $page = new SimulatorPage($this);
-                $this->wait(5);
                 break;
             case "Credit Card Success Page Non 3D Page":
                 $page = new CreditCardSuccessNon3DPage($this);
-                $this->wait(20);
                 break;
             case "Create Credit Card Pay Based On Reserve":
                 $page = new CreditCardPayBasedOnReservePage($this);
-                $this->wait(10);
                 break;
             case "Create Credit Card UI Payment Action Page":
                 $page = new CreditCardCreateUIPaymentActionPage($this);
@@ -124,14 +122,12 @@ class AcceptanceTester extends \Codeception\Actor
                 break;
             case "Pay Pal Review":
                 $page = new PayPalReviewPage($this);
-                $this->wait(20);
                 break;
             case "Pay Pal Pay Based On Reserve":
                 $page = new PayPalPayBasedOnReservePage($this);
                 break;
             case "Pay Pal Success":
                 $page = new PayPalSuccessPage($this);
-                $this->wait(25);
                 break;
             case "Pay Pal Cancel":
                 $page = new PayPalCancelPage($this);
@@ -177,6 +173,7 @@ class AcceptanceTester extends \Codeception\Actor
         // Open the page and initialize required pageObject
         $this->currentPage = $this->selectPage($page);
         $this->amOnPage($this->currentPage->getURL($this->getScenario()->current('name')));
+        $this->currentPage->waitUntilLoaded();
         $this->currentPage->switchFrame();
     }
 
@@ -188,6 +185,8 @@ class AcceptanceTester extends \Codeception\Actor
         // Initialize required pageObject WITHOUT checking URL
         $this->currentPage = $this->selectPage($page);
         // Check only specific keyword that page URL should contain
+        $this->currentPage->waitUntilLoaded();
+        $this->wait(3);
         $this->seeInCurrentUrl($this->getPageSpecific());
     }
 
@@ -196,7 +195,7 @@ class AcceptanceTester extends \Codeception\Actor
      */
     public function iSee($element)
     {
-        $this->waitForElementVisible($this->getPageElement($element));
+        $this->waitForElementVisible($this->getPageElement($element), 30);
         $this->seeElement($this->getPageElement($element));
     }
 
@@ -205,7 +204,7 @@ class AcceptanceTester extends \Codeception\Actor
      */
     public function iEnterInField($fieldValue, $fieldID)
     {
-        $this->waitForElementVisible($this->getPageElement($fieldID));
+        $this->waitForElementVisible($this->getPageElement($fieldID), 30);
         $fieldValueDefined = $this->currentPage->prepareDataForField($fieldValue, $this->valueToKeepBetweenSteps);
         $this->fillField($this->getPageElement($fieldID), $fieldValueDefined);
     }
@@ -215,7 +214,7 @@ class AcceptanceTester extends \Codeception\Actor
      */
     public function iChooseInField($fieldValue, $fieldID)
     {
-        $this->waitForElementVisible($this->getPageElement($fieldID));
+        $this->waitForElementVisible($this->getPageElement($fieldID), 30);
         $this->selectOption($this->getPageElement($fieldID), $fieldValue);
     }
 
@@ -225,7 +224,7 @@ class AcceptanceTester extends \Codeception\Actor
     public function iClick($object)
     {
         $this->currentPage->prepareClick();
-        $this->waitForElementVisible($this->getPageElement($object));
+        $this->waitForElementVisible($this->getPageElement($object), 30);
         $this->click($this->getPageElement($object));
     }
 
@@ -278,10 +277,13 @@ class AcceptanceTester extends \Codeception\Actor
     {
         $env = getenv('GATEWAY');
         $data_field_values = $this->getDataFromDataFile('tests/_data/gatewayUsers.json');
-        $this->waitForElementVisible($this->getPageElement($link));
+        $this->waitForElementVisible($this->getPageElement($link), 30);
         $link_address = $this->grabAttributeFrom($this->getPageElement($link), "href");
-        $this->amOnUrl($this->formAuthLink($link_address, $data_field_values->$env->username,
-            $data_field_values->$env->password));
+        $this->amOnUrl($this->formAuthLink(
+            $link_address,
+            $data_field_values->$env->username,
+            $data_field_values->$env->password
+        ));
     }
 
     /**
