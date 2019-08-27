@@ -450,7 +450,10 @@ abstract class Transaction extends Risk
         if (null !== $this->locale) {
             $result['locale'] = $this->locale;
         } else {
-            $result['locale'] = substr(Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']), 0, 2);
+            $result['locale'] = 'en';
+            if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+                $result['locale'] = substr(Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']), 0, 2);
+            }
         }
 
         if (null !== $this->entryMode) {
