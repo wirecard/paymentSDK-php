@@ -1101,8 +1101,8 @@
             "authors": [
                 {
                     "name": "Niels Leenheer",
-                    "email": "niels@leenheer.nl",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "niels@leenheer.nl"
                 }
             ],
             "description": "Useragent sniffing library for PHP",
@@ -1392,8 +1392,8 @@
             "authors": [
                 {
                     "name": "Frank Kleine",
-                    "homepage": "http://frankkleine.de/",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "homepage": "http://frankkleine.de/"
                 }
             ],
             "description": "Virtual file system to mock the real file system in unit tests.",
@@ -1769,8 +1769,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sb@sebastian-bergmann.de",
-                    "role": "lead"
+                    "role": "lead",
+                    "email": "sb@sebastian-bergmann.de"
                 }
             ],
             "description": "Library that provides collection, processing, and rendering functionality for PHP code coverage information.",
@@ -1817,8 +1817,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sb@sebastian-bergmann.de",
-                    "role": "lead"
+                    "role": "lead",
+                    "email": "sb@sebastian-bergmann.de"
                 }
             ],
             "description": "FilterIterator implementation that filters files based on a list of suffixes.",
@@ -1859,8 +1859,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
+                    "role": "lead",
+                    "email": "sebastian@phpunit.de"
                 }
             ],
             "description": "Simple template engine.",
@@ -1908,8 +1908,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sb@sebastian-bergmann.de",
-                    "role": "lead"
+                    "role": "lead",
+                    "email": "sb@sebastian-bergmann.de"
                 }
             ],
             "description": "Utility class for timing",
@@ -2037,8 +2037,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
+                    "role": "lead",
+                    "email": "sebastian@phpunit.de"
                 }
             ],
             "description": "The PHP Unit Testing framework.",
@@ -2615,8 +2615,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
+                    "role": "lead",
+                    "email": "sebastian@phpunit.de"
                 }
             ],
             "description": "Library that helps with managing the version number of Git-hosted PHP projects",
@@ -2748,16 +2748,16 @@
         },
         {
             "name": "symfony/debug",
-            "version": "v3.4.28",
+            "version": "v3.4.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
-                "reference": "671fc55bd14800668b1d0a3708c3714940e30a8c"
+                "reference": "0b600300918780001e2821db77bc28b677794486"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/debug/zipball/671fc55bd14800668b1d0a3708c3714940e30a8c",
-                "reference": "671fc55bd14800668b1d0a3708c3714940e30a8c",
+                "url": "https://api.github.com/repos/symfony/debug/zipball/0b600300918780001e2821db77bc28b677794486",
+                "reference": "0b600300918780001e2821db77bc28b677794486",
                 "shasum": ""
             },
             "require": {
@@ -2800,7 +2800,7 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2019-05-18T13:32:47+00:00"
+            "time": "2019-08-20T13:31:17+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -2847,7 +2847,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
+                    "email": "BackEndTea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
