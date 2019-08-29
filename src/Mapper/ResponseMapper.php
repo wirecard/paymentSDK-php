@@ -281,7 +281,6 @@ class ResponseMapper
     public function mapSeamlessResponse($payload, $url)
     {
         $this->simpleXml = new SimpleXMLElement('<payment></payment>');
-
         $this->simpleXml->addChild("merchant-account-id", $payload['merchant_account_id']);
         $this->simpleXml->addChild("transaction-id", $payload['transaction_id']);
         $this->simpleXml->addChild("transaction-state", $payload['transaction_state']);
@@ -307,6 +306,14 @@ class ResponseMapper
 
         if (array_key_exists('parent_transaction_id', $payload)) {
             $this->simpleXml->addChild('parent-transaction-id', $payload['parent_transaction_id']);
+        }
+
+        //@TODO mapping of the card entity check response if something more is not mapped
+        if (array_key_exists('token_id', $payload) && array_key_exists('masked_account_number', $payload)) {
+            $card_token = new SimpleXMLElement('<card-token></card-token>');
+            $card_token->addChild('token-id', $payload['token_id']);
+            $card_token->addChild('masked-account-number', $payload['masked_account_number']);
+            $this->simpleXmlAppendNode($this->simpleXml, $card_token);
         }
 
         // parse statuses
@@ -346,15 +353,18 @@ class ResponseMapper
             $response = new FormInteractionResponse($this->simpleXml, $payload['acs_url']);
 
             $fields = new FormFieldMap();
-            $fields->add('TermUrl', $url);
+            //@TODO the term url is not the notification_url_1 this is received in the response
+            $fields->add('TermUrl', (string)$payload['notification_url_1']);
             $fields->add('PaReq', (string)$payload['pareq']);
 
+            //@TODO MD is build diffrent for refference look at https://confluence.wirecard.sys/display/EE/Seamless+integration
             $fields->add(
                 'MD',
-                base64_encode(json_encode([
-                    'enrollment-check-transaction-id' => $response->getTransactionId(),
-                    'operation-type' => $payload['transaction_type']
-                ]))
+                http_build_query([
+                    'merchant_account_id' => $payload['merchant_account_id'],
+                    'transaction_type' => $payload['transaction_type'],
+                    'nonce3d' => $payload['nonce3d']
+                ])
             );
 
             $response->setFormFields($fields);

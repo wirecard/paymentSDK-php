@@ -72,8 +72,10 @@ $accountHolder->setAddress($address);
 $transaction = new CreditCardTransaction();
 $transaction->setConfig($creditcardConfig);
 $transaction->setAmount($amount);
-$transaction->setTermUrl($redirectUrl);
-$transaction->setNotificationUrl($redirectUrl);
+//$transaction->setTermUrl($redirectUrl);
+$transaction->setNotificationUrl(/*$redirectUrl*/'https://net-notify.free.beeceptor.com');
+$redirects = new \Wirecard\PaymentSdk\Entity\Redirect($redirectUrl, 'http://nxclebq83o.eu.ngrok.io/payment-sdk-dw/examples/payments/CreditCard/return.php?status=cancel', 'http://nxclebq83o.eu.ngrok.io/payment-sdk-dw/examples/payments/CreditCard/return.php?status=failure');
+$transaction->setRedirect($redirects);
 $transaction->setBasket($basket);
 $transaction->setOrderNumber($orderNumber);
 $transaction->setShipping($accountHolder);
@@ -179,7 +181,7 @@ $transaction->setBrowser($browser);
             ?>
             // We fill the _requestData_ with the return value
             // from the `getCreditCardUiWithData` method of the `transactionService` which expects a transaction with all desired parameters.
-            requestData: <?= $transactionService->getCreditCardUiWithData($transaction, 'authorization', 'en'); ?>,
+            requestData: <?= $transactionService->getCreditCardUiWithData($transaction, 'purchase', 'en'); ?>,
             wrappingDivId: "creditcard-form-div",
             onSuccess: logCallback,
             onError: logCallback

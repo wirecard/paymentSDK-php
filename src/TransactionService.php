@@ -171,9 +171,9 @@ class TransactionService
     {
         $data = null;
 
-        // 3-D Secure PaRes
-        if (array_key_exists('MD', $payload) && array_key_exists('PaRes', $payload)) {
-            $data = $this->processAuthFrom3DResponse($payload);
+        //@TODO check if nvp if then process it
+        if (array_key_exists('response_signature_v2', $payload)) {
+            $data = $this->responseMapper->mapSeamlessResponse($payload, '');
         }
 
         // iDEAL
@@ -271,7 +271,7 @@ class TransactionService
 
         if ($transaction instanceof CreditCardTransaction) {
             $isThreeD = is_null($config->getMerchantAccountId()) || ($config->getThreeDMerchantAccountId() &&
-                ($transaction->isFallback() || $transaction->getThreeD())) ? true : false;
+            ($transaction->isFallback() || $transaction->getThreeD())) ? true : false;
             $merchantAccountId = $isThreeD ? $config->getThreeDMerchantAccountId() : $config->getMerchantAccountId();
             $secret = $isThreeD ? $config->getThreeDSecret() : $config->getSecret();
         }
@@ -703,7 +703,9 @@ class TransactionService
 
         $request = $this->sendGetRequest($endpoint, $acceptJson, $logNotFound);
 
-        if ($request == null &&
+        //@TODO map statuses and check for the error code 403.1166 => 'Access Denied - User doesn't have the access
+        //@TODO for the requested operation!' then use the 3d maid and please only for credit card
+        if (($request == null || !isset($request['payment']['transaction-id'])) &&
             ($paymentMethod == CreditCardTransaction::NAME || $paymentMethod == MaestroTransaction::NAME)) {
             $endpoint =
                 $this->config->getBaseUrl() .
@@ -713,7 +715,6 @@ class TransactionService
             $request = $this->sendGetRequest($endpoint, $acceptJson);
             $request !== null ? $this->isThreeD = true : $this->isThreeD = false;
         }
-
         return $request;
     }
 
@@ -748,10 +749,10 @@ class TransactionService
      * @throws MandatoryFieldMissingException
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
      */
+    //@TODO not used anymore
     private function processAuthFrom3DResponse($payload)
     {
         $md = json_decode(base64_decode($payload['MD']), true);
-
         $transaction = new CreditCardTransaction();
         $transaction->setParentTransactionId($md['enrollment-check-transaction-id']);
         $transaction->setPaRes($payload['PaRes']);
