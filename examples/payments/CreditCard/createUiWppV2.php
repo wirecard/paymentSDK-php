@@ -73,8 +73,11 @@ $transaction = new CreditCardTransaction();
 $transaction->setConfig($creditcardConfig);
 $transaction->setAmount($amount);
 //$transaction->setTermUrl($redirectUrl);
-$transaction->setNotificationUrl(/*$redirectUrl*/'https://net-notify.free.beeceptor.com');
-$redirects = new \Wirecard\PaymentSdk\Entity\Redirect($redirectUrl, 'http://nxclebq83o.eu.ngrok.io/payment-sdk-dw/examples/payments/CreditCard/return.php?status=cancel', 'http://nxclebq83o.eu.ngrok.io/payment-sdk-dw/examples/payments/CreditCard/return.php?status=failure');
+//@TODO enter an notification url i suggest beeceptor
+$transaction->setNotificationUrl(/*$redirectUrl*/'');
+//@TODO enter also cancel and failure url to test both casess
+//@TODO termUrl is not needed anymore as the processing is handled by the PP
+$redirects = new \Wirecard\PaymentSdk\Entity\Redirect($redirectUrl);
 $transaction->setRedirect($redirects);
 $transaction->setBasket($basket);
 $transaction->setOrderNumber($orderNumber);
