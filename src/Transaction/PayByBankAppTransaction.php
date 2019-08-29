@@ -10,6 +10,7 @@
 namespace Wirecard\PaymentSdk\Transaction;
 
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
+use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 
 class PayByBankAppTransaction extends Transaction
 {
@@ -20,7 +21,7 @@ class PayByBankAppTransaction extends Transaction
      */
     protected function mappedSpecificProperties()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -41,7 +42,15 @@ class PayByBankAppTransaction extends Transaction
             throw new MandatoryFieldMissingException('No transaction for cancellation set.');
         }
 
-        return Transaction::TYPE_REFUND_REQUEST;
+        switch ($this->parentTransactionType) {
+            case self::TYPE_DEBIT:
+                $transactionType = self::TYPE_REFUND_REQUEST;
+                break;
+            default:
+                throw new UnsupportedOperationException('The transaction can not be canceled.');
+        }
+
+        return $transactionType;
     }
 
     /**
