@@ -55,5 +55,4 @@ class PayByBankAppTransaction extends Transaction
 
         return self::ENDPOINT_PAYMENT_METHODS;
     }
-
 }
