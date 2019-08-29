@@ -35,6 +35,7 @@ class PayByBankAppTransaction extends Transaction
     /**
      * @return string
      * @throws MandatoryFieldMissingException
+     * @throws UnsupportedOperationException
      */
     protected function retrieveTransactionTypeForCancel()
     {
