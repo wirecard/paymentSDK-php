@@ -15,7 +15,8 @@
 // To include the necessary files, use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
-require __DIR__ . '/../../inc/config.php';
+require __DIR__ . '/../../configuration/config.php';
+
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\TransactionService;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
@@ -26,6 +27,9 @@ use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 $transactionService = new TransactionService($config);
 
 $redirectUrl = getUrl('return.php?status=success');
+$cancelUrl = getUrl('return.php?status=cancel');
+$failureUrl = getUrl('return.php?status=failure');
+
 $amount = new Amount(1400, 'EUR');
 $orderNumber = 'A2';
 
@@ -62,10 +66,18 @@ $accountHolder->setAddress($address);
 // ### Basic CreditCardTransaction
 // Create a CreditCardTransaction with all parameters which should be sent in the initial transaction.
 // The fields will be mapped for the javascript request.
+$redirects = new \Wirecard\PaymentSdk\Entity\Redirect(
+    $redirectUrl,
+    $cancelUrl,
+    $failureUrl
+);
+
 $transaction = new CreditCardTransaction();
 $transaction->setConfig($creditcardConfig);
 $transaction->setAmount($amount);
-$transaction->setTermUrl($redirectUrl);
+$transaction->setNotificationUrl('https://paymentsdk.free.beeceptor');
+
+$transaction->setRedirect($redirects);
 $transaction->setNotificationUrl($redirectUrl);
 $transaction->setBasket($basket);
 $transaction->setOrderNumber($orderNumber);

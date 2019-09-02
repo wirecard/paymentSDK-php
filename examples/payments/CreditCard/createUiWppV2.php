@@ -31,6 +31,9 @@ use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 $transactionService = new TransactionService($config);
 
 $redirectUrl = getUrl('return.php?status=success');
+$cancelUrl = getUrl('return.php?status=cancel');
+$failureUrl = getUrl('return.php?status=failure');
+
 $amount = new Amount(70.00, 'EUR');
 $orderNumber = 'A2';
 
@@ -72,12 +75,16 @@ $accountHolder->setAddress($address);
 $transaction = new CreditCardTransaction();
 $transaction->setConfig($creditcardConfig);
 $transaction->setAmount($amount);
-//$transaction->setTermUrl($redirectUrl);
-//@TODO enter an notification url i suggest beeceptor
-$transaction->setNotificationUrl(/*$redirectUrl*/'');
-//@TODO enter also cancel and failure url to test both casess
-//@TODO termUrl is not needed anymore as the processing is handled by the PP
-$redirects = new \Wirecard\PaymentSdk\Entity\Redirect($redirectUrl);
+
+// Visit https://beeceptor.com/console/paymentsdk to see the notifications that are sent.
+$transaction->setNotificationUrl('https://paymentsdk.free.beeceptor');
+
+$redirects = new \Wirecard\PaymentSdk\Entity\Redirect(
+        $redirectUrl,
+        $cancelUrl,
+        $failureUrl
+);
+
 $transaction->setRedirect($redirects);
 $transaction->setBasket($basket);
 $transaction->setOrderNumber($orderNumber);

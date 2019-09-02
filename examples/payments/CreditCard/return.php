@@ -39,7 +39,6 @@ $transactionService = new TransactionService($config);
 // The 3D-Secure page redirects to the _returnUrl_, which points to this file. To continue the payment process
 // the sent data can be fed directly to the transaction service via the method `handleResponse()`.
 // If there is response data from the service provider handle response
-var_dump($_POST); var_dump($_GET['status']);
 if ($_POST) {
     $response = $transactionService->handleResponse($_POST);
 

@@ -60,7 +60,6 @@ $transactionService = new TransactionService($config);
 
 if (array_key_exists('jsresponse', $_POST) && $_POST['jsresponse']) {
     $response = $transactionService->processJsResponse($_POST, $redirectUrl);
-
 } else {
     // ### Transaction
 

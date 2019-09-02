@@ -100,6 +100,7 @@ class TransactionServiceUTest extends PHPUnit_Framework_TestCase
             'status_severity_0' => 'information',
             'acs_url' => 'http://dummy.acs.url',
             'pareq' => 'testpareq',
+            'nonce3d' => '0123456789DEADBEEF',
             'cardholder_authentication_status' => 'Y',
             'parent_transaction_id' => 'ptrid'
         );

@@ -21,6 +21,8 @@ use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\CustomField;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
+use Wirecard\PaymentSdk\Entity\Status;
+use Wirecard\PaymentSdk\Entity\StatusCollection;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException;
@@ -171,9 +173,8 @@ class TransactionService
     {
         $data = null;
 
-        //@TODO check if nvp if then process it
         if (array_key_exists('response_signature_v2', $payload)) {
-            $data = $this->responseMapper->mapSeamlessResponse($payload, '');
+            $data = $this->responseMapper->mapSeamlessResponse($payload);
         }
 
         // iDEAL
@@ -703,19 +704,44 @@ class TransactionService
 
         $request = $this->sendGetRequest($endpoint, $acceptJson, $logNotFound);
 
-        //@TODO map statuses and check for the error code 403.1166 => 'Access Denied - User doesn't have the access
-        //@TODO for the requested operation!' then use the 3d maid and please only for credit card
-        if (($request == null || !isset($request['payment']['transaction-id'])) &&
+        if (($request == null || $this->checkIfRequestHasStatus($request, ['403.1166'])) &&
             ($paymentMethod == CreditCardTransaction::NAME || $paymentMethod == MaestroTransaction::NAME)) {
             $endpoint =
                 $this->config->getBaseUrl() .
                 '/engine/rest/merchants/' .
                 $this->config->get($paymentMethod)->getThreeDMerchantAccountId() .
                 '/payments/' . $transactionId;
+
             $request = $this->sendGetRequest($endpoint, $acceptJson);
             $request !== null ? $this->isThreeD = true : $this->isThreeD = false;
         }
+
         return $request;
+    }
+
+    /**
+     * @param array $request
+     * @return boolean
+     * @since 3.9.0
+     */
+    public function checkIfRequestHasStatus($request, $statusCodes)
+    {
+        if (array_key_exists('statuses', $request['payment'])) {
+            $statusCollection = new StatusCollection();
+
+            foreach ($request['payment']['statuses']['status'] as $receivedStatus) {
+                $status = new Status(
+                    $receivedStatus['code'],
+                    $receivedStatus['description'],
+                    $receivedStatus['severity']
+                );
+
+                $statusCollection->add($status);
+            }
+
+            return $statusCollection->hasStatusCodes($statusCodes);
+        }
+        return false;
     }
 
     /**
@@ -742,27 +768,6 @@ class TransactionService
 
     /**
      * @param array $payload
-     * @throws MalformedResponseException
-     * @throws UnconfiguredPaymentMethodException
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
-     * @throws MandatoryFieldMissingException
-     * @return FailureResponse|InteractionResponse|Response|SuccessResponse
-     */
-    //@TODO not used anymore
-    private function processAuthFrom3DResponse($payload)
-    {
-        $md = json_decode(base64_decode($payload['MD']), true);
-        $transaction = new CreditCardTransaction();
-        $transaction->setParentTransactionId($md['enrollment-check-transaction-id']);
-        $transaction->setPaRes($payload['PaRes']);
-        $transaction->setThreeD(true);
-
-        return $this->process($transaction, $md['operation-type']);
-    }
-
-    /**
-     * @param array $payload
      * @throws UnconfiguredPaymentMethodException
      * @throws MalformedResponseException
      * @throws \RuntimeException
@@ -781,12 +786,13 @@ class TransactionService
     }
 
     /**
+     * @since 3.9.0 The url parameter is now deprecated
      * @since 2.1.0
      * @param $payload
      * @param $url
      * @return FailureResponse|FormInteractionResponse|SuccessResponse
      */
-    public function processJsResponse($payload, $url)
+    public function processJsResponse($payload, $url = "")
     {
         $this->getLogger()->debug('GET seamless response: ' . json_encode($payload));
         return $this->responseMapper->mapSeamlessResponse($payload, $url);

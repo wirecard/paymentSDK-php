@@ -278,7 +278,13 @@ class ResponseMapper
         return new SuccessResponse($this->simpleXml);
     }
 
-    public function mapSeamlessResponse($payload, $url)
+    /**
+     * @param $payload
+     * @param string $url Deprecated; This parameter is kept for compatibility
+     * @return FailureResponse|FormInteractionResponse|SuccessResponse
+     * @since 3.9.0 Use notification_url_1 as TermUrl, unless otherwise specified
+     */
+    public function mapSeamlessResponse($payload, $url = "")
     {
         $this->simpleXml = new SimpleXMLElement('<payment></payment>');
         $this->simpleXml->addChild("merchant-account-id", $payload['merchant_account_id']);
@@ -353,11 +359,8 @@ class ResponseMapper
             $response = new FormInteractionResponse($this->simpleXml, $payload['acs_url']);
 
             $fields = new FormFieldMap();
-            //@TODO the term url is not the notification_url_1 this is received in the response
             $fields->add('TermUrl', (string)$payload['notification_url_1']);
             $fields->add('PaReq', (string)$payload['pareq']);
-
-            //@TODO MD is build diffrent for refference look at https://confluence.wirecard.sys/display/EE/Seamless+integration
             $fields->add(
                 'MD',
                 http_build_query([
