@@ -9,9 +9,13 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
+use Wirecard\IsoToPayPal;
 use Wirecard\PaymentSdk\Entity\Basket;
+use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
+use Wirecard\IsoToPayPal\Exception\CountryNotFoundException;
+use Wirecard\IsoToPayPal\Exception\StateNotFoundException;
 
 /**
  * Class PayPalTransaction
@@ -45,6 +49,38 @@ class PayPalTransaction extends Transaction implements Reservable
     {
         $this->orderDetail = $orderDetail;
         return $this;
+    }
+
+    /**
+     * Overrides the setting of the account holder to set the correct state
+     * code that is required for PayPal.
+     *
+     * @link https://github.com/wirecard/iso-paypal-converter
+     * @param AccountHolder $accountHolder
+     * @since 3.9.0
+     */
+    public function setAccountHolder($accountHolder)
+    {
+        $isoConverter = new IsoToPayPal\Converter();
+        $address = $accountHolder->getAddress();
+        $countryCode = $address->getCountryCode();
+        $state = $address->getState();
+
+        // If we fail set an unfiltered state, because it can be assumed
+        // it is not relevant for our use case.
+        try {
+            echo "WHAT";
+            $stateCode = $isoConverter->convert($countryCode, trim($state));
+            $address->setState($stateCode);
+        } catch (StateNotFoundException $e) {
+            $address->setState($state);
+        } catch (CountryNotFoundException $e) {
+            $address->setState($state);
+        }
+
+        $accountHolder->setAddress($address);
+
+        parent::setAccountHolder($accountHolder);
     }
 
     /**

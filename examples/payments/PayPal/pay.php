@@ -26,6 +26,7 @@ use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
+use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
@@ -51,8 +52,8 @@ $notificationUrl = getUrl('notify.php');
 
 // ### Account holder
 
-$address = new Address('US', 'Portland', 'Mariahilferstraße');
-$address->setState('OR');
+$address = new Address('AR', 'Buenos Aires', 'Av. Gaona');
+$address->setState('B');
 
 $accountHolder = new AccountHolder();
 $accountHolder->setLastName('Mustermann');
