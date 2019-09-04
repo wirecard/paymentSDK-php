@@ -695,8 +695,11 @@ class TransactionService
             '/payments/' . $transactionId;
 
         $request = $this->sendGetRequest($endpoint, $acceptJson, $logNotFound);
+        $statuses = array_key_exists('statuses', $request) ?
+            $request['statuses']['status']
+            : [];
 
-        if (($request == null || $this->checkIfRequestHasStatus($request['statuses']['status'], [self::STATUS_NO_ACCESS])) &&
+        if (($request == null || $this->checkIfRequestHasStatus($statuses, [self::STATUS_NO_ACCESS])) &&
             ($paymentMethod == CreditCardTransaction::NAME || $paymentMethod == MaestroTransaction::NAME)) {
             $endpoint =
                 $this->config->getBaseUrl() .

@@ -325,7 +325,8 @@ class ResponseMapper
         $toDom->appendChild($toDom->ownerDocument->importNode($fromDom, true));
     }
 
-    private function addRequestedAmount($payload) {
+    private function addRequestedAmount($payload)
+    {
         if (array_key_exists('requested_amount', $payload) && array_key_exists('requested_amount_currency', $payload)) {
             $amountSimpleXml = new SimpleXMLElement(
                 '<requested-amount>'.$payload['requested_amount'].'</requested-amount>'
@@ -335,7 +336,8 @@ class ResponseMapper
         }
     }
 
-    private function addThreeDState($payload) {
+    private function addThreeDState($payload)
+    {
         if (array_key_exists('acs_url', $payload) && array_key_exists('pareq', $payload)) {
             $threeD = new SimpleXMLElement('<three-d></three-d>');
             $threeD->addChild('acs-url', $payload['acs_url']);
@@ -345,13 +347,15 @@ class ResponseMapper
         }
     }
 
-    private function addParentTransactionId($payload) {
+    private function addParentTransactionId($payload)
+    {
         if (array_key_exists('parent_transaction_id', $payload)) {
             $this->simpleXml->addChild('parent-transaction-id', $payload['parent_transaction_id']);
         }
     }
 
-    private function addCardToken($payload) {
+    private function addCardToken($payload)
+    {
         if (array_key_exists('token_id', $payload) && array_key_exists('masked_account_number', $payload)) {
             $card_token = new SimpleXMLElement('<card-token></card-token>');
             $card_token->addChild('token-id', $payload['token_id']);
@@ -360,7 +364,8 @@ class ResponseMapper
         }
     }
 
-    private function addStatuses($payload) {
+    private function addStatuses($payload)
+    {
         $statuses = $this->extractStatusesFromResponse($payload);
         if (count($statuses) > 0) {
             $statusesXml = new SimpleXMLElement('<statuses></statuses>');
@@ -374,7 +379,8 @@ class ResponseMapper
         }
     }
 
-    protected function makeFormInteractionResponse($payload) {
+    protected function makeFormInteractionResponse($payload)
+    {
         if (!array_key_exists('notification_url_1', $payload)) {
             throw new MalformedResponseException('Missing notification_url_1 in response');
         }
@@ -393,7 +399,8 @@ class ResponseMapper
      * @return FormFieldMap;
      * @since 3.9.0
      */
-    private function makeFormFields(array $payload) {
+    private function makeFormFields(array $payload)
+    {
         $fields = new FormFieldMap();
         $fields->add(self::FORM_FIELD_TERM_URL, (string)$payload['notification_url_1']);
         $fields->add(self::FORM_FIELD_PAREQ, (string)$payload['pareq']);
@@ -416,7 +423,8 @@ class ResponseMapper
      * @return SimpleXMLElement
      * @since 3.9.0
      */
-    private function makeStatus($statusData) {
+    private function makeStatus($statusData)
+    {
         $status = new SimpleXMLElement('<status></status>');
         $status->addAttribute('code', $statusData['code']);
         $status->addAttribute('description', $statusData['description']);
@@ -432,7 +440,8 @@ class ResponseMapper
      * @return array
      * @since 3.9.0
      */
-    private function extractStatusesFromResponse($payload) {
+    private function extractStatusesFromResponse($payload)
+    {
         $statuses = [];
 
         foreach ($payload as $key => $value) {
