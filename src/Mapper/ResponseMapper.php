@@ -300,7 +300,7 @@ class ResponseMapper
         $this->simpleXml->addChild("request-id", $payload['request_id']);
 
         $this->addRequestedAmount($payload);
-        $this->addThreeDState($payload);
+        $this->addThreeDInformation($payload);
         $this->addParentTransactionId($payload);
         $this->addCardToken($payload);
         $this->addStatuses($payload);
@@ -325,6 +325,12 @@ class ResponseMapper
         $toDom->appendChild($toDom->ownerDocument->importNode($fromDom, true));
     }
 
+    /**
+     * Add the requested amount to our XML
+     *
+     * @param $payload
+     * @since 3.9.0
+     */
     private function addRequestedAmount($payload)
     {
         if (array_key_exists('requested_amount', $payload) && array_key_exists('requested_amount_currency', $payload)) {
@@ -336,7 +342,13 @@ class ResponseMapper
         }
     }
 
-    private function addThreeDState($payload)
+    /**
+     * Add 3D information to our XML
+     *
+     * @param $payload
+     * @since 3.9.0
+     */
+    private function addThreeDInformation($payload)
     {
         if (array_key_exists('acs_url', $payload) && array_key_exists('pareq', $payload)) {
             $threeD = new SimpleXMLElement('<three-d></three-d>');
@@ -347,6 +359,12 @@ class ResponseMapper
         }
     }
 
+    /**
+     * Add the parent transcation id to our XML
+     *
+     * @param $payload
+     * @since 3.9.0
+     */
     private function addParentTransactionId($payload)
     {
         if (array_key_exists('parent_transaction_id', $payload)) {
@@ -354,6 +372,12 @@ class ResponseMapper
         }
     }
 
+    /**
+     * Add the credit card token to our XML.
+     *
+     * @param $payload
+     * @since 3.9.0
+     */
     private function addCardToken($payload)
     {
         if (array_key_exists('token_id', $payload) && array_key_exists('masked_account_number', $payload)) {
@@ -364,6 +388,12 @@ class ResponseMapper
         }
     }
 
+    /**
+     * Add all the status information to our XML.
+     *
+     * @param $payload
+     * @since 3.9.0
+     */
     private function addStatuses($payload)
     {
         $statuses = $this->extractStatusesFromResponse($payload);
@@ -379,7 +409,13 @@ class ResponseMapper
         }
     }
 
-    protected function makeFormInteractionResponse($payload)
+    /**
+     * Build a FormInteractionResponse and add the form fields for a successful redirect
+     *
+     * @param $payload
+     * @return FormInteractionResponse
+     */
+    private function makeFormInteractionResponse($payload)
     {
         if (!array_key_exists('notification_url_1', $payload)) {
             throw new MalformedResponseException('Missing notification_url_1 in response');
