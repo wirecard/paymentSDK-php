@@ -35,7 +35,7 @@ $gateway = getenv('GATEWAY');
 $gatewayConfig = function ($key) use ($gateway) {
     // if no gateway was defined in the environment, use the api-test.wirecard.com
     if (!$gateway) {
-        $gateway = 'API-CVC-TEST';
+        $gateway = 'API-TEST';
     }
     $dataArray = [
         'NOVA' => [

@@ -9,6 +9,7 @@
 
 namespace Wirecard\PaymentSdk\Mapper;
 
+use Phalcon\Mvc\View\Simple;
 use RobRichards\XMLSecLibs\XMLSecEnc;
 use RobRichards\XMLSecLibs\XMLSecurityDSig;
 use SimpleXMLElement;
@@ -30,6 +31,11 @@ use Wirecard\PaymentSdk\Transaction\Transaction;
  */
 class ResponseMapper
 {
+    const FORM_FIELD_TERM_URL = 'TermUrl';
+    const FORM_FIELD_MD = 'MD';
+    const FORM_FIELD_PAREQ = 'PaReq';
+    const FORM_FIELD_SYNC_RESPONSE = 'sync_response';
+
     /**
      * @var Config
      */
@@ -216,16 +222,15 @@ class ResponseMapper
 
         $response = new FormInteractionResponse($this->simpleXml, $redirectUrl);
 
-        $fields = new FormFieldMap();
-        $fields->add('TermUrl', $this->transaction->getTermUrl());
         if (!isset($threeD->{'pareq'})) {
             throw new MalformedResponseException('Missing pareq in enrollment-check response.');
         }
 
-        $fields->add('PaReq', (string)$threeD->{'pareq'});
-
+        $fields = new FormFieldMap();
+        $fields->add(self::FORM_FIELD_TERM_URL, $this->transaction->getTermUrl());
+        $fields->add(self::FORM_FIELD_PAREQ, (string)$threeD->{'pareq'});
         $fields->add(
-            'MD',
+            self::FORM_FIELD_MD,
             base64_encode(json_encode([
                 'enrollment-check-transaction-id' => $response->getTransactionId(),
                 'operation-type' => $this->transaction->retrieveOperationType()
@@ -246,7 +251,7 @@ class ResponseMapper
         $payload = base64_encode($this->simpleXml->asXML());
 
         $formFields = new FormFieldMap();
-        $formFields->add('sync_response', $payload);
+        $formFields->add(self::FORM_FIELD_SYNC_RESPONSE, $payload);
 
         $response = new FormInteractionResponse($this->simpleXml, $this->transaction->getSuccessUrl());
         $response->setFormFields($formFields);
@@ -282,7 +287,7 @@ class ResponseMapper
      * @param $payload
      * @param string $url Deprecated; This parameter is kept for compatibility
      * @return FailureResponse|FormInteractionResponse|SuccessResponse
-     * @since 3.9.0 Use notification_url_1 as TermUrl, unless otherwise specified
+     * @since 3.9.0 Use notification_url_1 as TermUrl
      */
     public function mapSeamlessResponse($payload, $url = "")
     {
@@ -294,6 +299,33 @@ class ResponseMapper
         $this->simpleXml->addChild("payment-method", $payload['payment_method']);
         $this->simpleXml->addChild("request-id", $payload['request_id']);
 
+        $this->addRequestedAmount($payload);
+        $this->addThreeDState($payload);
+        $this->addParentTransactionId($payload);
+        $this->addCardToken($payload);
+        $this->addStatuses($payload);
+
+        if (array_key_exists('acs_url', $payload)) {
+            $response = $this->makeFormInteractionResponse($payload);
+
+            return $response;
+        } else {
+            if ($payload['transaction_state'] == 'success') {
+                return new SuccessResponse($this->simpleXml);
+            } else {
+                return new FailureResponse($this->simpleXml);
+            }
+        }
+    }
+
+    private function simpleXmlAppendNode(SimpleXMLElement $to, SimpleXMLElement $from)
+    {
+        $toDom = dom_import_simplexml($to);
+        $fromDom = dom_import_simplexml($from);
+        $toDom->appendChild($toDom->ownerDocument->importNode($fromDom, true));
+    }
+
+    private function addRequestedAmount($payload) {
         if (array_key_exists('requested_amount', $payload) && array_key_exists('requested_amount_currency', $payload)) {
             $amountSimpleXml = new SimpleXMLElement(
                 '<requested-amount>'.$payload['requested_amount'].'</requested-amount>'
@@ -301,7 +333,9 @@ class ResponseMapper
             $amountSimpleXml->addAttribute('currency', $payload['requested_amount_currency']);
             $this->simpleXmlAppendNode($this->simpleXml, $amountSimpleXml);
         }
+    }
 
+    private function addThreeDState($payload) {
         if (array_key_exists('acs_url', $payload) && array_key_exists('pareq', $payload)) {
             $threeD = new SimpleXMLElement('<three-d></three-d>');
             $threeD->addChild('acs-url', $payload['acs_url']);
@@ -309,20 +343,96 @@ class ResponseMapper
             $threeD->addChild('cardholder-authentication-status', $payload['cardholder_authentication_status']);
             $this->simpleXmlAppendNode($this->simpleXml, $threeD);
         }
+    }
 
+    private function addParentTransactionId($payload) {
         if (array_key_exists('parent_transaction_id', $payload)) {
             $this->simpleXml->addChild('parent-transaction-id', $payload['parent_transaction_id']);
         }
+    }
 
-        //@TODO mapping of the card entity check response if something more is not mapped
+    private function addCardToken($payload) {
         if (array_key_exists('token_id', $payload) && array_key_exists('masked_account_number', $payload)) {
             $card_token = new SimpleXMLElement('<card-token></card-token>');
             $card_token->addChild('token-id', $payload['token_id']);
             $card_token->addChild('masked-account-number', $payload['masked_account_number']);
             $this->simpleXmlAppendNode($this->simpleXml, $card_token);
         }
+    }
 
-        // parse statuses
+    private function addStatuses($payload) {
+        $statuses = $this->extractStatusesFromResponse($payload);
+        if (count($statuses) > 0) {
+            $statusesXml = new SimpleXMLElement('<statuses></statuses>');
+
+            foreach ($statuses as $status) {
+                $statusXml = $this->makeStatus($status);
+                $this->simpleXmlAppendNode($statusesXml, $statusXml);
+            }
+
+            $this->simpleXmlAppendNode($this->simpleXml, $statusesXml);
+        }
+    }
+
+    protected function makeFormInteractionResponse($payload) {
+        if (!array_key_exists('notification_url_1', $payload)) {
+            throw new MalformedResponseException('Missing notification_url_1 in response');
+        }
+
+        $fields = $this->makeFormFields($payload);
+        $response = new FormInteractionResponse($this->simpleXml, $payload['acs_url']);
+        $response->setFormFields($fields);
+
+        return $response;
+    }
+
+    /**
+     * Build the form fields required for a 3DS FormInteractionResponse
+     *
+     * @param array $payload
+     * @return FormFieldMap;
+     * @since 3.9.0
+     */
+    private function makeFormFields(array $payload) {
+        $fields = new FormFieldMap();
+        $fields->add(self::FORM_FIELD_TERM_URL, (string)$payload['notification_url_1']);
+        $fields->add(self::FORM_FIELD_PAREQ, (string)$payload['pareq']);
+        $fields->add(
+            self::FORM_FIELD_MD,
+            http_build_query([
+                'merchant_account_id' => $payload['merchant_account_id'],
+                'transaction_type' => $payload['transaction_type'],
+                'nonce3d' => $payload['nonce3d']
+            ])
+        );
+
+        return $fields;
+    }
+
+    /**
+     * Maps status data to a well-formed XML element
+     *
+     * @param $statusData
+     * @return SimpleXMLElement
+     * @since 3.9.0
+     */
+    private function makeStatus($statusData) {
+        $status = new SimpleXMLElement('<status></status>');
+        $status->addAttribute('code', $statusData['code']);
+        $status->addAttribute('description', $statusData['description']);
+        $status->addAttribute('severity', $statusData['severity']);
+
+        return $status;
+    }
+
+    /**
+     * Turns the statuses from the response into an easier to use array format
+     *
+     * @param $payload
+     * @return array
+     * @since 3.9.0
+     */
+    private function extractStatusesFromResponse($payload) {
         $statuses = [];
 
         foreach ($payload as $key => $value) {
@@ -342,50 +452,6 @@ class ResponseMapper
             }
         }
 
-        if (count($statuses) > 0) {
-            $statusesXml = new SimpleXMLElement('<statuses></statuses>');
-
-            foreach ($statuses as $status) {
-                $statusXml = new SimpleXMLElement('<status></status>');
-                $statusXml->addAttribute('code', $status['code']);
-                $statusXml->addAttribute('description', $status['description']);
-                $statusXml->addAttribute('severity', $status['severity']);
-                $this->simpleXmlAppendNode($statusesXml, $statusXml);
-            }
-            $this->simpleXmlAppendNode($this->simpleXml, $statusesXml);
-        }
-
-        if (array_key_exists('acs_url', $payload)) {
-            $response = new FormInteractionResponse($this->simpleXml, $payload['acs_url']);
-
-            $fields = new FormFieldMap();
-            $fields->add('TermUrl', (string)$payload['notification_url_1']);
-            $fields->add('PaReq', (string)$payload['pareq']);
-            $fields->add(
-                'MD',
-                http_build_query([
-                    'merchant_account_id' => $payload['merchant_account_id'],
-                    'transaction_type' => $payload['transaction_type'],
-                    'nonce3d' => $payload['nonce3d']
-                ])
-            );
-
-            $response->setFormFields($fields);
-
-            return $response;
-        } else {
-            if ($payload['transaction_state'] == 'success') {
-                return new SuccessResponse($this->simpleXml);
-            } else {
-                return new FailureResponse($this->simpleXml);
-            }
-        }
-    }
-
-    private function simpleXmlAppendNode(SimpleXMLElement $to, SimpleXMLElement $from)
-    {
-        $toDom = dom_import_simplexml($to);
-        $fromDom = dom_import_simplexml($from);
-        $toDom->appendChild($toDom->ownerDocument->importNode($fromDom, true));
+        return $statuses;
     }
 }
