@@ -27,6 +27,7 @@ use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
+use Wirecard\PaymentSdk\Helper\ResponseType;
 use Wirecard\PaymentSdk\Mapper\RequestMapper;
 use Wirecard\PaymentSdk\Mapper\ResponseMapper;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -171,41 +172,27 @@ class TransactionService
      */
     public function handleResponse(array $payload)
     {
-        $data = null;
+        $responseType = new ResponseType($payload);
 
-        if (array_key_exists('response_signature_v2', $payload)) {
-            $data = $this->responseMapper->mapSeamlessResponse($payload);
+        if ($responseType->isNvpResponse()) {
+            return $this->responseMapper->mapSeamlessResponse($payload);
         }
 
-        // iDEAL
-        if (null === $data &&
-            array_key_exists('ec', $payload) &&
-            array_key_exists('trxid', $payload) &&
-            array_key_exists(self::REQUEST_ID, $payload)
-        ) {
-            $data = $this->processFromIdealResponse($payload);
+        if ($responseType->isIdealResponse()) {
+            return $this->processFromIdealResponse($payload);
         }
 
-        // PayPal
-        if (null === $data && array_key_exists('eppresponse', $payload)) {
-            $data = $this->responseMapper->mapInclSignature($payload['eppresponse']);
+        if ($responseType->isPaypalResponse()) {
+            return $this->responseMapper->mapInclSignature($payload['eppresponse']);
         }
 
-        // RatePAY installment
-        if (null === $data &&
-            array_key_exists('base64payload', $payload) &&
-            array_key_exists('psp_name', $payload)
-        ) {
-            $data = $this->responseMapper->mapInclSignature($payload['base64payload']);
+        if ($responseType->isRatepayResponse()) {
+            return $this->responseMapper->mapInclSignature($payload['base64payload']);
         }
 
         // Synchronous payment methods
-        if (null === $data && array_key_exists('sync_response', $payload)) {
-            $data = $this->responseMapper->mapInclSignature($payload['sync_response']);
-        }
-
-        if ($data instanceof Response) {
-            return $data;
+        if ($responseType->isSyncResponse()) {
+            return $this->responseMapper->mapInclSignature($payload['sync_response']);
         }
 
         throw new MalformedResponseException('Missing response in payload.');
