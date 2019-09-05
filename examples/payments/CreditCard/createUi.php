@@ -18,6 +18,7 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/config.php';
+require __DIR__ . '/../../inc/constants.php';
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Address;
@@ -35,8 +36,6 @@ use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 // ### Transaction Service
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
-
-$redirectUrl = getUrl('return.php?status=success');
 
 $gatewayEnv = getenv('GATEWAY');
 
@@ -101,8 +100,15 @@ $accountHolder->setAddress($address);
 $transaction = new CreditCardTransaction();
 $transaction->setConfig($creditcardConfig);
 $transaction->setAmount($amount);
-$transaction->setTermUrl($redirectUrl);
-$transaction->setNotificationUrl($notificationUrl);
+
+$redirects = new \Wirecard\PaymentSdk\Entity\Redirect(
+    getUrl(Constants::SUCCESS_URL),
+    getUrl(Constants::CANCEL_URL),
+    getUrl(Constants::FAILURE_URL)
+);
+
+$transaction->setRedirect($redirects);
+$transaction->setNotificationUrl(Constants::NOTIFICATION_URL);
 $transaction->setBasket($basket);
 $transaction->setOrderNumber($orderNumber);
 $transaction->setAccountHolder($accountHolder);

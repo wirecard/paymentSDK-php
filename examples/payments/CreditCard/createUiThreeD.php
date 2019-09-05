@@ -16,6 +16,7 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/config.php';
+require __DIR__ . '/../../inc/constants.php';
 
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\TransactionService;
@@ -25,10 +26,6 @@ use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 // ### Transaction Service
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
-
-$redirectUrl = getUrl('return.php?status=success');
-$cancelUrl = getUrl('return.php?status=cancel');
-$failureUrl = getUrl('return.php?status=failure');
 
 $amount = new Amount(1400, 'EUR');
 $orderNumber = 'A2';
@@ -66,19 +63,18 @@ $accountHolder->setAddress($address);
 // ### Basic CreditCardTransaction
 // Create a CreditCardTransaction with all parameters which should be sent in the initial transaction.
 // The fields will be mapped for the javascript request.
-$redirects = new \Wirecard\PaymentSdk\Entity\Redirect(
-    $redirectUrl,
-    $cancelUrl,
-    $failureUrl
-);
-
 $transaction = new CreditCardTransaction();
 $transaction->setConfig($creditcardConfig);
 $transaction->setAmount($amount);
-$transaction->setNotificationUrl('https://paymentsdk.free.beeceptor');
+$transaction->setNotificationUrl(Constants::NOTIFICATION_URL);
+
+$redirects = new \Wirecard\PaymentSdk\Entity\Redirect(
+    getUrl(Constants::SUCCESS_URL),
+    getUrl(Constants::CANCEL_URL),
+    getUrl(Constants::FAILURE_URL)
+);
 
 $transaction->setRedirect($redirects);
-$transaction->setNotificationUrl($redirectUrl);
 $transaction->setBasket($basket);
 $transaction->setOrderNumber($orderNumber);
 $transaction->setShipping($accountHolder);
