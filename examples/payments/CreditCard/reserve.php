@@ -118,5 +118,4 @@ elseif ($response instanceof FailureResponse):
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 endif;
-
 require __DIR__ . '/../../inc/footer.php';

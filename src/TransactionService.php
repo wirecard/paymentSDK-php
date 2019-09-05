@@ -57,6 +57,7 @@ class TransactionService
     const APPLICATION_XML = 'application/xml';
     const REQUEST_ID = 'request_id';
     const STATUS_NO_ACCESS = '403.1166';
+    const STATUS_FIELD_CODE = 'code';
 
     /**
      * @var Config
@@ -695,12 +696,7 @@ class TransactionService
             '/payments/' . $transactionId;
 
         $request = $this->sendGetRequest($endpoint, $acceptJson, $logNotFound);
-        $statuses = array_key_exists('statuses', $request) ?
-            $request['statuses']['status']
-            : [];
-
-        if (($request == null || $this->checkIfRequestHasStatus($statuses, [self::STATUS_NO_ACCESS])) &&
-            ($paymentMethod == CreditCardTransaction::NAME || $paymentMethod == MaestroTransaction::NAME)) {
+        if (!$this->isValidRequest($request) && $this->isCardTransaction($paymentMethod)) {
             $endpoint =
                 $this->config->getBaseUrl() .
                 '/engine/rest/merchants/' .
@@ -712,6 +708,47 @@ class TransactionService
         }
 
         return $request;
+    }
+
+    /**
+     * Check if the current payment method is card-based
+     *
+     * @param $paymentMethod
+     * @return bool
+     */
+    private function isCardTransaction($paymentMethod)
+    {
+        return in_array(
+            $paymentMethod,
+            [CreditCardTransaction::NAME, MaestroTransaction::NAME]
+        );
+    }
+
+    /**
+     * Checks if the request is null or if it contains an undesired status
+     *
+     * @param $request
+     * @return bool
+     */
+    private function isValidRequest($request)
+    {
+        if (is_null($request)) {
+            return false;
+        }
+
+        if (!array_key_exists('statuses', $request['payment'])) {
+            return false;
+        }
+
+        $statuses = array_column(
+            $request['payment']['statuses']['status'],
+            self::STATUS_FIELD_CODE
+        );
+
+        return $this->checkIfRequestHasStatus(
+            $statuses,
+            [self::STATUS_NO_ACCESS]
+        );
     }
 
     /**
