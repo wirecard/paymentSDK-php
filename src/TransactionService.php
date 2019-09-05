@@ -715,6 +715,7 @@ class TransactionService
      *
      * @param $paymentMethod
      * @return bool
+     * @since 3.9.0
      */
     private function isCardTransaction($paymentMethod)
     {
@@ -729,6 +730,7 @@ class TransactionService
      *
      * @param $request
      * @return bool
+     * @since 3.9.0
      */
     private function isValidRequest($request)
     {
