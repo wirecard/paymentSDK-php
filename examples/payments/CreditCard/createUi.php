@@ -102,13 +102,13 @@ $transaction->setConfig($creditcardConfig);
 $transaction->setAmount($amount);
 
 $redirects = new \Wirecard\PaymentSdk\Entity\Redirect(
-    getUrl(Constants::SUCCESS_URL),
-    getUrl(Constants::CANCEL_URL),
-    getUrl(Constants::FAILURE_URL)
+    getUrl(UrlConstants::SUCCESS_URL),
+    getUrl(UrlConstants::CANCEL_URL),
+    getUrl(UrlConstants::FAILURE_URL)
 );
 
 $transaction->setRedirect($redirects);
-$transaction->setNotificationUrl(Constants::NOTIFICATION_URL);
+$transaction->setNotificationUrl(getUrl(UrlConstants::NOTIFICATION_URL));
 $transaction->setBasket($basket);
 $transaction->setOrderNumber($orderNumber);
 $transaction->setAccountHolder($accountHolder);

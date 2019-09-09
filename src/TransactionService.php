@@ -21,12 +21,11 @@ use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\CustomField;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
-use Wirecard\PaymentSdk\Entity\Status;
-use Wirecard\PaymentSdk\Entity\StatusCollection;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
+use Wirecard\PaymentSdk\Helper\RequestInspector;
 use Wirecard\PaymentSdk\Helper\ResponseType;
 use Wirecard\PaymentSdk\Mapper\RequestMapper;
 use Wirecard\PaymentSdk\Mapper\ResponseMapper;
@@ -56,8 +55,6 @@ class TransactionService
     const APPLICATION_JSON = 'application/json';
     const APPLICATION_XML = 'application/xml';
     const REQUEST_ID = 'request_id';
-    const STATUS_NO_ACCESS = '403.1166';
-    const STATUS_FIELD_CODE = 'code';
 
     /**
      * @var Config
@@ -174,30 +171,23 @@ class TransactionService
      */
     public function handleResponse(array $payload)
     {
-        $responseType = new ResponseType($payload);
-
-        // NVP
-        if ($responseType->isNvpResponse()) {
+        if (ResponseType::isNvpResponse($payload)) {
             return $this->responseMapper->mapSeamlessResponse($payload);
         }
 
-        // iDEAL
-        if ($responseType->isIdealResponse()) {
+        if (ResponseType::isIdealResponse($payload)) {
             return $this->processFromIdealResponse($payload);
         }
 
-        // PayPal
-        if ($responseType->isPaypalResponse()) {
+        if (ResponseType::isPaypalResponse($payload)) {
             return $this->responseMapper->mapInclSignature($payload['eppresponse']);
         }
 
-        // RatePAY installment
-        if ($responseType->isRatepayResponse()) {
+        if (ResponseType::isRatepayResponse($payload)) {
             return $this->responseMapper->mapInclSignature($payload['base64payload']);
         }
 
-        // Synchronous payment methods
-        if ($responseType->isSyncResponse()) {
+        if (ResponseType::isSyncResponse($payload)) {
             return $this->responseMapper->mapInclSignature($payload['sync_response']);
         }
 
@@ -689,25 +679,36 @@ class TransactionService
     public function getTransactionByTransactionId($transactionId, $paymentMethod, $acceptJson = true)
     {
         $logNotFound = ($paymentMethod == CreditCardTransaction::NAME) ? false : true;
-        $endpoint =
-            $this->config->getBaseUrl() .
-            '/engine/rest/merchants/' .
-            $this->config->get($paymentMethod)->getMerchantAccountId() .
-            '/payments/' . $transactionId;
+        $endpoint = $this->getTransactionEndpoint($transactionId, $paymentMethod);
 
         $request = $this->sendGetRequest($endpoint, $acceptJson, $logNotFound);
-        if (!$this->isValidRequest($request) && $this->isCardTransaction($paymentMethod)) {
-            $endpoint =
-                $this->config->getBaseUrl() .
-                '/engine/rest/merchants/' .
-                $this->config->get($paymentMethod)->getThreeDMerchantAccountId() .
-                '/payments/' . $transactionId;
-
+        if (!RequestInspector::isValidRequest($request) && $this->isCardTransaction($paymentMethod)) {
+            $endpoint = $this->getTransactionEndpoint($transactionId, $paymentMethod, true);
             $request = $this->sendGetRequest($endpoint, $acceptJson);
             $request !== null ? $this->isThreeD = true : $this->isThreeD = false;
         }
 
         return $request;
+    }
+
+    /**
+     * Get the REST API endpoint for a transaction
+     *
+     * @param string $paymentMethod
+     * @param string $transactionId
+     * @param bool $isThreeD
+     * @return string
+     * @since 3.9.0
+     */
+    private function getTransactionEndpoint($transactionId, $paymentMethod, $isThreeD = false) {
+        $merchantAccountId = $isThreeD
+            ? $this->config->get($paymentMethod)->getThreeDMerchantAccountId()
+            : $this->config->get($paymentMethod)->getMerchantAccountId();
+
+        return $this->config->getBaseUrl() .
+            '/engine/rest/merchants/' .
+            $merchantAccountId .
+            '/payments/' . $transactionId;
     }
 
     /**
@@ -725,46 +726,6 @@ class TransactionService
         );
     }
 
-    /**
-     * Checks if the request is null or if it contains an undesired status
-     *
-     * @param $request
-     * @return bool
-     * @since 3.9.0
-     */
-    private function isValidRequest($request)
-    {
-        if (is_null($request)) {
-            return false;
-        }
-
-        if (!array_key_exists('statuses', $request['payment'])) {
-            return false;
-        }
-
-        $statuses = array_column(
-            $request['payment']['statuses']['status'],
-            self::STATUS_FIELD_CODE
-        );
-
-        return $this->checkIfRequestHasStatus(
-            $statuses,
-            [self::STATUS_NO_ACCESS]
-        );
-    }
-
-    /**
-     * @param array $expectedStatusCodes
-     * @param array $receivedStatusCodes
-     * @return boolean
-     * @since 3.9.0
-     */
-    public function checkIfRequestHasStatus($receivedStatusCodes, $expectedStatusCodes)
-    {
-        $diff = array_diff($expectedStatusCodes, $receivedStatusCodes);
-
-        return count($diff) >= 0;
-    }
 
     /**
      * @param $requestId

@@ -9,11 +9,13 @@
 
 namespace Wirecard\PaymentSdk\Mapper;
 
-use Phalcon\Mvc\View\Simple;
 use RobRichards\XMLSecLibs\XMLSecEnc;
 use RobRichards\XMLSecLibs\XMLSecurityDSig;
 use SimpleXMLElement;
 use Wirecard\PaymentSdk\Config\Config;
+use Wirecard\PaymentSdk\Constant\SeamlessFields;
+use Wirecard\PaymentSdk\Constant\StatusFields;
+use Wirecard\PaymentSdk\Constant\XmlFields;
 use Wirecard\PaymentSdk\Entity\FormFieldMap;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -287,35 +289,46 @@ class ResponseMapper
      * @param $payload
      * @param string $url Deprecated; This parameter is kept for compatibility
      * @return FailureResponse|FormInteractionResponse|SuccessResponse
+     * @since 3.9.0 Maps card token from the seamless response
      * @since 3.9.0 Use notification_url_1 as TermUrl
      */
     public function mapSeamlessResponse($payload, $url = "")
     {
         $this->simpleXml = new SimpleXMLElement('<payment></payment>');
-        $this->simpleXml->addChild("merchant-account-id", $payload['merchant_account_id']);
-        $this->simpleXml->addChild("transaction-id", $payload['transaction_id']);
-        $this->simpleXml->addChild("transaction-state", $payload['transaction_state']);
-        $this->simpleXml->addChild("transaction-type", $payload['transaction_type']);
-        $this->simpleXml->addChild("payment-method", $payload['payment_method']);
-        $this->simpleXml->addChild("request-id", $payload['request_id']);
+
+        $this->mapLegacySeamlessFields($payload);
+        $this->addCardToken($payload);
+
+        if (array_key_exists(SeamlessFields::ACS_URL, $payload)) {
+            $response = $this->makeFormInteractionResponse($payload);
+            return $response;
+        }
+
+        if ($payload['transaction_state'] == 'success') {
+            return new SuccessResponse($this->simpleXml);
+        }
+
+        return new FailureResponse($this->simpleXml);
+    }
+
+    /**
+     * Maps all pre-existing fields the seamless sends.
+     *
+     * @param $payload
+     * @since 3.9.0
+     */
+    private function mapLegacySeamlessFields($payload) {
+        $this->simpleXml->addChild(XmlFields::MERCHANT_ACCOUNT_ID, $payload[SeamlessFields::MERCHANT_ACCOUNT_ID]);
+        $this->simpleXml->addChild(XmlFields::TRANSACTION_ID, $payload[SeamlessFields::TRANSACTION_ID]);
+        $this->simpleXml->addChild(XmlFields::TRANSACTION_STATE, $payload[SeamlessFields::TRANSACTION_STATE]);
+        $this->simpleXml->addChild(XmlFields::TRANSACTION_TYPE, $payload[SeamlessFields::TRANSACTION_TYPE]);
+        $this->simpleXml->addChild(XmlFields::PAYMENT_METHOD, $payload[SeamlessFields::PAYMENT_METHOD]);
+        $this->simpleXml->addChild(XmlFields::REQUEST_ID, $payload[SeamlessFields::REQUEST_ID]);
 
         $this->addRequestedAmount($payload);
         $this->addThreeDInformation($payload);
         $this->addParentTransactionId($payload);
-        $this->addCardToken($payload);
         $this->addStatuses($payload);
-
-        if (array_key_exists('acs_url', $payload)) {
-            $response = $this->makeFormInteractionResponse($payload);
-
-            return $response;
-        } else {
-            if ($payload['transaction_state'] == 'success') {
-                return new SuccessResponse($this->simpleXml);
-            } else {
-                return new FailureResponse($this->simpleXml);
-            }
-        }
     }
 
     private function simpleXmlAppendNode(SimpleXMLElement $to, SimpleXMLElement $from)
@@ -333,11 +346,17 @@ class ResponseMapper
      */
     private function addRequestedAmount($payload)
     {
-        if (array_key_exists('requested_amount', $payload) && array_key_exists('requested_amount_currency', $payload)) {
+        if (
+            array_key_exists(SeamlessFields::REQUESTED_AMOUNT, $payload) &&
+            array_key_exists(SeamlessFields::REQUESTED_AMOUNT_CURRENCY, $payload)
+        ) {
             $amountSimpleXml = new SimpleXMLElement(
-                '<requested-amount>'.$payload['requested_amount'].'</requested-amount>'
+                '<requested-amount>'.$payload[SeamlessFields::REQUESTED_AMOUNT].'</requested-amount>'
             );
-            $amountSimpleXml->addAttribute('currency', $payload['requested_amount_currency']);
+            $amountSimpleXml->addAttribute(
+                XmlFields::REQUESTED_AMOUNT_CURRENCY,
+                $payload[SeamlessFields::REQUESTED_AMOUNT_CURRENCY]
+            );
             $this->simpleXmlAppendNode($this->simpleXml, $amountSimpleXml);
         }
     }
@@ -350,11 +369,18 @@ class ResponseMapper
      */
     private function addThreeDInformation($payload)
     {
-        if (array_key_exists('acs_url', $payload) && array_key_exists('pareq', $payload)) {
+        if (
+            array_key_exists(SeamlessFields::ACS_URL, $payload) &&
+            array_key_exists(SeamlessFields::PAREQ, $payload) &&
+            array_key_exists(SeamlessFields::CARDHOLDER_AUTHENTICATION_STATUS, $payload)
+        ) {
             $threeD = new SimpleXMLElement('<three-d></three-d>');
-            $threeD->addChild('acs-url', $payload['acs_url']);
-            $threeD->addChild('pareq', $payload['pareq']);
-            $threeD->addChild('cardholder-authentication-status', $payload['cardholder_authentication_status']);
+            $threeD->addChild(XmlFields::ACS_URL, $payload[SeamlessFields::ACS_URL]);
+            $threeD->addChild(XmlFields::PAREQ, $payload[SeamlessFields::PAREQ]);
+            $threeD->addChild(
+                XmlFields::CARDHOLDER_AUTHENTICATION_STATUS,
+                $payload[SeamlessFields::CARDHOLDER_AUTHENTICATION_STATUS]
+            );
             $this->simpleXmlAppendNode($this->simpleXml, $threeD);
         }
     }
@@ -367,8 +393,11 @@ class ResponseMapper
      */
     private function addParentTransactionId($payload)
     {
-        if (array_key_exists('parent_transaction_id', $payload)) {
-            $this->simpleXml->addChild('parent-transaction-id', $payload['parent_transaction_id']);
+        if (array_key_exists(SeamlessFields::PARENT_TRANSACTION_ID, $payload)) {
+            $this->simpleXml->addChild(
+                XmlFields::PARENT_TRANSACTION_ID,
+                $payload[SeamlessFields::PARENT_TRANSACTION_ID]
+            );
         }
     }
 
@@ -380,10 +409,13 @@ class ResponseMapper
      */
     private function addCardToken($payload)
     {
-        if (array_key_exists('token_id', $payload) && array_key_exists('masked_account_number', $payload)) {
+        if (
+            array_key_exists(SeamlessFields::TOKEN_ID, $payload) &&
+            array_key_exists(SeamlessFields::MASKED_ACCOUNT_NUMBER, $payload)
+        ) {
             $card_token = new SimpleXMLElement('<card-token></card-token>');
-            $card_token->addChild('token-id', $payload['token_id']);
-            $card_token->addChild('masked-account-number', $payload['masked_account_number']);
+            $card_token->addChild(XmlFields::TOKEN_ID, $payload[SeamlessFields::TOKEN_ID]);
+            $card_token->addChild(XmlFields::MASKED_ACCOUNT_NUMBER, $payload[SeamlessFields::MASKED_ACCOUNT_NUMBER]);
             $this->simpleXmlAppendNode($this->simpleXml, $card_token);
         }
     }
@@ -417,12 +449,12 @@ class ResponseMapper
      */
     private function makeFormInteractionResponse($payload)
     {
-        if (!array_key_exists('notification_url_1', $payload)) {
+        if (!array_key_exists(SeamlessFields::NOTIFICATION_URL, $payload)) {
             throw new MalformedResponseException('Missing notification_url_1 in response');
         }
 
         $fields = $this->makeFormFields($payload);
-        $response = new FormInteractionResponse($this->simpleXml, $payload['acs_url']);
+        $response = new FormInteractionResponse($this->simpleXml, $payload[SeamlessFields::ACS_URL]);
         $response->setFormFields($fields);
 
         return $response;
@@ -435,17 +467,17 @@ class ResponseMapper
      * @return FormFieldMap;
      * @since 3.9.0
      */
-    private function makeFormFields(array $payload)
+    private function makeFormFields($payload)
     {
         $fields = new FormFieldMap();
-        $fields->add(self::FORM_FIELD_TERM_URL, (string)$payload['notification_url_1']);
-        $fields->add(self::FORM_FIELD_PAREQ, (string)$payload['pareq']);
+        $fields->add(self::FORM_FIELD_TERM_URL, (string)$payload[SeamlessFields::NOTIFICATION_URL]);
+        $fields->add(self::FORM_FIELD_PAREQ, (string)$payload[SeamlessFields::PAREQ]);
         $fields->add(
             self::FORM_FIELD_MD,
             http_build_query([
-                'merchant_account_id' => $payload['merchant_account_id'],
-                'transaction_type' => $payload['transaction_type'],
-                'nonce3d' => $payload['nonce3d']
+                SeamlessFields::MERCHANT_ACCOUNT_ID => $payload[SeamlessFields::MERCHANT_ACCOUNT_ID],
+                SeamlessFields::TRANSACTION_TYPE => $payload[SeamlessFields::TRANSACTION_TYPE],
+                SeamlessFields::NONCE3D => $payload[SeamlessFields::NONCE3D]
             ])
         );
 
@@ -462,9 +494,9 @@ class ResponseMapper
     private function makeStatus($statusData)
     {
         $status = new SimpleXMLElement('<status></status>');
-        $status->addAttribute('code', $statusData['code']);
-        $status->addAttribute('description', $statusData['description']);
-        $status->addAttribute('severity', $statusData['severity']);
+        $status->addAttribute(StatusFields::CODE, $statusData[StatusFields::CODE]);
+        $status->addAttribute(StatusFields::DESCRIPTION, $statusData[StatusFields::DESCRIPTION]);
+        $status->addAttribute(StatusFields::SEVERITY, $statusData[StatusFields::SEVERITY]);
 
         return $status;
     }
@@ -481,18 +513,18 @@ class ResponseMapper
         $statuses = [];
 
         foreach ($payload as $key => $value) {
-            if (strpos($key, 'status_') === 0) {
-                if (strpos($key, 'status_code_') === 0) {
-                    $number = str_replace('status_code_', '', $key);
-                    $statuses[$number]['code'] = $value;
+            if (strpos($key, StatusFields::PATTERN) === 0) {
+                if (strpos($key, StatusFields::CODE_PATTERN) === 0) {
+                    $number = str_replace(StatusFields::CODE_PATTERN, '', $key);
+                    $statuses[$number][StatusFields::CODE] = $value;
                 }
-                if (strpos($key, 'status_severity_') === 0) {
-                    $number = str_replace('status_severity_', '', $key);
-                    $statuses[$number]['severity'] = $value;
+                if (strpos($key, StatusFields::SEVERITY_PATTERN) === 0) {
+                    $number = str_replace(StatusFields::SEVERITY_PATTERN, '', $key);
+                    $statuses[$number][StatusFields::SEVERITY] = $value;
                 }
-                if (strpos($key, 'status_description_') === 0) {
-                    $number = str_replace('status_description_', '', $key);
-                    $statuses[$number]['description'] = $value;
+                if (strpos($key, StatusFields::DESCRIPTION_PATTERN) === 0) {
+                    $number = str_replace(StatusFields::DESCRIPTION_PATTERN, '', $key);
+                    $statuses[$number][StatusFields::DESCRIPTION] = $value;
                 }
             }
         }

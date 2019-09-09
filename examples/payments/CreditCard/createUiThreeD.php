@@ -66,12 +66,12 @@ $accountHolder->setAddress($address);
 $transaction = new CreditCardTransaction();
 $transaction->setConfig($creditcardConfig);
 $transaction->setAmount($amount);
-$transaction->setNotificationUrl(Constants::NOTIFICATION_URL);
+$transaction->setNotificationUrl(getUrl(UrlConstants::NOTIFICATION_URL));
 
 $redirects = new \Wirecard\PaymentSdk\Entity\Redirect(
-    getUrl(Constants::SUCCESS_URL),
-    getUrl(Constants::CANCEL_URL),
-    getUrl(Constants::FAILURE_URL)
+    getUrl(UrlConstants::SUCCESS_URL),
+    getUrl(UrlConstants::CANCEL_URL),
+    getUrl(UrlConstants::FAILURE_URL)
 );
 
 $transaction->setRedirect($redirects);
