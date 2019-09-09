@@ -317,7 +317,8 @@ class ResponseMapper
      * @param $payload
      * @since 3.9.0
      */
-    private function mapLegacySeamlessFields($payload) {
+    private function mapLegacySeamlessFields($payload)
+    {
         $this->simpleXml->addChild(XmlFields::MERCHANT_ACCOUNT_ID, $payload[SeamlessFields::MERCHANT_ACCOUNT_ID]);
         $this->simpleXml->addChild(XmlFields::TRANSACTION_ID, $payload[SeamlessFields::TRANSACTION_ID]);
         $this->simpleXml->addChild(XmlFields::TRANSACTION_STATE, $payload[SeamlessFields::TRANSACTION_STATE]);
@@ -346,8 +347,7 @@ class ResponseMapper
      */
     private function addRequestedAmount($payload)
     {
-        if (
-            array_key_exists(SeamlessFields::REQUESTED_AMOUNT, $payload) &&
+        if (array_key_exists(SeamlessFields::REQUESTED_AMOUNT, $payload) &&
             array_key_exists(SeamlessFields::REQUESTED_AMOUNT_CURRENCY, $payload)
         ) {
             $amountSimpleXml = new SimpleXMLElement(
@@ -369,8 +369,7 @@ class ResponseMapper
      */
     private function addThreeDInformation($payload)
     {
-        if (
-            array_key_exists(SeamlessFields::ACS_URL, $payload) &&
+        if (array_key_exists(SeamlessFields::ACS_URL, $payload) &&
             array_key_exists(SeamlessFields::PAREQ, $payload) &&
             array_key_exists(SeamlessFields::CARDHOLDER_AUTHENTICATION_STATUS, $payload)
         ) {
@@ -409,8 +408,7 @@ class ResponseMapper
      */
     private function addCardToken($payload)
     {
-        if (
-            array_key_exists(SeamlessFields::TOKEN_ID, $payload) &&
+        if (array_key_exists(SeamlessFields::TOKEN_ID, $payload) &&
             array_key_exists(SeamlessFields::MASKED_ACCOUNT_NUMBER, $payload)
         ) {
             $card_token = new SimpleXMLElement('<card-token></card-token>');

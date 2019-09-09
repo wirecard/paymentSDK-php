@@ -15,7 +15,8 @@ namespace Wirecard\PaymentSdk\Constant;
  * Class StatusFields
  * @package Wirecard\PaymentSdk\Constant
  */
-class StatusFields {
+class StatusFields
+{
     const CODE = 'code';
     const SEVERITY = 'severity';
     const DESCRIPTION = 'description';

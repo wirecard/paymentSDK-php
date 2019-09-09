@@ -700,7 +700,8 @@ class TransactionService
      * @return string
      * @since 3.9.0
      */
-    private function getTransactionEndpoint($transactionId, $paymentMethod, $isThreeD = false) {
+    private function getTransactionEndpoint($transactionId, $paymentMethod, $isThreeD = false)
+    {
         $merchantAccountId = $isThreeD
             ? $this->config->get($paymentMethod)->getThreeDMerchantAccountId()
             : $this->config->get($paymentMethod)->getMerchantAccountId();

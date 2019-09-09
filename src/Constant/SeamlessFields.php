@@ -15,7 +15,8 @@ namespace Wirecard\PaymentSdk\Constant;
  * Class SeamlessFields
  * @package Wirecard\PaymentSdk\Constant
  */
-class SeamlessFields {
+class SeamlessFields
+{
     const MERCHANT_ACCOUNT_ID = 'merchant_account_id';
     const TRANSACTION_ID = 'transaction_id';
     const TRANSACTION_STATE = 'transaction_state';

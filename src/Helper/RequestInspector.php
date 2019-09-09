@@ -13,7 +13,8 @@ namespace Wirecard\PaymentSdk\Helper;
  * Class RequestInspector
  * @package Wirecard\PaymentSdk\Helper
  */
-class RequestInspector {
+class RequestInspector
+{
     const STATUS_NO_ACCESS = '403.1166';
     const STATUS_FIELD_CODE = 'code';
 

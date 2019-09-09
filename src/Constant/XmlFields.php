@@ -15,7 +15,8 @@ namespace Wirecard\PaymentSdk\Constant;
  * Class XmlFields
  * @package Wirecard\PaymentSdk\Constant
  */
-class XmlFields {
+class XmlFields
+{
     const MERCHANT_ACCOUNT_ID = 'merchant-account-id';
     const TRANSACTION_ID = 'transaction-id';
     const TRANSACTION_STATE = 'transaction-state';
