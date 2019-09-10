@@ -319,12 +319,36 @@ class ResponseMapper
      */
     private function mapCommonSeamlessFields($payload)
     {
-        $this->simpleXml->addChild(ResponseMappingXmlFields::MERCHANT_ACCOUNT_ID, $payload[SeamlessFields::MERCHANT_ACCOUNT_ID]);
-        $this->simpleXml->addChild(ResponseMappingXmlFields::TRANSACTION_ID, $payload[SeamlessFields::TRANSACTION_ID]);
-        $this->simpleXml->addChild(ResponseMappingXmlFields::TRANSACTION_STATE, $payload[SeamlessFields::TRANSACTION_STATE]);
-        $this->simpleXml->addChild(ResponseMappingXmlFields::TRANSACTION_TYPE, $payload[SeamlessFields::TRANSACTION_TYPE]);
-        $this->simpleXml->addChild(ResponseMappingXmlFields::PAYMENT_METHOD, $payload[SeamlessFields::PAYMENT_METHOD]);
-        $this->simpleXml->addChild(ResponseMappingXmlFields::REQUEST_ID, $payload[SeamlessFields::REQUEST_ID]);
+        $this->simpleXml->addChild(
+            ResponseMappingXmlFields::MERCHANT_ACCOUNT_ID,
+            $payload[SeamlessFields::MERCHANT_ACCOUNT_ID]
+        );
+
+        $this->simpleXml->addChild(
+            ResponseMappingXmlFields::TRANSACTION_ID,
+            $payload[SeamlessFields::TRANSACTION_ID]
+        );
+
+        $this->simpleXml->addChild(
+            ResponseMappingXmlFields::TRANSACTION_STATE,
+            $payload[SeamlessFields::TRANSACTION_STATE]
+        );
+
+        $this->simpleXml->addChild(
+            ResponseMappingXmlFields::TRANSACTION_TYPE,
+            $payload[SeamlessFields::TRANSACTION_TYPE]
+        );
+
+        $this->simpleXml->addChild(
+            ResponseMappingXmlFields::PAYMENT_METHOD,
+            $payload[SeamlessFields::PAYMENT_METHOD]
+        );
+
+        $this->simpleXml->addChild(
+            ResponseMappingXmlFields::REQUEST_ID,
+            $payload[SeamlessFields::REQUEST_ID]
+        );
+
 
         $this->addRequestedAmount($payload);
         $this->addThreeDInformation($payload);
@@ -412,8 +436,14 @@ class ResponseMapper
             array_key_exists(SeamlessFields::MASKED_ACCOUNT_NUMBER, $payload)
         ) {
             $card_token = new SimpleXMLElement('<card-token></card-token>');
-            $card_token->addChild(ResponseMappingXmlFields::TOKEN_ID, $payload[SeamlessFields::TOKEN_ID]);
-            $card_token->addChild(ResponseMappingXmlFields::MASKED_ACCOUNT_NUMBER, $payload[SeamlessFields::MASKED_ACCOUNT_NUMBER]);
+            $card_token->addChild(
+                ResponseMappingXmlFields::TOKEN_ID,
+                $payload[SeamlessFields::TOKEN_ID]
+            );
+            $card_token->addChild(
+                ResponseMappingXmlFields::MASKED_ACCOUNT_NUMBER,
+                $payload[SeamlessFields::MASKED_ACCOUNT_NUMBER]
+            );
             $this->simpleXmlAppendNode($this->simpleXml, $card_token);
         }
     }

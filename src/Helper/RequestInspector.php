@@ -8,6 +8,7 @@
  */
 
 namespace Wirecard\PaymentSdk\Helper;
+
 use Wirecard\PaymentSdk\Constant\StatusFields;
 
 /**
