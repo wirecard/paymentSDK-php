@@ -73,7 +73,6 @@ $transaction = new CreditCardTransaction();
 $transaction->setConfig($creditcardConfig);
 $transaction->setAmount($amount);
 
-// Visit https://beeceptor.com/console/paymentsdk to see the notifications that are sent.
 $transaction->setNotificationUrl(getUrl(UrlConstants::NOTIFICATION_URL));
 
 $redirects = new \Wirecard\PaymentSdk\Entity\Redirect(

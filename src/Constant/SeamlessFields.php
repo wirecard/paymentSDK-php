@@ -14,6 +14,7 @@ namespace Wirecard\PaymentSdk\Constant;
  *
  * Class SeamlessFields
  * @package Wirecard\PaymentSdk\Constant
+ * @since 3.9.0
  */
 class SeamlessFields
 {
@@ -36,7 +37,7 @@ class SeamlessFields
     const TOKEN_ID = 'token_id';
     const MASKED_ACCOUNT_NUMBER = 'masked_account_number';
 
-    const NOTIFICATION_URL = 'notification_url_1';
+    const PROCESSING_URL = 'notification_url_1';
 
     const NONCE3D = 'nonce3d';
 }

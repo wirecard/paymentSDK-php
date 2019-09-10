@@ -68,7 +68,7 @@ $accountHolder->setAddress($address);
 $transaction = new CreditCardTransaction();
 $transaction->setConfig($creditcardConfig);
 $transaction->setAmount($amount);
-$transaction->setNotificationUrl(UrlConstants::OTIFICATION_URL);
+$transaction->setNotificationUrl(UrlConstants::NOTIFICATION_URL);
 
 $redirects = new \Wirecard\PaymentSdk\Entity\Redirect(
     getUrl(UrlConstants::SUCCESS_URL),

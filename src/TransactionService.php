@@ -706,10 +706,12 @@ class TransactionService
             ? $this->config->get($paymentMethod)->getThreeDMerchantAccountId()
             : $this->config->get($paymentMethod)->getMerchantAccountId();
 
-        return $this->config->getBaseUrl() .
-            '/engine/rest/merchants/' .
-            $merchantAccountId .
-            '/payments/' . $transactionId;
+        return sprintf(
+            '%s/engine/rest/merchants/%s/payments/%s',
+            $this->config->getBaseUrl(),
+            $merchantAccountId,
+            $transactionId
+        );
     }
 
     /**

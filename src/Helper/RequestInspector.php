@@ -8,17 +8,20 @@
  */
 
 namespace Wirecard\PaymentSdk\Helper;
+use Wirecard\PaymentSdk\Constant\StatusFields;
 
 /**
  * Class RequestInspector
  * @package Wirecard\PaymentSdk\Helper
+ * @since 3.9.0
  */
 class RequestInspector
 {
     const STATUS_NO_ACCESS = '403.1166';
-    const STATUS_FIELD_CODE = 'code';
 
     /**
+     * Checks that *all* expected status codes appear in a request
+     *
      * @param array $expectedStatusCodes
      * @param array $receivedStatusCodes
      * @return boolean
@@ -28,7 +31,7 @@ class RequestInspector
     {
         $intersection = array_intersect($expectedStatusCodes, $receivedStatusCodes);
 
-        return count($intersection) == count($expectedStatusCodes);
+        return count($intersection) === count($expectedStatusCodes);
     }
 
     /**
@@ -44,13 +47,21 @@ class RequestInspector
             return false;
         }
 
+        if (!array_key_exists('payment', $request)) {
+            return false;
+        }
+
         if (!array_key_exists('statuses', $request['payment'])) {
+            return false;
+        }
+
+        if (!array_key_exists('status', $request['payment']['statuses'])) {
             return false;
         }
 
         $statuses = array_column(
             $request['payment']['statuses']['status'],
-            self::STATUS_FIELD_CODE
+            StatusFields::CODE
         );
 
         return self::hasStatus(

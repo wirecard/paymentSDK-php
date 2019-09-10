@@ -12,10 +12,11 @@ namespace Wirecard\PaymentSdk\Constant;
 /**
  * Contains mappable fields for the XML we build
  *
- * Class XmlFields
+ * Class ResponseMappingXmlFields
  * @package Wirecard\PaymentSdk\Constant
+ * @since 3.9.0
  */
-class XmlFields
+class ResponseMappingXmlFields
 {
     const MERCHANT_ACCOUNT_ID = 'merchant-account-id';
     const TRANSACTION_ID = 'transaction-id';

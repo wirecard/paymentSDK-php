@@ -14,6 +14,7 @@ namespace Wirecard\PaymentSdk\Constant;
  *
  * Class StatusFields
  * @package Wirecard\PaymentSdk\Constant
+ * @since 3.9.0
  */
 class StatusFields
 {
@@ -22,7 +23,7 @@ class StatusFields
     const DESCRIPTION = 'description';
 
     const PATTERN = 'status_';
-    const CODE_PATTERN = self::PATTERN . self::CODE . '_';
-    const SEVERITY_PATTERN = self::PATTERN . self::SEVERITY . '_';
-    const DESCRIPTION_PATTERN = self::PATTERN . self::DESCRIPTION . '_';
+    const CODE_PATTERN = 'status_code_';
+    const SEVERITY_PATTERN = 'status_severity_';
+    const DESCRIPTION_PATTERN = 'status_description_';
 }
