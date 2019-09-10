@@ -20,6 +20,10 @@ class RequestInspector
 {
     const STATUS_NO_ACCESS = '403.1166';
 
+    const REQUEST_PAYMENT = 'payment';
+    const REQUEST_STATUSES = 'statuses';
+    const REQUEST_STATUS = 'status';
+
     /**
      * Checks that *all* expected status codes appear in a request
      *
@@ -48,20 +52,20 @@ class RequestInspector
             return false;
         }
 
-        if (!array_key_exists('payment', $request)) {
+        if (!array_key_exists(self::REQUEST_PAYMENT, $request)) {
             return false;
         }
 
-        if (!array_key_exists('statuses', $request['payment'])) {
+        if (!array_key_exists(self::REQUEST_STATUSES, $request[self::REQUEST_PAYMENT])) {
             return false;
         }
 
-        if (!array_key_exists('status', $request['payment']['statuses'])) {
+        if (!array_key_exists(self::REQUEST_STATUS, $request[self::REQUEST_PAYMENT][self::REQUEST_STATUSES])) {
             return false;
         }
 
         $statuses = array_column(
-            $request['payment']['statuses']['status'],
+            $request[self::REQUEST_PAYMENT][self::REQUEST_STATUSES][self::REQUEST_STATUS],
             StatusFields::CODE
         );
 
