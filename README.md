@@ -14,6 +14,12 @@ Before proceeding please read the article [General information](https://github.c
 
 This Software Development Kit will abstract the complexity of [Wirecard’s REST API](https://document-center.wirecard.com) for online shops using PHP as their programing language.
 
+***
+
+Starting 14 September 2019, Payment SDK becomes compliant with the regulatory technical standards of the EU revised Payment Service Directive (PSD2). 
+All European payment services providers are required to meet the compliance with the PSD2 regulation aimed at ensuring simple and secure electronic payments across borders within the EU market.
+Under the provisions of the PSD2, Strong Customer Authentication (SCA) becomes mandatory for consumer-initiated online payments within the European Economic Area (EEA). In addition, secure communication by the payment service providers is required.
+
 ## PaymentSDK Wiki
 
 For general information about the PHP PaymentSDK please visit our [PaymentSDK Wiki](https://github.com/wirecard/paymentSDK-php/wiki/General-information). 
