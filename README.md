@@ -14,6 +14,14 @@ Before proceeding please read the article [General information](https://github.c
 
 This Software Development Kit will abstract the complexity of [Wirecard’s REST API](https://document-center.wirecard.com) for online shops using PHP as their programing language.
 
+***
+
+## Payment Services Directive 2 (PSD2) Compliance 
+The PaymentSDK is **[PSD2](https://doc.wirecard.com/CreditCard.html#CreditCard_PSD2) compliant.**  
+
+The [Payment Services Directive 2 (PSD2)](https://doc.wirecard.com/CreditCard.html#CreditCard_PSD2) aims to reduce fraud in the European e-commerce sector. Most card fraud in Europe happens in card-not-present transactions. For this reason, PSD2 makes [Strong Customer Authentication (SCA)](https://doc.wirecard.com/CreditCard.html#CreditCard_PSD2_SCA) mandatory for consumer-initiated online payments. The new standard authentication method for credit card transactions is [**3DS2**](https://doc.wirecard.com/CreditCard.html#CreditCard_3DS2). It follows the strict SCA requirements.  
+PSD2 comes into full effect on September 14, 2019.  
+
 ## PaymentSDK Wiki
 
 For general information about the PHP PaymentSDK please visit our [PaymentSDK Wiki](https://github.com/wirecard/paymentSDK-php/wiki/General-information). 
