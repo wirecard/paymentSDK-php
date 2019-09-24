@@ -723,17 +723,21 @@ class TransactionService
      * @param $acceptJson
      * @throws UnconfiguredPaymentMethodException
      * @throws \RuntimeException
+     *
+     * @since 3.8.2 Update endpoint
      * @since 3.3.0
+     *
      * @return null|array|string
      */
     public function getTransactionByRequestId($requestId, $paymentMethod, $acceptJson = true)
     {
         $logNotFound = ($paymentMethod == CreditCardTransaction::NAME) ? false : true;
-        $endpoint =
-            $this->config->getBaseUrl() .
-            '/engine/rest/merchants/' .
-            $this->config->get($paymentMethod)->getMerchantAccountId() .
-            '/payments/?request_id=' . $requestId;
+        $endpoint = sprintf(
+            '%s/engine/rest/merchants/%s/payments/search?payment.request-id=%s',
+            $this->config->getBaseUrl(),
+            $this->config->get($paymentMethod)->getMerchantAccountId(),
+            $requestId
+        );
 
         $response = $this->sendGetRequest($endpoint, $acceptJson, $logNotFound);
         return $response;
