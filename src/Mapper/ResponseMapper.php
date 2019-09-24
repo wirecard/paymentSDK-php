@@ -22,6 +22,7 @@ use Wirecard\PaymentSdk\Response\PendingResponse;
 use Wirecard\PaymentSdk\Response\Response;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
+use Wirecard\PaymentSdk\Transaction\PaylibTransaction;
 use Wirecard\PaymentSdk\Transaction\Transaction;
 
 /**
@@ -267,6 +268,10 @@ class ResponseMapper
 
         $paymentMethod = $this->getPaymentMethod();
 
+        if ($this->isPaylibFormInteraction($paymentMethod)) {
+            return $this->buildPaylibFormInteractionResponse($paymentMethod);
+        }
+
         if (isset($paymentMethod['url'])) {
             return new InteractionResponse($this->simpleXml, (string)$paymentMethod['url']);
         }
@@ -374,5 +379,39 @@ class ResponseMapper
         $toDom = dom_import_simplexml($to);
         $fromDom = dom_import_simplexml($from);
         $toDom->appendChild($toDom->ownerDocument->importNode($fromDom, true));
+    }
+
+    /**
+     * @param $paymentMethod
+     * @return FormInteractionResponse
+     */
+    protected function buildPaylibFormInteractionResponse($paymentMethod)
+    {
+        $fields = new FormFieldMap();
+
+        foreach ($paymentMethod->payload->{'payload-field'} as $payload) {
+            $fields->add(strval($payload['field-name']), strval($payload['field-value']));
+        }
+
+        $response = new FormInteractionResponse($this->simpleXml, strval($paymentMethod['url']));
+        $response->setFormFields($fields);
+
+        return $response;
+    }
+
+    /**
+     * @param $paymentMethod
+     * @return bool
+     */
+    protected function isPaylibFormInteraction($paymentMethod)
+    {
+        $isPaylibFormInterAction = false;
+        if (strval($paymentMethod['name']) === PaylibTransaction::NAME &&
+            isset($paymentMethod->payload->{'payload-field'})
+        ) {
+            $isPaylibFormInterAction = true;
+        }
+
+        return $isPaylibFormInterAction;
     }
 }

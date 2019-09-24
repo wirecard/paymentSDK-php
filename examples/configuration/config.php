@@ -21,6 +21,7 @@ use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Transaction\BancontactTransaction;
+use Wirecard\PaymentSdk\Transaction\PaylibTransaction;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Transaction\PaysafecardTransaction;
 use Wirecard\PaymentSdk\Transaction\MasterpassTransaction;
@@ -191,3 +192,11 @@ $pbbaMAID = '70055b24-38f1-4500-a3a8-afac4b1e3249';
 $pbbaSecret = '	4a4396df-f78c-44b9-b8a0-b72b108ac465';
 $pbbaConfig = new PaymentMethodConfig(PayByBankAppTransaction::NAME, $pbbaMAID, $pbbaSecret);
 $config->add($pbbaConfig);
+
+
+// ### Paylib
+
+$paylibMAID = 'd79cbe98-cb2c-4882-a16e-47eaeb99ad44';
+$paylibKey = 'NO-SECRET-PROVIDED';
+$paylibConfig = new PaymentMethodConfig(PaylibTransaction::NAME, $paylibMAID, $paylibKey);
+$config->add($paylibConfig);

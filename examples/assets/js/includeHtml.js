@@ -58,6 +58,7 @@ function includePaymentMenu()
         'iDEAL',
         'Masterpass',
         'PayByBankApp',
+        'Paylib',
         'PoiPia',
         'PayPal',
         'Payolution_BtwoB',
