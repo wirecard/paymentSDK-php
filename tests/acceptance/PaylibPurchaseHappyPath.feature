@@ -3,8 +3,6 @@ Feature: PaylibPurchaseHappyPath
   I want to make a purchase with a Paylib
   And to see that purchase was successful
 
-#psp-wirecard@wl.net
-  #password
   @API-TEST
   Scenario:
     Given I am on "Paylib Pay" page
