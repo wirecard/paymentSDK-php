@@ -151,8 +151,13 @@ class Acceptance extends \Codeception\Module
      * @param array $pageMap
      * @return array
      */
-    protected static function getPaymentSpecificPages($pageMap = [])
+    public static function getPaymentSpecificPages($pageMap = [])
     {
+        //@TODO: Move page classes to "configs" and create generic reusable "XYZPage" Objects
+        // beeing filled by the necessary config
+        //@TODO: split payment method mappings into seperate files
+        //@TODO: create arrays containing standartized keys
+        // - e.g. creditCardUiWppV2 with classname and gherking name as values
         $creditCard = [
             'Create Credit Card UI WPPv2 Page' => CreditCardCreateUIWppV2::class,
             'Create Credit Card UI WPPv2 Payment Action Page' => CreditCardCreateUIWppV2PaymentAction::class,
