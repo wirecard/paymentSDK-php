@@ -10,9 +10,9 @@ Feature: PaylibPurchaseHappyPath
     Given I am on "Paylib Pay" page
     When I click on "Redirect to Paylib"
     Then I am redirected to "Paylib authentication" page
-    And I enter "Paylib mail" in field "login"
+    When I enter "Paylib mail" in field "login"
     And I click "Verify"
-    Then I enter "Paylib password" in field "password"
+    And I enter "Paylib password" in field "password"
     And I click "Verify"
     Then I am redirected to "Paylib Success" page
     And I see text "Payment successfully completed."
