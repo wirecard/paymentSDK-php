@@ -9,6 +9,32 @@
 
 namespace Helper;
 
+use Page\Base;
+use Page\CreditCardCancel;
+use Page\CreditCardCreateUiBase;
+use Page\CreditCardCreateUINon3DWppV2;
+use Page\CreditCardCreateUINon3DWppV2PaymentAction;
+use Page\CreditCardCreateUIPaymentAction;
+use Page\CreditCardCreateUITokenize;
+use Page\CreditCardCreateUIWppV2;
+use Page\CreditCardCreateUIWppV2PaymentAction;
+use Page\CreditCardPayBasedOnReserve;
+use Page\CreditCardReserve;
+use Page\CreditCardReserveTokenize;
+use Page\CreditCardSuccess;
+use Page\CreditCardSuccessNon3D;
+use Page\CreditCardWppV2SuccessNon3D;
+use Page\PayPalCancel;
+use Page\PayPalLogIn;
+use Page\PayPalLoginPurchase;
+use Page\PayPalPayBasedOnReserve;
+use Page\PayPalReview;
+use Page\PayPalSuccess;
+use Page\SimulatorPage;
+use Page\Verified;
+use Page\WirecardTransactionDetails;
+
+
 class Acceptance extends \Codeception\Module
 {
     /**
@@ -93,5 +119,73 @@ class Acceptance extends \Codeception\Module
             return;
         }
         return $json_data;
+    }
+
+    /**
+     * @param $gherkinDescription
+     * @return string|null
+     */
+    public static function getPageClassNameByGherkinDescription($gherkinDescription)
+    {
+        $pageMap = [
+            //Generics
+            'Verified Page' => Verified::class,
+            'SimulatorPage' => SimulatorPage::class,
+            'Wirecard Transaction Details' => WirecardTransactionDetails::class,
+        ];
+
+        $pageMap = Acceptance::getPaymentSpecificPages($pageMap);
+
+        if (!array_key_exists($pageMap, $gherkinDescription)) {
+            return null;
+        }
+
+        if (!is_string($pageMap[$gherkinDescription])) {
+            return null;
+        }
+
+        return $pageMap[$gherkinDescription];
+    }
+
+    /**
+     * @param array $pageMap
+     * @return array
+     */
+    public static function getPaymentSpecificPages($pageMap = [])
+    {
+        //@TODO: Move page classes to "configs" and create generic reusable "XYZPage" Objects
+        // beeing filled by the necessary config
+        //@TODO: split payment method mappings into seperate files
+        //@TODO: create arrays containing standartized keys
+        // - e.g. creditCardUiWppV2 with classname and gherking name as values
+        $creditCard = [
+            'Create Credit Card UI WPPv2 Page' => CreditCardCreateUIWppV2::class,
+            'Create Credit Card UI WPPv2 Payment Action Page' => CreditCardCreateUIWppV2PaymentAction::class,
+            'Create Credit Card UI non 3D WPPv2 Page' => CreditCardCreateUINon3DWppV2::class,
+            'Credit Card Success non 3D WPPv2 Page' => CreditCardWppV2SuccessNon3D::class,
+            'Create Credit Card UI non 3D WPPv2 Payment Action Page' => CreditCardCreateUINon3DWppV2PaymentAction::class,
+            'Create Credit Card UI Tokenize Page' => CreditCardCreateUITokenize::class,
+            'Credit Card Reserve Page' => CreditCardReserve::class,
+            'Credit Card Tokenize Reserve Page' => CreditCardReserveTokenize::class,
+            'Credit Card Success Page' => CreditCardSuccess::class,
+            'Credit Card Cancel Page' => CreditCardCancel::class,
+            'Credit Card Success Page Non 3D Page' => CreditCardSuccessNon3D::class,
+            'Create Credit Card Pay Based On Reserve' => CreditCardPayBasedOnReserve::class,
+            'Create Credit Card UI Payment Action Page' => CreditCardCreateUIPaymentAction::class,
+        ];
+        $payPal = [
+            'Pay Pal Log In' => PayPalLogin::class,
+            'Pay Pal Review' => PayPalReview::class,
+            'Pay Pal Pay Based On Reserve' => PayPalPayBasedOnReserve::class,
+            'Pay Pal Success' => PayPalSuccess::class,
+            'Pay Pal Cancel' => PayPalCancel::class,
+            'Pay Pal Log In Purchase' => PayPalLoginPurchase::class
+        ];
+        $paylib = [
+            'Paylib Pay Page' => '',
+            'Paylib Success Page' => ''
+        ];
+
+        return array_merge($creditCard, $payPal, $paylib, $pageMap);
     }
 }

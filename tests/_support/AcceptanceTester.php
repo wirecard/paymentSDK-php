@@ -67,79 +67,12 @@ class AcceptanceTester extends \Codeception\Actor
      */
     private function selectPage($name)
     {
-        $page = null;
-        switch ($name) {
-            // Credit Card WPPv2 3D
-            case "Create Credit Card UI WPPv2 Page":
-                $page = new CreditCardCreateUIWppV2Page($this);
-                break;
-            case "Create Credit Card UI WPPv2 Payment Action Page":
-                $page = new CreditCardCreateUIWppV2PaymentActionPage($this);
-                break;
-            // Credit Card non 3D WPPv2
-            case "Create Credit Card UI non 3D WPPv2 Page":
-                $page = new CreditCardCreateUINon3DWppV2Page($this);
-                break;
-            case "Credit Card Success non 3D WPPv2 Page":
-                $page = new CreditCardWppV2SuccessNon3DPage($this);
-                break;
-            case "Create Credit Card UI non 3D WPPv2 Payment Action Page":
-                $page = new CreditCardCreateUINon3DWppV2PaymentActionPage($this);
-                break;
-            // Credit Card tokenize
-            case "Create Credit Card UI Tokenize Page":
-                $page = new CreditCardCreateUITokenizePage($this);
-                break;
-            case "Credit Card Reserve Page":
-                $page = new CreditCardReservePage($this);
-                break;
-            case "Credit Card Tokenize Reserve Page":
-                $page = new CreditCardReserveTokenizePage($this);
-                break;
-            case "Credit Card Success Page":
-                $page = new CreditCardSuccessPage($this);
-                break;
-            case "Verified Page":
-                $page = new VerifiedPage($this);
-                break;
-            case "Credit Card Cancel Page":
-                $page = new CreditCardCancelPage($this);
-                break;
-            case "SimulatorPage":
-                $page = new SimulatorPage($this);
-                break;
-            case "Credit Card Success Page Non 3D Page":
-                $page = new CreditCardSuccessNon3DPage($this);
-                break;
-            case "Create Credit Card Pay Based On Reserve":
-                $page = new CreditCardPayBasedOnReservePage($this);
-                break;
-            case "Create Credit Card UI Payment Action Page":
-                $page = new CreditCardCreateUIPaymentActionPage($this);
-                break;
-            case "Pay Pal Log In":
-                $page = new PayPalLoginPage($this);
-                break;
-            case "Pay Pal Review":
-                $page = new PayPalReviewPage($this);
-                break;
-            case "Pay Pal Pay Based On Reserve":
-                $page = new PayPalPayBasedOnReservePage($this);
-                break;
-            case "Pay Pal Success":
-                $page = new PayPalSuccessPage($this);
-                break;
-            case "Pay Pal Cancel":
-                $page = new PayPalCancelPage($this);
-                break;
-            case "Wirecard Transaction Details":
-                $page = new WirecardTransactionDetailsPage($this);
-                break;
-            case "Pay Pal Log In Purchase":
-                $page = new PayPalLoginPurchasePage($this);
-                break;
+        $page = Acceptance::getPageClassNameByGherkinDescription($name);
+        if (!class_exists($page)) {
+            return null;
         }
-        return $page;
+
+        return new $page();
     }
 
     /**

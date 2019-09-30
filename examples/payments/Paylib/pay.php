@@ -8,7 +8,6 @@
  */
 
 // # Pay with payment method paylib
-// WARNING: This payment method is still in development, please do not use it in its current state
 
 // ## Required objects
 
@@ -95,20 +94,3 @@ if ($response instanceof FormInteractionResponse) {
 }
 //Footer design
 require __DIR__ . '/../../inc/footer.php';
-
-
-/*
- *
-        if (strval($paymentMethod['name']) === PaylibTransaction::NAME) {
-            $fields = new FormFieldMap();
-
-            foreach($paymentMethod->payload->{'payload-field'} as $payload) {
-                $fields->add(strval($payload['field-name']), strval($payload['field-value']));
-            }
-
-            $response = new FormInteractionResponse($this->simpleXml, strval($paymentMethod['url']));
-            $response->setFormFields($fields);
-
-            return $response;
-        }
- */

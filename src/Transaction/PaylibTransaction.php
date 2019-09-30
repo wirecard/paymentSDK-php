@@ -15,8 +15,6 @@ use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 /**
  * Class PaylibTransaction
  *
- * WARNING: This payment method is still in development, please do not use it in its current state
- *
  * @package Wirecard\PaymentSdk\Transaction
  */
 class PaylibTransaction extends Transaction

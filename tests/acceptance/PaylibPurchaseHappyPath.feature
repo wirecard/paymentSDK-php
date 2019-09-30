@@ -5,13 +5,13 @@ Feature: PaylibPurchaseHappyPath
 
   @API-TEST
   Scenario:
-    Given I am on "Paylib Pay" page
+    Given I am on "Paylib Pay Page" page
     When I click on "Redirect to Paylib"
     Then I am redirected to "Paylib authentication" page
     When I enter "Paylib mail" in field "login"
     And I click "Verify"
     And I enter "Paylib password" in field "password"
     And I click "Verify"
-    Then I am redirected to "Paylib Success" page
+    Then I am redirected to "Paylib Success Page" page
     And I see text "Payment successfully completed."
     And I see text "Transaction ID"
