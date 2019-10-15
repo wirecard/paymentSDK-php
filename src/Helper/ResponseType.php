@@ -20,7 +20,7 @@ class ResponseType
     const FIELD_EC = 'ec';
     const FIELD_TRXID = 'trxid';
     const FIELD_REQUEST_ID = 'request_id';
-    const FIELD_EPP_RESPONSE = 'epp_response';
+    const FIELD_EPP_RESPONSE = 'eppresponse';
     const FIELD_BASE64_PAYLOAD = 'base_64_payload';
     const FIELD_PSP_NAME = 'psp_name';
     const FIELD_SYNC_RESPONSE = 'sync_response';
