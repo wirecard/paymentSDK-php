@@ -88,16 +88,6 @@ $gatewayConfig = function ($key) use ($gateway) {
             'non_threed_maid' => '961c567b-d9da-41f6-9801-ba21cb228a00',
             'non_threed_secret' => '03365d5f-1a12-4f16-9351-7ee59ddc9d3f'
         ],
-        'CAPS-TEST' => [
-            'base_url_wppv2' => 'https://page-test.secure.smartpaiement.com',
-            'base_url' => 'https://api-test.secure.smartpaiement.com',
-            'http_user' => '70320-WALLEDITIONS2',
-            'http_pass' => 'X4I0mqW2K3F2',
-            'threed_maid' => '4d8a75df-4f71-4ab4-b5fa-79935b6b37bc',
-            'threed_secret' => '1580a675-9f68-422b-b8cd-87f64f1fc7ba',
-            'non_threed_maid' => 'c1cb3e6c-6ca8-4d82-81b9-861c4246daf4',
-            'non_threed_secret' => '9f6b341f-1b6d-4cd4-9a09-505753b485d3'
-        ],
         'API-CVC-TEST' => [
             'base_url_wppv2' => 'https://wpp-test.wirecard.com',
             'base_url' => 'https://api-test.wirecard.com',

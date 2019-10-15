@@ -64,7 +64,7 @@ if (!isset($_POST['parentTransactionId'])) {
 // ### Transaction Service
 
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
-    $transactionService = new BackendService($config);
+    $transactionService = new TransactionService($config);
     $response = $transactionService->cancel($transaction);
 
 
