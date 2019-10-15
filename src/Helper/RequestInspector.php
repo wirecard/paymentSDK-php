@@ -14,7 +14,7 @@ use Wirecard\PaymentSdk\Constant\StatusFields;
 /**
  * Class RequestInspector
  * @package Wirecard\PaymentSdk\Helper
- * @since 3.9.0
+ * @since 4.0.0
  */
 class RequestInspector
 {
@@ -30,7 +30,7 @@ class RequestInspector
      * @param array $expectedStatusCodes
      * @param array $receivedStatusCodes
      * @return boolean
-     * @since 3.9.0
+     * @since 4.0.0
      */
     public static function hasStatus($receivedStatusCodes, $expectedStatusCodes)
     {
@@ -44,7 +44,7 @@ class RequestInspector
      *
      * @param $request
      * @return bool
-     * @since 3.9.0
+     * @since 4.0.0
      */
     public static function isValidRequest($request)
     {

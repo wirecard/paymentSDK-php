@@ -14,7 +14,7 @@ namespace Wirecard\PaymentSdk\Constant;
  *
  * Class SeamlessFields
  * @package Wirecard\PaymentSdk\Constant
- * @since 3.9.0
+ * @since 4.0.0
  */
 class SeamlessFields
 {

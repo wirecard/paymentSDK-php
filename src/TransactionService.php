@@ -180,15 +180,21 @@ class TransactionService
         }
 
         if (ResponseType::isPaypalResponse($payload)) {
-            return $this->responseMapper->mapInclSignature($payload['eppresponse']);
+            return $this->responseMapper->mapInclSignature(
+                $payload[ResponseType::FIELD_EPP_RESPONSE]
+            );
         }
 
         if (ResponseType::isRatepayResponse($payload)) {
-            return $this->responseMapper->mapInclSignature($payload['base64payload']);
+            return $this->responseMapper->mapInclSignature(
+                $payload[ResponseType::FIELD_BASE64_PAYLOAD]
+            );
         }
 
         if (ResponseType::isSyncResponse($payload)) {
-            return $this->responseMapper->mapInclSignature($payload['sync_response']);
+            return $this->responseMapper->mapInclSignature(
+                $payload[ResponseType::FIELD_SYNC_RESPONSE]
+            );
         }
 
         throw new MalformedResponseException('Missing response in payload.');
@@ -698,7 +704,7 @@ class TransactionService
      * @param string $transactionId
      * @param bool $isThreeD
      * @return string
-     * @since 3.9.0
+     * @since 4.0.0
      */
     private function getTransactionEndpoint($transactionId, $paymentMethod, $isThreeD = false)
     {
@@ -719,7 +725,7 @@ class TransactionService
      *
      * @param $paymentMethod
      * @return bool
-     * @since 3.9.0
+     * @since 4.0.0
      */
     private function isCardTransaction($paymentMethod)
     {
@@ -772,7 +778,7 @@ class TransactionService
     }
 
     /**
-     * @since 3.9.0 The url parameter is now deprecated
+     * @since 4.0.0 The url parameter is now deprecated
      * @since 2.1.0
      * @param $payload
      * @param $url

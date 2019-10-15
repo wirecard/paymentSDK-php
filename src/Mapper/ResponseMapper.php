@@ -233,10 +233,11 @@ class ResponseMapper
         $fields->add(self::FORM_FIELD_PAREQ, (string)$threeD->{'pareq'});
         $fields->add(
             self::FORM_FIELD_MD,
-            base64_encode(json_encode([
-                'enrollment-check-transaction-id' => $response->getTransactionId(),
-                'operation-type' => $this->transaction->retrieveOperationType()
-            ]))
+            http_build_query([
+                SeamlessFields::MERCHANT_ACCOUNT_ID => $this->simpleXml->{'merchant-account-id'},
+                SeamlessFields::TRANSACTION_TYPE => $this->transaction->retrieveOperationType(),
+                SeamlessFields::TRANSACTION_ID => $response->getTransactionId(),
+            ])
         );
 
         $response->setFormFields($fields);
@@ -289,8 +290,8 @@ class ResponseMapper
      * @param $payload
      * @param string $url Deprecated; This parameter is kept for compatibility
      * @return FailureResponse|FormInteractionResponse|SuccessResponse
-     * @since 3.9.0 Maps card token from the seamless response
-     * @since 3.9.0 Use notification_url_1 as TermUrl
+     * @since 4.0.0 Maps card token from the seamless response
+     * @since 4.0.0 Use notification_url_1 as TermUrl
      */
     public function mapSeamlessResponse($payload, $url = "")
     {
@@ -315,7 +316,7 @@ class ResponseMapper
      * Maps all pre-existing fields the seamless sends.
      *
      * @param $payload
-     * @since 3.9.0
+     * @since 4.0.0
      */
     private function mapCommonSeamlessFields($payload)
     {
@@ -367,7 +368,7 @@ class ResponseMapper
      * Add the requested amount to our XML
      *
      * @param $payload
-     * @since 3.9.0
+     * @since 4.0.0
      */
     private function addRequestedAmount($payload)
     {
@@ -389,7 +390,7 @@ class ResponseMapper
      * Add 3D information to our XML
      *
      * @param $payload
-     * @since 3.9.0
+     * @since 4.0.0
      */
     private function addThreeDInformation($payload)
     {
@@ -412,7 +413,7 @@ class ResponseMapper
      * Add the parent transcation id to our XML
      *
      * @param $payload
-     * @since 3.9.0
+     * @since 4.0.0
      */
     private function addParentTransactionId($payload)
     {
@@ -428,7 +429,7 @@ class ResponseMapper
      * Add the credit card token to our XML.
      *
      * @param $payload
-     * @since 3.9.0
+     * @since 4.0.0
      */
     private function addCardToken($payload)
     {
@@ -452,7 +453,7 @@ class ResponseMapper
      * Add all the status information to our XML.
      *
      * @param $payload
-     * @since 3.9.0
+     * @since 4.0.0
      */
     private function addStatuses($payload)
     {
@@ -493,7 +494,7 @@ class ResponseMapper
      *
      * @param array $payload
      * @return FormFieldMap;
-     * @since 3.9.0
+     * @since 4.0.0
      */
     private function makeFormFields($payload)
     {
@@ -505,6 +506,7 @@ class ResponseMapper
             http_build_query([
                 SeamlessFields::MERCHANT_ACCOUNT_ID => $payload[SeamlessFields::MERCHANT_ACCOUNT_ID],
                 SeamlessFields::TRANSACTION_TYPE => $payload[SeamlessFields::TRANSACTION_TYPE],
+                SeamlessFields::TRANSACTION_ID => $payload[SeamlessFields::TRANSACTION_ID],
                 SeamlessFields::NONCE3D => $payload[SeamlessFields::NONCE3D]
             ])
         );
@@ -517,7 +519,7 @@ class ResponseMapper
      *
      * @param $statusData
      * @return SimpleXMLElement
-     * @since 3.9.0
+     * @since 4.0.0
      */
     private function makeStatus($statusData)
     {
@@ -534,7 +536,7 @@ class ResponseMapper
      *
      * @param $payload
      * @return array
-     * @since 3.9.0
+     * @since 4.0.0
      */
     private function extractStatusesFromResponse($payload)
     {

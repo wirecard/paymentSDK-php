@@ -20,10 +20,10 @@ require __DIR__ . '/../../configuration/config.php';
 
 require __DIR__ . '/../../inc/header.php';
 
+use Wirecard\PaymentSdk\BackendService;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
-use Wirecard\PaymentSdk\Transaction\ThreeDCreditCardTransaction;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\TransactionService;
 
@@ -58,12 +58,13 @@ if (!isset($_POST['parentTransactionId'])) {
 // ### Transaction
     $transaction = new CreditCardTransaction();
     $transaction->setParentTransactionId($_POST['parentTransactionId']);
+    $transaction->setParentTransactionType($_POST['parentTransactionType']);
     $transaction->setAmount(new Amount(floatval($_POST['amount']), $_POST['currency']));
 
 // ### Transaction Service
 
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
-    $transactionService = new TransactionService($config);
+    $transactionService = new BackendService($config);
     $response = $transactionService->cancel($transaction);
 
 

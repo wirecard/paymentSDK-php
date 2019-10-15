@@ -276,6 +276,7 @@ class CreditCardTransaction extends Transaction implements Reservable
         if (!$this->parentTransactionId) {
             throw new MandatoryFieldMissingException('No transaction for cancellation set.');
         }
+
         switch ($this->parentTransactionType) {
             case self::TYPE_AUTHORIZATION:
             case self::TYPE_REFERENCED_AUTHORIZATION:

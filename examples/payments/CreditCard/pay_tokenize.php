@@ -58,7 +58,6 @@ $transactionService = new TransactionService($config);
 $transaction = new CreditCardTransaction();
 $transaction->setAmount($amount);
 $transaction->setTokenId($tokenId);
-$transaction->setTermUrl($redirectUrl);
 
 $response = $transactionService->pay($transaction);
 

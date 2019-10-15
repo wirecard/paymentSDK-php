@@ -51,7 +51,6 @@ $redirectUrl = getUrl('return.php?status=success');
 $transaction = new CreditCardTransaction();
 $transaction->setAmount($amount);
 $transaction->setTokenId($tokenId);
-$transaction->setTermUrl($redirectUrl);
 
 // #### Account holder with address
 $address = new \Wirecard\PaymentSdk\Entity\Address('DE', 'Berlin', 'Teststrasse');

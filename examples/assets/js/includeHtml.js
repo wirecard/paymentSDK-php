@@ -72,7 +72,6 @@ function includePaymentMenu()
         'SepaBtwoB',
         'Sofort',
         'UPOP',
-        'UnionpayInternational',
         'WeChat'
     ];
 

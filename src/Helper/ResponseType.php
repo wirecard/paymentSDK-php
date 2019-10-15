@@ -13,56 +13,65 @@ namespace Wirecard\PaymentSdk\Helper;
 /**
  * Class ResponseType
  * @package Wirecard\PaymentSdk\Helper
- * @since 3.9.0
+ * @since 4.0.0
  */
 class ResponseType
 {
+    const FIELD_EC = 'ec';
+    const FIELD_TRXID = 'trxid';
+    const FIELD_REQUEST_ID = 'request_id';
+    const FIELD_EPP_RESPONSE = 'epp_response';
+    const FIELD_BASE64_PAYLOAD = 'base_64_payload';
+    const FIELD_PSP_NAME = 'psp_name';
+    const FIELD_SYNC_RESPONSE = 'sync_response';
+    const FIELD_RESPONSE_SIGNATURE = 'response_signature_v2';
+
     /**
      * @param array $payload
      * @return boolean
-     * @since 3.9.0
+     * @since 4.0.0
      */
     public static function isIdealResponse($payload)
     {
-        return array_key_exists('ec', $payload) &&
-            array_key_exists('trxid', $payload) &&
-            array_key_exists('request_id', $payload);
+        return array_key_exists(self::FIELD_EC, $payload) &&
+            array_key_exists(self::FIELD_TRXID, $payload) &&
+            array_key_exists(self::FIELD_REQUEST_ID, $payload);
     }
     /**
      * @param array $payload
      * @return boolean
-     * @since 3.9.0
+     * @since 4.0.0
      */
     public static function isPaypalResponse($payload)
     {
-        return array_key_exists('eppresponse', $payload);
+        return array_key_exists(self::FIELD_EPP_RESPONSE, $payload);
     }
     /**
      * @param array $payload
      * @return boolean
-     * @since 3.9.0
+     * @since 4.0.0
      */
     public static function isRatepayResponse($payload)
     {
-        return array_key_exists('base64payload', $payload) &&
-            array_key_exists('psp_name', $payload);
+        return array_key_exists(self::FIELD_BASE64_PAYLOAD, $payload) &&
+            array_key_exists(self::FIELD_PSP_NAME, $payload);
     }
     /**
      * @param array $payload
      * @return boolean
-     * @since 3.9.0
+     * @since 4.0.0
      */
     public static function isSyncResponse($payload)
     {
-        return array_key_exists('sync_response', $payload);
+        return array_key_exists(self::FIELD_SYNC_RESPONSE, $payload);
     }
     /**
      * @param array $payload
      * @return boolean
-     * @since 3.9.0
+     * @since 4.0.0
      */
     public static function isNvpResponse($payload)
     {
-        return array_key_exists('response_signature_v2', $payload);
+        return array_key_exists(self::FIELD_RESPONSE_SIGNATURE, $payload);
     }
 }
