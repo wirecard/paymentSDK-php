@@ -15,7 +15,9 @@
 // To include the necessary files, use the composer for PSR-4 autoloading.
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
-require __DIR__ . '/../../inc/config.php';
+require __DIR__ . '/../../configuration/config.php';
+require __DIR__ . '/../../inc/constants.php';
+
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\TransactionService;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
@@ -25,7 +27,6 @@ use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
 
-$redirectUrl = getUrl('return.php?status=success');
 $amount = new Amount(1400, 'EUR');
 $orderNumber = 'A2';
 
@@ -65,8 +66,15 @@ $accountHolder->setAddress($address);
 $transaction = new CreditCardTransaction();
 $transaction->setConfig($creditcardConfig);
 $transaction->setAmount($amount);
-$transaction->setTermUrl($redirectUrl);
-$transaction->setNotificationUrl($redirectUrl);
+$transaction->setNotificationUrl(getUrl(UrlConstants::NOTIFICATION_URL));
+
+$redirects = new \Wirecard\PaymentSdk\Entity\Redirect(
+    getUrl(UrlConstants::SUCCESS_URL),
+    getUrl(UrlConstants::CANCEL_URL),
+    getUrl(UrlConstants::FAILURE_URL)
+);
+
+$transaction->setRedirect($redirects);
 $transaction->setBasket($basket);
 $transaction->setOrderNumber($orderNumber);
 $transaction->setShipping($accountHolder);

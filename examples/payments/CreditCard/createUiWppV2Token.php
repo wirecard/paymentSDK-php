@@ -34,6 +34,14 @@ $transactionService = new TransactionService($config);
 $amount = new Amount(70.00, 'EUR');
 $orderNumber = 'A2';
 
+// Token ID is necessary for recurring purchase with credit card via token.
+$tokenId = array_key_exists('tokenId', $_POST) ? $_POST['tokenId'] : null;
+
+// To make this example usable, even no token ID is provided, a predefined existing token ID is set.
+if ($tokenId === null) {
+    $tokenId = '4304509873471003';
+}
+
 // ### Basket items
 // A Basket contains one or more items.
 
@@ -72,6 +80,7 @@ $accountHolder->setAddress($address);
 $transaction = new CreditCardTransaction();
 $transaction->setConfig($creditcardConfig);
 $transaction->setAmount($amount);
+$transaction->setTokenId($tokenId);
 
 $transaction->setNotificationUrl(getUrl(UrlConstants::NOTIFICATION_URL));
 
