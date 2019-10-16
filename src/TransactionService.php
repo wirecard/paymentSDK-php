@@ -25,6 +25,8 @@ use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
+use Wirecard\PaymentSdk\Helper\RequestInspector;
+use Wirecard\PaymentSdk\Helper\ResponseType;
 use Wirecard\PaymentSdk\Mapper\RequestMapper;
 use Wirecard\PaymentSdk\Mapper\ResponseMapper;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -169,42 +171,30 @@ class TransactionService
      */
     public function handleResponse(array $payload)
     {
-        $data = null;
-
-        // 3-D Secure PaRes
-        if (array_key_exists('MD', $payload) && array_key_exists('PaRes', $payload)) {
-            $data = $this->processAuthFrom3DResponse($payload);
+        if (ResponseType::isNvpResponse($payload)) {
+            return $this->responseMapper->mapSeamlessResponse($payload);
         }
 
-        // iDEAL
-        if (null === $data &&
-            array_key_exists('ec', $payload) &&
-            array_key_exists('trxid', $payload) &&
-            array_key_exists(self::REQUEST_ID, $payload)
-        ) {
-            $data = $this->processFromIdealResponse($payload);
+        if (ResponseType::isIdealResponse($payload)) {
+            return $this->processFromIdealResponse($payload);
         }
 
-        // PayPal
-        if (null === $data && array_key_exists('eppresponse', $payload)) {
-            $data = $this->responseMapper->mapInclSignature($payload['eppresponse']);
+        if (ResponseType::isPaypalResponse($payload)) {
+            return $this->responseMapper->mapInclSignature(
+                $payload[ResponseType::FIELD_EPP_RESPONSE]
+            );
         }
 
-        // RatePAY installment
-        if (null === $data &&
-            array_key_exists('base64payload', $payload) &&
-            array_key_exists('psp_name', $payload)
-        ) {
-            $data = $this->responseMapper->mapInclSignature($payload['base64payload']);
+        if (ResponseType::isRatepayResponse($payload)) {
+            return $this->responseMapper->mapInclSignature(
+                $payload[ResponseType::FIELD_BASE64_PAYLOAD]
+            );
         }
 
-        // Synchronous payment methods
-        if (null === $data && array_key_exists('sync_response', $payload)) {
-            $data = $this->responseMapper->mapInclSignature($payload['sync_response']);
-        }
-
-        if ($data instanceof Response) {
-            return $data;
+        if (ResponseType::isSyncResponse($payload)) {
+            return $this->responseMapper->mapInclSignature(
+                $payload[ResponseType::FIELD_SYNC_RESPONSE]
+            );
         }
 
         throw new MalformedResponseException('Missing response in payload.');
@@ -271,7 +261,7 @@ class TransactionService
 
         if ($transaction instanceof CreditCardTransaction) {
             $isThreeD = is_null($config->getMerchantAccountId()) || ($config->getThreeDMerchantAccountId() &&
-                ($transaction->isFallback() || $transaction->getThreeD())) ? true : false;
+            ($transaction->isFallback() || $transaction->getThreeD())) ? true : false;
             $merchantAccountId = $isThreeD ? $config->getThreeDMerchantAccountId() : $config->getMerchantAccountId();
             $secret = $isThreeD ? $config->getThreeDSecret() : $config->getSecret();
         }
@@ -295,7 +285,6 @@ class TransactionService
         );
 
         $requestData = array_merge($requestData, $this->config->getNvpShopInformation());
-
         $requestData = $this->requestMapper->mapSeamlessRequest($transaction, $requestData);
 
         $requestData['request_signature'] = $this->toSha256($requestData, $secret);
@@ -695,27 +684,56 @@ class TransactionService
     public function getTransactionByTransactionId($transactionId, $paymentMethod, $acceptJson = true)
     {
         $logNotFound = ($paymentMethod == CreditCardTransaction::NAME) ? false : true;
-        $endpoint =
-            $this->config->getBaseUrl() .
-            '/engine/rest/merchants/' .
-            $this->config->get($paymentMethod)->getMerchantAccountId() .
-            '/payments/' . $transactionId;
+        $endpoint = $this->getTransactionEndpoint($transactionId, $paymentMethod);
 
         $request = $this->sendGetRequest($endpoint, $acceptJson, $logNotFound);
-
-        if ($request == null &&
-            ($paymentMethod == CreditCardTransaction::NAME || $paymentMethod == MaestroTransaction::NAME)) {
-            $endpoint =
-                $this->config->getBaseUrl() .
-                '/engine/rest/merchants/' .
-                $this->config->get($paymentMethod)->getThreeDMerchantAccountId() .
-                '/payments/' . $transactionId;
+        if (!RequestInspector::isValidRequest($request) && $this->isCardTransaction($paymentMethod)) {
+            $endpoint = $this->getTransactionEndpoint($transactionId, $paymentMethod, true);
             $request = $this->sendGetRequest($endpoint, $acceptJson);
             $request !== null ? $this->isThreeD = true : $this->isThreeD = false;
         }
 
         return $request;
     }
+
+    /**
+     * Get the REST API endpoint for a transaction
+     *
+     * @param string $paymentMethod
+     * @param string $transactionId
+     * @param bool $isThreeD
+     * @return string
+     * @since 4.0.0
+     */
+    private function getTransactionEndpoint($transactionId, $paymentMethod, $isThreeD = false)
+    {
+        $merchantAccountId = $isThreeD
+            ? $this->config->get($paymentMethod)->getThreeDMerchantAccountId()
+            : $this->config->get($paymentMethod)->getMerchantAccountId();
+
+        return sprintf(
+            '%s/engine/rest/merchants/%s/payments/%s',
+            $this->config->getBaseUrl(),
+            $merchantAccountId,
+            $transactionId
+        );
+    }
+
+    /**
+     * Check if the current payment method is card-based
+     *
+     * @param $paymentMethod
+     * @return bool
+     * @since 4.0.0
+     */
+    private function isCardTransaction($paymentMethod)
+    {
+        return in_array(
+            $paymentMethod,
+            [CreditCardTransaction::NAME, MaestroTransaction::NAME]
+        );
+    }
+
 
     /**
      * @param $requestId
@@ -741,27 +759,6 @@ class TransactionService
 
     /**
      * @param array $payload
-     * @throws MalformedResponseException
-     * @throws UnconfiguredPaymentMethodException
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
-     * @throws MandatoryFieldMissingException
-     * @return FailureResponse|InteractionResponse|Response|SuccessResponse
-     */
-    private function processAuthFrom3DResponse($payload)
-    {
-        $md = json_decode(base64_decode($payload['MD']), true);
-
-        $transaction = new CreditCardTransaction();
-        $transaction->setParentTransactionId($md['enrollment-check-transaction-id']);
-        $transaction->setPaRes($payload['PaRes']);
-        $transaction->setThreeD(true);
-
-        return $this->process($transaction, $md['operation-type']);
-    }
-
-    /**
-     * @param array $payload
      * @throws UnconfiguredPaymentMethodException
      * @throws MalformedResponseException
      * @throws \RuntimeException
@@ -780,12 +777,13 @@ class TransactionService
     }
 
     /**
+     * @since 4.0.0 The url parameter is now deprecated
      * @since 2.1.0
      * @param $payload
      * @param $url
      * @return FailureResponse|FormInteractionResponse|SuccessResponse
      */
-    public function processJsResponse($payload, $url)
+    public function processJsResponse($payload, $url = "")
     {
         $this->getLogger()->debug('GET seamless response: ' . json_encode($payload));
         return $this->responseMapper->mapSeamlessResponse($payload, $url);
