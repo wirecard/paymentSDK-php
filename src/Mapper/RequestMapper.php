@@ -163,6 +163,10 @@ class RequestMapper
             $requestData['iso_transaction_type'] = $transaction->getIsoTransactionType();
         }
 
+        if (null !== $transaction->getTokenId()) {
+            $requestData['token_id'] = $transaction->getTokenId();
+        }
+
         return $requestData;
     }
 }

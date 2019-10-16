@@ -80,7 +80,6 @@ $accountHolder->setAddress($address);
 $transaction = new CreditCardTransaction();
 $transaction->setConfig($creditcardConfig);
 $transaction->setAmount($amount);
-$transaction->setTermUrl($redirectUrl);
 $transaction->setNotificationUrl($redirectUrl);
 $transaction->setBasket($basket);
 $transaction->setOrderNumber($orderNumber);

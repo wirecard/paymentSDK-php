@@ -39,7 +39,6 @@ $transactionService = new TransactionService($config);
 // The 3D-Secure page redirects to the _returnUrl_, which points to this file. To continue the payment process
 // the sent data can be fed directly to the transaction service via the method `handleResponse()`.
 // If there is response data from the service provider handle response
-
 if ($_POST) {
     $response = $transactionService->handleResponse($_POST);
 
@@ -56,6 +55,7 @@ if ($_POST) {
         <br>
         <form action="cancel.php" method="post">
             <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+            <input type="hidden" name="parentTransactionType" value="<?= $response->getTransactionType() ?>"/>
             <input type="hidden" name="amount" value="<?= $response->getRequestedAmount()->getValue() ?>"/>
             <input type="hidden" name="currency" value="<?= $response->getRequestedAmount()->getCurrency() ?>"/>
             <button type="submit" class="btn btn-primary">Cancel the payment</button>
@@ -69,10 +69,10 @@ if ($_POST) {
         $transaction->setParentTransactionId($response->getTransactionId());
         // ### Retrieve possible operations for the transaction. An array of possible operations is returned
         echo '<br>Possible backend operations: ' .
-            print_r($backendService->retrieveBackendOperations($transaction, true), true) . '<br>';
+             print_r($backendService->retrieveBackendOperations($transaction, true), true) . '<br>';
         // ### Check it the state of the transaction is final.
         echo '<br>Is ' . $response->getTransactionType() .
-            ' final: ' . printf($backendService->isFinal($response->getTransactionType())) . '<br>';
+             ' final: ' . printf($backendService->isFinal($response->getTransactionType())) . '<br>';
         // ### Get order state of the transaction
         echo '<br>Order state: ' . $backendService->getOrderState($response->getTransactionType());
 
