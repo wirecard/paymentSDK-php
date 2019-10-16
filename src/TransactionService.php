@@ -285,7 +285,6 @@ class TransactionService
         );
 
         $requestData = array_merge($requestData, $this->config->getNvpShopInformation());
-
         $requestData = $this->requestMapper->mapSeamlessRequest($transaction, $requestData);
 
         $requestData['request_signature'] = $this->toSha256($requestData, $secret);

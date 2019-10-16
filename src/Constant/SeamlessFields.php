@@ -38,6 +38,4 @@ class SeamlessFields
     const MASKED_ACCOUNT_NUMBER = 'masked_account_number';
 
     const PROCESSING_URL = 'notification_url_1';
-
-    const NONCE3D = 'nonce3d';
 }

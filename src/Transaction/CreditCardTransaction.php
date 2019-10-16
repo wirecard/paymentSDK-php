@@ -95,6 +95,15 @@ class CreditCardTransaction extends Transaction implements Reservable
 
     /**
      * @return string
+     * @since 4.0.0
+     */
+    public function getTokenId()
+    {
+        return $this->tokenId;
+    }
+
+    /**
+     * @return string
      */
     public function getTermUrl()
     {
