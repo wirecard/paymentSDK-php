@@ -12,7 +12,7 @@ namespace WirecardTest\PaymentSdk;
 use Wirecard\PaymentSdk\Helper\RequestInspector;
 
 /**
- * Class TransactionServiceUTest
+ * Class RequestInspectorUTest
  * @package WirecardTest\PaymentSdk
  */
 class RequestInspectorUTest extends \PHPUnit_Framework_TestCase
