@@ -65,13 +65,17 @@ class RequestInspector
         }
 
         $statuses = array_column(
-            $request[self::REQUEST_PAYMENT][self::REQUEST_STATUSES][self::REQUEST_STATUS],
+            $request[self::REQUEST_PAYMENT][self::REQUEST_STATUSES],
             StatusFields::CODE
         );
 
-        return self::hasStatus(
+        if (self::hasStatus(
             $statuses,
             [self::STATUS_NO_ACCESS]
-        );
+        )) {
+            return false;
+        }
+
+        return true;
     }
 }

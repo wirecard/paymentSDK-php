@@ -58,7 +58,6 @@ if (!isset($_POST['parentTransactionId'])) {
 // ### Transaction
     $transaction = new CreditCardTransaction();
     $transaction->setParentTransactionId($_POST['parentTransactionId']);
-    $transaction->setParentTransactionType($_POST['parentTransactionType']);
     $transaction->setAmount(new Amount(floatval($_POST['amount']), $_POST['currency']));
 
 // ### Transaction Service
