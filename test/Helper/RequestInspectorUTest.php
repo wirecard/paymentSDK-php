@@ -17,19 +17,22 @@ use Wirecard\PaymentSdk\Helper\RequestInspector;
  */
 class RequestInspectorUTest extends \PHPUnit_Framework_TestCase
 {
-    public function testItReturnsFalseOnNull() {
+    public function testItReturnsFalseOnNull()
+    {
         $this->assertFalse(
-          RequestInspector::isValidRequest(null)
+            RequestInspector::isValidRequest(null)
         );
     }
 
-    public function testItReturnsFalseOnEmptyRequest() {
+    public function testItReturnsFalseOnEmptyRequest()
+    {
         $this->assertFalse(
             RequestInspector::isValidRequest(array())
         );
     }
 
-    public function testItReturnsFalseOnMissingStatuses() {
+    public function testItReturnsFalseOnMissingStatuses()
+    {
         $request = array(
             'payment' => array()
         );
@@ -39,7 +42,8 @@ class RequestInspectorUTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testItReturnsFalseOnEmptyStatuses() {
+    public function testItReturnsFalseOnEmptyStatuses()
+    {
         $request = array(
             'payment' => array(
                 'statuses' => array()
@@ -51,7 +55,8 @@ class RequestInspectorUTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testItReturnsFalseOnStatusNoAccess() {
+    public function testItReturnsFalseOnStatusNoAccess()
+    {
         $request = array(
             'payment' => array(
                 'statuses' => array(
@@ -65,7 +70,8 @@ class RequestInspectorUTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testItReturnsTrueOnOtherStatuses() {
+    public function testItReturnsTrueOnOtherStatuses()
+    {
         $request = array(
             'payment' => array(
                 'statuses' => array(
@@ -79,7 +85,8 @@ class RequestInspectorUTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testItCorrectlyChecksForStatuses() {
+    public function testItCorrectlyChecksForStatuses()
+    {
         $status = [ '403.1166' ];
 
         $this->assertTrue(
