@@ -89,6 +89,7 @@ class TransactionServiceUTest extends PHPUnit_Framework_TestCase
     {
         $url = 'dummyreturnurl';
         $data = array(
+            'nonce3d' => 'ABCDEF',
             'merchant_account_id' => 'maid',
             'transaction_id' => 'trid',
             'transaction_state' => 'success',
