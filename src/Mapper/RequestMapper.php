@@ -167,6 +167,8 @@ class RequestMapper
             $requestData['token_id'] = $transaction->getTokenId();
         }
 
+        $requestData['wpp_options_cvv_hidden'] = true;
+
         return $requestData;
     }
 }

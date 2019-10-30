@@ -76,7 +76,8 @@ class TransactionServiceUTest extends PHPUnit_Framework_TestCase
             'attempt_three_d' => true,
             'ip_address' => '127.0.0.1',
             'shop_system_name' => 'paymentSDK-php',
-            'shop_system_version' => $this->shopSystemVersion
+            'shop_system_version' => $this->shopSystemVersion,
+            'wpp_options_cvv_hidden' => true,
         ];
 
         $uiData = (array)json_decode($uiData);

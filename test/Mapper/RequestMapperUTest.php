@@ -150,7 +150,8 @@ class RequestMapperUTest extends PHPUnit_Framework_TestCase
             'consumer_id' => 'cons123',
             'device_fingerprint' => null,
             'periodic_type' => 'ci',
-            'sequence_type' => 'first'
+            'sequence_type' => 'first',
+            'wpp_options_cvv_hidden' => true,
         ];
 
         $this->assertEquals($expectedResult, $result);
