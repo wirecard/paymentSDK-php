@@ -7,14 +7,26 @@
     "ext-mbstring": "*",
     "ext-intl": "*",
     "ext-simplexml": "*",
-    "php": "^5.5 || ^7.0",
+    "ext-json": "*",
+    "ext-openssl": "*",
+    "ext-libxml": "*",
+    "ext-dom": "*",
+    "php": "5.6.* || 7.1.* || 7.2.*",
     "monolog/monolog": "^1.16",
     "php-http/client-common": "^1.0",
     "php-http/discovery": "^1.0 <= 1.6.1",
+    "php-http/message": "~1.6.0 || ~1.7.0",
     "myclabs/php-enum": "~1.5.0 || ~1.6.0",
     "robrichards/xmlseclibs": "~3.0.0",
     "wirecard/iso-paypal-converter": "^1.0.0",
-    "whichbrowser/parser": "~2.0.0"
+    "whichbrowser/parser": "~2.0.0",
+    "php-http/guzzle6-adapter": "^1.1.1",
+    "guzzlehttp/psr7": "^1.6"
+  },
+  "config": {
+    "platform": {
+      "php": "5.6"
+    }
   },
   "scripts": {
     "upload-coverage": "codacycoverage clover build/coverage/xml",
