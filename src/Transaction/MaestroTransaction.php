@@ -9,6 +9,9 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
+use Wirecard\PaymentSdk\Exception\UnsupportedEncodingException;
+
 /**
  * Class MaestroTransaction
  * @package Wirecard\PaymentSdk\Transaction
@@ -19,7 +22,7 @@ class MaestroTransaction extends CreditCardTransaction
     const NAME = 'maestro';
 
     /**
-     * @throws MandatoryFieldMissingException|UnsupportedOperationException
+     * @throws MandatoryFieldMissingException|UnsupportedEncodingException
      * @return array
      * @since 3.2.0
      */
