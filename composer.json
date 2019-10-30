@@ -11,6 +11,7 @@
     "ext-openssl": "*",
     "ext-libxml": "*",
     "ext-dom": "*",
+    "ext-hash": "*",
     "php": "5.6.* || 7.1.* || 7.2.*",
     "monolog/monolog": "^1.16",
     "php-http/client-common": "^1.0",
@@ -20,6 +21,7 @@
     "robrichards/xmlseclibs": "~3.0.0",
     "wirecard/iso-paypal-converter": "^1.0.0",
     "whichbrowser/parser": "~2.0.0",
+    "psr/log": "^1.0.0",
     "php-http/guzzle6-adapter": "^1.1.1",
     "guzzlehttp/psr7": "^1.6"
   },
