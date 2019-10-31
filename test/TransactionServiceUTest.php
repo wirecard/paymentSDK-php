@@ -77,7 +77,6 @@ class TransactionServiceUTest extends PHPUnit_Framework_TestCase
             'ip_address' => '127.0.0.1',
             'shop_system_name' => 'paymentSDK-php',
             'shop_system_version' => $this->shopSystemVersion,
-            'wpp_options_cvv_hidden' => true,
         ];
 
         $uiData = (array)json_decode($uiData);

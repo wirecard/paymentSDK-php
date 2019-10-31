@@ -165,9 +165,8 @@ class RequestMapper
 
         if (null !== $transaction->getTokenId()) {
             $requestData['token_id'] = $transaction->getTokenId();
+            $requestData['wpp_options_cvv_hidden'] = true;
         }
-
-        $requestData['wpp_options_cvv_hidden'] = true;
 
         return $requestData;
     }

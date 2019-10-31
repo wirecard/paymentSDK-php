@@ -151,7 +151,50 @@ class RequestMapperUTest extends PHPUnit_Framework_TestCase
             'device_fingerprint' => null,
             'periodic_type' => 'ci',
             'sequence_type' => 'first',
-            'wpp_options_cvv_hidden' => true,
+        ];
+
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    public function testMappingSeamlessWithTokenId()
+    {
+        $mapper = $this->createRequestMapper();
+
+        $config = $this->createMock(CreditCardConfig::class);
+        $config->method('getMerchantAccountId')->willReturn('B612');
+
+        $transaction = new CreditCardTransaction();
+        $transaction->setConfig($config);
+        $transaction->setAmount(new Amount(10, 'EUR'));
+        $transaction->setAccountHolder(new AccountHolder());
+        $transaction->setShipping(new AccountHolder());
+        $transaction->setBasket(new Basket());
+        $transaction->setCustomFields(new CustomFieldCollection());
+        $transaction->setNotificationUrl(self::EXAMPLE_URL);
+        $transaction->setDescriptor('Test1');
+        $transaction->setOrderNumber('123');
+        $transaction->setIpAddress('127.0.0.1');
+        $transaction->setConsumerId('cons123');
+        $transaction->setTokenId('123456');
+        $transaction->setDevice(new Device());
+        $transaction->setPeriodic(new Periodic('ci', 'first'));
+        $requestdata = ['transaction-type' => 'authorization'];
+
+        $result = $mapper->mapSeamlessRequest($transaction, $requestdata);
+
+        $expectedResult = [
+            'transaction-type' => 'authorization',
+            'notification_transaction_url' => self::EXAMPLE_URL,
+            'notifications_format' => 'application/xml',
+            'descriptor' => 'Test1',
+            'order_number' => '123',
+            'ip_address' => '127.0.0.1',
+            'consumer_id' => 'cons123',
+            'device_fingerprint' => null,
+            'periodic_type' => 'ci',
+            'sequence_type' => 'first',
+            'token_id' => '123456',
+            'wpp_options_cvv_hidden' => true
         ];
 
         $this->assertEquals($expectedResult, $result);
