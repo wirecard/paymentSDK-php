@@ -42,8 +42,7 @@
     "cs-check": "phpcs",
     "cs-fix": "phpcbf",
     "test": "phpunit --colors=always",
-    "test-coverage": "phpunit --coverage-clover build/coverage/xml",
-    "infection": "infection --threads=4 --min-msi=65 --only-covered --log-verbosity=2"
+    "test-coverage": "phpunit --coverage-clover build/coverage/xml"
   },
   "autoload": {
     "psr-4": {
