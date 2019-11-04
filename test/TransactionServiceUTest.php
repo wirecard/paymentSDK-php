@@ -76,7 +76,7 @@ class TransactionServiceUTest extends PHPUnit_Framework_TestCase
             'attempt_three_d' => true,
             'ip_address' => '127.0.0.1',
             'shop_system_name' => 'paymentSDK-php',
-            'shop_system_version' => $this->shopSystemVersion
+            'shop_system_version' => $this->shopSystemVersion,
         ];
 
         $uiData = (array)json_decode($uiData);
@@ -89,6 +89,7 @@ class TransactionServiceUTest extends PHPUnit_Framework_TestCase
     {
         $url = 'dummyreturnurl';
         $data = array(
+            'nonce3d' => 'ABCDEF',
             'merchant_account_id' => 'maid',
             'transaction_id' => 'trid',
             'transaction_state' => 'success',

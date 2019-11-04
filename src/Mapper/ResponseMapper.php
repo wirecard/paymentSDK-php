@@ -507,6 +507,7 @@ class ResponseMapper
                 SeamlessFields::MERCHANT_ACCOUNT_ID => $payload[SeamlessFields::MERCHANT_ACCOUNT_ID],
                 SeamlessFields::TRANSACTION_TYPE => $payload[SeamlessFields::TRANSACTION_TYPE],
                 SeamlessFields::TRANSACTION_ID => $payload[SeamlessFields::TRANSACTION_ID],
+                SeamlessFields::NONCE3D => $payload[SeamlessFields::NONCE3D],
             ])
         );
 

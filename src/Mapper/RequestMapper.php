@@ -163,8 +163,12 @@ class RequestMapper
             $requestData['iso_transaction_type'] = $transaction->getIsoTransactionType();
         }
 
+        // In case of a token-based/My Favorite Payment transaction we add
+        // wpp_options_cvv_hidden to hide the CVV field unless the merchant
+        // configuration explicitly requires it.
         if (null !== $transaction->getTokenId()) {
             $requestData['token_id'] = $transaction->getTokenId();
+            $requestData['wpp_options_cvv_hidden'] = true;
         }
 
         return $requestData;

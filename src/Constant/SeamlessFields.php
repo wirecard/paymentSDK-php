@@ -24,6 +24,7 @@ class SeamlessFields
     const TRANSACTION_TYPE = 'transaction_type';
     const PAYMENT_METHOD = 'payment_method';
     const REQUEST_ID = 'request_id';
+    const NONCE3D = 'nonce3d';
 
     const REQUESTED_AMOUNT = 'requested_amount';
     const REQUESTED_AMOUNT_CURRENCY = 'requested_amount_currency';

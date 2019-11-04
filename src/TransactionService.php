@@ -579,6 +579,7 @@ class TransactionService
                 $transaction->getParentTransactionId(),
                 $transaction->getConfigKey()
             );
+
             if ($transaction instanceof CreditCardTransaction) {
                 $transaction->getThreeD() ? $transaction->setThreeD(true) : $transaction->setThreeD($this->isThreeD);
             }
@@ -687,6 +688,7 @@ class TransactionService
         $endpoint = $this->getTransactionEndpoint($transactionId, $paymentMethod);
 
         $request = $this->sendGetRequest($endpoint, $acceptJson, $logNotFound);
+
         if (!RequestInspector::isValidRequest($request) && $this->isCardTransaction($paymentMethod)) {
             $endpoint = $this->getTransactionEndpoint($transactionId, $paymentMethod, true);
             $request = $this->sendGetRequest($endpoint, $acceptJson);
