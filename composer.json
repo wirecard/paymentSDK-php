@@ -32,11 +32,6 @@
     "php-http/guzzle6-adapter": "1.1.1",
     "guzzlehttp/psr7": "1.6.1"
   },
-  "config": {
-    "platform": {
-      "php": "7.2"
-    }
-  },
   "scripts": {
     "upload-coverage": "codacycoverage clover build/coverage/xml",
     "cs-check": "phpcs",
