@@ -416,7 +416,7 @@ class ResponseMapper
     }
 
     /**
-     * Add the parent transcation id to our XML
+     * Add the parent transaction id to our XML
      *
      * @param $payload
      * @since 4.0.0
