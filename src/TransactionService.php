@@ -779,16 +779,14 @@ class TransactionService
     }
 
     /**
-     * @since 4.0.0 The url parameter is now deprecated
      * @since 2.1.0
-     * @param $payload
-     * @param $url
+     * @param array $payload
      * @return FailureResponse|FormInteractionResponse|SuccessResponse
      */
-    public function processJsResponse($payload, $url = "")
+    public function processJsResponse($payload)
     {
         $this->getLogger()->debug('GET seamless response: ' . json_encode($payload));
-        return $this->responseMapper->mapSeamlessResponse($payload, $url);
+        return $this->responseMapper->mapSeamlessResponse($payload);
     }
 
     /**

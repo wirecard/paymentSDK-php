@@ -287,13 +287,12 @@ class ResponseMapper
     }
 
     /**
-     * @param $payload
-     * @param string $url Deprecated; This parameter is kept for compatibility
+     * @param array $payload
      * @return FailureResponse|FormInteractionResponse|SuccessResponse
      * @since 4.0.0 Maps card token from the seamless response
-     * @since 4.0.0 Use notification_url_1 as TermUrl
+     * @since 4.0.0 Use notification_url_1 as TermUrl and removal of url as parameter
      */
-    public function mapSeamlessResponse($payload, $url = "")
+    public function mapSeamlessResponse($payload)
     {
         $this->simpleXml = new SimpleXMLElement('<payment></payment>');
 
@@ -301,11 +300,10 @@ class ResponseMapper
         $this->addCardToken($payload);
 
         if (array_key_exists(SeamlessFields::ACS_URL, $payload)) {
-            $response = $this->makeFormInteractionResponse($payload);
-            return $response;
+            return $this->makeFormInteractionResponse($payload);
         }
 
-        if ($payload['transaction_state'] == 'success') {
+        if ($payload['transaction_state'] === 'success') {
             return new SuccessResponse($this->simpleXml);
         }
 

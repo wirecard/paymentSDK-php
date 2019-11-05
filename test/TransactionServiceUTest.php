@@ -106,7 +106,7 @@ class TransactionServiceUTest extends PHPUnit_Framework_TestCase
             'parent_transaction_id' => 'ptrid'
         );
 
-        $response = $this->service->processJsResponse($data, $url);
+        $response = $this->service->processJsResponse($data);
         $this->assertTrue($response instanceof FormInteractionResponse);
     }
 
@@ -128,7 +128,7 @@ class TransactionServiceUTest extends PHPUnit_Framework_TestCase
             'requested_amount' => '40'
         );
 
-        $response = $this->service->processJsResponse($data, $url);
+        $response = $this->service->processJsResponse($data);
         $this->assertTrue($response instanceof SuccessResponse);
     }
 
@@ -148,7 +148,7 @@ class TransactionServiceUTest extends PHPUnit_Framework_TestCase
             'parent_transaction_id' => 'ptrid'
         );
 
-        $response = $this->service->processJsResponse($data, $url);
+        $response = $this->service->processJsResponse($data);
         $this->assertTrue($response instanceof FailureResponse);
     }
 
