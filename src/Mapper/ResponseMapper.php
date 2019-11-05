@@ -357,9 +357,15 @@ class ResponseMapper
         $this->addStatuses($payload);
     }
 
-    private function simpleXmlAppendNode(SimpleXMLElement $to, SimpleXMLElement $from)
+    /**
+     * @param SimpleXMLElement $appendTo
+     * @param SimpleXMLElement $from
+     *
+     * @since 4.0.0
+     */
+    private function simpleXmlAppendNode($appendTo, $from)
     {
-        $toDom = dom_import_simplexml($to);
+        $toDom = dom_import_simplexml($appendTo);
         $fromDom = dom_import_simplexml($from);
         $toDom->appendChild($toDom->ownerDocument->importNode($fromDom, true));
     }
