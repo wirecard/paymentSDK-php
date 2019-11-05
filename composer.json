@@ -8,6 +8,7 @@
     "php": ">=5.6",
     "ext-intl": ">=1.0.0",
     "ext-simplexml": "*",
+    "ext-dom": "*",
     "monolog/monolog": ">=1.16",
     "php-http/client-implementation": "~1.0",
     "php-http/client-common":"~1.0|~2.0",
@@ -20,7 +21,6 @@
   "require-dev": {
     "ext-iconv": "*",
     "ext-json": "*",
-    "ext-dom": "*",
     "phpunit/phpunit": "^5.7",
     "squizlabs/php_codesniffer": "^3.3",
     "mikey179/vfsstream": "^1.6",
