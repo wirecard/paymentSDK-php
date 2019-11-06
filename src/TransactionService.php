@@ -502,8 +502,8 @@ class TransactionService
      * @param $endpoint
      * @param bool $acceptJson
      * @param bool $logNotFound
-     * @throws \RuntimeException
      * @return string|array
+     * @throws \Http\Client\Exception
      */
     private function sendGetRequest($endpoint, $acceptJson = false, $logNotFound = true)
     {
@@ -718,42 +718,26 @@ class TransactionService
     /**
      * @param $requestId
      * @param $paymentMethod
-     * @param $acceptJson
-     * @throws UnconfiguredPaymentMethodException
-     * @throws \RuntimeException
-     * @since 3.3.0
+     * @param bool $acceptJson
      * @return null|array|string
+     * @throws \Http\Client\Exception
+     * @since 3.3.0
      */
     public function getTransactionByRequestId($requestId, $paymentMethod, $acceptJson = true)
     {
-        $logNotFound = ($paymentMethod == CreditCardTransaction::NAME) ? false : true;
+        $logNotFound = ($paymentMethod !== CreditCardTransaction::NAME);
         $endpoint =
             $this->config->getBaseUrl() .
             '/engine/rest/merchants/' .
-            $this->config->get($paymentMethod)->getMerchantAccountId() .
-            '/payments/?request_id=' . $requestId;
+            $this->config->get($paymentMethod)->getMerchantAccountId();
 
-        $response = $this->sendGetRequest($endpoint, $acceptJson, $logNotFound);
-        return $response;
-    }
+        if ($paymentMethod === IdealTransaction::NAME) {
+            $endpoint .= '/payments/search?payment.request-id=' . $requestId;
+        } else {
+            $endpoint .= '/payments/?request_id=' . $requestId;
+        }
 
-    /**
-     * @param array $payload
-     * @throws UnconfiguredPaymentMethodException
-     * @throws MalformedResponseException
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
-     * @return Response
-     */
-    private function processFromIdealResponse($payload)
-    {
-        $endpoint =
-            $this->config->getBaseUrl() . '/engine/rest/merchants/' .
-            $this->config->get(IdealTransaction::NAME)->getMerchantAccountId() .
-            '/payments/search?payment.request-id=' . $payload[self::REQUEST_ID];
-        $transaction = $this->sendGetRequest($endpoint);
-
-        return $this->responseMapper->map($transaction);
+        return $this->sendGetRequest($endpoint, $acceptJson, $logNotFound);
     }
 
     /**
