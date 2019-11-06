@@ -28,6 +28,7 @@ use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 use Wirecard\PaymentSdk\Helper\RequestInspector;
 use Wirecard\PaymentSdk\Helper\ResponseType;
 use Wirecard\PaymentSdk\Mapper\RequestMapper;
+use Wirecard\PaymentSdk\Mapper\Response\MapperFactory;
 use Wirecard\PaymentSdk\Mapper\ResponseMapper;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\FormInteractionResponse;
@@ -171,33 +172,10 @@ class TransactionService
      */
     public function handleResponse(array $payload)
     {
-        if (ResponseType::isNvpResponse($payload)) {
-            return $this->responseMapper->mapSeamlessResponse($payload);
-        }
+        $responseMapperFactory = new MapperFactory($payload, $this->config);
+        $mapper = $responseMapperFactory->create();
 
-        if (ResponseType::isIdealResponse($payload)) {
-            return $this->processFromIdealResponse($payload);
-        }
-
-        if (ResponseType::isPaypalResponse($payload)) {
-            return $this->responseMapper->mapInclSignature(
-                $payload[ResponseType::FIELD_EPP_RESPONSE]
-            );
-        }
-
-        if (ResponseType::isRatepayResponse($payload)) {
-            return $this->responseMapper->mapInclSignature(
-                $payload[ResponseType::FIELD_BASE64_PAYLOAD]
-            );
-        }
-
-        if (ResponseType::isSyncResponse($payload)) {
-            return $this->responseMapper->mapInclSignature(
-                $payload[ResponseType::FIELD_SYNC_RESPONSE]
-            );
-        }
-
-        throw new MalformedResponseException('Missing response in payload.');
+        return $mapper->map();
     }
 
     /**
@@ -261,7 +239,7 @@ class TransactionService
 
         if ($transaction instanceof CreditCardTransaction) {
             $isThreeD = is_null($config->getMerchantAccountId()) || ($config->getThreeDMerchantAccountId() &&
-            ($transaction->isFallback() || $transaction->getThreeD())) ? true : false;
+            ($transaction->isFallback() || $transaction->getIsThreeD())) ? true : false;
             $merchantAccountId = $isThreeD ? $config->getThreeDMerchantAccountId() : $config->getMerchantAccountId();
             $secret = $isThreeD ? $config->getThreeDSecret() : $config->getSecret();
         }
@@ -581,7 +559,7 @@ class TransactionService
             );
 
             if ($transaction instanceof CreditCardTransaction) {
-                $transaction->getThreeD() ? $transaction->setThreeD(true) : $transaction->setThreeD($this->isThreeD);
+                $transaction->getIsThreeD() ? $transaction->setThreeD(true) : $transaction->setThreeD($this->isThreeD);
             }
 
             if (null !== $parentTransaction) {
@@ -786,7 +764,7 @@ class TransactionService
     public function processJsResponse($payload)
     {
         $this->getLogger()->debug('GET seamless response: ' . json_encode($payload));
-        return $this->responseMapper->mapSeamlessResponse($payload);
+        return $this->handleResponse($payload);
     }
 
     /**
