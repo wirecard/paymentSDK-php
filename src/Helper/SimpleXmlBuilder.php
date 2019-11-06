@@ -11,7 +11,7 @@ namespace Wirecard\PaymentSdk\Helper;
 
 use http\Exception\InvalidArgumentException;
 
-class XmlBuilder
+class SimpleXmlBuilder
 {
     /**
      * @var \SimpleXMLElement
@@ -38,9 +38,9 @@ class XmlBuilder
      * @return $this
      * @since 4.0.0
      */
-    public function addSimpleXmlObject(\SimpleXMLElement$xmlObject)
+    public function addSimpleXmlObject(\SimpleXMLElement $xmlObject)
     {
-        $this->xml->addChild($xmlObject);
+        $this->appendAsChild($xmlObject);
         return $this;
     }
 
@@ -65,7 +65,7 @@ class XmlBuilder
             $newXmlObject->addAttribute($attributeKey, $attributeValue);
         }
 
-        $this->xml->addAttribute($newXmlObject);
+        $this->appendAsChild($newXmlObject);
         return $this;
     }
 
@@ -88,5 +88,16 @@ class XmlBuilder
     public function getXml()
     {
         return $this->xml;
+    }
+
+    /**
+     * @param \SimpleXMLElement $simpleXmlObject
+     * @since 4.0.0
+     */
+    private function appendAsChild(\SimpleXMLElement $simpleXmlObject)
+    {
+        $paymentDom = dom_import_simplexml($this->xml);
+        $childDom = dom_import_simplexml($simpleXmlObject);
+        $paymentDom->appendChild($paymentDom->ownerDocument->importNode($childDom, true));
     }
 }
