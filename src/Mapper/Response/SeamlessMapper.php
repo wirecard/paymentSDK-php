@@ -16,6 +16,7 @@ use Wirecard\PaymentSdk\Constant\SeamlessFields;
 use Wirecard\PaymentSdk\Constant\StatusFields;
 use Wirecard\PaymentSdk\Entity\FormFieldMap;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
+use Wirecard\PaymentSdk\Helper\XmlBuilder;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
@@ -33,136 +34,146 @@ class SeamlessMapper implements MapperInterface
     private $payload;
 
     /**
+     * @var XmlBuilder
+     */
+    private $paymentXmlBuilder;
+
+    /**
      * SeamlessMapper constructor.
      * @param array $payload
      * @since 4.0.0
      */
-    public function __construct(array $payload)
+    public function __construct($payload)
     {
         $this->payload = $payload;
+        $this->paymentXmlBuilder = new XmlBuilder('payment');
     }
 
+    /**
+     * @return FailureResponse|FormInteractionResponse|SuccessResponse
+     * @since 4.0.0
+     */
     public function map()
     {
-        $simpleXml = new SimpleXMLElement('<payment></payment>');
+        $this->mapCommonSeamlessFields();
+        $this->addCard();
 
-        $this->mapCommonSeamlessFields($simpleXml);
-        $this->addCardToken($simpleXml);
-
+        $paymentSimpleXml = $this->paymentXmlBuilder->getXml();
         if (array_key_exists(SeamlessFields::ACS_URL, $this->payload)) {
-            return $this->makeFormInteractionResponse($simpleXml);
+            return $this->makeFormInteractionResponse($paymentSimpleXml);
         }
 
         if ($this->payload['transaction_state'] === 'success') {
-            return new SuccessResponse($simpleXml);
+            return new SuccessResponse($paymentSimpleXml);
         }
 
-        return new FailureResponse($simpleXml);
+        return new FailureResponse($paymentSimpleXml);
     }
 
     /**
      * Maps all pre-existing fields the seamless sends.
-     *
-     * @param SimpleXMLElement $simpleXml
      * @since 4.0.0
      */
-    private function mapCommonSeamlessFields(SimpleXMLElement $simpleXml)
+    private function mapCommonSeamlessFields()
     {
-        $simpleXml->addChild(
+        $this->paymentXmlBuilder->addRawObject(
             ResponseMappingXmlFields::MERCHANT_ACCOUNT_ID,
             $this->payload[SeamlessFields::MERCHANT_ACCOUNT_ID]
         );
 
-        $simpleXml->addChild(
+        $this->paymentXmlBuilder->addRawObject(
+            ResponseMappingXmlFields::MERCHANT_ACCOUNT_ID,
+            $this->payload[SeamlessFields::MERCHANT_ACCOUNT_ID]
+        );
+
+        $this->paymentXmlBuilder->addRawObject(
             ResponseMappingXmlFields::TRANSACTION_ID,
             $this->payload[SeamlessFields::TRANSACTION_ID]
         );
 
-        $simpleXml->addChild(
+        $this->paymentXmlBuilder->addRawObject(
             ResponseMappingXmlFields::TRANSACTION_STATE,
             $this->payload[SeamlessFields::TRANSACTION_STATE]
         );
 
-        $simpleXml->addChild(
+        $this->paymentXmlBuilder->addRawObject(
             ResponseMappingXmlFields::TRANSACTION_TYPE,
             $this->payload[SeamlessFields::TRANSACTION_TYPE]
         );
 
-        $simpleXml->addChild(
+        $this->paymentXmlBuilder->addRawObject(
             ResponseMappingXmlFields::PAYMENT_METHOD,
             $this->payload[SeamlessFields::PAYMENT_METHOD]
         );
 
-        $simpleXml->addChild(
+        $this->paymentXmlBuilder->addRawObject(
             ResponseMappingXmlFields::REQUEST_ID,
             $this->payload[SeamlessFields::REQUEST_ID]
         );
 
-
-        $this->addRequestedAmount($simpleXml);
-        $this->addThreeDInformation($simpleXml);
-        $this->addParentTransactionId($simpleXml);
-        $this->addStatuses($simpleXml);
+        $this->addRequestedAmount();
+        $this->addThreeDInformation();
+        $this->addParentTransactionId();
+        $this->addStatuses();
     }
 
     /**
      * Add the requested amount to our XML
-     *
-     * @param SimpleXMLElement $simpleXml
      * @since 4.0.0
      */
-    private function addRequestedAmount(SimpleXMLElement $simpleXml)
+    private function addRequestedAmount()
     {
         if (array_key_exists(SeamlessFields::REQUESTED_AMOUNT, $this->payload) &&
             array_key_exists(SeamlessFields::REQUESTED_AMOUNT_CURRENCY, $this->payload)
         ) {
-            $amountSimpleXml = new SimpleXMLElement(
-                '<requested-amount>'.$this->payload[SeamlessFields::REQUESTED_AMOUNT].'</requested-amount>'
-            );
-            $amountSimpleXml->addAttribute(
-                ResponseMappingXmlFields::REQUESTED_AMOUNT_CURRENCY,
-                $this->payload[SeamlessFields::REQUESTED_AMOUNT_CURRENCY]
-            );
-            //@TODO fix this shit with return and appending a node
-            $this->simpleXmlAppendNode($simpleXml, $amountSimpleXml);
+            $amountSimpleXml = (new XmlBuilder(
+                'requested-amount',
+                $this->payload[SeamlessFields::REQUESTED_AMOUNT]
+            ))->addAttributes(
+                [
+                    ResponseMappingXmlFields::REQUESTED_AMOUNT_CURRENCY =>
+                    $this->payload[SeamlessFields::REQUESTED_AMOUNT_CURRENCY]
+                ]
+            )->getXml();
+
+            $this->paymentXmlBuilder->addSimpleXmlObject($amountSimpleXml);
         }
     }
 
     /**
      * Add 3D information to our XML
-     *
-     * @param SimpleXMLElement $simpleXml
      * @since 4.0.0
      */
-    private function addThreeDInformation(SimpleXMLElement $simpleXml)
+    private function addThreeDInformation()
     {
         if (array_key_exists(SeamlessFields::ACS_URL, $this->payload) &&
             array_key_exists(SeamlessFields::PAREQ, $this->payload) &&
             array_key_exists(SeamlessFields::CARDHOLDER_AUTHENTICATION_STATUS, $this->payload)
         ) {
-            $threeD = new SimpleXMLElement('<three-d></three-d>');
-            $threeD->addChild(ResponseMappingXmlFields::ACS_URL, $this->payload[SeamlessFields::ACS_URL]);
-            $threeD->addChild(ResponseMappingXmlFields::PAREQ, $this->payload[SeamlessFields::PAREQ]);
-            $threeD->addChild(
+            $threeDSimpleXmlBuilder = new XmlBuilder('three-d');
+            $threeDSimpleXml = $threeDSimpleXmlBuilder->addRawObject(
+                ResponseMappingXmlFields::ACS_URL,
+                $this->payload[SeamlessFields::ACS_URL]
+            )->addRawObject(
+                ResponseMappingXmlFields::PAREQ,
+                $this->payload[SeamlessFields::PAREQ]
+            )->addRawObject(
                 ResponseMappingXmlFields::CARDHOLDER_AUTHENTICATION_STATUS,
                 $this->payload[SeamlessFields::CARDHOLDER_AUTHENTICATION_STATUS]
-            );
+            )->getXml();
 
-            //@TODO fix this shit with return and appending node
-            $this->simpleXmlAppendNode($simpleXml, $threeD);
+            $this->paymentXmlBuilder->addSimpleXmlObject($threeDSimpleXml);
         }
     }
 
     /**
      * Add the parent transaction id to our XML
-     *
-     * @param SimpleXMLElement $simpleXml
      * @since 4.0.0
      */
-    private function addParentTransactionId(SimpleXMLElement $simpleXml)
+    private function addParentTransactionId()
     {
         if (array_key_exists(SeamlessFields::PARENT_TRANSACTION_ID, $this->payload)) {
-            $simpleXml->addChild(
+            $this->paymentXmlBuilder->addRawObject(
                 ResponseMappingXmlFields::PARENT_TRANSACTION_ID,
                 $this->payload[SeamlessFields::PARENT_TRANSACTION_ID]
             );
@@ -171,47 +182,42 @@ class SeamlessMapper implements MapperInterface
 
     /**
      * Add all the status information to our XML.
-     *
-     * @param SimpleXMLElement $simpleXml
      * @since 4.0.0
      */
-    private function addStatuses(SimpleXMLElement $simpleXml)
+    private function addStatuses()
     {
         $statuses = $this->extractStatusesFromResponse();
         if (count($statuses) > 0) {
-            $statusesXml = new SimpleXMLElement('<statuses></statuses>');
+            $statusesSimpleXmlBuilder = new XmlBuilder('statuses');
 
             foreach ($statuses as $status) {
                 $statusXml = $this->makeStatus($status);
-                $this->simpleXmlAppendNode($statusesXml, $statusXml);
+                $statusesSimpleXmlBuilder->addSimpleXmlObject($statusXml);
             }
-            //@TODO add shit simple xml shit
-            $this->simpleXmlAppendNode($simpleXml, $statusesXml);
+
+            $this->paymentXmlBuilder->addSimpleXmlObject($statusesSimpleXmlBuilder->getXml());
         }
     }
 
     /**
      * Add the credit card token to our XML.
-     *
-     * @param SimpleXMLElement $simpleXml
      * @since 4.0.0
      */
-    private function addCardToken(SimpleXMLElement $simpleXml)
+    private function addCard()
     {
         if (array_key_exists(SeamlessFields::TOKEN_ID, $this->payload) &&
             array_key_exists(SeamlessFields::MASKED_ACCOUNT_NUMBER, $this->payload)
         ) {
-            $card_token = new SimpleXMLElement('<card-token></card-token>');
-            $card_token->addChild(
+            $cardSimpleXmlBuilder = new XmlBuilder('card-token');
+            $cardSimpleXml = $cardSimpleXmlBuilder->addRawObject(
                 ResponseMappingXmlFields::TOKEN_ID,
                 $this->payload[SeamlessFields::TOKEN_ID]
-            );
-            $card_token->addChild(
+            )->addRawObject(
                 ResponseMappingXmlFields::MASKED_ACCOUNT_NUMBER,
                 $this->payload[SeamlessFields::MASKED_ACCOUNT_NUMBER]
-            );
-            //@TODO fix this shit
-            $this->simpleXmlAppendNode($simpleXml, $card_token);
+            )->getXml();
+
+            $this->paymentXmlBuilder->addSimpleXmlObject($cardSimpleXml);
         }
     }
 
@@ -297,24 +303,13 @@ class SeamlessMapper implements MapperInterface
      */
     private function makeStatus($statusData)
     {
-        $status = new SimpleXMLElement('<status></status>');
-        $status->addAttribute(StatusFields::CODE, $statusData[StatusFields::CODE]);
-        $status->addAttribute(StatusFields::DESCRIPTION, $statusData[StatusFields::DESCRIPTION]);
-        $status->addAttribute(StatusFields::SEVERITY, $statusData[StatusFields::SEVERITY]);
-
-        return $status;
-    }
-
-    /**
-     * @param SimpleXMLElement $appendTo
-     * @param SimpleXMLElement $from
-     *
-     * @since 4.0.0
-     */
-    private function simpleXmlAppendNode($appendTo, $from)
-    {
-        $toDom = dom_import_simplexml($appendTo);
-        $fromDom = dom_import_simplexml($from);
-        $toDom->appendChild($toDom->ownerDocument->importNode($fromDom, true));
+        $statusXmlBuilder = new XmlBuilder('status');
+        return $statusXmlBuilder->addAttributes(
+            [
+                StatusFields::CODE => $statusData[StatusFields::CODE],
+                StatusFields::DESCRIPTION => $statusData[StatusFields::DESCRIPTION],
+                StatusFields::SEVERITY => $statusData[StatusFields::SEVERITY],
+            ]
+        )->getXml();
     }
 }
