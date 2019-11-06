@@ -16,7 +16,7 @@ use Wirecard\PaymentSdk\Constant\SeamlessFields;
 use Wirecard\PaymentSdk\Constant\StatusFields;
 use Wirecard\PaymentSdk\Entity\FormFieldMap;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
-use Wirecard\PaymentSdk\Helper\XmlBuilder;
+use Wirecard\PaymentSdk\Helper\SimpleXmlBuilder;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
@@ -34,7 +34,7 @@ class SeamlessMapper implements MapperInterface
     private $payload;
 
     /**
-     * @var XmlBuilder
+     * @var SimpleXmlBuilder
      */
     private $paymentXmlBuilder;
 
@@ -46,7 +46,7 @@ class SeamlessMapper implements MapperInterface
     public function __construct($payload)
     {
         $this->payload = $payload;
-        $this->paymentXmlBuilder = new XmlBuilder('payment');
+        $this->paymentXmlBuilder = new SimpleXmlBuilder(ResponseMappingXmlFields::PAYMENT);
     }
 
     /**
@@ -55,10 +55,12 @@ class SeamlessMapper implements MapperInterface
      */
     public function map()
     {
-        $this->mapCommonSeamlessFields();
-        $this->addCard();
+        $this->mapMandatoryFields();
+        $this->mapOptionalFields();
 
         $paymentSimpleXml = $this->paymentXmlBuilder->getXml();
+
+        //@TODO Response Factory?
         if (array_key_exists(SeamlessFields::ACS_URL, $this->payload)) {
             return $this->makeFormInteractionResponse($paymentSimpleXml);
         }
@@ -71,10 +73,10 @@ class SeamlessMapper implements MapperInterface
     }
 
     /**
-     * Maps all pre-existing fields the seamless sends.
+     * map all mandatory fields
      * @since 4.0.0
      */
-    private function mapCommonSeamlessFields()
+    private function mapMandatoryFields()
     {
         $this->paymentXmlBuilder->addRawObject(
             ResponseMappingXmlFields::MERCHANT_ACCOUNT_ID,
@@ -110,11 +112,19 @@ class SeamlessMapper implements MapperInterface
             ResponseMappingXmlFields::REQUEST_ID,
             $this->payload[SeamlessFields::REQUEST_ID]
         );
+    }
 
+    /**
+     * map all optional fields
+     * @since 4.0.0
+     */
+    private function mapOptionalFields()
+    {
         $this->addRequestedAmount();
         $this->addThreeDInformation();
         $this->addParentTransactionId();
         $this->addStatuses();
+        $this->addCard();
     }
 
     /**
@@ -126,8 +136,8 @@ class SeamlessMapper implements MapperInterface
         if (array_key_exists(SeamlessFields::REQUESTED_AMOUNT, $this->payload) &&
             array_key_exists(SeamlessFields::REQUESTED_AMOUNT_CURRENCY, $this->payload)
         ) {
-            $amountSimpleXml = (new XmlBuilder(
-                'requested-amount',
+            $amountSimpleXml = (new SimpleXmlBuilder(
+                ResponseMappingXmlFields::REQUESTED_AMOUNT,
                 $this->payload[SeamlessFields::REQUESTED_AMOUNT]
             ))->addAttributes(
                 [
@@ -150,7 +160,7 @@ class SeamlessMapper implements MapperInterface
             array_key_exists(SeamlessFields::PAREQ, $this->payload) &&
             array_key_exists(SeamlessFields::CARDHOLDER_AUTHENTICATION_STATUS, $this->payload)
         ) {
-            $threeDSimpleXmlBuilder = new XmlBuilder('three-d');
+            $threeDSimpleXmlBuilder = new SimpleXmlBuilder(ResponseMappingXmlFields::THREE_D);
             $threeDSimpleXml = $threeDSimpleXmlBuilder->addRawObject(
                 ResponseMappingXmlFields::ACS_URL,
                 $this->payload[SeamlessFields::ACS_URL]
@@ -188,14 +198,13 @@ class SeamlessMapper implements MapperInterface
     {
         $statuses = $this->extractStatusesFromResponse();
         if (count($statuses) > 0) {
-            $statusesSimpleXmlBuilder = new XmlBuilder('statuses');
+            $statusesSimpleXmlBuilder = new SimpleXmlBuilder(ResponseMappingXmlFields::STATUSES);
 
             foreach ($statuses as $status) {
-                $statusXml = $this->makeStatus($status);
-                $statusesSimpleXmlBuilder->addSimpleXmlObject($statusXml);
+                $statusesSimpleXmlBuilder->addSimpleXmlObject($this->makeStatus($status));
             }
-
-            $this->paymentXmlBuilder->addSimpleXmlObject($statusesSimpleXmlBuilder->getXml());
+            $statusSimpleXml = $statusesSimpleXmlBuilder->getXml();
+            $this->paymentXmlBuilder->addSimpleXmlObject($statusSimpleXml);
         }
     }
 
@@ -208,7 +217,7 @@ class SeamlessMapper implements MapperInterface
         if (array_key_exists(SeamlessFields::TOKEN_ID, $this->payload) &&
             array_key_exists(SeamlessFields::MASKED_ACCOUNT_NUMBER, $this->payload)
         ) {
-            $cardSimpleXmlBuilder = new XmlBuilder('card-token');
+            $cardSimpleXmlBuilder = new SimpleXmlBuilder(ResponseMappingXmlFields::CARD_TOKEN);
             $cardSimpleXml = $cardSimpleXmlBuilder->addRawObject(
                 ResponseMappingXmlFields::TOKEN_ID,
                 $this->payload[SeamlessFields::TOKEN_ID]
@@ -226,6 +235,7 @@ class SeamlessMapper implements MapperInterface
      *
      * @param SimpleXMLElement $simpleXml
      * @return FormInteractionResponse
+     * @since 4.0.0
      */
     private function makeFormInteractionResponse(SimpleXMLElement $simpleXml)
     {
@@ -303,7 +313,7 @@ class SeamlessMapper implements MapperInterface
      */
     private function makeStatus($statusData)
     {
-        $statusXmlBuilder = new XmlBuilder('status');
+        $statusXmlBuilder = new SimpleXmlBuilder(ResponseMappingXmlFields::STATUS);
         return $statusXmlBuilder->addAttributes(
             [
                 StatusFields::CODE => $statusData[StatusFields::CODE],
