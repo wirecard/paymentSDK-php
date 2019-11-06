@@ -11,8 +11,12 @@ namespace Wirecard\PaymentSdk\Mapper\Response;
 
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
+use Wirecard\PaymentSdk\Transaction\IdealTransaction;
+use Wirecard\PaymentSdk\TransactionService;
 
 /**
+ * @TODO potential refactoring to abstract the data so no logic is here only creation of the mappers.
+ *
  * Class MapperFactory
  * @package Wirecard\PaymentSdk\Mapper
  * @since 4.0.0
@@ -48,9 +52,9 @@ class MapperFactory
     }
 
     /**
-     * @since 4.0.0
-     * @throws MalformedResponseException
      * @return MapperInterface
+     * @throws \Http\Client\Exception
+     * @since 4.0.0
      */
     public function create()
     {
@@ -59,13 +63,24 @@ class MapperFactory
                 return new SeamlessMapper($this->payload);
                 break;
             case $this->isPayPalResponse():
+                return new WithSignatureMapper($this->payload[self::FIELD_EPP_RESPONSE], $this->config);
+                break;
             case $this->isRatepayResponse():
+                return new WithSignatureMapper($this->payload[self::FIELD_BASE64_PAYLOAD], $this->config);
+                break;
             case $this->isSyncResponse():
-                return new WithSignatureMapper();
+                return new WithSignatureMapper($this->payload[self::FIELD_SYNC_RESPONSE], $this->config);
                 break;
             case $this->isIdealResponse():
-                return new WithoutSignatureMapper();
+                $transactionService = new TransactionService($this->config);
+                $payload = $transactionService->getTransactionByRequestId(
+                    $this->payload[self::FIELD_REQUEST_ID],
+                    IdealTransaction::NAME,
+                    false
+                );
+                return new WithoutSignatureMapper($payload, $this->config);
                 break;
+
             default:
                 throw new MalformedResponseException('Missing response in payload.');
                 break;
