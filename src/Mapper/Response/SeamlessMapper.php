@@ -10,16 +10,15 @@
 namespace Wirecard\PaymentSdk\Mapper\Response;
 
 use SimpleXMLElement;
-use Wirecard\PaymentSdk\Constant\FormFields;
 use Wirecard\PaymentSdk\Constant\ResponseMappingXmlFields;
 use Wirecard\PaymentSdk\Constant\SeamlessFields;
 use Wirecard\PaymentSdk\Constant\StatusFields;
-use Wirecard\PaymentSdk\Entity\FormFieldMap;
-use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Helper\SimpleXmlBuilder;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\FormInteractionResponse;
+use Wirecard\PaymentSdk\Response\ResponseFactory;
 use Wirecard\PaymentSdk\Response\SuccessResponse;
+use Wirecard\PaymentSdk\Response\XmlResponseData;
 
 /**
  * Class SeamlessMapper
@@ -62,16 +61,10 @@ class SeamlessMapper implements MapperInterface
 
         $paymentSimpleXml = $this->paymentXmlBuilder->getXml();
 
-        //@TODO implementation of a response factory to create the appropriate response type.
-        if (array_key_exists(SeamlessFields::ACS_URL, $this->payload)) {
-            return $this->makeFormInteractionResponse($paymentSimpleXml);
-        }
+        $xmlResponseData = new XmlResponseData($paymentSimpleXml, $this->payload);
+        $responseFactory = new ResponseFactory($xmlResponseData);
 
-        if ($this->payload['transaction_state'] === 'success') {
-            return new SuccessResponse($paymentSimpleXml);
-        }
-
-        return new FailureResponse($paymentSimpleXml);
+        return $responseFactory->create();
     }
 
     /**
@@ -230,50 +223,6 @@ class SeamlessMapper implements MapperInterface
 
             $this->paymentXmlBuilder->addSimpleXmlObject($cardSimpleXml);
         }
-    }
-
-    /**
-     * Build a FormInteractionResponse and add the form fields for a successful redirect
-     *
-     * @param SimpleXMLElement $simpleXml
-     * @return FormInteractionResponse
-     * @since 4.0.0
-     */
-    private function makeFormInteractionResponse(SimpleXMLElement $simpleXml)
-    {
-        if (!array_key_exists(SeamlessFields::PROCESSING_URL, $this->payload)) {
-            throw new MalformedResponseException('Missing notification_url_1 in response');
-        }
-
-        $fields = $this->makeFormFields();
-        $response = new FormInteractionResponse($simpleXml, $this->payload[SeamlessFields::ACS_URL]);
-        $response->setFormFields($fields);
-
-        return $response;
-    }
-
-    /**
-     * Build the form fields required for a 3DS FormInteractionResponse
-     *
-     * @return FormFieldMap;
-     * @since 4.0.0
-     */
-    private function makeFormFields()
-    {
-        $fields = new FormFieldMap();
-        $fields->add(FormFields::FORM_FIELD_TERM_URL, (string)$this->payload[SeamlessFields::PROCESSING_URL]);
-        $fields->add(FormFields::FORM_FIELD_PAREQ, (string)$this->payload[SeamlessFields::PAREQ]);
-        $fields->add(
-            FormFields::FORM_FIELD_MD,
-            http_build_query([
-                SeamlessFields::MERCHANT_ACCOUNT_ID => $this->payload[SeamlessFields::MERCHANT_ACCOUNT_ID],
-                SeamlessFields::TRANSACTION_TYPE => $this->payload[SeamlessFields::TRANSACTION_TYPE],
-                SeamlessFields::TRANSACTION_ID => $this->payload[SeamlessFields::TRANSACTION_ID],
-                SeamlessFields::NONCE3D => $this->payload[SeamlessFields::NONCE3D],
-            ])
-        );
-
-        return $fields;
     }
 
     /**
