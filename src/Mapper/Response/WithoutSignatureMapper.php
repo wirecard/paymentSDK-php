@@ -9,10 +9,40 @@
 
 namespace Wirecard\PaymentSdk\Mapper\Response;
 
+use Wirecard\PaymentSdk\Config\Config;
+use Wirecard\PaymentSdk\Mapper\ResponseMapper;
+
+/**
+ * Class WithoutSignatureMapper
+ * @package Wirecard\PaymentSdk\Mapper\Response
+ * @since 4.0.0
+ */
 class WithoutSignatureMapper implements MapperInterface
 {
+    /**
+     * @var string
+     */
+    private $payload;
+
+    /**
+     * @var ResponseMapper
+     */
+    private $oldResponseMapper;
+
+    /**
+     * WithoutSignatureMapper constructor.
+     * @param string $payload
+     * @param Config $config
+     * @since 4.0.0
+     */
+    public function __construct($payload, Config $config)
+    {
+        $this->payload = $payload;
+        $this->oldResponseMapper = new ResponseMapper($config);
+    }
+
     public function map()
     {
-        // TODO: Implement map() method.
+        return $this->oldResponseMapper->map($this->payload);
     }
 }
