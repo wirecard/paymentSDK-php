@@ -9,7 +9,18 @@
 
 namespace Wirecard\PaymentSdk\Mapper\Response;
 
+use Wirecard\PaymentSdk\Response\Response;
+
+/**
+ * Interface MapperInterface
+ * @package Wirecard\PaymentSdk\Mapper\Response
+ * @since 4.0.0
+ */
 interface MapperInterface
 {
+    /**
+     * @return Response
+     * @since 4.0.0
+     */
     public function map();
 }
