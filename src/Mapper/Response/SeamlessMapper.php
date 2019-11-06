@@ -51,16 +51,18 @@ class SeamlessMapper implements MapperInterface
 
     /**
      * @return FailureResponse|FormInteractionResponse|SuccessResponse
-     * @since 4.0.0
+     * @since 4.0.0 Refactoring of the ResponseMapper, everything for nvp mapping is
+     * taken out of the ResponseMapper and grouped here into methods.
      */
     public function map()
     {
+        //@TODO Check which fields are mandatory and which are skipped or mapped only when they are send.
         $this->mapMandatoryFields();
         $this->mapOptionalFields();
 
         $paymentSimpleXml = $this->paymentXmlBuilder->getXml();
 
-        //@TODO Response Factory?
+        //@TODO implementation of a response factory to create the appropriate response type.
         if (array_key_exists(SeamlessFields::ACS_URL, $this->payload)) {
             return $this->makeFormInteractionResponse($paymentSimpleXml);
         }
