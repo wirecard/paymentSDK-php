@@ -196,7 +196,15 @@ class SeamlessMapper implements MapperInterface
             $statusesSimpleXmlBuilder = new SimpleXmlBuilder(ResponseMappingXmlFields::STATUSES);
 
             foreach ($statuses as $status) {
-                $statusesSimpleXmlBuilder->addSimpleXmlObject($this->makeStatus($status));
+                $statusesSimpleXmlBuilder->addSimpleXmlObject(
+                    (new SimpleXmlBuilder(ResponseMappingXmlFields::STATUS))->addAttributes(
+                        [
+                            StatusFields::CODE => $status[StatusFields::CODE],
+                            StatusFields::DESCRIPTION => $status[StatusFields::DESCRIPTION],
+                            StatusFields::SEVERITY => $status[StatusFields::SEVERITY],
+                        ]
+                    )->getXml()
+                );
             }
             $statusSimpleXml = $statusesSimpleXmlBuilder->getXml();
             $this->paymentXmlBuilder->addSimpleXmlObject($statusSimpleXml);
@@ -253,24 +261,5 @@ class SeamlessMapper implements MapperInterface
         }
 
         return $statuses;
-    }
-
-    /**
-     * Maps status data to a well-formed XML element
-     *
-     * @param $statusData
-     * @return SimpleXMLElement
-     * @since 4.0.0
-     */
-    private function makeStatus($statusData)
-    {
-        $statusXmlBuilder = new SimpleXmlBuilder(ResponseMappingXmlFields::STATUS);
-        return $statusXmlBuilder->addAttributes(
-            [
-                StatusFields::CODE => $statusData[StatusFields::CODE],
-                StatusFields::DESCRIPTION => $statusData[StatusFields::DESCRIPTION],
-                StatusFields::SEVERITY => $statusData[StatusFields::SEVERITY],
-            ]
-        )->getXml();
     }
 }
