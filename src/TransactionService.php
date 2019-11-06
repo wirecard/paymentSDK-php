@@ -26,7 +26,6 @@ use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
 use Wirecard\PaymentSdk\Helper\RequestInspector;
-use Wirecard\PaymentSdk\Helper\ResponseType;
 use Wirecard\PaymentSdk\Mapper\RequestMapper;
 use Wirecard\PaymentSdk\Mapper\Response\MapperFactory;
 use Wirecard\PaymentSdk\Mapper\ResponseMapper;
@@ -164,11 +163,8 @@ class TransactionService
 
     /**
      * @param array $payload
-     * @throws MalformedResponseException
-     * @throws UnconfiguredPaymentMethodException
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
      * @return FailureResponse|InteractionResponse|SuccessResponse|Response
+     * @throws \Http\Client\Exception
      */
     public function handleResponse(array $payload)
     {
@@ -315,38 +311,6 @@ class TransactionService
     }
 
     /**
-     * @throws UnconfiguredPaymentMethodException
-     * @return string
-     *
-     * @deprecated This method is deprecated since 2.2.0 if you still are using it please update your front-end so that
-     * it uses getCreditCardUiWithData.
-     */
-    public function getDataForUpiUi(
-        $language = 'en',
-        Amount $amount = null,
-        $notificationUrl = null,
-        $paymentAction = 'authorization',
-        array $additionalFields = []
-    ) {
-        /** @var CreditCardConfig $creditCardConfig */
-        $creditCardConfig = $this->config->get(UpiTransaction::NAME);
-        $creditCard = new UpiTransaction();
-        $creditCard->setConfig($creditCardConfig);
-        $creditCard->setAmount($amount);
-        $creditCard->setNotificationUrl($notificationUrl);
-
-        if ($additionalFields) {
-            $customFields = new CustomFieldCollection();
-            foreach ($additionalFields as $key => $value) {
-                $customFields->add(new CustomField($key, $value));
-            }
-            $creditCard->setCustomFields($customFields);
-        }
-
-        return $this->getCreditCardUiWithData($creditCard, $paymentAction, $language);
-    }
-
-    /**
      * @return string
      */
     public function getRatePayInvoiceDeviceIdent()
@@ -395,12 +359,8 @@ class TransactionService
 
     /**
      * @param Transaction $transaction
-     * @throws MalformedResponseException
-     * @throws UnconfiguredPaymentMethodException
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
-     * @throws MandatoryFieldMissingException|UnsupportedOperationException
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
+     * @throws \Http\Client\Exception
      */
     public function reserve(Transaction $transaction)
     {
@@ -412,12 +372,8 @@ class TransactionService
 
     /**
      * @param Transaction $transaction
-     * @throws MalformedResponseException
-     * @throws UnconfiguredPaymentMethodException
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
-     * @throws MandatoryFieldMissingException
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
+     * @throws \Http\Client\Exception
      */
     public function pay(Transaction $transaction)
     {
@@ -430,12 +386,8 @@ class TransactionService
      * we try a refund process call.
      *
      * @param Transaction $transaction
-     * @throws MalformedResponseException
-     * @throws UnconfiguredPaymentMethodException
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
-     * @throws MandatoryFieldMissingException
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
+     * @throws \Http\Client\Exception
      */
     public function cancel(Transaction $transaction)
     {
@@ -452,12 +404,8 @@ class TransactionService
 
     /**
      * @param Transaction $transaction
-     * @throws MalformedResponseException
-     * @throws UnconfiguredPaymentMethodException
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
-     * @throws MandatoryFieldMissingException
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
+     * @throws \Http\Client\Exception
      */
     public function credit(Transaction $transaction)
     {
@@ -481,8 +429,8 @@ class TransactionService
     /**
      * @param $endpoint
      * @param string $requestBody
-     * @throws \RuntimeException
      * @return string
+     * @throws \Http\Client\Exception
      */
     private function sendPostRequest($endpoint, $requestBody)
     {
@@ -529,13 +477,9 @@ class TransactionService
     /**
      * @param Transaction|Reservable $transaction
      * @param string $operation
-     * @throws UnconfiguredPaymentMethodException
-     * @throws MalformedResponseException
-     * @throws MandatoryFieldMissingException
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
      *
+     * @throws \Http\Client\Exception
      * @since 3.7.2 Refactor credit card fallback
      */
     public function process(Transaction $transaction, $operation)
@@ -602,13 +546,9 @@ class TransactionService
      * we do a fallback from a 3-D to an SSL credit card transaction
      *
      * @param CreditCardTransaction $transaction
-     * @throws UnconfiguredPaymentMethodException
-     * @throws MandatoryFieldMissingException
-     * @throws \RuntimeException
-     * @throws MalformedResponseException
-     * @throws \InvalidArgumentException
      * @return Response
      *
+     * @throws \Http\Client\Exception
      * @since 3.7.2 Remove $response param
      */
     private function processFallback(CreditCardTransaction $transaction)
@@ -655,10 +595,9 @@ class TransactionService
     /**
      * @param $transactionId
      * @param $paymentMethod
-     * @param $acceptJson
-     * @throws UnconfiguredPaymentMethodException
-     * @throws \RuntimeException
+     * @param bool $acceptJson
      * @return null|array|string
+     * @throws \Http\Client\Exception
      */
     public function getTransactionByTransactionId($transactionId, $paymentMethod, $acceptJson = true)
     {
@@ -741,9 +680,10 @@ class TransactionService
     }
 
     /**
-     * @since 2.1.0
      * @param array $payload
      * @return FailureResponse|FormInteractionResponse|SuccessResponse
+     * @throws \Http\Client\Exception
+     * @since 2.1.0
      */
     public function processJsResponse($payload)
     {
@@ -754,10 +694,11 @@ class TransactionService
     /**
      * Recursively search for a parent transaction until it finds no parent-transaction-id anymore. Aggregate all of the
      * results received in the group transaction and return them in ascending order by date.
-     * @since 3.1.0
      * @param $transactionId
      * @param $paymentMethod
      * @return array
+     * @throws \Http\Client\Exception
+     * @since 3.1.0
      */
     public function getGroupOfTransactions($transactionId, $paymentMethod)
     {
