@@ -14,7 +14,6 @@ use RobRichards\XMLSecLibs\XMLSecurityDSig;
 use SimpleXMLElement;
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Constant\FormFields;
-use Wirecard\PaymentSdk\Constant\SeamlessFields;
 use Wirecard\PaymentSdk\Entity\FormFieldMap;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -193,54 +192,6 @@ class ResponseMapper
 
     /**
      * @throws MalformedResponseException
-     * @throws \InvalidArgumentException
-     * @return FormInteractionResponse
-     *
-     * @deprecated This method is deprecated since 2.1.0 if you still are using it please update your front-end so that
-     * it uses mapSeamlessResponse.
-     */
-    private function mapThreeDResponse()
-    {
-        if (!($this->transaction instanceof CreditCardTransaction)) {
-            throw new \InvalidArgumentException('Trying to create a 3D response from a non-3D transaction.');
-        }
-        if (!isset($this->simpleXml->{'three-d'})) {
-            throw new MalformedResponseException('Missing three-d element in enrollment-check response.');
-        }
-
-        $threeD = $this->simpleXml->{'three-d'};
-
-        if (!isset($threeD->{'acs-url'})) {
-            throw new MalformedResponseException('Missing acs redirect url in enrollment-check response.');
-        }
-
-        $redirectUrl = (string)$threeD->{'acs-url'};
-
-        $response = new FormInteractionResponse($this->simpleXml, $redirectUrl);
-
-        if (!isset($threeD->{'pareq'})) {
-            throw new MalformedResponseException('Missing pareq in enrollment-check response.');
-        }
-
-        $fields = new FormFieldMap();
-        $fields->add(FormFields::FORM_FIELD_TERM_URL, $this->transaction->getTermUrl());
-        $fields->add(FormFields::FORM_FIELD_PAREQ, (string)$threeD->{'pareq'});
-        $fields->add(
-            FormFields::FORM_FIELD_MD,
-            http_build_query([
-                SeamlessFields::MERCHANT_ACCOUNT_ID => $this->simpleXml->{'merchant-account-id'},
-                SeamlessFields::TRANSACTION_TYPE => $this->transaction->retrieveOperationType(),
-                SeamlessFields::TRANSACTION_ID => $response->getTransactionId(),
-            ])
-        );
-
-        $response->setFormFields($fields);
-
-        return $response;
-    }
-
-    /**
-     * @throws MalformedResponseException
      * @return FormInteractionResponse
      */
     private function redirectToSuccessUrlWithPayload()
@@ -263,8 +214,8 @@ class ResponseMapper
      */
     private function mapSuccessResponse()
     {
-        if ((string)$this->simpleXml->{'transaction-type'} === CreditCardTransaction::TYPE_CHECK_ENROLLMENT) {
-            return $this->mapThreeDResponse();
+        if ($this->isIgnorableTransaction()) {
+            die();
         }
 
         $paymentMethod = $this->getPaymentMethod();
@@ -278,5 +229,21 @@ class ResponseMapper
         }
 
         return new SuccessResponse($this->simpleXml);
+    }
+
+    /**
+     * @return bool
+     * @since 4.0.0
+     */
+    private function isIgnorableTransaction()
+    {
+        return in_array(
+            (string) $this->simpleXml->{'transaction-type'},
+            [
+                CreditCardTransaction::TYPE_CHECK_ENROLLMENT,
+                CreditCardTransaction::TYPE_CHECK_PAYER_RESPONSE
+            ],
+            true
+        );
     }
 }
