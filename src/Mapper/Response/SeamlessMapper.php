@@ -9,7 +9,6 @@
 
 namespace Wirecard\PaymentSdk\Mapper\Response;
 
-use SimpleXMLElement;
 use Wirecard\PaymentSdk\Constant\ResponseMappingXmlFields;
 use Wirecard\PaymentSdk\Constant\SeamlessFields;
 use Wirecard\PaymentSdk\Constant\StatusFields;

@@ -10,28 +10,21 @@
 namespace Wirecard\PaymentSdk\Mapper\Response;
 
 use Wirecard\PaymentSdk\Config\Config;
+use Wirecard\PaymentSdk\Entity\Payload\IdealPayloadData;
+use Wirecard\PaymentSdk\Entity\Payload\NvpPayloadData;
+use Wirecard\PaymentSdk\Entity\Payload\PayloadDataInterface;
+use Wirecard\PaymentSdk\Entity\Payload\PayPalPayloadData;
+use Wirecard\PaymentSdk\Entity\Payload\RatepayPayloadData;
+use Wirecard\PaymentSdk\Entity\Payload\SyncPayloadData;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
-use Wirecard\PaymentSdk\Transaction\IdealTransaction;
-use Wirecard\PaymentSdk\TransactionService;
 
 /**
- * @TODO potential refactoring to abstract the data so no logic is here only creation of the mappers.
- *
  * Class MapperFactory
  * @package Wirecard\PaymentSdk\Mapper
  * @since 4.0.0
  */
 class MapperFactory
 {
-    const FIELD_EC = 'ec';
-    const FIELD_TRXID = 'trxid';
-    const FIELD_REQUEST_ID = 'request_id';
-    const FIELD_EPP_RESPONSE = 'eppresponse';
-    const FIELD_BASE64_PAYLOAD = 'base64payload';
-    const FIELD_PSP_NAME = 'psp_name';
-    const FIELD_SYNC_RESPONSE = 'sync_response';
-    const FIELD_RESPONSE_SIGNATURE = 'response_signature_v2';
-
     /**
      * @var array
      */
@@ -44,8 +37,11 @@ class MapperFactory
 
     /**
      * ResponseMapperFactory constructor.
+     * @param PayloadDataInterface $payload
+     * @param Config $config
+     * @since 4.0.0
      */
-    public function __construct(array $payload, Config $config)
+    public function __construct(PayloadDataInterface $payload, Config $config)
     {
         $this->payload = $payload;
         $this->config = $config;
@@ -53,81 +49,25 @@ class MapperFactory
 
     /**
      * @return MapperInterface
-     * @throws \Http\Client\Exception
      * @since 4.0.0
      */
     public function create()
     {
-        switch (true) {
-            case $this->isNvpResponse():
-                return new SeamlessMapper($this->payload);
+        switch ($this->payload->getType()) {
+            case NvpPayloadData::TYPE:
+                return new SeamlessMapper($this->payload->getData());
                 break;
-            case $this->isPayPalResponse():
-                return new WithSignatureMapper($this->payload[self::FIELD_EPP_RESPONSE], $this->config);
+            case PayPalPayloadData::TYPE:
+            case RatepayPayloadData::TYPE:
+            case SyncPayloadData::TYPE:
+                return new WithSignatureMapper($this->payload->getData(), $this->config);
                 break;
-            case $this->isRatepayResponse():
-                return new WithSignatureMapper($this->payload[self::FIELD_BASE64_PAYLOAD], $this->config);
+            case IdealPayloadData::TYPE:
+                return new WithoutSignatureMapper($this->payload->getData(), $this->config);
                 break;
-            case $this->isSyncResponse():
-                return new WithSignatureMapper($this->payload[self::FIELD_SYNC_RESPONSE], $this->config);
-                break;
-            case $this->isIdealResponse():
-                $transactionService = new TransactionService($this->config);
-                $payload = $transactionService->getTransactionByRequestId(
-                    $this->payload[self::FIELD_REQUEST_ID],
-                    IdealTransaction::NAME,
-                    false
-                );
-                return new WithoutSignatureMapper($payload, $this->config);
-                break;
-
             default:
                 throw new MalformedResponseException('Missing response in payload.');
                 break;
         }
-    }
-
-    /**
-     * @return boolean
-     * @since 4.0.0
-     */
-    private function isIdealResponse()
-    {
-        return array_key_exists(self::FIELD_EC, $this->payload) &&
-            array_key_exists(self::FIELD_TRXID, $this->payload) &&
-            array_key_exists(self::FIELD_REQUEST_ID, $this->payload);
-    }
-    /**
-     * @return boolean
-     * @since 4.0.0
-     */
-    private function isPayPalResponse()
-    {
-        return array_key_exists(self::FIELD_EPP_RESPONSE, $this->payload);
-    }
-    /**
-     * @return boolean
-     * @since 4.0.0
-     */
-    private function isRatepayResponse()
-    {
-        return array_key_exists(self::FIELD_BASE64_PAYLOAD, $this->payload) &&
-            array_key_exists(self::FIELD_PSP_NAME, $this->payload);
-    }
-    /**
-     * @return boolean
-     * @since 4.0.0
-     */
-    private function isSyncResponse()
-    {
-        return array_key_exists(self::FIELD_SYNC_RESPONSE, $this->payload);
-    }
-    /**
-     * @return boolean
-     * @since 4.0.0
-     */
-    private function isNvpResponse()
-    {
-        return array_key_exists(self::FIELD_RESPONSE_SIGNATURE, $this->payload);
     }
 }

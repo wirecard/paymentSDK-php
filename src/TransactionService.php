@@ -21,6 +21,7 @@ use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\CustomField;
 use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
+use Wirecard\PaymentSdk\Entity\Payload\PayloadDataFactory;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnconfiguredPaymentMethodException;
@@ -165,10 +166,15 @@ class TransactionService
      * @param array $payload
      * @return FailureResponse|InteractionResponse|SuccessResponse|Response
      * @throws \Http\Client\Exception
+     * @since 4.0.0 Refactored
      */
     public function handleResponse(array $payload)
     {
-        $responseMapperFactory = new MapperFactory($payload, $this->config);
+        $payloadDataFactory = new PayloadDataFactory($payload, $this->config);
+        $responseMapperFactory = new MapperFactory(
+            $payloadDataFactory->create(),
+            $this->config
+        );
         $mapper = $responseMapperFactory->create();
 
         return $mapper->map();
