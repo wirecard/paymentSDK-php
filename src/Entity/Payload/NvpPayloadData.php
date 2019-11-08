@@ -9,6 +9,8 @@
 
 namespace Wirecard\PaymentSdk\Entity\Payload;
 
+use Wirecard\PaymentSdk\Mapper\Response\SeamlessMapper;
+
 /**
  * Class NvpPayloadData
  * @package Wirecard\PaymentSdk\Entity\Payload
@@ -16,8 +18,6 @@ namespace Wirecard\PaymentSdk\Entity\Payload;
  */
 class NvpPayloadData implements PayloadDataInterface
 {
-    const TYPE = 'nvp';
-
     /**
      * @var array
      */
@@ -34,20 +34,11 @@ class NvpPayloadData implements PayloadDataInterface
     }
 
     /**
-     * @return array
-     * @since 4.0.0
-     */
-    public function getData()
-    {
-        return $this->payload;
-    }
-
-    /**
      * @return string
      * @since 4.0.0
      */
-    public function getType()
+    public function getResponseMapper()
     {
-        return self::TYPE;
+        return new SeamlessMapper($this->payload);
     }
 }

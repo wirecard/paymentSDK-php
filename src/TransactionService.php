@@ -171,13 +171,10 @@ class TransactionService
     public function handleResponse(array $payload)
     {
         $payloadDataFactory = new PayloadDataFactory($payload, $this->config);
-        $responseMapperFactory = new MapperFactory(
-            $payloadDataFactory->create(),
-            $this->config
-        );
-        $mapper = $responseMapperFactory->create();
+        $responseMapperFactory = new MapperFactory($payloadDataFactory->create());
+        $responseMapper = $responseMapperFactory->create();
 
-        return $mapper->map();
+        return $responseMapper->map();
     }
 
     /**

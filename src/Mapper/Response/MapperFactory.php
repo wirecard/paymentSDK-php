@@ -31,20 +31,13 @@ class MapperFactory
     private $payload;
 
     /**
-     * @var Config
-     */
-    private $config;
-
-    /**
      * ResponseMapperFactory constructor.
      * @param PayloadDataInterface $payload
-     * @param Config $config
      * @since 4.0.0
      */
-    public function __construct(PayloadDataInterface $payload, Config $config)
+    public function __construct(PayloadDataInterface $payload)
     {
         $this->payload = $payload;
-        $this->config = $config;
     }
 
     /**
@@ -53,21 +46,6 @@ class MapperFactory
      */
     public function create()
     {
-        switch ($this->payload->getType()) {
-            case NvpPayloadData::TYPE:
-                return new SeamlessMapper($this->payload->getData());
-                break;
-            case PayPalPayloadData::TYPE:
-            case RatepayPayloadData::TYPE:
-            case SyncPayloadData::TYPE:
-                return new WithSignatureMapper($this->payload->getData(), $this->config);
-                break;
-            case IdealPayloadData::TYPE:
-                return new WithoutSignatureMapper($this->payload->getData(), $this->config);
-                break;
-            default:
-                throw new MalformedResponseException('Missing response in payload.');
-                break;
-        }
+        return $this->payload->getResponseMapper();
     }
 }

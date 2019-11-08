@@ -11,7 +11,7 @@ namespace Wirecard\PaymentSdk\Helper;
 
 use http\Exception\InvalidArgumentException;
 
-class SimpleXmlBuilder
+class XmlBuilder
 {
     /**
      * @var \SimpleXMLElement
@@ -20,17 +20,17 @@ class SimpleXmlBuilder
 
     /**
      * XmlBuilder constructor.
-     * @param string $namespace
-     * @param string $value
+     * @param string $nodeName
+     * @param string $nodeValue
      * @since 4.0.0
      */
-    public function __construct($namespace, $value = '')
+    public function __construct($nodeName, $nodeValue = '')
     {
-        if (!is_string($namespace)) {
+        if (!is_string($nodeName)) {
             throw new InvalidArgumentException('The namespace provided is not of type string');
         }
 
-        $this->xml = new \SimpleXMLElement('<' . $namespace .'>' . $value . '</' . $namespace . '>');
+        $this->xml = new \SimpleXMLElement('<' . $nodeName .'>' . htmlentities($nodeValue) . '</' . $nodeName . '>');
     }
 
     /**

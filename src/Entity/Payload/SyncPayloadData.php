@@ -9,7 +9,10 @@
 
 namespace Wirecard\PaymentSdk\Entity\Payload;
 
+use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Constant\PayloadFields;
+use Wirecard\PaymentSdk\Mapper\Response\MapperInterface;
+use Wirecard\PaymentSdk\Mapper\Response\WithSignatureMapper;
 
 /**
  * Class SyncPayloadData
@@ -18,42 +21,38 @@ use Wirecard\PaymentSdk\Constant\PayloadFields;
  */
 class SyncPayloadData implements PayloadDataInterface
 {
-    const TYPE = 'sync';
-
     /**
      * @var string
      */
     private $payload;
 
     /**
+     * @var Config
+     */
+    private $config;
+
+    /**
      * SyncPayloadData constructor.
      * @param array $payload
+     * @param Config $config
      * @since 4.0.0
      */
-    public function __construct(array $payload)
+    public function __construct(array $payload, Config $config)
     {
         if (!$payload[PayloadFields::FIELD_SYNC_RESPONSE]) {
             throw new \InvalidArgumentException('The '. PayloadFields::FIELD_SYNC_RESPONSE .' is missing in payload');
         }
 
         $this->payload = $payload[PayloadFields::FIELD_SYNC_RESPONSE];
+        $this->config = $config;
     }
 
     /**
-     * @return string
+     * @return MapperInterface
      * @since 4.0.0
      */
-    public function getData()
+    public function getResponseMapper()
     {
-        return $this->payload;
-    }
-
-    /**
-     * @return string
-     * @since 4.0.0
-     */
-    public function getType()
-    {
-        return self::TYPE;
+        return new WithSignatureMapper($this->payload, $this->config);
     }
 }
