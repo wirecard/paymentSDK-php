@@ -11,6 +11,8 @@ namespace Wirecard\PaymentSdk\Entity\Payload;
 
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Constant\PayloadFields;
+use Wirecard\PaymentSdk\Mapper\Response\MapperInterface;
+use Wirecard\PaymentSdk\Mapper\Response\WithoutSignatureMapper;
 use Wirecard\PaymentSdk\Transaction\IdealTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
@@ -21,12 +23,15 @@ use Wirecard\PaymentSdk\TransactionService;
  */
 class IdealPayloadData implements PayloadDataInterface
 {
-    const TYPE = 'ideal';
-
     /**
      * @var array
      */
     private $payload;
+
+    /**
+     * @var Config
+     */
+    private $config;
 
     /**
      * IdealPayloadData constructor.
@@ -43,23 +48,16 @@ class IdealPayloadData implements PayloadDataInterface
             IdealTransaction::NAME,
             false
         );
+
+        $this->config = $config;
     }
 
     /**
-     * @return string
+     * @return MapperInterface
      * @since 4.0.0
      */
-    public function getData()
+    public function getResponseMapper()
     {
-        return $this->payload;
-    }
-
-    /**
-     * @return string
-     * @since 4.0.0
-     */
-    public function getType()
-    {
-        return self::TYPE;
+        return new WithoutSignatureMapper($this->payload, $this->config);
     }
 }

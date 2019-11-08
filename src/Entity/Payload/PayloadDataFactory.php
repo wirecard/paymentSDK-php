@@ -54,15 +54,15 @@ class PayloadDataFactory
         }
 
         if ($this->isSyncResponse()) {
-            return new SyncPayloadData($this->payload);
+            return new SyncPayloadData($this->payload, $this->config);
         }
 
         if ($this->isRatepayResponse()) {
-            return new RatepayPayloadData($this->payload);
+            return new RatepayPayloadData($this->payload, $this->config);
         }
 
         if ($this->isPayPalResponse()) {
-            return new PayPalPayloadData($this->payload);
+            return new PayPalPayloadData($this->payload, $this->config);
         }
 
         if ($this->isIdealResponse()) {
