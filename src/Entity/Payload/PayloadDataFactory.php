@@ -80,7 +80,7 @@ class PayloadDataFactory
     {
         return array_key_exists(PayloadFields::FIELD_EC, $this->payload) &&
             array_key_exists(PayloadFields::FIELD_TRXID, $this->payload) &&
-            array_key_exists(PayloadFields::REQUEST_ID, $this->payload);
+            array_key_exists(PayloadFields::FIELD_REQUEST_ID, $this->payload);
     }
 
     /**

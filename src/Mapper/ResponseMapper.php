@@ -225,6 +225,7 @@ class ResponseMapper
         $fields = new FormFieldMap();
         $fields->add(FormFields::FORM_FIELD_TERM_URL, $this->transaction->getTermUrl());
         $fields->add(FormFields::FORM_FIELD_PAREQ, (string)$threeD->{'pareq'});
+        //field md is constructed with seamless fields as the keys are the same
         $fields->add(
             FormFields::FORM_FIELD_MD,
             http_build_query([

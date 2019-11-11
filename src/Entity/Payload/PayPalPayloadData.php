@@ -36,6 +36,7 @@ class PayPalPayloadData implements PayloadDataInterface
      * PayPalPayloadData constructor.
      * @param array $payload
      * @param Config $config
+     * @throws \InvalidArgumentException
      * @since 4.0.0
      */
     public function __construct(array $payload, Config $config)
