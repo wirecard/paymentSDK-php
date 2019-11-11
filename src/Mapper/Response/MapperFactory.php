@@ -31,7 +31,7 @@ class MapperFactory
     private $payload;
 
     /**
-     * ResponseMapperFactory constructor.
+     * ResponseMapperFactory constructor
      * @param PayloadDataInterface $payload
      * @since 4.0.0
      */

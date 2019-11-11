@@ -27,7 +27,7 @@ class WithoutSignatureMapper implements MapperInterface
     /**
      * @var ResponseMapper
      */
-    private $oldResponseMapper;
+    private $legacyResponseMapper;
 
     /**
      * WithoutSignatureMapper constructor.
@@ -37,12 +37,13 @@ class WithoutSignatureMapper implements MapperInterface
      */
     public function __construct($payload, Config $config)
     {
+        //@TODO remove legacy response mapper and refactor it.
         $this->payload = $payload;
-        $this->oldResponseMapper = new ResponseMapper($config);
+        $this->legacyResponseMapper = new ResponseMapper($config);
     }
 
     public function map()
     {
-        return $this->oldResponseMapper->map($this->payload);
+        return $this->legacyResponseMapper->map($this->payload);
     }
 }

@@ -33,6 +33,7 @@ class ResponseFactory
 
     /**
      * @return FailureResponse|FormInteractionResponse|SuccessResponse
+     * @throws \InvalidArgumentException+
      * @since 4.0.0
      */
     public function create()
@@ -53,7 +54,9 @@ class ResponseFactory
                 return new FailureResponse($this->responseData->getData());
                 break;
             default:
-                throw new \InvalidArgumentException('An response object cannot be created');
+                throw new \InvalidArgumentException(
+                    'A response object was unable to be created from the provided response data.'
+                );
                 break;
         }
     }

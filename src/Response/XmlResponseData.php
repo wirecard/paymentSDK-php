@@ -47,7 +47,7 @@ class XmlResponseData implements ResponseDataInterface
      * XmlResponseData constructor.
      * @param \SimpleXMLElement $xmlData
      * @param array $payload
-     * @aince 4.0.0
+     * @since 4.0.0
      */
     public function __construct(\SimpleXMLElement $xmlData, array $payload)
     {
@@ -105,7 +105,7 @@ class XmlResponseData implements ResponseDataInterface
     }
 
     /**
-     * @return mixed|string
+     * @return string
      * @since 4.0.0
      */
     public function getUrl()
@@ -116,7 +116,8 @@ class XmlResponseData implements ResponseDataInterface
     /**
      * Build the form fields required for a 3DS FormInteractionResponse
      *
-     * @return FormFieldMap;
+     * @return FormFieldMap
+     * @throws MalformedResponseException
      * @since 4.0.0
      */
     private function makeFormFields()

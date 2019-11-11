@@ -25,6 +25,6 @@ class PayloadFields
     const FIELD_SYNC_RESPONSE = 'sync_response';
     const FIELD_RESPONSE_SIGNATURE = 'response_signature_v2';
     const FIELD_BASE64_PAYLOAD = 'base64payload';
-    const REQUEST_ID = 'request_id';
+    const FIELD_REQUEST_ID = 'request_id';
     const FIELD_EPP_RESPONSE = 'eppresponse';
 }

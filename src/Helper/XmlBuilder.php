@@ -9,8 +9,6 @@
 
 namespace Wirecard\PaymentSdk\Helper;
 
-use http\Exception\InvalidArgumentException;
-
 class XmlBuilder
 {
     /**
@@ -19,7 +17,7 @@ class XmlBuilder
     private $xml;
 
     /**
-     * XmlBuilder constructor.
+     * XmlBuilder constructor
      * @param string $nodeName
      * @param string $nodeValue
      * @since 4.0.0
@@ -27,7 +25,9 @@ class XmlBuilder
     public function __construct($nodeName, $nodeValue = '')
     {
         if (!is_string($nodeName)) {
-            throw new InvalidArgumentException('The namespace provided is not of type string');
+            throw new \InvalidArgumentException(
+                'The class ' . self::class . ' expects parameter nodeName to be string.'
+            );
         }
 
         $this->xml = new \SimpleXMLElement('<' . $nodeName .'>' . htmlentities($nodeValue) . '</' . $nodeName . '>');
@@ -54,7 +54,9 @@ class XmlBuilder
     public function addRawObject($objectName, $objectValue, $attributes = [])
     {
         if (!is_string($objectName)) {
-            throw new InvalidArgumentException('The namespace provided is not of type string');
+            throw new \InvalidArgumentException(
+                'The class ' . self::class . ' method addRawObject expects parameter objectName to be string.'
+            );
         }
 
         $newXmlObject = new \SimpleXMLElement(
@@ -72,12 +74,20 @@ class XmlBuilder
     /**
      * @param array $attributes
      * @return $this
+     * @since 4.0.0
      */
     public function addAttributes($attributes)
     {
+        if (!is_array($attributes)) {
+            throw new \InvalidArgumentException(
+                'The class ' . self::class . ' method addAttributes expects parameter attributes to be array.'
+            );
+        }
+
         foreach ($attributes as $attributeKey => $attributeValue) {
             $this->xml->addAttribute($attributeKey, $attributeValue);
         }
+
         return $this;
     }
 

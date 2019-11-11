@@ -44,7 +44,7 @@ class IdealPayloadData implements PayloadDataInterface
     {
         $transactionService = new TransactionService($config);
         $this->payload = $transactionService->getTransactionByRequestId(
-            $payload[PayloadFields::REQUEST_ID],
+            $payload[PayloadFields::FIELD_REQUEST_ID],
             IdealTransaction::NAME,
             false
         );

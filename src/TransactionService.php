@@ -166,6 +166,8 @@ class TransactionService
      * @param array $payload
      * @return FailureResponse|InteractionResponse|SuccessResponse|Response
      * @throws \Http\Client\Exception
+     * @throws \InvalidArgumentException
+     * @throws MalformedResponseException
      * @since 4.0.0 Refactored
      */
     public function handleResponse(array $payload)
@@ -364,6 +366,7 @@ class TransactionService
      * @param Transaction $transaction
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
      * @throws \Http\Client\Exception
+     * @throws UnsupportedOperationException
      */
     public function reserve(Transaction $transaction)
     {
