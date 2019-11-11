@@ -25,7 +25,7 @@ class XmlBuilder
     public function __construct($nodeName, $nodeValue = '')
     {
         if (!is_string($nodeName)) {
-            throw new \InvalidArgumentException(
+            throw new \TypeError(
                 'The class ' . self::class . ' expects parameter nodeName to be string.'
             );
         }
@@ -51,16 +51,16 @@ class XmlBuilder
      * @return $this
      * @since 4.0.0
      */
-    public function addRawObject($objectName, $objectValue, $attributes = [])
+    public function addRawObject($objectName, $objectValue, array $attributes = [])
     {
         if (!is_string($objectName)) {
-            throw new \InvalidArgumentException(
+            throw new \TypeError(
                 'The class ' . self::class . ' method addRawObject expects parameter objectName to be string.'
             );
         }
 
         $newXmlObject = new \SimpleXMLElement(
-            '<' . $objectName . '>' . $objectValue .'</' . $objectName . '>'
+            '<' . $objectName . '>' . htmlentities($objectValue) .'</' . $objectName . '>'
         );
 
         foreach ($attributes as $attributeKey => $attributeValue) {
@@ -76,14 +76,8 @@ class XmlBuilder
      * @return $this
      * @since 4.0.0
      */
-    public function addAttributes($attributes)
+    public function addAttributes(array $attributes)
     {
-        if (!is_array($attributes)) {
-            throw new \InvalidArgumentException(
-                'The class ' . self::class . ' method addAttributes expects parameter attributes to be array.'
-            );
-        }
-
         foreach ($attributes as $attributeKey => $attributeValue) {
             $this->xml->addAttribute($attributeKey, $attributeValue);
         }

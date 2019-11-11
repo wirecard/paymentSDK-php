@@ -193,7 +193,9 @@ class TransactionServiceUTest extends PHPUnit_Framework_TestCase
                     'status_severity_0' => 'information',
                     'parent_transaction_id' => 'ptrid',
                     'requested_amount_currency' => 'EUR',
-                    'requested_amount' => '40'
+                    'requested_amount' => '40',
+                    'token_id' => '123123',
+                    'masked_account_number' => '123***123'
                 ],
                 SuccessResponse::class
             ], [
