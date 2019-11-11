@@ -458,6 +458,7 @@ class TransactionService
      * @param bool $logNotFound
      * @return string|array
      * @throws \Http\Client\Exception
+     * @TODO refactoring of the method is needed. For better naming and logical decisions.
      */
     private function sendGetRequest($endpoint, $acceptJson = false, $logNotFound = true)
     {
@@ -670,7 +671,8 @@ class TransactionService
      */
     public function getTransactionByRequestId($requestId, $paymentMethod, $acceptJson = true)
     {
-        $logNotFound = ($paymentMethod !== CreditCardTransaction::NAME);
+        //if in the request we get a 404 and this parameter is set to false we will write a log.
+        $logNotFound = ($paymentMethod == CreditCardTransaction::NAME) ? false : true;
         $endpoint =
             $this->config->getBaseUrl() .
             '/engine/rest/merchants/' .
