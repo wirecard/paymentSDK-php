@@ -240,7 +240,7 @@ class TransactionService
 
         if ($transaction instanceof CreditCardTransaction) {
             $isThreeD = is_null($config->getMerchantAccountId()) || ($config->getThreeDMerchantAccountId() &&
-            ($transaction->isFallback() || $transaction->getIsThreeD())) ? true : false;
+            ($transaction->isFallback() || $transaction->getThreeD())) ? true : false;
             $merchantAccountId = $isThreeD ? $config->getThreeDMerchantAccountId() : $config->getMerchantAccountId();
             $secret = $isThreeD ? $config->getThreeDSecret() : $config->getSecret();
         }
@@ -453,7 +453,7 @@ class TransactionService
     }
 
     /**
-     * @param $endpoint
+     * @param string $endpoint
      * @param bool $acceptJson
      * @param bool $logNotFound
      * @return string|array
@@ -509,7 +509,7 @@ class TransactionService
             );
 
             if ($transaction instanceof CreditCardTransaction) {
-                $transaction->getIsThreeD() ? $transaction->setThreeD(true) : $transaction->setThreeD($this->isThreeD);
+                $transaction->getThreeD() ? $transaction->setThreeD(true) : $transaction->setThreeD($this->isThreeD);
             }
 
             if (null !== $parentTransaction) {
