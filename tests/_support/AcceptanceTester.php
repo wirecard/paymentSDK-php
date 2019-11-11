@@ -225,6 +225,7 @@ class AcceptanceTester extends \Codeception\Actor
     {
         $this->currentPage->prepareClick();
         $this->waitForElementVisible($this->getPageElement($object), 30);
+        $this->waitForElementClickable($this->getPageElement($object), 30);
         $this->click($this->getPageElement($object));
     }
 

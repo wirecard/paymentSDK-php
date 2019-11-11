@@ -1,14 +1,7 @@
 dist: trusty
 sudo: false
 language: php
-addons:
-  sonarqube:
-    token:
-      secure: "Vq7wlEnXk/WAO7Rb1Bqt98ZipKXXCaYa+kxTR4ttFCByX4IRjqk5eKDYtFfozmGlVB78zO21YfE8o2FxL0pLC7glVaTBvXPxl7CdjkxRG6H/QBcaK4tGywYtWwXrAULzPGRx1J9/teo0dUb4u76SwtGnGtbitM3D/wmxLbRHmnWLmlds9QY1sCIMY6nBAKVuM6pTv/LgzL817tMQcEI7E3afffE4z6TkNrl4XFc96KAcx4rx6urXGKloX1W9XwAlj5Q1NTq+af/U438WXiipQVMH18ss2NkzPbE4snTEEBlc0PnbUi5jI7c1ff2DCIfHfo7ev8/aISJFg26EMto6fxXpPbopgonu2wvhf+9DqHDN4LQzRcmRq4EaI4cNyAG68W0eR/WVItGM5liQqffKQejKuLytDaw1ZKzc1UcN2v1jX+5j32ztUFnEN3ZJve5Ob5/Yzlesxd+ZMRkoF11sSkYwCy1O+RtsaWjf3u6f7+ETdBDW9H/Oom0NYqfNiArmFrpLkr9/FIQz8FGwvAa+H8NYL1dCEMvWKCI6JfW4iCvSX3Jiow8Mt6a/b1dPf3L2hagybV1ejGqj8FDjTdTxzJP7qoTYivL+Xiv6FrFeJd9eAm/SiZvHWAPdhmynxmDHWkzbgCsm5sIsBSI52R8MFLW9Z9YEsgt71QfN7jWSeJ8="
-    browserstack:
-      username: ${BROWSERSTACK_USER}
-      access_key:
-        secure: "RgYC3ItseWsKiS0HfILxJ7pKU7h6gT/2Lkgqa6MHj4DvLTgl6U0JK2AS+iQpg+4F5ZmI/7iVs/OH2hhVMXZBECnQZKfifcV16ytso8tLHgwxmx4wgNqHQX99AX2neDcfAzbgHVpEE2CnyISZj4BfvOHqZtmKxD4YfoeweGY7C2uE0PPS+IpuiWWlSANvIDMkoemh77EEKGDqcVyG6bmSWIpPDMmha+sGJJhaTpfRNiOtQRG0oUEnM1nHsXX61yDe3Eh1BoGzKbhj2jEQpvqSJMETaqaDfljWw1ZNVRfRrKrZw2cg8BKlsYGFhTo2uoS4toQh7L/TNyajyLnZ2FfLR9GT+qVu0blv1rUhZHeyz7qi0CgkWV284Plz3kMBw0jB2uvSgR+uwK9GvRdTgySGIVKNzTS2vRWEP5kO1/QsCrxfS2IU9/ZlTVCUJTN8zmJra1XmJdb7VskhhfY9p6x84UnZFehfaqZWfjpXncr29d+8V1E9JEJdNkXSEjA+SunLEMAK/qPLENFFgt9tVu50uulWVbefBC+ghT/UJk2Usdv6bf9PZ5TUB2rzCPHGcaz75ib/ImFhI8lr4SAhWnEmbt3wrFUS+wHUNDyq+NuMBFQJpQKoXTQJSYF320n2b2tpbS2LiypruvYdPMzHt+ngYIJsH3v42xpb92SFqP2YE5w="
+
 cache:
   directories:
     - $HOME/.composer/cache
@@ -16,56 +9,79 @@ cache:
 
 env:
   global:
-  - COMPOSER_ARGS="--no-interaction"
+    - COMPOSER_ARGS="--no-interaction"
+    - MANUAL_UITEST_TRIGGER_COMMIT="Test my build"
 
 matrix:
   allow_failures:
-    - stage: acceptance-test
+  - stage: acceptance-test
+    env:
+      - GATEWAY=API-TEST
+      - ALLOW_FAIL=1
+  - stage: acceptance-test
+    env:
+      - GATEWAY=API-WDCEE-TEST
+      - ALLOW_FAIL=1
+  - stage: acceptance-test
+    env:
+      - GATEWAY=NOVA
+      - ALLOW_FAIL=1
   include:
   - php: 5.6
-    if: type != cron
+    if: type != cron AND commit_message != env(MANUAL_UITEST_TRIGGER_COMMIT)
     env:
-    - TEST_COVERAGE=true
+      - TEST_COVERAGE=true
   - php: 7
-    if: type != cron
+    if: type != cron AND commit_message != env(MANUAL_UITEST_TRIGGER_COMMIT)
     env:
-    - CHECK_CS=true
-    - CREATE_DOCS=true
+      - CHECK_CS=true
+      - CREATE_DOCS=true
   - php: 7.1
-    if: type != cron
+    if: type != cron AND commit_message != env(MANUAL_UITEST_TRIGGER_COMMIT)
     env:
-    - MUTATION_TESTS=true
+      - MUTATION_TESTS=true
   - php: 7.2
-    if: type != cron
+    if: type != cron AND commit_message != env(MANUAL_UITEST_TRIGGER_COMMIT)
     env:
-    - MUTATION_TESTS=true
+      - MUTATION_TESTS=true
   - php: 7.3
-    if: type != cron
+    if: type != cron AND commit_message != env(MANUAL_UITEST_TRIGGER_COMMIT)
     env:
-    - MUTATION_TESTS=true
+      - MUTATION_TESTS=true
   - &acceptance-test
     stage: acceptance-test
-    if: type = cron
+    # this stage will be triggered on Pull request
+    if: type = pull_request OR commit_message =~ env(MANUAL_UITEST_TRIGGER_COMMIT)
     php: 7.2
     env: GATEWAY=API-TEST
     install:
-    - travis_retry composer require --dev $COMPOSER_ARGS codeception/codeception:^2.5
-    - travis_retry composer install $COMPOSER_ARGS
-    - composer show
+      - travis_retry composer require --dev $COMPOSER_ARGS codeception/codeception:3.0.1
+      - travis_retry composer install $COMPOSER_ARGS
+      - composer show
     script: bash .bin/run-ui-tests.sh
     after_success:
-    - bash .bin/upload-logs-and-notify.sh
+      - bash .bin/upload-logs-and-notify.sh
     after_failure:
-    - bash .bin/output-failed-logs.sh
-    - bash .bin/upload-logs-and-notify.sh fail
+      - bash .bin/output-failed-logs.sh
+      - bash .bin/upload-logs-and-notify.sh fail
   - <<: *acceptance-test
-    env: GATEWAY=API-WDCEE-TEST
+    # this stage will be triggered on timely basis
+    if: type = cron
+    env:
+      - GATEWAY=API-TEST
+      - ALLOW_FAIL=1
   - <<: *acceptance-test
-    env: GATEWAY=NOVA
+    # this stage will be triggered on timely basis
+    if: type = cron
+    env:
+      - GATEWAY=API-WDCEE-TEST
+      - ALLOW_FAIL=1
   - <<: *acceptance-test
-    env: GATEWAY=SECURE-TEST-SG
-  - <<: *acceptance-test
-    env: GATEWAY=TEST-SG
+    # this stage will be triggered on timely basis
+    if: type = cron
+    env:
+      - GATEWAY=NOVA
+      - ALLOW_FAIL=1
 
 before_install:
   - travis_retry composer self-update
@@ -105,8 +121,8 @@ notifications:
     rooms:
       secure: YI7sUrfMyKyJD60kElGkO7yBDkGEh+069yS8bFAIDUST7s48J+dDP/r2G9dN9oQwhs9hvNjpNytpZDPys838T+Z0mNtFZ9Wu022hV3MpbKUuMl7L9P0MQQmxjg4bKyKK3Hl9tPrZ3UsKRlwIUmRGGYQ7cjs4zumorqs19YsB3X+WnnxAmmYB3kHQYfNKgVnmcG2QHJyx5KaLZ0EsWynSHXkYb8bVCtdlbQFNnpChvGHPprZrHAszLCYnlU7AEZGdbuk17oIfXO9Wjuu1GV8iJ2VgKkTCzW4FBC5eHJyZezojPFUm1I5tvdihRZuyBekVGOF23J6pvHLqPx77clT+/Vn6T+UMDuh1INZ0LKt4UOU42oEDKGblWZx2VYWcHwfEK+ckJWZkT9EBfg/CMenJly2tbtBj6++XNvxgGEDn6XqKIEatcb7X/aiy4f8BPXa3/pzgZAlvzZbGGqHFNZPAlgcXBBXgbaC7VvMhvi6Z5AG5ylKzPS5GCD95ozPC+cGv0234TBJus5oZck4qNiT53IUQ7Ta+OGVB0Mea105VAoQI0I7YcgaqW6c4h2YTmnuuQsIzAwPOrJ5TAinj8Z8mZ9C11tEcNF3Pgy1tOoG/YLurhOJm7v1ebotRb/DIeSHU8RfNatnDSSky4YS6Y8k2pQthdC9m7m2f2mJYuGdLjlM=
     template:
-      - "%{repository}#%{build_number} (%{branch} : %{author}): %{message}"
-      - "Change view : %{compare_url}"
-      - "Build details : %{build_url}"
+    - "%{repository}#%{build_number} (%{branch} : %{author}): %{message}"
+    - "Change view : %{compare_url}"
+    - "Build details : %{build_url}"
     on_success: change
     on_failure: change
