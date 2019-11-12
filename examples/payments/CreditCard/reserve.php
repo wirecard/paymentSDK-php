@@ -47,10 +47,6 @@ if ($parentTransactionId === null && $tokenId === null) {
     $tokenId = '5168216323601006';
 }
 
-// The redirect URL determines where the consumer should be redirected to
-// after an approval/cancellation on the issuer's ACS page.
-$redirectUrl = getUrl('return.php?status=success');
-
 $response = null;
 
 // ### Transaction Service
@@ -59,7 +55,7 @@ $response = null;
 $transactionService = new TransactionService($config);
 
 if (array_key_exists('jsresponse', $_POST) && $_POST['jsresponse']) {
-    $response = $transactionService->processJsResponse($_POST, $redirectUrl);
+    $response = $transactionService->processJsResponse($_POST);
 } else {
     // ### Transaction
 

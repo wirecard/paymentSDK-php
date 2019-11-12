@@ -47,7 +47,8 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "WirecardTest\\PaymentSdk\\": "test/"
+      "WirecardTest\\PaymentSdk\\": "test/",
+      "Wirecard\\PaymentSdk\\Example\\Constants\\": "examples/inc/constants/"
     }
   }
 }

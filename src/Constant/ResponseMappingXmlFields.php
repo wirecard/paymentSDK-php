@@ -18,6 +18,7 @@ namespace Wirecard\PaymentSdk\Constant;
  */
 class ResponseMappingXmlFields
 {
+    const PAYMENT = 'payment';
     const MERCHANT_ACCOUNT_ID = 'merchant-account-id';
     const TRANSACTION_ID = 'transaction-id';
     const TRANSACTION_STATE = 'transaction-state';
@@ -35,4 +36,9 @@ class ResponseMappingXmlFields
     const MASKED_ACCOUNT_NUMBER = 'masked-account-number';
 
     const PARENT_TRANSACTION_ID = 'parent-transaction-id';
+    const REQUESTED_AMOUNT = 'requested-amount';
+    const THREE_D = 'three-d';
+    const STATUSES = 'statuses';
+    const CARD_TOKEN = 'card-token';
+    const STATUS = 'status';
 }

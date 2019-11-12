@@ -18,7 +18,6 @@
 require __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../inc/common.php';
 require __DIR__ . '/../../configuration/config.php';
-require __DIR__ . '/../../inc/constants.php';
 require __DIR__ . '/../../inc/header.php';
 
 use Wirecard\PaymentSdk\Entity\Address;
@@ -30,6 +29,7 @@ use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Entity\Item;
 use Wirecard\PaymentSdk\TransactionService;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
+use Wirecard\PaymentSdk\Example\Constants\Url;
 
 // ### Transaction
 
@@ -102,13 +102,13 @@ $transaction->setConfig($creditcardConfig);
 $transaction->setAmount($amount);
 
 $redirects = new \Wirecard\PaymentSdk\Entity\Redirect(
-    getUrl(UrlConstants::SUCCESS_URL),
-    getUrl(UrlConstants::CANCEL_URL),
-    getUrl(UrlConstants::FAILURE_URL)
+    getUrl(Url::SUCCESS_URL),
+    getUrl(Url::CANCEL_URL),
+    getUrl(Url::FAILURE_URL)
 );
 
 $transaction->setRedirect($redirects);
-$transaction->setNotificationUrl(getUrl(UrlConstants::NOTIFICATION_URL));
+$transaction->setNotificationUrl(getUrl(Url::NOTIFICATION_URL));
 $transaction->setBasket($basket);
 $transaction->setOrderNumber($orderNumber);
 $transaction->setAccountHolder($accountHolder);

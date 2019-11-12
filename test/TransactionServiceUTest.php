@@ -85,73 +85,6 @@ class TransactionServiceUTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $uiData);
     }
 
-    public function testMapJsResponseThreeD()
-    {
-        $url = 'dummyreturnurl';
-        $data = array(
-            'nonce3d' => 'ABCDEF',
-            'merchant_account_id' => 'maid',
-            'transaction_id' => 'trid',
-            'transaction_state' => 'success',
-            'transaction_type' => 'authorization',
-            'payment_method' => 'creditcard',
-            'request_id' => 'reqid',
-            'status_code_0' => '201.000',
-            'status_description_0' => 'Dummy status description',
-            'status_severity_0' => 'information',
-            'acs_url' => 'http://dummy.acs.url',
-            'pareq' => 'testpareq',
-            'notification_url_1' => 'http://dummy.notif.url',
-            'cardholder_authentication_status' => 'Y',
-            'parent_transaction_id' => 'ptrid'
-        );
-
-        $response = $this->service->processJsResponse($data, $url);
-        $this->assertTrue($response instanceof FormInteractionResponse);
-    }
-
-    public function testMapJsResponseSSL()
-    {
-        $url = 'dummyreturnurl';
-        $data = array(
-            'merchant_account_id' => 'maid',
-            'transaction_id' => 'trid',
-            'transaction_state' => 'success',
-            'transaction_type' => 'authorization',
-            'payment_method' => 'creditcard',
-            'request_id' => 'reqid',
-            'status_code_0' => '201.000',
-            'status_description_0' => 'Dummy status description',
-            'status_severity_0' => 'information',
-            'parent_transaction_id' => 'ptrid',
-            'requested_amount_currency' => 'EUR',
-            'requested_amount' => '40'
-        );
-
-        $response = $this->service->processJsResponse($data, $url);
-        $this->assertTrue($response instanceof SuccessResponse);
-    }
-
-    public function testMapJsResponseSSLFailed()
-    {
-        $url = 'dummyreturnurl';
-        $data = array(
-            'merchant_account_id' => 'maid',
-            'transaction_id' => 'trid',
-            'transaction_state' => 'failed',
-            'transaction_type' => 'authorization',
-            'payment_method' => 'creditcard',
-            'request_id' => 'reqid',
-            'status_code_0' => '500.000',
-            'status_description_0' => 'Dummy status description',
-            'status_severity_0' => 'information',
-            'parent_transaction_id' => 'ptrid'
-        );
-
-        $response = $this->service->processJsResponse($data, $url);
-        $this->assertTrue($response instanceof FailureResponse);
-    }
-
     public function testConstructorWithRequestIdGenerator()
     {
         $logger = $this->createMock(LoggerInterface::class);
@@ -233,5 +166,74 @@ class TransactionServiceUTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(self::CC_THREE_D_SECRET, $ccConfig->getThreeDSecret());
         $this->assertEquals(self::CC_SSL_MAX_LIMIT, $ccConfig->getSslMaxLimit('EUR'));
         $this->assertEquals(self::CC_THREE_D_MIN_LIMIT, $ccConfig->getThreeDMinLimit('EUR'));
+    }
+
+    /**
+     * @dataProvider processJsResponseProvider
+     */
+    public function testProcessJsResponse($payload, $expectedResponse)
+    {
+        $this->assertInstanceOf($expectedResponse, $this->service->processJsResponse($payload));
+    }
+
+    public function processJsResponseProvider()
+    {
+        return [
+            [
+                [
+                    'response_signature_v2' => 'test_signature',
+                    'merchant_account_id' => 'maid',
+                    'transaction_id' => 'trid',
+                    'transaction_state' => 'success',
+                    'transaction_type' => 'authorization',
+                    'payment_method' => 'creditcard',
+                    'request_id' => 'reqid',
+                    'status_code_0' => '201.000',
+                    'status_description_0' => 'Dummy status description',
+                    'status_severity_0' => 'information',
+                    'parent_transaction_id' => 'ptrid',
+                    'requested_amount_currency' => 'EUR',
+                    'requested_amount' => '40',
+                    'token_id' => '123123',
+                    'masked_account_number' => '123***123'
+                ],
+                SuccessResponse::class
+            ], [
+                [
+                    'response_signature_v2' => 'test_signature',
+                    'merchant_account_id' => 'maid',
+                    'transaction_id' => 'trid',
+                    'transaction_state' => 'failed',
+                    'transaction_type' => 'authorization',
+                    'payment_method' => 'creditcard',
+                    'request_id' => 'reqid',
+                    'status_code_0' => '500.000',
+                    'status_description_0' => 'Dummy status description',
+                    'status_severity_0' => 'information',
+                    'parent_transaction_id' => 'ptrid'
+                ],
+                FailureResponse::class
+            ], [
+                [
+                    'response_signature_v2' => 'test_signature',
+                    'nonce3d' => 'ABCDEF',
+                    'merchant_account_id' => 'maid',
+                    'transaction_id' => 'trid',
+                    'transaction_state' => 'success',
+                    'transaction_type' => 'authorization',
+                    'payment_method' => 'creditcard',
+                    'request_id' => 'reqid',
+                    'status_code_0' => '201.000',
+                    'status_description_0' => 'Dummy status description',
+                    'status_severity_0' => 'information',
+                    'acs_url' => 'http://dummy.acs.url',
+                    'pareq' => 'testpareq',
+                    'notification_url_1' => 'http://dummy.notif.url',
+                    'cardholder_authentication_status' => 'Y',
+                    'parent_transaction_id' => 'ptrid'
+                ],
+                FormInteractionResponse::class
+            ]
+        ];
     }
 }
