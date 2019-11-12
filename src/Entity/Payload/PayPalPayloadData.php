@@ -11,8 +11,9 @@ namespace Wirecard\PaymentSdk\Entity\Payload;
 
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Constant\PayloadFields;
+use Wirecard\PaymentSdk\Exception\MalformedPayloadException;
 use Wirecard\PaymentSdk\Mapper\Response\MapperInterface;
-use Wirecard\PaymentSdk\Mapper\Response\WithoutSignatureMapper;
+use Wirecard\PaymentSdk\Mapper\Response\WithSignatureMapper;
 
 /**
  * Class PayPalPayloadData
@@ -40,8 +41,9 @@ class PayPalPayloadData implements PayloadDataInterface
      */
     public function __construct(array $payload, Config $config)
     {
-        if (!$payload[PayloadFields::FIELD_EPP_RESPONSE]) {
-            throw new \InvalidArgumentException('The '. PayloadFields::FIELD_EPP_RESPONSE .' is missing in payload');
+        if (!array_key_exists(PayloadFields::FIELD_EPP_RESPONSE, $payload) ||
+            !$payload[PayloadFields::FIELD_EPP_RESPONSE]) {
+            throw new MalformedPayloadException('The '. PayloadFields::FIELD_EPP_RESPONSE .' is missing in payload');
         }
 
         $this->payload = $payload[PayloadFields::FIELD_EPP_RESPONSE];
@@ -54,6 +56,6 @@ class PayPalPayloadData implements PayloadDataInterface
      */
     public function getResponseMapper()
     {
-        return new WithoutSignatureMapper($this->payload, $this->config);
+        return new WithSignatureMapper($this->payload, $this->config);
     }
 }

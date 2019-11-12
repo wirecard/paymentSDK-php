@@ -51,7 +51,7 @@ class XmlBuilder
      * @return $this
      * @since 4.0.0
      */
-    public function addRawObject($objectName, $objectValue, $attributes = [])
+    public function addRawObject($objectName, $objectValue, array $attributes = [])
     {
         if (!is_string($objectName)) {
             throw new \InvalidArgumentException(
@@ -60,7 +60,7 @@ class XmlBuilder
         }
 
         $newXmlObject = new \SimpleXMLElement(
-            '<' . $objectName . '>' . $objectValue .'</' . $objectName . '>'
+            '<' . htmlentities($objectName) . '>' . htmlentities($objectValue) .'</' . htmlentities($objectName) . '>'
         );
 
         foreach ($attributes as $attributeKey => $attributeValue) {
@@ -76,14 +76,8 @@ class XmlBuilder
      * @return $this
      * @since 4.0.0
      */
-    public function addAttributes($attributes)
+    public function addAttributes(array $attributes)
     {
-        if (!is_array($attributes)) {
-            throw new \InvalidArgumentException(
-                'The class ' . self::class . ' method addAttributes expects parameter attributes to be array.'
-            );
-        }
-
         foreach ($attributes as $attributeKey => $attributeValue) {
             $this->xml->addAttribute($attributeKey, $attributeValue);
         }

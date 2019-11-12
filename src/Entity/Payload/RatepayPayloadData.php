@@ -11,6 +11,7 @@ namespace Wirecard\PaymentSdk\Entity\Payload;
 
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Constant\PayloadFields;
+use Wirecard\PaymentSdk\Exception\MalformedPayloadException;
 use Wirecard\PaymentSdk\Mapper\Response\MapperInterface;
 use Wirecard\PaymentSdk\Mapper\Response\WithSignatureMapper;
 
@@ -39,8 +40,9 @@ class RatepayPayloadData implements PayloadDataInterface
      */
     public function __construct(array $payload, Config $config)
     {
-        if (!$payload[PayloadFields::FIELD_BASE64_PAYLOAD]) {
-            throw new \InvalidArgumentException('The '. PayloadFields::FIELD_BASE64_PAYLOAD .' is missing in payload');
+        if (!array_key_exists(PayloadFields::FIELD_BASE64_PAYLOAD, $payload) ||
+            !$payload[PayloadFields::FIELD_BASE64_PAYLOAD]) {
+            throw new MalformedPayloadException('The '. PayloadFields::FIELD_BASE64_PAYLOAD .' is missing in payload');
         }
 
         $this->payload = $payload[PayloadFields::FIELD_BASE64_PAYLOAD];

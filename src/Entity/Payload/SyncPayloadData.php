@@ -11,6 +11,7 @@ namespace Wirecard\PaymentSdk\Entity\Payload;
 
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Constant\PayloadFields;
+use Wirecard\PaymentSdk\Exception\MalformedPayloadException;
 use Wirecard\PaymentSdk\Mapper\Response\MapperInterface;
 use Wirecard\PaymentSdk\Mapper\Response\WithSignatureMapper;
 
@@ -39,8 +40,9 @@ class SyncPayloadData implements PayloadDataInterface
      */
     public function __construct(array $payload, Config $config)
     {
-        if (!$payload[PayloadFields::FIELD_SYNC_RESPONSE]) {
-            throw new \InvalidArgumentException('The '. PayloadFields::FIELD_SYNC_RESPONSE .' is missing in payload');
+        if (!array_key_exists(PayloadFields::FIELD_SYNC_RESPONSE, $payload) ||
+            !$payload[PayloadFields::FIELD_SYNC_RESPONSE]) {
+            throw new MalformedPayloadException('The '. PayloadFields::FIELD_SYNC_RESPONSE .' is missing in payload');
         }
 
         $this->payload = $payload[PayloadFields::FIELD_SYNC_RESPONSE];

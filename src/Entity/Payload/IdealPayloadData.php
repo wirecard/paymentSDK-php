@@ -11,6 +11,7 @@ namespace Wirecard\PaymentSdk\Entity\Payload;
 
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Constant\PayloadFields;
+use Wirecard\PaymentSdk\Exception\MalformedPayloadException;
 use Wirecard\PaymentSdk\Mapper\Response\MapperInterface;
 use Wirecard\PaymentSdk\Mapper\Response\WithoutSignatureMapper;
 use Wirecard\PaymentSdk\Transaction\IdealTransaction;
@@ -42,7 +43,21 @@ class IdealPayloadData implements PayloadDataInterface
      */
     public function __construct(array $payload, Config $config)
     {
-        $transactionService = new TransactionService($config);
+        if (!(array_key_exists(PayloadFields::FIELD_EC, $payload) &&
+            array_key_exists(PayloadFields::FIELD_TRXID, $payload) &&
+            array_key_exists(PayloadFields::FIELD_REQUEST_ID, $payload)) ||
+            !($payload[PayloadFields::FIELD_EC] &&
+            $payload[PayloadFields::FIELD_TRXID] &&
+            $payload[PayloadFields::FIELD_REQUEST_ID]
+        )) {
+            throw new MalformedPayloadException(
+                'One of the '. PayloadFields::FIELD_EC .', '
+                . PayloadFields::FIELD_TRXID . ', ' . PayloadFields::FIELD_REQUEST_ID
+                . ' is missing in payload'
+            );
+        }
+
+        $transactionService = $this->getTransactionService($config);
         $this->payload = $transactionService->getTransactionByRequestId(
             $payload[PayloadFields::FIELD_REQUEST_ID],
             IdealTransaction::NAME,
@@ -59,5 +74,15 @@ class IdealPayloadData implements PayloadDataInterface
     public function getResponseMapper()
     {
         return new WithoutSignatureMapper($this->payload, $this->config);
+    }
+
+    /**
+     * @param $config
+     * @return TransactionService
+     * @since 4.0.0
+     */
+    protected function getTransactionService($config)
+    {
+        return new TransactionService($config);
     }
 }

@@ -9,6 +9,8 @@
 
 namespace Wirecard\PaymentSdk\Entity\Payload;
 
+use Wirecard\PaymentSdk\Constant\PayloadFields;
+use Wirecard\PaymentSdk\Exception\MalformedPayloadException;
 use Wirecard\PaymentSdk\Mapper\Response\SeamlessMapper;
 
 /**
@@ -30,6 +32,13 @@ class NvpPayloadData implements PayloadDataInterface
      */
     public function __construct(array $payload)
     {
+        if (!array_key_exists(PayloadFields::FIELD_RESPONSE_SIGNATURE, $payload) ||
+            !$payload[PayloadFields::FIELD_RESPONSE_SIGNATURE]) {
+            throw new MalformedPayloadException(
+                'The '. PayloadFields::FIELD_RESPONSE_SIGNATURE .' is missing in payload'
+            );
+        }
+
         $this->payload = $payload;
     }
 

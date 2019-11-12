@@ -11,6 +11,7 @@ namespace Wirecard\PaymentSdk\Entity\Payload;
 
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Constant\PayloadFields;
+use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 
 /**
  * Class PayloadDataFactory
@@ -68,7 +69,7 @@ class PayloadDataFactory
             return new IdealPayloadData($this->payload, $this->config);
         }
 
-        throw new \InvalidArgumentException('The payload cannot be identified.');
+        throw new MalformedResponseException('The payload cannot be identified.');
     }
 
     /**
