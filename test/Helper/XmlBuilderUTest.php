@@ -20,6 +20,11 @@ class XmlBuilderUTest extends \PHPUnit_Framework_TestCase
         $this->xmlBuilder = new XmlBuilder('mainNodeName');
     }
 
+    /**
+     * This test is skipped for the 5.6 version as a fatal error is thrown
+     * for an invalid argument supplied to a method
+     * @requires PHP >= 7.0
+     */
     public function testConstructorException()
     {
         $this->expectException(\TypeError::class);
@@ -46,6 +51,11 @@ class XmlBuilderUTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $this->xmlBuilder->getXml());
     }
 
+    /**
+     * This test is skipped for the 5.6 version as a fatal error is thrown
+     * for an invalid argument supplied to a method
+     * @requires PHP >= 7.0
+     */
     public function testAddAttributesException()
     {
         $this->expectException(\TypeError::class);
