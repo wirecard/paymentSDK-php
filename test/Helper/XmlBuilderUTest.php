@@ -23,7 +23,7 @@ class XmlBuilderUTest extends \PHPUnit_Framework_TestCase
     /**
      * This test is skipped for the 5.6 version as a fatal error is thrown
      * for an invalid argument supplied to a method
-     * @requires PHP >= 7.0
+     * @requires PHP 7.0
      */
     public function testConstructorException()
     {
@@ -54,7 +54,7 @@ class XmlBuilderUTest extends \PHPUnit_Framework_TestCase
     /**
      * This test is skipped for the 5.6 version as a fatal error is thrown
      * for an invalid argument supplied to a method
-     * @requires PHP >= 7.0
+     * @requires PHP 7.0
      */
     public function testAddAttributesException()
     {
