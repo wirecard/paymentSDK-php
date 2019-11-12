@@ -646,7 +646,8 @@ class TransactionService
     /**
      * We expect status code 404 for a successful authentication, otherwise the endpoint will return 401 unauthorized
      * @return boolean
-     * @throws \Http\Client\Exception
+     * @throws \Exception
+     * @since 4.0.0 use generic Exception for Client Adaption
      */
     public function checkCredentials()
     {
@@ -660,7 +661,7 @@ class TransactionService
             );
             $request = $this->basicAuth->authenticate($request);
             $responseCode = $this->httpClient->sendRequest($request)->getStatusCode();
-        } catch (TransferException $e) {
+        } catch (\Exception $e) {
             $this->getLogger()->debug('Check credentials: Error - ' . $e->getMessage());
             return false;
         }
