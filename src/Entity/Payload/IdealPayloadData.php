@@ -45,14 +45,14 @@ class IdealPayloadData implements PayloadDataInterface
     {
         if (!(array_key_exists(PayloadFields::FIELD_EC, $payload) &&
             array_key_exists(PayloadFields::FIELD_TRXID, $payload) &&
-            array_key_exists(PayloadFields::REQUEST_ID, $payload)) ||
+            array_key_exists(PayloadFields::FIELD_REQUEST_ID, $payload)) ||
             !($payload[PayloadFields::FIELD_EC] &&
             $payload[PayloadFields::FIELD_TRXID] &&
-            $payload[PayloadFields::REQUEST_ID]
+            $payload[PayloadFields::FIELD_REQUEST_ID]
         )) {
             throw new MalformedPayloadException(
                 'One of the '. PayloadFields::FIELD_EC .', '
-                . PayloadFields::FIELD_TRXID . ', ' . PayloadFields::REQUEST_ID
+                . PayloadFields::FIELD_TRXID . ', ' . PayloadFields::FIELD_REQUEST_ID
                 . ' is missing in payload'
             );
         }

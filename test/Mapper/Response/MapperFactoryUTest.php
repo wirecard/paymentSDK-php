@@ -11,6 +11,7 @@ namespace WirecardTest\PaymentSdk\Mapper\Response;
 
 use PHPUnit_Framework_TestCase;
 use Wirecard\PaymentSdk\Config\Config;
+use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Constant\PayloadFields;
 use Wirecard\PaymentSdk\Entity\Payload\IdealPayloadData;
 use Wirecard\PaymentSdk\Entity\Payload\NvpPayloadData;
@@ -21,7 +22,10 @@ use Wirecard\PaymentSdk\Entity\Payload\SyncPayloadData;
 use Wirecard\PaymentSdk\Exception\MalformedPayloadException;
 use Wirecard\PaymentSdk\Mapper\Response\MapperFactory;
 use Wirecard\PaymentSdk\Mapper\Response\SeamlessMapper;
+use Wirecard\PaymentSdk\Mapper\Response\WithoutSignatureMapper;
 use Wirecard\PaymentSdk\Mapper\Response\WithSignatureMapper;
+use Wirecard\PaymentSdk\TransactionService;
+use Mockery as m;
 
 class MapperFactoryUTest extends PHPUnit_Framework_TestCase
 {
@@ -35,18 +39,6 @@ class MapperFactoryUTest extends PHPUnit_Framework_TestCase
         $mapperFactory = new MapperFactory($payload);
         $this->assertInstanceOf($expectedMapper, $mapperFactory->create());
     }
-
-    /**
-     * @dataProvider createExceptionProvider
-     * @param PayloadDataInterface $payload
-     * @param string $expectedException
-     */
-    /*public function testCreateException(PayloadDataInterface $payload, $expectedException)
-    {
-        $this->expectException($expectedException);
-        $mapperFactory = new MapperFactory($payload);
-        $mapperFactory->create();
-    }*/
 
     /**
      * @return array
@@ -67,10 +59,7 @@ class MapperFactoryUTest extends PHPUnit_Framework_TestCase
             ], [
                 $this->getSyncPayloadData(),
                 WithSignatureMapper::class
-            ]/*, [
-                $this->getIdealPayloadData(),
-                WithoutSignatureMapper::class
-            ]*/
+            ]
         ];
     }
 
@@ -89,9 +78,6 @@ class MapperFactoryUTest extends PHPUnit_Framework_TestCase
             ], [
                 new SyncPayloadData([], new Config('', '', '')),
                 MalformedPayloadException::class
-            ], [
-                new IdealPayloadData([], new Config('', '', '')),
-                MalformedPayloadException::class
             ]
         ];
     }
@@ -106,22 +92,6 @@ class MapperFactoryUTest extends PHPUnit_Framework_TestCase
                 PayloadFields::FIELD_RESPONSE_SIGNATURE => 'test'
             ]
         );
-    }
-
-    /**
-     * @return IdealPayloadData
-     * @throws \Http\Client\Exception
-     */
-    private function getIdealPayloadData()
-    {
-        $payloadMock = [
-            PayloadFields::FIELD_EC => 'test',
-            PayloadFields::FIELD_TRXID => 'test',
-            PayloadFields::REQUEST_ID => 'test'
-        ];
-        $configMock = new Config('https://api-test.wirecard.com', 'user', 'password');
-
-        return new IdealPayloadData($payloadMock, $configMock);
     }
 
     /**
