@@ -31,7 +31,7 @@ class XmlBuilderUTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('Skip test for older php versions');
         }
 
-        $this->expectException(\TypeError::class);
+        $this->expectException(\InvalidArgumentException::class);
         new XmlBuilder(new \stdClass());
     }
 
@@ -44,7 +44,7 @@ class XmlBuilderUTest extends \PHPUnit_Framework_TestCase
 
     public function testAddRawObjectException()
     {
-        $this->expectException(\TypeError::class);
+        $this->expectException(\InvalidArgumentException::class);
         $this->xmlBuilder->addRawObject(new \stdClass(), '');
     }
 
