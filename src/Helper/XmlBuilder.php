@@ -9,8 +9,6 @@
 
 namespace Wirecard\PaymentSdk\Helper;
 
-use Wirecard\PaymentSdk\Exception\TypeErrorException;
-
 class XmlBuilder
 {
     /**
@@ -27,7 +25,7 @@ class XmlBuilder
     public function __construct($nodeName, $nodeValue = '')
     {
         if (!is_string($nodeName)) {
-            throw new TypeErrorException(
+            throw new \TypeError(
                 'The class ' . self::class . ' expects parameter nodeName to be string.'
             );
         }
@@ -56,7 +54,7 @@ class XmlBuilder
     public function addRawObject($objectName, $objectValue, array $attributes = [])
     {
         if (!is_string($objectName)) {
-            throw new TypeErrorException(
+            throw new \TypeError(
                 'The class ' . self::class . ' method addRawObject expects parameter objectName to be string.'
             );
         }
