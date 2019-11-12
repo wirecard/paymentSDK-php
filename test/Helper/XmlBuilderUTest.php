@@ -9,6 +9,7 @@
 
 namespace WirecardTest\PaymentSdk\Helper;
 
+use Wirecard\PaymentSdk\Exception\TypeErrorException;
 use Wirecard\PaymentSdk\Helper\XmlBuilder;
 
 class XmlBuilderUTest extends \PHPUnit_Framework_TestCase
@@ -35,7 +36,7 @@ class XmlBuilderUTest extends \PHPUnit_Framework_TestCase
 
     public function testAddRawObjectException()
     {
-        $this->expectException(\TypeError::class);
+        $this->expectException(TypeErrorException::class);
         $this->xmlBuilder->addRawObject(new \stdClass(), '');
     }
 
@@ -48,7 +49,7 @@ class XmlBuilderUTest extends \PHPUnit_Framework_TestCase
 
     public function testAddAttributesException()
     {
-        $this->expectException(\TypeError::class);
+        $this->expectException(TypeErrorException::class);
         $this->xmlBuilder->addAttributes(new \stdClass());
     }
 
