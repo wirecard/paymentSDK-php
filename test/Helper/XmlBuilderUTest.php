@@ -27,6 +27,10 @@ class XmlBuilderUTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructorException()
     {
+        if (version_compare(PHP_VERSION, '70000', '>')) {
+            $this->markTestSkipped('Skip test for older php versions');
+        }
+        
         $this->expectException(\TypeError::class);
         new XmlBuilder(new \stdClass());
     }
@@ -58,6 +62,10 @@ class XmlBuilderUTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddAttributesException()
     {
+        if (version_compare(PHP_VERSION, '70000', '>')) {
+            $this->markTestSkipped('Skip test for older php versions');
+        }
+
         $this->expectException(\TypeError::class);
         $this->xmlBuilder->addAttributes(new \stdClass());
     }
