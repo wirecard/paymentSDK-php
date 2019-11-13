@@ -95,6 +95,15 @@ class CreditCardTransaction extends Transaction implements Reservable
 
     /**
      * @return string
+     * @since 4.0.0
+     */
+    public function getTokenId()
+    {
+        return $this->tokenId;
+    }
+
+    /**
+     * @return string
      */
     public function getTermUrl()
     {
@@ -276,6 +285,7 @@ class CreditCardTransaction extends Transaction implements Reservable
         if (!$this->parentTransactionId) {
             throw new MandatoryFieldMissingException('No transaction for cancellation set.');
         }
+
         switch ($this->parentTransactionType) {
             case self::TYPE_AUTHORIZATION:
             case self::TYPE_REFERENCED_AUTHORIZATION:
@@ -375,6 +385,7 @@ class CreditCardTransaction extends Transaction implements Reservable
 
     /**
      * @return boolean
+     * @deprecated 4.0.0 use getIsThreeD
      */
     protected function isThreeD()
     {
