@@ -224,8 +224,7 @@ class AcceptanceTester extends \Codeception\Actor
     public function iClick($object)
     {
         $this->currentPage->prepareClick();
-        $this->waitForElementVisible($this->getPageElement($object), 30);
-        $this->waitForElementClickable($this->getPageElement($object), 30);
+        $this->waitForElementClickable($this->getPageElement($object), 60);
         $this->click($this->getPageElement($object));
     }
 
