@@ -601,6 +601,7 @@ class TransactionService
     }
 
     /**
+     * @SuppressWarnings(PHPMD.StaticAccess)
      * @param $transactionId
      * @param $paymentMethod
      * @param bool $acceptJson
@@ -614,6 +615,7 @@ class TransactionService
 
         $request = $this->sendGetRequest($endpoint, $acceptJson, $logNotFound);
 
+        //@TODO Refactor the static method
         if (!RequestInspector::isValidRequest($request) && $this->isCardTransaction($paymentMethod)) {
             $endpoint = $this->getTransactionEndpoint($transactionId, $paymentMethod, true);
             $request = $this->sendGetRequest($endpoint, $acceptJson);
