@@ -76,12 +76,6 @@ matrix:
     env:
       - GATEWAY=API-WDCEE-TEST
       - ALLOW_FAIL=1
-  - <<: *acceptance-test
-    # this stage will be triggered on timely basis
-    if: type = cron
-    env:
-      - GATEWAY=NOVA
-      - ALLOW_FAIL=1
 
 before_install:
   - travis_retry composer self-update
