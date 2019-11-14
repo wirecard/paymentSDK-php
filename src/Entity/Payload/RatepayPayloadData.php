@@ -9,7 +9,11 @@
 
 namespace Wirecard\PaymentSdk\Entity\Payload;
 
+use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Constant\PayloadFields;
+use Wirecard\PaymentSdk\Exception\MalformedPayloadException;
+use Wirecard\PaymentSdk\Mapper\Response\MapperInterface;
+use Wirecard\PaymentSdk\Mapper\Response\WithSignatureMapper;
 
 /**
  * Class RatepayPayloadData
@@ -18,42 +22,39 @@ use Wirecard\PaymentSdk\Constant\PayloadFields;
  */
 class RatepayPayloadData implements PayloadDataInterface
 {
-    const TYPE = 'ratepay';
-
     /**
      * @var string
      */
     private $payload;
 
     /**
+     * @var Config
+     */
+    private $config;
+
+    /**
      * RatepayPayloadData constructor.
      * @param array $payload
+     * @param Config $config
      * @since 4.0.0
      */
-    public function __construct(array $payload)
+    public function __construct(array $payload, Config $config)
     {
-        if (!$payload[PayloadFields::FIELD_BASE64_PAYLOAD]) {
-            throw new \InvalidArgumentException('The '. PayloadFields::FIELD_BASE64_PAYLOAD .' is missing in payload');
+        if (!array_key_exists(PayloadFields::FIELD_BASE64_PAYLOAD, $payload) ||
+            !$payload[PayloadFields::FIELD_BASE64_PAYLOAD]) {
+            throw new MalformedPayloadException('The '. PayloadFields::FIELD_BASE64_PAYLOAD .' is missing in payload');
         }
 
         $this->payload = $payload[PayloadFields::FIELD_BASE64_PAYLOAD];
+        $this->config = $config;
     }
 
     /**
-     * @return string
+     * @return MapperInterface
      * @since 4.0.0
      */
-    public function getData()
+    public function getResponseMapper()
     {
-        return $this->payload;
-    }
-
-    /**
-     * @return string
-     * @since 4.0.0
-     */
-    public function getType()
-    {
-        return self::TYPE;
+        return new WithSignatureMapper($this->payload, $this->config);
     }
 }

@@ -9,9 +9,7 @@
 
 namespace Wirecard\PaymentSdk\Helper;
 
-use http\Exception\InvalidArgumentException;
-
-class SimpleXmlBuilder
+class XmlBuilder
 {
     /**
      * @var \SimpleXMLElement
@@ -19,18 +17,20 @@ class SimpleXmlBuilder
     private $xml;
 
     /**
-     * XmlBuilder constructor.
-     * @param string $namespace
-     * @param string $value
+     * XmlBuilder constructor
+     * @param string $nodeName
+     * @param string $nodeValue
      * @since 4.0.0
      */
-    public function __construct($namespace, $value = '')
+    public function __construct($nodeName, $nodeValue = '')
     {
-        if (!is_string($namespace)) {
-            throw new InvalidArgumentException('The namespace provided is not of type string');
+        if (!is_string($nodeName)) {
+            throw new \InvalidArgumentException(
+                'The class ' . self::class . ' expects parameter nodeName to be string.'
+            );
         }
 
-        $this->xml = new \SimpleXMLElement('<' . $namespace .'>' . $value . '</' . $namespace . '>');
+        $this->xml = new \SimpleXMLElement('<' . $nodeName .'>' . htmlentities($nodeValue) . '</' . $nodeName . '>');
     }
 
     /**
@@ -51,14 +51,16 @@ class SimpleXmlBuilder
      * @return $this
      * @since 4.0.0
      */
-    public function addRawObject($objectName, $objectValue, $attributes = [])
+    public function addRawObject($objectName, $objectValue, array $attributes = [])
     {
         if (!is_string($objectName)) {
-            throw new InvalidArgumentException('The namespace provided is not of type string');
+            throw new \InvalidArgumentException(
+                'The class ' . self::class . ' method addRawObject expects parameter objectName to be string.'
+            );
         }
 
         $newXmlObject = new \SimpleXMLElement(
-            '<' . $objectName . '>' . $objectValue .'</' . $objectName . '>'
+            '<' . htmlentities($objectName) . '>' . htmlentities($objectValue) .'</' . htmlentities($objectName) . '>'
         );
 
         foreach ($attributes as $attributeKey => $attributeValue) {
@@ -72,12 +74,14 @@ class SimpleXmlBuilder
     /**
      * @param array $attributes
      * @return $this
+     * @since 4.0.0
      */
-    public function addAttributes($attributes)
+    public function addAttributes(array $attributes)
     {
         foreach ($attributes as $attributeKey => $attributeValue) {
             $this->xml->addAttribute($attributeKey, $attributeValue);
         }
+
         return $this;
     }
 

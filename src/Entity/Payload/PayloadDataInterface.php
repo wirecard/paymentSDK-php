@@ -9,6 +9,8 @@
 
 namespace Wirecard\PaymentSdk\Entity\Payload;
 
+use Wirecard\PaymentSdk\Mapper\Response\MapperInterface;
+
 /**
  * Interface PayloadDataInterface
  * @package Wirecard\PaymentSdk\Entity\Payload
@@ -17,14 +19,8 @@ namespace Wirecard\PaymentSdk\Entity\Payload;
 interface PayloadDataInterface
 {
     /**
-     * @return string|array
+     * @return MapperInterface
      * @since 4.0.0
      */
-    public function getData();
-
-    /**
-     * @return mixed
-     * @since 4.0.0
-     */
-    public function getType();
+    public function getResponseMapper();
 }

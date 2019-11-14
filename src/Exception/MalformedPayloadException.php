@@ -9,11 +9,13 @@
 
 namespace Wirecard\PaymentSdk\Exception;
 
+use UnexpectedValueException;
+
 /**
- * Class MandatoryFieldMissingException
+ * Class MalformedPayloadException
  * @package Wirecard\PaymentSdk\Exception
  */
-class MandatoryFieldMissingException extends \UnexpectedValueException
+class MalformedPayloadException extends UnexpectedValueException
 {
 
 }

@@ -11,6 +11,7 @@ namespace Wirecard\PaymentSdk\Entity\Payload;
 
 use Wirecard\PaymentSdk\Config\Config;
 use Wirecard\PaymentSdk\Constant\PayloadFields;
+use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 
 /**
  * Class PayloadDataFactory
@@ -53,22 +54,22 @@ class PayloadDataFactory
         }
 
         if ($this->isSyncResponse()) {
-            return new SyncPayloadData($this->payload);
+            return new SyncPayloadData($this->payload, $this->config);
         }
 
         if ($this->isRatepayResponse()) {
-            return new RatepayPayloadData($this->payload);
+            return new RatepayPayloadData($this->payload, $this->config);
         }
 
         if ($this->isPayPalResponse()) {
-            return new PayPalPayloadData($this->payload);
+            return new PayPalPayloadData($this->payload, $this->config);
         }
 
         if ($this->isIdealResponse()) {
             return new IdealPayloadData($this->payload, $this->config);
         }
 
-        throw new \InvalidArgumentException('The payload cannot be identified.');
+        throw new MalformedResponseException('The payload cannot be identified.');
     }
 
     /**
@@ -79,7 +80,7 @@ class PayloadDataFactory
     {
         return array_key_exists(PayloadFields::FIELD_EC, $this->payload) &&
             array_key_exists(PayloadFields::FIELD_TRXID, $this->payload) &&
-            array_key_exists(PayloadFields::REQUEST_ID, $this->payload);
+            array_key_exists(PayloadFields::FIELD_REQUEST_ID, $this->payload);
     }
 
     /**

@@ -166,18 +166,17 @@ class TransactionService
      * @param array $payload
      * @return FailureResponse|InteractionResponse|SuccessResponse|Response
      * @throws \Http\Client\Exception
+     * @throws \InvalidArgumentException
+     * @throws MalformedResponseException
      * @since 4.0.0 Refactored
      */
     public function handleResponse(array $payload)
     {
         $payloadDataFactory = new PayloadDataFactory($payload, $this->config);
-        $responseMapperFactory = new MapperFactory(
-            $payloadDataFactory->create(),
-            $this->config
-        );
-        $mapper = $responseMapperFactory->create();
+        $responseMapperFactory = new MapperFactory($payloadDataFactory->create());
+        $responseMapper = $responseMapperFactory->create();
 
-        return $mapper->map();
+        return $responseMapper->map();
     }
 
     /**
@@ -241,7 +240,7 @@ class TransactionService
 
         if ($transaction instanceof CreditCardTransaction) {
             $isThreeD = is_null($config->getMerchantAccountId()) || ($config->getThreeDMerchantAccountId() &&
-            ($transaction->isFallback() || $transaction->getIsThreeD())) ? true : false;
+            ($transaction->isFallback() || $transaction->getThreeD())) ? true : false;
             $merchantAccountId = $isThreeD ? $config->getThreeDMerchantAccountId() : $config->getMerchantAccountId();
             $secret = $isThreeD ? $config->getThreeDSecret() : $config->getSecret();
         }
@@ -367,6 +366,7 @@ class TransactionService
      * @param Transaction $transaction
      * @return FailureResponse|InteractionResponse|Response|SuccessResponse
      * @throws \Http\Client\Exception
+     * @throws UnsupportedOperationException
      */
     public function reserve(Transaction $transaction)
     {
@@ -453,11 +453,12 @@ class TransactionService
     }
 
     /**
-     * @param $endpoint
+     * @param string $endpoint
      * @param bool $acceptJson
      * @param bool $logNotFound
      * @return string|array
      * @throws \Http\Client\Exception
+     * @TODO refactoring of the method is needed. For better naming and logical decisions.
      */
     private function sendGetRequest($endpoint, $acceptJson = false, $logNotFound = true)
     {
@@ -509,7 +510,7 @@ class TransactionService
             );
 
             if ($transaction instanceof CreditCardTransaction) {
-                $transaction->getIsThreeD() ? $transaction->setThreeD(true) : $transaction->setThreeD($this->isThreeD);
+                $transaction->getThreeD() ? $transaction->setThreeD(true) : $transaction->setThreeD($this->isThreeD);
             }
 
             if (null !== $parentTransaction) {
@@ -570,7 +571,8 @@ class TransactionService
     /**
      * We expect status code 404 for a successful authentication, otherwise the endpoint will return 401 unauthorized
      * @return boolean
-     * @throws \Http\Client\Exception
+     * @throws \Exception
+     * @since 4.0.0 use generic Exception for Client Adaption
      */
     public function checkCredentials()
     {
@@ -584,7 +586,7 @@ class TransactionService
             );
             $request = $this->basicAuth->authenticate($request);
             $responseCode = $this->httpClient->sendRequest($request)->getStatusCode();
-        } catch (TransferException $e) {
+        } catch (\Exception $e) {
             $this->getLogger()->debug('Check credentials: Error - ' . $e->getMessage());
             return false;
         }
@@ -599,6 +601,7 @@ class TransactionService
     }
 
     /**
+     * @SuppressWarnings(PHPMD.StaticAccess)
      * @param $transactionId
      * @param $paymentMethod
      * @param bool $acceptJson
@@ -612,6 +615,7 @@ class TransactionService
 
         $request = $this->sendGetRequest($endpoint, $acceptJson, $logNotFound);
 
+        //@TODO Refactor the static method
         if (!RequestInspector::isValidRequest($request) && $this->isCardTransaction($paymentMethod)) {
             $endpoint = $this->getTransactionEndpoint($transactionId, $paymentMethod, true);
             $request = $this->sendGetRequest($endpoint, $acceptJson);
@@ -670,7 +674,8 @@ class TransactionService
      */
     public function getTransactionByRequestId($requestId, $paymentMethod, $acceptJson = true)
     {
-        $logNotFound = ($paymentMethod !== CreditCardTransaction::NAME);
+        //if in the request we get a 404 and this parameter is set to false we will write a log.
+        $logNotFound = ($paymentMethod == CreditCardTransaction::NAME) ? false : true;
         $endpoint =
             $this->config->getBaseUrl() .
             '/engine/rest/merchants/' .

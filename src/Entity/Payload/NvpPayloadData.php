@@ -9,6 +9,10 @@
 
 namespace Wirecard\PaymentSdk\Entity\Payload;
 
+use Wirecard\PaymentSdk\Constant\PayloadFields;
+use Wirecard\PaymentSdk\Exception\MalformedPayloadException;
+use Wirecard\PaymentSdk\Mapper\Response\SeamlessMapper;
+
 /**
  * Class NvpPayloadData
  * @package Wirecard\PaymentSdk\Entity\Payload
@@ -16,8 +20,6 @@ namespace Wirecard\PaymentSdk\Entity\Payload;
  */
 class NvpPayloadData implements PayloadDataInterface
 {
-    const TYPE = 'nvp';
-
     /**
      * @var array
      */
@@ -30,24 +32,22 @@ class NvpPayloadData implements PayloadDataInterface
      */
     public function __construct(array $payload)
     {
-        $this->payload = $payload;
-    }
+        if (!array_key_exists(PayloadFields::FIELD_RESPONSE_SIGNATURE, $payload) ||
+            !$payload[PayloadFields::FIELD_RESPONSE_SIGNATURE]) {
+            throw new MalformedPayloadException(
+                'The '. PayloadFields::FIELD_RESPONSE_SIGNATURE .' is missing in payload'
+            );
+        }
 
-    /**
-     * @return array
-     * @since 4.0.0
-     */
-    public function getData()
-    {
-        return $this->payload;
+        $this->payload = $payload;
     }
 
     /**
      * @return string
      * @since 4.0.0
      */
-    public function getType()
+    public function getResponseMapper()
     {
-        return self::TYPE;
+        return new SeamlessMapper($this->payload);
     }
 }
