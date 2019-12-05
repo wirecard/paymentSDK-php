@@ -23,23 +23,10 @@ matrix:
       - GATEWAY=API-WDCEE-TEST
       - ALLOW_FAIL=1
   include:
-  #this stage will run unit tests and test the coverage
-  - php: 5.6
-    if: type != cron AND commit_message != env(MANUAL_UITEST_TRIGGER_COMMIT)
-  #this stage will run unit tests, style check and create docs
-  - php: 7
+  - php: 7.3
     if: type != cron AND commit_message != env(MANUAL_UITEST_TRIGGER_COMMIT)
     env:
       - CREATE_DOCS=true
-  #this stage will run unit tests
-  - php: 7.1
-    if: type != cron AND commit_message != env(MANUAL_UITEST_TRIGGER_COMMIT)
-  #this stage will run unit tests
-  - php: 7.2
-    if: type != cron AND commit_message != env(MANUAL_UITEST_TRIGGER_COMMIT)
-  #this stage will run mutation tests
-  - php: 7.3
-    if: type != cron AND commit_message != env(MANUAL_UITEST_TRIGGER_COMMIT)
   - &acceptance-test
     stage: acceptance-test
     # this stage will be triggered on Pull request and run ui tests
