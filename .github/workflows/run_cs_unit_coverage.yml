@@ -15,7 +15,7 @@ jobs:
       uses: actions/checkout@master
 
     - name: Setup PHP
-      uses: shivammathur/setup-php@master
+      uses: wirecard/setup-php@master
       with:
         php-version: ${{ matrix.php-versions }}
         extension-csv: mbstring, intl, simplexml, dom
