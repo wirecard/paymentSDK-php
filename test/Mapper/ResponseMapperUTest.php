@@ -258,8 +258,8 @@ class ResponseMapperUTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(FormInteractionResponse::class, $mapped);
         $this->assertEquals($payload, $mapped->getRawData());
         $this->assertEquals(
-            '{"enrollment-check-transaction-id":"12345","operation-type":"authorization"}',
-            base64_decode($mapped->getFormFields()->getIterator()['MD'])
+            'transaction_type=authorization&transaction_id=12345',
+            $mapped->getFormFields()->getIterator()['MD']
         );
     }
 

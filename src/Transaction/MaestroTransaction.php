@@ -9,6 +9,9 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
+use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
+
 /**
  * Class MaestroTransaction
  * @package Wirecard\PaymentSdk\Transaction

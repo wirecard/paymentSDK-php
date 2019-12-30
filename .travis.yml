@@ -1,93 +1,15 @@
 dist: trusty
 sudo: false
 language: php
-addons:
-  sonarqube:
-    token:
-      secure: "Vq7wlEnXk/WAO7Rb1Bqt98ZipKXXCaYa+kxTR4ttFCByX4IRjqk5eKDYtFfozmGlVB78zO21YfE8o2FxL0pLC7glVaTBvXPxl7CdjkxRG6H/QBcaK4tGywYtWwXrAULzPGRx1J9/teo0dUb4u76SwtGnGtbitM3D/wmxLbRHmnWLmlds9QY1sCIMY6nBAKVuM6pTv/LgzL817tMQcEI7E3afffE4z6TkNrl4XFc96KAcx4rx6urXGKloX1W9XwAlj5Q1NTq+af/U438WXiipQVMH18ss2NkzPbE4snTEEBlc0PnbUi5jI7c1ff2DCIfHfo7ev8/aISJFg26EMto6fxXpPbopgonu2wvhf+9DqHDN4LQzRcmRq4EaI4cNyAG68W0eR/WVItGM5liQqffKQejKuLytDaw1ZKzc1UcN2v1jX+5j32ztUFnEN3ZJve5Ob5/Yzlesxd+ZMRkoF11sSkYwCy1O+RtsaWjf3u6f7+ETdBDW9H/Oom0NYqfNiArmFrpLkr9/FIQz8FGwvAa+H8NYL1dCEMvWKCI6JfW4iCvSX3Jiow8Mt6a/b1dPf3L2hagybV1ejGqj8FDjTdTxzJP7qoTYivL+Xiv6FrFeJd9eAm/SiZvHWAPdhmynxmDHWkzbgCsm5sIsBSI52R8MFLW9Z9YEsgt71QfN7jWSeJ8="
-    browserstack:
-      username: ${BROWSERSTACK_USER}
-      access_key:
-        secure: "RgYC3ItseWsKiS0HfILxJ7pKU7h6gT/2Lkgqa6MHj4DvLTgl6U0JK2AS+iQpg+4F5ZmI/7iVs/OH2hhVMXZBECnQZKfifcV16ytso8tLHgwxmx4wgNqHQX99AX2neDcfAzbgHVpEE2CnyISZj4BfvOHqZtmKxD4YfoeweGY7C2uE0PPS+IpuiWWlSANvIDMkoemh77EEKGDqcVyG6bmSWIpPDMmha+sGJJhaTpfRNiOtQRG0oUEnM1nHsXX61yDe3Eh1BoGzKbhj2jEQpvqSJMETaqaDfljWw1ZNVRfRrKrZw2cg8BKlsYGFhTo2uoS4toQh7L/TNyajyLnZ2FfLR9GT+qVu0blv1rUhZHeyz7qi0CgkWV284Plz3kMBw0jB2uvSgR+uwK9GvRdTgySGIVKNzTS2vRWEP5kO1/QsCrxfS2IU9/ZlTVCUJTN8zmJra1XmJdb7VskhhfY9p6x84UnZFehfaqZWfjpXncr29d+8V1E9JEJdNkXSEjA+SunLEMAK/qPLENFFgt9tVu50uulWVbefBC+ghT/UJk2Usdv6bf9PZ5TUB2rzCPHGcaz75ib/ImFhI8lr4SAhWnEmbt3wrFUS+wHUNDyq+NuMBFQJpQKoXTQJSYF320n2b2tpbS2LiypruvYdPMzHt+ngYIJsH3v42xpb92SFqP2YE5w="
+
 cache:
   directories:
     - $HOME/.composer/cache
-    - $HOME/.sonar/cache
 
 env:
   global:
-  - COMPOSER_ARGS="--no-interaction"
-
-matrix:
-  allow_failures:
-    - stage: acceptance-test
-  include:
-  - php: 5.6
-    if: type != cron
-    env:
-    - TEST_COVERAGE=true
-  - php: 7
-    if: type != cron
-    env:
-    - CHECK_CS=true
-    - CREATE_DOCS=true
-  - php: 7.1
-    if: type != cron
-    env:
-    - MUTATION_TESTS=true
-  - php: 7.2
-    if: type != cron
-    env:
-    - MUTATION_TESTS=true
-  - php: 7.3
-    if: type != cron
-    env:
-    - MUTATION_TESTS=true
-  - &acceptance-test
-    stage: acceptance-test
-    if: type = cron
-    php: 7.2
-    env: GATEWAY=API-TEST
-    install:
-    - travis_retry composer require --dev $COMPOSER_ARGS codeception/codeception:^2.5
-    - travis_retry composer install $COMPOSER_ARGS
-    - composer show
-    script: bash .bin/run-ui-tests.sh
-    after_success:
-    - bash .bin/upload-logs-and-notify.sh
-    after_failure:
-    - bash .bin/output-failed-logs.sh
-    - bash .bin/upload-logs-and-notify.sh fail
-  - <<: *acceptance-test
-    env: GATEWAY=API-WDCEE-TEST
-  - <<: *acceptance-test
-    env: GATEWAY=NOVA
-  - <<: *acceptance-test
-    env: GATEWAY=SECURE-TEST-SG
-  - <<: *acceptance-test
-    env: GATEWAY=TEST-SG
-
-before_install:
-  - travis_retry composer self-update
-install:
-  - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer require --dev $COMPOSER_ARGS codacy/coverage:1.4.2 ; fi
-  - if [[ $MUTATION_TESTS == 'true' ]]; then travis_retry composer require --dev $COMPOSER_ARGS infection/infection:0.12.2 ; fi
-  - travis_retry composer install $COMPOSER_ARGS
-  - composer show
-script:
-  - if [[ $TEST_COVERAGE == 'true' ]]; then composer test-coverage ; else composer test ; fi
-  - if [[ $CHECK_CS == 'true' ]]; then composer cs-check ; fi
-  - if [[ $MUTATION_TESTS == 'true' ]]; then composer infection ; fi
-
-after_script:
-  - if [[ $MUTATION_TESTS == 'true' ]]; then cat infection-log.txt ; fi
-  - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer upload-coverage ; fi
-  - if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then bash .bin/generate-tag.sh ; fi
-
-before_deploy:
-  - bash .bin/generate-release-package.sh $TRAVIS_TAG
-  - ls -lah target
-  - if [[ $CREATE_DOCS == 'true' ]]; then bash .bin/generate-docs.sh ; fi
+    - COMPOSER_ARGS="--no-interaction"
+    - MANUAL_UITEST_TRIGGER_COMMIT="Test my build"
 
 deploy:
   provider: releases
@@ -98,6 +20,59 @@ deploy:
   on:
     repo: wirecard/paymentSDK-php
     tags: true
+
+jobs:
+  allow_failures:
+    - stage: acceptance-test
+      env:
+        - GATEWAY=API-TEST
+        - ALLOW_FAIL=1
+    - stage: acceptance-test
+      env:
+        - GATEWAY=API-WDCEE-TEST
+        - ALLOW_FAIL=1
+  include:
+    - stage: Generate tags
+      php: 7.3
+      if: branch = master AND type != pull_request
+      script: bash .bin/generate-tag.sh
+
+    - stage: Generate release package
+      if: tag IS present
+      php: 7.3
+      script: skip
+      before_deploy:
+        - bash .bin/generate-release-package.sh $TRAVIS_TAG
+        - ls -lah target
+
+    - &acceptance-test
+      stage: acceptance-test
+      # this stage will be triggered on Pull request and run ui tests
+      if: type = pull_request OR commit_message =~ env(MANUAL_UITEST_TRIGGER_COMMIT)
+      php: 7.2
+      env: GATEWAY=API-TEST
+      install:
+        - travis_retry composer require --dev $COMPOSER_ARGS codeception/codeception:3.0.1
+        - travis_retry composer install $COMPOSER_ARGS
+        - composer show
+      script: bash .bin/run-ui-tests.sh
+      after_success:
+        - bash .bin/upload-logs-and-notify.sh
+      after_failure:
+        - bash .bin/output-failed-logs.sh
+        - bash .bin/upload-logs-and-notify.sh fail
+    - <<: *acceptance-test
+      # this stage will be triggered on timely basis and run ui tests
+      if: type = cron
+      env:
+        - GATEWAY=API-TEST
+        - ALLOW_FAIL=1
+    - <<: *acceptance-test
+      # this stage will be triggered on timely basis and run ui tests
+      if: type = cron
+      env:
+        - GATEWAY=API-WDCEE-TEST
+        - ALLOW_FAIL=1
 
 notifications:
   email: false

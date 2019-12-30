@@ -31,7 +31,7 @@ use Wirecard\PaymentSdk\TransactionService;
 // ### Transaction related objects
 
 // Create a amount object as amount which has to be paid by the consumer.
-$amount = 70.00;
+$amount = new Amount(70.00, 'EUR');
 if (isset($_POST['amount']) && isset($_POST['currency'])) {
     $amount = new Amount((float)$_POST['amount'], $_POST['currency']);
 }
@@ -47,10 +47,6 @@ if ($parentTransactionId === null && $tokenId === null) {
     $tokenId = '5168216323601006';
 }
 
-// The redirect URL determines where the consumer should be redirected to
-// after an approval/cancellation on the issuer's ACS page.
-$redirectUrl = getUrl('return.php?status=success');
-
 $response = null;
 
 // ### Transaction Service
@@ -59,8 +55,7 @@ $response = null;
 $transactionService = new TransactionService($config);
 
 if (array_key_exists('jsresponse', $_POST) && $_POST['jsresponse']) {
-    $response = $transactionService->processJsResponse($_POST, $redirectUrl);
-
+    $response = $transactionService->processJsResponse($_POST);
 } else {
     // ### Transaction
 
@@ -68,7 +63,6 @@ if (array_key_exists('jsresponse', $_POST) && $_POST['jsresponse']) {
     $transaction = new CreditCardTransaction();
     $transaction->setAmount($amount);
     $transaction->setTokenId($tokenId);
-    $transaction->setTermUrl($redirectUrl);
     $transaction->setParentTransactionId($parentTransactionId);
 
     $response = $transactionService->reserve($transaction);
@@ -98,10 +92,14 @@ elseif ($response instanceof SuccessResponse):
     <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+        <input type="hidden" name="amount" value="<?= $response->getRequestedAmount()->getValue() ?>"/>
+        <input type="hidden" name="currency" value="<?= $response->getRequestedAmount()->getCurrency() ?>"/>
         <button type="submit" class="btn btn-primary">Cancel the payment</button>
     </form>
     <form action="pay-based-on-reserve.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+        <input type="hidden" name="amount" value="<?= $response->getRequestedAmount()->getValue() ?>"/>
+        <input type="hidden" name="currency" value="<?= $response->getRequestedAmount()->getCurrency() ?>"/>
         <button type="submit" class="btn btn-primary">Capture the payment</button>
     </form>
     <?php
@@ -119,5 +117,4 @@ elseif ($response instanceof FailureResponse):
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
 endif;
-
 require __DIR__ . '/../../inc/footer.php';

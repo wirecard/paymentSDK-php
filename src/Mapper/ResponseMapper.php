@@ -13,6 +13,8 @@ use RobRichards\XMLSecLibs\XMLSecEnc;
 use RobRichards\XMLSecLibs\XMLSecurityDSig;
 use SimpleXMLElement;
 use Wirecard\PaymentSdk\Config\Config;
+use Wirecard\PaymentSdk\Constant\FormFields;
+use Wirecard\PaymentSdk\Constant\SeamlessFields;
 use Wirecard\PaymentSdk\Entity\FormFieldMap;
 use Wirecard\PaymentSdk\Exception\MalformedResponseException;
 use Wirecard\PaymentSdk\Response\FailureResponse;
@@ -216,20 +218,21 @@ class ResponseMapper
 
         $response = new FormInteractionResponse($this->simpleXml, $redirectUrl);
 
-        $fields = new FormFieldMap();
-        $fields->add('TermUrl', $this->transaction->getTermUrl());
         if (!isset($threeD->{'pareq'})) {
             throw new MalformedResponseException('Missing pareq in enrollment-check response.');
         }
 
-        $fields->add('PaReq', (string)$threeD->{'pareq'});
-
+        $fields = new FormFieldMap();
+        $fields->add(FormFields::FORM_FIELD_TERM_URL, $this->transaction->getTermUrl());
+        $fields->add(FormFields::FORM_FIELD_PAREQ, (string)$threeD->{'pareq'});
+        //field md is constructed with seamless fields as the keys are the same
         $fields->add(
-            'MD',
-            base64_encode(json_encode([
-                'enrollment-check-transaction-id' => $response->getTransactionId(),
-                'operation-type' => $this->transaction->retrieveOperationType()
-            ]))
+            FormFields::FORM_FIELD_MD,
+            http_build_query([
+                SeamlessFields::MERCHANT_ACCOUNT_ID => $this->simpleXml->{'merchant-account-id'},
+                SeamlessFields::TRANSACTION_TYPE => $this->transaction->retrieveOperationType(),
+                SeamlessFields::TRANSACTION_ID => $response->getTransactionId(),
+            ])
         );
 
         $response->setFormFields($fields);
@@ -246,7 +249,7 @@ class ResponseMapper
         $payload = base64_encode($this->simpleXml->asXML());
 
         $formFields = new FormFieldMap();
-        $formFields->add('sync_response', $payload);
+        $formFields->add(FormFields::FORM_FIELD_SYNC_RESPONSE, $payload);
 
         $response = new FormInteractionResponse($this->simpleXml, $this->transaction->getSuccessUrl());
         $response->setFormFields($formFields);
@@ -276,103 +279,5 @@ class ResponseMapper
         }
 
         return new SuccessResponse($this->simpleXml);
-    }
-
-    public function mapSeamlessResponse($payload, $url)
-    {
-        $this->simpleXml = new SimpleXMLElement('<payment></payment>');
-
-        $this->simpleXml->addChild("merchant-account-id", $payload['merchant_account_id']);
-        $this->simpleXml->addChild("transaction-id", $payload['transaction_id']);
-        $this->simpleXml->addChild("transaction-state", $payload['transaction_state']);
-        $this->simpleXml->addChild("transaction-type", $payload['transaction_type']);
-        $this->simpleXml->addChild("payment-method", $payload['payment_method']);
-        $this->simpleXml->addChild("request-id", $payload['request_id']);
-
-        if (array_key_exists('requested_amount', $payload) && array_key_exists('requested_amount_currency', $payload)) {
-            $amountSimpleXml = new SimpleXMLElement(
-                '<requested-amount>'.$payload['requested_amount'].'</requested-amount>'
-            );
-            $amountSimpleXml->addAttribute('currency', $payload['requested_amount_currency']);
-            $this->simpleXmlAppendNode($this->simpleXml, $amountSimpleXml);
-        }
-
-        if (array_key_exists('acs_url', $payload) && array_key_exists('pareq', $payload)) {
-            $threeD = new SimpleXMLElement('<three-d></three-d>');
-            $threeD->addChild('acs-url', $payload['acs_url']);
-            $threeD->addChild('pareq', $payload['pareq']);
-            $threeD->addChild('cardholder-authentication-status', $payload['cardholder_authentication_status']);
-            $this->simpleXmlAppendNode($this->simpleXml, $threeD);
-        }
-
-        if (array_key_exists('parent_transaction_id', $payload)) {
-            $this->simpleXml->addChild('parent-transaction-id', $payload['parent_transaction_id']);
-        }
-
-        // parse statuses
-        $statuses = [];
-
-        foreach ($payload as $key => $value) {
-            if (strpos($key, 'status_') === 0) {
-                if (strpos($key, 'status_code_') === 0) {
-                    $number = str_replace('status_code_', '', $key);
-                    $statuses[$number]['code'] = $value;
-                }
-                if (strpos($key, 'status_severity_') === 0) {
-                    $number = str_replace('status_severity_', '', $key);
-                    $statuses[$number]['severity'] = $value;
-                }
-                if (strpos($key, 'status_description_') === 0) {
-                    $number = str_replace('status_description_', '', $key);
-                    $statuses[$number]['description'] = $value;
-                }
-            }
-        }
-
-        if (count($statuses) > 0) {
-            $statusesXml = new SimpleXMLElement('<statuses></statuses>');
-
-            foreach ($statuses as $status) {
-                $statusXml = new SimpleXMLElement('<status></status>');
-                $statusXml->addAttribute('code', $status['code']);
-                $statusXml->addAttribute('description', $status['description']);
-                $statusXml->addAttribute('severity', $status['severity']);
-                $this->simpleXmlAppendNode($statusesXml, $statusXml);
-            }
-            $this->simpleXmlAppendNode($this->simpleXml, $statusesXml);
-        }
-
-        if (array_key_exists('acs_url', $payload)) {
-            $response = new FormInteractionResponse($this->simpleXml, $payload['acs_url']);
-
-            $fields = new FormFieldMap();
-            $fields->add('TermUrl', $url);
-            $fields->add('PaReq', (string)$payload['pareq']);
-
-            $fields->add(
-                'MD',
-                base64_encode(json_encode([
-                    'enrollment-check-transaction-id' => $response->getTransactionId(),
-                    'operation-type' => $payload['transaction_type']
-                ]))
-            );
-
-            $response->setFormFields($fields);
-
-            return $response;
-        } else {
-            if ($payload['transaction_state'] == 'success') {
-                return new SuccessResponse($this->simpleXml);
-            } else {
-                return new FailureResponse($this->simpleXml);
-            }
-        }
-    }
-
-    private function simpleXmlAppendNode(SimpleXMLElement $to, SimpleXMLElement $from)
-    {
-        $toDom = dom_import_simplexml($to);
-        $fromDom = dom_import_simplexml($from);
-        $toDom->appendChild($toDom->ownerDocument->importNode($fromDom, true));
     }
 }

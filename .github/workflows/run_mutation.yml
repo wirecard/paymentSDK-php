@@ -1,0 +1,26 @@
+name: Mutation tests
+
+on: [push]
+
+jobs:
+  run:    
+    runs-on: ubuntu-latest
+    name: PHP 7.3 Mutation Test
+    steps:
+    - name: Checkout
+      uses: wirecard/checkout@v2.0.0
+
+    - name: Setup PHP
+      uses: wirecard/setup-php@master
+      with:
+        php-version: 7.3
+        extension-csv: mbstring, intl, simplexml, dom
+        ini-values-csv: post_max_size=256M, short_open_tag=On
+        coverage: xdebug
+        pecl: false
+
+    - name: Composer install 
+      run: composer require --dev --no-interaction infection/infection:0.12.2
+
+    - name: Run Mutation Tests
+      run: composer infection

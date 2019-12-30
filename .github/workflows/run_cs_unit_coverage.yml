@@ -1,0 +1,38 @@
+name: CS, Unit Tests, Coverage
+
+on: [push]
+
+jobs:
+  run:    
+    runs-on: ${{ matrix.operating-system }}
+    strategy:      
+      matrix:
+        operating-system: [ubuntu-latest]
+        php-versions: ['5.6', '7.0', '7.1', '7.2', '7.3']
+    name: PHP ${{ matrix.php-versions }} Test
+    steps:
+    - name: Checkout
+      uses: wirecard/checkout@v2.0.0
+
+    - name: Setup PHP
+      uses: wirecard/setup-php@master
+      with:
+        php-version: ${{ matrix.php-versions }}
+        extension-csv: mbstring, intl, simplexml, dom
+        ini-values-csv: post_max_size=256M, short_open_tag=On
+        coverage: xdebug
+        pecl: false
+
+    - name: Composer install 
+      run: composer require --dev --no-interaction codacy/coverage:1.4.2
+
+    - name: Run Style Check
+      run: composer cs-check
+
+    - name: Run Unit Tests
+      run: composer test-coverage
+
+    - name: Upload coverage
+      env:
+        CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+      run:  composer upload-coverage

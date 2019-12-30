@@ -11,7 +11,7 @@ Feature: CrediCard3DSTokenizePurchaseHappyPath
     And I choose "EUR" in field "Currency"
     And I click "Save"
 
-  @API-TEST @API-WDCEE-TEST @NOVA
+  # @API-TEST @API-WDCEE-TEST @NOVA
   Scenario: purchase
     Given I am redirected to "Credit Card Tokenize Reserve Page" page
     And I click "Redirect to 3-D Secure page"
@@ -22,7 +22,7 @@ Feature: CrediCard3DSTokenizePurchaseHappyPath
     Then I see text "Payment successfully completed."
     And I see text "Transaction ID"
 
-  @API-TEST @API-WDCEE-TEST
+  # @API-TEST @API-WDCEE-TEST
   Scenario: voidPurchase
     Given I am redirected to "Credit Card Tokenize Reserve Page" page
     And I click "Redirect to 3-D Secure page"
@@ -40,7 +40,7 @@ Feature: CrediCard3DSTokenizePurchaseHappyPath
     Then I see text "Payment successfully cancelled."
     And I see text "Transaction ID"
 
-  @SECURE-TEST-SG
+  # @SECURE-TEST-SG
   Scenario: purchase
     Given I am redirected to "Credit Card Tokenize Reserve Page" page
     And I click "Redirect to 3-D Secure page"
@@ -50,7 +50,7 @@ Feature: CrediCard3DSTokenizePurchaseHappyPath
     Then I see text "Payment successfully completed."
     And I see text "Transaction ID"
 
-  @SECURE-TEST-SG
+  # @SECURE-TEST-SG
   Scenario: voidPurchase
     Given I am redirected to "Credit Card Tokenize Reserve Page" page
     And I click "Redirect to 3-D Secure page"

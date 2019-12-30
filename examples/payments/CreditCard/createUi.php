@@ -29,14 +29,13 @@ use Wirecard\PaymentSdk\Entity\CustomFieldCollection;
 use Wirecard\PaymentSdk\Entity\Item;
 use Wirecard\PaymentSdk\TransactionService;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
+use Wirecard\PaymentSdk\Example\Constants\Url;
 
 // ### Transaction
 
 // ### Transaction Service
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
-
-$redirectUrl = getUrl('return.php?status=success');
 
 $gatewayEnv = getenv('GATEWAY');
 
@@ -101,8 +100,15 @@ $accountHolder->setAddress($address);
 $transaction = new CreditCardTransaction();
 $transaction->setConfig($creditcardConfig);
 $transaction->setAmount($amount);
-$transaction->setTermUrl($redirectUrl);
-$transaction->setNotificationUrl($notificationUrl);
+
+$redirects = new \Wirecard\PaymentSdk\Entity\Redirect(
+    getUrl(Url::SUCCESS_URL),
+    getUrl(Url::CANCEL_URL),
+    getUrl(Url::FAILURE_URL)
+);
+
+$transaction->setRedirect($redirects);
+$transaction->setNotificationUrl(getUrl(Url::NOTIFICATION_URL));
 $transaction->setBasket($basket);
 $transaction->setOrderNumber($orderNumber);
 $transaction->setAccountHolder($accountHolder);

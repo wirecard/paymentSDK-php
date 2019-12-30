@@ -193,13 +193,14 @@ class Address implements MappableEntity
      * @param int $start
      * @param int $length
      * @return array
+     * @since 3.9.0 Do not truncate empty properties
      * @since 3.8.0
      */
     private function truncatePropertyIfSet($property, $prefix = '', $start = 0, $length = 128)
     {
         $data = array();
 
-        if (isset($this->{$property})) {
+        if (isset($this->{$property}) && !empty($this->{$property})) {
             $data[$prefix . $property] = mb_substr($this->{$property}, $start, $length);
         }
 

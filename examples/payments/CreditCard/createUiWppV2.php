@@ -23,6 +23,7 @@ require __DIR__ . '/../../inc/header.php';
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\TransactionService;
 use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
+use Wirecard\PaymentSdk\Example\Constants\Url;
 
 // ## Transaction
 
@@ -30,7 +31,6 @@ use Wirecard\PaymentSdk\Transaction\CreditCardTransaction;
 // The _TransactionService_ is used to generate the request data needed for the generation of the UI.
 $transactionService = new TransactionService($config);
 
-$redirectUrl = getUrl('return.php?status=success');
 $amount = new Amount(70.00, 'EUR');
 $orderNumber = 'A2';
 
@@ -73,8 +73,16 @@ $accountHolder->setAddress($address);
 $transaction = new CreditCardTransaction();
 $transaction->setConfig($creditcardConfig);
 $transaction->setAmount($amount);
-$transaction->setTermUrl($redirectUrl);
-$transaction->setNotificationUrl($redirectUrl);
+
+$transaction->setNotificationUrl(getUrl(Url::NOTIFICATION_URL));
+
+$redirects = new \Wirecard\PaymentSdk\Entity\Redirect(
+    getUrl(Url::SUCCESS_URL),
+    getUrl(Url::CANCEL_URL),
+    getUrl(Url::FAILURE_URL)
+);
+
+$transaction->setRedirect($redirects);
 $transaction->setBasket($basket);
 $transaction->setOrderNumber($orderNumber);
 $transaction->setShipping($accountHolder);

@@ -9,6 +9,8 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
+use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
+
 class PayByBankAppTransaction extends Transaction
 {
     const NAME = 'zapp';

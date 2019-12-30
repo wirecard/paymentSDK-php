@@ -5,7 +5,7 @@ Feature: CreditCard3DSTokenizePurchaseErrorCards
   Background:
     Given I am on "Create Credit Card UI Tokenize Page" page
 
-  @API-TEST @API-WDCEE-TEST @NOVA
+  # @API-TEST @API-WDCEE-TEST @NOVA
   Scenario Outline: purchaseErrorNoRedirect3DS
     Given I fill fields with <credit_card_data>
     And I enter "500" in field "Amount"
@@ -21,7 +21,7 @@ Feature: CreditCard3DSTokenizePurchaseErrorCards
       | "MPI Error VISA Data"                              | "500.1074" |
       | "MPI Error Mastercard Data"                        | "500.1074" |
 
-  @API-TEST @API-WDCEE-TEST
+  # @API-TEST @API-WDCEE-TEST
   Scenario Outline: purchaseErrorNoRedirect3DS
     Given I fill fields with <credit_card_data>
     And I enter "500" in field "Amount"
@@ -38,7 +38,7 @@ Feature: CreditCard3DSTokenizePurchaseErrorCards
       | "Unable to Verify Enrolment Mastercard Data"       | "500.1073" |
       | "MPI Error Maestro Data"                           | "500.1074" |
 
-  @API-TEST @API-WDCEE-TEST
+  # @API-TEST @API-WDCEE-TEST
   Scenario Outline: purchaseErrorRedirect3DS
     Given I fill fields with <credit_card_data>
     And I enter "500" in field "Amount"
