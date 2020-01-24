@@ -35,9 +35,6 @@ class SeamlessFields
 
     const PARENT_TRANSACTION_ID = 'parent_transaction_id';
 
-    const EXPIRATION_MONTH = 'expiration_month';
-    const EXPIRATION_YEAR = 'expiration_year';
-    const CARD_TYPE = 'card_type';
     const TOKEN_ID = 'token_id';
     const MASKED_ACCOUNT_NUMBER = 'masked_account_number';
 
