@@ -18,6 +18,7 @@ class PayPalReview extends Base
     public $elements = array(
         'Continue' => "//*[@id='button']",
         'Pay Now' => "//*[@id='confirmButtonTop']",
+        'Accept Cookies' => "//*[@id='acceptAllButton']",
         'Transaction Identification' => "//div[contains(@class, 'content')]/a"
     );
 }
