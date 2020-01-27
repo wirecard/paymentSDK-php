@@ -232,14 +232,16 @@ class SeamlessMapper implements MapperInterface
                 $this->payload[SeamlessFields::MASKED_ACCOUNT_NUMBER]
             );
 
-            if ((array_key_exists(SeamlessFields::CARD_TYPE, $this->payload)) &&
-                (array_key_exists(SeamlessFields::EXPIRATION_MONTH, $this->payload)) &&
-                (array_key_exists(SeamlessFields::EXPIRATION_YEAR, $this->payload))
-            ) {
+            if (array_key_exists(SeamlessFields::CARD_TYPE, $this->payload)) {
                 $cardXmlBuilder->addRawObject(
                     ResponseMappingXmlFields::CARD_TYPE,
                     $this->payload[SeamlessFields::CARD_TYPE]
                 );
+            }
+
+            if ((array_key_exists(SeamlessFields::EXPIRATION_MONTH, $this->payload)) &&
+                (array_key_exists(SeamlessFields::EXPIRATION_YEAR, $this->payload))
+            ) {
                 $cardXmlBuilder->addRawObject(
                     ResponseMappingXmlFields::EXPIRATION_MONTH,
                     $this->payload[SeamlessFields::EXPIRATION_MONTH]
