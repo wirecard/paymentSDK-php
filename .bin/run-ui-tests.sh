@@ -34,4 +34,4 @@ while [ ! ${NGROK_URL} ] || [ ${NGROK_URL} = 'null' ];  do
 done
 
 #run tests
-vendor/bin/codecept run acceptance acceptance PayPalAuthorizationAndPostProcessingHappyPath.feature PayPalAuthorizationHappyPath.feature PayPalPurchaseHappyPath.feature -g "${GATEWAY}" --html --xml
+vendor/bin/codecept run acceptance PayPalAuthorizationAndPostProcessingHappyPath.feature -g "${GATEWAY}" --html --xml
