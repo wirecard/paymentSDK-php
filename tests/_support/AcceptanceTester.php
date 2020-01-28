@@ -270,6 +270,14 @@ class AcceptanceTester extends \Codeception\Actor
     }
 
     /**
+     * @When I accept cookies
+     */
+    public function iAcceptCookies()
+    {
+        $this->currentPage->acceptCookies();
+    }
+
+    /**
      * @Given I click :link link
      * @since 3.7.2
      */

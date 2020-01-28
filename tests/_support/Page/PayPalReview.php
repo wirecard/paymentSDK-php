@@ -21,4 +21,21 @@ class PayPalReview extends Base
         'Accept Cookies' => "//*[@id='acceptAllButton']",
         'Transaction Identification' => "//div[contains(@class, 'content')]/a"
     );
+
+    /**
+     * Method acceptCookies
+     *
+     * @since 4.0.1
+     */
+    public function acceptCookies()
+    {
+        $I = $this->tester;
+
+        try {
+            $I->waitForElementVisible($this->getElement('Accept Cookies'), 60); // secs
+            $I->click($this->getElement('Accept Cookies'));
+        } catch (NoSuchElementException $e) {
+            $I->seeInCurrentUrl($this->getPageSpecific());
+        }
+    }
 }
