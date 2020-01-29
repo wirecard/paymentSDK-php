@@ -7,8 +7,9 @@ Feature: PayPalPurchaseHappyPath
     Given I am on "Pay Pal Log In Purchase" page
     When I login to Paypal
     And I am redirected to "Pay Pal Review" page
+    And I accept cookies
     Then I click "Continue"  
-    Then I click "Pay Now"
+    Then I click pay now button
     And I am redirected to "Pay Pal Success" page
 
   @API-TEST @API-WDCEE-TEST
