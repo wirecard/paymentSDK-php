@@ -239,16 +239,17 @@ class SeamlessMapper implements MapperInterface
                 );
             }
 
-            if ((array_key_exists(SeamlessFields::EXPIRATION_MONTH, $this->payload)) &&
-                (array_key_exists(SeamlessFields::EXPIRATION_YEAR, $this->payload))
-            ) {
-                $cardXmlBuilder->addRawObject(
-                    ResponseMappingXmlFields::EXPIRATION_MONTH,
-                    $this->payload[SeamlessFields::EXPIRATION_MONTH]
-                );
+            if (array_key_exists(SeamlessFields::EXPIRATION_YEAR, $this->payload)) {
                 $cardXmlBuilder->addRawObject(
                     ResponseMappingXmlFields::EXPIRATION_YEAR,
                     $this->payload[SeamlessFields::EXPIRATION_YEAR]
+                );
+            }
+
+            if (array_key_exists(SeamlessFields::EXPIRATION_MONTH, $this->payload)) {
+                $cardXmlBuilder->addRawObject(
+                    ResponseMappingXmlFields::EXPIRATION_MONTH,
+                    $this->payload[SeamlessFields::EXPIRATION_MONTH]
                 );
             }
 
