@@ -14,6 +14,7 @@ namespace Wirecard\PaymentSdk\Helper;
  * @author Matthieu Napoli <matthieu@mnapoli.fr>
  * @author Daniel Costa <danielcosta@gmail.com>
  * @author Mirosław Filip <mirfilip@gmail.com>
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
 abstract class Enum
 {
