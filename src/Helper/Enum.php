@@ -202,5 +202,5 @@ abstract class Enum
     {
         return $this->getValue();
     }
-
 }
+
