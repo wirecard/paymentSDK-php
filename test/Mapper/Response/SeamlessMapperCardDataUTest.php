@@ -10,6 +10,7 @@
 namespace WirecardTest\PaymentSdk\Mapper\Response;
 
 use PHPUnit_Framework_TestCase;
+use Wirecard\PaymentSdk\Constant\SeamlessFields;
 use Wirecard\PaymentSdk\Mapper\Response\SeamlessMapper;
 use Wirecard\PaymentSdk\Response\Response;
 
@@ -18,10 +19,6 @@ class SeamlessMapperCardDataUTest extends PHPUnit_Framework_TestCase
     const EXPECTED_CARD_TYPE = 'visa';
     const EXPECTED_EXPIRATION_YEAR = '2023';
     const EXPECTED_EXPIRATION_MONTH = '1';
-
-    const PAYLOAD_FIELD_CARD_TYPE = 'card_type';
-    const PAYLOAD_FIELD_EXPIRATION_YEAR = 'expiration_year';
-    const PAYLOAD_FIELD_EXPIRATION_MONTH = 'expiration_month';
 
     public function testCardExpirationMonthIsSet()
     {
@@ -100,8 +97,8 @@ class SeamlessMapperCardDataUTest extends PHPUnit_Framework_TestCase
     private function getPayloadWithoutMonthAndYear()
     {
         $payload = $this->getPayloadArray();
-        unset($payload[self::PAYLOAD_FIELD_EXPIRATION_YEAR]);
-        unset($payload[self::PAYLOAD_FIELD_EXPIRATION_MONTH]);
+        unset($payload[SeamlessFields::EXPIRATION_YEAR]);
+        unset($payload[SeamlessFields::EXPIRATION_MONTH]);
         return $payload;
     }
 
@@ -111,7 +108,7 @@ class SeamlessMapperCardDataUTest extends PHPUnit_Framework_TestCase
     private function getPayloadWithoutCardType()
     {
         $payload = $this->getPayloadArray();
-        unset($payload[self::PAYLOAD_FIELD_CARD_TYPE]);
+        unset($payload[SeamlessFields::CARD_TYPE]);
         return $payload;
     }
 
@@ -121,8 +118,8 @@ class SeamlessMapperCardDataUTest extends PHPUnit_Framework_TestCase
     private function getPayloadWithoutYearAndCardType()
     {
         $payload = $this->getPayloadArray();
-        unset($payload[self::PAYLOAD_FIELD_CARD_TYPE]);
-        unset($payload[self::PAYLOAD_FIELD_EXPIRATION_YEAR]);
+        unset($payload[SeamlessFields::CARD_TYPE]);
+        unset($payload[SeamlessFields::EXPIRATION_YEAR]);
         return $payload;
     }
 
@@ -132,8 +129,8 @@ class SeamlessMapperCardDataUTest extends PHPUnit_Framework_TestCase
     private function getPayloadWithoutMonthAndCardType()
     {
         $payload = $this->getPayloadArray();
-        unset($payload[self::PAYLOAD_FIELD_CARD_TYPE]);
-        unset($payload[self::PAYLOAD_FIELD_EXPIRATION_MONTH]);
+        unset($payload[SeamlessFields::EXPIRATION_MONTH]);
+        unset($payload[SeamlessFields::CARD_TYPE]);
         return $payload;
     }
 
@@ -143,9 +140,9 @@ class SeamlessMapperCardDataUTest extends PHPUnit_Framework_TestCase
     private function getPayloadWithoutCardData()
     {
         $payload = $this->getPayloadArray();
-        unset($payload[self::PAYLOAD_FIELD_CARD_TYPE]);
-        unset($payload[self::PAYLOAD_FIELD_EXPIRATION_YEAR]);
-        unset($payload[self::PAYLOAD_FIELD_EXPIRATION_MONTH]);
+        unset($payload[SeamlessFields::CARD_TYPE]);
+        unset($payload[SeamlessFields::EXPIRATION_YEAR]);
+        unset($payload[SeamlessFields::EXPIRATION_MONTH]);
         return $payload;
     }
 
