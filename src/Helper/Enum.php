@@ -11,10 +11,10 @@ namespace Wirecard\PaymentSdk\Helper;
  *
  * Create an enum by implementing this class and adding class constants.
  *
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @author Matthieu Napoli <matthieu@mnapoli.fr>
  * @author Daniel Costa <danielcosta@gmail.com>
  * @author Mirosław Filip <mirfilip@gmail.com>
- * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
 abstract class Enum
 {
