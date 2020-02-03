@@ -63,32 +63,22 @@ class SeamlessMapperCardDataUTest extends PHPUnit_Framework_TestCase
 
     public function testCardExpirationAndTypeIsSet()
     {
-        $isSet = true;
         $seamlessMapper = new SeamlessMapper($this->getPayloadArray());
         $result = $seamlessMapper->map();
-        $month = $result->getCard()->getExpirationMonth();
-        $year = $result->getCard()->getExpirationYear();
-        $type = $result->getCard()->getCardType();
 
-        if (empty($month) || empty($year) || empty($type)) {
-            $isSet = false;
-        }
-        $this->assertTrue($isSet);
+        $this->assertNotEmpty($result->getCard()->getExpirationMonth());
+        $this->assertNotEmpty($result->getCard()->getExpirationYear());
+        $this->assertNotEmpty($result->getCard()->getCardType());
     }
 
     public function testWithoutCardDataIsSet()
     {
-        $isSet = true;
         $seamlessMapper = new SeamlessMapper($this->getPayloadWithoutCardData());
         $result = $seamlessMapper->map();
-        $month = $result->getCard()->getExpirationMonth();
-        $year = $result->getCard()->getExpirationYear();
-        $type = $result->getCard()->getCardType();
 
-        if (!empty($month) || !empty($year) || !empty($type)) {
-            $isSet = false;
-        }
-        $this->assertTrue($isSet);
+        $this->assertEmpty($result->getCard()->getExpirationMonth());
+        $this->assertEmpty($result->getCard()->getExpirationYear());
+        $this->assertEmpty($result->getCard()->getCardType());
     }
 
     /**
