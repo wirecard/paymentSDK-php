@@ -204,4 +204,5 @@ abstract class Enum
         return $this->getValue();
     }
 }
+// phpcs:disable
 
