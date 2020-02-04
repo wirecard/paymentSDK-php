@@ -88,6 +88,33 @@ class Card implements MappableEntity
     }
 
     /**
+     * @return string
+     * @since 4.0.1
+     */
+    public function getExpirationYear()
+    {
+        return $this->expirationYear;
+    }
+
+    /**
+     * @return string
+     * @since 4.0.1
+     */
+    public function getExpirationMonth()
+    {
+        return $this->expirationMonth;
+    }
+
+    /**
+     * @return string
+     * @since 4.0.1
+     */
+    public function getCardType()
+    {
+        return $this->type;
+    }
+
+    /**
      * Parse card from response xml
      * @param SimpleXMLElement $simpleXml
      * @since 3.2.0
