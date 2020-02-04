@@ -100,15 +100,6 @@ class Card implements MappableEntity
         if (isset($simpleXml->{'card-token'}->{'token-id'})) {
             $this->token = $simpleXml->{'card-token'}->{'token-id'};
         }
-        if (isset($simpleXml->{'card-token'}->{'card-type'})) {
-            $this->type = $simpleXml->{'card-token'}->{'card-type'};
-        }
-        if (isset($simpleXml->{'card-token'}->{'expiration-month'})) {
-            $this->expirationMonth = $simpleXml->{'card-token'}->{'expiration-month'};
-        }
-        if (isset($simpleXml->{'card-token'}->{'expiration-year'})) {
-            $this->expirationYear = $simpleXml->{'card-token'}->{'expiration-year'};
-        }
     }
 
     /**
