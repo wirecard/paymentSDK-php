@@ -106,16 +106,6 @@ class Base
     }
 
     /**
-     * Method acceptCookies
-     *
-     * @since   4.0.1
-     */
-    public function acceptCookies()
-    {
-        ;
-    }
-
-    /**
      * Method waitUntilLoaded
      *
      * @since   3.8.0
