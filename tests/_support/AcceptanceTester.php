@@ -270,22 +270,6 @@ class AcceptanceTester extends \Codeception\Actor
     }
 
     /**
-     * @When I accept cookies
-     */
-    public function iAcceptCookies()
-    {
-        $this->currentPage->acceptCookies();
-    }
-
-    /**
-     * @When I click pay now button
-     */
-    public function iClickPayNowButton()
-    {
-        $this->currentPage->payNow();
-    }
-
-    /**
      * @Given I click :link link
      * @since 3.7.2
      */
