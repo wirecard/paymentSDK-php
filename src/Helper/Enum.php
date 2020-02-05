@@ -88,7 +88,7 @@ abstract class Enum
      *
      * @return bool True if Enums are equal, false if not equal
      */
-    final public function equals(\MyCLabs\Enum\Enum $enum = null)
+    final public function equals(Enum $enum = null)
     {
         return $enum !== null && $this->getValue() === $enum->getValue() && \get_called_class() === \get_class($enum);
     }
