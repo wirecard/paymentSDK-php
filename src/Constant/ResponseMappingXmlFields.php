@@ -32,6 +32,9 @@ class ResponseMappingXmlFields
     const PAREQ = 'pareq';
     const CARDHOLDER_AUTHENTICATION_STATUS = 'cardholder-authentication-status';
 
+    const CARD_TYPE = 'card-type';
+    const EXPIRATION_MONTH = 'expiration-month';
+    const EXPIRATION_YEAR = 'expiration-year';
     const TOKEN_ID = 'token-id';
     const MASKED_ACCOUNT_NUMBER = 'masked-account-number';
 
