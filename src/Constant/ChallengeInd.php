@@ -9,7 +9,7 @@
 
 namespace Wirecard\PaymentSdk\Constant;
 
-use MyCLabs\Enum\Enum;
+use Wirecard\PaymentSdk\Helper\Enum;
 
 /**
  * Class ChallengeInd

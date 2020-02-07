@@ -9,7 +9,7 @@
 
 namespace Wirecard\PaymentSdk\Entity;
 
-use MyCLabs\Enum\Enum;
+use Wirecard\PaymentSdk\Helper\Enum;
 
 class IdealBic extends Enum
 {

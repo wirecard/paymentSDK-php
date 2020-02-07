@@ -10,8 +10,9 @@ Feature: PayPalAuthorizationAndPostProcessingHappyPath
     Given I am on "Pay Pal Log In" page
     And I login to Paypal
     When I am redirected to "Pay Pal Review" page
+    And I accept cookies
     Then I click "Continue"
-    Then I click "Pay Now"
+    Then I click pay now button
     And I am redirected to "Pay Pal Success" page
 
   @API-TEST @API-WDCEE-TEST
