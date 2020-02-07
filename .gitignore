@@ -14,3 +14,6 @@ clover.xml
 # Target directory
 target
 logs
+
+# MacOS files
+.DS_Store
