@@ -1,10 +1,6 @@
 # wirecard/paymentSDK-php
 
-[![Build Status](https://travis-ci.org/wirecard/paymentSDK-php.svg?branch=master)](https://travis-ci.org/wirecard/paymentSDK-php)
-[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/cea2fa1129494bee99f441b5cdd1968d)](https://www.codacy.com/manual/Wirecard/paymentSDK-php?utm_source=github.com&utm_medium=referral&utm_content=wirecard/paymentSDK-php&utm_campaign=Badge_Coverage)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/cea2fa1129494bee99f441b5cdd1968d)](https://www.codacy.com/manual/Wirecard/paymentSDK-php?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=wirecard/paymentSDK-php&amp;utm_campaign=Badge_Grade)
 [![Wirecard Company](https://img.shields.io/badge/Wirecard-Company-blue.svg)](https://www.wirecard.com/)
-[![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=UTFaa2g0ejE5b25Cb0loNVRSUHBHSXBNSXZERXFJaXI2VFd3V2NQSG1PST0tLUc0U0lZQUZReFJUTWQ2amhWc09zdmc9PQ==--7aef9afe880529fe180288177396a91b8f537d3c)](https://www.browserstack.com/automate/public-build/UTFaa2g0ejE5b25Cb0loNVRSUHBHSXBNSXZERXFJaXI2VFd3V2NQSG1PST0tLUc0U0lZQUZReFJUTWQ2amhWc09zdmc9PQ==--7aef9afe880529fe180288177396a91b8f537d3c)
 
 ***
 ### General information 
