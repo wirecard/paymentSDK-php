@@ -8,8 +8,8 @@ cache:
 
 env:
   global:
-    - COMPOSER_ARGS="--no-interaction"
-    - MANUAL_UITEST_TRIGGER_COMMIT="Test my build"
+    - COMPOSER_ARGS=--no-interaction
+    - MANUAL_UITEST_TRIGGER_COMMIT=TestMyBuild
 
 deploy:
   provider: releases
