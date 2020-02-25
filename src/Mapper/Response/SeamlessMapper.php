@@ -119,6 +119,7 @@ class SeamlessMapper implements MapperInterface
         $this->addParentTransactionId();
         $this->addStatuses();
         $this->addCard();
+        $this->addCardToken();
     }
 
     /**
@@ -217,44 +218,55 @@ class SeamlessMapper implements MapperInterface
      * Add the credit card token to our XML.
      * @since 4.0.0
      */
-    private function addCard()
+    private function addCardToken()
     {
         if (array_key_exists(SeamlessFields::TOKEN_ID, $this->payload) &&
             array_key_exists(SeamlessFields::MASKED_ACCOUNT_NUMBER, $this->payload)
         ) {
-            $cardXmlBuilder = new XmlBuilder(ResponseMappingXmlFields::CARD_TOKEN);
-            $cardXmlBuilder->addRawObject(
+            $cardTokenXmlBuilder = new XmlBuilder(ResponseMappingXmlFields::CARD_TOKEN);
+            $cardTokenXmlBuilder->addRawObject(
                 ResponseMappingXmlFields::TOKEN_ID,
                 $this->payload[SeamlessFields::TOKEN_ID]
             );
-            $cardXmlBuilder->addRawObject(
+            $cardTokenXmlBuilder->addRawObject(
                 ResponseMappingXmlFields::MASKED_ACCOUNT_NUMBER,
                 $this->payload[SeamlessFields::MASKED_ACCOUNT_NUMBER]
             );
 
-            if (array_key_exists(SeamlessFields::CARD_TYPE, $this->payload)) {
-                $cardXmlBuilder->addRawObject(
-                    ResponseMappingXmlFields::CARD_TYPE,
-                    $this->payload[SeamlessFields::CARD_TYPE]
-                );
-            }
-
-            if (array_key_exists(SeamlessFields::EXPIRATION_YEAR, $this->payload)) {
-                $cardXmlBuilder->addRawObject(
-                    ResponseMappingXmlFields::EXPIRATION_YEAR,
-                    $this->payload[SeamlessFields::EXPIRATION_YEAR]
-                );
-            }
-
-            if (array_key_exists(SeamlessFields::EXPIRATION_MONTH, $this->payload)) {
-                $cardXmlBuilder->addRawObject(
-                    ResponseMappingXmlFields::EXPIRATION_MONTH,
-                    $this->payload[SeamlessFields::EXPIRATION_MONTH]
-                );
-            }
-
-            $this->paymentXmlBuilder->addSimpleXmlObject($cardXmlBuilder->getXml());
+            $this->paymentXmlBuilder->addSimpleXmlObject($cardTokenXmlBuilder->getXml());
         }
+    }
+
+    /**
+     * Add card entity to XML
+     * @since 4.0.2
+     */
+    private function addCard()
+    {
+        $cardXmlBuilder = new XmlBuilder(ResponseMappingXmlFields::CARD);
+
+        if (array_key_exists(SeamlessFields::CARD_TYPE, $this->payload)) {
+            $cardXmlBuilder->addRawObject(
+                ResponseMappingXmlFields::CARD_TYPE,
+                $this->payload[SeamlessFields::CARD_TYPE]
+            );
+        }
+
+        if (array_key_exists(SeamlessFields::EXPIRATION_YEAR, $this->payload)) {
+            $cardXmlBuilder->addRawObject(
+                ResponseMappingXmlFields::EXPIRATION_YEAR,
+                $this->payload[SeamlessFields::EXPIRATION_YEAR]
+            );
+        }
+
+        if (array_key_exists(SeamlessFields::EXPIRATION_MONTH, $this->payload)) {
+            $cardXmlBuilder->addRawObject(
+                ResponseMappingXmlFields::EXPIRATION_MONTH,
+                $this->payload[SeamlessFields::EXPIRATION_MONTH]
+            );
+        }
+
+        $this->paymentXmlBuilder->addSimpleXmlObject($cardXmlBuilder->getXml());
     }
 
     /**

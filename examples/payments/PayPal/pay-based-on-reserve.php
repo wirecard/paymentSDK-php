@@ -80,7 +80,6 @@ if ($response instanceof SuccessResponse) {
     <br>
     <form action="cancel.php" method="post">
         <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
-        <input type="hidden" name="transaction-type" value="<?= $_POST['transaction-type'] ?>"/>
         <button type="submit" class="btn btn-primary">Cancel the capture</button>
     </form>
     <?php
