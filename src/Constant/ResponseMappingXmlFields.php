@@ -43,5 +43,6 @@ class ResponseMappingXmlFields
     const THREE_D = 'three-d';
     const STATUSES = 'statuses';
     const CARD_TOKEN = 'card-token';
+    const CARD = 'card';
     const STATUS = 'status';
 }
