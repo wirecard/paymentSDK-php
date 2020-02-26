@@ -43,12 +43,12 @@ class PayPalLogIn extends Base
             $I->fillField($this->getElement('Email'), $data_field_values->user_name);
             try {
                 $I->waitForElementVisible($this->getElement('Password'));
-                $I->fillField($this->getElement('Password'), $data_field_values->password);
+                $I->fillField($this->getElement('Password'), getenv('PAYPAL_PASSWORD'));
             } catch (TimeOutException $e) {
                 $I->waitForElementVisible($this->getElement('Next'), 30);
                 $I->click($this->getElement('Next'));
                 $I->waitForElementVisible($this->getElement('Password'));
-                $I->fillField($this->getElement('Password'), $data_field_values->password);
+                $I->fillField($this->getElement('Password'), getenv('PAYPAL_PASSWORD'));
             }
             $I->waitForElementVisible($this->getElement('Log In'), 30);
             $I->click($this->getElement('Log In'));
