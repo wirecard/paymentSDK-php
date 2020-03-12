@@ -1,4 +1,10 @@
 <?php
+
+// TODO turn off debuging
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 /**
  * Shop System SDK:
  * - Terms of Use can be found under:
@@ -7,9 +13,9 @@
  * https://github.com/wirecard/paymentSDK-php/blob/master/LICENSE
  */
 
-// # PayPal payment transaction
+// # Google Pay payment transaction
 
-// This example displays the usage payments for payment method PayPal.
+// This example displays the usage payments for payment method Google Pay.
 
 // ## Required objects
 
@@ -20,19 +26,17 @@ require __DIR__ . '/../../configuration/config.php';
 
 require __DIR__ . '/../../inc/header.php';
 
-use Wirecard\PaymentSdk\Entity\AccountHolder;
-use Wirecard\PaymentSdk\Entity\Address;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
-use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
+use Wirecard\PaymentSdk\Transaction\GooglePayTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 // ### Transaction related objects
 
-// Use the amount object as amount which has to be paid by the consumer.
-$amount = new Amount(12.59, 'EUR');
+// Create a amount object as amount which has to be paid by the consumer.
+$amount = new Amount(4.56, 'EUR');
 
 // Set redirect URLs for success, cancel and failure.
 // From payment page you will be redirected to:
@@ -48,27 +52,15 @@ $redirectUrls = new Redirect(
 // As soon as the transaction status changes, a server-to-server notification will get delivered to this URL.
 $notificationUrl = getUrl('notify.php');
 
-
-// ### Account holder
-
-$address = new Address('US', 'Portland', 'Mariahilferstraße');
-$address->setState('OR');
-
-$accountHolder = new AccountHolder();
-$accountHolder->setLastName('Mustermann');
-$accountHolder->setAddress($address);
-
 // ### Transaction
 
-// The PayPal transaction holds all transaction relevant data for the payment process.
-$transaction = new PayPalTransaction();
+// The Google Pay transaction holds all transaction relevant data for the payment process.
+$transaction = new GooglePayTransaction();
 
 // ### Mandatory fields
 $transaction->setNotificationUrl($notificationUrl);
 $transaction->setRedirect($redirectUrls);
 $transaction->setAmount($amount);
-$transaction->setAccountHolder($accountHolder);
-
 
 // ### Optional fields
 // For the full list of fields see: https://doc.wirecard.com/RestApi_Fields.html
@@ -106,3 +98,4 @@ if ($response instanceof InteractionResponse) {
 }
 
 require __DIR__ . '/../../inc/footer.php';
+

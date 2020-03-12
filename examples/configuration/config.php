@@ -21,6 +21,7 @@ use Wirecard\PaymentSdk\Config\CreditCardConfig;
 use Wirecard\PaymentSdk\Config\PaymentMethodConfig;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Transaction\BancontactTransaction;
+use Wirecard\PaymentSdk\Transaction\GooglePayTransaction;
 use Wirecard\PaymentSdk\Transaction\PayPalTransaction;
 use Wirecard\PaymentSdk\Transaction\PaysafecardTransaction;
 use Wirecard\PaymentSdk\Transaction\MasterpassTransaction;
@@ -201,3 +202,9 @@ $pbbaMAID = '70055b24-38f1-4500-a3a8-afac4b1e3249';
 $pbbaSecret = '	4a4396df-f78c-44b9-b8a0-b72b108ac465';
 $pbbaConfig = new PaymentMethodConfig(PayByBankAppTransaction::NAME, $pbbaMAID, $pbbaSecret);
 $config->add($pbbaConfig);
+
+// ### Google Pay
+$googlePayMAID = '3a3d15ec-197a-4958-890e-9843f86207ee';
+$googlePaySecret = '5c879659-f7ab-41ea-bf23-df9f4b953a33';
+$googlePayConfig = new PaymentMethodConfig(GooglePayTransaction::NAME, $googlePayMAID, $googlePaySecret);
+$config->add($googlePayConfig);
