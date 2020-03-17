@@ -21,6 +21,11 @@ class GooglePayTransaction extends Transaction implements Reservable
 {
     const NAME = 'google-pay';
 
+    const PAYMENT_METHOD_NAME = 'creditcard';
+    const CARD_TYPE = 'visa';
+    const CRYPTOGRAM_TYPE = 'google-pay';
+    const CRYPTOGRAM_VALUE = 'eyJzaWduYXR1cmUiOiJNRVlDSVFDSVM0QVZRV2ZXTEFBbW56TVZsMXUwckViZnFIM3g0UDhXUVd6K1VrL3dJZ0loQUkvc3oyOHBqVTFBbmluRnlDVGVienAzcXI3ZGs2bXN1WHlZM1JyOCtGbW8iLCJwcm90b2NvbFZlcnNpb24iOiJFQ3YxIiwic2lnbmVkTWVzc2FnZSI6IntcImVuY3J5cHRlZE1lc3NhZ2VcIjpcIjl2RFVMS1JUMUpSWXRTWlZBbkRNR3VCNzJEUFVlb3pVQkJ6NDVmZ2J0bkdrTStRYTFYTThEanI2Q3BhNGxiWDlhOFczWTVhWXppYkNBRWhUWUNuakNLVXV0clp3bHNPYmpNUXJ6a0dPTWhobENkcnU2alFzMnp3ODZCaTVvNkFISThycVg3RFMrcUpSZk9XRmJEM2dHQ1VZVjdBUURUenQveCtNOFkzUkpOeFdIYUdIVE5DNDQ1OHowZHgra2VLWWF6YkJXUWpldXE0bnIzbmdQUkVFa1lXeTN3TFFYb3JjYzZRTUZIa2xJazJ1YzExa2ttWllKRksyU2tGbDQ4SDZ1aGdUeG8ycEJrWkVlR2EyUjVRTjc0NDJ2VHZ4bGxJQW9NMkc3UkNFNmlxODNQSzlaaUNtWURoYXBHaTI0NnpPRG56Z0tiMlFvSXVWS2wrZFRydUowdzdVRkJpRTBFZ3lWVU1iY1JmcjFQaWJtNThHaFhFRU9JTWV6OE55S0s1dFBmdFkwMmRiV3ZpNVFtRisyK2diUFA1Z1h2eCtJRTN1ZVJobGJYOWFmUFo5M1JRVmxKUFkvcWtMYkVIaW1tSkFRVW9HU1lrZTRlSEdRSE9ib2tDaU5WQlg3dTRsVEIzUmNhY1FiNlJ3bGdcXHUwMDNkXFx1MDAzZFwiLFwiZXBoZW1lcmFsUHVibGljS2V5XCI6XCJCSnNaYWdTclowNFl4SmhMbTNhNkhST3dWdkJYRnFnc1NETlc4eEZqU2E1NithdGVHb0l6NHdYc3VFamh2VDllMWNkL2k5VXJqT0t4cEpXUTZzQ0czdGtcXHUwMDNkXCIsXCJ0YWdcIjpcIngxNkU5Y3U1UTZscUhlMENzL0FtZ3drMzcxeGZNZWNsZXAwak5jRWtIeFlcXHUwMDNkXCJ9In0=';
+
     /**
      * @return string
      */
@@ -96,5 +101,22 @@ class GooglePayTransaction extends Transaction implements Reservable
         }
 
         throw new UnsupportedOperationException('The transaction can not be canceled.');
+    }
+
+    /**
+     * @return array
+     */
+    public function mappedProperties()
+    {
+        $properties = parent::mappedProperties();
+
+        $properties['payment-methods']['payment-method'] = [['name' => self::PAYMENT_METHOD_NAME]];
+        $properties['card'] = ['card-type' => self::CARD_TYPE];
+        $properties['cryptogram'] = [
+            'cryptogram-type' => self::CRYPTOGRAM_TYPE,
+            'cryptogram-value' => self::CRYPTOGRAM_VALUE
+        ];
+
+        return $properties;
     }
 }
