@@ -24,7 +24,7 @@ jobs:
       - name: Commit files
         run: git commit -m "Change release version" -a
       - name: Push changes
-        uses: ad-m/github-push-action@master
+        uses: wirecard/github-push-action@master
         with:
           branch: ${{ github.head_ref }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
