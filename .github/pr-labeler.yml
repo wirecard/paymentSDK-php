@@ -1,4 +1,4 @@
 patch: '*-patch'
 minor: '*-minor'
 major: '*-major'
-no-release: ['*-test', '*-documentation', '*-configuration', '*-force', 'dependabot*']
+no-release: ['*-test', '*-documentation', '*-configuration', '*-force', '*-feature', 'dependabot*']
