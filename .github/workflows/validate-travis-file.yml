@@ -1,0 +1,17 @@
+name: Validate travis.yml file
+
+on: [push]
+
+jobs:
+  validate-travis:
+    runs-on: ubuntu-latest
+    name: Validate travis file
+    steps:
+      - name: Checkout ${{ github.event.repository.name }}
+        uses: wirecard/checkout@v2.0.0
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Install travis command line client
+        run: sudo gem install travis --no-document
+      - name: Validate travis file
+        run: travis lint .travis.yml
