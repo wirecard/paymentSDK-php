@@ -21,12 +21,6 @@ use Wirecard\IsoToPayPal\Exception\StateNotFoundException;
  */
 class Address implements MappableEntity
 {
-    /**
-     * @var Converter
-     *
-     * The ISO 3166-2 to PayPal converter.
-     */
-    private $converter;
 
     /**
      * @var string
@@ -81,7 +75,6 @@ class Address implements MappableEntity
         $this->countryCode = $countryCode;
         $this->city = $city;
         $this->street1 = $street1;
-        $this->converter = new Converter();
     }
 
     /**
@@ -110,15 +103,7 @@ class Address implements MappableEntity
      */
     public function setState($state)
     {
-        // If we fail, we just set an unfiltered state, because it can be assumed it is not relevant for our use case.
-        try {
-            $stateCode = $this->converter->convert($this->countryCode, trim($state));
-            $this->state = $stateCode;
-        } catch (StateNotFoundException $e) {
-            $this->state = $state;
-        } catch (CountryNotFoundException $e) {
-            $this->state = $state;
-        }
+        $this->state = $state;
     }
 
     /**
