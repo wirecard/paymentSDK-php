@@ -174,6 +174,10 @@ class Address implements MappableEntity
             $type . 'country' => $this->countryCode
         ];
 
+        if (!is_null($this->state)) {
+            $result[$type . 'state'] = $this->state;
+        }
+
         if (!is_null($this->postalCode)) {
             $result[$type . 'postal_code'] = $this->postalCode;
         }
