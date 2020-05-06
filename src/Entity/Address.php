@@ -119,7 +119,7 @@ class Address implements MappableEntity
      * @return string
      * @since 4.1.3
      */
-    public function getCountryCode(): string
+    public function getCountryCode()
     {
         return $this->countryCode;
     }
