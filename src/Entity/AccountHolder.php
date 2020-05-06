@@ -253,6 +253,15 @@ class AccountHolder implements MappableEntity
     }
 
     /**
+     * @return Address
+     * @since 4.1.3
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
      * @return array
      */
     public function mappedProperties()

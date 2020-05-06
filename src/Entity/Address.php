@@ -116,6 +116,15 @@ class Address implements MappableEntity
     }
 
     /**
+     * @return string
+     * @since 4.1.3
+     */
+    public function getCountryCode(): string
+    {
+        return $this->countryCode;
+    }
+
+    /**
      * @param string $postalCode
      */
     public function setPostalCode($postalCode)
