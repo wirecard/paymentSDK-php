@@ -78,11 +78,11 @@ class PayPalTransaction extends Transaction implements Reservable
         }
 
         if (null !== $this->accountHolder) {
-            $data['account-holder'] = $this->updateState($this->accountHolder)->mappedProperties();
+            $data['account-holder'] = $this->updateStateNameForPayPal($this->accountHolder)->mappedProperties();
         }
 
         if (null !== $this->shipping) {
-            $data['shipping'] = $this->updateState($this->shipping)->mappedProperties();
+            $data['shipping'] = $this->updateStateNameForPayPal($this->shipping)->mappedProperties();
         }
 
         if (null !== $this->orderNumber) {
@@ -175,14 +175,15 @@ class PayPalTransaction extends Transaction implements Reservable
      * @return AccountHolder
      * @since 4.1.3
      */
-    private function updateState($accountHolder)
+    private function updateStateNameForPayPal($accountHolder)
     {
-        if ($accountHolder) {
-            $address = $accountHolder->getAddress();
-            if ($address) {
+        $address = $accountHolder->getAddress();
+        if ($address) {
+            $state = $address->getState();
+            if ($state) {
                 $converter = new Converter();
                 try {
-                    $state = $converter->convert($address->getCountryCode(), $address->getState());
+                    $state = $converter->convert($address->getCountryCode(), $state);
                     $address->setState($state);
                 } catch (CountryNotFoundException $e) {
                     $address->setState($address->getState());
