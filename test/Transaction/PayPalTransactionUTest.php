@@ -86,27 +86,32 @@ class PayPalTransactionUTest extends PHPUnit_Framework_TestCase
     public function testMappedPropertiesStateUpdate()
     {
         $this->initTransaction();
-        $address = new Address('TH', 'Portland', 'Mariahilferstraße');
-        $address->setState('38');
+        $accountHolderAddress = new Address('US', 'New York', 'Street 1');
+        $accountHolderAddress->setState('NY');
         $accountHolder = new AccountHolder();
-        $accountHolder->setLastName('Mustermann');
-        $accountHolder->setAddress($address);
-        $this->tx->setShipping($accountHolder);
+        $accountHolder->setLastName('Doe');
+        $accountHolder->setAddress($accountHolderAddress);
+        $shippingAddress = new Address('TH', 'Portland', 'Mariahilferstraße');
+        $shippingAddress->setState('38');
+        $shipping = new AccountHolder();
+        $shipping->setLastName('Doe');
+        $shipping->setAddress($shippingAddress);
         $this->tx->setAccountHolder($accountHolder);
+        $this->tx->setShipping($shipping);
         $data = $this->tx->mappedProperties();
 
         $expected = $this->getExpectedResult();
-        $expected['shipping'] = [
-            'last-name' => 'Mustermann',
+        $expected['account-holder'] = [
+            'last-name' => 'Doe',
             'address' => [
-                'city' => 'Portland',
-                'country' => 'TH',
-                'state' => 'Bueng Kan',
-                'street1' => 'Mariahilferstraße'
+                'city' => 'New York',
+                'country' => 'US',
+                'state' => 'NY',
+                'street1' => 'Street 1'
             ]
         ];
-        $expected['account-holder'] = [
-            'last-name' => 'Mustermann',
+        $expected['shipping'] = [
+            'last-name' => 'Doe',
             'address' => [
                 'city' => 'Portland',
                 'country' => 'TH',
