@@ -458,13 +458,17 @@ class AccountHolder implements MappableEntity
     private function parseAccountHolder($simpleXmlElement)
     {
         $fields = [
-            'first-name'   => 'setFirstName',
-            'last-name'    => 'setLastName',
-            'email'        => 'setEmail',
-            'phone'        => 'setPhone',
-            'work-phone'   => 'setWorkPhone',
-            'mobile-phone' => 'setMobilePhone',
-        ];
+            'first-name'             => 'setFirstName',
+            'last-name'              => 'setLastName',
+            'email'                  => 'setEmail',
+            'phone'                  => 'setPhone',
+            'work-phone'             => 'setWorkPhone',
+            'mobile-phone'           => 'setMobilePhone',
+            'gender'                 => 'setGender',
+            'crm-id'                 => 'setCrmId',
+            'shipping-method'        => 'setShippingMethod',
+            'social-security-number' => 'setSocialSecurityNumber',
+            ];
 
         if (isset($simpleXmlElement->{'date-of-birth'})) {
             $dob = \DateTime::createFromFormat('d-m-Y', strval($simpleXmlElement->{'date-of-birth'}));
@@ -482,10 +486,14 @@ class AccountHolder implements MappableEntity
 
         if (isset($simpleXmlElement->address)) {
             $address = new Address(
-                $simpleXmlElement->address->country,
-                $simpleXmlElement->address->city,
+                strval($simpleXmlElement->address->country),
+                strval($simpleXmlElement->address->city),
                 strval($simpleXmlElement->address->street1)
             );
+
+            if (isset($simpleXmlElement->address->{'state'})) {
+                $address->setState(strval($simpleXmlElement->address->{'state'}));
+            }
 
             if (isset($simpleXmlElement->address->{'postal-code'})) {
                 $address->setPostalCode(strval($simpleXmlElement->address->{'postal-code'}));

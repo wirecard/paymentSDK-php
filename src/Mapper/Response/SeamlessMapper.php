@@ -114,12 +114,135 @@ class SeamlessMapper implements MapperInterface
      */
     private function mapOptionalFields()
     {
+        $this->addAccountHolder();
         $this->addRequestedAmount();
         $this->addThreeDInformation();
         $this->addParentTransactionId();
         $this->addStatuses();
         $this->addCard();
         $this->addCardToken();
+    }
+
+    private function addAccountHolder()
+    {
+        $accountHolderXmlBuilder = new XmlBuilder(ResponseMappingXmlFields::ACCOUNT_HOLDER);
+        if (array_key_exists(SeamlessFields::ACCOUNT_HOLDER_FIRST_NAME, $this->payload)) {
+            $accountHolderXmlBuilder->addRawObject(
+                ResponseMappingXmlFields::ACCOUNT_HOLDER_FIRST_NAME,
+                $this->payload[SeamlessFields::ACCOUNT_HOLDER_FIRST_NAME]
+            );
+        }
+        if (array_key_exists(SeamlessFields::ACCOUNT_HOLDER_LAST_NAME, $this->payload)) {
+            $accountHolderXmlBuilder->addRawObject(
+                ResponseMappingXmlFields::ACCOUNT_HOLDER_LAST_NAME,
+                $this->payload[SeamlessFields::ACCOUNT_HOLDER_LAST_NAME]
+            );
+        }
+        if (array_key_exists(SeamlessFields::ACCOUNT_HOLDER_EMAIL, $this->payload)) {
+            $accountHolderXmlBuilder->addRawObject(
+                ResponseMappingXmlFields::ACCOUNT_HOLDER_EMAIL,
+                $this->payload[SeamlessFields::ACCOUNT_HOLDER_EMAIL]
+            );
+        }
+        if (array_key_exists(SeamlessFields::ACCOUNT_HOLDER_PHONE, $this->payload)) {
+            $accountHolderXmlBuilder->addRawObject(
+                ResponseMappingXmlFields::ACCOUNT_HOLDER_PHONE,
+                $this->payload[SeamlessFields::ACCOUNT_HOLDER_PHONE]
+            );
+        }
+        if (array_key_exists(SeamlessFields::ACCOUNT_HOLDER_MOBILE_PHONE, $this->payload)) {
+            $accountHolderXmlBuilder->addRawObject(
+                ResponseMappingXmlFields::ACCOUNT_HOLDER_MOBILE_PHONE,
+                $this->payload[SeamlessFields::ACCOUNT_HOLDER_MOBILE_PHONE]
+            );
+        }
+        if (array_key_exists(SeamlessFields::ACCOUNT_HOLDER_WORK_PHONE, $this->payload)) {
+            $accountHolderXmlBuilder->addRawObject(
+                ResponseMappingXmlFields::ACCOUNT_HOLDER_WORK_PHONE,
+                $this->payload[SeamlessFields::ACCOUNT_HOLDER_WORK_PHONE]
+            );
+        }
+        if (array_key_exists(SeamlessFields::ACCOUNT_HOLDER_DATE_OF_BIRTH, $this->payload)) {
+            $accountHolderXmlBuilder->addRawObject(
+                ResponseMappingXmlFields::ACCOUNT_HOLDER_DATE_OF_BIRTH,
+                $this->payload[SeamlessFields::ACCOUNT_HOLDER_DATE_OF_BIRTH]
+            );
+        }
+        if (array_key_exists(SeamlessFields::ACCOUNT_HOLDER_CRM_ID, $this->payload)) {
+            $accountHolderXmlBuilder->addRawObject(
+                ResponseMappingXmlFields::ACCOUNT_HOLDER_CRM_ID,
+                $this->payload[SeamlessFields::ACCOUNT_HOLDER_CRM_ID]
+            );
+        }
+        if (array_key_exists(SeamlessFields::ACCOUNT_HOLDER_GENDER, $this->payload)) {
+            $accountHolderXmlBuilder->addRawObject(
+                ResponseMappingXmlFields::ACCOUNT_HOLDER_GENDER,
+                $this->payload[SeamlessFields::ACCOUNT_HOLDER_GENDER]
+            );
+        }
+        if (array_key_exists(SeamlessFields::ACCOUNT_HOLDER_SHIPPING_METHOD, $this->payload)) {
+            $accountHolderXmlBuilder->addRawObject(
+                ResponseMappingXmlFields::ACCOUNT_HOLDER_SHIPPING_METHOD,
+                $this->payload[SeamlessFields::ACCOUNT_HOLDER_SHIPPING_METHOD]
+            );
+        }
+        if (array_key_exists(SeamlessFields::ACCOUNT_HOLDER_SOCIAL_SECURITY_NUMBER, $this->payload)) {
+            $accountHolderXmlBuilder->addRawObject(
+                ResponseMappingXmlFields::ACCOUNT_HOLDER_SOCIAL_SECURITY_NUMBER,
+                $this->payload[SeamlessFields::ACCOUNT_HOLDER_SOCIAL_SECURITY_NUMBER]
+            );
+        }
+        $addressXmlBuilder = new XmlBuilder(ResponseMappingXmlFields::ACCOUNT_HOLDER_ADDRESS);
+        if (array_key_exists(SeamlessFields::ACCOUNT_HOLDER_COUNTRY, $this->payload)) {
+            $addressXmlBuilder->addRawObject(
+                ResponseMappingXmlFields::ACCOUNT_HOLDER_COUNTRY,
+                $this->payload[SeamlessFields::ACCOUNT_HOLDER_COUNTRY]
+            );
+        }
+        if (array_key_exists(SeamlessFields::ACCOUNT_HOLDER_STATE, $this->payload)) {
+            $addressXmlBuilder->addRawObject(
+                ResponseMappingXmlFields::ACCOUNT_HOLDER_STATE,
+                $this->payload[SeamlessFields::ACCOUNT_HOLDER_STATE]
+            );
+        }
+        if (array_key_exists(SeamlessFields::ACCOUNT_HOLDER_CITY, $this->payload)) {
+            $addressXmlBuilder->addRawObject(
+                ResponseMappingXmlFields::ACCOUNT_HOLDER_CITY,
+                $this->payload[SeamlessFields::ACCOUNT_HOLDER_CITY]
+            );
+        }
+        if (array_key_exists(SeamlessFields::ACCOUNT_HOLDER_STREET_1, $this->payload)) {
+            $addressXmlBuilder->addRawObject(
+                ResponseMappingXmlFields::ACCOUNT_HOLDER_STREET_1,
+                $this->payload[SeamlessFields::ACCOUNT_HOLDER_STREET_1]
+            );
+        }
+        if (array_key_exists(SeamlessFields::ACCOUNT_HOLDER_STREET_2, $this->payload)) {
+            $addressXmlBuilder->addRawObject(
+                ResponseMappingXmlFields::ACCOUNT_HOLDER_STREET_2,
+                $this->payload[SeamlessFields::ACCOUNT_HOLDER_STREET_2]
+            );
+        }
+        if (array_key_exists(SeamlessFields::ACCOUNT_HOLDER_STREET_3, $this->payload)) {
+            $addressXmlBuilder->addRawObject(
+                ResponseMappingXmlFields::ACCOUNT_HOLDER_STREET_3,
+                $this->payload[SeamlessFields::ACCOUNT_HOLDER_STREET_3]
+            );
+        }
+        if (array_key_exists(SeamlessFields::ACCOUNT_HOLDER_POSTAL_CODE, $this->payload)) {
+            $addressXmlBuilder->addRawObject(
+                ResponseMappingXmlFields::ACCOUNT_HOLDER_POSTAL_CODE,
+                $this->payload[SeamlessFields::ACCOUNT_HOLDER_POSTAL_CODE]
+            );
+        }
+        if (array_key_exists(SeamlessFields::ACCOUNT_HOLDER_HOUSE_EXTENSION, $this->payload)) {
+            $addressXmlBuilder->addRawObject(
+                ResponseMappingXmlFields::ACCOUNT_HOLDER_HOUSE_EXTENSION,
+                $this->payload[SeamlessFields::ACCOUNT_HOLDER_HOUSE_EXTENSION]
+            );
+        }
+        $accountHolderXmlBuilder->addSimpleXmlObject($addressXmlBuilder->getXml());
+        $this->paymentXmlBuilder->addSimpleXmlObject($accountHolderXmlBuilder->getXml());
     }
 
     /**

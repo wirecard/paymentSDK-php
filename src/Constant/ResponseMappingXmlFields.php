@@ -45,4 +45,26 @@ class ResponseMappingXmlFields
     const CARD_TOKEN = 'card-token';
     const CARD = 'card';
     const STATUS = 'status';
+
+    const ACCOUNT_HOLDER = 'account-holder';
+    const ACCOUNT_HOLDER_ADDRESS = 'address';
+    const ACCOUNT_HOLDER_FIRST_NAME = 'first-name';
+    const ACCOUNT_HOLDER_LAST_NAME = 'last-name';
+    const ACCOUNT_HOLDER_EMAIL = 'email';
+    const ACCOUNT_HOLDER_PHONE = 'phone';
+    const ACCOUNT_HOLDER_MOBILE_PHONE = 'mobile-phone';
+    const ACCOUNT_HOLDER_WORK_PHONE = 'work-phone';
+    const ACCOUNT_HOLDER_DATE_OF_BIRTH = 'date-of-birth';
+    const ACCOUNT_HOLDER_CRM_ID = 'crm-id';
+    const ACCOUNT_HOLDER_GENDER = 'gender';
+    const ACCOUNT_HOLDER_SHIPPING_METHOD = 'shipping-method';
+    const ACCOUNT_HOLDER_SOCIAL_SECURITY_NUMBER = 'social-security-number';
+    const ACCOUNT_HOLDER_COUNTRY = 'country';
+    const ACCOUNT_HOLDER_STATE = 'state';
+    const ACCOUNT_HOLDER_CITY = 'city';
+    const ACCOUNT_HOLDER_STREET_1 = 'street1';
+    const ACCOUNT_HOLDER_STREET_2 = 'street2';
+    const ACCOUNT_HOLDER_STREET_3 = 'street3';
+    const ACCOUNT_HOLDER_POSTAL_CODE = 'postal-code';
+    const ACCOUNT_HOLDER_HOUSE_EXTENSION = 'house-extension';
 }
