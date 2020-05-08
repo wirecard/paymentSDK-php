@@ -66,28 +66,44 @@ class SeamlessFields
     const ACCOUNT_HOLDER_POSTAL_CODE = 'postal_code';
     const ACCOUNT_HOLDER_HOUSE_EXTENSION = 'house_extension';
 
-    const ACCOUNT_HOLDER_FIELDS = [
-        AccountHolder::KEY_FIRST_NAME             => self::ACCOUNT_HOLDER_FIRST_NAME,
-        AccountHolder::KEY_LAST_NAME              => self::ACCOUNT_HOLDER_LAST_NAME,
-        AccountHolder::KEY_EMAIL                  => self::ACCOUNT_HOLDER_EMAIL,
-        AccountHolder::KEY_PHONE                  => self::ACCOUNT_HOLDER_PHONE,
-        AccountHolder::KEY_MOBILE_PHONE           => self::ACCOUNT_HOLDER_MOBILE_PHONE,
-        AccountHolder::KEY_WORK_PHONE             => self::ACCOUNT_HOLDER_WORK_PHONE,
-        AccountHolder::KEY_DATE_OF_BIRTH          => self::ACCOUNT_HOLDER_DATE_OF_BIRTH,
-        AccountHolder::KEY_CRM_ID                 => self::ACCOUNT_HOLDER_CRM_ID,
-        AccountHolder::KEY_GENDER                 => self::ACCOUNT_HOLDER_GENDER,
-        AccountHolder::KEY_SHIPPING_METHOD        => self::ACCOUNT_HOLDER_SHIPPING_METHOD,
-        AccountHolder::KEY_SOCIAL_SECURITY_NUMBER => self::ACCOUNT_HOLDER_SOCIAL_SECURITY_NUMBER,
-    ];
+    /**
+     * Return array of account holder fields
+     * @return array
+     * @since 4.0.3
+     */
+    public function getAccountHolderFields()
+    {
+        return [
+            AccountHolder::KEY_FIRST_NAME             => self::ACCOUNT_HOLDER_FIRST_NAME,
+            AccountHolder::KEY_LAST_NAME              => self::ACCOUNT_HOLDER_LAST_NAME,
+            AccountHolder::KEY_EMAIL                  => self::ACCOUNT_HOLDER_EMAIL,
+            AccountHolder::KEY_PHONE                  => self::ACCOUNT_HOLDER_PHONE,
+            AccountHolder::KEY_MOBILE_PHONE           => self::ACCOUNT_HOLDER_MOBILE_PHONE,
+            AccountHolder::KEY_WORK_PHONE             => self::ACCOUNT_HOLDER_WORK_PHONE,
+            AccountHolder::KEY_DATE_OF_BIRTH          => self::ACCOUNT_HOLDER_DATE_OF_BIRTH,
+            AccountHolder::KEY_CRM_ID                 => self::ACCOUNT_HOLDER_CRM_ID,
+            AccountHolder::KEY_GENDER                 => self::ACCOUNT_HOLDER_GENDER,
+            AccountHolder::KEY_SHIPPING_METHOD        => self::ACCOUNT_HOLDER_SHIPPING_METHOD,
+            AccountHolder::KEY_SOCIAL_SECURITY_NUMBER => self::ACCOUNT_HOLDER_SOCIAL_SECURITY_NUMBER,
+        ];
+    }
 
-    const ACCOUNT_HOLDER_ADDRESS_FIELDS = [
-        Address::KEY_COUNTRY         => self::ACCOUNT_HOLDER_COUNTRY,
-        Address::KEY_STATE           => self::ACCOUNT_HOLDER_STATE,
-        Address::KEY_CITY            => self::ACCOUNT_HOLDER_CITY,
-        Address::KEY_STREET_1        => self::ACCOUNT_HOLDER_STREET_1,
-        Address::KEY_STREET_2        => self::ACCOUNT_HOLDER_STREET_2,
-        Address::KEY_STREET_3        => self::ACCOUNT_HOLDER_STREET_3,
-        Address::KEY_POSTAL_CODE     => self::ACCOUNT_HOLDER_POSTAL_CODE,
-        Address::KEY_HOUSE_EXTENSION => self::ACCOUNT_HOLDER_HOUSE_EXTENSION,
-    ];
+    /**
+     * Return array of account holder address fields
+     * @return array
+     * @since 4.0.3
+     */
+    public function getAccountHolderAddressFields()
+    {
+        return [
+            Address::KEY_COUNTRY         => self::ACCOUNT_HOLDER_COUNTRY,
+            Address::KEY_STATE           => self::ACCOUNT_HOLDER_STATE,
+            Address::KEY_CITY            => self::ACCOUNT_HOLDER_CITY,
+            Address::KEY_STREET_1        => self::ACCOUNT_HOLDER_STREET_1,
+            Address::KEY_STREET_2        => self::ACCOUNT_HOLDER_STREET_2,
+            Address::KEY_STREET_3        => self::ACCOUNT_HOLDER_STREET_3,
+            Address::KEY_POSTAL_CODE     => self::ACCOUNT_HOLDER_POSTAL_CODE,
+            Address::KEY_HOUSE_EXTENSION => self::ACCOUNT_HOLDER_HOUSE_EXTENSION,
+        ];
+    }
 }

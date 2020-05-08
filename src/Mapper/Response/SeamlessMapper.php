@@ -37,6 +37,16 @@ class SeamlessMapper implements MapperInterface
     private $paymentXmlBuilder;
 
     /**
+     * @var SeamlessFields
+     */
+    private $seamlessFields;
+
+    /**
+     * @var ResponseMappingXmlFields
+     */
+    private $responseFields;
+
+    /**
      * SeamlessMapper constructor.
      * @param array $payload
      * @since 4.0.0
@@ -45,6 +55,8 @@ class SeamlessMapper implements MapperInterface
     {
         $this->payload = $payload;
         $this->paymentXmlBuilder = new XmlBuilder(ResponseMappingXmlFields::PAYMENT);
+        $this->seamlessFields = new SeamlessFields();
+        $this->responseFields = new ResponseMappingXmlFields();
     }
 
     /**
@@ -130,8 +142,8 @@ class SeamlessMapper implements MapperInterface
     private function addAccountHolder()
     {
         $accountHolderXmlBuilder = new XmlBuilder(ResponseMappingXmlFields::ACCOUNT_HOLDER);
-        $seamlessAccountHolderFields = SeamlessFields::ACCOUNT_HOLDER_FIELDS;
-        $responseAccountHolderFields = ResponseMappingXmlFields::ACCOUNT_HOLDER_FIELDS;
+        $seamlessAccountHolderFields = $this->seamlessFields->getAccountHolderFields();
+        $responseAccountHolderFields = $this->responseFields->getAccountHolderAddressFields();
 
         foreach ($responseAccountHolderFields as $key => $responseAccountHolderField) {
             if (array_key_exists($seamlessAccountHolderFields[$key], $this->payload)) {
@@ -152,8 +164,8 @@ class SeamlessMapper implements MapperInterface
      */
     private function setAccountHolderAddress()
     {
-        $seamlessAccountHolderAddressFields = SeamlessFields::ACCOUNT_HOLDER_ADDRESS_FIELDS;
-        $responseAccountHolderAddressFields = ResponseMappingXmlFields::ACCOUNT_HOLDER_ADDRESS_FIELDS;
+        $seamlessAccountHolderAddressFields = $this->seamlessFields->getAccountHolderAddressFields();
+        $responseAccountHolderAddressFields = $this->responseFields->getAccountHolderAddressFields();
         $addressXmlBuilder = new XmlBuilder(ResponseMappingXmlFields::ACCOUNT_HOLDER_ADDRESS);
 
         foreach ($responseAccountHolderAddressFields as $key => $responseAccountHolderAddressField) {
