@@ -143,7 +143,7 @@ class SeamlessMapper implements MapperInterface
     {
         $accountHolderXmlBuilder = new XmlBuilder(ResponseMappingXmlFields::ACCOUNT_HOLDER);
         $seamlessAccountHolderFields = $this->seamlessFields->getAccountHolderFields();
-        $responseAccountHolderFields = $this->responseFields->getAccountHolderAddressFields();
+        $responseAccountHolderFields = $this->responseFields->getAccountHolderFields();
 
         foreach ($responseAccountHolderFields as $key => $responseAccountHolderField) {
             if (array_key_exists($seamlessAccountHolderFields[$key], $this->payload)) {
