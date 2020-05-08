@@ -67,4 +67,29 @@ class ResponseMappingXmlFields
     const ACCOUNT_HOLDER_STREET_3 = 'street3';
     const ACCOUNT_HOLDER_POSTAL_CODE = 'postal-code';
     const ACCOUNT_HOLDER_HOUSE_EXTENSION = 'house-extension';
+
+    const ACCOUNT_HOLDER_FIELDS = [
+        'first_name'             => self::ACCOUNT_HOLDER_FIRST_NAME,
+        'last_name'              => self::ACCOUNT_HOLDER_LAST_NAME,
+        'email'                  => self::ACCOUNT_HOLDER_EMAIL,
+        'phone'                  => self::ACCOUNT_HOLDER_PHONE,
+        'mobile_phone'           => self::ACCOUNT_HOLDER_MOBILE_PHONE,
+        'work_phone'             => self::ACCOUNT_HOLDER_WORK_PHONE,
+        'date_of_birth'          => self::ACCOUNT_HOLDER_DATE_OF_BIRTH,
+        'crm_id'                 => self::ACCOUNT_HOLDER_CRM_ID,
+        'gender'                 => self::ACCOUNT_HOLDER_GENDER,
+        'shipping_method'        => self::ACCOUNT_HOLDER_SHIPPING_METHOD,
+        'social_security_number' => self::ACCOUNT_HOLDER_SOCIAL_SECURITY_NUMBER,
+    ];
+
+    const ACCOUNT_HOLDER_ADDRESS_FIELDS = [
+        'country'         => self::ACCOUNT_HOLDER_COUNTRY,
+        'state'           => self::ACCOUNT_HOLDER_STATE,
+        'city'            => self::ACCOUNT_HOLDER_CITY,
+        'street_1'        => self::ACCOUNT_HOLDER_STREET_1,
+        'street_2'        => self::ACCOUNT_HOLDER_STREET_2,
+        'street_3'        => self::ACCOUNT_HOLDER_STREET_3,
+        'postal_code'     => self::ACCOUNT_HOLDER_POSTAL_CODE,
+        'house_extension' => self::ACCOUNT_HOLDER_HOUSE_EXTENSION,
+    ];
 }
