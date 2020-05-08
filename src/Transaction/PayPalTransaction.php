@@ -184,7 +184,7 @@ class PayPalTransaction extends Transaction implements Reservable
                 $converter = new Converter();
                 try {
                     $state = $converter->convert($address->getCountryCode(), trim($state));
-                    $address->setState($state);
+                    $address->setState(trim($state));
                 } catch (CountryNotFoundException $e) {
                     return $accountHolder;
                 } catch (StateNotFoundException $e) {
