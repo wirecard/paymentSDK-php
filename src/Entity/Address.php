@@ -21,7 +21,15 @@ use Wirecard\IsoToPayPal\Exception\StateNotFoundException;
  */
 class Address implements MappableEntity
 {
-
+    const KEY_COUNTRY         = 'country';
+    const KEY_STATE           = 'state';
+    const KEY_CITY            = 'city';
+    const KEY_STREET_1        = 'street_1';
+    const KEY_STREET_2        = 'street_2';
+    const KEY_STREET_3        = 'street_3';
+    const KEY_POSTAL_CODE     = 'postal_code';
+    const KEY_HOUSE_EXTENSION = 'house_extension';
+    
     /**
      * @var string
      *
