@@ -123,6 +123,10 @@ class SeamlessMapper implements MapperInterface
         $this->addCardToken();
     }
 
+    /**
+     * Map account holder fields
+     * @since 4.0.3
+     */
     private function addAccountHolder()
     {
         $accountHolderXmlBuilder = new XmlBuilder(ResponseMappingXmlFields::ACCOUNT_HOLDER);
@@ -192,6 +196,17 @@ class SeamlessMapper implements MapperInterface
                 $this->payload[SeamlessFields::ACCOUNT_HOLDER_SOCIAL_SECURITY_NUMBER]
             );
         }
+        $accountHolderXmlBuilder->addSimpleXmlObject($this->setAccountHolderAddress());
+        $this->paymentXmlBuilder->addSimpleXmlObject($accountHolderXmlBuilder->getXml());
+    }
+
+    /**
+     * Map Account holder address
+     * @return \SimpleXMLElement
+     * @since 4.0.3
+     */
+    private function setAccountHolderAddress()
+    {
         $addressXmlBuilder = new XmlBuilder(ResponseMappingXmlFields::ACCOUNT_HOLDER_ADDRESS);
         if (array_key_exists(SeamlessFields::ACCOUNT_HOLDER_COUNTRY, $this->payload)) {
             $addressXmlBuilder->addRawObject(
@@ -241,8 +256,7 @@ class SeamlessMapper implements MapperInterface
                 $this->payload[SeamlessFields::ACCOUNT_HOLDER_HOUSE_EXTENSION]
             );
         }
-        $accountHolderXmlBuilder->addSimpleXmlObject($addressXmlBuilder->getXml());
-        $this->paymentXmlBuilder->addSimpleXmlObject($accountHolderXmlBuilder->getXml());
+        return $addressXmlBuilder->getXml();
     }
 
     /**
