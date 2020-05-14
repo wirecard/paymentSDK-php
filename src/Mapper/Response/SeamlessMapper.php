@@ -109,10 +109,21 @@ class SeamlessMapper implements MapperInterface
             $this->payload[SeamlessFields::TRANSACTION_TYPE]
         );
 
-        $this->paymentXmlBuilder->addRawObject(
-            ResponseMappingXmlFields::PAYMENT_METHOD,
-            $this->payload[SeamlessFields::PAYMENT_METHOD]
+        $paymentMethods = new XmlBuilder(
+            ResponseMappingXmlFields::PAYMENT_METHODS
         );
+
+        $paymentMethod = new XmlBuilder(
+            ResponseMappingXmlFields::PAYMENT_METHOD
+        );
+        $paymentMethod->addAttributes(
+            [
+                ResponseMappingXmlFields::PAYMENT_METHOD_NAME =>
+                    $this->payload[SeamlessFields::PAYMENT_METHOD]
+            ]
+        );
+        $paymentMethods->addSimpleXmlObject($paymentMethod->getXml());
+        $this->paymentXmlBuilder->addSimpleXmlObject($paymentMethods->getXml());
 
         $this->paymentXmlBuilder->addRawObject(
             ResponseMappingXmlFields::REQUEST_ID,

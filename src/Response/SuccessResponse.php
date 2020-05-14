@@ -95,11 +95,6 @@ class SuccessResponse extends Response
             if (isset($attributes['name'])) {
                 return (string)$attributes['name'];
             }
-        } elseif (isset($this->simpleXml->{'payment-method'})) {
-            $paymentMethodXml = $this->simpleXml->{'payment-method'};
-            if (isset($paymentMethodXml[0])) {
-                return (string)$paymentMethodXml[0];
-            }
         }
         return null;
     }
