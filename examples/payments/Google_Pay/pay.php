@@ -1,9 +1,8 @@
 <?php
 
-// TODO turn off debuging
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+if (!isset($_POST['paymentToken'])) {
+    die('Please pass the token that you received in the <a href="pay-button.php">previous step</a>.');
+}
 
 /**
  * Shop System SDK:
@@ -29,14 +28,16 @@ require __DIR__ . '/../../inc/header.php';
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Redirect;
 use Wirecard\PaymentSdk\Response\FailureResponse;
+use Wirecard\PaymentSdk\Response\FormInteractionResponse;
 use Wirecard\PaymentSdk\Response\InteractionResponse;
+use Wirecard\PaymentSdk\Response\SuccessResponse;
 use Wirecard\PaymentSdk\Transaction\GooglePayTransaction;
 use Wirecard\PaymentSdk\TransactionService;
 
 // ### Transaction related objects
 
 // Create a amount object as amount which has to be paid by the consumer.
-$amount = new Amount(4.56, 'EUR');
+$amount = new Amount($googlePayTotalPrice, $googlePayCurrencyCode);
 
 // Set redirect URLs for success, cancel and failure.
 // From payment page you will be redirected to:
@@ -66,26 +67,50 @@ $transaction->setAmount($amount);
 // For the full list of fields see: https://doc.wirecard.com/RestApi_Fields.html
 $transaction->setIpAddress('127.0.0.1');
 
+// Set cryptogram value
+$transaction->setCryptogramValue($_POST['paymentToken']);
+
 // ### Transaction Service
 // The service is used to execute the payment operation itself. A response object is returned.
 $transactionService = new TransactionService($config);
 $response = $transactionService->pay($transaction);
 
-
 // ## Response handling
 
-// The response of the service must be handled depending on it's class
-// In case of an `InteractionResponse`, a browser interaction by the consumer is required
-// in order to continue the payment process. In this example we proceed with a header redirect
-// to the given _redirectUrl_. IFrame integration using this URL is also possible.
-if ($response instanceof InteractionResponse) {
-    die("<meta http-equiv='refresh' content='0;url={$response->getRedirectUrl()}'>");
+// The response from the service can be used for disambiguation.
+// If a redirect of the customer is required a `FormInteractionResponse` object is returned.
+if ($response instanceof FormInteractionResponse):
+    // A form for redirect should be created and submitted afterwards.
+    ?>
+    <form method="<?= $response->getMethod(); ?>" action="<?= $response->getUrl(); ?>">
+        <?php foreach ($response->getFormFields() as $key => $value) : ?>
+            <input type="hidden" name="<?= $key ?>" value="<?= $value ?>">
+        <?php endforeach;
+        // Usually an automated transmission of the form would be made.
+        // For a better demonstration and for the ease of use this automated submit
+        // is replaced with a submit button.
+        ?>
+        <button type="submit" class="btn btn-primary">Redirect to result page</button>
+    </form>
+<?php
+elseif ($response instanceof SuccessResponse) :
+    echo 'Payment successfully completed.<br>';
+    echo getTransactionLink($baseUrl, $response);
+    echo '<br>Credit Card Token-Id: ' . $response->getCardTokenId();
+    ?>
+    <br>
+    <form action="cancel.php" method="post">
+        <input type="hidden" name="parentTransactionId" value="<?= $response->getTransactionId() ?>"/>
+        <input type="hidden" name="amount" value="<?= $response->getRequestedAmount()->getValue() ?>"/>
+        <input type="hidden" name="currency" value="<?= $response->getRequestedAmount()->getCurrency() ?>"/>
+        <button type="submit" class="btn btn-primary">Cancel the payment</button>
+    </form>
 
-// The failure state is represented by a FailureResponse object.
-// In this case the returned errors should be stored in your system.
-} elseif ($response instanceof FailureResponse) {
-// In our example we iterate over all errors and echo them out. You should display them as
-// error, warning or information based on the given severity.
+<?php
+// In case of a failed transaction, a `FailureResponse` object is returned.
+elseif ($response instanceof FailureResponse) :
+    // In our example we iterate over all errors and display them in a raw state.
+    // You should handle them based on the given severity as error, warning or information.
     foreach ($response->getStatusCollection() as $status) {
         /**
          * @var $status \Wirecard\PaymentSdk\Entity\Status
@@ -95,7 +120,7 @@ if ($response instanceof InteractionResponse) {
         $description = $status->getDescription();
         echo sprintf('%s with code %s and message "%s" occurred.<br>', $severity, $code, $description);
     }
-}
+endif;
 
 require __DIR__ . '/../../inc/footer.php';
 

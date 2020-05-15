@@ -204,7 +204,17 @@ $pbbaConfig = new PaymentMethodConfig(PayByBankAppTransaction::NAME, $pbbaMAID, 
 $config->add($pbbaConfig);
 
 // ### Google Pay
-$googlePayMAID = '3a3d15ec-197a-4958-890e-9843f86207ee';
-$googlePaySecret = '5c879659-f7ab-41ea-bf23-df9f4b953a33';
+
+// Tokenized cards Testing
+//$googlePayMAID = '3a3d15ec-197a-4958-890e-9843f86207ee';
+//$googlePaySecret = '5c879659-f7ab-41ea-bf23-df9f4b953a33';
+
+// Non-tokenized cards testing
+$googlePayMAID = '9fcacb0d-b46a-4ce2-867b-6723687fdba1';
+$googlePaySecret = 'bd60d7b0-b5a0-4ffe-b2db-e004a0fce893';
+
+$googlePayTotalPrice = 0.15;
+$googlePayCurrencyCode = 'EUR';
+$googlePayCountryCode = 'DE';
 $googlePayConfig = new PaymentMethodConfig(GooglePayTransaction::NAME, $googlePayMAID, $googlePaySecret);
 $config->add($googlePayConfig);
