@@ -1,0 +1,30 @@
+name: Change release version
+
+on:
+  pull_request:
+    types: opened
+
+jobs:
+  change-version:
+    runs-on: ubuntu-latest
+    if: startsWith(github.head_ref, 'RC-')
+    name: Change release version
+    steps:
+      - name: Checkout ${{ github.event.repository.name }}
+        uses: wirecard/checkout@v2.0.0
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Change extension release version
+        id: check-version
+        uses: wirecard/extension-release-version@master
+        with:
+          repository: ${{ github.event.repository.name }}
+      - name: Set global git conf
+        run: git config --global user.email "" && git config --global user.name "github-actions"
+      - name: Commit files
+        run: git commit -m "Change release version" -a
+      - name: Push changes
+        uses: wirecard/github-push-action@master
+        with:
+          branch: ${{ github.head_ref }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}

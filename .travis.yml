@@ -68,7 +68,7 @@ jobs:
         - GATEWAY=API-TEST
         - ALLOW_FAIL=1
     - <<: *acceptance-test
-      # this stage will be triggered on timely basis and run ui tests
+      # this stage will be triggered on timely basis and run ui tests 
       if: type = cron
       env:
         - GATEWAY=API-WDCEE-TEST
