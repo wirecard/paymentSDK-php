@@ -530,7 +530,6 @@ class TransactionService
         }
 
         $requestBody = $this->requestMapper->map($transaction);
-
         $endpoint = $this->config->getBaseUrl() . $transaction->getEndpoint();
         $responseContent = $this->sendPostRequest($endpoint, $requestBody);
         $response = $this->responseMapper->map($responseContent, $transaction);

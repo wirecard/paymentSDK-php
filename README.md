@@ -38,6 +38,7 @@ We also provide some examples for using the PaymentSDK, which can be found [here
 - Credit Card MOTO
 - eps
 - giropay
+- GooglePay
 - Guaranteed Direct Debit
 - Guaranteed Installment
 - Guaranteed Invoice
