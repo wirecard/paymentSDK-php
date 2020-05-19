@@ -26,10 +26,12 @@ class ResponseMappingXmlFields
     const TRANSACTION_ID = 'transaction-id';
     const TRANSACTION_STATE = 'transaction-state';
     const TRANSACTION_TYPE = 'transaction-type';
+    const PAYMENT_METHODS = 'payment-methods';
     const PAYMENT_METHOD = 'payment-method';
     const REQUEST_ID = 'request-id';
 
     const REQUESTED_AMOUNT_CURRENCY = 'currency';
+    const PAYMENT_METHOD_NAME = 'name';
 
     const ACS_URL = 'acs-url';
     const PAREQ = 'pareq';
