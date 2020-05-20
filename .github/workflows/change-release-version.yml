@@ -11,7 +11,7 @@ jobs:
     name: Change release version
     steps:
       - name: Checkout ${{ github.event.repository.name }}
-        uses: actions/checkout@v2.0.0
+        uses: wirecard/checkout@v2.0.0
         with:
           ref: ${{ github.head_ref }}
       - name: Change extension release version
