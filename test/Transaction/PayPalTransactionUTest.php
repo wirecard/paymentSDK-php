@@ -11,6 +11,7 @@ namespace WirecardTest\PaymentSdk\Transaction;
 
 use PHPUnit_Framework_TestCase;
 use Wirecard\PaymentSdk\Entity\AccountHolder;
+use Wirecard\PaymentSdk\Entity\Address;
 use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Entity\Amount;
 use Wirecard\PaymentSdk\Entity\Browser;
@@ -72,41 +73,76 @@ class PayPalTransactionUTest extends PHPUnit_Framework_TestCase
 
     public function testMappedPropertiesSetsOptional()
     {
-        $redirect = $this->createMock(Redirect::class);
-        $redirect->method('getCancelUrl')->willReturn('cancel-url');
-        $redirect->method('getSuccessUrl')->willReturn('success-url');
-
-        /**
-         * @var Redirect $redirect
-         */
+        $this->initTransaction();
         $this->tx->setShipping(new AccountHolder());
-        $this->tx->setOrderNumber('order number 13');
-        $this->tx->setOrderDetail('order-detail my');
-        $this->tx->setDescriptor('descriptor');
-        $this->tx->setOperation('pay');
-        $this->tx->setRedirect($redirect);
-        $this->tx->setBrowser(new Browser('application/xml'));
         $data = $this->tx->mappedProperties();
 
-        $expected = [
-            'payment-methods' => [
-                'payment-method' => [
-                    [
-                        'name' => 'paypal'
-                    ]
-                ]
-            ],
-            'success-redirect-url' => 'success-url',
-            'cancel-redirect-url' => 'cancel-url',
-            'locale' => 'de',
-            'entry-mode' => 'ecommerce',
-            'transaction-type' => 'debit',
-            'shipping' => [],
-            'order-number' => 'order number 13',
-            'order-detail' => 'order-detail my',
-            'descriptor' => 'descriptor',
-            'browser' => ['accept' => 'application/xml'],
-            'ip-address' => '0.0.0.1'
+        $expected = $this->getExpectedResult();
+        $expected['shipping'] = [];
+
+        $this->assertEquals($expected, $data);
+    }
+
+    public function testMappedPropertiesStateUpdate()
+    {
+        $this->initTransaction();
+        $accountHolderAddress = new Address('US', 'New York', 'Street 1');
+        $accountHolderAddress->setState('NY');
+        $accountHolder = new AccountHolder();
+        $accountHolder->setLastName('Doe');
+        $accountHolder->setAddress($accountHolderAddress);
+        $shippingAddress = new Address('TH', 'Portland', 'Mariahilferstraße');
+        $shippingAddress->setState('38');
+        $shipping = new AccountHolder();
+        $shipping->setLastName('Doe');
+        $shipping->setAddress($shippingAddress);
+        $this->tx->setAccountHolder($accountHolder);
+        $this->tx->setShipping($shipping);
+        $data = $this->tx->mappedProperties();
+
+        $expected = $this->getExpectedResult();
+        $expected['account-holder'] = [
+            'last-name' => 'Doe',
+            'address' => [
+                'city' => 'New York',
+                'country' => 'US',
+                'state' => 'NY',
+                'street1' => 'Street 1'
+            ]
+        ];
+        $expected['shipping'] = [
+            'last-name' => 'Doe',
+            'address' => [
+                'city' => 'Portland',
+                'country' => 'TH',
+                'state' => 'Bueng Kan',
+                'street1' => 'Mariahilferstraße'
+            ]
+        ];
+
+        $this->assertEquals($expected, $data);
+    }
+
+    public function testMappedPropertiesStateUpdateCountryNotFound()
+    {
+        $this->initTransaction();
+        $address = new Address('CH', 'Portland', 'Mariahilferstraße');
+        $address->setState('Zurich');
+        $accountHolder = new AccountHolder();
+        $accountHolder->setLastName('Mustermann');
+        $accountHolder->setAddress($address);
+        $this->tx->setShipping($accountHolder);
+        $data = $this->tx->mappedProperties();
+
+        $expected = $this->getExpectedResult();
+        $expected['shipping'] = [
+            'last-name' => 'Mustermann',
+            'address' => [
+                'city' => 'Portland',
+                'country' => 'CH',
+                'state' => 'Zurich',
+                'street1' => 'Mariahilferstraße'
+            ]
         ];
 
         $this->assertEquals($expected, $data);
@@ -314,5 +350,43 @@ class PayPalTransactionUTest extends PHPUnit_Framework_TestCase
         $transaction = new PayPalTransaction();
         $transaction->setDescriptor($descriptor);
         $this->assertEquals($expectedDescriptor, $transaction->getDescriptor());
+    }
+
+    private function initTransaction()
+    {
+        $redirect = $this->createMock(Redirect::class);
+        $redirect->method('getCancelUrl')->willReturn('cancel-url');
+        $redirect->method('getSuccessUrl')->willReturn('success-url');
+
+        $this->tx->setOrderNumber('order number 13');
+        $this->tx->setOrderDetail('order-detail my');
+        $this->tx->setDescriptor('descriptor');
+        $this->tx->setOperation('pay');
+        /** @var Redirect $redirect */
+        $this->tx->setRedirect($redirect);
+        $this->tx->setBrowser(new Browser('application/xml'));
+    }
+
+    private function getExpectedResult()
+    {
+        return [
+            'payment-methods' => [
+                'payment-method' => [
+                    [
+                        'name' => 'paypal'
+                    ]
+                ]
+            ],
+            'success-redirect-url' => 'success-url',
+            'cancel-redirect-url' => 'cancel-url',
+            'locale' => 'de',
+            'entry-mode' => 'ecommerce',
+            'transaction-type' => 'debit',
+            'order-number' => 'order number 13',
+            'order-detail' => 'order-detail my',
+            'descriptor' => 'descriptor',
+            'browser' => ['accept' => 'application/xml'],
+            'ip-address' => '0.0.0.1'
+        ];
     }
 }

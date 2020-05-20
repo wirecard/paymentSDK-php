@@ -21,13 +21,15 @@ use Wirecard\IsoToPayPal\Exception\StateNotFoundException;
  */
 class Address implements MappableEntity
 {
-    /**
-     * @var Converter
-     *
-     * The ISO 3166-2 to PayPal converter.
-     */
-    private $converter;
-
+    const KEY_COUNTRY         = 'country';
+    const KEY_STATE           = 'state';
+    const KEY_CITY            = 'city';
+    const KEY_STREET_1        = 'street_1';
+    const KEY_STREET_2        = 'street_2';
+    const KEY_STREET_3        = 'street_3';
+    const KEY_POSTAL_CODE     = 'postal_code';
+    const KEY_HOUSE_EXTENSION = 'house_extension';
+    
     /**
      * @var string
      *
@@ -81,7 +83,6 @@ class Address implements MappableEntity
         $this->countryCode = $countryCode;
         $this->city = $city;
         $this->street1 = $street1;
-        $this->converter = new Converter();
     }
 
     /**
@@ -110,15 +111,7 @@ class Address implements MappableEntity
      */
     public function setState($state)
     {
-        // If we fail, we just set an unfiltered state, because it can be assumed it is not relevant for our use case.
-        try {
-            $stateCode = $this->converter->convert($this->countryCode, trim($state));
-            $this->state = $stateCode;
-        } catch (StateNotFoundException $e) {
-            $this->state = $state;
-        } catch (CountryNotFoundException $e) {
-            $this->state = $state;
-        }
+        $this->state = $state;
     }
 
     /**
@@ -128,6 +121,15 @@ class Address implements MappableEntity
     public function getState()
     {
         return $this->state;
+    }
+
+    /**
+     * @return string
+     * @since 4.1.3
+     */
+    public function getCountryCode()
+    {
+        return $this->countryCode;
     }
 
     /**
@@ -188,6 +190,10 @@ class Address implements MappableEntity
             $type . 'city' => $this->city,
             $type . 'country' => $this->countryCode
         ];
+
+        if (!is_null($this->state)) {
+            $result[$type . 'state'] = $this->state;
+        }
 
         if (!is_null($this->postalCode)) {
             $result[$type . 'postal_code'] = $this->postalCode;
