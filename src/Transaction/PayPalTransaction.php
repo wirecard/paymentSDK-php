@@ -9,6 +9,10 @@
 
 namespace Wirecard\PaymentSdk\Transaction;
 
+use Wirecard\IsoToPayPal\Converter;
+use Wirecard\IsoToPayPal\Exception\CountryNotFoundException;
+use Wirecard\IsoToPayPal\Exception\StateNotFoundException;
+use Wirecard\PaymentSdk\Entity\AccountHolder;
 use Wirecard\PaymentSdk\Entity\Basket;
 use Wirecard\PaymentSdk\Exception\MandatoryFieldMissingException;
 use Wirecard\PaymentSdk\Exception\UnsupportedOperationException;
@@ -73,8 +77,12 @@ class PayPalTransaction extends Transaction implements Reservable
             $data['periodic']['sequence-type'] = 'first';
         }
 
+        if (null !== $this->accountHolder) {
+            $data['account-holder'] = $this->updateStateNameForPayPal($this->accountHolder)->mappedProperties();
+        }
+
         if (null !== $this->shipping) {
-            $data['shipping'] = $this->shipping->mappedProperties();
+            $data['shipping'] = $this->updateStateNameForPayPal($this->shipping)->mappedProperties();
         }
 
         if (null !== $this->orderNumber) {
@@ -160,5 +168,31 @@ class PayPalTransaction extends Transaction implements Reservable
     protected function retrieveTransactionTypeForCredit()
     {
         return self::TYPE_PENDING_CREDIT;
+    }
+
+    /**
+     * @param AccountHolder $accountHolder
+     * @return AccountHolder
+     * @since 4.1.3
+     */
+    private function updateStateNameForPayPal($accountHolder)
+    {
+        $address = $accountHolder->getAddress();
+        if ($address) {
+            $state = $address->getState();
+            if ($state) {
+                $converter = new Converter();
+                try {
+                    $state = $converter->convert($address->getCountryCode(), trim($state));
+                    $address->setState(trim($state));
+                } catch (CountryNotFoundException $e) {
+                    return $accountHolder;
+                } catch (StateNotFoundException $e) {
+                    return $accountHolder;
+                }
+                $accountHolder->setAddress($address);
+            }
+        }
+        return $accountHolder;
     }
 }

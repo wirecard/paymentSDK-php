@@ -20,6 +20,18 @@ class AccountHolder implements MappableEntity
     const SHIPPING = 'shipping_';
     const DEF_FORMAT = 'd-m-Y';
 
+    const KEY_FIRST_NAME             = 'first_name';
+    const KEY_LAST_NAME              = 'last_name';
+    const KEY_EMAIL                  = 'email';
+    const KEY_PHONE                  = 'phone';
+    const KEY_MOBILE_PHONE           = 'mobile_phone';
+    const KEY_WORK_PHONE             = 'work_phone';
+    const KEY_DATE_OF_BIRTH          = 'date_of_birth';
+    const KEY_CRM_ID                 = 'crm_id';
+    const KEY_GENDER                 = 'gender';
+    const KEY_SHIPPING_METHOD        = 'shipping_method';
+    const KEY_SOCIAL_SECURITY_NUMBER = 'social_security_number';
+
     /**
      * @var string
      */
@@ -253,6 +265,15 @@ class AccountHolder implements MappableEntity
     }
 
     /**
+     * @return Address
+     * @since 4.1.3
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
      * @return array
      */
     public function mappedProperties()
@@ -449,13 +470,17 @@ class AccountHolder implements MappableEntity
     private function parseAccountHolder($simpleXmlElement)
     {
         $fields = [
-            'first-name'   => 'setFirstName',
-            'last-name'    => 'setLastName',
-            'email'        => 'setEmail',
-            'phone'        => 'setPhone',
-            'work-phone'   => 'setWorkPhone',
-            'mobile-phone' => 'setMobilePhone',
-        ];
+            'first-name'             => 'setFirstName',
+            'last-name'              => 'setLastName',
+            'email'                  => 'setEmail',
+            'phone'                  => 'setPhone',
+            'work-phone'             => 'setWorkPhone',
+            'mobile-phone'           => 'setMobilePhone',
+            'gender'                 => 'setGender',
+            'crm-id'                 => 'setCrmId',
+            'shipping-method'        => 'setShippingMethod',
+            'social-security-number' => 'setSocialSecurityNumber',
+            ];
 
         if (isset($simpleXmlElement->{'date-of-birth'})) {
             $dob = \DateTime::createFromFormat('d-m-Y', strval($simpleXmlElement->{'date-of-birth'}));
@@ -473,10 +498,14 @@ class AccountHolder implements MappableEntity
 
         if (isset($simpleXmlElement->address)) {
             $address = new Address(
-                $simpleXmlElement->address->country,
-                $simpleXmlElement->address->city,
+                strval($simpleXmlElement->address->country),
+                strval($simpleXmlElement->address->city),
                 strval($simpleXmlElement->address->street1)
             );
+
+            if (isset($simpleXmlElement->address->{'state'})) {
+                $address->setState(strval($simpleXmlElement->address->{'state'}));
+            }
 
             if (isset($simpleXmlElement->address->{'postal-code'})) {
                 $address->setPostalCode(strval($simpleXmlElement->address->{'postal-code'}));
