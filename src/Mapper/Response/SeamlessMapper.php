@@ -37,6 +37,16 @@ class SeamlessMapper implements MapperInterface
     private $paymentXmlBuilder;
 
     /**
+     * @var SeamlessFields
+     */
+    private $seamlessFields;
+
+    /**
+     * @var ResponseMappingXmlFields
+     */
+    private $responseFields;
+
+    /**
      * SeamlessMapper constructor.
      * @param array $payload
      * @since 4.0.0
@@ -45,6 +55,8 @@ class SeamlessMapper implements MapperInterface
     {
         $this->payload = $payload;
         $this->paymentXmlBuilder = new XmlBuilder(ResponseMappingXmlFields::PAYMENT);
+        $this->seamlessFields = new SeamlessFields();
+        $this->responseFields = new ResponseMappingXmlFields();
     }
 
     /**
@@ -97,10 +109,21 @@ class SeamlessMapper implements MapperInterface
             $this->payload[SeamlessFields::TRANSACTION_TYPE]
         );
 
-        $this->paymentXmlBuilder->addRawObject(
-            ResponseMappingXmlFields::PAYMENT_METHOD,
-            $this->payload[SeamlessFields::PAYMENT_METHOD]
+        $paymentMethods = new XmlBuilder(
+            ResponseMappingXmlFields::PAYMENT_METHODS
         );
+
+        $paymentMethod = new XmlBuilder(
+            ResponseMappingXmlFields::PAYMENT_METHOD
+        );
+        $paymentMethod->addAttributes(
+            [
+                ResponseMappingXmlFields::PAYMENT_METHOD_NAME =>
+                    $this->payload[SeamlessFields::PAYMENT_METHOD]
+            ]
+        );
+        $paymentMethods->addSimpleXmlObject($paymentMethod->getXml());
+        $this->paymentXmlBuilder->addSimpleXmlObject($paymentMethods->getXml());
 
         $this->paymentXmlBuilder->addRawObject(
             ResponseMappingXmlFields::REQUEST_ID,
@@ -114,12 +137,57 @@ class SeamlessMapper implements MapperInterface
      */
     private function mapOptionalFields()
     {
+        $this->addAccountHolder();
         $this->addRequestedAmount();
         $this->addThreeDInformation();
         $this->addParentTransactionId();
         $this->addStatuses();
         $this->addCard();
         $this->addCardToken();
+    }
+
+    /**
+     * Map account holder fields
+     * @since 4.0.3
+     */
+    private function addAccountHolder()
+    {
+        $accountHolderXmlBuilder = new XmlBuilder(ResponseMappingXmlFields::ACCOUNT_HOLDER);
+        $seamlessAccountHolderFields = $this->seamlessFields->getAccountHolderFields();
+        $responseAccountHolderFields = $this->responseFields->getAccountHolderFields();
+
+        foreach ($responseAccountHolderFields as $key => $responseAccountHolderField) {
+            if (array_key_exists($seamlessAccountHolderFields[$key], $this->payload)) {
+                $accountHolderXmlBuilder->addRawObject(
+                    $responseAccountHolderField,
+                    $this->payload[$seamlessAccountHolderFields[$key]]
+                );
+            }
+        }
+        $accountHolderXmlBuilder->addSimpleXmlObject($this->setAccountHolderAddress());
+        $this->paymentXmlBuilder->addSimpleXmlObject($accountHolderXmlBuilder->getXml());
+    }
+
+    /**
+     * Map Account holder address
+     * @return \SimpleXMLElement
+     * @since 4.0.3
+     */
+    private function setAccountHolderAddress()
+    {
+        $seamlessAccountHolderAddressFields = $this->seamlessFields->getAccountHolderAddressFields();
+        $responseAccountHolderAddressFields = $this->responseFields->getAccountHolderAddressFields();
+        $addressXmlBuilder = new XmlBuilder(ResponseMappingXmlFields::ACCOUNT_HOLDER_ADDRESS);
+
+        foreach ($responseAccountHolderAddressFields as $key => $responseAccountHolderAddressField) {
+            if (array_key_exists($seamlessAccountHolderAddressFields[$key], $this->payload)) {
+                $addressXmlBuilder->addRawObject(
+                    $responseAccountHolderAddressField,
+                    $this->payload[$seamlessAccountHolderAddressFields[$key]]
+                );
+            }
+        }
+        return $addressXmlBuilder->getXml();
     }
 
     /**
