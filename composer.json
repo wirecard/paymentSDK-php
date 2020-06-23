@@ -12,7 +12,7 @@
     "ext-libxml": "*",
     "ext-dom": "*",
     "ext-hash": "*",
-    "php": "5.6.* || 7.0.* || 7.1.* || 7.2.* || 7.3.*",
+    "php": "5.6.* || 7.0.* || 7.1.* || 7.2.* || 7.3.* || 7.4.*",
     "monolog/monolog": "^1.16",
     "php-http/client-common": "^1.0",
     "php-http/discovery": "^1.0 <= 1.6.1",

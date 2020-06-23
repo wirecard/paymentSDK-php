@@ -33,13 +33,13 @@ jobs:
         - ALLOW_FAIL=1
   include:
     - stage: Generate tags
-      php: 7.3
+      php: 7.4
       if: branch = master AND type != pull_request
       script: bash .bin/generate-tag.sh
 
     - stage: Generate release package
       if: tag IS present
-      php: 7.3
+      php: 7.4
       script: skip
       before_deploy:
         - bash .bin/generate-release-package.sh $TRAVIS_TAG
