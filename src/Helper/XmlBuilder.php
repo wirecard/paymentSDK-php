@@ -60,7 +60,7 @@ class XmlBuilder
         }
 
         $newXmlObject = new \SimpleXMLElement(
-            '<' . htmlentities($objectName) . '>' . htmlentities($objectValue) .'</' . htmlentities($objectName) . '>'
+            '<' . htmlspecialchars($objectName) . '>' . htmlspecialchars($objectValue) .'</' . htmlspecialchars($objectName) . '>'
         );
 
         foreach ($attributes as $attributeKey => $attributeValue) {
