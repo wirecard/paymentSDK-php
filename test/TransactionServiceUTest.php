@@ -10,6 +10,7 @@
 namespace WirecardTest\PaymentSdk;
 
 use Mockery as m;
+use Monolog\Logger;
 use PHPUnit_Framework_TestCase;
 use Psr\Log\LoggerInterface;
 use Wirecard\PaymentSdk\Config\Config;
@@ -48,8 +49,14 @@ class TransactionServiceUTest extends PHPUnit_Framework_TestCase
 
     private $shopSystemVersion;
 
+    /**
+     * @var Config $config
+     */
     private $config;
 
+    /**
+     * @var Logger $logger
+     */
     private $logger;
 
     public function setUp()
