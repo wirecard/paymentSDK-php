@@ -50,16 +50,18 @@ class TransactionServiceUTest extends PHPUnit_Framework_TestCase
 
     private $config;
 
+    private $logger;
+
     public function setUp()
     {
-        $logger = $this->createMock(LoggerInterface::class);
+        $this->logger = $this->createMock(LoggerInterface::class);
         $this->config = new Config(self::GW_BASE_URL, self::GW_HTTP_USER, self::GW_HTTP_PASSWORD);
         $ccardConfig = new CreditCardConfig(self::CC_MAID, self::CC_SECRET);
         $ccardConfig->setThreeDCredentials(self::CC_THREE_D_MAID, self::CC_THREE_D_SECRET);
         $ccardConfig->addSslMaxLimit(new Amount(self::CC_SSL_MAX_LIMIT, 'EUR'));
         $ccardConfig->addThreeDMinLimit(new Amount(self::CC_THREE_D_MIN_LIMIT, 'EUR'));
         $this->config->add($ccardConfig);
-        $this->service = new TransactionService($this->config, $logger);
+        $this->service = new TransactionService($this->config, $this->logger);
         $_SERVER['REMOTE_ADDR']  = '127.0.0.1';
         $this->shopSystemVersion = $this->config->getShopSystemVersion();
     }
@@ -132,14 +134,11 @@ class TransactionServiceUTest extends PHPUnit_Framework_TestCase
                 ]
             )
         );
-        $transactionService = $this
-            ->getMockBuilder(TransactionService::class)
-            ->setConstructorArgs([$this->config])
-            ->setMethods(['getTransactionByTransactionId'])->getMock();
-
-        $transactionService->expects($this->any())
-            ->method('getTransactionByTransactionId')
-            ->willReturn($transaction);
+        $transactionService = m::mock(TransactionService::class, [$this->config, $this->logger])
+            ->makePartial();
+        $transactionService->shouldReceive('getTransactionByTransactionId')
+            ->with('123', 'creditcard')
+            ->andReturn($transaction);
 
         /** @var TransactionService $transactionService */
         $this->assertNotNull($transactionService->getGroupOfTransactions('123', 'creditcard'));
