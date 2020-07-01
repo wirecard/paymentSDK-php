@@ -48,18 +48,20 @@ class TransactionServiceUTest extends PHPUnit_Framework_TestCase
 
     private $shopSystemVersion;
 
+    private $config;
+
     public function setUp()
     {
         $logger = $this->createMock(LoggerInterface::class);
-        $config = new Config(self::GW_BASE_URL, self::GW_HTTP_USER, self::GW_HTTP_PASSWORD);
+        $this->config = new Config(self::GW_BASE_URL, self::GW_HTTP_USER, self::GW_HTTP_PASSWORD);
         $ccardConfig = new CreditCardConfig(self::CC_MAID, self::CC_SECRET);
         $ccardConfig->setThreeDCredentials(self::CC_THREE_D_MAID, self::CC_THREE_D_SECRET);
         $ccardConfig->addSslMaxLimit(new Amount(self::CC_SSL_MAX_LIMIT, 'EUR'));
         $ccardConfig->addThreeDMinLimit(new Amount(self::CC_THREE_D_MIN_LIMIT, 'EUR'));
-        $config->add($ccardConfig);
-        $this->service = new TransactionService($config, $logger);
+        $this->config->add($ccardConfig);
+        $this->service = new TransactionService($this->config, $logger);
         $_SERVER['REMOTE_ADDR']  = '127.0.0.1';
-        $this->shopSystemVersion = $config->getShopSystemVersion();
+        $this->shopSystemVersion = $this->config->getShopSystemVersion();
     }
 
     public function testGetDataFor3dCreditCardUi()
@@ -120,18 +122,28 @@ class TransactionServiceUTest extends PHPUnit_Framework_TestCase
         $this->service->handleResponse(['MD' => 'md', 'PaRes' => 'pares']);
     }
 
-//    public function testGetGroupOfTransactions()
-//    {
-//        $transaction = array(
-//            'payment' => array(
-//                'payment-method' => 'creditcard'
-//            )
-//        );
-//        $transactionService = m::mock('overload:TransactionService');
-//        $transactionService->shouldReceive('getTransactionByTransactionId')->andReturn($transaction);
-//
-//        $this->assertNotNull($this->service->getGroupOfTransactions('123', 'creditcard'));
-//    }
+    public function testGetGroupOfTransactions()
+    {
+        $transaction = array(
+            'payment' => array(
+                'payment-method' => 'creditcard',
+                'merchant-account-id' => [
+                    'value' => 'maid123123123'
+                ]
+            )
+        );
+        $transactionService = $this
+            ->getMockBuilder(TransactionService::class)
+            ->setConstructorArgs([$this->config])
+            ->setMethods(['getTransactionByTransactionId'])->getMock();
+
+        $transactionService->expects($this->any())
+            ->method('getTransactionByTransactionId')
+            ->willReturn($transaction);
+
+        /** @var TransactionService $transactionService */
+        $this->assertNotNull($transactionService->getGroupOfTransactions('123', 'creditcard'));
+    }
 
     public function testGetTransactionByRequestId()
     {
