@@ -1,0 +1,16 @@
+name: Validate PR branch name
+
+on: pull_request
+
+jobs:
+  pr_lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout ${{ github.event.repository.name }}
+        uses: wirecard/checkout@v2.0.0
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Validate PR branch name
+        uses: wirecard/pr-lint@master
+        with:
+          branch: ${{ github.head_ref }}
