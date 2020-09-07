@@ -1,0 +1,8 @@
+{
+  "head.ref": [
+    {
+      "pattern": "^(RC-(([0-9])+\\.){2}([0-9])+-(patch|minor|major))$|-(test|documentation|feature|configuration|force)$|^(dependabot)",
+      "message": "Branch name is invalid"
+    }
+  ]
+}
