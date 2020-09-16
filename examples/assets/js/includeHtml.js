@@ -55,6 +55,7 @@ function includePaymentMenu()
         'CreditCard',
         'Eps',
         'Giropay',
+        'Google_Pay',
         'iDEAL',
         'Masterpass',
         'PayByBankApp',
