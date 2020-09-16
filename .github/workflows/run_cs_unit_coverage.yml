@@ -13,7 +13,7 @@ jobs:
         exclude:
           - php-versions: '7.2'
             stability: prefer-lowest
-          - php-versions: '7.4'
+          - php-versions: '7.3'
             stability: prefer-lowest
           - php-versions: '7.4'
             stability: prefer-lowest
