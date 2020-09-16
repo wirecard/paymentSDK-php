@@ -19,7 +19,7 @@
     "php-http/message": "~1.6.0 || ~1.7.0",
     "robrichards/xmlseclibs": "~3.1.0",
     "wirecard/iso-paypal-converter": "^1.0.0",
-    "whichbrowser/parser": "~2.0.0",
+    "whichbrowser/parser": "~2.0.4",
     "psr/log": "^1.0.0"
   },
   "require-dev": {
